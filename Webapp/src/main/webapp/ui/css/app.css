@@ -1,0 +1,278 @@
+.headerBox
+{
+	background: -webkit-linear-gradient( rgb(44, 119, 243), rgb(138, 180, 249)); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(rgb(44, 119, 243), rgb(138, 180, 249)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(rgb(44, 119, 243), rgb(138, 180, 249)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(rgb(44, 119, 243), rgb(138, 180, 249)); /* Standard syntax */
+
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.userBox
+{
+	background: -webkit-linear-gradient(rgb(75, 139, 245), rgb(44, 119, 243)); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(rgb(75, 139, 245), rgb(44, 119, 243)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(rgb(75, 139, 245), rgb(44, 119, 243)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(rgb(75, 139, 245), rgb(44, 119, 243)); /* Standard syntax */
+	padding-top: 0.3em;
+}
+
+.app-dlg-header
+{
+	background: -webkit-linear-gradient(rgb(138, 180, 249), rgb(44, 119, 243)); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(rgb(138, 180, 249), rgb(44, 119, 243)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(rgb(138, 180, 249), rgb(44, 119, 243)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(rgb(138, 180, 249), rgb(44, 119, 243)); /* Standard syntax */
+	
+	padding: 0.5em 1em;
+	color: white;
+}
+
+.leftNavBox
+{
+	padding-left: 0px;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.loginBox
+{
+	border-radius: 4px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+	background-color: rgb(230, 230, 230);
+	padding: 2em;
+	position:absolute;
+	left:890px;
+}
+
+.newsBox
+{
+	border: 1px solid rgb(220, 220, 220);
+	border-radius: 4px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+.appIcon
+{
+	font-size: 1.5em;
+	margin-right: 0px;
+}
+
+.iconSuperfix
+{
+	background-color: red;
+	color: white;
+	font-size: 0.7em;
+	font-weight: bold;
+	padding: 0.2em 0.4em;
+	position: relative;
+	top: -1.4em;
+	right: 1em;
+	border-radius: 0.5em;
+}
+
+.dropDownItem
+{
+	font-size: 0.9em;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: 25em;
+}
+
+.nav-tabs > li > a
+{
+	background: -webkit-linear-gradient( rgb(44, 119, 243), rgb(138, 180, 249)); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(rgb(44, 119, 243), rgb(138, 180, 249)); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(rgb(44, 119, 243), rgb(138, 180, 249)); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(rgb(44, 119, 243), rgb(138, 180, 249)); /* Standard syntax */
+	
+	border-bottom-width: 0px;
+	color: white;
+}
+
+.nav-tabs > li.active > a
+{
+	background-color: white;
+	background: none; 
+	font-weight: bold;
+	color: black;	
+}
+
+.nav-tabs > li.active 
+{
+	margin-bottom: 0px;
+	background: white;
+}
+
+.visibleElem
+{
+	display: block !important;
+}
+
+.jumbotron
+{
+	width:50;
+	height:300;
+	color:blue;
+	padding:1.0em;
+	margin:3;
+	
+	
+	background: -webkit-linear-gradient(rgb(138, 180, 249), rgb(44, 119, 243));
+}
+.conversationWriteBox
+{
+	width: 800px;
+	height: 50px;
+    padding: 10px;
+    border: 1px solid black;
+    margin-left: 2m ,4m;
+    right: 10px;
+    
+}
+.vline
+{
+	position: absolute;
+    border-right: 1px solid black;
+    top: 0;
+    bottom: 0;
+    left:150px;
+}
+
+.mystyle
+ {
+    	
+    margin: 40px;
+    display: inline-block;
+    position: relative;
+    width: 600px;
+    height: auto;
+    background-color: lightgreen;
+    content: ' ';
+    left: -40px;
+	right: auto;
+    top: -8px;
+	bottom: auto;
+	border: 1px solid;
+	border-color:white;
+	padding:10px;
+}
+
+/* Real Estate class*/
+
+ .leftMenuButton
+ {
+    background-color:  #ADD8E6;
+    border: 1px solid black;
+    color: black;
+    cursor: pointer;
+    padding: 30px 15px;
+    border-radius: 8px;
+}
+
+.leftMenuButton:hover
+{
+	color:white;
+}
+
+.transparentBox 
+{
+  positon:absolute;
+  width:10%;
+  background-color: #ffffff;
+  opacity: 0.6;
+  filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
+.transparentBox li 
+{
+  margin: 5%;
+  font-weight: bold;
+  color: #000000;
+}
+
+
+ 
+.bottom
+{
+	position:fixed;
+	text-align:right;
+	bottom:20px;
+	right:10px;
+	width:100%;
+}
+			
+.backgroundImage
+		{
+		 position: absolute;
+		left: 0px;
+		top: 0px;
+		z-index:-1;
+		-webkit-filter: blur(0px); /* Chrome, Safari, Opera */
+		filter: blur(0px);
+		height:890px;
+		width:100%;
+		}
+
+.triangle-right
+{
+	width:0;
+	height:0;
+	border-top:12px solid transparent;
+	border-left: 25px solid red;
+	border-bottom:12px solid transparent;
+	position:absolute;
+}
+
+.triangle-left
+{
+	width:0;
+	height:0;
+	border-top:12px solid transparent;
+	border-right: 25px solid red;
+	border-bottom:12px solid transparent;
+	position:absolute;
+	left:100px;
+}
+
+.searchBox
+{
+	border: 3px solid black;
+    width: 261px;
+    height: 51px;
+    padding:10px;
+    position:absolute;
+    top:80%;
+    right:40%;
+}	
+
+.image
+{
+	position:absolute;
+	height:200%;
+	right:70%;
+	top:500%;
+    z-index:1;
+     opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+.searchResult
+{
+	position:absolute;
+    top:400%;
+    right:15%;
+	z-index:1;	
+	border:3px solid black;
+	height:400%;
+	width:70%;
+}
+
+body 
+{
+  /* background-image: url("/ui/images/lpage/m1.jpg");*/
+ 	background-repeat: no-repeat;
+    background-size: cover;
+}
+

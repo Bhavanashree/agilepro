@@ -1,0 +1,148 @@
+<div class="container-fluid" ng-controller="pricePlansController" style="padding: 0px;">
+
+	<yk-search-query id="pricePlansSearchQuery" title="Price Plans" name="priceplanSearch">
+		<action id="addPricePlan" label="Add PricePlan" color="blue" icon="glyphicon-plus" method="addEntry($event)"/>
+		<action id="editPricePlan"  label="Edit PricePlan" color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true"/>
+		<action label="Delete PricePlan" color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true"/>
+	</yk-search-query>
+	
+	<yk-dialog id="pricePlansModelDialog" title="Price Plan" style="padding: 0px;">
+		<content>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-6" style="padding: 0px;">
+						<yk-model-form name="PricePlanModel" columns="2"/>
+					</div>
+					<div class="col-md-6" style="margin-top:1em; border: solid 1px rgb(138, 180, 249); padding: 0px; padding-top: 0.2em; font-size: 0.85em;" 
+								yk-hide-from="sm">
+						
+						<yk-tabs>
+							<tab id="variableTab" label="Def. Variables">
+							  <div style="overflow:auto; height:10em;">
+							     <table class="table table-striped table-hover">
+								    <tr ng-repeat="var in helpInfo.runtimeVariables">
+									  <td>{{var.name}}</td>
+									  <td>{{var.description}}</td>
+								    </tr>
+								 </table>
+							  </div>
+							</tab>
+							<tab id="functionTab" label="Functions">
+							  <div style="overflow:auto; height:10em; margin-right: -0.4em; margin-bottom: -0.4em;">
+								 <table class="table table-striped table-hover">
+								    <tr ng-repeat="var in helpInfo.functions">
+									  <td>{{var.name}}</td>
+									  <td>{{var.description}}</td>
+								    </tr>
+							     </table>
+							 </div>
+							</tab>
+						</yk-tabs>
+						
+					</div>
+				</div>
+			</div>
+			
+			<div class="container-fluid" style="margin-top: 0.5em">
+				<!-- Start of variables row -->
+				<div class="row">
+					<div class="col-xs-12" style="padding-left: 0.25em; padding-right: 0.25em;">
+						<div class="panel panel-default">
+							<div class="panel-heading" style="padding: 0.1em 0.5em">
+								<span style="font-weight: bold; font-size: 0.9em">
+									Variables
+								</span>
+								<span class="btn-group pull-right">
+									<a role="button" ng-click="addVar($index)" style="text-decoration: none; color: blue" data-toggle="tooltip" title="Add">
+										<i id ="addvar" class="glyphicon glyphicon-plus"/>
+									</a>
+								</span>
+							</div>
+							<div id="pricePlanVariables" class="table-responsive">
+								<table class="table table-bordered">
+									<tbody>
+										<tr ng-repeat="var in model.numericVariables">
+											<td align="center" style="padding: 0.3em; width: 1em;">
+												<a role="button" ng-click="delVar($index)" style="text-decoration: none; color: red; font-size: 0.7em;" class="yk-icon-link" data-toggle="tooltip" title="Remove">
+													<i class="glyphicon glyphicon-remove"/>
+												</a>
+											</td>
+											<td align="center" style="padding: 0.3em; label:Name; width: 1em;">
+												<input type="text" name="name" placeholder="Name" ng-model="var.name" style="width: 100%; min-width: 8em;"/>
+											</td>
+											<td align="center" style="padding: 0.3em; width: 1em;">
+												<input type="text" name="label" placeholder="Label" ng-model="var.label" style="width: 100%; min-width: 10em; "/>
+											</td>
+											<td align="center" style="padding: 0.3em;">
+												<input type="text" name="defaultValue" placeholder="Def. Value" ng-model="var.defaultValue" style="width: 100%; min-width: 10em;"/>
+											</td>
+											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="yk-field-error" ng-bind="errors.model.numericVariables"/>
+						</div>
+					</div>
+				</div>
+				<!-- End of variables row -->
+
+				<!-- Start of expressions row -->
+				<div class="row">
+					<div class="col-xs-12" style="padding-left: 0.25em; padding-right: 0.25em;">
+						<div class="panel panel-default">
+							<div class="panel-heading" style="padding: 0.1em 0.5em">
+								<span style="font-weight: bold; font-size: 0.9em">Expressions</span>
+								<span class="btn-group pull-right">
+									<a role="button" ng-click="addExp($index)" style="text-decoration: none; color: blue" data-toggle="tooltip" title="Add">
+										<i id ="addExp"class="glyphicon glyphicon-plus"/>
+									</a>
+								</span>
+							</div>
+							<div id="pricePlanExpression" class="table-responsive">
+								<table class="table table-bordered">
+									<tbody>
+										<tr ng-repeat="exp in model.expressions">
+											<td align="center" style="padding: 0.3em; width: 1em; white-space: nowrap;">
+												
+												<a role="button" ng-click="insertExp($index)" style="text-decoration: none; color: blue; font-size: 0.7em;" 
+														class="yk-icon-link" data-toggle="tooltip" title="Insert">
+													<i class="glyphicon glyphicon-plus"/>
+												</a>
+												
+												<a role="button" ng-click="delExp($index)" style="text-decoration: none; color: red; font-size: 0.7em;" 
+														class="yk-icon-link" data-toggle="tooltip" title="Remove">
+													<i class="glyphicon glyphicon-remove"/>
+												</a>
+											</td>
+											<td align="center" style="padding: 0.3em; width: 1em;">
+												<input type="text" name="name" placeholder="Name" ng-model="exp.name" style="width: 100%; min-width: 8em;"/>
+											</td>
+											<td align="center" style="padding: 0.3em; width: 1em;">
+												<input type="text" name="label" placeholder="Label" ng-model="exp.label" style="width: 100%; min-width: 10em; "/>
+											</td>
+											<td align="center" style="padding: 0.3em;">
+												<input type="text" name="expression" placeholder="Expression" ng-model="exp.expression" style="width: 100%; min-width: 10em;"/>
+											</td>
+											
+										</tr>
+									</tbody>
+								</table>
+								<div class="yk-field-error" ng-bind="errors.model.expressions"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End of expressions row -->
+				
+				
+			</div>
+		</content>
+		<footer>
+			<button type="button" class="btn btn-primary action-button" ng-click="saveChanges($event)">
+				{{newModelMode ? 'Save' : 'Update'}}
+			</button>
+			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal">Cancel</button>
+		</footer>
+	</yk-dialog>
+</div>

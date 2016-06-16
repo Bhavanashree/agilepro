@@ -1,0 +1,11 @@
+<div class="container-fluid" ng-controller="designationController" style="padding: 0px;">
+	<yk-search-query id="designationSearchQuery" title="Designation" name="designationSearch" >
+		<action label="Add designation " color="blue" icon="glyphicon-plus" method="addEntry($event)" yk-for-role="DESIGNATION_EDIT,CUSTOMER_SUPER_USER"></action>
+		<action label="Edit designation " color="blue" icon="glyphicon-edit" method="editEntry($event)" yk-for-role="DESIGNATION_EDIT,CUSTOMER_SUPER_USER" row-action="true"></action>
+		<action label="Delete designation " color="red" icon="glyphicon-remove" method="deleteEntry($event)" yk-for-role="DESIGNATION_DELETE,CUSTOMER_SUPER_USER" row-action="true"></action>
+	</yk-search-query>
+	
+	<yk-model-dialog id="designationDialog" name="DesignationModel" title="Designation" columns="2" actionMethod="saveChanges($event)">
+	</yk-model-dialog>
+</div>
+	

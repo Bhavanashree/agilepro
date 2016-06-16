@@ -1,0 +1,76 @@
+<div class="container-fluid" ng-controller="customerController" style="padding: 0px;">
+	<yk-search-query id="customerSearchQuery" title="Customers" name="customerSearch">
+		<action id="addCustomers" label="Add Customer" color="blue" icon="glyphicon-plus" method="addEntry($event)"/>
+		<action label="Edit Customer" color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true"/>
+		<action label="Delete Customer" color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true"/>
+	</yk-search-query>
+	<yk-dialog id="customerDialog" title="Customer">
+		<content>
+			<yk-tabs>
+				<tab id="cusomerDlgBasicTab" label="Basic">
+					<yk-model-form name="Customer" columns="2"/>
+				</tab>
+				<tab id="cusomerDlgPocTab" label="POC">
+					<div class="row">
+						<div class="col-sm-10">
+							<div class="panel panel-default">
+								<div class="panel-heading" style="padding: 0.1em 0.5em; width: 100%; text-align: right;">
+									<a role="button" ng-click="addPoc()" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" 
+												data-toggle="tooltip" title="Add POC">
+										<i class="glyphicon glyphicon-plus"></i>
+									</a>
+								</div>
+								<div style="width: 100%; overflow: auto;">
+									<table class="table table-bordered table-striped table-hover" id="customerPocList" style="margin: 0px;">
+										<tr>
+											<th style="text-align: center;">Name</th>
+											<th style="text-align: center;">Email</th>
+											<th style="text-align: center;">Phone Number</th>
+											<th style="text-align: center; width: 1em;">&nbsp;</th>
+										</tr>
+										<tr class="ng-scope" style="cursor: pointer;" poc-row-id="{{$index}}" ng-repeat="cus in model.customerPocModelList">
+											<td align="center">{{cus.name}}</td>
+											<td align="center">{{cus.email}}</td>
+											<td align="center">{{cus.phoneNumber}}</td>
+											<td style=" width: 1em; white-space: nowrap;">
+												<a role="button" ng-click="editPoc($index)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" 
+															data-toggle="tooltip" title="Edit POC">
+													<i class="glyphicon glyphicon-edit"></i>
+												</a>
+												<a role="button" ng-click="removePoc($index)" style="text-decoration: none; color: red; font-size: 1.3em;" class="yk-icon-link" 
+															data-toggle="tooltip" title="Edit POC">
+													<i class="glyphicon glyphicon-remove"></i>
+												</a>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</tab>
+				<tab id="cusomerDlgPppTab" label="Price Plan Params" ng-show="planVariables.length > 0">
+					<div class="yk-field-error" ng-bind="errors.model.pricePlanVarialbes"/>
+					
+					<table>
+						<tr ng-repeat="planVar in planVariables">
+							<td style="font-weight: bold; padding: 1em;">
+								{{planVar.label}}
+							</td>
+							<td style=" padding: 1em;">
+								<input type="number" ng-model="model.variableMap[planVar.name]"/>
+							</td>
+						</tr>
+					</table>
+				</tab>
+			</yk-tabs>
+		</content>
+		<footer>
+			<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)">{{newCustomerMode ? 'Save' : 'Update'}}</button>
+			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal">Cancel</button>
+		</footer>
+	</yk-dialog>
+	
+	<yk-model-dialog id="customerPocModelDialog" name="CustomerPocModel" title="Customer Poc" columns="2" actionMethod="savePoc($event)" modelObj="pocModel">
+	</yk-model-dialog>
+</div>

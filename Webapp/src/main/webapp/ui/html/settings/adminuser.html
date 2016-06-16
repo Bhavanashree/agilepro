@@ -1,0 +1,12 @@
+<div class="container-fluid" ng-controller="adminUserController" style="padding: 0px;">
+
+	<yk-search-query id="adminUserSearchQuery" title="AdminUser" name="adminUserSearch">
+		<action label="Add AdminUser " color="blue" icon="glyphicon-plus" method="addEntry($event)"></action>
+		<action label="Edit AdminUser  " color="blue" icon="glyphicon-edit" method="editEntry($event)"></action>
+		<action label="Delete AdminUser  " color="red" icon="glyphicon-remove" method="deleteEntry($event)"></action>
+	</yk-search-query>
+	
+	<yk-model-dialog id="AdminUserModelDialog" name="AdminUserModel" title="AdminUser" columns="2" actionMethod="saveChanges($event)">
+	</yk-model-dialog>
+	
+</div>

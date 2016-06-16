@@ -1,0 +1,45 @@
+<div class="container-fluid" ng-controller="extensionsController" style="padding: 0px;">
+	
+	<yk-search-query id="extensionsSearchQuery" title="Extensions" name="extensionFieldSearch">
+		<action label="Add Extension Field" color="blue" icon="glyphicon-plus" method="addEntry($event)"/>
+		<action label="Edit Extension Field" color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true"/>
+		<action label="Delete Extension Field" color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true"/>
+	</yk-search-query>
+	
+	<yk-model-dialog id="extensionsModelDialog" name="ExtensionFieldModel" title="Extension Field" columns="2" actionMethod="saveChanges($event)">
+		<extra-content ng-non-bindable="true">
+			<div class="container-fluid" style="margin-top: 2em">
+				<div class="row">
+					<div class="col-md-6 col-xs-12" style="padding: 0px; padding-left: 1em;">
+						<div class="panel panel-default">
+							<div class="panel-heading" style="padding: 0.3em;">
+								<span style="font-weight: bold; font-size: 0.9em">
+									List of Values
+								</span>
+								<span class="btn-group pull-right">
+									<yk-icon-link icon="glyphicon glyphicon-plus" ng-click="addLovEntry($event)" color="blue" label="Add LOV" size="1em"></yk-icon-link>
+								</span>
+							</div>
+							<div style="width: 100%;">
+								<table style="width: 100%;">
+									<tr ng-repeat="lov in model.lovOptions">
+										<td align="center" style="width: 45%;padding: 0.3em;">
+											<input type="text" ng-model="lov.label" placeholder="Label" style="min-width: 0px;"/>
+										</td>
+										<td align="center" style="width: 45%;padding: 0.3em;">
+											<input type="text" ng-model="lov.value" placeholder="Value" style="min-width: 0px;"/>
+										</td>
+										<td align="center" style="width: 10%;padding: 0px;">
+											<yk-icon-link icon="glyphicon glyphicon-remove" ng-click="removeLovEntry($index)" color="red" label="Remove" size="1em"></yk-icon-link>
+										</td>
+									</tr>
+								</table>
+								<div class="yk-field-error ng-binding" ng-bind="errors.model.lovOptions"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</extra-content>
+	</yk-model-dialog>
+</div>

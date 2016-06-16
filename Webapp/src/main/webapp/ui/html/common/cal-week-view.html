@@ -1,0 +1,88 @@
+<div class="container-fluid"  ng-controller="weekCalendarController">
+  <div class="col-sm-12">
+    <div class="row">
+     <h class="text-left">Week View</h>
+      <div style=" margin-top:1em">
+          <span class="pull-left">
+              <div class="col-sm-2">
+                    <button type="button" class="btn btn-default btn-sm" id="todayWeek" ng-click=todayWeek()>
+                    <span>Today</span>
+                    </button>
+              </div>
+              <div class="col-sm-10">
+                <span class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm" id="previousWeek" ng-click=prevWeek()>
+                      <span class="glyphicon glyphicon-chevron-left"></span>
+                    </button>
+                    <div class="col-sm-9">
+                      <yk-date-field name="Date" label="date" ng-model="week">
+                      </yk-date-field>
+                    </div>
+                    <button type="button" class="btn btn-default btn-sm" id="nextWeek" ng-click=nextWeek()>
+                      <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+                </span>
+              </div>
+              
+          </span>
+       </div>
+     </div>
+      <div class="row" style="height: 500px; overflow: auto; margin-top:1em">
+       <table class="table table-bordered">
+       <tbody>
+       <tr class='dayNames'>
+       <th class="text-nowrap  col-xs-1"></th> 
+  <td class="text-nowrap  col-xs-1">Sunday</td> 
+   <td class="text-nowrap  col-xs-1">Monday</td>
+   <td class="text-nowrap  col-xs-1">Tuesday</td>
+ <td class="text-nowrap  col-xs-1">Wednesday</td> 
+ <td class="text-nowrap  col-xs-1">Thursday</td> 
+ <td class="text-nowrap  col-xs-1">Friday</td> 
+ <td class="text-nowrap  col-xs-1">Saturday</td> 
+ </tr>
+ </tbody>
+          <tbody>
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">12AM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf" colspan="7" data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf"  colspan="7" data-hour="1"></td>
+            </tr>
+          </tbody>
+      
+    
+     
+          <tbody ng-repeat="n in range(1,12)">
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">{{$index+1}}AM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf" colspan="7"  data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf" colspan="7" data-hour="1"></td>
+            </tr>
+          </tbody>
+       
+          <tbody>
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">12PM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf" colspan="7" data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf" colspan="7" data-hour="1"></td>
+            </tr>
+         </tbody>
+       
+          <tbody ng-repeat="n in range(1,12)">
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">{{$index+1}}PM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf"  colspan="7" data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf" colspan="7" data-hour="1"></td>
+            </tr>
+         </tbody>
+       </table>
+    </div>
+    </div>
+    </div>

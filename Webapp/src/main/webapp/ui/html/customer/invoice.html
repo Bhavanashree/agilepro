@@ -1,0 +1,76 @@
+<div class="container-fluid" ng-controller="customerInvoiceDetailscontroller" style="padding: 0px;">
+
+	<yk-search-query id="customerInvoiceDetailsSearchQuery" title="Customer Invoice" name="customerInvoiceDetailsSearch">
+		<action label="View Invoice" color="blue" icon="fa fa-binoculars" method="viewInvoice($event)"></action>
+		<action label="Delete Invoice" color="red" icon="glyphicon-remove" method="deleteEntry($event)"></action>
+	</yk-search-query>
+	
+	<yk-dialog id="invoiceDetailsDialog" title="Invoices">
+		<content>
+			<div style="width: 100%; overflow: auto;">
+				<table style="width: 100%;">
+					<tr>
+						<td style="font-weight: bold; padding: 1em;">Customer</td>
+						<td style="padding: 1em;">{{helpInfo.customerName}}</td>
+	
+						<td style="font-weight: bold; padding: 1em;">Price Plan</td>
+						<td style="padding: 1em;">{{helpInfo.pricePlanName}}</td>
+					</tr>
+					<tr>
+						<td style="font-weight: bold; padding: 1em;">Invoice Date</td>
+						<td style="padding: 1em;">{{helpInfo.invoiceDate}}</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4" style="border-bottom: 1px solid black; font-weight: bold; background-color: rgb(220,220,220); padding: 0.4em;">
+							Variables
+						</td>
+					</tr>
+					
+					<tbody ng-repeat="idx in steps(helpInfo.variableValues, 2)">
+						<tr>
+							<td style="font-weight: bold; padding: 1em;">{{helpInfo.variableValues[idx].label}}</td>
+							<td style="padding: 1em;">{{helpInfo.variableValues[idx].value}}</td>
+	
+							<td style="font-weight: bold; padding: 1em;" ng-if="(idx + 1) < helpInfo.variableValues.length">{{helpInfo.variableValues[idx + 1].label}}</td>
+							<td style="padding: 1em;"  ng-if="(idx + 1) < helpInfo.variableValues.length">{{helpInfo.variableValues[idx + 1].value}}</td>
+						</tr>
+					</tbody>
+	
+					<tr>
+						<td colspan="4" style="border-bottom: 1px solid black; font-weight: bold; background-color: rgb(220,220,220); padding: 0.4em;">
+							Expressions
+						</td>
+					</tr>
+	
+					<tbody ng-repeat="idx in steps(helpInfo.expressionValues, 2)">
+						<tr>
+							<td style="font-weight: bold; padding: 1em;">{{helpInfo.expressionValues[idx].label}}</td>
+							<td style="padding: 1em;">{{helpInfo.expressionValues[idx].value}}</td>
+	
+							<td style="font-weight: bold; padding: 1em;" ng-if="(idx + 1) < helpInfo.expressionValues.length">{{helpInfo.expressionValues[idx + 1].label}}</td>
+							<td style="padding: 1em;"  ng-if="(idx + 1) < helpInfo.expressionValues.length">{{helpInfo.expressionValues[idx + 1].value}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</content>
+		<footer>
+			<div style="background-color: rgb(220,220,220); padding: 0.4em;">
+				<span style="font-weight: bold;">Total Amount: </span>
+				<span >{{helpInfo.totalAmount}}</span>
+			</div>
+		</footer>
+	</yk-dialog>
+</div>
+
+
+	
+	
+
+
+
+
+
+
+

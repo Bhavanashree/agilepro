@@ -1,0 +1,25 @@
+<testSuite  xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="customers">
+
+<testCase name="customersSearch_basic">
+	 <description>Validates search fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="customers"/>
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateFormFields locator="xpath: //div[@id='customerSearchQuery']">	
+				<field locator="xpath: .//*[@name='name']" type="TEXT"/>
+				
+				<field locator="xpath: .//*[@name='workType']" type="TEXT"/>
+				
+				<field locator="xpath: .//*[@name='phoneNumber']" type="TEXT"/>
+				
+				<field locator="xpath: .//*[@name='email']" type="TEXT"/>
+				
+				<field locator="xpath: .//*[@name='dueAmount']" type="INT"/>
+
+			</ccg:validateFormFields>
+		</wrap:validations>
+	</testCase>
+	
+</testSuite>
