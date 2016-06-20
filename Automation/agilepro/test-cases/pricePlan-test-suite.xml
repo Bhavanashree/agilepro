@@ -1,0 +1,63 @@
+<testSuite  xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="pricePlans">
+
+<!-- 
+<testCase name="pricePlansSearch">
+	 <description>Validates search fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="pricePlans"/>
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateFormFields locator="xpath: //div[@id='pricePlansSearchQuery']">	
+				<field locator="xpath: .//*[@name='name']" type="TEXT"/>
+
+			</ccg:validateFormFields>
+		</wrap:validations>
+	</testCase>
+	
+	<testCase name="pricePlansSearch_with_name">
+		 <description>Validates search fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="pricePlans" />
+
+			<ccg:fillForm locator="id:pricePlansSearchQuery">
+				<data ccg:beanType="com.restate.commons.models.customer.priceplan.CustomerPricePlanSearchQuery">
+					<name>week</name>
+				</data>
+			</ccg:fillForm>
+
+			<ccg:click locator="id: pricePlansSearchQuery_searchBut" />
+		</wrap:steps>
+
+		<wrap:validations>
+			<ccg:validateVisibility
+				locator="xpath://div[@ng-bind='errors.searchQuery.name']" hidden="true" />
+			<ccg:validateVisibility locator="id: pricePlansSearchQuery_search_results" message="No records found for specified criteria." />
+		</wrap:validations>
+	</testCase>
+	
+ -->
+
+	<testCase name="pricePlans_Add">
+		 <description>Validates and add fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="pricePlans" />
+
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+			
+			<ccg:click locator="xpath: //*[@id='addPricePlan']"/>
+			
+			<ccg:fillForm locator="pricePlansModelDialog">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<paymentCycle>label:Daily</paymentCycle>
+				</data>
+			</ccg:fillForm>
+		</wrap:steps>
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: pricePlansModelDialog"
+				message="dialog doesnt exists." />
+		</wrap:validations>
+	</testCase>
+		
+</testSuite>

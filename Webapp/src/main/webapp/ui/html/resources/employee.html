@@ -1,0 +1,13 @@
+<div class="container-fluid" ng-controller="employeeController" style="padding: 0px;">
+	<yk-search-query id="employeeSearchQuery" title="Employee" name="employeeSearch">
+		<action label="Add employee" color="blue" icon="glyphicon-plus" method="addEntry($event)" yk-for-role="EMPLOYEE_EDIT,CUSTOMER_SUPER_USER"></action>
+		<action label="Edit employee" color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true" yk-for-role="EMPLOYEE_EDIT, EMPLOYEE_VIEW,CUSTOMER_SUPER_USER,RESOURCE_GROUP" row-action="true"></action>
+		<action label="Delete employee" color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true" yk-for-role="EMPLOYEE_DELETE,CUSTOMER_SUPER_USER,RESOURCE_GROUP"></action>
+	</yk-search-query>
+	
+	<yk-model-dialog id="employeeDialog" name="EmployeeModel" title="Employee" columns="2" actionMethod="saveChanges($event)">
+	</yk-model-dialog>
+		
+</div>
+
+	

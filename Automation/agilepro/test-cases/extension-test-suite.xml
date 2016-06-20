@@ -1,0 +1,78 @@
+<testSuite  xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="extensions">
+	<!-- 
+		Validates extension search is having all expected fields with expected values
+	-->
+	<testCase name="extensionSearch_basic">
+		 <description>Validates search fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="extensionsPage"/>
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateFormFields locator="xpath: //div[@id='extensionsSearchQuery']">
+				
+				<field locator="xpath: .//*[@name='extensionType']" type="DROP_DOWN">
+					<fieldOption/>
+					<fieldOption label="Designation" value="string:Designation"/>
+					<fieldOption label="Employee" value="string:Employee"/>
+					<fieldOption label="Customer" value="string:Customer"/>
+				</field>
+				
+				<field locator="xpath: .//*[@name='name']" type="TEXT"/>
+				
+				<field locator="xpath: .//*[@name='required']" type="DROP_DOWN">
+					<fieldOption/>
+					<fieldOption label="True" value="boolean:true"/>
+					<fieldOption label="False" value="boolean:false"/>
+				</field>
+				
+				<field locator="xpath: .//*[@name='type']" type="DROP_DOWN">
+					<fieldOption/>
+					<fieldOption label="STRING" value="string:STRING"/>
+					<fieldOption label="MULTI_LINE_STRING" value="string:MULTI_LINE_STRING"/>
+					<fieldOption label="INTEGER" value="string:INTEGER"/>
+					<fieldOption label="DECIMAL" value="string:DECIMAL"/>
+					<fieldOption label="BOOLEAN" value="string:BOOLEAN"/>
+					<fieldOption label="DATE" value="string:DATE"/>
+					<fieldOption label="LIST_OF_VALUES" value="string:LIST_OF_VALUES"/>
+				</field>
+
+			</ccg:validateFormFields>
+		</wrap:validations>
+	</testCase>
+
+	<testCase name="extensionSearch_without_extension">
+		 <description>Validates search fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="extensionsPage"/>
+			<ccg:click locator="id: extensionsSearchQuery_searchBut"/>
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateAlert message="Please correct the errors and then try!"/>
+			<ccg:validateVisibility locator="xpath: //div[@ng-bind='errors.searchQuery.extensionType']" message="Value is mandatory"/>
+			<ccg:validateVisibility locator="id: extensionsSearchQuery_search_results" message="Search query not executed yet!"/>
+		</wrap:validations>
+	</testCase>
+
+	<testCase name="extensionSearch_with_extension">
+		 <description>Validates search fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="extensionsPage"/>
+
+			<ccg:fillForm locator="id: extensionsSearchQuery">
+				<data ccg:beanType="com.yukthi.webutils.common.extensions.ExtensionFieldSearchQuery">
+					<extensionType>label: Customer</extensionType>
+				</data>
+			</ccg:fillForm>
+			
+			<ccg:click locator="id: extensionsSearchQuery_searchBut"/>
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateVisibility locator="xpath: //div[@ng-bind='errors.searchQuery.extensionType']" hidden="true"/>
+			<ccg:validateVisibility locator="id: extensionsSearchQuery_search_results" message="No records found for specified criteria."/>
+		</wrap:validations>
+	</testCase>
+
+</testSuite>

@@ -1,0 +1,75 @@
+<div class="container-fluid"  ng-controller="calendarController">
+  <div class="col-sm-12">
+    <div class="row">
+       <h class="text-left">Day View</h>
+       <div style=" margin-top:1em;margin-left:0em">
+          <span class="pull-left">
+              <div class="col-sm-2">
+                    <button type="button" class="btn btn-default btn-sm" id="todayDate" ng-click="todayDate()">
+                    <span>Today</span>
+                    </button>
+              </div>
+              <div class="col-sm-10">
+                <span class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm" id="previousDate" ng-click="prevDate()">
+                      <span class="glyphicon glyphicon-chevron-left"></span>
+                    </button>
+                    <div class="col-sm-9">
+                      <yk-date-field name="Date" label="date" ng-model="date">
+                      </yk-date-field>
+                    </div>
+                    <button type="button" class="btn btn-default btn-sm" id="nextDate" ng-click="nextDate()">
+                      <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+                </span>
+              </div>
+           </span>
+         </div>
+     </div>
+     <div class="row" style="height: 500px; overflow: auto; margin-top:1em">
+       <table class="table table-bordered">
+          <tbody>
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">12AM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf" data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf  " data-hour="1"></td>
+            </tr>
+          </tbody>
+      
+    
+     
+          <tbody ng-repeat="n in range(1,12)">
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">{{$index+1}}AM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf" data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf  " data-hour="1"></td>
+            </tr>
+          </tbody>
+       
+          <tbody>
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">12PM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf" data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf  " data-hour="1"></td>
+            </tr>
+         </tbody>
+       
+          <tbody ng-repeat="n in range(1,12)">
+            <tr>
+               <th rowspan="2" class="text-nowrap  col-xs-1 rightAlign">{{$index+1}}PM</th>
+               <td class="text-nowrap  col-xs-11 hour1stHalf" data-hour="1"></td>
+            </tr>
+            <tr>
+               <td class="text-nowrap  col-xs-11 hour2ndHalf  " data-hour="1"></td>
+            </tr>
+         </tbody>
+       </table>
+   </div>
+  </div>
+</div>

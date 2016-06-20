@@ -1,0 +1,8 @@
+<email-templates>
+	<emailTemplate name="resetPassword">
+		<subject>Cloud Biller - new password</subject>
+		<body>
+			Your password was reset and your new password is "$${password}".
+		</body>
+	</emailTemplate>
+</email-templates>

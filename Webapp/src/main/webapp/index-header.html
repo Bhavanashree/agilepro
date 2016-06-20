@@ -1,0 +1,126 @@
+<div class="row headerBox"  style="width: 100%;">
+	
+	<table>
+		<tr>
+			<td>	
+				<!-- LOGO -->
+				<div>
+				<img src="/ui/images/lpage/logo.jpg" style="height:30px;">
+				</div>
+			</td>
+			<td>
+				<div yk-hide-from="sm">
+				<span style="color: white; font-weight: bold; font-size: 2em;">AgilePro</span>
+				</div>
+			</td>
+			<td style="position:absolute;right:3.5em;color:white;top:10px;font-size:20px;">
+				<em>{{activeUser.displayName}}</em>
+			</td>
+		</tr>
+	</table>
+
+	
+	<div class="col-md-12" style="text-align: right; padding: 0px; padding-top: 0.5em;">
+		<table style="width: 100%;">
+			<tr>
+				<td style="width: 1px;">
+					<div style="" class="visible-sm-inline visible-xs-inline">
+						<a class="yk-icon-link" role="button" ng-click="toggleLeftMenu($event)" style="margin: 0.5em; margin-right: 0px; color: white; z-index: 2000;" 
+								data-toggle="tooltip" title="Toggle Left Menu">
+							<i class="glyphicon glyphicon-list"></i>
+						</a>
+					</div>
+				</td>
+				<td style="text-align: right;">
+				
+					<yk-icon-link ng-click="showConversation($event)" icon="fa fa-comments" color="#ffff00;" label="Conversation"/>
+				
+					<yk-drop-down id="headerNotificationNotification" icon="glyphicon-bullhorn" icon-color="#ffff00;" header="Notifications">
+						<label>
+							<sup class="iconSuperfix">{{notifications.length}}</sup>
+						</label>
+						<content>
+							<div class="container-fluid">
+								<div class="row dropDownItem" yk-repeat="notification in notifications">
+									<div class="col-md-12">
+										<a href="#" onclick="alert('Yet to be implemented')">{{notification.title}}</a>
+									</div>
+								</div>
+							</div>
+						</content>
+						<footer>
+							<a href="#" role="button" onclick="alert('Yet to be implemented')">Show all Notifications</a>
+						</footer>
+					</yk-drop-down>
+					
+					<yk-drop-down id="headerMailNotification" icon="glyphicon-envelope" icon-color="#ffffff;" header="Mails">
+						<label>
+							<sup class="iconSuperfix">{{mails.length}}</sup>
+						</label>
+						<content>
+							<div class="container-fluid">
+								<div class="row dropDownItem" yk-repeat-start="mail in mails">
+									<div class="col-md-12">
+										<a href="#" onclick="alert('Yet to be implemented')">{{mail.subject}}</a>
+									</div>
+								</div>
+								<div class="row dropDownItem" yk-repeat-end>
+									<div class="col-md-12" style="text-align: right; font-size: 0.6em; color: gray;">
+										{{mail.from}}
+									</div>
+								</div>
+							</div>
+						</content>
+						<footer>
+							<a href="#" role="button" onclick="alert('Yet to be implemented')">Show all Mails</a>
+						</footer>
+					</yk-drop-down>
+				
+					<yk-drop-down id="headerMailNotification" icon="glyphicon-bell" icon-color="#ffff00;" header="Alerts">
+						<label>
+							<sup class="iconSuperfix">{{alerts.length}}</sup>
+						</label>
+						<content>
+							<div class="container-fluid">
+								<div class="row dropDownItem" yk-repeat="alert in alerts">
+									<div class="col-md-12">
+										<span style="text-align: left; font-size: 0.6em; color: gray;padding-right: 0.5em;">
+											{{alert.time}}
+										</span>
+										<a href="#" onclick="alert('Yet to be implemented')">{{alert.title}}</a>
+									</div>
+								</div>
+							</div>
+						</content>
+						<footer>
+							<a href="#" role="button" onclick="alert('Yet to be implemented')">Dismiss all</a>
+						</footer>
+					</yk-drop-down>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- Div to hold tabs -->
+		<div style="padding: 0.1em 0 0 0.3em; width: 100%; background-color: white;">
+			<yk-tabs show-content="false">
+				<tab id="homeTab" label="Home" state="default" icon="glyphicon glyphicon-home" icon-color="red">
+				</tab>
+				<tab id="customersTab" label="Customer" state="customers" icon="fa fa-user" icon-color="black" yk-for-role="ADMINISTRATOR">
+				</tab>
+				<tab id="projectsTab" label="Projects" state="projectPropertyType" icon="glyphicon glyphicon-th-large" icon-colo="red" yk-for-role="CUSTOMER_SUPER_USER">
+				</tab>
+				<tab id="resourcesTab" label="Resources" state="designation" icon="glyphicon-flash" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER">
+				</tab>
+				<tab id="settingsTab" label="Settings" state="extensions" icon="glyphicon-cog" icon-color="red" yk-for-role="ADMINISTRATOR ,CUSTOMER_SUPER_USER">
+				</tab>
+				
+			</yk-tabs>
+		</div>
+		<!-- End of Div to hold tabs -->
+	</div>
+</div>
+
+
+
+
+

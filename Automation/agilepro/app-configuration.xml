@@ -1,0 +1,23 @@
+<app xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" ccg:beanType="com.agilepro.automation.AgileproConfiguration">
+
+	<wrap:configuration>
+		 <host>localhost:8080</host>
+	     <user>admin@cbiller.com</user>
+		 <password>admin</password>
+	</wrap:configuration>
+	
+	<dataSource ccg:beanType="org.apache.commons.dbcp2.BasicDataSource">
+		<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+		<url>jdbc:mysql://localhost:3306/test</url>
+		<username>bhavana</username>
+		<password>bhavana</password>
+	</dataSource>
+
+	<stateConfigurationFile>./agilepro/app-states.xml</stateConfigurationFile>
+	<testSuiteFolder>./executeAlltestcases/test</testSuiteFolder>
+	
+	<wrap:limitedTestSuites>
+		<limitedTestSuite>allTest</limitedTestSuite>
+		
+	</wrap:limitedTestSuites>
+</app>

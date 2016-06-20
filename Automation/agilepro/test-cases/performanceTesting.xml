@@ -1,0 +1,21 @@
+<AutomationData xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap">
+	<beanDetails count="50" beanType="com.restate.commons.models.customer.CustomerModel">
+
+		<beanPersister ccg:beanType="com.yukthi.automation.performance.RestControllerPersister">
+			<controllerType>com.restate.commons.controllers.admin.ICustomerController</controllerType>
+		</beanPersister>
+
+		<data>
+			<name>Customer_#{index}</name>
+			<email>customer#{index}@gmail.com</email>
+			<phoneNumber>68754654463</phoneNumber>
+			<address>bangalore</address>
+			<subDomainPath>customer#{index}</subDomainPath>
+			<password>12345</password>
+			<confirmPassword>12345</confirmPassword>
+			<customerPricePlanId>1</customerPricePlanId>
+			<registrationDate>#{today}</registrationDate>
+		</data>
+	</beanDetails>
+
+</AutomationData>

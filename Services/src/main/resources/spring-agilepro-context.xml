@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		">
+	
+	<bean id="webutilsConfiguration" class="com.yukthi.webutils.WebutilsConfiguration">
+		<property name="authEnabled" value="true"/>
+		<property name="secretKey" value="${cbiller.auth.secretKey}"/>
+		<property name="userDetailsType" value="com.agilepro.controller.CbillerUserDetails"/>
+		<property name="sessionTimeOutInMin" value="${cbiller.auth.sessionTimeOutInMin}"/>
+		
+		<property name="dateFormat" value="${cbiller.general.dateFormat}"/>
+		<property name="jsDateFormat" value="${cbiller.general.jsDateFormat}"/>
+		
+		<property name="basePackages">
+			<list>
+				<value>com.agilepro</value>
+			</list>
+		</property>
+
+		<property name="appConfigurations">
+			<map>
+				<entry key="cbiller.url.pattern" value="${cbiller.url.pattern}" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="${cbiller.db.url}" />
+		<property name="username" value="${cbiller.db.user}" />
+		<property name="password" value="${cbiller.db.password}" />
+	</bean>
+
+	<bean id="repositoryFactory" class="com.yukthi.persistence.repository.RepositoryFactory">
+		<property name="createTables" value="true" />
+		
+		<property name="dataStore">
+			<bean class="com.yukthi.persistence.rdbms.RdbmsDataStore">
+				<constructor-arg type="java.lang.String" value="mysql"></constructor-arg>
+				
+				<property name="dataSource" ref="dataSource"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="defaultUser" class="com.yukthi.webutils.repository.UserEntity">
+		<property name="userName" value="${cbiller.defaultUser.emailId}" />
+		<property name="password" value="${cbiller.defaultUser.password}" />
+		<property name="displayName" value="${cbiller.defaultUser.displayName}" />
+	</bean>
+
+	<!-- Service to load email templates used to notification mails -->
+	<bean class="com.yukthi.webutils.mail.EmailTemplateService">
+		<property name="templateResources">
+			<list>
+				<value>/email-templates.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<context:component-scan base-package="com.agilepro" />
+
+	<!--  
+	<mvc:resources mapping="/webutils/**" location="classpath:/webutils/"/>
+	-->
+	<mvc:resources mapping="/webutils/**" location="file:/C:/Users/akiran/yukthi/git/webutils/Services/src/main/resources/webutils/"/>
+	<mvc:resources mapping="/ui/**" location="/ui/"/>
+	<mvc:resources mapping="/login.html" location="/login.html"/>
+	<mvc:resources mapping="/index.html" location="/index.html"/>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>

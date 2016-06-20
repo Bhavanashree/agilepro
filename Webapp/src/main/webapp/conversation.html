@@ -1,0 +1,65 @@
+<yk-dialog id="conversationDialog" title="Conversation">
+	<content>
+	    <div style="width :100%;  height: 25em">
+	  
+	  			<div class="vline"></div>
+			     <div class="row">
+				      <div class="col-md-2" style="padding: 0px;" yk-hide-from="sm">
+				        <yk-tabs>
+								<tab id="usersTab" label="Users">
+								  <div style="overflow:auto; ">
+								     <table class="table table-striped table-hover">
+									    <tr>
+										  <td>User1</td>
+									    </tr>
+									   </table> 
+									  <table class=tab2>
+									    <tr>
+										  <td>User2</td>
+									    </tr>
+									  </table>
+								  </div>
+								</tab>
+								<tab id="groupsTab" label="Groups">
+								</tab>
+						 </yk-tabs>
+					</div>
+				    
+				   <div class="col-md-10" style="padding: 1px;">
+				       <table>
+				           <tr>
+				              <td>User1</td>
+				              <td id="data1"  style align="right"></td>
+				          
+				            </tr>
+			                     <!-- <button onclick="getElementById('demo').innerHTML=Date()"> Button</button> -->
+				           <tr>
+				              <td id="data2" align="left"></td>
+				           </tr>
+				       </table>
+				      
+				  
+			      </div>
+			      
+			      
+			  </div>
+
+	   </div>
+  </content>
+		  <footer>
+		    <table>
+              <tr>
+            	<td style="width: 100%;">
+            	
+            		<textarea id="message" class="conversationWriteBox" placeholder="Please type here"></textarea>
+            	
+            	<td style="width: 2em"><button type="button" class="btn btn-primary action-button" ng-click="send($event)">Send</button></td></td>
+           	 </tr>
+           </table>
+		</footer>
+</yk-dialog>
+
+
+
+
+

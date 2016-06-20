@@ -1,0 +1,107 @@
+<testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="allTest">
+
+	<testCase name="pricePlans_Add">
+		<description>Validates and add fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="pricePlans" />
+
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+			<ccg:click locator="xpath: //*[@id='addPricePlan']" />
+
+			<ccg:fillForm locator="pricePlansModelDialog">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>weekly</name>
+					<paymentCycle>label:Daily</paymentCycle>
+				</data>
+			</ccg:fillForm>
+		</wrap:steps>
+
+		<ccg:click locator="xpath: //*[@id='addvar']" />
+
+		<ccg:fillForm locator="id: pricePlanVariables ">
+			<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+				<name>weekly</name>
+				<label>Daily</label>
+				<defaultValue>3.0</defaultValue>
+			</data>
+		</ccg:fillForm>
+
+		<ccg:click locator="xpath: //*[@id='addExp']" />
+
+		<ccg:fillForm locator="id: pricePlanExpression ">
+			<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+				<name>exrpr</name>
+				<label>exrpr</label>
+				<expression>2+2</expression>
+			</data>
+		</ccg:fillForm>
+
+		<ccg:waitFor locator="xpath: //div[@id='pricePlansModelDialog']//button[contains(@class, 'btn-primary')]" />
+		<ccg:click locator="xpath://button[contains(@class, 'btn-primary')]" />
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: pricePlansSearchQuery_search_results" />
+		</wrap:validations>
+	</testCase>
+
+
+	<testcase name="customer_Add">
+		<description>Validates and add fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="customers" />
+			<ccg:click locator="xpath: //*[@id='addCustomers']" />
+			<ccg:fillForm locator="id:customerDialog">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Customer1</name>
+					<email>customer1@gmail.com</email>
+					<phoneNumber>68754654463</phoneNumber>
+					<address>bangalore</address>
+					<registrationDate>02/10/2016</registrationDate>
+					<subDomainPath>customer1</subDomainPath>
+					<password>12345</password>
+					<confirmPassword>12345</confirmPassword>
+					<customerPricePlanId>label: weekly</customerPricePlanId>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='customerDialog']//button[contains(@class, 'save-button')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'save-button ')]" />
+		</wrap:steps>
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: customerSearchQuery_search_results" />
+		</wrap:validations>
+	</testcase>
+
+	<testcase name="customer2_Add">
+		<description>Validates and add fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="customers" />
+			<ccg:click locator="xpath: //*[@id='addCustomers']" />
+			<ccg:fillForm locator="id:customerDialog">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Customer2</name>
+					<email>customer2@gmail.com</email>
+					<phoneNumber>45764565554</phoneNumber>
+					<address>bangalore</address>
+					<registrationDate>02/10/2016</registrationDate>
+					<subDomainPath>customer2</subDomainPath>
+					<password>aaaaa</password>
+					<confirmPassword>aaaaa</confirmPassword>
+					<customerPricePlanId>label: weekly</customerPricePlanId>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='customerDialog']//button[contains(@class, 'save-button')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'save-button ')]" />
+		</wrap:steps>
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: projectPropertyTypeSearchQuery_search_results" />
+		</wrap:validations>
+
+	<!-- 	<wrap:steps>
+			<ccg:closeSession />
+			<ccg:gotoState state="projectPropertyType" />
+		</wrap:steps> -->
+	</testcase>
+	
+</testSuite>

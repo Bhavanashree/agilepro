@@ -1,0 +1,126 @@
+<states xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap">
+
+	<state name="loginPage" urlPattern="http://${app.host}{.*}">
+		<flow fromState="">
+			<ccg:gotoPage url="http://${app.host}/login.html" />
+			<ccg:waitFor locator="xpath: //*[@id='loginForm']//input[@name='email']" />
+		</flow>
+	</state>
+
+	<state name="indexPage" urlPattern="http://${app.host}/index.html{.*}">
+		<flow fromState="loginPage">
+			<ccg:fillForm locator="id: loginForm">
+				<data ccg:beanType="com.restate.automation.Credentials">
+					<email>${app.user}</email>
+					<password>${app.password}</password>
+				</data>
+			</ccg:fillForm>
+
+			<ccg:click locator="id: loginButton" />
+			<ccg:waitFor locator="xpath: //*[@id='homeTab_tab']" />
+			
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="loginPage" />
+			
+		</flow>
+	
+	</state>
+
+	<state name="cust1LoginPage" urlPattern="http://${app.host}{.*}">
+		<flow fromState="">
+			<ccg:gotoPage url="http://${app.host}/login.html?customer=customer1" />   
+			<ccg:waitFor locator="xpath: //*[@id='loginForm']//input[@name='email']" />
+		</flow>
+		
+	</state>
+
+	<state name="cust1IndexPage" urlPattern="http://${app.host}/index.html{.*}">
+		<flow fromState="cust1LoginPage">
+			<ccg:fillForm locator="id: loginForm">
+				<data ccg:beanType="com.restate.automation.Credentials">
+					<email>customer1@gmail.com</email>
+					<password>12345</password>
+				</data>
+			</ccg:fillForm>
+
+			<ccg:click locator="id: loginButton" />
+			<ccg:waitFor locator="xpath: //*[@id='homeTab_tab']" />
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="cust1LoginPage" />
+		</flow>
+	</state>
+
+
+	<state name="cust2LoginPage" urlPattern="http://${app.host}{.*}">
+		<flow fromState="">
+			<ccg:gotoPage url="http://${app.host}/login.html?customer=customer2" />   
+			<ccg:waitFor locator="xpath: //*[@id='loginForm']//input[@name='email']" />
+		</flow>
+	</state>
+
+
+	<state name="cust2IndexPage" urlPattern="http://${app.host}/index.html{.*}">
+		<flow fromState="cust2LoginPage">
+			<ccg:fillForm locator="id: loginForm">
+				<data ccg:beanType="com.restate.automation.Credentials">
+					<email>customer2@gmail.com</email>
+					<password>aaaaa</password>
+				</data>
+			</ccg:fillForm>
+
+			<ccg:click locator="id: loginButton" />
+			<ccg:waitFor locator="xpath: //*[@id='homeTab_tab']" />
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="cust2LoginPage" />
+		</flow>
+	</state>
+	
+	
+	<state name="extensionsPage" urlPattern="http://${app.host}/index.html{.*}">
+		<flow fromState="indexPage">
+			<ccg:waitFor locator="id: settingsTab_tab" />
+			<ccg:click locator="id: settingsTab_tab" />
+			<ccg:waitFor locator="xpath://div[@id='extensionsSearchQuery']//select[@name='extensionType']" />
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="indexPage" />
+		</flow>
+	</state>
+
+	<state name="pricePlans" urlPattern="http://${app.host}/index.html#/pricePlans">
+		<flow fromState="indexPage">
+			<ccg:waitFor locator="id: settingsTab_tab" />
+			<ccg:click locator="id: settingsTab_tab" />
+			<ccg:waitFor locator="id: lftMenuSettingsPricePlan" />
+			<ccg:click locator="id: lftMenuSettingsPricePlan" />
+			<ccg:waitFor locator="xpath://div[@id='pricePlansSearchQuery']//input[@name='name']" />
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="indexPage" />
+		</flow>
+	</state>
+   
+   	<state name="customers" urlPattern="http://${app.host}/index.html#/customers">
+		<flow fromState="indexPage">
+			<ccg:waitFor locator="id: customersTab_tab" />
+			<ccg:click locator="id: customersTab_tab" />
+			<ccg:waitFor locator="id: lftMenuCustomerCustomers" />
+			<ccg:click locator="id: lftMenuCustomerCustomers" />
+			<ccg:waitFor locator="xpath: //div[@id='customerSearchQuery']" />
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="indexPage" />
+			
+		</flow>
+	</state>
+	
+</states>
