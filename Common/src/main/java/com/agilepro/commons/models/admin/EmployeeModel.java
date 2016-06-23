@@ -9,7 +9,9 @@ import com.yukthi.validation.annotations.NotEmpty;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.IWebUtilsCommonConstants;
+import com.yukthi.webutils.common.ImageInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
+import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
@@ -89,6 +91,12 @@ public class EmployeeModel extends AbstractExtendableModel
 	@Required
 	private Long designations;
 
+	/** 
+	 * The photo. 
+	 **/
+	@IgnoreField
+	private ImageInfo photo;
+	
 	/**
 	 * Version used for update.
 	 **/
@@ -319,5 +327,25 @@ public class EmployeeModel extends AbstractExtendableModel
 	public void setDesignations(Long designations)
 	{
 		this.designations = designations;
+	}
+
+	/**
+	 * Gets the photo.
+	 *
+	 * @return the photo
+	 */
+	public ImageInfo getPhoto()
+	{
+		return photo;
+	}
+
+	/**
+	 * Sets the photo.
+	 *
+	 * @param photo the new photo
+	 */
+	public void setPhoto(ImageInfo photo)
+	{
+		this.photo = photo;
 	}
 }

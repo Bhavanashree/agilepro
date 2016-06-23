@@ -1,0 +1,155 @@
+<testSuite  xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="projects">
+
+	<testCase name="projects_Add">
+		<description>Validates and add fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="projects" />
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+	
+			<ccg:click locator="xpath: //*[@id='addProjectId']" />
+	
+			<ccg:fillForm locator="projectsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Project1</name>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='projectsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+		</wrap:steps>
+	
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: projectsSearchQueryId"/>
+		</wrap:validations>
+	</testCase>
+
+	<testCase name="projects_AddDate">
+		<description>Validates and add fields with date</description>
+		<wrap:steps>
+			<ccg:gotoState state="projects" />
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+	
+			<ccg:click locator="xpath: //*[@id='addProjectId']" />
+	
+			<ccg:fillForm locator="projectsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Project2</name>
+					<startDate>25/06/2016</startDate>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='projectsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+		</wrap:steps>
+	
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: projectsSearchQueryId"/>
+		</wrap:validations>
+	</testCase>
+	
+	<testCase name="projects_AddDates">
+		<description>Validates and add fields with all dates</description>
+		<wrap:steps>
+			<ccg:gotoState state="projects" />
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+	
+			<ccg:click locator="xpath: //*[@id='addProjectId']" />
+	
+			<ccg:fillForm locator="projectsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Project3</name>
+					<startDate>25/06/2016</startDate>
+					<endDate>28/06/2016</endDate>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='projectsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+		</wrap:steps>
+	
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: projectsSearchQueryId"/>
+		</wrap:validations>
+	</testCase>
+		
+	<testCase name="projects_Edit">
+		<description>Validates add and edit fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="projects" />
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+	
+			<ccg:click locator="xpath: //*[@id='addProjectId']" />
+	
+			<ccg:fillForm locator="projectsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Project4</name>
+					<startDate>25/06/2016</startDate>
+					<endDate>28/06/2016</endDate>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='projectsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+			<ccg:waitFor locator="xpath: //*[@id='projectsSearchQueryId_searchBut']" />
+			<ccg:click locator="xpath: //*[@id='projectsSearchQueryId_searchBut']" />
+			
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+			<ccg:waitFor locator="xpath: //*[@id='projectsSearchQueryId_search_results']//td[normalize-space(text())='Project4']"/>
+			<ccg:click locator="xpath: //*[@id='projectsSearchQueryId_search_results']//td[normalize-space(text())='Project4']"/>
+			
+			<ccg:waitFor locator="xpath: //*[@id='editProjectId']" />
+			<ccg:click locator="xpath: //*[@id='editProjectId']" />
+			
+			<ccg:fillForm locator="projectsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Project44</name>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='projectsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+		</wrap:steps>
+	
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: projectsSearchQueryId"/>
+		</wrap:validations>
+	</testCase>
+	
+	<testCase name="projects_AddWrongDates">
+		<description>Validates and add fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="projects" />
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+	
+			<ccg:click locator="xpath: //*[@id='addProjectId']" />
+	
+			<ccg:fillForm locator="projectsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Project5</name>
+					<startDate>28/06/2016</startDate>
+					<endDate>25/06/2016</endDate>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='projectsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			
+			<ccg:waitForStep locator="id: webutilsInProgressDialog"
+				hidden="true" />
+				
+			<ccg:waitFor locator="xpath: //*[@id='webutilsAlertDialog']//button[contains(@class, 'btn btn-primary action-button')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button')]" />
+
+			<ccg:fillForm locator="projectsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<startDate>25/06/2016</startDate>
+					<endDate>28/06/2016</endDate>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='projectsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+						
+		</wrap:steps>
+	
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: projectsSearchQueryId"/>
+		</wrap:validations>
+	</testCase>
+		
+</testSuite>

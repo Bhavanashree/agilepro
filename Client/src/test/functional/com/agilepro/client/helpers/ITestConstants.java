@@ -27,6 +27,16 @@ public interface ITestConstants
 	 */
 	String PASSWORD = "12345";
 
+	/** 
+	 * The start date. 
+	 **/
+	Integer START_DATE = 5;
+	
+	/** 
+	 * The end date. 
+	 **/
+	Integer END_DATE = 7;
+			
 	/**
 	 * Email id.
 	 */

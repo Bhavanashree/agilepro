@@ -10,7 +10,7 @@
 	<state name="indexPage" urlPattern="http://${app.host}/index.html{.*}">
 		<flow fromState="loginPage">
 			<ccg:fillForm locator="id: loginForm">
-				<data ccg:beanType="com.restate.automation.Credentials">
+				<data ccg:beanType="com.agilepro.automation.Credentials">
 					<email>${app.user}</email>
 					<password>${app.password}</password>
 				</data>
@@ -39,7 +39,7 @@
 	<state name="cust1IndexPage" urlPattern="http://${app.host}/index.html{.*}">
 		<flow fromState="cust1LoginPage">
 			<ccg:fillForm locator="id: loginForm">
-				<data ccg:beanType="com.restate.automation.Credentials">
+				<data ccg:beanType="com.agilepro.automation.Credentials">
 					<email>customer1@gmail.com</email>
 					<password>12345</password>
 				</data>
@@ -66,7 +66,7 @@
 	<state name="cust2IndexPage" urlPattern="http://${app.host}/index.html{.*}">
 		<flow fromState="cust2LoginPage">
 			<ccg:fillForm locator="id: loginForm">
-				<data ccg:beanType="com.restate.automation.Credentials">
+				<data ccg:beanType="com.agilepro.automation.Credentials">
 					<email>customer2@gmail.com</email>
 					<password>aaaaa</password>
 				</data>
@@ -119,6 +119,36 @@
 
 		<flow fromState="">
 			<ccg:executeFlow flow="indexPage" />
+			
+		</flow>
+	</state>
+	
+	<state name="projects" urlPattern="http://${app.host}/index.html#/projects">
+		<flow fromState="cust1IndexPage">
+			<ccg:waitFor locator="id: projectsTab_tab" />
+			<ccg:click locator="id: projectsTab_tab" />
+			<ccg:waitFor locator="id: lftMenuProjectsId" />
+			<ccg:click locator="id: lftMenuProjectsId" />
+			<ccg:waitFor locator="xpath: //div[@id='projectsSearchQueryId']" />
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="cust1IndexPage" />
+			
+		</flow>
+	</state>
+
+	<state name="tags" urlPattern="http://${app.host}/index.html#/tags">
+		<flow fromState="cust1IndexPage">
+			<ccg:waitFor locator="id: projectsTab_tab" />
+			<ccg:click locator="id: projectsTab_tab" />
+			<ccg:waitFor locator="id: lftMenuTagsId" />
+			<ccg:click locator="id: lftMenuTagsId" />
+			<ccg:waitFor locator="xpath: //div[@id='tagsSearchQueryId']" />
+		</flow>
+
+		<flow fromState="">
+			<ccg:executeFlow flow="cust1IndexPage" />
 			
 		</flow>
 	</state>
