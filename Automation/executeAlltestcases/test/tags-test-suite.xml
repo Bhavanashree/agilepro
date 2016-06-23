@@ -1,0 +1,56 @@
+<testSuite  xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="tags">
+
+	<testCase name="tags_Add">
+		<description>Validates and add fields</description>
+		<wrap:steps>
+			<ccg:gotoState state="tags" />
+			<ccg:waitForStep locator="id: webutilsInProgressDialog" hidden="true" />
+	
+			<ccg:click locator="xpath: //*[@id='addTagsId']" />
+	
+			<ccg:fillForm locator="tagsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Tag1</name>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='tagsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+		</wrap:steps>
+	
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: tagsSearchQueryId"/>
+		</wrap:validations>
+	</testCase>
+
+	<testCase name="tags_Edit">
+		<description>validates the whether its updating</description>
+		<wrap:steps>
+			<ccg:gotoState state="tags" />
+
+			<ccg:waitFor locator="xpath: //*[@id='tagsSearchQueryId_searchBut']" />
+			<ccg:click locator="xpath: //*[@id='tagsSearchQueryId_searchBut']" />
+			<ccg:waitFor locator="xpath: //*[@id='tagsSearchQueryId_search_results']" />
+
+			<ccg:waitFor locator="xpath: //*[@id='tagsSearchQueryId_search_results']//td[normalize-space(text())='Tag1']" />
+			<ccg:click locator="xpath: //*[@id='tagsSearchQueryId_search_results']//td[normalize-space(text())='Tag1']" />
+
+
+			<ccg:waitFor locator="xpath: //*[@id='editTagsId']" />
+			<ccg:click locator="xpath: //*[@id='editTagsId']" />
+
+			<ccg:fillForm locator="tagsDialogId">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<name>Tag3</name>
+				</data>
+			</ccg:fillForm>
+			<ccg:waitFor locator="xpath: //div[@id='tagsDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:click locator="xpath://button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: tagsSearchQueryId"/>
+		</wrap:validations>
+		
+	</testCase>
+</testSuite>

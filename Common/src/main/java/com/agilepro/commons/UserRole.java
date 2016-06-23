@@ -272,6 +272,46 @@ public enum UserRole
 	@Label("CampaignType DeleteAll") CAMPAIGNTYPE_DELETE_ALL(false, CAMPAIGN_VIEW),
 
 	/**
+	 * The project view.
+	 **/
+	@Label("Projects view") PROJECTS_VIEW,
+
+	/**
+	 * The project edit.
+	 **/
+	@Label("Projects Edit") PROJECTS_EDIT(false, PROJECTS_VIEW, PROJECT_GROUP),
+
+	/**
+	 * The project delete.
+	 **/
+	@Label("Projects Delete") PROJECTS_DELETE(false, PROJECTS_VIEW),
+
+	/**
+	 * The project delete all.
+	 **/
+	@Label("Projects DeleteAll") PROJECTS_DELETE_ALL(false, PROJECTS_VIEW),
+
+	/** 
+	 * The tags view. 
+	 **/
+	@Label("Tags View") TAGS_VIEW,
+
+	/** 
+	 * The tags edit. 
+	 **/
+	@Label("Tags Edit") TAGS_EDIT(false, TAGS_VIEW, PROJECT_GROUP),
+
+	/**
+	 * The tags delete.
+	 **/
+	@Label("Tags Delete") TAGS_DELETE(false, TAGS_VIEW),
+
+	/**
+	 * The tags delete all.
+	 **/
+	@Label("Tags DeleteAll") TAGS_DELETE_ALL(false, TAGS_VIEW),
+
+	/**
 	 * The project property view.
 	 **/
 	@Label("Project Property view") PROJECT_PROPERTY_VIEW,
@@ -284,12 +324,12 @@ public enum UserRole
 	/**
 	 * The project property delete.
 	 **/
-	@Label("CampaignType Delete") PROJECT_PROPERTY_DELETE(false, PROJECT_PROPERTY_VIEW),
+	@Label("Project Property Delete") PROJECT_PROPERTY_DELETE(false, PROJECT_PROPERTY_VIEW),
 
 	/**
 	 * The project property delete all.
 	 **/
-	@Label("CampaignType DeleteAll") PROJECT_PROPERTY_DELETE_ALL(false, PROJECT_PROPERTY_VIEW),
+	@Label("Project Property DeleteAll") PROJECT_PROPERTY_DELETE_ALL(false, PROJECT_PROPERTY_VIEW),
 
 	/**
 	 * The project price plan view.
