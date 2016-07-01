@@ -60,4 +60,6 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("employee", "resources/resources-menu.html", "resources/employee.html", "resourcesTab");
 	addState("designation","resources/resources-menu.html", "resources/designation.html", "resourcesTab");
 	
+	//Projects
+	addState("backlog","project/project-menu.html", "project/backlog.html", "projectTab");
 });

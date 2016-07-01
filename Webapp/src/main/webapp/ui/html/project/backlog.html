@@ -1,0 +1,49 @@
+<div class="container-fluid" ng-controller="backlogController" style="padding: 0px;">
+							
+	<yk-search-query id="backlogsearch" title="backlog" name="backlogsearch" >
+		<action id = "addBacklog" label="Add Projects " color="blue" icon="glyphicon-plus" method="addEntry($event)"></action>
+		<action id = editBacklog label="Edit Projects " color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true"/></action>
+		<action id = deleteBacklog label="Delete Projects " color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true"/></action>
+		
+	  	<result-customizer >
+			<div  style="cursor: pointer; margin-bottom:0.5em;" search-row-id="0" ng-dblclick="changeRowSelection($index, $event); editEntry();" ng-repeat="result in searchResults"  ng-class="getActiveIndex()==$index ? 'borderhover' : 'hoverDiv' "  ng-mouseover="changeRowSelection($index, $event);">
+				 <table style="width: 100%;" >
+							<tr>
+							
+									<td style="font-weight: bold; font-size: 0.8em; vertical-align: top; padding:0.5em; table-border:0.3em; text-transform: uppercase;">
+
+										{{result.title}}
+									</td>
+								
+									<td style="text-align: right; width: 0.1em; vertical-align: top;">
+											<a role="button"  ng-click="changeRowSelection($index, $event); addEntry($event);" style="text-decoration: none; color: blue; font-size: 0.9em;" class="yk-icon-link" data-toggle="tooltip" title="Add">
+												<i class="glyphicon glyphicon-plus" />
+										    </a>
+											
+											<a role="button"  ng-click="changeRowSelection($index, $event); deleteEntry($event);" style="text-decoration: none; color: red; font-size: 0.9em;" class="yk-icon-link" data-toggle="tooltip" title="Remove">
+												<i class="glyphicon glyphicon-remove" />
+										    </a>
+								    </td>
+									 
+									 <tr >
+									  	 <td style="width: 0.3em; padding:0.5em;">
+											<div class= "subText" style="width:100%; float: right;" ng-class ="getActiveIndex()==$index ? 'displayElement' : 'displayHidden'" >
+												<input type="text" name="textarea" placeholder="sub story title" ng-keyup ="handleKeyForSubtitle($event);"/>
+					     		    		</div> 
+					     		    	 </td>
+					     		    </tr>			
+							</tr>
+				 </table>
+			</div>
+	    </result-customizer>
+		
+    </yk-search-query>		
+	
+		<yk-model-dialog id="backlogDialog" name="BackLogModel" title="BackLog" columns="2" actionMethod="saveChanges($event)" >
+	
+		</yk-model-dialog>
+			<div>
+				<input id="textarea" type="text" name="textarea1" placeholder="New story title" ng-model="inlineTitle" ng-keyup ="handleKeyPress($event);" ng-bind="model.title"/>
+			</div>
+		<br/>
+</div>

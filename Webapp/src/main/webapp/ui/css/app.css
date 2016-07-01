@@ -276,3 +276,26 @@ body
     background-size: cover;
 }
 
+.hoverDiv
+{
+	padding: 0.5em;
+	width: 100%;
+}
+
+.borderhover
+{
+	border: 4px solid #0000a0;
+	box-shadow: 10px 10px 5px grey;
+}
+
+.displayElement
+{
+	display:inline;
+
+}
+
+.displayHidden
+{
+	display:none;
+}
+
