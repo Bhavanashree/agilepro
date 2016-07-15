@@ -13,9 +13,14 @@ public interface ITestConstants
 	double T_DUE_AMOUNT = 1000.0;
 
 	/**
-	 * Debug Message.
+	 * Debug Message for customer. 
 	 */
-	String T_DEBUG_MESSAGE = "Saved customer with id - {}";
+	String T_DEBUG_CUS_MESSAGE = "Saved customer with id - {}";
+	
+	/** 
+	 * Debug message for project. 
+	 * */
+	String T_DEBUG_PRO_MESSAGE = "Saved project with id - {}";
 
 	/**
 	 * Phone Number.

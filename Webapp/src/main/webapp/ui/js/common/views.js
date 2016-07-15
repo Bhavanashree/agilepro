@@ -61,6 +61,9 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("designation","resources/resources-menu.html", "resources/designation.html", "resourcesTab");
 	
 	// Project related states
-	addState("projects","projects/projects-menu.html", "projects/projects.html", "projectsTab");
-	addState("tags","projects/projects-menu.html", "projects/tags.html", "projectsTab");
+	addState("project","project/project-menu.html", "project/project.html", "projectsTab");
+	addState("tag","project/project-menu.html", "project/tag.html", "projectsTab");
+	
+	//Members related states
+	addState("member", "member/member-menu.html", "member/member.html", "membersTab");
 });

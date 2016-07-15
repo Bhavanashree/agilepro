@@ -1,13 +1,13 @@
 package com.agilepro.client.helpers;
 
-import static com.agilepro.commons.IAgileproActions.ACTION_PROJECTS_DELETE;
-import static com.agilepro.commons.IAgileproActions.ACTION_PROJECTS_DELETE_ALL;
-import static com.agilepro.commons.IAgileproActions.ACTION_PROJECTS_READ;
-import static com.agilepro.commons.IAgileproActions.ACTION_PROJECTS_UPDATE;
-import static com.agilepro.commons.IAgileproActions.ACTION_PROJECTS_SAVE;
+import static com.agilepro.commons.IAgileproActions.ACTION_PROJECT_DELETE;
+import static com.agilepro.commons.IAgileproActions.ACTION_PROJECT_DELETE_ALL;
+import static com.agilepro.commons.IAgileproActions.ACTION_PROJECT_READ;
+import static com.agilepro.commons.IAgileproActions.ACTION_PROJECT_UPDATE;
+import static com.agilepro.commons.IAgileproActions.ACTION_PROJECT_SAVE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
-import com.agilepro.commons.models.customer.ProjectsModel;
+import com.agilepro.commons.models.customer.ProjectModel;
 import com.yukthi.utils.CommonUtils;
 import com.yukthi.utils.rest.RestClient;
 import com.yukthi.utils.rest.RestRequest;
@@ -32,13 +32,13 @@ public class ProjectHelper
 	 *
 	 * @param context
 	 *            the context
-	 * @param projectsModel
+	 * @param projectModel
 	 *            the projects model
 	 * @return the long
 	 */
-	public long save(ClientContext context, ProjectsModel projectsModel)
+	public long save(ClientContext context, ProjectModel projectModel)
 	{
-		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECTS_SAVE, projectsModel, null);
+		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECT_SAVE, projectModel, null);
 		RestClient client = context.getRestClient();
 
 		RestResult<BasicSaveResponse> saveResult = client.invokeJsonRequest(request, BasicSaveResponse.class);
@@ -62,12 +62,12 @@ public class ProjectHelper
 	 * @return the projects model
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ProjectsModel read(ClientContext context, long id)
+	public ProjectModel read(ClientContext context, long id)
 	{
-		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECTS_READ, null, CommonUtils.toMap(PARAM_ID, "" + id));
+		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECT_READ, null, CommonUtils.toMap(PARAM_ID, "" + id));
 		RestClient client = context.getRestClient();
 
-		RestResult<BasicReadResponse<ProjectsModel>> result = (RestResult) client.invokeJsonRequest(request, BasicReadResponse.class, ProjectsModel.class);
+		RestResult<BasicReadResponse<ProjectModel>> result = (RestResult) client.invokeJsonRequest(request, BasicReadResponse.class, ProjectModel.class);
 		return result.getValue().getModel();
 	}
 
@@ -76,12 +76,12 @@ public class ProjectHelper
 	 *
 	 * @param context
 	 *            the context
-	 * @param projectsModel
+	 * @param projectModel
 	 *            the projects model
 	 */
-	public void update(ClientContext context, ProjectsModel projectsModel)
+	public void update(ClientContext context, ProjectModel projectModel)
 	{
-		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECTS_UPDATE, projectsModel, null);
+		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECT_UPDATE, projectModel, null);
 		RestClient client = context.getRestClient();
 
 		RestResult<BaseResponse> saveResult = client.invokeJsonRequest(request, BaseResponse.class);
@@ -103,7 +103,7 @@ public class ProjectHelper
 	 */
 	public void delete(ClientContext context, long id)
 	{
-		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECTS_DELETE, null, CommonUtils.toMap(PARAM_ID, "" + id));
+		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECT_DELETE, null, CommonUtils.toMap(PARAM_ID, "" + id));
 		RestClient client = context.getRestClient();
 
 		RestResult<BaseResponse> saveResult = client.invokeJsonRequest(request, BaseResponse.class);
@@ -123,7 +123,7 @@ public class ProjectHelper
 	 */
 	public void deleteAll(ClientContext context)
 	{
-		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECTS_DELETE_ALL, null, null);
+		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_PROJECT_DELETE_ALL, null, null);
 		RestClient client = context.getRestClient();
 
 		RestResult<BaseResponse> deleteResult = client.invokeJsonRequest(request, BaseResponse.class);

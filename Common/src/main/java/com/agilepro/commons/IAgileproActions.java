@@ -92,12 +92,12 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/** 
 	 * The action prefix projects. 
 	 **/
-	public String ACTION_PREFIX_PROJECTS = "projects";
+	public String ACTION_PREFIX_PROJECT = "project";
 	
 	/**
 	 * The action prefix members.
 	 */
-	public String ACTION_PREFIX_PROJECT_MEMBERS = "projectMembers";
+	public String ACTION_PREFIX_PROJECT_MEMBER = "projectMember";
 
 	/**
 	 * The action prefix property type.
@@ -269,7 +269,10 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_TEAM = "teams";
 	
-	public String ACTION_PREFIX_TAGS = "tags";
+	/** 
+	 * The action prefix tag. 
+	 **/
+	public String ACTION_PREFIX_TAG = "tag";
 	
 	/**
 	 * The param id.
@@ -791,52 +794,79 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action projects save. 
 	 **/
-	public String ACTION_PROJECTS_SAVE = ACTION_PREFIX_PROJECTS + DOT + ACTION_TYPE_SAVE;
+	public String ACTION_PROJECT_SAVE = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_SAVE;
 	
 	/** 
 	 * The action projects read. 
 	 **/
-	public String ACTION_PROJECTS_READ = ACTION_PREFIX_PROJECTS + DOT + ACTION_TYPE_READ;
+	public String ACTION_PROJECT_READ = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_READ;
 	
 	/** 
 	 * The action projects delete. 
 	 **/
-	public String ACTION_PROJECTS_DELETE = ACTION_PREFIX_PROJECTS + DOT + ACTION_TYPE_DELETE;
+	public String ACTION_PROJECT_DELETE = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_DELETE;
 	
 	/** 
 	 * The action projects update. 
 	 **/
-	public String ACTION_PROJECTS_UPDATE = ACTION_PREFIX_PROJECTS + DOT + ACTION_TYPE_UPDATE;
+	public String ACTION_PROJECT_UPDATE = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_UPDATE;
 	
 	/** 
 	 * The action projects delete all. 
 	 **/
-	public String ACTION_PROJECTS_DELETE_ALL = ACTION_PREFIX_PROJECTS + DOT + ACTION_TYPE_DELETE_ALL;
+	public String ACTION_PROJECT_DELETE_ALL = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_DELETE_ALL;
+	
+	/////////////////////////////////////////////////////////////////////////////
+	
+	/** 
+	 * The action project members save. 
+	 **/
+	public String ACTION_PROJECT_MEMBER_SAVE = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_SAVE;
+	
+	/** 
+	 * The action projects members read. 
+	 **/
+	public String ACTION_PROJECTS_MEMBER_READ = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_READ;
+	
+	/** 
+	 * The action project members delete. 
+	 **/
+	public String ACTION_PROJECT_MEMBER_DELETE = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_DELETE;
+	
+	/** 
+	 * The action project members update. 
+	 **/
+	public String ACTION_PROJECT_MEMBER_UPDATE = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_UPDATE;
+	
+	/** 
+	 * The action project members delete all. 
+	 **/
+	public String ACTION_PROJECT_MEMBER_DELETE_ALL = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_DELETE_ALL;
 	
 	/////////////////////////////////////////////////////////////////////////////
 	
 	/** 
 	 * The action tags save. 
 	 **/
-	public String ACTION_TAGS_SAVE = ACTION_PREFIX_TAGS + DOT + ACTION_TYPE_SAVE;
+	public String ACTION_TAG_SAVE = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_SAVE;
 	
 	/** 
 	 * The action tags read. 
 	 **/
-	public String ACTION_TAGS_READ = ACTION_PREFIX_TAGS + DOT + ACTION_TYPE_READ;
+	public String ACTION_TAG_READ = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_READ;
 	
 	/** 
 	 * The action tags delete. 
 	 **/
-	public String ACTION_TAGS_DELETE = ACTION_PREFIX_TAGS + DOT + ACTION_TYPE_DELETE;
+	public String ACTION_TAG_DELETE = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_DELETE;
 	
 	/** 
 	 * The action tags update. 
 	 **/
-	public String ACTION_TAGS_UPDATE = ACTION_PREFIX_TAGS + DOT + ACTION_TYPE_UPDATE;
+	public String ACTION_TAG_UPDATE = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_UPDATE;
 	
 	/** 
 	 * The action tags delete all. 
 	 **/
-	public String ACTION_TAGS_DELETE_ALL = ACTION_PREFIX_TAGS + DOT + ACTION_TYPE_DELETE_ALL;
+	public String ACTION_TAG_DELETE_ALL = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_DELETE_ALL;
 }

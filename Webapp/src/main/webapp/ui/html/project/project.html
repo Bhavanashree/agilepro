@@ -1,0 +1,16 @@
+<div class="container-fluid" ng-controller="projectController" style="padding: 0px;">
+
+	<yk-search-query id="projectsSearchQueryId" title="Projects" name="projectSearch">
+	
+		<action id="addProjectId" label="Add project" color="blue" icon="glyphicon-plus" method="addEntry($event)" yk-for-role="PROJECT_EDIT,CUSTOMER_SUPER_USER"></action>
+		<action id="editProjectId" label="Edit project" color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true" yk-for-role="PROJECT_EDIT,CUSTOMER_SUPER_USER,PROJECT_GROUP"></action>
+		<action id="deleteProjectId" label="Delete project" color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true" yk-for-role="PROJECT_DELETE,CUSTOMER_SUPER_USER,PROJECT_GROUP"></action>
+		
+	</yk-search-query>
+	
+	<yk-model-dialog id="projectDialogId" name="Project" title="Projects" columns="2" actionMethod="saveChanges($event)">
+	</yk-model-dialog>
+		
+</div>
+
+	

@@ -5,7 +5,7 @@
 			<td>	
 				<!-- LOGO -->
 				<div>
-				<img src="/ui/images/lpage/logo.jpg" style="height:30px;">
+				<img src="/ui/images/lpage/logo.jpg" alt="agilePrologo" style="height:30px;">
 				</div>
 			</td>
 			<td>
@@ -32,7 +32,9 @@
 					</div>
 				</td>
 				<td style="text-align: right;">
-				
+					
+					<yk-lov-field  class="ng-pristine ng-untouched ng-valid ng-scope"  model="model.projectId" name="projectId" label="Project Name" lov="projectsLov" type="DYNAMIC_TYPE"/>			
+					
 					<yk-icon-link ng-click="showConversation($event)" icon="fa fa-comments" color="#ffff00;" label="Conversation"/>
 				
 					<yk-drop-down id="headerNotificationNotification" icon="glyphicon-bullhorn" icon-color="#ffff00;" header="Notifications">
@@ -107,9 +109,11 @@
 				</tab>
 				<tab id="customersTab" label="Customer" state="customers" icon="fa fa-user" icon-color="black" yk-for-role="ADMINISTRATOR">
 				</tab>
-				<tab id="projectsTab" label="Projects" state="projects" icon="glyphicon glyphicon-th-large" icon-colo="red" yk-for-role="CUSTOMER_SUPER_USER">
+				<tab id="projectsTab" label="Projects" state="project" icon="glyphicon glyphicon-th-large" icon-colo="red" yk-for-role="CUSTOMER_SUPER_USER">
 				</tab>
 				<tab id="resourcesTab" label="Resources" state="designation" icon="glyphicon-flash" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER">
+				</tab>
+				<tab id="membersTabId" label="Members" state="member" icon="glyphicon-flash" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER">
 				</tab>
 				<tab id="settingsTab" label="Settings" state="extensions" icon="glyphicon-cog" icon-color="red" yk-for-role="ADMINISTRATOR ,CUSTOMER_SUPER_USER">
 				</tab>

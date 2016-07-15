@@ -2,7 +2,7 @@ package com.agilepro.services.admin;
 
 import org.springframework.stereotype.Service;
 
-import com.agilepro.persistence.entity.admin.ProjectsEntity;
+import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.agilepro.persistence.repository.admin.IProjectRepository;
 import com.yukthi.webutils.services.BaseCrudService;
 
@@ -12,14 +12,14 @@ import com.yukthi.webutils.services.BaseCrudService;
  * @author Pritam
  */
 @Service
-public class ProjectsService extends BaseCrudService<ProjectsEntity, IProjectRepository>
+public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepository>
 {
 	/**
 	 * Instantiates a new projects service.
 	 */
-	public ProjectsService()
+	public ProjectService()
 	{
-		super(ProjectsEntity.class, IProjectRepository.class);
+		super(ProjectEntity.class, IProjectRepository.class);
 	}
 	
 	/**

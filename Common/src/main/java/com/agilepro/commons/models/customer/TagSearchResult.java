@@ -10,7 +10,7 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
  * @author Pritam
  */
 @Model
-public class TagsSearchResult
+public class TagSearchResult
 {
 	/**
 	 * The id.

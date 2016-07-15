@@ -1,42 +1,37 @@
-package com.agilepro.persistence.entity.admin;
+package com.agilepro.commons.models.customer;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-
-import com.yukthi.persistence.annotations.UniqueConstraint;
-import com.yukthi.persistence.annotations.UniqueConstraints;
-import com.yukthi.webutils.repository.WebutilsEntity;
+import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.Operator;
+import com.yukthi.webutils.common.annotations.Model;
 
 /**
- * The Class ProjectEntity.
+ * The Class ProjectSearchQuery.
  * 
  * @author Pritam
  */
-@Table(name = "PROJECTS")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
-public class ProjectsEntity extends WebutilsEntity
+@Model
+public class ProjectSearchQuery
 {
 	/**
 	 * The name.
 	 **/
-	@Column(name = "NAME", length = 50, nullable = false)
-	@UniqueConstraint(name = "name", message = "Please provide a different name, provided name is already present")
+	@Condition(value = "name", op = Operator.LIKE, ignoreCase = true)
 	private String name;
 
 	/**
 	 * The start date.
 	 **/
-	@Column(name = "START_DATE")
+	@Condition(value = "startDate", op = Operator.LIKE)
 	private Date startDate;
 
 	/**
 	 * The end date.
 	 **/
-	@Column(name = "END_DATE")
+	@Condition(value = "endDate", op = Operator.LIKE)
 	private Date endDate;
-	
+
 	/**
 	 * Gets the name.
 	 *

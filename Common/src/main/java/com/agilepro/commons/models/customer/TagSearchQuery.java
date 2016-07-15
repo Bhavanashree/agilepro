@@ -10,7 +10,7 @@ import com.yukthi.webutils.common.annotations.Model;
  * @author Pritam
  */
 @Model
-public class TagsSearchQuery
+public class TagSearchQuery
 {
 	/**
 	 * The name.

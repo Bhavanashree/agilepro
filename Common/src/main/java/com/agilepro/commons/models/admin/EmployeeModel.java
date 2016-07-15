@@ -11,7 +11,6 @@ import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.IWebUtilsCommonConstants;
 import com.yukthi.webutils.common.ImageInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
-import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
@@ -94,7 +93,6 @@ public class EmployeeModel extends AbstractExtendableModel
 	/** 
 	 * The photo. 
 	 **/
-	@IgnoreField
 	private ImageInfo photo;
 	
 	/**

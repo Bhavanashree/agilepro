@@ -3,31 +3,41 @@ package com.agilepro.client.helpers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import com.agilepro.commons.PaymentCycle;
-import com.agilepro.commons.models.admin.DesignationModel;
-import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.CustomerModel;
-import com.agilepro.commons.models.customer.TagsModel;
+import com.agilepro.commons.models.customer.TagModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
 import com.yukthi.webutils.client.ClientContext;
 
-public class TFTagsHelper extends TFBase 
+/**
+ * The Class TFTagHelper.
+ * 
+ * @author Pritam
+ */
+public class TFTagHelper extends TFBase
 {
-	private static Logger logger = LogManager.getLogger(TFTagsHelper.class);
-	
+	/**
+	 * The logger.
+	 **/
+	private static Logger logger = LogManager.getLogger(TFTagHelper.class);
+
+	/**
+	 * The customer price plan helper.
+	 **/
 	private static CustomerPricePlanHelper customerPricePlanHelper = new CustomerPricePlanHelper();
-			
+
+	/**
+	 * The customer helper.
+	 **/
 	private static CustomerHelper customerHelper = new CustomerHelper();
-	
+
 	/**
 	 * customerId.
 	 */
@@ -47,24 +57,31 @@ public class TFTagsHelper extends TFBase
 	 * Phone Number.
 	 */
 	private String phoneNumber = "1234567891";
-	
+
 	/**
 	 * designation name.
 	 */
 	private String designationName = "Manager";
+	
 	/**
 	 * The due amount paid by customer.
 	 */
 	private final double dueAmount = 10000.0;
 
-	private TagsHelper tagsHelper = new TagsHelper();
-	
+	/** 
+	 * The tag helper. 
+	 **/
+	private TagHelper tagHelper = new TagHelper();
+
 	/**
 	 * The Session object.
 	 */
 	private ClientContext customerSession;
-	
-	//@BeforeClass
+
+	/**
+	 * Inits the prc cus.
+	 */
+	@BeforeClass
 	public void initPrcCus()
 	{
 		/**
@@ -80,7 +97,7 @@ public class TFTagsHelper extends TFBase
 		List<CustomerPricePlanExpression> listExp = new ArrayList<CustomerPricePlanExpression>();
 		listExp.add(ex);
 		customerPricePlanModel.setExpressions(listExp);
-		
+
 		// save price plan
 		long idOfPricePlan = customerPricePlanHelper.save(clientContext, customerPricePlanModel);
 		logger.debug("Saved price plan with id - {}", idOfPricePlan);
@@ -95,33 +112,33 @@ public class TFTagsHelper extends TFBase
 		customerId = customerHelper.save(clientContext, model);
 		Assert.assertTrue(idOfPricePlan > 0);
 		Assert.assertTrue(customerId > 0);
-		
+
 		customerSession = super.newClientContext(emailId, password, customerId);
 	}
-	
+
 	@Test
 	public void testSave()
 	{
-		TagsModel tagsModel = new TagsModel();
+		TagModel tagsModel = new TagModel();
 		tagsModel.setName("FirstTag");
 		tagsModel.setDescription("This new feature for tagging user");
-		
-		long id = tagsHelper.save(clientContext, tagsModel);
-		
+
+		long id = tagHelper.save(clientContext, tagsModel);
+
 		Assert.assertTrue(id > 0);
 	}
-	
+
 	@Test
 	public void testRead()
 	{
-		TagsModel tagsModel = new TagsModel();
+		TagModel tagsModel = new TagModel();
 		tagsModel.setName("SecondTag");
 		tagsModel.setDescription("This new feature for tagging user");
-		
-		long id = tagsHelper.save(clientContext, tagsModel);
+
+		long id = tagHelper.save(clientContext, tagsModel);
 		Assert.assertTrue(id > 0);
-		
-		TagsModel  fetchdModel = tagsHelper.read(clientContext, id);
+
+		TagModel fetchdModel = tagHelper.read(clientContext, id);
 		Assert.assertEquals(fetchdModel.getName(), "SecondTag");
 		Assert.assertEquals(fetchdModel.getDescription(), "This new feature for tagging user");
 	}
@@ -129,22 +146,22 @@ public class TFTagsHelper extends TFBase
 	@Test
 	public void testUpdate()
 	{
-		TagsModel tagsModel = new TagsModel();
+		TagModel tagsModel = new TagModel();
 		tagsModel.setName("ThirdTag");
 		tagsModel.setDescription("This new feature for tagging user");
-		
-		long id = tagsHelper.save(clientContext, tagsModel);
+
+		long id = tagHelper.save(clientContext, tagsModel);
 		Assert.assertTrue(id > 0);
-		
-		TagsModel  fetchdModel = tagsHelper.read(clientContext, id);
-		
-		//fetchdModel.setId(id);
+
+		TagModel fetchdModel = tagHelper.read(clientContext, id);
+
+		// fetchdModel.setId(id);
 		fetchdModel.setName("FourthTag");
 		fetchdModel.setDescription("This  tag is for fourth user");
-		
-		tagsHelper.update(clientContext, fetchdModel);
-		
-		TagsModel updatedModel = tagsHelper.read(clientContext, id);
+
+		tagHelper.update(clientContext, fetchdModel);
+
+		TagModel updatedModel = tagHelper.read(clientContext, id);
 		Assert.assertEquals(updatedModel.getName(), "FourthTag");
 		Assert.assertEquals(updatedModel.getDescription(), "This  tag is for fourth user");
 	}
@@ -152,28 +169,28 @@ public class TFTagsHelper extends TFBase
 	@Test
 	public void testDelete()
 	{
-		TagsModel tagsModel = new TagsModel();
+		TagModel tagsModel = new TagModel();
 		tagsModel.setName("FifthTag");
 		tagsModel.setDescription("This new feature for tagging user");
-		
-		long id = tagsHelper.save(clientContext, tagsModel);
+
+		long id = tagHelper.save(clientContext, tagsModel);
 		Assert.assertTrue(id > 0);
 
-		tagsHelper.delete(clientContext, id);
-		
-		TagsModel deletedModel = tagsHelper.read(clientContext, id);
+		tagHelper.delete(clientContext, id);
+
+		TagModel deletedModel = tagHelper.read(clientContext, id);
 		Assert.assertNull(deletedModel);
 	}
 
 	/**
-	 *cleanup. 
+	 * cleanup.
 	 */
 	@AfterClass
 	public void cleanup()
 	{
-		tagsHelper.deleteAll(clientContext);
-		
-		//customerHelper.deleteAll(clientContext);
-		//customerPricePlanHelper.deleteAll(clientContext);
+		tagHelper.deleteAll(clientContext);
+
+		// customerHelper.deleteAll(clientContext);
+		// customerPricePlanHelper.deleteAll(clientContext);
 	}
 }

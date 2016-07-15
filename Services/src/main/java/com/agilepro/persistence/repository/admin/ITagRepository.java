@@ -2,21 +2,26 @@ package com.agilepro.persistence.repository.admin;
 
 import java.util.List;
 
-import com.agilepro.commons.models.customer.TagsSearchQuery;
-import com.agilepro.commons.models.customer.TagsSearchResult;
-import com.agilepro.persistence.entity.admin.TagsEntity;
+import com.agilepro.commons.models.customer.TagSearchQuery;
+import com.agilepro.commons.models.customer.TagSearchResult;
+import com.agilepro.persistence.entity.admin.TagEntity;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.search.SearchQuery;
 import com.yukthi.webutils.annotations.RestrictBySpace;
 import com.yukthi.webutils.annotations.SearchQueryMethod;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
-public interface ITagsRepository extends IWebutilsRepository<TagsEntity> 
+/**
+ * The Interface ITagRepository.
+ * 
+ * @author Pritam
+ */
+public interface ITagRepository extends IWebutilsRepository<TagEntity> 
 {
 	@RestrictBySpace
-	@SearchQueryMethod(name = "tagsSearch", queryModel = TagsSearchQuery.class)
+	@SearchQueryMethod(name = "tagSearch", queryModel = TagSearchQuery.class)
 	@OrderBy("name")
-	public List<TagsSearchResult> findEmployee(SearchQuery searchQuery);
+	public List<TagSearchResult> findEmployee(SearchQuery searchQuery);
 	
 	/**
 	 * Delete All.

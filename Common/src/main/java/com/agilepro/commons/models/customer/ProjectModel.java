@@ -12,12 +12,12 @@ import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class ProjectsModel.
+ * The Class ProjectModel.
  * 
  * @author Pritam
  */
-@Model(name = "Projects")
-public class ProjectsModel
+@Model(name = "Project")
+public class ProjectModel
 {
 	/**
 	 * The id.

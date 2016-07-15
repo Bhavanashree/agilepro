@@ -33,6 +33,12 @@ public enum UserRole
 	PROJECT_GROUP(true),
 
 	/**
+	 * Represents Members group under which project members related roles should
+	 * be defined.
+	 **/
+	MEMBER_GROUP(true),
+
+	/**
 	 * Indicates user is administrator.
 	 */
 	@Label("Administrator") ADMINISTRATOR(true, SETTINGS_GROUP),
@@ -274,42 +280,62 @@ public enum UserRole
 	/**
 	 * The project view.
 	 **/
-	@Label("Projects view") PROJECTS_VIEW,
+	@Label("Projects view") PROJECT_VIEW,
 
 	/**
 	 * The project edit.
 	 **/
-	@Label("Projects Edit") PROJECTS_EDIT(false, PROJECTS_VIEW, PROJECT_GROUP),
+	@Label("Projects Edit") PROJECT_EDIT(false, PROJECT_VIEW, PROJECT_GROUP),
 
 	/**
 	 * The project delete.
 	 **/
-	@Label("Projects Delete") PROJECTS_DELETE(false, PROJECTS_VIEW),
+	@Label("Projects Delete") PROJECT_DELETE(false, PROJECT_VIEW),
 
 	/**
 	 * The project delete all.
 	 **/
-	@Label("Projects DeleteAll") PROJECTS_DELETE_ALL(false, PROJECTS_VIEW),
+	@Label("Projects DeleteAll") PROJECT_DELETE_ALL(false, PROJECT_VIEW),
 
-	/** 
-	 * The tags view. 
+	/**
+	 * The project members view.
 	 **/
-	@Label("Tags View") TAGS_VIEW,
+	@Label("Project Members view") PROJECT_MEMBER_VIEW,
 
-	/** 
-	 * The tags edit. 
+	/**
+	 * The project members edit.
 	 **/
-	@Label("Tags Edit") TAGS_EDIT(false, TAGS_VIEW, PROJECT_GROUP),
+	@Label("Project Members Edit") PROJECT_MEMBER_EDIT(false, PROJECT_MEMBER_VIEW, MEMBER_GROUP),
+
+	/**
+	 * The project members delete.
+	 **/
+	@Label("Project Members Delete") PROJECT_MEMBER_DELETE(false, PROJECT_MEMBER_VIEW),
+
+	/**
+	 * The project members delete all.
+	 **/
+	@Label("Project Members DeleteAll") PROJECT_MEMBER_DELETE_ALL(false, PROJECT_MEMBER_VIEW),
+
+	/**
+	 * The tags view.
+	 **/
+	@Label("Tags View") TAG_VIEW,
+
+	/**
+	 * The tags edit.
+	 **/
+	@Label("Tags Edit") TAG_EDIT(false, TAG_VIEW, PROJECT_GROUP),
 
 	/**
 	 * The tags delete.
 	 **/
-	@Label("Tags Delete") TAGS_DELETE(false, TAGS_VIEW),
+	@Label("Tags Delete") TAG_DELETE(false, TAG_VIEW),
 
 	/**
 	 * The tags delete all.
 	 **/
-	@Label("Tags DeleteAll") TAGS_DELETE_ALL(false, TAGS_VIEW),
+	@Label("Tags DeleteAll") TAG_DELETE_ALL(false, TAG_VIEW),
 
 	/**
 	 * The project property view.

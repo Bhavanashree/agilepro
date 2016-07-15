@@ -1,65 +1,42 @@
-package com.agilepro.commons.models.customer;
+package com.agilepro.persistence.entity.admin;
 
 import java.util.Date;
 
-import com.yukthi.persistence.repository.annotations.Field;
-import com.yukthi.webutils.common.annotations.Model;
-import com.yukthi.webutils.common.annotations.NonDisplayable;
+import javax.persistence.Column;
+import javax.persistence.Table;
+
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
+import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ProjectSearchResult.
+ * The Class ProjectEntity.
  * 
  * @author Pritam
  */
-@Model
-public class ProjectsSearchResult
+@Table(name = "PROJECT")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
+public class ProjectEntity extends WebutilsEntity
 {
 	/**
-	 * Id.
-	 */
-	@NonDisplayable
-	@Field(value = "id")
-	private long id;
-
-	/**
-	 * Name of the project.
-	 */
-	@Field(value = "name")
+	 * The name.
+	 **/
+	@Column(name = "NAME", length = 50, nullable = false)
+	@UniqueConstraint(name = "name", message = "Please provide a different name, provided name is already present")
 	private String name;
 
 	/**
 	 * The start date.
 	 **/
-	@Field(value = "startDate")
+	@Column(name = "START_DATE")
 	private Date startDate;
 
 	/**
 	 * The end date.
 	 **/
-	@Field(value = "endDate")
+	@Column(name = "END_DATE")
 	private Date endDate;
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public long getId()
-	{
-		return id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id
-	 *            the new id
-	 */
-	public void setId(long id)
-	{
-		this.id = id;
-	}
-
+	
 	/**
 	 * Gets the name.
 	 *

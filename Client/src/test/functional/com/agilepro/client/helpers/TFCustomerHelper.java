@@ -120,7 +120,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 		model.setVariableMap(CommonUtils.toMap("var1", 2.0, "var2", T_DUE_AMOUNT));
 
 		long id = customerHelper.save(clientContext, model);
-		logger.debug(T_DEBUG_MESSAGE, id);
+		logger.debug(T_DEBUG_CUS_MESSAGE, id);
 		Assert.assertTrue(id > 0);
 
 		// ensure login can be done with new customer details
@@ -216,7 +216,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 		model.setCustomerPricePlanId(idOfPricePlan);
 
 		long id = customerHelper.save(clientContext, model);
-		logger.debug(T_DEBUG_MESSAGE, id);
+		logger.debug(T_DEBUG_CUS_MESSAGE, id);
 		Assert.assertTrue(id > 0);
 
 		CustomerModel cm = customerHelper.read(clientContext, id);
@@ -247,7 +247,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 		model.setCustomerPricePlanId(idOfPricePlan);
 
 		long id = customerHelper.save(clientContext, model);
-		logger.debug(T_DEBUG_MESSAGE, id);
+		logger.debug(T_DEBUG_CUS_MESSAGE, id);
 		Assert.assertTrue(id > 0);
 
 		CustomerModel modelFromDb = customerHelper.read(clientContext, id);
@@ -279,7 +279,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 		model.setCustomerPricePlanId(idOfPricePlan);
 
 		long id = customerHelper.save(clientContext, model);
-		logger.debug(T_DEBUG_MESSAGE, id);
+		logger.debug(T_DEBUG_CUS_MESSAGE, id);
 		Assert.assertTrue(id > 0);
 
 		// Deleting Customer record

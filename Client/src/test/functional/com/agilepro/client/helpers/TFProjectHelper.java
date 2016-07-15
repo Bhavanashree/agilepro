@@ -14,22 +14,22 @@ import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
 import com.agilepro.commons.models.customer.CustomerModel;
-import com.agilepro.commons.models.customer.ProjectsModel;
+import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
 import com.yukthi.webutils.client.ClientContext;
 
 /**
- * The Class TFProjects.
+ * The Class TFProjectHelper.
  * 
  * @author Pritam
  */
-public class TFProjects extends TFBase implements ITestConstants
+public class TFProjectHelper extends TFBase implements ITestConstants
 {
 	/**
 	 * The logger.
 	 **/
-	private static Logger logger = LogManager.getLogger(TFProjects.class);
+	private static Logger logger = LogManager.getLogger(TFProjectHelper.class);
 
 	/**
 	 * CustomerHelper object with default values.
@@ -130,7 +130,7 @@ public class TFProjects extends TFBase implements ITestConstants
 	 * @param endDate the end date
 	 * @return the long
 	 */
-	private long saveProject(ProjectsModel projectsModel, Integer startDate, Integer endDate)
+	private long saveProject(ProjectModel projectsModel, Integer startDate, Integer endDate)
 	{
 		calendar.setTime(currentDate);
 		calendar.add(Calendar.DATE, startDate);
@@ -149,38 +149,47 @@ public class TFProjects extends TFBase implements ITestConstants
 	@Test
 	public void testSave()
 	{
-		ProjectsModel projectsModel = new ProjectsModel();
+		ProjectModel projectsModel = new ProjectModel();
 		projectsModel.setName("Project1");
 		long projectId =  saveProject(projectsModel, START_DATE, END_DATE);
 		
-		logger.debug("Saved project with id - {}", projectId);
+		logger.debug(T_DEBUG_PRO_MESSAGE, projectId);
 		Assert.assertTrue(projectId > 0);
 	}
 
+	/**
+	 * Test save date.
+	 */
 	@Test
 	public void testSaveDate()
 	{
-		ProjectsModel projectsModel = new ProjectsModel();
+		ProjectModel projectsModel = new ProjectModel();
 		projectsModel.setName("Project2");
 
 		saveProject(projectsModel, END_DATE, START_DATE);
 	}
 	
+	/**
+	 * Test read.
+	 */
 	@Test
 	public void testRead()
 	{
 		String projectName = "Project3";
-		ProjectsModel projectsModel = new ProjectsModel();
+		ProjectModel projectsModel = new ProjectModel();
 		projectsModel.setName(projectName);
 		long projectId = saveProject(projectsModel, START_DATE, END_DATE);
-		logger.debug("Saved project with id - {}", projectId);
+		logger.debug(T_DEBUG_PRO_MESSAGE, projectId);
 		
-		ProjectsModel  fetchedModel = projectHelper.read(customerSession, projectId);
+		ProjectModel  fetchedModel = projectHelper.read(customerSession, projectId);
 		logger.debug("Reading model with id - {}", fetchedModel.getId());
 		
 		Assert.assertEquals(fetchedModel.getName(), projectName);
 	}
 	
+	/**
+	 * Test update.
+	 */
 	@Test
 	public void testUpdate()
 	{
@@ -188,32 +197,35 @@ public class TFProjects extends TFBase implements ITestConstants
 		String projectNewName = "Project5";
 		
 		// saving new project
-		ProjectsModel projectsModel = new ProjectsModel();
+		ProjectModel projectsModel = new ProjectModel();
 		projectsModel.setName(projectOldName);
 		long projectId = saveProject(projectsModel, START_DATE, END_DATE);
 		
 		// reading the saved project
-		ProjectsModel fetchedModel = projectHelper.read(customerSession, projectId);
+		ProjectModel fetchedModel = projectHelper.read(customerSession, projectId);
 		Assert.assertEquals(fetchedModel.getName(), projectOldName);
 		
 		// updating the project
 		fetchedModel.setName(projectNewName);
 		projectHelper.update(customerSession, fetchedModel);
-		ProjectsModel updateModel = projectHelper.read(customerSession, fetchedModel.getId());
+		ProjectModel updateModel = projectHelper.read(customerSession, fetchedModel.getId());
 		
 		Assert.assertEquals(updateModel.getName(), projectNewName);
 	}
 	
+	/**
+	 * Test delete.
+	 */
 	@Test
 	public void testDelete()
 	{
-		ProjectsModel projectsModel = new ProjectsModel();
+		ProjectModel projectsModel = new ProjectModel();
 		projectsModel.setName("Project6");
 		long projectId = saveProject(projectsModel, START_DATE, END_DATE);
 
 		projectHelper.delete(customerSession, projectId);
 		
-		ProjectsModel fetchedModel = projectHelper.read(customerSession, projectId);
+		ProjectModel fetchedModel = projectHelper.read(customerSession, projectId);
 		Assert.assertNull(fetchedModel);
 	}
 	

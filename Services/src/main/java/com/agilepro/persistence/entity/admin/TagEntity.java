@@ -1,42 +1,40 @@
 package com.agilepro.persistence.entity.admin;
 
-import java.awt.Color;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.yukthi.persistence.annotations.DataType;
-import com.yukthi.persistence.annotations.DataTypeMapping;
-import com.yukthi.persistence.conversion.impl.JsonConverter;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class TagsEntity.
+ * The Class TagEntity.
  * 
  * @author Pritam
  */
-@Table(name = "TAGS")
-public class TagsEntity extends WebutilsEntity
+@Table(name = "TAG")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
+public class TagEntity extends WebutilsEntity
 {
-	/** 
-	 * The name. 
+	/**
+	 * The name.
 	 **/
 	@Column(name = "NAME", length = 50, nullable = false)
+	@UniqueConstraint(name = "name", message = "Please provide a different name, provided name is already present")
 	private String name;
 
-	/** 
-	 * The description. 
+	/**
+	 * The description.
 	 **/
 	@Column(name = "DESCRIPTION")
 	private String description;
 
-	/** 
-	 * The color. 
+	/**
+	 * The color.
 	 **/
 	@Column(name = "COLOR", length = 50)
-	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
-	private Color color;
-	
+	private String color;
+
 	/**
 	 * Gets the name.
 	 *
@@ -50,7 +48,8 @@ public class TagsEntity extends WebutilsEntity
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name)
 	{
@@ -70,7 +69,8 @@ public class TagsEntity extends WebutilsEntity
 	/**
 	 * Sets the description.
 	 *
-	 * @param description the new description
+	 * @param description
+	 *            the new description
 	 */
 	public void setDescription(String description)
 	{
@@ -82,7 +82,7 @@ public class TagsEntity extends WebutilsEntity
 	 *
 	 * @return the color
 	 */
-	public Color getColor()
+	public String getColor()
 	{
 		return color;
 	}
@@ -90,9 +90,10 @@ public class TagsEntity extends WebutilsEntity
 	/**
 	 * Sets the color.
 	 *
-	 * @param color the new color
+	 * @param color
+	 *            the new color
 	 */
-	public void setColor(Color color)
+	public void setColor(String color)
 	{
 		this.color = color;
 	}

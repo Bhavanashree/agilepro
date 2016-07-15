@@ -2,35 +2,63 @@ package com.agilepro.commons.models.customer;
 
 import java.util.Date;
 
-import com.yukthi.persistence.repository.annotations.Condition;
-import com.yukthi.persistence.repository.annotations.Operator;
+import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class ProjectSearchQuery.
+ * The Class ProjectSearchResult.
  * 
  * @author Pritam
  */
 @Model
-public class ProjectsSearchQuery
+public class ProjectSearchResult
 {
 	/**
-	 * The name.
-	 **/
-	@Condition(value = "name", op = Operator.LIKE, ignoreCase = true)
+	 * Id.
+	 */
+	@NonDisplayable
+	@Field(value = "id")
+	private long id;
+
+	/**
+	 * Name of the project.
+	 */
+	@Field(value = "name")
 	private String name;
 
 	/**
 	 * The start date.
 	 **/
-	@Condition(value = "startDate", op = Operator.LIKE)
+	@Field(value = "startDate")
 	private Date startDate;
 
 	/**
 	 * The end date.
 	 **/
-	@Condition(value = "endDate", op = Operator.LIKE)
+	@Field(value = "endDate")
 	private Date endDate;
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public long getId()
+	{
+		return id;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id
+	 *            the new id
+	 */
+	public void setId(long id)
+	{
+		this.id = id;
+	}
 
 	/**
 	 * Gets the name.

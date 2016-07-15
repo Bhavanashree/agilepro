@@ -1,21 +1,20 @@
 package com.agilepro.commons.models.customer;
 
-import java.awt.Color;
-
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.NotEmpty;
-import com.yukthi.webutils.common.annotations.IgnoreField;
+import com.yukthi.webutils.common.annotations.Color;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class TagsModel.
+ * The Class TagModel.
  * 
  * @author Pritam
  */
-@Model(name = "Tags")
-public class TagsModel
+@Model(name = "Tag")
+public class TagModel
 {
 	/**
 	 * The id.
@@ -34,20 +33,21 @@ public class TagsModel
 	/**
 	 * The description.
 	 **/
+	@MultilineText
 	private String description;
 
 	/**
 	 * The color.
 	 **/
-	@IgnoreField
-	private Color color;
+	@Color
+	private String color;
 
 	/**
 	 * Version used for update.
 	 **/
 	@NonDisplayable
 	private Integer version;
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -116,7 +116,7 @@ public class TagsModel
 	 *
 	 * @return the color
 	 */
-	public Color getColor()
+	public String getColor()
 	{
 		return color;
 	}
@@ -127,7 +127,7 @@ public class TagsModel
 	 * @param color
 	 *            the new color
 	 */
-	public void setColor(Color color)
+	public void setColor(String color)
 	{
 		this.color = color;
 	}
@@ -145,7 +145,8 @@ public class TagsModel
 	/**
 	 * Sets the version.
 	 *
-	 * @param version the new version
+	 * @param version
+	 *            the new version
 	 */
 	public void setVersion(Integer version)
 	{

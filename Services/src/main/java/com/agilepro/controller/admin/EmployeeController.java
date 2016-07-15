@@ -4,9 +4,12 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_EMPLOYEE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -81,6 +85,22 @@ public class EmployeeController extends BaseController
 		EmployeeModel employeeModel = employeeService.fetchFullModel(id, EmployeeModel.class);
 
 		return new BasicReadResponse<EmployeeModel>(employeeModel);
+	}
+
+	/**
+	 * Fetch employees.
+	 *
+	 * @param employeeName
+	 *            the employee name
+	 * @return the basic read response
+	 */
+	@ActionName(ACTION_TYPE_READ_ALL)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<EmployeeModel>> fetchEmployees(@RequestParam(value = "employeeName", required = false) String employeeName)
+	{
+		return new BasicReadResponse<List<EmployeeModel>>(employeeService.fetchEmployees(employeeName));
 	}
 
 	/**
