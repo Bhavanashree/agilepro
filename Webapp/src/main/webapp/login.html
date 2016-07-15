@@ -25,7 +25,7 @@
 					<span style="color: white; font-weight: bold; font-size: 2em;">AgilePro</span>
 				</div>
 				<div class="col-md-8" style="text-align: right; padding: 0.5em;">
-					<div ng-repeat="link in contentLinks" style="display: inline; margin-right: 1em;">
+					<div ng-repeat="result in searchResults" style="display: inline; margin-right: 1em;">
 						<a href="{{link.link}}" style="font-weight: bold; color: white;" yk-file-link="{{link.file ? link.file.id : -1}}">
 							{{link.label}}
 						</a>

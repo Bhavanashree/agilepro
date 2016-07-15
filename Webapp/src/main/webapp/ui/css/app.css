@@ -278,14 +278,16 @@ body
 
 .hoverDiv
 {
-	padding: 0.5em;
+	padding: 0.1em;
 	width: 100%;
+	border-top: 1px dotted #b3e0ff;
+
 }
 
 .borderhover
 {
 	border: 4px solid #0000a0;
-	box-shadow: 10px 10px 5px grey;
+	box-shadow: 5px 5px 5px grey;
 }
 
 .displayElement
@@ -299,3 +301,13 @@ body
 	display:none;
 }
 
+
+.displayIcon
+{
+
+}
+
+.displayBorder
+{
+	
+}

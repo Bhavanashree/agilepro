@@ -1,0 +1,23 @@
+
+<div class="container-fluid" ng-controller="sprintController" style="padding: 0px;">
+	<result-customizer>
+		<div class="col-md-12" style="padding: 0px; margin: 10px; background-color: red;">
+			<table>
+				<tr>
+					<select ng-model="model" ng-change="showSelectValue(mySelect)">
+						<option value=""/>
+					</select>
+				</tr>
+				<tr style="padding: 0.1em 0.5em; text-align: right;">
+					<a role="button" ng-click="saveSprint($event)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" data-toggle="tooltip" title="Add Sprint">
+						<i class="glyphicon glyphicon-plus"/>
+					</a>
+					<a role="button" ng-click="editEntry($event)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" data-toggle="tooltip" title="Add Sprint">
+						<i class="glyphicon glyphicon-plus"/>
+					</a>
+				</tr>
+			</table>
+		</div>
+		<yk-model-dialog id="sprintDialog" name="SprintModel" title="Sprint" columns="2" actionMethod="saveChanges($event);"/>
+	</result-customizer>
+</div>

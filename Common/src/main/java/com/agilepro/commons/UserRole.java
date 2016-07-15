@@ -1,7 +1,9 @@
 package com.agilepro.commons;
 
+import com.agilepro.commons.models.projects.SprintModel;
 import com.yukthi.webutils.common.annotations.Label;
 
+// TODO: Auto-generated Javadoc
 /**
  * Cloud biller user roles.
  * 
@@ -99,22 +101,42 @@ public enum UserRole
 	/**
 	 * The BackLog view.
 	 */
-	@Label("BackLog view") BACKLOG_VIEW,
+	@Label("BackLog view") STORY_VIEW,
 
 	/**
 	 * The BackLog edit.
 	 */
-	@Label("BackLog Edit") BACKLOG_EDIT(false, BACKLOG_VIEW),
+	@Label("BackLog Edit") STORY_EDIT(false, STORY_VIEW),
 
 	/**
 	 * The BackLog delete.
 	 */
-	@Label("BackLog Delete") BACKLOG_DELETE(false, BACKLOG_VIEW),
+	@Label("BackLog Delete") STORY_DELETE(false, STORY_VIEW),
 
 	/**
 	 * The BackLog delete.
 	 */
-	@Label("BackLog DeleteAll") BACKLOG_DELETE_ALL(false, BACKLOG_VIEW),
+	@Label("BackLog DeleteAll") STORY_DELETE_ALL(false, STORY_VIEW),
+	
+	/**
+	 * The sprint view. 
+	 */
+	@Label("Sprint view") SPRINT_VIEW,
+	
+	/** 
+	 * The sprint edit.
+	 */
+	@Label("Sprint Edit") SPRINT_EDIT(false, SPRINT_VIEW),
+	
+	/**
+	 *  The sprint delete.
+	 */
+	@Label("Sprint Delete") SPRINT_DELETE(false, SPRINT_VIEW),
+	
+	/**
+	 *  The sprint delete all. 
+	 */
+	@Label("Sprint DeleteAll") SPRINT_DELETE_ALL(false, SPRINT_VIEW),
 	;
 
 	/**
@@ -128,11 +150,20 @@ public enum UserRole
 	 */
 	private UserRole implicitRoles[];
 
+	/**
+	 * Instantiates a new user role.
+	 */
 	private UserRole()
 	{
 		this(false);
 	}
 
+	/**
+	 * Instantiates a new user role.
+	 *
+	 * @param internal the internal
+	 * @param implicitRoles the implicit roles
+	 */
 	private UserRole(boolean internal, UserRole... implicitRoles)
 	{
 		this.internal = internal;

@@ -2,6 +2,7 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -127,8 +128,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action prefix backlog.
 	 */
-	public String ACTION_PREFIX_BACKLOG = "backlog";
-	
+	public String ACTION_PREFIX_STORY = "story";
+
 	/**
 	 * The action prefix password reset.
 	 **/
@@ -148,6 +149,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix conversation.
 	 **/
 	public String ACTION_PREFIX_CONVERSATION = "conversation";
+
+	/** The action prefix sprint. */
+	public String ACTION_PREFIX_SPRINT = "sprint";
 
 	/**
 	 * Parameter with name "name".
@@ -424,25 +428,41 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action backlog save.
 	 **/
-	public String ACTION_BACKLOG_SAVE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_SAVE;
+	public String ACTION_STORY_SAVE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_SAVE;
 
 	/**
 	 * The action backlog read.
 	 **/
-	public String ACTION_BACKLOG_READ = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_READ;
+	public String ACTION_STORY_READ = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ;
 
 	/**
 	 * The action backlog update.
 	 **/
-	public String ACTION_BACKLOG_UPDATE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_UPDATE;
+	public String ACTION_STORY_UPDATE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_UPDATE;
 
 	/**
 	 * The action backlog delete.
 	 **/
-	public String ACTION_BACKLOG_DELETE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_DELETE;
+	public String ACTION_STORY_DELETE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_DELETE;
 
 	/**
 	 * The action backlog delete all.
 	 **/
-	public String ACTION_BACKLOG_DELETE_ALL = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_DELETE_ALL;
+	public String ACTION_STORY_DELETE_ALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_DELETE_ALL;
+
+	/** The action sprint save. */
+	public String ACTION_SPRINT_SAVE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_SAVE;
+	
+	/** The action sprint read. */
+	public String ACTION_SPRINT_READ = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ;
+
+	/** The action sprint update. */
+	public String ACTION_SPRINT_UPDATE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_UPDATE;
+
+	/** The action sprint delete. */
+	public String ACTION_SPRINT_DELETE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
+
+	/** The action sprint deleteall. */
+	public String ACTION_SPRINT_DELETEALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
+
 }
