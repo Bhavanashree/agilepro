@@ -24,6 +24,7 @@ public class CustomerPaymentEntity extends WebutilsEntity
 	 **/
 	@ManyToOne
 	@PropertyMapping(type = CustomerPaymentModel.class, from = "customerId", subproperty = "id")
+
 	@Column(name = "CUSTOMER_ID", nullable = false)
 	private CustomerEntity customer;
 

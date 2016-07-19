@@ -32,11 +32,15 @@ public class SprintSearchResult  extends AbstractExtendedSearchResult
 	@Field(value = "description")
 	private String description;
 
-	/** The start date. */
+	/**
+	 *  The start date. 
+	 **/
 	@Field(value = "startDate")
 	private Date startDate;
 
-	/** The end date. */
+	/** 
+	 * The end date. 
+	 **/
 	@Field(value = "endDate")
 	private Date endDate;
 
@@ -133,5 +137,4 @@ public class SprintSearchResult  extends AbstractExtendedSearchResult
 	{
 		this.name = name;
 	}
-
 }

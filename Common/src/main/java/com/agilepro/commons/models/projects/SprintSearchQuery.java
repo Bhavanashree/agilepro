@@ -37,6 +37,14 @@ public class SprintSearchQuery
 	@Condition(value = "endDate", op = Operator.EQ, ignoreCase = true)
 	private Date endDate;
 
+	/**
+	 * Instantiates a new sprint search query.
+	 *
+	 * @param name the name
+	 * @param description the description
+	 * @param endDate the end date
+	 * @param startDate the start date
+	 */
 	public SprintSearchQuery(String name, String description, Date endDate, Date startDate)
 	{
 		this.name = name;

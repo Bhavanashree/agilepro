@@ -13,6 +13,8 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class BackLogModel.
+ * 
+ * @author Bhavana.
  */
 
 @ExtendableModel(name = "Story")

@@ -9,7 +9,7 @@ import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * The Class SprintEntity.
+ * SprintEntity class maintains Sprints of project.
  */
 @ExtendableEntity(name = "Sprint")
 @Table(name = "SPRINT")

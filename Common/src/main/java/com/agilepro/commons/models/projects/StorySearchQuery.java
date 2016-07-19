@@ -7,7 +7,6 @@ import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StorySearchQuery.
  */

@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.agilepro.commons.models.projects.StorySearchResult;
 import com.yukthi.webutils.repository.search.ISearchResultCustomizer;
 
@@ -30,7 +27,7 @@ public class StorySearchCustomizer implements ISearchResultCustomizer<StorySearc
 		}
 	};
 
-	/*
+	/**
 	 * Customize method to get list of results in customized form adding stories
 	 * to list & sorting list of stories.
 	 */
@@ -70,6 +67,9 @@ public class StorySearchCustomizer implements ISearchResultCustomizer<StorySearc
 	 *            the parent id
 	 * @param sortedResults
 	 *            the sorted results
+	 * @param indent
+	 *            the indent
+	 * 
 	 */
 	public void sortChildren(Map<Long, List<StorySearchResult>> idToChildren, Long parentId, List<StorySearchResult> sortedResults, int indent)
 	{

@@ -2,11 +2,16 @@ package com.agilepro.controller.projects;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
+
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
+
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -32,7 +37,10 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
 /**
- * The Class SprintController.
+ * The Class SprintController is responsible for receiving the requests from
+ * Client. Once received , it directs the request to the service class
+ * (SprintService). It also takes care for sending the response back to the
+ * client received from service class.
  */
 @RestController
 @ActionName(ACTION_PREFIX_SPRINT)
@@ -41,7 +49,7 @@ public class SprintController extends BaseController implements ISprintControlle
 {
 
 	/**
-	 *  The sprint service. 
+	 * The sprint service.
 	 */
 	@Autowired
 	private SprintService sprintService;
@@ -65,11 +73,11 @@ public class SprintController extends BaseController implements ISprintControlle
 	}
 
 	/**
-	 * Read Backlog.
+	 * Read Sprint.
 	 *
 	 * @param id
 	 *            the id
-	 * @return the Backlog read response
+	 * @return the sprint read response
 	 */
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_EDIT, UserRole.CUSTOMER_SUPER_USER })
@@ -81,13 +89,29 @@ public class SprintController extends BaseController implements ISprintControlle
 
 		return new BasicReadResponse<SprintModel>(sprintModel);
 	}
+	
+	/**
+	 * Read  list of Sprint.
+	 *
+	 * @param id
+	 *            the id
+	 * @return the List of sprint read response
+	 */
+	@ActionName(ACTION_TYPE_READ_ALL)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<SprintModel>> fetchAllSprint(@org.springframework.web.bind.annotation.RequestParam(value = "sprintName", required = false) String sprintName)
+	{
+		return new BasicReadResponse<List<SprintModel>>(sprintService.fetchAllSprint(sprintName));
+	}
 
 	/**
-	 * Update Backlog.
+	 * Update Sprint.
 	 *
 	 * @param model
 	 *            the model
-	 * @return the Backlog update response
+	 * @return the Sprint update response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.SPRINT_EDIT, UserRole.CUSTOMER_SUPER_USER })
@@ -106,11 +130,11 @@ public class SprintController extends BaseController implements ISprintControlle
 	}
 
 	/**
-	 * Delete Backlog.
+	 * Delete Sprint.
 	 *
 	 * @param id
 	 *            the id
-	 * @return the Backlog delete response
+	 * @return the Sprint delete response
 	 */
 	@ActionName(ACTION_TYPE_DELETE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_DELETE, UserRole.CUSTOMER_SUPER_USER })

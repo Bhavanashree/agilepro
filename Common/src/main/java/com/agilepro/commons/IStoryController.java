@@ -1,5 +1,7 @@
 package com.agilepro.commons;
 
+import java.util.List;
+
 import com.agilepro.commons.models.projects.StoryModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
@@ -55,4 +57,12 @@ public interface IStoryController
 	 * @return the base response
 	 */
 	public BaseResponse deleteAll();
+
+	/**
+	 * Fetch all story.
+	 *
+	 * @param storyName the story name
+	 * @return the basic read response
+	 */
+	public BasicReadResponse<List<StoryModel>> fetchAllStory(String storyTitle);
 }

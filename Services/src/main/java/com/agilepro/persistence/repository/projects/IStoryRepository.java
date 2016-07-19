@@ -6,6 +6,8 @@ import com.agilepro.commons.models.projects.StorySearchQuery;
 import com.agilepro.commons.models.projects.StorySearchResult;
 import com.agilepro.persistence.entity.projects.StoryEntity;
 import com.agilepro.services.common.StorySearchCustomizer;
+import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.Operator;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.search.SearchQuery;
 import com.yukthi.webutils.annotations.LovQuery;
@@ -22,7 +24,8 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	/**
 	 * Find backlog.
 	 *
-	 * @param searchQuery the search query
+	 * @param searchQuery
+	 *            the search query
 	 * @return the list
 	 */
 	@RestrictBySpace
@@ -33,6 +36,9 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@LovQuery(name = "parentStoryId", valueField = "id", labelField = "title")
 	@RestrictBySpace
 	public List<ValueLabel> findParentStoryIdLov();
+
+	@RestrictBySpace
+	public List<StoryEntity> fetchAllStory(@Condition(value = "title", op = Operator.LIKE, ignoreCase = true) String storyTitle);
 
 	/**
 	 * Delete all.

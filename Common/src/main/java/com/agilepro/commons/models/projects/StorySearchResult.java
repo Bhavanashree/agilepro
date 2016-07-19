@@ -6,7 +6,6 @@ import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BacklogSearchResult.
  */

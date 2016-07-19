@@ -4,9 +4,12 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +38,10 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
 /**
- * The Class StoryController.
+ * The Class StoryController is responsible for receiving the requests from
+ * Client. Once received , it directs the request to the service class
+ * (StoryService). It also takes care for sending the response back to the
+ * client received from service class.
  */
 @RestController
 @ActionName(ACTION_PREFIX_STORY)
@@ -54,11 +61,11 @@ public class StoryController extends BaseController implements IStoryController
 	private StoryService storyService;
 
 	/**
-	 * Save Backlog.
+	 * Save the StoryModel.
 	 *
 	 * @param model
-	 *            the model
-	 * @return the Backlog save response
+	 *            StoryModel
+	 * @return the StoryModel save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.STORY_EDIT, UserRole.CUSTOMER_SUPER_USER })
@@ -73,11 +80,12 @@ public class StoryController extends BaseController implements IStoryController
 	}
 
 	/**
-	 * Read Backlog.
+	 * Read the Story.
 	 *
 	 * @param id
-	 *            the id
-	 * @return the Backlog read response
+	 *            id of StoryModel
+	 * 
+	 * @return the StoryModel read response
 	 */
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_EDIT, UserRole.CUSTOMER_SUPER_USER })
@@ -85,17 +93,35 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BasicReadResponse<StoryModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		StoryModel backLogModel = storyService.fetchFullModel(id, StoryModel.class);
+		StoryModel storyModel = storyService.fetchFullModel(id, StoryModel.class);
 
-		return new BasicReadResponse<StoryModel>(backLogModel);
+		return new BasicReadResponse<StoryModel>(storyModel);
 	}
 
 	/**
-	 * Update Backlog.
+	 * Read the list of stories.
+	 *
+	 * @param title
+	 *            title of StoryModel
+	 * 
+	 * @return the StoryModel read response
+	 */
+	@ActionName(ACTION_TYPE_READ_ALL)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<StoryModel>> fetchAllStory(@RequestParam(value = "storyTitle", required = false) String storyTitle)
+	{
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStory(storyTitle));
+	}
+
+	/**
+	 * Update the stories.
 	 *
 	 * @param model
-	 *            the model
-	 * @return the Backlog update response
+	 *            id of StoryModel
+	 * 
+	 * @return the StoryModel response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.STORY_EDIT, UserRole.CUSTOMER_SUPER_USER })
@@ -115,12 +141,14 @@ public class StoryController extends BaseController implements IStoryController
 	}
 
 	/**
-	 * Delete Backlog.
+	 * Delete the story.
 	 *
 	 * @param id
-	 *            the id
-	 * @return the Backlog delete response
+	 *            the id of story
+	 * 
+	 * @return the story save response
 	 */
+
 	@ActionName(ACTION_TYPE_DELETE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_DELETE, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
@@ -133,7 +161,7 @@ public class StoryController extends BaseController implements IStoryController
 	}
 
 	/**
-	 * Delete all.
+	 * Delete all story.
 	 *
 	 * @return the base response
 	 */

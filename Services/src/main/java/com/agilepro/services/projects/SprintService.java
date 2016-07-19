@@ -1,5 +1,8 @@
 package com.agilepro.services.projects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +12,7 @@ import com.agilepro.persistence.entity.projects.SprintEntity;
 import com.agilepro.persistence.repository.projects.ISprintRepository;
 import com.agilepro.services.admin.CustomerService;
 import com.yukthi.persistence.ITransaction;
+import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.services.BaseCrudService;
@@ -16,7 +20,8 @@ import com.yukthi.webutils.services.CurrentUserService;
 import com.yukthi.webutils.utils.WebUtils;
 
 /**
- * The Class SprintService.
+ * The Class SprintService is responsible to save,read,update and delete the
+ * sprints.
  */
 @Service
 public class SprintService extends BaseCrudService<SprintEntity, ISprintRepository>
@@ -35,6 +40,12 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	private CustomerService customerService;
 
 	/**
+	 * The repository factory.
+	 */
+	@Autowired
+	private RepositoryFactory repositoryFactory;
+
+	/**
 	 * Instantiates a new sprint service.
 	 */
 	public SprintService()
@@ -45,7 +56,8 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	/**
 	 * Save.
 	 *
-	 * @param model the model
+	 * @param model
+	 *            the model
 	 * @return the sprint entity
 	 */
 	public SprintEntity save(SprintModel model)
@@ -64,7 +76,8 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	/**
 	 * Update.
 	 *
-	 * @param model the model
+	 * @param model
+	 *            the model
 	 * @return the sprint entity
 	 */
 	public SprintEntity update(SprintModel model)
@@ -88,6 +101,31 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 		{
 			throw new InvalidStateException(ex, "An error occurred while updating model - {}", model);
 		}
+	}
+
+	/**
+	 * Fetch sprint.
+	 *
+	 * @param sprintName
+	 *            the sprint name
+	 * @return the list
+	 */
+	public List<SprintModel> fetchAllSprint(String sprintName)
+	{
+		List<SprintModel> sprintModels = null;
+		ISprintRepository sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
+		List<SprintEntity> sprintEntity = sprintRepository.fetchAllSprint(sprintName);
+		if(sprintEntity != null)
+		{
+			sprintModels = new ArrayList<SprintModel>(sprintEntity.size());
+			
+			for(SprintEntity entity : sprintEntity)
+			{
+				sprintModels.add(super.toModel(entity, SprintModel.class));
+			}
+		}
+
+		return sprintModels;
 	}
 
 	/**

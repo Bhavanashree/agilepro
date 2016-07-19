@@ -14,7 +14,9 @@ import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * The Class BackLogEntity.
+ * Maintains the Stories created by Teams.
+ * 
+ * @author Bhavana.
  */
 @ExtendableEntity(name = "Story")
 @Table(name = "STORY")

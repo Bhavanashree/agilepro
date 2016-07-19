@@ -1,5 +1,8 @@
 package com.agilepro.services.projects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +12,15 @@ import com.agilepro.persistence.entity.projects.StoryEntity;
 import com.agilepro.persistence.repository.projects.IStoryRepository;
 import com.agilepro.services.admin.CustomerService;
 import com.yukthi.persistence.ITransaction;
+import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.CurrentUserService;
 import com.yukthi.webutils.utils.WebUtils;
 
 /**
- * The Class BackLogService.
+ * The Class StoryService is responsible to save,read,update and delete the
+ * stories.
  */
 @Service
 public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
@@ -26,6 +31,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	@Autowired
 	private CurrentUserService currentUserService;
+
+	/**
+	 * The repository factory.
+	 */
+	@Autowired
+	private RepositoryFactory repositoryFactory;
 
 	/**
 	 * Used to fetch customer info.
@@ -73,10 +84,9 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-		
+
 			StoryEntity currentExpenseState = super.repository.findById(model.getParentStoryId());
-			
-			StoryEntity backlog = super.update(model);
+			super.update(model);
 
 			transaction.commit();
 			return currentExpenseState;
@@ -123,15 +133,38 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			StoryEntity entity = super.repository.findById(model.getId());
+			super.repository.findById(model.getId());
 
 			super.update(model);
-
 			transaction.commit();
 		} catch(Exception ex)
 		{
 			throw new IllegalStateException("An error occurred while updating expenses amount - " + model, ex);
 		}
+	}
+
+	/**
+	 * Fetch all story.
+	 *
+	 * @param storyTitle
+	 *            the story title
+	 * @return the list
+	 */
+	public List<StoryModel> fetchAllStory(String storyTitle)
+	{
+		List<StoryModel> storymodel = null;
+		IStoryRepository storyRepo = repositoryFactory.getRepository(IStoryRepository.class);
+		List<StoryEntity> storyEntity = storyRepo.fetchAllStory(storyTitle);
+		if(storyEntity != null)
+		{
+			storymodel = new ArrayList<StoryModel>(storyEntity.size());
+			for(StoryEntity entity : storyEntity)
+			{
+				storymodel.add(super.toModel(entity, StoryModel.class));
+			}
+		}
+
+		return storymodel;
 	}
 
 	/**
