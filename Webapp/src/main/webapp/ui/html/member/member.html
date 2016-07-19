@@ -1,6 +1,6 @@
 <div class="container-fluid"  ng-controller="memberController" style="padding: 0px;">
 
-	<div class="row">
+	<div class="row" ng-init="initProMem()">
 	
 		<div class="col-xs-8 col-sm-8 col-md-9 col-lg-9">
 		
@@ -63,7 +63,7 @@
 			<form>
 				<div class="row">
 					<div class="input-group">
-						<input type="text" ng-model="ngemployeeName" class="form-control" placeholder="Employee Name" style="min-width: 4em; max-width: 10em;">
+						<input type="text" ng-model="ngemployeeName" ng-keyup="checkKey($event)" class="form-control" placeholder="Employee Name" style="min-width: 4em; max-width: 10em;">
 						<span class="input-group-addon">
 							<a href="" ng-click="searchEmployee(ngemployeeName)"><i class="fa fa-search" aria-hidden="true" style="font-size:1.3em;"></i></a>
 						</span>

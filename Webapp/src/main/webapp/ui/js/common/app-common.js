@@ -1,4 +1,4 @@
-$.application.controller('commonController', ["$scope", "clientContext", "utils", function($scope, clientContext, utils) {
+$.application.controller('commonController', ["$scope", "clientContext", "utils", "actionHelper", function($scope, clientContext, utils, actionHelper) {
 	$scope.name = "Common Controller";
 	
     $scope.mails = [
@@ -41,6 +41,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
 			"time": "10:45 AM"
 		}
 	];
+    
     
     $scope.toggleLeftMenu = function() {
     	var leftMenu = $("#appLeftMenu");
@@ -85,5 +86,36 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     }
     $scope.data = [];
     
+    
+    
+    $scope.projectName = "Select Projects";
+    
+    var projectId;
+    
+    var readProCallBack = function(readResponse, respConfig){
+    	
+    	$scope.projects = readResponse.model;
+    	
+    	console.log($scope.projects);
+    	
+    	$scope.$apply();
+    };
+    
+    
+    $scope.fetchProjects = function(){
+    	
+    	actionHelper.invokeAction("project.readAll", null, null, readProCallBack);
+    };
+    
+    $scope.selectProject = function(project){
+    	
+    	$scope.projectName = project.name;
+    	projectId = project.id;
+    };
+    
+    $scope.getActiveProject = function(){
+    	
+    	return projectId;
+    };
     
 }]);

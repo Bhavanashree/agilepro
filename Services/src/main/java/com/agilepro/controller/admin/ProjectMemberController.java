@@ -2,7 +2,10 @@ package com.agilepro.controller.admin;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PROJECT_MEMBER;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.ProjectMemberModel;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.services.admin.ProjectMemberService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
+import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
@@ -58,6 +63,15 @@ public class ProjectMemberController extends BaseController
 		return new BasicSaveResponse(projectMembersEntity.getId());
 	}
 
+	@ActionName(ACTION_TYPE_READ_ALL)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_MEMBER_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<ProjectMemberModel>> fetchProjectMembers()
+	{
+		return new BasicReadResponse<List<ProjectMemberModel>>(projectMemberService.fetchProjectMembers());	
+	}
+	
 	/**
 	 * Delete.
 	 *

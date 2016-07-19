@@ -4,11 +4,14 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PROJECT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,5 +165,19 @@ public class ProjectController extends BaseController
 	{
 		projectService.deleteAll();
 		return new BaseResponse();
+	}
+
+	/**
+	 * Fetch projects.
+	 *
+	 * @return the basic read response
+	 */
+	@ActionName(ACTION_TYPE_READ_ALL)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<ProjectModel>> fetchProjects()
+	{
+		return new BasicReadResponse<List<ProjectModel>>(projectService.fetchProjects());
 	}
 }

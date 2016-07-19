@@ -1,4 +1,4 @@
-<div class="row headerBox"  style="width: 100%;">
+<div class="row headerBox"  style="width: 100%;" ng-init="fetchProjects()">
 	
 	<table>
 		<tr>
@@ -33,7 +33,19 @@
 				</td>
 				<td style="text-align: right;">
 					
-					<yk-lov-field  class="ng-pristine ng-untouched ng-valid ng-scope"  model="model.projectId" name="projectId" label="Project Name" lov="projectsLov" type="DYNAMIC_TYPE"/>			
+					Current Project
+					<select ng-model="selectedName" ng-options="item for item in projects">
+					</select>
+					
+					<span class="dropdown" style="margin-bottom: 10em;">
+					    <button class="btn btn-primary dropdown-toggle btn-select" type="button" data-toggle="dropdown">
+					    {{projectName}}
+					    <span class="caret"></span>
+					    </button>
+					    <ul class="dropdown-menu" style="margin-top: 0.7em;">
+					      <li ng-repeat="project in projects"><a href="" ng-click="selectProject(project)">{{project.name}}</a></li>
+					    </ul>
+					</span>
 					
 					<yk-icon-link ng-click="showConversation($event)" icon="fa fa-comments" color="#ffff00;" label="Conversation"/>
 				

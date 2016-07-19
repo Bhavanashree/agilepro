@@ -234,6 +234,11 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 
 		IEmployeeRepository iemployeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
 
+		if(employeeName != null)
+		{
+			employeeName = employeeName.replace('*', '%');
+		}
+		
 		List<EmployeeEntity> employeeEntities = iemployeeRepository.fetchEmployees(employeeName);
 
 		if(employeeEntities != null)

@@ -42,6 +42,14 @@ public interface IProjectRepository extends IWebutilsRepository<ProjectEntity>
 	public List<ValueLabel> findProjectLov();
 	
 	/**
+	 * Fetch projects.
+	 *
+	 * @return the list
+	 */
+	@RestrictBySpace
+	public List<ProjectEntity> fetchProjects();
+	
+	/**
 	 * Delete all.
 	 */
 	public void deleteAll();

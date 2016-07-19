@@ -1,6 +1,16 @@
 $.application.controller('memberController', ["$scope", "crudController", "actionHelper", "utils", 
                                         function($scope, crudController, actionHelper, utils){
 	
+	$scope.checkKey = function(event){
+		
+		var key = event.keyCode ? event.keyCode : event.which;
+		
+		if(key == 13)
+		{
+			$scope.searchEmployee($scope.ngemployeeName);
+		}
+	};
+	
 	var readEmpcallBack = function(readResponse, respConfig){
 
 		$scope.employees = readResponse.model;
@@ -42,6 +52,38 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 	
 	var empObj;
 	
+
+	var initMemCallBack = function(readResponse, respConfig){
+		
+		var model = readResponse.model;
+		
+		if(model)
+		{
+			for(index in model)
+			{
+				teamIds.push(model[index].id);
+				
+				switch(model[index].userRole)
+				{
+					case 'ADMIN':
+						$scope.admins.push(model[index]);
+						break;
+					case 'MEMBER':
+						$scope.members.push(model[index]);
+						break;
+					case 'MANAGER':
+						$scope.manager = model[index];
+				}
+			}
+		}
+		
+		$scope.$apply();
+	};
+	
+	$scope.initProMem = function(){
+	
+		actionHelper.invokeAction("projectMember.readAll", null, null, initMemCallBack);
+	};
 	
 	$scope.dragEmployees = function(event){
 
@@ -69,7 +111,7 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 				teamIds.push(empObj.id);
 				$scope.members.push(empObj);
 				
-				saveProjectMembers(empObj);
+				saveProjectMembers(empObj, "MEMBER");
 			}
 			else if(index >= 0)
 			{
@@ -96,7 +138,7 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 				teamIds.push(empObj.id);
 				$scope.admins.push(empObj);
 				
-				saveProjectMembers(empObj);
+				saveProjectMembers(empObj, "ADMIN");
 			}
 			else if(index >= 0)
 			{
@@ -129,7 +171,7 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 				teamIds.push(empObj.id);
 				$scope.manager = empObj;
 				
-				saveProjectMembers(empObj);
+				saveProjectMembers(empObj, "MANAGER");
 			}
 			else if(index >= 0)
 			{
@@ -188,9 +230,13 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		
 	};
 	
-	saveProjectMembers = function(empObj){
+	saveProjectMembers = function(empObj, userRole){
 		
-		model = {"employeeId": empObj.id, "projectId" : 1, "userRole" : "PROJECT_MEMBER_EDIT"};
+		var projectId = $scope.getActiveProject();
+		
+		console.log(empObj);
+		
+		model = {"employeeId": empObj.id, "projectId" : projectId, "userRole" : userRole};
 		
 		actionHelper.invokeAction("projectMember.save", model, null, callBack);
 		
@@ -201,6 +247,6 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		actionHelper.invokeAction("projectMember.delete", null, {"id" : empObj.id}, callBack);
 		
 	};
-		
+	
 }]);
 

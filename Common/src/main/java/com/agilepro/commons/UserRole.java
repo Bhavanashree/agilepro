@@ -37,6 +37,21 @@ public enum UserRole
 	 * be defined.
 	 **/
 	MEMBER_GROUP(true),
+	
+	/** 
+	 * The admin. 
+	 **/
+	ADMIN,
+	
+	/** 
+	 * The member. 
+	 **/
+	MEMBER,
+	
+	/** 
+	 * The manager. 
+	 **/
+	MANAGER,
 
 	/**
 	 * Indicates user is administrator.
