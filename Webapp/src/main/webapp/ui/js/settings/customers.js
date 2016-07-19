@@ -170,10 +170,12 @@ $.application.controller('customerController', ["$scope", "crudController", "uti
 		console.log("editPoc is invoked");
 		
 		$scope.initErrors("pocModel", false);
+		console.log("Pocmodel is invoked", + $scope.pocModel);
 		
 		$scope.newModelMode = false;
 		$scope.pocModel = $scope.model.customerPocModelList[index];
-		
+		console.log("customerPocModelList is invoked", + $scope.model.customerPocModelList[index]);
+		console.log("Pocmodel is invoked", + $scope.pocModel);
 		utils.openModal('customerPocModelDialog');		
 	};
 		

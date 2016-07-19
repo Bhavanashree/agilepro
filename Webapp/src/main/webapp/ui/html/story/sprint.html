@@ -1,23 +1,39 @@
 
 <div class="container-fluid" ng-controller="sprintController" style="padding: 0px;">
 	<result-customizer>
-		<div class="col-md-12" style="padding: 0px; margin: 10px; background-color: red;">
+		<div class="col-md-12" style="padding: 0px;background-color: #c0c0c0; text-align: center" ng-init="listOfSprint($event)">
 			<table>
 				<tr>
-					<select ng-model="model" ng-change="showSelectValue(mySelect)">
-						<option value=""/>
+					<label for="repeatSelect"> Sprints  </label>
+					<select name="repeatSelect" id="repeatSelect" ng-model="sprint.name">
+						<option ng-repeat="obj in sprint" value="{{obj.id}}">{{obj.name}}</option>
 					</select>
 				</tr>
 				<tr style="padding: 0.1em 0.5em; text-align: right;">
 					<a role="button" ng-click="saveSprint($event)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" data-toggle="tooltip" title="Add Sprint">
 						<i class="glyphicon glyphicon-plus"/>
 					</a>
-					<a role="button" ng-click="editEntry($event)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" data-toggle="tooltip" title="Add Sprint">
-						<i class="glyphicon glyphicon-plus"/>
+					<a role="button" ng-click="editEntry($event)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" data-toggle="tooltip" title="Edit Sprint">
+						<i class="glyphicon glyphicon-edit"/>
 					</a>
 				</tr>
 			</table>
+		</div><!-- backlog -->
+		<div ng-controller="storyController" ng-init="listOfStories($event)">
+			<div class="col-md-6" style="background-color: pink;height:500px;">
+				<div ng-repeat="backlog in story">
+					<p>BACKLOG------{{backlog.title}}</p>
+				</div>
+			</div>
+		</div><!-- sprint -->
+		<div class="col-md-6" style="background-color: aqua ;height:500px;">
+			<h4>SPRINT </h4>
+			<table>
+				<tr ng-repeat="sprints in sprint">
+					<td>{{sprint.name}}</td>
+				</tr>
+			</table>
 		</div>
-		<yk-model-dialog id="sprintDialog" name="SprintModel" title="Sprint" columns="2" actionMethod="saveChanges($event);"/>
 	</result-customizer>
+	<yk-model-dialog id="sprintDialog" name="SprintModel" title="Sprint" columns="2" actionMethod="saveChanges($event);"/>
 </div>
