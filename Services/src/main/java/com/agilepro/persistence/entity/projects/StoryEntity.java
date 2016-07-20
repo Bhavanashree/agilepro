@@ -22,21 +22,20 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 @Table(name = "STORY")
 public class StoryEntity extends WebutilsExtendableEntity
 {
-
 	/**
-	 * The title.
+	 * The Story title.
 	 **/
 	@Column(name = "TITLE", length = 50, nullable = false)
 	private String title;
 
 	/**
-	 * The description.
+	 * The story description.
 	 **/
 	@Column(name = "DESCRIPTION")
 	private String description;
 
 	/**
-	 * The estimate.
+	 * The estimation of time.
 	 **/
 	@Column(name = "ESTIMATE")
 	private Integer estimate;
@@ -62,11 +61,20 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@DataTypeMapping(type = DataType.STRING)
 	private StoryStatus status;
 
+	/** 
+	 * The priority id.
+	 */
+	@Column(name = "STORY_PRIORITY_ID")
+	@ManyToOne
+	@PropertyMapping(type = StoryModel.class, from = "priority", subproperty = "id")
+	private PriorityEntity priorityId;
+	
 	/**
 	 * Instantiates a new back log entity.
 	 */
 	public StoryEntity()
-	{}
+	{
+	}
 
 	/**
 	 * Instantiates a new back log entity.
@@ -193,13 +201,43 @@ public class StoryEntity extends WebutilsExtendableEntity
 		this.owner = owner;
 	}
 
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
 	public StoryStatus getStatus()
 	{
 		return status;
 	}
 
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
 	public void setStatus(StoryStatus status)
 	{
 		this.status = status;
+	}
+
+	/**
+	 * Gets the priority id.
+	 *
+	 * @return the priority id
+	 */
+	public PriorityEntity getPriorityId()
+	{
+		return priorityId;
+	}
+
+	/**
+	 * Sets the priority id.
+	 *
+	 * @param priorityId the new priority id
+	 */
+	public void setPriorityId(PriorityEntity priorityId)
+	{
+		this.priorityId = priorityId;
 	}
 }

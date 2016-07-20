@@ -2,7 +2,6 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -126,9 +125,14 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PREFIX_LPAGE = "lpage";
 
 	/**
-	 * The action prefix backlog.
+	 * The action prefix story.
 	 */
 	public String ACTION_PREFIX_STORY = "story";
+
+	/**
+	 * The action prefix priority.
+	 */
+	public String ACTION_PREFIX_PRIORITY = "priority";
 
 	/**
 	 * The action prefix password reset.
@@ -150,7 +154,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_CONVERSATION = "conversation";
 
-	/** The action prefix sprint. */
+	/**
+	 *  The action prefix sprint. 
+	 **/
 	public String ACTION_PREFIX_SPRINT = "sprint";
 
 	/**
@@ -167,12 +173,12 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * Customer save action name.
 	 */
-	public String ACTION_CUSTOMER_SAVE = ACTION_PREFIX_CUSTOMER + "." + ACTION_TYPE_SAVE;
+	public String ACTION_CUSTOMER_SAVE = ACTION_PREFIX_CUSTOMER + "."  +  ACTION_TYPE_SAVE;
 
 	/**
 	 * The action email send.
 	 **/
-	public String ACTION_EMAIL_SEND = ACTION_PREFIX_EMAIL + "." + ACTION_TYPE_SEND;
+	public String ACTION_EMAIL_SEND = ACTION_PREFIX_EMAIL +  "." + ACTION_TYPE_SEND;
 
 	/**
 	 * Customer read action name.
@@ -426,14 +432,19 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
-	 * The action backlog save.
+	 * The action Story save.
 	 **/
 	public String ACTION_STORY_SAVE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_SAVE;
 
 	/**
-	 * The action backlog read.
+	 * The action Story read.
 	 **/
 	public String ACTION_STORY_READ = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ;
+
+	/**
+	 *  The action story readall.
+	 **/
+	public String ACTION_STORY_READALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_ALL;
 
 	/**
 	 * The action backlog update.
@@ -450,19 +461,63 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_STORY_DELETE_ALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_DELETE_ALL;
 
-	/** The action sprint save. */
+	/**
+	 *  The action sprint save. 
+	 **/
 	public String ACTION_SPRINT_SAVE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_SAVE;
-	
-	/** The action sprint read. */
+
+	/**
+	 *  The action sprint read. 
+	 **/
 	public String ACTION_SPRINT_READ = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ;
 
-	/** The action sprint update. */
+	/** 
+	 * The action sprint readall. 
+	 **/
+	public String ACTION_SPRINT_READALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ_ALL;
+
+	/** 
+	 * The action sprint update.
+	 **/
 	public String ACTION_SPRINT_UPDATE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_UPDATE;
 
-	/** The action sprint delete. */
+	/**
+	 *  The action sprint delete. 
+	 */
 	public String ACTION_SPRINT_DELETE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
 
-	/** The action sprint deleteall. */
+	/**
+	 *  The action sprint deleteall. 
+	 **/
 	public String ACTION_SPRINT_DELETEALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
+	
+	/**
+	 *  The action sprint save. 
+	 **/
+	public String ACTION_PRIORITY_SAVE = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_SAVE;
 
+	/**
+	 *  The action sprint read. 
+	 **/
+	public String ACTION_PRIORITY_READ = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_READ;
+
+	/** 
+	 * The action sprint readall. 
+	 **/
+	public String ACTION_PRIORITY_READALL = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_READ_ALL;
+
+	/** 
+	 * The action sprint update.
+	 **/
+	public String ACTION_PRIORITY_UPDATE = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_UPDATE;
+
+	/**
+	 *  The action sprint delete. 
+	 */
+	public String ACTION_PRIORITY_DELETE = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
+
+	/**
+	 *  The action sprint deleteall. 
+	 **/
+	public String ACTION_PRIORITY_DELETEALL = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
 }

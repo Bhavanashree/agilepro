@@ -5,7 +5,6 @@ import java.util.Date;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
-import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class SprintSearchResult.
@@ -16,18 +15,18 @@ public class SprintSearchResult  extends AbstractExtendedSearchResult
 	/**
 	 * Id.
 	 */
-	@NonDisplayable
+	
 	@Field(value = "id")
 	private long id;
 
 	/**
-	 * Name of the customer.
+	 * Name of the Sprint.
 	 */
 	@Field(value = "name")
 	private String name;
 
 	/**
-	 * Email id of the customer.
+	 * Sprint description.
 	 */
 	@Field(value = "description")
 	private String description;
@@ -128,11 +127,21 @@ public class SprintSearchResult  extends AbstractExtendedSearchResult
 		this.endDate = endDate;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName()
 	{
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name)
 	{
 		this.name = name;

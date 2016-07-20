@@ -1,13 +1,12 @@
 package com.agilepro.commons.models.projects;
 
-import com.agilepro.commons.StoryStatus;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class BacklogSearchResult.
+ * The Class StorySearchResult.
  */
 @Model
 public class StorySearchResult extends AbstractExtendedSearchResult
@@ -20,19 +19,19 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	private long id;
 
 	/**
-	 * Name of the customer.
+	 * Title of the story.
 	 */
 	@Field(value = "title")
 	private String title;
 
 	/**
-	 * Email id of the customer.
+	 * description of story.
 	 */
 	@Field(value = "description")
 	private String description;
 
 	/**
-	 * Phone number of the customer.
+	 * Estimation.
 	 */
 	@Field(value = "estimate")
 	private Integer estimate;
@@ -51,15 +50,21 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	private String storyOwner;
 
 	/**
+	 * The priority id.
+	 */
+	@Field(value = "priorityId.name")
+	private String priorityId;
+
+	/**
 	 * The indent.
 	 */
 	private int indent = 0;
 
 	/**
-	 *  The status. 
+	 * The status.
 	 */
-	@Field(value = " status")
-	private StoryStatus status;
+	@Field(value = "status")
+	private String status;
 
 	/**
 	 * Gets the story owner.
@@ -213,7 +218,7 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	 *
 	 * @return the status
 	 */
-	public StoryStatus getStatus()
+	public String getStatus()
 	{
 		return status;
 	}
@@ -221,10 +226,31 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
-	public void setStatus(StoryStatus status)
+	public void setStatus(String status)
 	{
 		this.status = status;
+	}
+
+	/**
+	 * Gets the priority id.
+	 *
+	 * @return the priority id
+	 */
+	public String getPriorityId()
+	{
+		return priorityId;
+	}
+
+	/**
+	 * Sets the priority id.
+	 *
+	 * @param priorityId the new priority id
+	 */
+	public void setPriorityId(String priorityId)
+	{
+		this.priorityId = priorityId;
 	}
 }

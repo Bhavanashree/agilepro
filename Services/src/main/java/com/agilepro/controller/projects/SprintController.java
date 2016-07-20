@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -101,7 +102,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<SprintModel>> fetchAllSprint(@org.springframework.web.bind.annotation.RequestParam(value = "sprintName", required = false) String sprintName)
+	public BasicReadResponse<List<SprintModel>> fetchAllSprint(@RequestParam(value = "sprintName", required = false) String sprintName)
 	{
 		return new BasicReadResponse<List<SprintModel>>(sprintService.fetchAllSprint(sprintName));
 	}

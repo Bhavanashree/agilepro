@@ -12,7 +12,7 @@ import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class BackLogModel.
+ * The Class StoryModel.
  * 
  * @author Bhavana.
  */
@@ -60,16 +60,22 @@ public class StoryModel extends AbstractExtendableModel
 	@LOV(name = "parentStoryId")
 	private Long parentStoryId;
 
-	/** 
-	 * The owner id. 
+	/**
+	 * The owner id.
 	 **/
 	@LOV(name = "projectMembers")
 	private Long ownerId;
 
 	/**
-	 * The status. 
+	 * The status.
 	 **/
 	private StoryStatus status;
+
+	/** 
+	 * The priority. 
+	 */
+	@LOV(name = "priorityLov")
+	private Long priority;
 
 	/**
 	 * Instantiates a new back log model.
@@ -78,23 +84,21 @@ public class StoryModel extends AbstractExtendableModel
 	{}
 
 	/**
-	 * Instantiates a new back log model.
+	 * Instantiates a new story model.
 	 *
-	 * @param title
-	 *            the title
-	 * @param estimate
-	 *            the estimate
-	 * @param description
-	 *            the description
-	 * @param parentStoryId
-	 *            the parent story id
+	 * @param title the title
+	 * @param estimate the estimate
+	 * @param description the description
+	 * @param parentStoryId the parent story id
+	 * @param priority the priority
 	 */
-	public StoryModel(String title, Integer estimate, String description, Long parentStoryId)
+	public StoryModel(String title, Integer estimate, String description, Long parentStoryId, Long priority)
 	{
 		this.title = title;
 		this.estimate = estimate;
 		this.description = description;
 		this.parentStoryId = parentStoryId;
+		this.priority = priority;
 	}
 
 	/*
@@ -236,7 +240,8 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the owner id.
 	 *
-	 * @param ownerId the new owner id
+	 * @param ownerId
+	 *            the new owner id
 	 */
 	public void setOwnerId(Long ownerId)
 	{
@@ -256,10 +261,31 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(StoryStatus status)
 	{
 		this.status = status;
+	}
+
+	/**
+	 * Gets the priority.
+	 *
+	 * @return the priority
+	 */
+	public Long getPriority()
+	{
+		return priority;
+	}
+
+	/**
+	 * Sets the priority.
+	 *
+	 * @param priority the new priority
+	 */
+	public void setPriority(Long priority)
+	{
+		this.priority = priority;
 	}
 }

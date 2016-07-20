@@ -24,11 +24,12 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 
 public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 {
-	
+
 	/**
 	 * employee Search.
 	 *
-	 * @param searchQuery the search query
+	 * @param searchQuery
+	 *            the search query
 	 * @return the list
 	 */
 	@RestrictBySpace
@@ -54,9 +55,14 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	@LovQuery(name = "employeeLov", valueField = "id", labelField = "name")
 	public List<ValueLabel> findEmployeeLov();
 
-	
+	/**
+	 * Find project members.
+	 *
+	 * @return the list
+	 */
 	@LovQuery(name = "projectMembers", valueField = "id", labelField = "name")
 	public List<ValueLabel> findProjectMembers();
+
 	/**
 	 * Delete All.
 	 */

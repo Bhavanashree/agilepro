@@ -15,27 +15,26 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 @Table(name = "SPRINT")
 public class SprintEntity extends WebutilsExtendableEntity
 {
-	
 	/** 
-	 * The name. 
+	 * The name of Sprint. 
 	 */
 	@Column(name = "NAME", length = 50, nullable = false)
 	private String name;
 
 	/**
-	 *  The description. 
+	 *  The sprint  description. 
 	 */
 	@Column(name = "DESCRIPTION")
 	private String description;
 
 	/**
-	 *  The start date.
+	 *  The start date  of sprint.
 	 */
 	@Column(name = "STARTDATE")
 	private Date startDate;
 
 	/**
-	 * The end date. 
+	 * The end date of sprint. 
 	 */
 	@Column(name = "ENDDATE")
 	private Date endDate;

@@ -22,7 +22,7 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 {
 	/**
-	 * Find backlog.
+	 * Find Story.
 	 *
 	 * @param searchQuery
 	 *            the search query

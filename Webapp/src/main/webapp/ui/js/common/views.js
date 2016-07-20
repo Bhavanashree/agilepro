@@ -63,5 +63,6 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	//Projects
 	addState("story","story/story-menu.html", "story/story.html", "storyTab");
 	addState("sprint","story/story-menu.html", "story/sprint.html", "storyTab");
+	addState("priority","story/story-menu.html", "story/priority.html", "storyTab");
 	
 });

@@ -54,7 +54,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 		    console.log("model is invoked===model====" + $scope.model); 
 			$scope.initErrors("model", true);
-		
+			$scope.newModelMode= 'Save';
 			$scope.saveChanges();
 			
 			document.getElementById('parentStorytextarea').value=null;

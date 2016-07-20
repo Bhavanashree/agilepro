@@ -3,19 +3,21 @@ package com.agilepro.commons.models.projects;
 import com.agilepro.commons.StoryStatus;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Operator;
+import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class StorySearchQuery.
  */
 @Model
 public class StorySearchQuery
 {
-	
-	/** 
-	 * The title. 
+
+	/**
+	 * The title.
 	 **/
 	@Condition(value = "title", op = Operator.LIKE, ignoreCase = true)
 	private String title;
@@ -34,7 +36,7 @@ public class StorySearchQuery
 	@Condition(value = "estimate", op = Operator.LIKE, ignoreCase = true)
 	private Integer estimate;
 
-	/** 
+	/**
 	 * The parent story id.
 	 **/
 	@NonDisplayable
@@ -42,13 +44,19 @@ public class StorySearchQuery
 	@LOV(name = "parentStoryId")
 	private Long parentStoryId;
 
-	/** 
-	 * The status. 
+	/**
+	 * The status.
 	 */
 	@NonDisplayable
-	@Condition(value = "estimate")
+	@IgnoreField
+	@Condition(value = "status")
 	private StoryStatus status;
-	
+
+	@NonDisplayable
+	@LOV(name = "priorityLov")
+	@Condition(value = "priorityId.id", op = Operator.EQ)
+	private Long priority;
+
 	/**
 	 * Instantiates a new backlog search query.
 	 */
@@ -145,34 +153,39 @@ public class StorySearchQuery
 		return parentStoryId;
 	}
 
-	/**
-	 * Sets the parent story id.
-	 *
-	 * @param parentStoryId
-	 *            the new parent story id
-	 */
+	public StoryStatus getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(StoryStatus status)
+	{
+		this.status = status;
+	}
+
 	public void setParentStoryId(Long parentStoryId)
 	{
 		this.parentStoryId = parentStoryId;
 	}
 
 	/**
-	 * Gets the status.
+	 * Gets the priority id.
 	 *
-	 * @return the status
+	 * @return the priority id
 	 */
-	public StoryStatus getStatus()
+	public Long getPriority()
 	{
-		return status;
+		return priority;
 	}
 
 	/**
-	 * Sets the status.
+	 * Sets the priority id.
 	 *
-	 * @param status the new status
+	 * @param priorityId
+	 *            the new priority id
 	 */
-	public void setStatus(StoryStatus status)
+	public void setPriority(Long priority)
 	{
-		this.status = status;
+		this.priority = priority;
 	}
 }

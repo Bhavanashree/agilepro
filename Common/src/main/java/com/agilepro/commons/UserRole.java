@@ -99,24 +99,24 @@ public enum UserRole
 	@Label("Customer Delete all") CUSTOMER_DELETE_ALL(false, CUSTOMER_VIEW),
 
 	/**
-	 * The BackLog view.
+	 * The Story view.
 	 */
-	@Label("BackLog view") STORY_VIEW,
+	@Label("Story view") STORY_VIEW,
 
 	/**
-	 * The BackLog edit.
+	 * The Story edit.
 	 */
-	@Label("BackLog Edit") STORY_EDIT(false, STORY_VIEW),
+	@Label("Story Edit") STORY_EDIT(false, STORY_VIEW),
 
 	/**
-	 * The BackLog delete.
+	 * The Story delete.
 	 */
-	@Label("BackLog Delete") STORY_DELETE(false, STORY_VIEW),
+	@Label("Story Delete") STORY_DELETE(false, STORY_VIEW),
 
 	/**
-	 * The BackLog delete.
+	 * The Story delete.
 	 */
-	@Label("BackLog DeleteAll") STORY_DELETE_ALL(false, STORY_VIEW),
+	@Label("Story DeleteAll") STORY_DELETE_ALL(false, STORY_VIEW),
 	
 	/**
 	 * The sprint view. 
@@ -137,6 +137,25 @@ public enum UserRole
 	 *  The sprint delete all. 
 	 */
 	@Label("Sprint DeleteAll") SPRINT_DELETE_ALL(false, SPRINT_VIEW),
+	/**
+	 * The sprint view. 
+	 */
+	@Label("Priority view") PRIORITY_VIEW,
+	
+	/** 
+	 * The sprint edit.
+	 */
+	@Label("Priority Edit") PRIORITY_EDIT(false, PRIORITY_VIEW),
+	
+	/**
+	 *  The sprint delete.
+	 */
+	@Label("Priority Delete") PRIORITY_DELETE(false, PRIORITY_VIEW),
+	
+	/**
+	 *  The sprint delete all. 
+	 */
+	@Label("Priority DeleteAll") PRIORITY_DELETE_ALL(false, PRIORITY_VIEW),
 	;
 
 	/**

@@ -45,7 +45,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	private CustomerService customerService;
 
 	/**
-	 * Instantiates a new Campaign service.
+	 * Instantiates a new StoryService.
 	 */
 	public StoryService()
 	{
@@ -57,7 +57,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 *
 	 * @param model
 	 *            the model
-	 * @return the campaign entity
+	 * @return the Story entity
 	 */
 	public StoryEntity save(StoryModel model)
 	{
@@ -65,11 +65,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 		Long customerId = cbiller.getCustomerId();
 
-		StoryEntity backlogEntity = WebUtils.convertBean(model, StoryEntity.class);
+		StoryEntity storyEntity = WebUtils.convertBean(model, StoryEntity.class);
 		customerService.fetch(customerId);
-		super.save(backlogEntity, model);
+		super.save(storyEntity, model);
 
-		return backlogEntity;
+		return storyEntity;
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 *
 	 * @param model
 	 *            the model
-	 * @return the back log entity
+	 * @return the story entity
 	 */
 	public StoryEntity update(StoryModel model)
 	{
@@ -85,11 +85,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 
-			StoryEntity currentExpenseState = super.repository.findById(model.getParentStoryId());
+			StoryEntity storyEntity = super.repository.findById(model.getParentStoryId());
 			super.update(model);
 
 			transaction.commit();
-			return currentExpenseState;
+			return storyEntity;
 		} catch(RuntimeException ex)
 		{
 			throw ex;

@@ -11,7 +11,7 @@ import com.agilepro.commons.models.projects.StorySearchResult;
 import com.yukthi.webutils.repository.search.ISearchResultCustomizer;
 
 /**
- * customized stories results.
+ * customized stories results are obtained from StorySearchCustomizer.
  */
 public class StorySearchCustomizer implements ISearchResultCustomizer<StorySearchResult>
 {

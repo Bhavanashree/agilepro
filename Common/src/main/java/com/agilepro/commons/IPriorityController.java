@@ -1,20 +1,13 @@
 package com.agilepro.commons;
 
-import java.util.List;
-
+import com.agilepro.commons.models.projects.PriorityModel;
 import com.agilepro.commons.models.projects.StoryModel;
-import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 
-/**
- * The Interface IStoryController.
- */
-@RemoteService
-public interface IStoryController
+public interface IPriorityController
 {
-
 	/**
 	 * Save.
 	 *
@@ -22,7 +15,7 @@ public interface IStoryController
 	 *            the model
 	 * @return the basic save response
 	 */
-	public BasicSaveResponse save(StoryModel model);
+	public BasicSaveResponse save(PriorityModel model);
 
 	/**
 	 * Read.
@@ -31,7 +24,7 @@ public interface IStoryController
 	 *            the id
 	 * @return the basic read response
 	 */
-	public BasicReadResponse<StoryModel> read(Long id);
+	public BasicReadResponse<PriorityModel> read(Long id);
 
 	/**
 	 * Update.
@@ -40,7 +33,7 @@ public interface IStoryController
 	 *            the model
 	 * @return the base response
 	 */
-	public BaseResponse update(StoryModel model);
+	public BaseResponse update(PriorityModel model);
 
 	/**
 	 * Delete.
@@ -57,12 +50,4 @@ public interface IStoryController
 	 * @return the base response
 	 */
 	public BaseResponse deleteAll();
-
-	/**
-	 * Fetch all story.
-	 *
-	 * @param storyName the story name
-	 * @return the basic read response
-	 */
-	public BasicReadResponse<List<StoryModel>> fetchAllStory(String storyTitle);
 }
