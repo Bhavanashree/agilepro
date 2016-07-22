@@ -13,6 +13,7 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
+// TODO: Auto-generated Javadoc
 /**
  * Maintains the Stories created by Teams.
  * 
@@ -68,6 +69,13 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@ManyToOne
 	@PropertyMapping(type = StoryModel.class, from = "priority", subproperty = "id")
 	private PriorityEntity priorityId;
+	
+	/**
+	 *  The sprint id. 
+	 **/
+	@Column(name = "SPRINT_ID")
+	@ManyToOne
+	private SprintEntity sprintId;
 	
 	/**
 	 * Instantiates a new back log entity.
@@ -239,5 +247,25 @@ public class StoryEntity extends WebutilsExtendableEntity
 	public void setPriorityId(PriorityEntity priorityId)
 	{
 		this.priorityId = priorityId;
+	}
+
+	/**
+	 * Gets the sprint id.
+	 *
+	 * @return the sprint id
+	 */
+	public SprintEntity getSprintId()
+	{
+		return sprintId;
+	}
+
+	/**
+	 * Sets the sprint id.
+	 *
+	 * @param sprintId the new sprint id
+	 */
+	public void setSprintId(SprintEntity sprintId)
+	{
+		this.sprintId = sprintId;
 	}
 }

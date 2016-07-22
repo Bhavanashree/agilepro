@@ -5,6 +5,7 @@ import java.util.List;
 import com.agilepro.commons.models.projects.SprintSearchQuery;
 import com.agilepro.commons.models.projects.SprintSearchResult;
 import com.agilepro.persistence.entity.projects.SprintEntity;
+import com.agilepro.services.common.StorySearchCustomizer;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Operator;
 import com.yukthi.persistence.repository.annotations.OrderBy;
@@ -27,7 +28,7 @@ public interface ISprintRepository extends IWebutilsRepository<SprintEntity>
 	 * @return the list
 	 */
 	@RestrictBySpace
-	@SearchQueryMethod(name = "sprintSearch", queryModel = SprintSearchQuery.class)
+	@SearchQueryMethod(name = "sprintSearch", queryModel = SprintSearchQuery.class, customizer = StorySearchCustomizer.class)
 	@OrderBy("name")
 	public List<SprintSearchResult> findSprint(SearchQuery searchQuery);
 

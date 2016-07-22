@@ -76,6 +76,11 @@ public class StoryModel extends AbstractExtendableModel
 	 */
 	@LOV(name = "priorityLov")
 	private Long priority;
+	
+	/** 
+	 * The sprint id. 
+	 **/
+	private Long sprint;
 
 	/**
 	 * Instantiates a new back log model.
@@ -287,5 +292,25 @@ public class StoryModel extends AbstractExtendableModel
 	public void setPriority(Long priority)
 	{
 		this.priority = priority;
+	}
+
+	/**
+	 * Gets the sprint id.
+	 *
+	 * @return the sprint id
+	 */
+	public Long getSprint()
+	{
+		return sprint;
+	}
+
+	/**
+	 * Sets the sprint id.
+	 *
+	 * @param sprintId the new sprint id
+	 */
+	public void setSprint(Long sprint)
+	{
+		this.sprint = sprint;
 	}
 }

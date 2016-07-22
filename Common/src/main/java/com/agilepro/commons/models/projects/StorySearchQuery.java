@@ -8,7 +8,6 @@ import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StorySearchQuery.
  */
@@ -52,11 +51,20 @@ public class StorySearchQuery
 	@Condition(value = "status")
 	private StoryStatus status;
 
+	/**
+	 *  The priority.
+	 **/
 	@NonDisplayable
 	@LOV(name = "priorityLov")
 	@Condition(value = "priorityId.id", op = Operator.EQ)
 	private Long priority;
 
+	/**
+	 *  The sprint. 
+	 **/
+	@Condition(value = "sprintId.id", op = Operator.EQ)
+	private Long sprint;
+	
 	/**
 	 * Instantiates a new backlog search query.
 	 */
@@ -153,16 +161,31 @@ public class StorySearchQuery
 		return parentStoryId;
 	}
 
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
 	public StoryStatus getStatus()
 	{
 		return status;
 	}
 
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
 	public void setStatus(StoryStatus status)
 	{
 		this.status = status;
 	}
 
+	/**
+	 * Sets the parent story id.
+	 *
+	 * @param parentStoryId the new parent story id
+	 */
 	public void setParentStoryId(Long parentStoryId)
 	{
 		this.parentStoryId = parentStoryId;
@@ -181,8 +204,7 @@ public class StorySearchQuery
 	/**
 	 * Sets the priority id.
 	 *
-	 * @param priorityId
-	 *            the new priority id
+	 * @param priority the new priority
 	 */
 	public void setPriority(Long priority)
 	{

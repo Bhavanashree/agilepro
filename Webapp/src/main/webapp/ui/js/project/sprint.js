@@ -15,6 +15,11 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 
 		});
 
+	 var selectedStory =[];
+	 
+	 $scope.sprints = [];
+	 
+	 
 	 
 		$scope.newSprintMode = true;		
 		 $scope.saveSprint = function(e) {
@@ -55,59 +60,77 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 			 
 			 var readStoryCallBack = function(read, response){
 				$scope.story = read.model;
+				
 				console.log(read.model);
 									
 				console.log($scope.story);
 									
 				var index;				
-				var storyId;					
+				
 				for(index in $scope.story)
 				{
-				storyId = $scope.story[index].name;
+					$scope.story[index].dragValue = false;
 				}
 									
 				$scope.$apply();					
-				};
+			};
 				
-				 $scope.listOfStories =function(storyTitle){
-					 console.log("liststories");
-					 actionHelper.invokeAction("story.readAll",null,null,readStoryCallBack);
+			
+			 $scope.listOfStories =function(storyTitle){
+				 console.log("liststories");
+				 actionHelper.invokeAction("story.readAll",null,null,readStoryCallBack);
 					 
-				 };
+			};
 			
 					//autorefresh
-				$scope.refreshSearch = function(){
-					$scope.$broadcast("invokeSearch", {});
-				};
+			$scope.refreshSearch = function(){
+				$scope.$broadcast("invokeSearch", {});
+			};
 			
-				$scope.editSprint = function(obj){		
-						obj  = JSON.parse($scope.selectedSprintObj);
-						console.log(obj.id);
-						$scope.selectedId = obj.id;
-						$scope.editEntry(obj);
-						$scope.refreshSearch();
-					};
+			$scope.editSprint = function(obj){		
+					obj  = JSON.parse($scope.selectedSprintObj);
+					console.log(obj.id);
+					$scope.selectedId = obj.id;
+					$scope.editEntry(obj);
+					$scope.refreshSearch();
+			};
 					
-				$scope.notAssignedStories = function(e){
-				var stories = $scope.story;
-				var index;
+					
+				//drag and drop
+					
+			$scope.onSelectStories = function(backlog) {
+				console.log("id------- is =========" + backlog.id);
+					
+				backlog.dragValue = true;
 				
-				for(index in $scope.story)
+				selectedStory.push(backlog);
+
+			};
+					
+			$scope.allowDrop = function(event){
+				console.log("area for drop");
+				event.preventDefault();
+			};
+				
+			$scope.onSprintDrop = function(event){
+					
+				event.preventDefault();
+					
+				for(index in selectedStory)
 				{
-				storyId = $scope.story[index].name;
-
-				console.log("3", $scope.story[index].title);
-
-				console.log(" status check 1 :" , $scope.story[index].status);
-							
-				if($scope.story[index].status =='ASSIGNED')
-						{
-							var test = $scope.story[index];
-							console.log(" status check test :" ,test);
-
-							//console.log(" status check indexstatus scope :" , $scope.story[1]);
-							
-						}
+					$scope.sprints.push(selectedStory[index]);
 				}
-				};
+					
+				selectedStory = [];
+					
+				console.log("onSprintDrop invoked" + $scope.sprints.length);
+				$scope.$apply();
+			};
+				
+			
+			$scope.dragToSprint = function(event){
+				
+			};	
+					
+			
 }]);		
