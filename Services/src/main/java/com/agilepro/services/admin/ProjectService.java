@@ -1,9 +1,7 @@
 package com.agilepro.services.admin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,17 +42,22 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 		repository.deleteAll();
 	}
 	
+	/**
+	 * Fetch projects.
+	 *
+	 * @return the list
+	 */
 	public List<ProjectModel> fetchProjects()
 	{
-		IProjectRepository iProjectRepository = repositoryFactory.getRepository(IProjectRepository.class);
+		IProjectRepository iprojectRepository = repositoryFactory.getRepository(IProjectRepository.class);
 		
-		List<ProjectEntity> projectEntities = iProjectRepository.fetchProjects();
+		List<ProjectEntity> projectEntities = iprojectRepository.fetchProjects();
 		
 		List<ProjectModel> projectModels = new ArrayList<>();
 		
-		for(ProjectEntity pEntity : projectEntities)
+		for(ProjectEntity pentity : projectEntities)
 		{
-			projectModels.add(super.toModel(pEntity, ProjectModel.class));
+			projectModels.add(super.toModel(pentity, ProjectModel.class));
 		}
 		
 		return projectModels;

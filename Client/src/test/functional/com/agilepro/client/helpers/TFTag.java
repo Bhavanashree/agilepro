@@ -10,23 +10,28 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.agilepro.commons.PaymentCycle;
+import com.agilepro.commons.controllers.admin.ITagController;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.TagModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
 import com.yukthi.webutils.client.ClientContext;
+import com.yukthi.webutils.client.ClientControllerFactory;
+import com.yukthi.webutils.common.IWebUtilsCommonConstants;
+import com.yukthi.webutils.common.models.BasicReadResponse;
+import com.yukthi.webutils.common.models.BasicSaveResponse;
 
 /**
  * The Class TFTagHelper.
  * 
  * @author Pritam
  */
-public class TFTagHelper extends TFBase
+public class TFTag extends TFBase
 {
 	/**
 	 * The logger.
 	 **/
-	private static Logger logger = LogManager.getLogger(TFTagHelper.class);
+	private static Logger logger = LogManager.getLogger(TFTag.class);
 
 	/**
 	 * The customer price plan helper.
@@ -69,10 +74,10 @@ public class TFTagHelper extends TFBase
 	private final double dueAmount = 10000.0;
 
 	/** 
-	 * The tag helper. 
+	 * The itag controller. 
 	 **/
-	private TagHelper tagHelper = new TagHelper();
-
+	private ITagController itagController;
+	
 	/**
 	 * The Session object.
 	 */
@@ -114,8 +119,19 @@ public class TFTagHelper extends TFBase
 		Assert.assertTrue(customerId > 0);
 
 		customerSession = super.newClientContext(emailId, password, customerId);
+		
+		clientControllerFactory = new ClientControllerFactory(customerSession);
+		
+		itagController = clientControllerFactory.getController(ITagController.class);
 	}
 
+	private TagModel getTag(long tagId)
+	{
+		BasicReadResponse<TagModel> response = itagController.read(tagId);
+		
+		return response.getModel();
+	}
+	
 	@Test
 	public void testSave()
 	{
@@ -123,9 +139,13 @@ public class TFTagHelper extends TFBase
 		tagsModel.setName("FirstTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
-		long id = tagHelper.save(clientContext, tagsModel);
+		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
-		Assert.assertTrue(id > 0);
+		Assert.assertEquals(responseTag.getCode(), IWebUtilsCommonConstants.RESPONSE_CODE_SUCCESS);
+		
+		tagsModel = getTag(responseTag.getId());
+		
+		Assert.assertTrue(tagsModel.getId() > 0);
 	}
 
 	@Test
@@ -135,10 +155,9 @@ public class TFTagHelper extends TFBase
 		tagsModel.setName("SecondTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
-		long id = tagHelper.save(clientContext, tagsModel);
-		Assert.assertTrue(id > 0);
+		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
-		TagModel fetchdModel = tagHelper.read(clientContext, id);
+		TagModel fetchdModel = getTag(responseTag.getId());
 		Assert.assertEquals(fetchdModel.getName(), "SecondTag");
 		Assert.assertEquals(fetchdModel.getDescription(), "This new feature for tagging user");
 	}
@@ -150,18 +169,18 @@ public class TFTagHelper extends TFBase
 		tagsModel.setName("ThirdTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
-		long id = tagHelper.save(clientContext, tagsModel);
-		Assert.assertTrue(id > 0);
+		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
-		TagModel fetchdModel = tagHelper.read(clientContext, id);
+		TagModel fetchdModel = getTag(responseTag.getId());
 
 		// fetchdModel.setId(id);
 		fetchdModel.setName("FourthTag");
 		fetchdModel.setDescription("This  tag is for fourth user");
 
-		tagHelper.update(clientContext, fetchdModel);
+		itagController.update(fetchdModel);
 
-		TagModel updatedModel = tagHelper.read(clientContext, id);
+		TagModel updatedModel = getTag(fetchdModel.getId());
+		
 		Assert.assertEquals(updatedModel.getName(), "FourthTag");
 		Assert.assertEquals(updatedModel.getDescription(), "This  tag is for fourth user");
 	}
@@ -173,12 +192,11 @@ public class TFTagHelper extends TFBase
 		tagsModel.setName("FifthTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
-		long id = tagHelper.save(clientContext, tagsModel);
-		Assert.assertTrue(id > 0);
+		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
-		tagHelper.delete(clientContext, id);
+		itagController.delete(responseTag.getId());
 
-		TagModel deletedModel = tagHelper.read(clientContext, id);
+		TagModel deletedModel = getTag(responseTag.getId());
 		Assert.assertNull(deletedModel);
 	}
 
@@ -188,9 +206,9 @@ public class TFTagHelper extends TFBase
 	@AfterClass
 	public void cleanup()
 	{
-		tagHelper.deleteAll(clientContext);
+		itagController.deleteAll();
 
-		// customerHelper.deleteAll(clientContext);
-		// customerPricePlanHelper.deleteAll(clientContext);
+		customerHelper.deleteAll(clientContext);
+		customerPricePlanHelper.deleteAll(clientContext);
 	}
 }

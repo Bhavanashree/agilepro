@@ -45,6 +45,9 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	@RestrictBySpace
 	public List<EmployeeEntity> fetchEmployees(@Condition(value = "name", op = Operator.LIKE, ignoreCase = true) String employeeName);
 
+	@RestrictBySpace
+	public EmployeeEntity fetchEmployee(@Condition(value = "id") Long id);
+
 	/**
 	 * Finds the designation for specified employee id.
 	 * 

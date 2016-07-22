@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.ITagController;
 import com.agilepro.commons.models.customer.TagModel;
 import com.agilepro.services.admin.TagService;
 import com.agilepro.services.common.Authorization;
@@ -33,7 +34,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_TAG)
 @RequestMapping("/tag")
-public class TagController extends BaseController
+public class TagController extends BaseController implements ITagController
 {
 	/**
 	 * The tags service.
@@ -48,6 +49,7 @@ public class TagController extends BaseController
 	 *            the tags model
 	 * @return the basic save response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.TAG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -64,6 +66,7 @@ public class TagController extends BaseController
 	 *            the id
 	 * @return the basic read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TAG_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
@@ -80,6 +83,7 @@ public class TagController extends BaseController
 	 *            the tags model
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_UPDATE)
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TAG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -98,6 +102,7 @@ public class TagController extends BaseController
 	 *            the id
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_DELETE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TAG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
@@ -113,6 +118,7 @@ public class TagController extends BaseController
 	 *
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@Authorization(roles = { UserRole.TAG_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)

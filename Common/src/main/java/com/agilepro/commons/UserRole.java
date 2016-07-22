@@ -412,6 +412,25 @@ public enum UserRole
 	 */
 	@Label("Lead DeleteAll") LEAD_DELETE_ALL(false, LEAD_VIEW),
 
+	/** 
+	 * The user setting. 
+	 **/
+	@Label("User Setting") USER_SETTING_VIEW,
+	
+	/** 
+	 * The user setting edit. 
+	 **/
+	@Label("User setting Edit") USER_SETTING_EDIT(false, USER_SETTING_VIEW, SETTINGS_GROUP),
+	
+	/** 
+	 * The user setting delete. 
+	 **/
+	@Label("User setting Delete") USER_SETTING_DELETE(false, USER_SETTING_VIEW),
+	
+	/** 
+	 * The user setting delete all. 
+	 **/
+	@Label("User Setting DeleteAll") USER_SETTING_DELETE_ALL(false, USER_SETTING_VIEW),
 	;
 
 	/**

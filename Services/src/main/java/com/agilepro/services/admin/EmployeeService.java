@@ -253,6 +253,21 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 
 		return employeeModels;
 	}
+	
+	/**
+	 * Read employee.
+	 *
+	 * @param id the id
+	 * @return the employee entity
+	 */
+	public EmployeeModel fetchEmployee(Long id)
+	{
+		IEmployeeRepository employeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
+		
+		EmployeeEntity employeeEntity = employeeRepository.fetchEmployee(id);
+		
+		return super.toModel(employeeEntity, EmployeeModel.class);
+	}
 
 	/**
 	 * Deletes all entities.

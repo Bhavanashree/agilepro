@@ -11,7 +11,6 @@ import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.IProjectController;
 import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.services.admin.ProjectService;
 import com.agilepro.services.common.Authorization;
@@ -43,7 +43,7 @@ import com.yukthi.webutils.common.IWebUtilsCommonConstants;
 @RestController
 @ActionName(ACTION_PREFIX_PROJECT)
 @RequestMapping("/project")
-public class ProjectController extends BaseController
+public class ProjectController extends BaseController implements IProjectController<MultipartHttpServletRequest>
 {
 	/**
 	 * The projects service.
@@ -85,6 +85,7 @@ public class ProjectController extends BaseController
 	 *            the request
 	 * @return the basic save response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.PROJECT_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -104,6 +105,7 @@ public class ProjectController extends BaseController
 	 *            the id
 	 * @return the basic read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
@@ -122,6 +124,7 @@ public class ProjectController extends BaseController
 	 *            the request
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_UPDATE)
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.PROJECT_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -142,6 +145,7 @@ public class ProjectController extends BaseController
 	 *            the id
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_DELETE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
@@ -157,6 +161,7 @@ public class ProjectController extends BaseController
 	 *
 	 * @return the base response
 	 */
+	@Override
 	@Authorization(roles = { UserRole.PROJECT_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
@@ -172,6 +177,7 @@ public class ProjectController extends BaseController
 	 *
 	 * @return the basic read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ_ALL)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)

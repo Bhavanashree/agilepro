@@ -274,6 +274,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_TAG = "tag";
 	
+	/** 
+	 * The action prefix user setting. 
+	 **/
+	public String ACTION_PREFIX_USER_SETTING = "userSetting";
+	
 	/**
 	 * The param id.
 	 **/
@@ -869,4 +874,31 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action tags delete all. 
 	 **/
 	public String ACTION_TAG_DELETE_ALL = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_DELETE_ALL;
+	
+	/////////////////////////////////////////////////////////////////////////////
+	
+	/** 
+	 * The action user setting save. 
+	 **/
+	public String ACTION_USER_SETTING_SAVE = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_SAVE;
+	
+	/** 
+	 * The action user setting read. 
+	 **/
+	public String ACTION_USER_SETTING_READ = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_READ;
+	
+	/** 
+	 * The action user setting delete. 
+	 **/
+	public String ACTION_USER_SETTING_DELETE = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_DELETE;
+	
+	/** 
+	 * The action user setting update. 
+	 **/
+	public String ACTION_USER_SETTING_UPDATE = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_UPDATE;
+	
+	/** 
+	 * The action user setting delete all. 
+	 **/
+	public String ACTION_USER_SETTING_DELETE_ALL = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_DELETE_ALL;
 }

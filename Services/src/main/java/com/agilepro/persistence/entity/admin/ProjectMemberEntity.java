@@ -20,57 +20,90 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "PROJECT_MEMBER")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "projectsEntity", "employeeEntity" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "projectEntity", "employeeEntity" }) })
 public class ProjectMemberEntity extends WebutilsEntity
 {
-	/** 
-	 * The projects entity. 
+	/**
+	 * The projects entity.
 	 **/
 	@ManyToOne
 	@Column(name = "PROJECT_ID")
 	@PropertyMapping(type = ProjectMemberModel.class, from = "projectId", subproperty = "id")
-	private ProjectEntity projectsEntity;
-	
-	/** 
-	 * The employee entity. 
+	private ProjectEntity projectEntity;
+
+	/**
+	 * The employee entity.
 	 **/
 	@ManyToOne
 	@Column(name = "EMPLOYEE_ID")
 	@PropertyMapping(type = ProjectMemberModel.class, from = "employeeId", subproperty = "id")
 	private EmployeeEntity employeeEntity;
-	
-	/** 
-	 * The user role. 
+
+	/**
+	 * The user role.
 	 **/
 	@Column(name = "ROLE", length = 200)
 	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
 	private UserRole userRole;
 
-	public ProjectEntity getProjectsEntity()
-	{
-		return projectsEntity;
-	}
-
-	public void setProjectsEntity(ProjectEntity projectsEntity)
-	{
-		this.projectsEntity = projectsEntity;
-	}
-
+	/**
+	 * Gets the employee entity.
+	 *
+	 * @return the employee entity
+	 */
 	public EmployeeEntity getEmployeeEntity()
 	{
 		return employeeEntity;
 	}
 
+	/**
+	 * Gets the project entity.
+	 *
+	 * @return the project entity
+	 */
+	public ProjectEntity getProjectEntity()
+	{
+		return projectEntity;
+	}
+
+	/**
+	 * Sets the project entity.
+	 *
+	 * @param projectEntity
+	 *            the new project entity
+	 */
+	public void setProjectEntity(ProjectEntity projectEntity)
+	{
+		this.projectEntity = projectEntity;
+	}
+
+	/**
+	 * Sets the employee entity.
+	 *
+	 * @param employeeEntity
+	 *            the new employee entity
+	 */
 	public void setEmployeeEntity(EmployeeEntity employeeEntity)
 	{
 		this.employeeEntity = employeeEntity;
 	}
 
+	/**
+	 * Gets the user role.
+	 *
+	 * @return the user role
+	 */
 	public UserRole getUserRole()
 	{
 		return userRole;
 	}
 
+	/**
+	 * Sets the user role.
+	 *
+	 * @param userRole
+	 *            the new user role
+	 */
 	public void setUserRole(UserRole userRole)
 	{
 		this.userRole = userRole;
