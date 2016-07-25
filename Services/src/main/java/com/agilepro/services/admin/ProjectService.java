@@ -3,6 +3,8 @@ package com.agilepro.services.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,11 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 	@Autowired
 	private RepositoryFactory repositoryFactory;
 	
+	/** 
+	 * The iproject repository. 
+	 **/
+	private IProjectRepository iprojectRepository;
+	
 	/**
 	 * Instantiates a new projects service.
 	 */
@@ -35,11 +42,12 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 	}
 	
 	/**
-	 * Delete all.
+	 * Initialize the iprojectRepository.
 	 */
-	public void deleteAll()
+	@PostConstruct
+	private void init()
 	{
-		repository.deleteAll();
+		iprojectRepository = repositoryFactory.getRepository(IProjectRepository.class);
 	}
 	
 	/**
@@ -49,8 +57,6 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 	 */
 	public List<ProjectModel> fetchProjects()
 	{
-		IProjectRepository iprojectRepository = repositoryFactory.getRepository(IProjectRepository.class);
-		
 		List<ProjectEntity> projectEntities = iprojectRepository.fetchProjects();
 		
 		List<ProjectModel> projectModels = new ArrayList<>();
@@ -61,5 +67,13 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 		}
 		
 		return projectModels;
+	}
+	
+	/**
+	 * Delete all.
+	 */
+	public void deleteAll()
+	{
+		repository.deleteAll();
 	}
 }

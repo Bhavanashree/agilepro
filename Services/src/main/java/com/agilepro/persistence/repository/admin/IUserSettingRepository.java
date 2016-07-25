@@ -20,4 +20,9 @@ public interface IUserSettingRepository extends IWebutilsRepository<UserSettingE
 	 */
 	@RestrictBySpace
 	public UserSettingEntity fetchUserSetting(@Condition(value = "userEntity.id") Long id);
+
+	/**
+	 * Delete all.
+	 */
+	public void deleteAll();
 }

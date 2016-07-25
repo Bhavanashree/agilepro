@@ -1,6 +1,7 @@
 $.application.controller('memberController', ["$scope", "crudController", "actionHelper", "utils", 
                                         function($scope, crudController, actionHelper, utils){
 	
+	// For enter key
 	$scope.checkKey = function(event){
 		
 		var key = event.keyCode ? event.keyCode : event.which;
@@ -11,30 +12,62 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		}
 	};
 	
-	var readEmpcallBack = function(readResponse, respConfig){
-
-		$scope.employees = readResponse.model;
+	// After reading the existing project member init the url photo
+	initPhoto = function(objArr){
 		
 		var index;
 		
 		var fileId;
 		
-		for(index in $scope.employees)
+		for(index in objArr)
 		{
-			fileId = $scope.employees[index].photo.fileId;
+			if(!(Array.isArray(objArr)))
+			{
+				fileId = objArr.photo.fileId;
+				objArr.photoUrl = actionHelper.actionUrl("files.fetch", {"id": fileId});
+				return;
+			}
 			
-			$scope.employees[index].photoUrl = actionHelper.actionUrl("files.fetch", {"id": fileId});
+			fileId = objArr[index].photo.fileId;
+			objArr[index].photoUrl = actionHelper.actionUrl("files.fetch", {"id": fileId});
+		}
+
+	};
+	
+	// Call back method after searching the employees
+	var readEmpcallBack = function(readResponse, respConfig){
+
+		$scope.employees = readResponse.model;
+		
+		if($scope.employees.length == 0)
+		{
+			if(searchName)
+			{
+				utils.alert("The name provided doesnt match with any employee");
+			}
+			else
+			{
+				utils.alert("There are currently no employee");
+			}
 		}
 		
-		$scope.$apply();
+		initPhoto($scope.employees);
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
+		
 	};
 		
-	
+	// Search employees
 	$scope.searchEmployee = function(employeeName){
 		
 		if(employeeName)
 		{
-			console.log(employeeName);
+			searchName = employeeName;
+			
 			actionHelper.invokeAction("employee.readAll", null, {"employeeName" : employeeName}, readEmpcallBack);
 			return;
 		}
@@ -42,76 +75,129 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		actionHelper.invokeAction("employee.readAll", null, null, readEmpcallBack);
 	};
 	
-	var teamIds = [];
+	var employeeIds = [];
 	
-	$scope.members = [];
-	
-	$scope.admins = [];
-	
-	$scope.manager = {};
+	var searchName;
 	
 	var empObj;
 	
-
+	var projectId;
+	
+	// Call back method for reading the existing project members
 	var initMemCallBack = function(readResponse, respConfig){
 		
 		var model = readResponse.model;
+		
+		if(model.length == 0)
+		{
+			try
+			{
+	    		$scope.$apply();
+			}catch(ex)
+			{}
+			
+			return;
+		}
 		
 		if(model)
 		{
 			for(index in model)
 			{
-				teamIds.push(model[index].id);
+				employeeIds.push(model[index].employeeId);
 				
 				switch(model[index].userRole)
 				{
-					case 'ADMIN':
+					case 'PROJECT_ADMIN':
 						$scope.admins.push(model[index]);
 						break;
-					case 'MEMBER':
+					case 'PROJECT_MEMBER':
 						$scope.members.push(model[index]);
 						break;
-					case 'MANAGER':
+					case 'PROJECT_MANAGER':
 						$scope.manager = model[index];
 				}
 			}
+			
+			if($scope.admins)
+			{
+				initPhoto($scope.admins);
+			}
+			if($scope.members)
+			{
+				initPhoto($scope.members);
+			}
+			if($scope.manager)
+			{
+				initPhoto($scope.manager);
+			}
 		}
 		
-		$scope.$apply();
+		try
+		{
+			
+    		$scope.$apply();
+		}catch(ex)
+		{}
 	};
 	
+	// Fetch existing project member
 	$scope.initProMem = function(){
-	
-		actionHelper.invokeAction("projectMember.readAll", null, null, initMemCallBack);
+
+		$scope.members = [];
+		
+		$scope.admins = [];
+		
+		$scope.manager = {};
+		
+		employeeIds = []
+		
+		projectId = $scope.getActiveProject();
+		
+		if(projectId == -1 || !projectId)
+		{
+			return;
+		}
+		
+		actionHelper.invokeAction("projectMember.readAll", null, {"projectId" : projectId}, initMemCallBack);
 	};
 	
+	// Invoked on drag
 	$scope.dragEmployees = function(event){
-
+		
+		if(projectId == -1 || !projectId)
+		{
+			utils.alert("Please select a project");
+			return;
+		}
+		
 		console.log("dragEmployees invoked");
 		empObj = JSON.parse(event.target.id);
-		
+	
 		//event.dataTransfer.setData("text", event.target.id);
+		//event.dataTransfer.setDragImage(img, 10, 10);
 	};
 	
+	// Invoked while dragging over the drop area
 	 $scope.allowDrop = function(event) {
 		 
 	    event.preventDefault();
 	}
 	
+	 // Invoked when element is dropped in member
 	 $scope.dropMembers = function(event){
 		 
 		 	console.log("drop");
 		    event.preventDefault();
 		    
-		    var index = teamIds.indexOf(empObj.id);
+		    var index = employeeIds.indexOf(empObj.id);
 		    console.log("index " + index);
 			
 			if(index == -1)
 			{
-				teamIds.push(empObj.id);
+				employeeIds.push(empObj.id);
 				$scope.members.push(empObj);
 				
-				saveProjectMembers(empObj, "MEMBER");
+				saveProjectMembers(empObj.id, "PROJECT_MEMBER");
 			}
 			else if(index >= 0)
 			{
@@ -121,24 +207,27 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 			
 		    /*var data = event.dataTransfer.getData("text");
 		    event.target.appendChild(document.getElementById(data));*/
-			
-			$scope.$apply();
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 		}
 	 
+	 // Invoked when element is dropped in admin 
 	 $scope.dropAdmins = function(event){
 		 
-		 	console.log("drop");
 		    event.preventDefault();
 		    
-		    var index = teamIds.indexOf(empObj.id);
+		    var index = employeeIds.indexOf(empObj.id);
 		    console.log("index " + index);
 			
 			if(index == -1)
 			{
-				teamIds.push(empObj.id);
+				employeeIds.push(empObj.id);
 				$scope.admins.push(empObj);
 				
-				saveProjectMembers(empObj, "ADMIN");
+				saveProjectMembers(empObj.id, "PROJECT_ADMIN");
 			}
 			else if(index >= 0)
 			{
@@ -146,32 +235,45 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 				return;
 			}
 			
-			$scope.$apply();
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 	 };
 	
+	 // Invoked when element is dropped in manager
 	 $scope.dropManager = function(event){
 		 	
 		 	console.log("drop");
 		    event.preventDefault();
 		    
-		    var index = teamIds.indexOf(empObj.id);
+		    var index = employeeIds.indexOf(empObj.id);
 		    console.log("index " + index);
 			
 			if(index == -1)
 			{
 				if($scope.manager.name)
 				{
-					index = teamIds.indexOf($scope.manager.id);
+					index = employeeIds.indexOf($scope.manager.employeeId);
 					
-					teamIds.splice(index, 1);
+					employeeIds.splice(index, 1);
 					
-					deleteProjectMembers($scope.manager);
+					if($scope.manager.employeeId)
+					{
+						deleteProjectMembers($scope.manager.employeeId);
+					}
+					else
+					{
+						deleteProjectMembers($scope.manager.id);
+					}
+					
 				}
 				
-				teamIds.push(empObj.id);
+				employeeIds.push(empObj.id);
 				$scope.manager = empObj;
 				
-				saveProjectMembers(empObj, "MANAGER");
+				saveProjectMembers(empObj.id, "PROJECT_MANAGER");
 			}
 			else if(index >= 0)
 			{
@@ -179,32 +281,62 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 				return;
 			}
 			
-			$scope.$apply();
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 	 };
 	 
+	 // Invoked on remove member
 	$scope.removeMembers = function(data){
 		
-		var index = teamIds.indexOf(data.id);
+		var index;
+		
+		if(data.userRole)
+		{
+			index = employeeIds.indexOf(data.employeeId);
+			
+			deleteProjectMembers(data.employeeId);
+		}
+		else
+		{
+			index = employeeIds.indexOf(data.id);
+			
+			deleteProjectMembers(data.id);
+		}
 		
 		if(index >= 0)
 		{
-			teamIds.splice(index, 1);
+			employeeIds.splice(index, 1);
 			
 			index = $scope.members.indexOf(data);
 			
 			$scope.members.splice(index, 1);
-			
-			deleteProjectMembers(data);
 		}
 	};
 	
+	// Invoked when admin is removed
 	$scope.removeAdmins = function(data){
 		
-		var index = teamIds.indexOf(data.id);
+		var index;
+		
+		if(data.userRole)
+		{
+			index = employeeIds.indexOf(data.employeeId);
+			
+			deleteProjectMembers(data.employeeId);
+		}
+		else
+		{
+			index = employeeIds.indexOf(data.id);
+			
+			deleteProjectMembers(data.id);
+		}
 		
 		if(index >= 0)
 		{
-			teamIds.splice(index, 1);
+			employeeIds.splice(index, 1);
 			
 			index = $scope.admins.indexOf(data);
 			
@@ -212,41 +344,58 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		}
 	};
 	
-	
+	// Invoked when manager is removed
 	$scope.removeManager = function(data){
 		
-		var index = teamIds.indexOf(data.id);
+		var index;
+		
+		if(data.userRole)
+		{
+			index = employeeIds.indexOf(data.employeeId);
+			
+			deleteProjectMembers(data.employeeId);
+		}
+		else
+		{
+			index = employeeIds.indexOf(data.id);
+			
+			deleteProjectMembers(data.id);
+		}
 		
 		if(index >= 0)
 		{
-			teamIds.splice(index, 1);
+			employeeIds.splice(index, 1);
 			
 			$scope.manager = {};
 		}
 	};
 	
 	var callBack = function(readResponse, respConfig){
-
 		
 	};
 	
-	saveProjectMembers = function(empObj, userRole){
+	// Common function get invoked for saving members
+	saveProjectMembers = function(employeeId, userRole){
 		
-		var projectId = $scope.getActiveProject();
-		
-		console.log(empObj);
-		
-		model = {"employeeId": empObj.id, "projectId" : projectId, "userRole" : userRole};
+		model = {"employeeId": employeeId, "projectId" : projectId, "userRole" : userRole};
 		
 		actionHelper.invokeAction("projectMember.save", model, null, callBack);
 		
 	};
 	
-	deleteProjectMembers = function(empObj){
+	// Common function get invoked for delete members
+	deleteProjectMembers = function(employeeId){
 		
-		actionHelper.invokeAction("projectMember.delete", null, {"id" : empObj.id}, callBack);
+		actionHelper.invokeAction("projectMember.delete", null, {"id" : employeeId}, callBack);
 		
 	};
+	
+	// Listener for broadcast
+	$scope.$on("activeProjectSelected", function(event, args) {
+
+		$scope.initProMem();
+	   
+	});
 	
 }]);
 

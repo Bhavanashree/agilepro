@@ -1,6 +1,7 @@
 package com.agilepro.controller.admin;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_USER_SETTING;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
@@ -36,16 +37,17 @@ import com.yukthi.webutils.controllers.BaseController;
 @RequestMapping("/userSetting")
 public class UserSettingController extends BaseController implements IUserSettingController
 {
-	/** 
-	 * The user setting service. 
+	/**
+	 * The user setting service.
 	 **/
 	@Autowired
 	private UserSettingService userSettingService;
-	
+
 	/**
 	 * Save.
 	 *
-	 * @param userSettingModel the user setting model
+	 * @param userSettingModel
+	 *            the user setting model
 	 * @return the basic save response
 	 */
 	@Override
@@ -59,11 +61,12 @@ public class UserSettingController extends BaseController implements IUserSettin
 
 		return new BasicSaveResponse(userSettingEntity.getId());
 	}
-	
+
 	/**
 	 * Update.
 	 *
-	 * @param userSettingModel the user setting model
+	 * @param userSettingModel
+	 *            the user setting model
 	 * @return the base response
 	 */
 	@Override
@@ -77,11 +80,12 @@ public class UserSettingController extends BaseController implements IUserSettin
 
 		return new BaseResponse();
 	}
-	
+
 	/**
 	 * Read all.
 	 *
-	 * @param userId the user id
+	 * @param userId
+	 *            the user id
 	 * @return the basic read response
 	 */
 	@Override
@@ -89,8 +93,25 @@ public class UserSettingController extends BaseController implements IUserSettin
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.USER_SETTING_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<UserSettingModel> readAll(@RequestParam(value = "userId") Long userId)
+	public BasicReadResponse<UserSettingModel> read(@RequestParam(value = "userId") Long userId)
 	{
 		return new BasicReadResponse<UserSettingModel>(userSettingService.fetchUserSetting(userId));
+	}
+
+	/**
+	 * Delete all.
+	 *
+	 * @return the base response
+	 */
+	@Override
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
+	@ActionName(ACTION_TYPE_DELETE_ALL)
+	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
+	@ResponseBody
+	public BaseResponse deleteAll()
+	{
+		userSettingService.deleteAll();
+
+		return new BaseResponse();
 	}
 }

@@ -39,5 +39,12 @@ public interface IUserSettingController
 	 *            the user id
 	 * @return the basic read response
 	 */
-	public BasicReadResponse<UserSettingModel> readAll(Long userId);
+	public BasicReadResponse<UserSettingModel> read(Long userId);
+	
+	/**
+	 * Delete all.
+	 *
+	 * @return the base response
+	 */
+	public BaseResponse deleteAll();
 }

@@ -1,5 +1,6 @@
 package com.agilepro.commons.models.customer;
 
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
@@ -20,11 +21,13 @@ public class UserSettingModel
 	/**
 	 * The user id.
 	 **/
+	@Required
 	private Long userId;
 
 	/**
 	 * The project id.
 	 **/
+	@Required
 	private Long projectId;
 
 	/**
@@ -32,6 +35,27 @@ public class UserSettingModel
 	 **/
 	@NonDisplayable
 	private Integer version;
+
+	/**
+	 * Instantiates a new user setting model.
+	 */
+	public UserSettingModel()
+	{}
+
+	/**
+	 * Instantiates a new user setting model.
+	 *
+	 * @param userId
+	 *            the user id
+	 * @param projectId
+	 *            the project id
+	 */
+	public UserSettingModel(Long userId, Long projectId)
+	{
+		super();
+		this.userId = userId;
+		this.projectId = projectId;
+	}
 
 	/**
 	 * Gets the user id.

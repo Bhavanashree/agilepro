@@ -31,27 +31,11 @@ public enum UserRole
 	 * defined.
 	 **/
 	PROJECT_GROUP(true),
-
-	/**
-	 * Represents Members group under which project members related roles should
-	 * be defined.
-	 **/
-	MEMBER_GROUP(true),
 	
 	/** 
-	 * The admin. 
+	 * The common test delete all for test cases. 
 	 **/
-	ADMIN,
-	
-	/** 
-	 * The member. 
-	 **/
-	MEMBER,
-	
-	/** 
-	 * The manager. 
-	 **/
-	MANAGER,
+	TEST_DELETE_ALL,
 
 	/**
 	 * Indicates user is administrator.
@@ -135,10 +119,6 @@ public enum UserRole
 	@Label("Designation Delete") DESIGNATION_DELETE(false, DESIGNATION_VIEW),
 
 	/**
-	 * The Employee delete.
-	 */
-	@Label("Employee Delete") DESIGNATION_DELETE_ALL(false, DESIGNATION_VIEW),
-	/**
 	 * The Employee view.
 	 */
 	@Label("Employee view") EMPLOYEE_VIEW,
@@ -152,11 +132,6 @@ public enum UserRole
 	 * The Employee delete.
 	 */
 	@Label("Employee Delete") EMPLOYEE_DELETE(false, EMPLOYEE_VIEW),
-
-	/**
-	 * The Employee delete.
-	 */
-	@Label("Employee DeleteAll") EMPLOYEE_DELETE_ALL(false, EMPLOYEE_VIEW),
 
 	/**
 	 * The Client Price Plan view.
@@ -305,12 +280,7 @@ public enum UserRole
 	/**
 	 * The project delete.
 	 **/
-	@Label("Projects Delete") PROJECT_DELETE(false, PROJECT_VIEW),
-
-	/**
-	 * The project delete all.
-	 **/
-	@Label("Projects DeleteAll") PROJECT_DELETE_ALL(false, PROJECT_VIEW),
+	@Label("Project Delete") PROJECT_DELETE(false, PROJECT_VIEW),
 
 	/**
 	 * The project members view.
@@ -318,19 +288,20 @@ public enum UserRole
 	@Label("Project Members view") PROJECT_MEMBER_VIEW,
 
 	/**
+	 * Represents Members group under which project members related roles should
+	 * be defined.
+	 **/
+	PROJECT_MEMBER_GROUP(true),
+	
+	/**
 	 * The project members edit.
 	 **/
-	@Label("Project Members Edit") PROJECT_MEMBER_EDIT(false, PROJECT_MEMBER_VIEW, MEMBER_GROUP),
+	@Label("Project Members Edit") PROJECT_MEMBER_EDIT(false, PROJECT_MEMBER_VIEW, PROJECT_MEMBER_GROUP),
 
 	/**
 	 * The project members delete.
 	 **/
 	@Label("Project Members Delete") PROJECT_MEMBER_DELETE(false, PROJECT_MEMBER_VIEW),
-
-	/**
-	 * The project members delete all.
-	 **/
-	@Label("Project Members DeleteAll") PROJECT_MEMBER_DELETE_ALL(false, PROJECT_MEMBER_VIEW),
 
 	/**
 	 * The tags view.
@@ -340,18 +311,13 @@ public enum UserRole
 	/**
 	 * The tags edit.
 	 **/
-	@Label("Tags Edit") TAG_EDIT(false, TAG_VIEW, PROJECT_GROUP),
+	@Label("Tag Edit") TAG_EDIT(false, TAG_VIEW, PROJECT_GROUP),
 
 	/**
 	 * The tags delete.
 	 **/
-	@Label("Tags Delete") TAG_DELETE(false, TAG_VIEW),
-
-	/**
-	 * The tags delete all.
-	 **/
-	@Label("Tags DeleteAll") TAG_DELETE_ALL(false, TAG_VIEW),
-
+	@Label("Tag Delete") TAG_DELETE(false, TAG_VIEW),
+	
 	/**
 	 * The project property view.
 	 **/
@@ -427,10 +393,6 @@ public enum UserRole
 	 **/
 	@Label("User setting Delete") USER_SETTING_DELETE(false, USER_SETTING_VIEW),
 	
-	/** 
-	 * The user setting delete all. 
-	 **/
-	@Label("User Setting DeleteAll") USER_SETTING_DELETE_ALL(false, USER_SETTING_VIEW),
 	;
 
 	/**

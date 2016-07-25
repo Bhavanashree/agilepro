@@ -1,6 +1,7 @@
 package com.agilepro.commons.models.customer;
 
 import com.agilepro.commons.UserRole;
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.ImageInfo;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -22,20 +23,23 @@ public class ProjectMemberModel
 	/**
 	 * The project id.
 	 **/
+	@Required
 	private Long projectId;
 
 	/**
 	 * The employee id.
 	 **/
+	@Required
 	private Long employeeId;
 
 	/**
 	 * The user role.
 	 **/
+	@Required
 	private UserRole userRole;
 
 	/**
-	 * The name.
+	 * The employee name.
 	 **/
 	private String name;
 
@@ -49,6 +53,14 @@ public class ProjectMemberModel
 	 **/
 	@NonDisplayable
 	private Integer version;
+
+	/**
+	 * Instantiates a new project member model.
+	 */
+	public ProjectMemberModel()
+	{
+		super();
+	}
 
 	/**
 	 * Gets the project id.
@@ -113,22 +125,11 @@ public class ProjectMemberModel
 		this.userRole = userRole;
 	}
 
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
 	public String getName()
 	{
 		return name;
 	}
 
-	/**
-	 * Sets the name.
-	 *
-	 * @param name
-	 *            the new name
-	 */
 	public void setName(String name)
 	{
 		this.name = name;

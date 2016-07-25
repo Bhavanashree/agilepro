@@ -56,6 +56,23 @@ public class ProjectModel
 	private Integer version;
 
 	/**
+	 * Instantiates a new project model.
+	 */
+	public ProjectModel()
+	{}
+
+	/**
+	 * Instantiates a new project model.
+	 *
+	 * @param name
+	 *            the name
+	 */
+	public ProjectModel(String name)
+	{
+		this.name = name;
+	}
+
+	/**
 	 * Gets the name.
 	 *
 	 * @return the name

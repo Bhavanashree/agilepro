@@ -3,6 +3,8 @@ package com.agilepro.services.admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,11 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	@Autowired
 	private EmployeeService employeeService;
 
+	/** 
+	 * The iproject member repository. 
+	 **/
+	private IProjectMemberRepository iprojectMemberRepository;
+	
 	/**
 	 * Instantiates a new project members service.
 	 */
@@ -44,6 +51,15 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	}
 
 	/**
+	 * Initialize the iprojectMemberRepository.
+	 */
+	@PostConstruct
+	private void init()
+	{
+		iprojectMemberRepository = repositoryFactory.getRepository(IProjectMemberRepository.class);
+	}
+	
+	/**
 	 * Fetch project members.
 	 *
 	 * @param projectId
@@ -52,8 +68,6 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public List<ProjectMemberModel> fetchProjectMembers(Long projectId)
 	{
-		IProjectMemberRepository iprojectMemberRepository = repositoryFactory.getRepository(IProjectMemberRepository.class);
-
 		List<ProjectMemberEntity> projectMemberEntities = iprojectMemberRepository.fetchProjMemByProjId(projectId);
 
 		List<ProjectMemberModel> projectMemberModels = new ArrayList<>();
@@ -86,8 +100,6 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			IProjectMemberRepository iprojectMemberRepository = repositoryFactory.getRepository(IProjectMemberRepository.class);
-
 			iprojectMemberRepository.deleteByEmployeeId(id);
 			
 			transaction.commit();

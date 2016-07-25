@@ -16,13 +16,20 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
  * 
  * @author Pritam
  */
-public interface ITagRepository extends IWebutilsRepository<TagEntity> 
+public interface ITagRepository extends IWebutilsRepository<TagEntity>
 {
+	/**
+	 * Find tag.
+	 *
+	 * @param searchQuery
+	 *            the search query
+	 * @return the list
+	 */
 	@RestrictBySpace
 	@SearchQueryMethod(name = "tagSearch", queryModel = TagSearchQuery.class)
 	@OrderBy("name")
-	public List<TagSearchResult> findEmployee(SearchQuery searchQuery);
-	
+	public List<TagSearchResult> findTag(SearchQuery searchQuery);
+
 	/**
 	 * Delete All.
 	 */

@@ -2,6 +2,9 @@ package com.agilepro.services.admin;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +68,28 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	@Autowired
 	private RepositoryFactory repositoryFactory;
 
+	/** 
+	 * The iemployee repository. 
+	 **/
+	private IEmployeeRepository iemployeeRepository;
+	
+	/**
+	 * Instantiates a new employee service.
+	 */
 	public EmployeeService()
 	{
 		super(EmployeeEntity.class, IEmployeeRepository.class);
 	}
-
+	
+	/**
+	 * Initialize the iemployeeRepository.
+	 */
+	@PostConstruct
+	private void init()
+	{
+		iemployeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
+	}
+	
 	/**
 	 * Save.
 	 *
@@ -231,8 +251,6 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	public List<EmployeeModel> fetchEmployees(String employeeName)
 	{
 		List<EmployeeModel> employeeModels = null;
-
-		IEmployeeRepository iemployeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
 
 		if(employeeName != null)
 		{

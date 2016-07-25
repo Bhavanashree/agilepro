@@ -27,7 +27,7 @@ public class ProjectMemberEntity extends WebutilsEntity
 	 * The projects entity.
 	 **/
 	@ManyToOne
-	@Column(name = "PROJECT_ID")
+	@Column(name = "PROJECT_ID", nullable = false)
 	@PropertyMapping(type = ProjectMemberModel.class, from = "projectId", subproperty = "id")
 	private ProjectEntity projectEntity;
 
@@ -35,7 +35,7 @@ public class ProjectMemberEntity extends WebutilsEntity
 	 * The employee entity.
 	 **/
 	@ManyToOne
-	@Column(name = "EMPLOYEE_ID")
+	@Column(name = "EMPLOYEE_ID", nullable = false)
 	@PropertyMapping(type = ProjectMemberModel.class, from = "employeeId", subproperty = "id")
 	private EmployeeEntity employeeEntity;
 

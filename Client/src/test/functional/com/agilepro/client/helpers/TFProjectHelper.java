@@ -149,8 +149,7 @@ public class TFProjectHelper extends TFBase implements ITestConstants
 	@Test
 	public void testSave()
 	{
-		ProjectModel projectsModel = new ProjectModel();
-		projectsModel.setName("Project1");
+		ProjectModel projectsModel = new ProjectModel("Project1");
 		long projectId =  saveProject(projectsModel, START_DATE, END_DATE);
 		
 		logger.debug(T_DEBUG_PRO_MESSAGE, projectId);
@@ -163,8 +162,7 @@ public class TFProjectHelper extends TFBase implements ITestConstants
 	@Test
 	public void testSaveDate()
 	{
-		ProjectModel projectsModel = new ProjectModel();
-		projectsModel.setName("Project2");
+		ProjectModel projectsModel = new ProjectModel("Project2");
 
 		saveProject(projectsModel, END_DATE, START_DATE);
 	}
@@ -176,8 +174,7 @@ public class TFProjectHelper extends TFBase implements ITestConstants
 	public void testRead()
 	{
 		String projectName = "Project3";
-		ProjectModel projectsModel = new ProjectModel();
-		projectsModel.setName(projectName);
+		ProjectModel projectsModel = new ProjectModel(projectName);
 		long projectId = saveProject(projectsModel, START_DATE, END_DATE);
 		logger.debug(T_DEBUG_PRO_MESSAGE, projectId);
 		
@@ -197,8 +194,7 @@ public class TFProjectHelper extends TFBase implements ITestConstants
 		String projectNewName = "Project5";
 		
 		// saving new project
-		ProjectModel projectsModel = new ProjectModel();
-		projectsModel.setName(projectOldName);
+		ProjectModel projectsModel = new ProjectModel(projectOldName);
 		long projectId = saveProject(projectsModel, START_DATE, END_DATE);
 		
 		// reading the saved project
@@ -219,8 +215,7 @@ public class TFProjectHelper extends TFBase implements ITestConstants
 	@Test
 	public void testDelete()
 	{
-		ProjectModel projectsModel = new ProjectModel();
-		projectsModel.setName("Project6");
+		ProjectModel projectsModel = new ProjectModel("Project6");
 		long projectId = saveProject(projectsModel, START_DATE, END_DATE);
 
 		projectHelper.delete(customerSession, projectId);

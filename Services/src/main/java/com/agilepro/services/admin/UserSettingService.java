@@ -1,5 +1,7 @@
 package com.agilepro.services.admin;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,11 @@ public class UserSettingService extends BaseCrudService<UserSettingEntity, IUser
 	@Autowired
 	private RepositoryFactory repositoryFactory;
 
+	/** 
+	 * The iuser setting repository.
+	 * */
+	private IUserSettingRepository iuserSettingRepository;
+	
 	/**
 	 * Instantiates a new user setting service.
 	 */
@@ -32,6 +39,15 @@ public class UserSettingService extends BaseCrudService<UserSettingEntity, IUser
 	}
 
 	/**
+	 * Initialize the iuserSettingRepository.
+	 */
+	@PostConstruct
+	private void init()
+	{
+		iuserSettingRepository = repositoryFactory.getRepository(IUserSettingRepository.class);
+	}
+	
+	/**
 	 * Fetch user setting.
 	 *
 	 * @param userId
@@ -40,10 +56,16 @@ public class UserSettingService extends BaseCrudService<UserSettingEntity, IUser
 	 */
 	public UserSettingModel fetchUserSetting(Long userId)
 	{
-		IUserSettingRepository iuserSettingRepository = repositoryFactory.getRepository(IUserSettingRepository.class);
-
 		UserSettingEntity userSettingEntity = iuserSettingRepository.fetchUserSetting(userId);
 
 		return super.toModel(userSettingEntity, UserSettingModel.class);
 	}
+	
+	/**
+	 * Deletes all entities.
+	 */
+	public void deleteAll()
+	{
+		repository.deleteAll();
+	} 
 }

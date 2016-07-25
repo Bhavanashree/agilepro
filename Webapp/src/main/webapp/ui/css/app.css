@@ -316,3 +316,19 @@ body
 {
 	border: 1px solid blue;
 }
+
+.dropDownItemHide
+{
+	display	: none;
+}
+
+.dropDownItemShow
+{
+	color: red;
+	position: absolute;
+	z-index: 1;
+	padding-top: 100em;
+}
+
+
+

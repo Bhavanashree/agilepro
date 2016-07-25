@@ -64,11 +64,6 @@ public class TFTag extends TFBase
 	private String phoneNumber = "1234567891";
 
 	/**
-	 * designation name.
-	 */
-	private String designationName = "Manager";
-	
-	/**
 	 * The due amount paid by customer.
 	 */
 	private final double dueAmount = 10000.0;
@@ -135,8 +130,7 @@ public class TFTag extends TFBase
 	@Test
 	public void testSave()
 	{
-		TagModel tagsModel = new TagModel();
-		tagsModel.setName("FirstTag");
+		TagModel tagsModel = new TagModel("FirstTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
@@ -151,8 +145,7 @@ public class TFTag extends TFBase
 	@Test
 	public void testRead()
 	{
-		TagModel tagsModel = new TagModel();
-		tagsModel.setName("SecondTag");
+		TagModel tagsModel = new TagModel("SecondTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
@@ -165,8 +158,7 @@ public class TFTag extends TFBase
 	@Test
 	public void testUpdate()
 	{
-		TagModel tagsModel = new TagModel();
-		tagsModel.setName("ThirdTag");
+		TagModel tagsModel = new TagModel("ThirdTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
@@ -188,8 +180,7 @@ public class TFTag extends TFBase
 	@Test
 	public void testDelete()
 	{
-		TagModel tagsModel = new TagModel();
-		tagsModel.setName("FifthTag");
+		TagModel tagsModel = new TagModel("FifthTag");
 		tagsModel.setDescription("This new feature for tagging user");
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);

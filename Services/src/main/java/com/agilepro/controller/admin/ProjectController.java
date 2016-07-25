@@ -162,7 +162,7 @@ public class ProjectController extends BaseController implements IProjectControl
 	 * @return the base response
 	 */
 	@Override
-	@Authorization(roles = { UserRole.PROJECT_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

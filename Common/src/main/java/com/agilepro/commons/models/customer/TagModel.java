@@ -49,6 +49,22 @@ public class TagModel
 	private Integer version;
 
 	/**
+	 * Instantiates a new tag model.
+	 */
+	public TagModel()
+	{}
+	
+	/**
+	 * Instantiates a new tag model.
+	 *
+	 * @param name the name
+	 */
+	public TagModel(String name)
+	{
+		this.name = name;
+	}
+	
+	/**
 	 * Gets the name.
 	 *
 	 * @return the name

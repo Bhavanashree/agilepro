@@ -33,12 +33,12 @@ public interface ITestConstants
 	String PASSWORD = "12345";
 
 	/** 
-	 * The start date. 
+	 * The start date will be added from current date. 
 	 **/
 	Integer START_DATE = 5;
 	
 	/** 
-	 * The end date. 
+	 * The end date will be added from current date. 
 	 **/
 	Integer END_DATE = 7;
 			
