@@ -1,24 +1,24 @@
 package com.agilepro.commons;
 
 /**
- * The Enum ProjectMemberRole.
+ * The Enum ProjectMemberRole, roles for project member.
  * 
  * @author Pritam
  */
 public enum ProjectMemberRole
 {
 	/**
-	 * The admin.
+	 * The project admin.
 	 **/
 	PROJECT_ADMIN,
 
 	/**
-	 * The member.
+	 * The project member.
 	 **/
 	PROJECT_MEMBER,
 
 	/**
-	 * The manager.
+	 * The project manager.
 	 **/
 	PROJECT_MANAGER
 }

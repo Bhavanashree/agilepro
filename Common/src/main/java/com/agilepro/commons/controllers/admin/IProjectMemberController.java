@@ -41,4 +41,11 @@ public interface IProjectMemberController
 	 * @return the base response
 	 */
 	public BaseResponse delete(Long id);
+
+	/**
+	 * Delete all.
+	 *
+	 * @return the base response
+	 */
+	public BaseResponse deleteAll();
 }

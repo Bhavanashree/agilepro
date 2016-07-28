@@ -40,7 +40,7 @@ public interface IProjectRepository extends IWebutilsRepository<ProjectEntity>
 	@LovQuery(name = "projectsLov", valueField = "id", labelField = "name")
 	@RestrictBySpace
 	public List<ValueLabel> findProjectLov();
-	
+
 	/**
 	 * Fetch projects.
 	 *
@@ -48,7 +48,7 @@ public interface IProjectRepository extends IWebutilsRepository<ProjectEntity>
 	 */
 	@RestrictBySpace
 	public List<ProjectEntity> fetchProjects();
-	
+
 	/**
 	 * Delete all.
 	 */

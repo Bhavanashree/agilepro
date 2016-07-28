@@ -14,11 +14,14 @@ import com.yukthi.webutils.services.BaseCrudService;
 @Service
 public class TagService extends BaseCrudService<TagEntity, ITagRepository>
 {
+	/**
+	 * Instantiates a new tag service.
+	 */
 	public TagService()
 	{
 		super(TagEntity.class, ITagRepository.class);
 	}
-	
+
 	/**
 	 * Deletes all entities.
 	 */

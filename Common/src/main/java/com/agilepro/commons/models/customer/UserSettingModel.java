@@ -1,5 +1,6 @@
 package com.agilepro.commons.models.customer;
 
+import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -25,10 +26,17 @@ public class UserSettingModel
 	private Long userId;
 
 	/**
-	 * The project id.
+	 * The key.
 	 **/
 	@Required
-	private Long projectId;
+	private String key;
+
+	/**
+	 * The value.
+	 **/
+	@Required
+	@MaxLen(2000)
+	private String value;
 
 	/**
 	 * Version used for update.
@@ -47,14 +55,17 @@ public class UserSettingModel
 	 *
 	 * @param userId
 	 *            the user id
-	 * @param projectId
-	 *            the project id
+	 * @param key
+	 *            the key
+	 * @param value
+	 *            the value
 	 */
-	public UserSettingModel(Long userId, Long projectId)
+	public UserSettingModel(Long userId, String key, String value)
 	{
 		super();
 		this.userId = userId;
-		this.projectId = projectId;
+		this.key = key;
+		this.value = value;
 	}
 
 	/**
@@ -79,24 +90,45 @@ public class UserSettingModel
 	}
 
 	/**
-	 * Gets the project id.
+	 * Gets the key.
 	 *
-	 * @return the project id
+	 * @return the key
 	 */
-	public Long getProjectId()
+	public String getKey()
 	{
-		return projectId;
+		return key;
 	}
 
 	/**
-	 * Sets the project id.
+	 * Sets the key.
 	 *
-	 * @param projectId
-	 *            the new project id
+	 * @param key
+	 *            the new key
 	 */
-	public void setProjectId(Long projectId)
+	public void setKey(String key)
 	{
-		this.projectId = projectId;
+		this.key = key;
+	}
+
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
+
+	/**
+	 * Sets the value.
+	 *
+	 * @param value
+	 *            the new value
+	 */
+	public void setValue(String value)
+	{
+		this.value = value;
 	}
 
 	/**

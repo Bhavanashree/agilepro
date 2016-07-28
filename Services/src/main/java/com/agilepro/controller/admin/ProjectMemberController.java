@@ -2,6 +2,7 @@ package com.agilepro.controller.admin;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PROJECT_MEMBER;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
@@ -72,7 +73,6 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	@ResponseBody
 	public BasicReadResponse<List<ProjectMemberModel>> fetchProjectMembers(@RequestParam(value = "projectId") Long projectId)
 	{
-
 		return new BasicReadResponse<List<ProjectMemberModel>>(projectMemberService.fetchProjectMembers(projectId));
 	}
 
@@ -92,6 +92,22 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	{
 		projectMemberService.deleteByEmployeeId(id);
 
+		return new BaseResponse();
+	}
+
+	/**
+	 * Delete all.
+	 *
+	 * @return the base response
+	 */
+	@Override
+	@ActionName(ACTION_TYPE_DELETE_ALL)
+	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
+	@ResponseBody
+	public BaseResponse deleteAll()
+	{
+		projectMemberService.deleteAll();
 		return new BaseResponse();
 	}
 }

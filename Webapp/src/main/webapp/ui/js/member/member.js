@@ -170,7 +170,6 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 			return;
 		}
 		
-		console.log("dragEmployees invoked");
 		empObj = JSON.parse(event.target.id);
 	
 		//event.dataTransfer.setData("text", event.target.id);
@@ -186,11 +185,9 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 	 // Invoked when element is dropped in member
 	 $scope.dropMembers = function(event){
 		 
-		 	console.log("drop");
 		    event.preventDefault();
 		    
 		    var index = employeeIds.indexOf(empObj.id);
-		    console.log("index " + index);
 			
 			if(index == -1)
 			{
@@ -220,7 +217,6 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		    event.preventDefault();
 		    
 		    var index = employeeIds.indexOf(empObj.id);
-		    console.log("index " + index);
 			
 			if(index == -1)
 			{
@@ -245,11 +241,9 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 	 // Invoked when element is dropped in manager
 	 $scope.dropManager = function(event){
 		 	
-		 	console.log("drop");
 		    event.preventDefault();
 		    
 		    var index = employeeIds.indexOf(empObj.id);
-		    console.log("index " + index);
 			
 			if(index == -1)
 			{

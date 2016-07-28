@@ -15,11 +15,14 @@ public interface IUserSettingRepository extends IWebutilsRepository<UserSettingE
 	/**
 	 * Fetch user setting.
 	 *
-	 * @param id the id
+	 * @param id
+	 *            the id
+	 * @param key
+	 *            the key
 	 * @return the user setting entity
 	 */
 	@RestrictBySpace
-	public UserSettingEntity fetchUserSetting(@Condition(value = "userEntity.id") Long id);
+	public UserSettingEntity fetchUserSetting(@Condition(value = "userEntity.id") Long id, @Condition(value = "key") String key);
 
 	/**
 	 * Delete all.

@@ -1,6 +1,6 @@
 package com.agilepro.commons.models.customer;
 
-import com.agilepro.commons.UserRole;
+import com.agilepro.commons.ProjectMemberRole;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.ImageInfo;
 import com.yukthi.webutils.common.annotations.Model;
@@ -21,7 +21,7 @@ public class ProjectMemberModel
 	private Long id;
 
 	/**
-	 * The project id.
+	 * Active project id.
 	 **/
 	@Required
 	private Long projectId;
@@ -33,10 +33,10 @@ public class ProjectMemberModel
 	private Long employeeId;
 
 	/**
-	 * The user role.
+	 * The project member role.
 	 **/
 	@Required
-	private UserRole userRole;
+	private ProjectMemberRole projectMemberRole;
 
 	/**
 	 * The employee name.
@@ -60,6 +60,24 @@ public class ProjectMemberModel
 	public ProjectMemberModel()
 	{
 		super();
+	}
+
+	/**
+	 * Instantiates a new project member model.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @param employeeId
+	 *            the employee id
+	 * @param projectMemberRole
+	 *            the project member role
+	 */
+	public ProjectMemberModel(Long projectId, Long employeeId, ProjectMemberRole projectMemberRole)
+	{
+		super();
+		this.projectId = projectId;
+		this.employeeId = employeeId;
+		this.projectMemberRole = projectMemberRole;
 	}
 
 	/**
@@ -105,31 +123,42 @@ public class ProjectMemberModel
 	}
 
 	/**
-	 * Gets the user role.
+	 * Gets the project member role.
 	 *
-	 * @return the user role
+	 * @return the project member role
 	 */
-	public UserRole getUserRole()
+	public ProjectMemberRole getProjectMemberRole()
 	{
-		return userRole;
+		return projectMemberRole;
 	}
 
 	/**
-	 * Sets the user role.
+	 * Sets the project member role.
 	 *
-	 * @param userRole
-	 *            the new user role
+	 * @param projectMemberRole
+	 *            the new project member role
 	 */
-	public void setUserRole(UserRole userRole)
+	public void setProjectMemberRole(ProjectMemberRole projectMemberRole)
 	{
-		this.userRole = userRole;
+		this.projectMemberRole = projectMemberRole;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName()
 	{
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name
+	 *            the new name
+	 */
 	public void setName(String name)
 	{
 		this.name = name;

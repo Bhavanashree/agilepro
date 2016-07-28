@@ -26,7 +26,7 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
  * 
  * @author Pritam
  */
-public class TFTag extends TFBase
+public class TFTag extends TFBase implements ITestConstants
 {
 	/**
 	 * The logger.
@@ -47,26 +47,6 @@ public class TFTag extends TFBase
 	 * customerId.
 	 */
 	private Long customerId;
-
-	/**
-	 * Password.
-	 */
-	private String password = "12345";
-
-	/**
-	 * mailId.
-	 */
-	private String emailId = "customer@gmail.com";
-
-	/**
-	 * Phone Number.
-	 */
-	private String phoneNumber = "1234567891";
-
-	/**
-	 * The due amount paid by customer.
-	 */
-	private final double dueAmount = 10000.0;
 
 	/** 
 	 * The itag controller. 
@@ -106,14 +86,14 @@ public class TFTag extends TFBase
 		/**
 		 * customer.
 		 **/
-		CustomerModel model = new CustomerModel("Test1", emailId, phoneNumber, null, null, null, null, new Date(), password, password, "path1", null);
+		CustomerModel model = new CustomerModel("Test1", T_CUS_EMAIL_ID, T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, "path1", null);
 		model.setCustomerPricePlanId(idOfPricePlan);
-		model.setDueAmount(dueAmount);
+		model.setDueAmount(T_DUE_AMOUNT);
 		customerId = customerHelper.save(clientContext, model);
 		Assert.assertTrue(idOfPricePlan > 0);
 		Assert.assertTrue(customerId > 0);
 
-		customerSession = super.newClientContext(emailId, password, customerId);
+		customerSession = super.newClientContext(T_CUS_EMAIL_ID, T_PASSWORD, customerId);
 		
 		clientControllerFactory = new ClientControllerFactory(customerSession);
 		
@@ -128,10 +108,10 @@ public class TFTag extends TFBase
 	}
 	
 	@Test
-	public void testSave()
+	public void testSaveTag()
 	{
 		TagModel tagsModel = new TagModel("FirstTag");
-		tagsModel.setDescription("This new feature for tagging user");
+		tagsModel.setDescription(T_TAG_DESCRIPTION);
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
@@ -143,45 +123,46 @@ public class TFTag extends TFBase
 	}
 
 	@Test
-	public void testRead()
+	public void testReadTag()
 	{
-		TagModel tagsModel = new TagModel("SecondTag");
-		tagsModel.setDescription("This new feature for tagging user");
+		String tagName = "SecondTag";
+		TagModel tagsModel = new TagModel(tagName);
+		tagsModel.setDescription(T_TAG_DESCRIPTION);
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
 		TagModel fetchdModel = getTag(responseTag.getId());
-		Assert.assertEquals(fetchdModel.getName(), "SecondTag");
-		Assert.assertEquals(fetchdModel.getDescription(), "This new feature for tagging user");
+		Assert.assertEquals(fetchdModel.getName(), tagName);
+		Assert.assertEquals(fetchdModel.getDescription(), T_TAG_DESCRIPTION);
 	}
 
 	@Test
-	public void testUpdate()
+	public void testUpdateTag()
 	{
+		String tagName = "FourthTag";
 		TagModel tagsModel = new TagModel("ThirdTag");
-		tagsModel.setDescription("This new feature for tagging user");
+		tagsModel.setDescription(T_TAG_DESCRIPTION);
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
 		TagModel fetchdModel = getTag(responseTag.getId());
 
-		// fetchdModel.setId(id);
-		fetchdModel.setName("FourthTag");
-		fetchdModel.setDescription("This  tag is for fourth user");
+		fetchdModel.setName(tagName);
+		fetchdModel.setDescription(T_TAG_DESCRIPTION);
 
 		itagController.update(fetchdModel);
 
 		TagModel updatedModel = getTag(fetchdModel.getId());
 		
-		Assert.assertEquals(updatedModel.getName(), "FourthTag");
+		Assert.assertEquals(updatedModel.getName(), tagName);
 		Assert.assertEquals(updatedModel.getDescription(), "This  tag is for fourth user");
 	}
 
 	@Test
-	public void testDelete()
+	public void testDeleteTag()
 	{
 		TagModel tagsModel = new TagModel("FifthTag");
-		tagsModel.setDescription("This new feature for tagging user");
+		tagsModel.setDescription(T_TAG_DESCRIPTION);
 
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
 

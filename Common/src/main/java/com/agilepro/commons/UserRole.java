@@ -35,7 +35,7 @@ public enum UserRole
 	/** 
 	 * The common test delete all for test cases. 
 	 **/
-	TEST_DELETE_ALL,
+	TEST,
 
 	/**
 	 * Indicates user is administrator.

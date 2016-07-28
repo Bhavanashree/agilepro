@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.agilepro.commons.UserRole;
+import com.agilepro.commons.ProjectMemberRole;
 import com.agilepro.commons.models.customer.ProjectMemberModel;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -44,7 +44,7 @@ public class ProjectMemberEntity extends WebutilsEntity
 	 **/
 	@Column(name = "ROLE", length = 200)
 	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
-	private UserRole userRole;
+	private ProjectMemberRole projectMemberRole;
 
 	/**
 	 * Gets the employee entity.
@@ -89,23 +89,23 @@ public class ProjectMemberEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the user role.
+	 * Gets the project member role.
 	 *
-	 * @return the user role
+	 * @return the project member role
 	 */
-	public UserRole getUserRole()
+	public ProjectMemberRole getProjectMemberRole()
 	{
-		return userRole;
+		return projectMemberRole;
 	}
 
 	/**
-	 * Sets the user role.
+	 * Sets the project member role.
 	 *
-	 * @param userRole
-	 *            the new user role
+	 * @param projectMemberRole
+	 *            the new project member role
 	 */
-	public void setUserRole(UserRole userRole)
+	public void setProjectMemberRole(ProjectMemberRole projectMemberRole)
 	{
-		this.userRole = userRole;
+		this.projectMemberRole = projectMemberRole;
 	}
 }

@@ -70,7 +70,7 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	{
 		List<ProjectMemberEntity> projectMemberEntities = iprojectMemberRepository.fetchProjMemByProjId(projectId);
 
-		List<ProjectMemberModel> projectMemberModels = new ArrayList<>();
+		List<ProjectMemberModel> projectMemberModels = new ArrayList<ProjectMemberModel>();
 
 		ProjectMemberModel projectMemberModel;
 
@@ -110,5 +110,13 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 		{
 			throw new InvalidStateException(ex, "An error occurred while deleting project member where employee id - {}", id);
 		}
+	}
+	
+	/**
+	 * Deletes all entities.
+	 */
+	public void deleteAll()
+	{
+		repository.deleteAll();
 	}
 }

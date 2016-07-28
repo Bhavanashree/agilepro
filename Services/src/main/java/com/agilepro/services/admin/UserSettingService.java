@@ -56,7 +56,7 @@ public class UserSettingService extends BaseCrudService<UserSettingEntity, IUser
 	 */
 	public UserSettingModel fetchUserSetting(Long userId)
 	{
-		UserSettingEntity userSettingEntity = iuserSettingRepository.fetchUserSetting(userId);
+		UserSettingEntity userSettingEntity = iuserSettingRepository.fetchUserSetting(userId, "activeProjectId");
 
 		return super.toModel(userSettingEntity, UserSettingModel.class);
 	}

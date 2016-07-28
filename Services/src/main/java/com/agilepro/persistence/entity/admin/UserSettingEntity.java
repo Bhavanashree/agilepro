@@ -1,7 +1,7 @@
 package com.agilepro.persistence.entity.admin;
 
 import javax.persistence.Column;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.agilepro.commons.models.customer.UserSettingModel;
 import com.yukthi.persistence.annotations.UniqueConstraint;
@@ -16,24 +16,29 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "USER_SETTING")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "userEntity", "projectEntity"}) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_KEY", fields = { "spaceIdentity", "userEntity", "key" }) })
 public class UserSettingEntity extends WebutilsEntity
 {
-	/** 
-	 * The user entity. 
+	/**
+	 * The user entity.
 	 **/
-	@OneToOne
+	@ManyToOne
 	@Column(name = "USER_ID", nullable = false)
 	@PropertyMapping(type = UserSettingModel.class, from = "userId", subproperty = "id")
 	private UserEntity userEntity;
-	
-	/** 
-	 * The project entity. 
+
+	/**
+	 * The key.
 	 **/
-	@OneToOne
-	@Column(name = "ACTIVE_PROJECT_ID", nullable = false)
-	@PropertyMapping(type = UserSettingModel.class, from = "projectId", subproperty = "id")
-	private ProjectEntity projectEntity;
+	@Column(name = "SET_KEY", length = 50, nullable = false)
+	@UniqueConstraint(name = "key", message = "Please provide a different key, provided key is already present")
+	private String key;
+
+	/**
+	 * The value.
+	 **/
+	@Column(name = "VALUE", length = 2000, nullable = false)
+	private String value;
 
 	/**
 	 * Gets the user entity.
@@ -48,7 +53,8 @@ public class UserSettingEntity extends WebutilsEntity
 	/**
 	 * Sets the user entity.
 	 *
-	 * @param userEntity the new user entity
+	 * @param userEntity
+	 *            the new user entity
 	 */
 	public void setUserEntity(UserEntity userEntity)
 	{
@@ -56,22 +62,44 @@ public class UserSettingEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the project entity.
+	 * Gets the key.
 	 *
-	 * @return the project entity
+	 * @return the key
 	 */
-	public ProjectEntity getProjectEntity()
+	public String getKey()
 	{
-		return projectEntity;
+		return key;
 	}
 
 	/**
-	 * Sets the project entity.
+	 * Sets the key.
 	 *
-	 * @param projectEntity the new project entity
+	 * @param key
+	 *            the new key
 	 */
-	public void setProjectEntity(ProjectEntity projectEntity)
+	public void setKey(String key)
 	{
-		this.projectEntity = projectEntity;
+		this.key = key;
+	}
+
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
+	public String getValue()
+	{
+		return value;
+	}
+
+	/**
+	 * Sets the value.
+	 *
+	 * @param value
+	 *            the new value
+	 */
+	public void setValue(String value)
+	{
+		this.value = value;
 	}
 }

@@ -11,5 +11,14 @@ $.application.controller('projectController', ["$scope", "crudController", funct
 		"readAction": "project.read",
 		"updateAction": "project.update",
 		"deleteAction": "project.delete",
+		
+		"postSaveOp": function(model, $scope) {
+			$scope.fetchProjects();
+		},
+		
+		"postDeleteOp": function(selectedId, $scope){
+			$scope.fetchProjects();
+		}
 	});
+	
 }]);
