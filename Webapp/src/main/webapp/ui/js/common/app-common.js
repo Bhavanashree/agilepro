@@ -91,38 +91,15 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     // Read all the projects call back
     var readProCallBack = function(readResponse, respConfig){
     	
-    	var i;
-    	var temp;
+    	$scope.projects = readResponse.model;
     	
-    	projArr = readResponse.model;
-    	
-    	if(presentProjectId)
-    	{
-    		for(i=0; i< projArr.length ; i++)
-        	{
-        		if(projArr[i].id == presentProjectId)
-        		{
-        			temp = projArr[0];
-        			projArr[0] = projArr[i];
-        			projArr[i] = temp;
-        		}
-        	}
-    		
-    		$scope.show = true;
-    	}
-    	else if(projArr.length > 0)
-    	{
-    		projArr.splice(0, 0, {"name" : "Select Project", "id" : -1})
-    		$scope.show = true;
-    	}	
-    	
-    	if(projArr.length == 0)
-    	{
-    		$scope.show = false;
-    	}
-    	
-    	$scope.projects = projArr;
+    	$scope.show = $scope.projects.length > 0 ? true : false;
 
+    	if(!$scope.show)
+    	{
+    		presentProjectId = 0;
+    	}
+    	
     	try
 		{
     		$scope.$apply();
@@ -141,9 +118,13 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		presentProjectId = Number(userSettingModel.value); // convert string to number
     		version = userSettingModel.version;
     		
+    		$scope.selectedProject = {"id" : presentProjectId};
+    		
     		// broad cast for project member 
     		$scope.$broadcast("activeProjectSelected");
     	}
+    	
+    	actionHelper.invokeAction("project.readAll", null, null, readProCallBack);
     };
     
     // Invoked on page load for reading user setting and all projects
@@ -151,7 +132,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	
     	actionHelper.invokeAction("userSetting.read", null, {"userId" : $scope.activeUser.userId}, readUserCallBack);
     	
-    	actionHelper.invokeAction("project.readAll", null, null, readProCallBack);
+    	// moved to readUserCallBack for synch calls
     };
     
     $scope.$on("activeUserIsReady", function(event, args) {
@@ -160,34 +141,33 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
 	});
     
     // Get invoked while selecting a project
-    $scope.selectedProject = function(proObj){
+    $scope.projectSelectionChanged = function(proObj){
+    	$scope.selectedProject = proObj;
     	
-    	if(proObj.id != -1)
+    	if(!proObj)
     	{
-    		if(!userSettingId)
-        	{
-    			presentProjectId = proObj.id;
-        		saveUserSetting(presentProjectId);
-        	}
-    		else
-    		{
-    			presentProjectId = proObj.id;
-            	editUserSetting(presentProjectId);
-    		}
+    		return;
     	}
-    	else
+    	
+		presentProjectId = proObj.id;
+		
+		if(!userSettingId)
     	{
-    		presentProjectId = -1;
+    		saveUserSetting(presentProjectId);
     	}
+		else
+		{
+        	editUserSetting(presentProjectId);
+		}
     	
     	// Broad cast 
-    	$scope.$broadcast("activeProjectSelected");
+    	$scope.$broadcast("activeProjectSelectionChanged");
     };
     
     // Save user call back
     var saveCallBack = function(saveResponse, respConfig){
         
-		userSettingId = saveResponse.id;
+		actionHelper.invokeAction("userSetting.read", null, {"userId" : $scope.activeUser.userId}, readUserCallBack);
     };
     
     // Get invoked only once when a user setting is saved

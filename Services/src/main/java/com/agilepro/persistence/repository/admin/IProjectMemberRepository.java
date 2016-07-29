@@ -15,15 +15,6 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 public interface IProjectMemberRepository extends IWebutilsRepository<ProjectMemberEntity>
 {
 	/**
-	 * Delete by employee id.
-	 *
-	 * @param id
-	 *            the id
-	 */
-	@RestrictBySpace
-	public void deleteByEmployeeId(@Condition(value = "employeeEntity.id") Long id);
-
-	/**
 	 * Fetch proj mem by proj id.
 	 *
 	 * @param id

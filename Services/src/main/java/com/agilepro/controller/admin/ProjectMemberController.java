@@ -90,7 +90,7 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
 	{
-		projectMemberService.deleteByEmployeeId(id);
+		projectMemberService.deleteById(id);
 
 		return new BaseResponse();
 	}

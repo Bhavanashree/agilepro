@@ -41,7 +41,7 @@ public class ProjectMemberModel
 	/**
 	 * The employee name.
 	 **/
-	private String name;
+	private String employeeName;
 
 	/**
 	 * The photo.
@@ -144,24 +144,24 @@ public class ProjectMemberModel
 	}
 
 	/**
-	 * Gets the name.
+	 * Gets the employee name.
 	 *
-	 * @return the name
+	 * @return the employee name
 	 */
-	public String getName()
+	public String getEmployeeName()
 	{
-		return name;
+		return employeeName;
 	}
 
 	/**
-	 * Sets the name.
+	 * Sets the employee name.
 	 *
-	 * @param name
-	 *            the new name
+	 * @param employeeName
+	 *            the new employee name
 	 */
-	public void setName(String name)
+	public void setEmployeeName(String employeeName)
 	{
-		this.name = name;
+		this.employeeName = employeeName;
 	}
 
 	/**

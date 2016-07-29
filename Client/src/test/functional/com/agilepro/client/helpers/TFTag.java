@@ -155,7 +155,7 @@ public class TFTag extends TFBase implements ITestConstants
 		TagModel updatedModel = getTag(fetchdModel.getId());
 		
 		Assert.assertEquals(updatedModel.getName(), tagName);
-		Assert.assertEquals(updatedModel.getDescription(), "This  tag is for fourth user");
+		Assert.assertEquals(updatedModel.getDescription(), T_TAG_DESCRIPTION);
 	}
 
 	@Test

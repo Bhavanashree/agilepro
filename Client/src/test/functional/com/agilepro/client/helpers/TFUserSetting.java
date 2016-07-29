@@ -29,7 +29,7 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
  *
  * @param <MultipartHttpServletRequest> the generic type
  */
-public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
+public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implements ITestConstants
 {
 	/**
 	 * The logger.
@@ -47,24 +47,14 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
 	private static CustomerHelper customerHelper = new CustomerHelper();
 
 	/**
+	 *  The test project id. 
+	 * */
+	private static String TEST_PROJECT_KEY = "activeProjectId";
+	
+	/**
 	 * customerId.
 	 */
 	private Long customerId;
-
-	/**
-	 * Password.
-	 */
-	private String password = "12345";
-
-	/**
-	 * mailId.
-	 */
-	private String emailId = "customer@gmail.com";
-
-	/**
-	 * Phone Number.
-	 */
-	private String phoneNumber = "1234567891";
 
 	/**
 	 * The due amount paid by customer.
@@ -85,11 +75,16 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
 	 * The iproject controller.
 	 **/
 	private IProjectController<MultipartHttpServletRequest> iprojectController;
-
+	
 	/**
 	 * The project id.
 	 **/
 	private List<Long> projectIds = new ArrayList<Long>();
+	
+	/** 
+	 * The user id. 
+	 **/
+	private Long userId;
 	
 	/**
 	 * Inits the prc cus.
@@ -119,15 +114,17 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
 		/**
 		 * customer.
 		 **/
-		CustomerModel model = new CustomerModel("Customer1", "customer1@gmail.com", phoneNumber, null, null, null, null, new Date(), password, password, "path1", null);
+		CustomerModel model = new CustomerModel("Customer1", T_CUS_EMAIL_ID, T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, T_CUS_PATH, null);
 		model.setCustomerPricePlanId(idOfPricePlan);
 		model.setDueAmount(dueAmount);
 		customerId = customerHelper.save(clientContext, model);
 		Assert.assertTrue(idOfPricePlan > 0);
 		Assert.assertTrue(customerId > 0);
 
-		customerSession = super.newClientContext(emailId, password, customerId);
+		customerSession = super.newClientContext(T_CUS_EMAIL_ID, T_PASSWORD, customerId);
 
+		userId = customerSession.getUserId();
+		
 		clientControllerFactory = new ClientControllerFactory(customerSession);
 
 		saveProjects();
@@ -166,7 +163,7 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
 	 *            the user id
 	 * @return the user setting model
 	 */
-	public UserSettingModel testRead(Long userId)
+	public UserSettingModel testReadUserSetting(Long userId)
 	{
 		BasicReadResponse<UserSettingModel> basicReadResponse = iuserSettingController.read(userId);
 
@@ -177,15 +174,15 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
 	 * Test save.
 	 */
 	@Test
-	public void testSave()
+	public void testSaveUserSetting()
 	{
-		UserSettingModel userSettingModel = new UserSettingModel(1L, projectIds.get(0));
+		UserSettingModel userSettingModel = new UserSettingModel(userId, TEST_PROJECT_KEY, projectIds.get(0).toString());
 		BasicSaveResponse basicSaveResponse = iuserSettingController.save(userSettingModel);
 
-		userSettingModel = testRead(1L);
+		userSettingModel = testReadUserSetting(userId);
 		
 		Assert.assertTrue(basicSaveResponse.getId() > 0);
-		Assert.assertEquals(userSettingModel.getProjectId(), projectIds.get(0));
+		Assert.assertEquals(userSettingModel.getValue(), projectIds.get(0).toString());
 		
 		iuserSettingController.deleteAll();
 	}
@@ -194,14 +191,14 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
 	 * Test update.
 	 */
 	@Test
-	public void testUpdate()
+	public void testUpdateUserSetting()
 	{
-		UserSettingModel userSettingModel = new UserSettingModel(1L, projectIds.get(1));
+		UserSettingModel userSettingModel = new UserSettingModel(userId, TEST_PROJECT_KEY, projectIds.get(1).toString());
 		iuserSettingController.save(userSettingModel);
 		
-		userSettingModel = testRead(1L);
+		userSettingModel = testReadUserSetting(customerSession.getUserId());
 		
-		UserSettingModel modelForUpdate = new UserSettingModel(1L, projectIds.get(2));
+		UserSettingModel modelForUpdate = new UserSettingModel(userId, TEST_PROJECT_KEY, projectIds.get(2).toString());
 		modelForUpdate.setVersion(userSettingModel.getVersion());
 		modelForUpdate.setId(userSettingModel.getId());
 		
@@ -217,7 +214,7 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase
 		iuserSettingController.deleteAll();
 		iprojectController.deleteAll();
 		
-		//customerHelper.deleteAll(clientContext);
-		//customerPricePlanHelper.deleteAll(clientContext);
+		customerHelper.deleteAll(clientContext);
+		customerPricePlanHelper.deleteAll(clientContext);
 	}
 }
