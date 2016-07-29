@@ -56,11 +56,6 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	private String priorityId;
 
 	/**
-	 * The sprintId.
-	 */
-	@Field(value = "sprintId.name")
-	private String sprint;
-	/**
 	 * The indent.
 	 */
 	private int indent = 0;
@@ -123,11 +118,11 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 		return title;
 	}
 
-
 	/**
 	 * Sets the title.
 	 *
-	 * @param title the new title
+	 * @param title
+	 *            the new title
 	 */
 	public void setTitle(String title)
 	{
@@ -252,30 +247,11 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	/**
 	 * Sets the priority id.
 	 *
-	 * @param priorityId the new priority id
+	 * @param priorityId
+	 *            the new priority id
 	 */
 	public void setPriorityId(String priorityId)
 	{
 		this.priorityId = priorityId;
-	}
-
-	/**
-	 * Gets the sprint.
-	 *
-	 * @return the sprint
-	 */
-	public String getSprint()
-	{
-		return sprint;
-	}
-
-	/**
-	 * Sets the sprint.
-	 *
-	 * @param sprint the new sprint
-	 */
-	public void setSprint(String sprint)
-	{
-		this.sprint = sprint;
 	}
 }

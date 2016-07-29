@@ -66,7 +66,10 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type runtime variables.
 	 */
 	public String ACTION_TYPE_RUNTIME_VARIABLES = "readRuntimeVariables";
-
+	/**
+	 * The action type readSprints.
+	 */
+	public String ACTION_TYPE_READ_SPRINT = "readSprints";
 	////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -446,6 +449,10 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_STORY_READALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_ALL;
 
+	/**
+	 *  The action sprint read.
+	 **/
+	public String ACTION_STORY_READSPRINT = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_SPRINT;
 	/**
 	 * The action backlog update.
 	 **/

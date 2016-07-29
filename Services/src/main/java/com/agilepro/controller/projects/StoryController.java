@@ -5,6 +5,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
@@ -115,6 +116,17 @@ public class StoryController extends BaseController implements IStoryController
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStory(storyTitle));
 	}
 
+	@Override
+	@ActionName(ACTION_TYPE_READ_SPRINT)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readSprints", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<StoryModel>> fetchStoryBySprintId(@RequestParam(value = "sprintId", required = true) Long sprintId)
+	{
+
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
+	}
+
 	/**
 	 * Update the stories.
 	 *
@@ -135,7 +147,7 @@ public class StoryController extends BaseController implements IStoryController
 			throw new InvalidRequestParameterException("Invalid id specified for update: " + model.getId());
 		}
 
-		storyService.updateStory(model);
+		storyService.updateStories(model);
 
 		return new BaseResponse();
 	}

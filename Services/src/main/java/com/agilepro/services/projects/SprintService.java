@@ -44,7 +44,7 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	 */
 	@Autowired
 	private RepositoryFactory repositoryFactory;
-
+	
 	/**
 	 * Instantiates a new sprint service.
 	 */
@@ -68,6 +68,7 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 
 		SprintEntity sprintEntity = WebUtils.convertBean(model, SprintEntity.class);
 		customerService.fetch(customerId);
+
 		super.save(sprintEntity, model);
 
 		return sprintEntity;
@@ -91,7 +92,6 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 		{
 			// updating campaign
 			SprintEntity sprintEntity = super.update(model);
-
 			transaction.commit();
 			return sprintEntity;
 		} catch(RuntimeException ex)
@@ -100,6 +100,25 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 		} catch(Exception ex)
 		{
 			throw new InvalidStateException(ex, "An error occurred while updating model - {}", model);
+		}
+	}
+
+	/**
+	 * Update sprint.
+	 *
+	 * @param model the model
+	 */
+	public void updateSprint(SprintModel model)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			super.repository.findById(model.getId());
+
+			super.update(model);
+			transaction.commit();
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred while updating sprintmodel - " + model, ex);
 		}
 	}
 
@@ -113,12 +132,14 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	public List<SprintModel> fetchAllSprint(String sprintName)
 	{
 		List<SprintModel> sprintModels = null;
+
 		ISprintRepository sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
 		List<SprintEntity> sprintEntity = sprintRepository.fetchAllSprint(sprintName);
+
 		if(sprintEntity != null)
 		{
 			sprintModels = new ArrayList<SprintModel>(sprintEntity.size());
-			
+
 			for(SprintEntity entity : sprintEntity)
 			{
 				sprintModels.add(super.toModel(entity, SprintModel.class));

@@ -10,12 +10,12 @@ import com.yukthi.webutils.common.annotations.Model;
  * The Class SprintSearchResult.
  */
 @Model
-public class SprintSearchResult  extends AbstractExtendedSearchResult
+public class SprintSearchResult extends AbstractExtendedSearchResult
 {
 	/**
 	 * Id.
 	 */
-	
+
 	@Field(value = "id")
 	private long id;
 
@@ -32,13 +32,13 @@ public class SprintSearchResult  extends AbstractExtendedSearchResult
 	private String description;
 
 	/**
-	 *  The start date. 
+	 * The start date.
 	 **/
 	@Field(value = "startDate")
 	private Date startDate;
 
-	/** 
-	 * The end date. 
+	/**
+	 * The end date.
 	 **/
 	@Field(value = "endDate")
 	private Date endDate;
@@ -140,7 +140,8 @@ public class SprintSearchResult  extends AbstractExtendedSearchResult
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name)
 	{

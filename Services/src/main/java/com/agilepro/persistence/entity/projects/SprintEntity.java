@@ -1,8 +1,10 @@
 package com.agilepro.persistence.entity.projects;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.yukthi.webutils.annotations.ExtendableEntity;
@@ -15,29 +17,35 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 @Table(name = "SPRINT")
 public class SprintEntity extends WebutilsExtendableEntity
 {
-	/** 
-	 * The name of Sprint. 
+	/**
+	 * The name of Sprint.
 	 */
 	@Column(name = "NAME", length = 50, nullable = false)
 	private String name;
 
 	/**
-	 *  The sprint  description. 
+	 * The sprint description.
 	 */
 	@Column(name = "DESCRIPTION")
 	private String description;
 
 	/**
-	 *  The start date  of sprint.
+	 * The start date of sprint.
 	 */
-	@Column(name = "STARTDATE")
+	@Column(name = "START_DATE")
 	private Date startDate;
 
 	/**
-	 * The end date of sprint. 
+	 * The end date of sprint.
 	 */
-	@Column(name = "ENDDATE")
+	@Column(name = "END_DATE")
 	private Date endDate;
+	
+	/**
+	 * The list of stories under this sprint. 
+	 **/
+	@OneToMany(mappedBy = "sprint")
+	private List<StoryEntity> stories;
 
 	/**
 	 * Instantiates a new sprint entity.
@@ -48,10 +56,14 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * Instantiates a new sprint entity.
 	 *
-	 * @param name the name
-	 * @param description the description
-	 * @param startDate the start date
-	 * @param endDate the end date
+	 * @param name
+	 *            the name
+	 * @param description
+	 *            the description
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
 	 */
 	public SprintEntity(String name, String description, Date startDate, Date endDate)
 	{
@@ -74,7 +86,8 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name)
 	{
@@ -94,7 +107,8 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the description.
 	 *
-	 * @param description the new description
+	 * @param description
+	 *            the new description
 	 */
 	public void setDescription(String description)
 	{
@@ -114,7 +128,8 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the start date.
 	 *
-	 * @param startDate the new start date
+	 * @param startDate
+	 *            the new start date
 	 */
 	public void setStartDate(Date startDate)
 	{
@@ -134,10 +149,31 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the end date.
 	 *
-	 * @param endDate the new end date
+	 * @param endDate
+	 *            the new end date
 	 */
 	public void setEndDate(Date endDate)
 	{
 		this.endDate = endDate;
+	}
+
+	/**
+	 * Gets the stories.
+	 *
+	 * @return the stories
+	 */
+	public List<StoryEntity> getStories()
+	{
+		return stories;
+	}
+
+	/**
+	 * Sets the stories.
+	 *
+	 * @param stories the new stories
+	 */
+	public void setStories(List<StoryEntity> stories)
+	{
+		this.stories = stories;
 	}
 }

@@ -71,15 +71,16 @@ public class StoryModel extends AbstractExtendableModel
 	 **/
 	private StoryStatus status;
 
-	/** 
-	 * The priority. 
+	/**
+	 * The priority.
 	 */
 	@LOV(name = "priorityLov")
 	private Long priority;
-	
-	/** 
-	 * The sprint id. 
+
+	/**
+	 * The sprint id.
 	 **/
+	@NonDisplayable
 	private Long sprint;
 
 	/**
@@ -91,11 +92,16 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Instantiates a new story model.
 	 *
-	 * @param title the title
-	 * @param estimate the estimate
-	 * @param description the description
-	 * @param parentStoryId the parent story id
-	 * @param priority the priority
+	 * @param title
+	 *            the title
+	 * @param estimate
+	 *            the estimate
+	 * @param description
+	 *            the description
+	 * @param parentStoryId
+	 *            the parent story id
+	 * @param priority
+	 *            the priority
 	 */
 	public StoryModel(String title, Integer estimate, String description, Long parentStoryId, Long priority)
 	{
@@ -287,7 +293,8 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the priority.
 	 *
-	 * @param priority the new priority
+	 * @param priority
+	 *            the new priority
 	 */
 	public void setPriority(Long priority)
 	{
@@ -295,9 +302,9 @@ public class StoryModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the sprint id.
+	 * Gets the sprint.
 	 *
-	 * @return the sprint id
+	 * @return the sprint
 	 */
 	public Long getSprint()
 	{
@@ -305,9 +312,9 @@ public class StoryModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Sets the sprint id.
+	 * Sets the sprint.
 	 *
-	 * @param sprintId the new sprint id
+	 * @param sprint the new sprint
 	 */
 	public void setSprint(Long sprint)
 	{

@@ -15,7 +15,7 @@ import com.yukthi.webutils.annotations.SearchQueryMethod;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
 /**
- * The Interface ISprint.
+ * The Interface ISprint for Sprint Entity table.
  */
 public interface ISprintRepository extends IWebutilsRepository<SprintEntity>
 {
@@ -34,7 +34,7 @@ public interface ISprintRepository extends IWebutilsRepository<SprintEntity>
 
 	@RestrictBySpace
 	public List<SprintEntity> fetchAllSprint(@Condition(value = "name", op = Operator.LIKE, ignoreCase = true) String sprintName);
-
+	
 	/**
 	 * Delete All.
 	 */

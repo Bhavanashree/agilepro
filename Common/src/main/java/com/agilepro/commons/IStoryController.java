@@ -61,8 +61,16 @@ public interface IStoryController
 	/**
 	 * Fetch all story.
 	 *
-	 * @param storyName the story name
+	 * @param storyTitle the story title
 	 * @return the basic read response
 	 */
 	public BasicReadResponse<List<StoryModel>> fetchAllStory(String storyTitle);
+
+	/**
+	 * Fetch story by sprint id.
+	 *
+	 * @param sprintId the sprint id
+	 * @return the basic read response
+	 */
+	public BasicReadResponse<List<StoryModel>> fetchStoryBySprintId(Long sprintId);
 }

@@ -13,7 +13,6 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
-// TODO: Auto-generated Javadoc
 /**
  * Maintains the Stories created by Teams.
  * 
@@ -62,27 +61,27 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@DataTypeMapping(type = DataType.STRING)
 	private StoryStatus status;
 
-	/** 
+	/**
 	 * The priority id.
 	 */
 	@Column(name = "STORY_PRIORITY_ID")
 	@ManyToOne
 	@PropertyMapping(type = StoryModel.class, from = "priority", subproperty = "id")
 	private PriorityEntity priorityId;
-	
+
 	/**
-	 *  The sprint id. 
-	 **/
-	@Column(name = "SPRINT_ID")
+	 * sprintId of the story.
+	 */
+	@Column(name = "Sprint_ID")
 	@ManyToOne
-	private SprintEntity sprintId;
-	
+	@PropertyMapping(type = StoryModel.class, from = "sprint", subproperty = "id")
+	private SprintEntity sprint;
+
 	/**
 	 * Instantiates a new back log entity.
 	 */
 	public StoryEntity()
-	{
-	}
+	{}
 
 	/**
 	 * Instantiates a new back log entity.
@@ -222,7 +221,8 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(StoryStatus status)
 	{
@@ -242,7 +242,8 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the priority id.
 	 *
-	 * @param priorityId the new priority id
+	 * @param priorityId
+	 *            the new priority id
 	 */
 	public void setPriorityId(PriorityEntity priorityId)
 	{
@@ -250,22 +251,22 @@ public class StoryEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the sprint id.
+	 * Gets the sprint.
 	 *
-	 * @return the sprint id
+	 * @return the sprint
 	 */
-	public SprintEntity getSprintId()
+	public SprintEntity getSprint()
 	{
-		return sprintId;
+		return sprint;
 	}
 
 	/**
-	 * Sets the sprint id.
+	 * Sets the sprint.
 	 *
-	 * @param sprintId the new sprint id
+	 * @param sprint the new sprint
 	 */
-	public void setSprintId(SprintEntity sprintId)
+	public void setSprint(SprintEntity sprint)
 	{
-		this.sprintId = sprintId;
+		this.sprint = sprint;
 	}
 }

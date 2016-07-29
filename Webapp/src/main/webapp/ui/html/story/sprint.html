@@ -4,7 +4,7 @@
 			<table>
 				<tr>
 					<label for="repeatSelect"> Sprints  </label>
-					<select name="repeatSelect" id="repeatSelect" ng-model="selectedSprintObj">
+					<select name="repeatSelect" id="repeatSelect" ng-model="selectedSprintObj" ng-change="displaySprint()">
 						<option ng-repeat="obj in sprint" value="{{obj}}">{{obj.name}}</option>
 					</select>
 				</tr>
@@ -17,24 +17,32 @@
 					</a>
 				</tr>
 			</table>
-		</div><!-- backlog -->
-		<div class="col-md-6" style="overflow: auto; cursor:-moz-grabbing; cursor:-webkit-grab;" ng-init="listOfStories($event)">
+		</div>
+		<!-- STORIES -->
+		<div class="col-md-6" style="overflow: auto;" ng-init="listOfStories($event)">
 			<h4>STORIES </h4>
-			<table class=" " style="font-size:15px; width: 100%; color:#333333;   border-collapse: collapse;">
+			<table class=" " style="font-size:15px; width: 100%; color:#333333;">	
 				<tr style="font-weight: bold; padding: 1em;">
-					<td style="border:2px solid silver;" yk-on-drag="dragToSprint(event)"/>
-						<div draggable={{backlog.dragValue}}  ng-repeat="backlog in story  | filter:  { status: 'NOT_ASSIGNED' } | orderBy:'title'" style="border: 1px solid red;">
-							<input type="checkbox" value="{{backlog}}"  ng-click ="onSelectStories(backlog)"  style="padding: 1em;min-width:10%; width:0%;height:initial;margin:0.5em;" />{{backlog.title}} --{{backlog.parentStoryId}}--{{backlog.sprint}}<br/>
+					<td style="border:2px solid silver;"/>
+						<div draggable={{backlog.dragValue}}  yk-on-drag="dragToSprint(event)" ng-repeat="backlog in story  | filter:  { status: 'NOT_ASSIGNED' } | orderBy:'title'" style="border: 1px solid silver; cursor:-moz-grabbing; cursor:-webkit-grab;">
+							<input type="checkbox" value="{{backlog}}" ng-model = "checkedStory" ng-click ="onSelectStories(backlog)"  style="padding: 1em;min-width:10%; width:0%;height:initial;margin:0.5em;" />{{backlog.title}} --{{backlog.parentStoryId}}--{{backlog.sprint}}<br/>
 						</div>
 					</td>
 				</tr>
 			</table>
-		</div><!-- sprint-->
-		<div class="col-md-6" style="overflow: auto; border: medium solid buttonface;" yk-on-drag-over="allowDrop(event)" yk-on-drop="onSprintDrop(event)">
-			<h4>SPRINT </h4>
-			<div ng-repeat="backlog in sprints">
-				{{backlog.title}} {{backlog.sprint}}
-			</div>
+		</div><br/>
+		<!-- SPRINT-->
+		<div class="col-md-6" style="overflow: auto; " yk-on-drag-over="allowDrop(event)" yk-on-drop="onSprintDrop(event)">
+			<h4>SPRINTS </h4>
+			<table class=" " style="font-size:15px; width: 100%; color:#333333;">
+				<tr style="font-weight: bold; padding: 1em;">
+					<td style="border:2px solid silver;">
+						<div ng-repeat="displayed in displayStory" style="border: 1px solid silver ; padding:0.5em; ">
+						{{displayed.title}} {{displayed.sprint}}
+						</div>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</result-customizer>
 	<yk-model-dialog id="sprintDialog" name="SprintModel" title="Sprint" columns="2" actionMethod="saveChanges($event);"/>

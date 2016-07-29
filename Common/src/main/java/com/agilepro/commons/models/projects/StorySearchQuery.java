@@ -52,18 +52,12 @@ public class StorySearchQuery
 	private StoryStatus status;
 
 	/**
-	 *  The priority.
+	 * The priority.
 	 **/
 	@NonDisplayable
 	@LOV(name = "priorityLov")
 	@Condition(value = "priorityId.id", op = Operator.EQ)
 	private Long priority;
-
-	/**
-	 *  The sprint. 
-	 **/
-	@Condition(value = "sprintId.id", op = Operator.EQ)
-	private Long sprint;
 	
 	/**
 	 * Instantiates a new backlog search query.
@@ -174,7 +168,8 @@ public class StorySearchQuery
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(StoryStatus status)
 	{
@@ -184,7 +179,8 @@ public class StorySearchQuery
 	/**
 	 * Sets the parent story id.
 	 *
-	 * @param parentStoryId the new parent story id
+	 * @param parentStoryId
+	 *            the new parent story id
 	 */
 	public void setParentStoryId(Long parentStoryId)
 	{
@@ -204,7 +200,8 @@ public class StorySearchQuery
 	/**
 	 * Sets the priority id.
 	 *
-	 * @param priority the new priority
+	 * @param priority
+	 *            the new priority
 	 */
 	public void setPriority(Long priority)
 	{

@@ -1,12 +1,13 @@
 package com.agilepro.commons.models.projects;
 
 import java.util.Date;
-
+import java.util.List;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.NotEmpty;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
+import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -19,7 +20,7 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 public class SprintModel extends AbstractExtendableModel
 {
 	/**
-	 * The id.
+	 * The Sprint Id.
 	 **/
 	@NonDisplayable
 	private Long id;
@@ -31,7 +32,7 @@ public class SprintModel extends AbstractExtendableModel
 	private Integer version;
 
 	/**
-	 * The name.
+	 * The name of the Sprint.
 	 **/
 	@NotEmpty
 	@MinLen(3)
@@ -39,21 +40,28 @@ public class SprintModel extends AbstractExtendableModel
 	private String name;
 
 	/**
-	 * The description.
+	 * The description of the sprint.
 	 **/
 	@MaxLen(200)
 	@MultilineText
 	private String description;
 
 	/**
-	 * The start date.
+	 * The start date of sprint.
 	 */
 	private Date startDate;
 
 	/**
-	 * The end date.
+	 * The end date of sprint.
 	 */
 	private Date endDate;
+
+	/**
+	 * The list of stories under this sprint.  
+	 * */
+	@NonDisplayable
+	@IgnoreField
+	private List<Long> stories;
 
 	/**
 	 * Instantiates a new sprint model.
@@ -205,5 +213,26 @@ public class SprintModel extends AbstractExtendableModel
 	public void setEndDate(Date endDate)
 	{
 		this.endDate = endDate;
+	}
+
+	/**
+	 * Gets the stories.
+	 *
+	 * @return the stories
+	 */
+	public List<Long> getStories()
+	{
+		return stories;
+	}
+
+	/**
+	 * Sets the stories.
+	 *
+	 * @param stories
+	 *            the new stories
+	 */
+	public void setStories(List<Long> stories)
+	{
+		this.stories = stories;
 	}
 }
