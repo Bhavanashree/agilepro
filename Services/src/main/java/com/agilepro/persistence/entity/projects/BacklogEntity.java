@@ -4,8 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.agilepro.commons.StoryStatus;
-import com.agilepro.commons.models.projects.StoryModel;
+import com.agilepro.commons.BacklogStatus;
+import com.agilepro.commons.models.projects.BacklogModel;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -18,9 +18,9 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  * 
  * @author Bhavana.
  */
-@ExtendableEntity(name = "Story")
-@Table(name = "STORY")
-public class StoryEntity extends WebutilsExtendableEntity
+@ExtendableEntity(name = "Backlog")
+@Table(name = "BACKLOG")
+public class BacklogEntity extends WebutilsExtendableEntity
 {
 	/**
 	 * The Story title.
@@ -50,7 +50,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * The owner.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "ownerId", subproperty = "id")
+	@PropertyMapping(type = BacklogModel.class, from = "ownerId", subproperty = "id")
 	@Column(name = "STORY_OWNER_ID")
 	private EmployeeEntity owner;
 
@@ -59,14 +59,14 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 **/
 	@Column(name = "STATUS")
 	@DataTypeMapping(type = DataType.STRING)
-	private StoryStatus status;
+	private BacklogStatus status;
 
 	/**
 	 * The priority id.
 	 */
 	@Column(name = "STORY_PRIORITY_ID")
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "priority", subproperty = "id")
+	@PropertyMapping(type = BacklogModel.class, from = "priority", subproperty = "id")
 	private PriorityEntity priorityId;
 
 	/**
@@ -74,13 +74,13 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 */
 	@Column(name = "Sprint_ID")
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "sprint", subproperty = "id")
+	@PropertyMapping(type = BacklogModel.class, from = "sprint", subproperty = "id")
 	private SprintEntity sprint;
 
 	/**
 	 * Instantiates a new back log entity.
 	 */
-	public StoryEntity()
+	public BacklogEntity()
 	{}
 
 	/**
@@ -95,7 +95,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * @param status
 	 *            the status
 	 */
-	public StoryEntity(String title, Integer estimate, String description, StoryStatus status)
+	public BacklogEntity(String title, Integer estimate, String description, BacklogStatus status)
 	{
 		this.title = title;
 		this.description = description;
@@ -213,7 +213,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 *
 	 * @return the status
 	 */
-	public StoryStatus getStatus()
+	public BacklogStatus getStatus()
 	{
 		return status;
 	}
@@ -224,7 +224,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * @param status
 	 *            the new status
 	 */
-	public void setStatus(StoryStatus status)
+	public void setStatus(BacklogStatus status)
 	{
 		this.status = status;
 	}

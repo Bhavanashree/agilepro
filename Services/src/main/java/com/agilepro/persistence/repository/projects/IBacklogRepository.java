@@ -2,10 +2,10 @@ package com.agilepro.persistence.repository.projects;
 
 import java.util.List;
 
-import com.agilepro.commons.models.projects.StorySearchQuery;
-import com.agilepro.commons.models.projects.StorySearchResult;
-import com.agilepro.persistence.entity.projects.StoryEntity;
-import com.agilepro.services.common.StorySearchCustomizer;
+import com.agilepro.commons.models.projects.BacklogSearchQuery;
+import com.agilepro.commons.models.projects.BacklogSearchResult;
+import com.agilepro.persistence.entity.projects.BacklogEntity;
+import com.agilepro.services.common.BacklogSearchCustomizer;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.search.SearchQuery;
@@ -18,7 +18,7 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 /**
  * The Interface IBackLogRepository for story table.
  */
-public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
+public interface IBacklogRepository extends IWebutilsRepository<BacklogEntity>
 {
 	/**
 	 * Find Story.
@@ -28,20 +28,20 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 * @return the list
 	 */
 	@RestrictBySpace
-	@SearchQueryMethod(name = "storySearch", queryModel = StorySearchQuery.class, customizer = StorySearchCustomizer.class)
+	@SearchQueryMethod(name = "backlogSearch", queryModel = BacklogSearchQuery.class, customizer = BacklogSearchCustomizer.class)
 	@OrderBy("title")
-	public List<StorySearchResult> findBacklog(SearchQuery searchQuery);
+	public List<BacklogSearchResult> findBacklog(SearchQuery searchQuery);
 
 	@LovQuery(name = "parentStoryId", valueField = "id", labelField = "title")
 	@RestrictBySpace
 	public List<ValueLabel> findParentStoryIdLov();
 
 	@RestrictBySpace
-	public List<StoryEntity> fetchAllStory(@Condition(value = "title") String storyTitle);
+	public List<BacklogEntity> fetchAllStory(@Condition(value = "title") String storyTitle);
 	
 	@RestrictBySpace
-	public List<StoryEntity> fetchStoryBySprintId(@Condition(value = "sprint.id") Long sprintId);
-
+	public List<BacklogEntity> fetchStoryBySprintId(@Condition(value = "sprint.id") Long sprintId);
+	
 	/**
 	 * Delete all.
 	 */

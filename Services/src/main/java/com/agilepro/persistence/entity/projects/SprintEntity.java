@@ -45,7 +45,7 @@ public class SprintEntity extends WebutilsExtendableEntity
 	 * The list of stories under this sprint. 
 	 **/
 	@OneToMany(mappedBy = "sprint")
-	private List<StoryEntity> stories;
+	private List<BacklogEntity> stories;
 
 	/**
 	 * Instantiates a new sprint entity.
@@ -162,7 +162,7 @@ public class SprintEntity extends WebutilsExtendableEntity
 	 *
 	 * @return the stories
 	 */
-	public List<StoryEntity> getStories()
+	public List<BacklogEntity> getStories()
 	{
 		return stories;
 	}
@@ -172,7 +172,7 @@ public class SprintEntity extends WebutilsExtendableEntity
 	 *
 	 * @param stories the new stories
 	 */
-	public void setStories(List<StoryEntity> stories)
+	public void setStories(List<BacklogEntity> stories)
 	{
 		this.stories = stories;
 	}

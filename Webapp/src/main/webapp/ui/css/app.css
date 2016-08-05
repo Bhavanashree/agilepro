@@ -311,4 +311,13 @@ body
 {
 	cursor: move; 
 }
+/*end*/
 
+.storyBoards .col 
+{
+   width: 20%; 
+   float: left;
+   padding: 2%;
+}
+        
+        

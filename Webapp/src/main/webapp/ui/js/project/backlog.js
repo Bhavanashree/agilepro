@@ -3,9 +3,9 @@ $.application.controller('backlogController', ["$scope", "crudController", "util
 	
 	 crudController.extend($scope, {
 		"name": "Backlog",
-		"modelName": "BackLogModel",
+		"modelName": "BacklogModel",
 		
-		"nameColumn" : "name",
+		"nameColumn" : "title",
 		
 		"modelDailogId": "backlogDialog",
 		
@@ -35,7 +35,7 @@ $.application.controller('backlogController', ["$scope", "crudController", "util
 			 e = e || window.event;
 			 var key = e.keyCode ? e.keyCode : e.which;
 			   //enter key   
-			   if (key == 13) {   
+			   if (key == 13) {  
 				   $scope.saveSubstory(element.val());
 			      } 
 		}
@@ -43,7 +43,7 @@ $.application.controller('backlogController', ["$scope", "crudController", "util
 		 
 		$scope.isDisplayElement = false;
 		$scope.newModelMode = true;
-		$scope.backlogModel = {};
+		$scope.storyModel = {};
 		$scope.model = {};
 		//set title to model
 		$scope.saveBacklog= function(e){
@@ -54,9 +54,10 @@ $.application.controller('backlogController', ["$scope", "crudController", "util
 			
 		    console.log("model is invoked===model====" + $scope.model); 
 			$scope.initErrors("model", true);
-		
+			$scope.newModelMode= 'Save';
 			$scope.saveChanges();
 			
+			document.getElementById('parentStorytextarea').value=null;
 			$scope.refreshSearch();
 		 }
 
@@ -64,13 +65,15 @@ $.application.controller('backlogController', ["$scope", "crudController", "util
 		$scope.refreshSearch = function(){
 			$scope.$broadcast("invokeSearch", {});
 		};
-
+		
+		
 		$scope.saveSubstory= function(title){
 			$scope.model = {
 				"title" : title, 
 				"parentStoryId": $scope.selectedId
 			};
-			
+
+			$scope.newModelMode= 'Save';
 			$scope.saveChanges();
 			$scope.refreshSearch();
 		};
@@ -79,7 +82,6 @@ $.application.controller('backlogController', ["$scope", "crudController", "util
 		  $scope.getActiveIndex = function(){
 			  return $scope.selectedIndex;
 		  };
-		  
 }]);
 
 
