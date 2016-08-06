@@ -1,6 +1,10 @@
 package com.agilepro.services.admin;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import com.agilepro.persistence.entity.admin.DesignationEntity;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.agilepro.persistence.repository.admin.IEmployeeRepository;
 import com.yukthi.persistence.ITransaction;
+import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.repository.UserEntity;
@@ -57,11 +62,34 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	@Autowired
 	private DesignationService designationService;
 
+	/**
+	 * The repository factory.
+	 **/
+	@Autowired
+	private RepositoryFactory repositoryFactory;
+
+	/** 
+	 * The iemployee repository. 
+	 **/
+	private IEmployeeRepository iemployeeRepository;
+	
+	/**
+	 * Instantiates a new employee service.
+	 */
 	public EmployeeService()
 	{
 		super(EmployeeEntity.class, IEmployeeRepository.class);
 	}
-
+	
+	/**
+	 * Initialize the iemployeeRepository.
+	 */
+	@PostConstruct
+	private void init()
+	{
+		iemployeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
+	}
+	
 	/**
 	 * Save.
 	 *
@@ -211,6 +239,52 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 		{
 			throw new InvalidStateException(ex, "An error occurred while deleting employee with id - {}", id);
 		}
+	}
+
+	/**
+	 * Fetch employees.
+	 *
+	 * @param employeeName
+	 *            the employee name
+	 * @return the list
+	 */
+	public List<EmployeeModel> fetchEmployees(String employeeName)
+	{
+		List<EmployeeModel> employeeModels = null;
+
+		if(employeeName != null)
+		{
+			employeeName = employeeName.replace('*', '%');
+		}
+		
+		List<EmployeeEntity> employeeEntities = iemployeeRepository.fetchEmployees(employeeName);
+
+		if(employeeEntities != null)
+		{
+			employeeModels = new ArrayList<EmployeeModel>(employeeEntities.size());
+
+			for(EmployeeEntity entity : employeeEntities)
+			{
+				employeeModels.add(super.toModel(entity, EmployeeModel.class));
+			}
+		}
+
+		return employeeModels;
+	}
+	
+	/**
+	 * Read employee.
+	 *
+	 * @param id the id
+	 * @return the employee entity
+	 */
+	public EmployeeModel fetchEmployee(Long id)
+	{
+		IEmployeeRepository employeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
+		
+		EmployeeEntity employeeEntity = employeeRepository.fetchEmployee(id);
+		
+		return super.toModel(employeeEntity, EmployeeModel.class);
 	}
 
 	/**

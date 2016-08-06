@@ -130,7 +130,7 @@ public class DesignationController extends BaseController
 	 * @return the base response
 	 */
 	@ActionName(ACTION_TYPE_DELETE_ALL)
-	@Authorization(roles = { UserRole.DESIGNATION_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse deleteAll()

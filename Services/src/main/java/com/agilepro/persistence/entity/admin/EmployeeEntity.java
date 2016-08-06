@@ -55,7 +55,7 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	 * Employees designation.
 	 */
 	@ManyToOne
-	@PropertyMapping(type = EmployeeModel.class, from = "designations", subproperty = "id")
+	@PropertyMapping(type = EmployeeModel.class, from = "designationId", subproperty = "id")
 	@Column(name = "DESIGNATION_ID", nullable = false)
 	private DesignationEntity designation;
 

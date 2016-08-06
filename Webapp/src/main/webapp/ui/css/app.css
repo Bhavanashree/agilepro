@@ -276,3 +276,59 @@ body
     background-size: cover;
 }
 
+.nobackGroundColor
+{
+	back-ground-color: none;
+}
+
+.table-borderless tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th 
+{
+    border: none;
+}
+
+.member
+{
+	border: 2px solid #87CEEB;
+	border-radius: 5px;
+}
+
+.memberOnDragHover
+{
+	border: 3px solid blue;	
+	box-shadow: 5px 5px 10px #888888;
+}
+
+.member:hover
+{
+	box-shadow: 5px 5px 10px #888888;
+}
+
+.memberPhoto:hover
+{
+	color: blue;
+}
+.img-circle
+{
+	border-radius: 50%;
+}
+
+.img-circle:hover
+{
+	border: 1px solid blue;
+}
+
+.dropDownItemHide
+{
+	display	: none;
+}
+
+.dropDownItemShow
+{
+	color: red;
+	position: absolute;
+	z-index: 1;
+	padding-top: 100em;
+}
+
+
+

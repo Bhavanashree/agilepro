@@ -3,9 +3,7 @@ package com.agilepro.controller.admin;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_LPAGE;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PASSWORD_RESET;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;

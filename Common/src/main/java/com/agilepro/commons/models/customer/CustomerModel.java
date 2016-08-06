@@ -489,12 +489,11 @@ public class CustomerModel extends AbstractExtendableModel
 	{
 		return registrationDate;
 	}
-
+	
 	/**
-	 * Sets the registration Date(Current Date).
+	 * Sets the registration date.
 	 *
-	 * @param regDate
-	 *            the new registration Date(Current Date)
+	 * @param registrationDate the new registration date
 	 */
 	public void setRegistrationDate(Date registrationDate)
 	{

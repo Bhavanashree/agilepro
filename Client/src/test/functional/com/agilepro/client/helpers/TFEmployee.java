@@ -3,7 +3,6 @@ package com.agilepro.client.helpers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -12,27 +11,28 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
+import com.agilepro.commons.controllers.admin.IEmployeeController;
 import com.agilepro.commons.models.admin.DesignationModel;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
 import com.yukthi.webutils.client.ClientContext;
+import com.yukthi.webutils.client.ClientControllerFactory;
+import com.yukthi.webutils.common.models.BasicReadResponse;
+import com.yukthi.webutils.common.models.BasicSaveResponse;
 
 /**
- * Employee class test cases.
+ * The Class TFEmployee.
  * 
- * @author bhavana
- *
+ * @author Pritam
  */
-
-public class TFEmployeeHelper extends TFBase
+public class TFEmployee extends TFBase
 {
-	private static Logger logger = LogManager.getLogger(TFEmployeeHelper.class);
 	/**
-	 * EmployeeHelper object with default values.
-	 */
-	private EmployeeHelper employeeHelper = new EmployeeHelper();
+	 * The logger.
+	 **/
+	private static Logger logger = LogManager.getLogger(TFEmployee.class);
 
 	/**
 	 * DesignationHelper object with default values.
@@ -87,6 +87,11 @@ public class TFEmployeeHelper extends TFBase
 	private ClientContext clientCurrentSession;
 
 	/**
+	 * The I employee controller.
+	 **/
+	private IEmployeeController iemployeeController;
+
+	/**
 	 * saving the pricePlan and customer before saving employee.
 	 */
 	@BeforeClass
@@ -105,6 +110,7 @@ public class TFEmployeeHelper extends TFBase
 		List<CustomerPricePlanExpression> listExp = new ArrayList<CustomerPricePlanExpression>();
 		listExp.add(ex);
 		customerPricePlanModel.setExpressions(listExp);
+
 		long idOfPricePlan = pricePlanHelper.save(clientContext, customerPricePlanModel);
 		logger.debug("Saved price plan with id - {}", idOfPricePlan);
 		Assert.assertTrue(idOfPricePlan > 0);
@@ -118,81 +124,110 @@ public class TFEmployeeHelper extends TFBase
 		customerId = customerHelper.save(clientContext, model);
 		Assert.assertTrue(idOfPricePlan > 0);
 		Assert.assertTrue(customerId > 0);
+
 		clientCurrentSession = super.newClientContext(emailId, password, customerId);
+
 		// designation
 		DesignationModel designationModel = new DesignationModel(0L, designationName, null, null);
 		designationId = designationHelper.save(clientCurrentSession, designationModel);
 		designationModel.setId(designationId);
 		Assert.assertTrue(designationId > 0);
+
+		clientControllerFactory = new ClientControllerFactory(clientCurrentSession);
+
+		iemployeeController = clientControllerFactory.getController(IEmployeeController.class);
 	}
 
 	/**
-	 * Test designation save with all required fields with proper format .
-	 **/
+	 * Gets the employee.
+	 *
+	 * @param employeeId
+	 *            the employee id
+	 * @return the employee
+	 */
+	public EmployeeModel getEmployee(Long employeeId)
+	{
+		BasicReadResponse<EmployeeModel> basicReadResponse = iemployeeController.read(employeeId);
+
+		return basicReadResponse.getModel();
+	}
+
+	/**
+	 * Test save.
+	 */
 	@Test
 	public void testSave()
 	{
+		EmployeeModel model = new EmployeeModel("employee1", "emp7@gmail.com", phoneNumber, password, password, designationId);
 
-		EmployeeModel model = new EmployeeModel(0L, "employee1", "emp7@gmail.com", phoneNumber, password, null, null, 2L);
-		model.setPassword(password);
-		model.setConfirmPassword(password);
-		model.setDesignations(designationId);
-		Long employeeId = employeeHelper.save(clientCurrentSession, model);
-		model.setId(employeeId);
-		model.setName("abce");
-		Assert.assertTrue(employeeId > 0);
+		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
+
+		Assert.assertTrue(basicSaveResponse.getId() > 0);
+		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
 	}
 
 	@Test
 	public void testRead()
 	{
-		// employee
-		EmployeeModel model = new EmployeeModel(0L, "employee2", "emp2@gmail.com", phoneNumber, password, password, null, 2L);
-		model.setPassword(password);
-		model.setConfirmPassword(password);
-		model.setDesignations(designationId);
-		long id = employeeHelper.save(clientCurrentSession, model);
-		logger.debug("Saved new employee with id - {}", id);
-		Assert.assertTrue(id > 0);
-		employeeHelper.read(clientCurrentSession, id);
+		EmployeeModel model = new EmployeeModel("employee2", "emp2@gmail.com", phoneNumber, password, password, designationId);
+
+		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
+		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
+		
+		EmployeeModel fetchedModel = getEmployee(basicSaveResponse.getId());
+		
+		Assert.assertTrue(fetchedModel.getId() > 0);
+		Assert.assertEquals(fetchedModel.getName(), "employee2");
+		Assert.assertEquals(fetchedModel.getMailId(), "emp2@gmail.com");
 	}
 
 	@Test
 	public void testUpdate()
 	{
+		EmployeeModel model = new EmployeeModel("employee3", "emp3@gmail.com", phoneNumber, password, password, designationId);
+		
+		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
+		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
+		
+		EmployeeModel fetchedModel = getEmployee(basicSaveResponse.getId());
+		fetchedModel.setName("admin");
+		fetchedModel.setPassword(password);
+		fetchedModel.setConfirmPassword(password);
+		
+		iemployeeController.update(fetchedModel);
 
-		EmployeeModel model = new EmployeeModel(0L, "employee3", "emp3@gmail.com", phoneNumber, password, password, null, 2L);
-		model.setPassword(password);
-		model.setConfirmPassword(password);
-		model.setDesignations(designationId);
-		long id = employeeHelper.save(clientCurrentSession, model);
-		employeeHelper.read(clientCurrentSession, id);
-		model.setName("admin");
-		model.setId(id);
-		employeeHelper.update(clientCurrentSession, model);
-		employeeHelper.read(clientCurrentSession, id);
+		fetchedModel = getEmployee(basicSaveResponse.getId());
+		
+		Assert.assertEquals(fetchedModel.getName(), "admin");
+		Assert.assertEquals(fetchedModel.getMailId(), "emp3@gmail.com");
 	}
-
+	
 	@Test
 	public void testDelete()
 	{
-		EmployeeModel model = new EmployeeModel(0L, "employee4", "emp1@gmail.com", phoneNumber, password, password, null, 2L);
-		model.setPassword(password);
-		model.setConfirmPassword(password);
-		model.setDesignations(designationId);
-		long id = employeeHelper.save(clientCurrentSession, model);
-		logger.debug("Saved employee with id - {}", id);
-		employeeHelper.delete(clientCurrentSession, id);
+		EmployeeModel model = new EmployeeModel("employee4", "emp1@gmail.com", phoneNumber, password, password, designationId);
+		
+		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
+		Assert.assertTrue(basicSaveResponse.getId() > 0);
+		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
+		
+		iemployeeController.delete(basicSaveResponse.getId());
+		
+		EmployeeModel fetchedModel = getEmployee(basicSaveResponse.getId());
+		
+		Assert.assertNull(fetchedModel);
+		logger.debug("Deleted employee with id - {}", basicSaveResponse.getId());
 	}
-
+	
 	/**
 	 *cleanup. 
 	 */
 	@AfterClass
 	public void cleanup()
 	{
-		employeeHelper.deleteAll(clientCurrentSession);
+		iemployeeController.deleteAll();
 		designationHelper.deleteAll(clientCurrentSession);
+		
 		customerHelper.deleteAll(clientContext);
 		pricePlanHelper.deleteAll(clientContext);
 	}

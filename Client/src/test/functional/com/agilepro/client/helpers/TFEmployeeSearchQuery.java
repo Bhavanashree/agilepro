@@ -119,17 +119,17 @@ public class TFEmployeeSearchQuery extends TFBase
 		List<UserRole> listExp1 = new ArrayList<UserRole>();
 		listExp1.add(UserRole.DESIGNATION_EDIT);
 		listExp1.add(UserRole.DESIGNATION_DELETE);
-		listExp1.add(UserRole.DESIGNATION_DELETE_ALL);
+		listExp1.add(UserRole.TEST_DELETE_ALL);
 		listExp1.add(UserRole.EMPLOYEE_DELETE);
-		listExp1.add(UserRole.EMPLOYEE_DELETE_ALL);
+		listExp1.add(UserRole.TEST_DELETE_ALL);
 		listExp1.add(UserRole.EMPLOYEE_VIEW);
 		designationModel.setRoles(listExp1);
 		Assert.assertTrue(designationId > 0);
 
-		EmployeeModel model1 = new EmployeeModel(0L, empName, "emp7@gmail.com", phoneNumber, null, null, null, 2L);
+		EmployeeModel model1 = new EmployeeModel(empName, "emp7@gmail.com", phoneNumber, null, null, 2L);
 		model1.setPassword(PASSWORD);
 		model1.setConfirmPassword(PASSWORD);
-		model1.setDesignations(designationId);
+		model1.setDesignationId(designationId);
 		Long employeeId = employeeHelper.save(clientCurrentSession, model1);
 		model.setId(employeeId);
 		model.setName("abce");

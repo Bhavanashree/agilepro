@@ -8,11 +8,11 @@ import com.yukthi.webutils.common.models.BaseResponse;
 public class CustomerPaymentResponse extends BaseResponse
 {
 
-	/** 
-	 * The id. 
+	/**
+	 * The id.
 	 **/
 	private Long id;
-	
+
 	/**
 	 * Customer model.
 	 */
@@ -25,22 +25,21 @@ public class CustomerPaymentResponse extends BaseResponse
 	{}
 
 	/**
-	 * Instantiates a new customerPayment save response.
+	 * Instantiates a new customer payment response.
 	 *
-	 * @param customerpayment
-	 *            the customerPayment id
+	 * @param id
+	 *            the id
 	 */
-
 	public CustomerPaymentResponse(Long id)
 	{
 		this.id = id;
 	}
 
 	/**
-	 * Instantiates a new customer save response.
+	 * Instantiates a new customer payment response.
 	 *
-	 * @param customerModel
-	 *            the customer model
+	 * @param model
+	 *            the model
 	 */
 	public CustomerPaymentResponse(CustomerPaymentModel model)
 	{
@@ -58,12 +57,11 @@ public class CustomerPaymentResponse extends BaseResponse
 	}
 
 	/**
-	 * Sets the customerPayment model.
+	 * Sets the model.
 	 *
-	 * @param customerModel
-	 *            the new customer model
+	 * @param model
+	 *            the new model
 	 */
-
 	public void setmodel(CustomerPaymentModel model)
 	{
 		this.model = model;

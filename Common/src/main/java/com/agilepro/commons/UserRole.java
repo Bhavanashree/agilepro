@@ -31,6 +31,11 @@ public enum UserRole
 	 * defined.
 	 **/
 	PROJECT_GROUP(true),
+	
+	/** 
+	 * The common test delete all for test cases. 
+	 **/
+	TEST,
 
 	/**
 	 * Indicates user is administrator.
@@ -114,10 +119,6 @@ public enum UserRole
 	@Label("Designation Delete") DESIGNATION_DELETE(false, DESIGNATION_VIEW),
 
 	/**
-	 * The Employee delete.
-	 */
-	@Label("Employee Delete") DESIGNATION_DELETE_ALL(false, DESIGNATION_VIEW),
-	/**
 	 * The Employee view.
 	 */
 	@Label("Employee view") EMPLOYEE_VIEW,
@@ -131,11 +132,6 @@ public enum UserRole
 	 * The Employee delete.
 	 */
 	@Label("Employee Delete") EMPLOYEE_DELETE(false, EMPLOYEE_VIEW),
-
-	/**
-	 * The Employee delete.
-	 */
-	@Label("Employee DeleteAll") EMPLOYEE_DELETE_ALL(false, EMPLOYEE_VIEW),
 
 	/**
 	 * The Client Price Plan view.
@@ -272,6 +268,57 @@ public enum UserRole
 	@Label("CampaignType DeleteAll") CAMPAIGNTYPE_DELETE_ALL(false, CAMPAIGN_VIEW),
 
 	/**
+	 * The project view.
+	 **/
+	@Label("Projects view") PROJECT_VIEW,
+
+	/**
+	 * The project edit.
+	 **/
+	@Label("Projects Edit") PROJECT_EDIT(false, PROJECT_VIEW, PROJECT_GROUP),
+
+	/**
+	 * The project delete.
+	 **/
+	@Label("Project Delete") PROJECT_DELETE(false, PROJECT_VIEW),
+
+	/**
+	 * The project members view.
+	 **/
+	@Label("Project Members view") PROJECT_MEMBER_VIEW,
+
+	/**
+	 * Represents Members group under which project members related roles should
+	 * be defined.
+	 **/
+	PROJECT_MEMBER_GROUP(true),
+	
+	/**
+	 * The project members edit.
+	 **/
+	@Label("Project Members Edit") PROJECT_MEMBER_EDIT(false, PROJECT_MEMBER_VIEW, PROJECT_MEMBER_GROUP),
+
+	/**
+	 * The project members delete.
+	 **/
+	@Label("Project Members Delete") PROJECT_MEMBER_DELETE(false, PROJECT_MEMBER_VIEW),
+
+	/**
+	 * The tags view.
+	 **/
+	@Label("Tags View") TAG_VIEW,
+
+	/**
+	 * The tags edit.
+	 **/
+	@Label("Tag Edit") TAG_EDIT(false, TAG_VIEW, PROJECT_GROUP),
+
+	/**
+	 * The tags delete.
+	 **/
+	@Label("Tag Delete") TAG_DELETE(false, TAG_VIEW),
+	
+	/**
 	 * The project property view.
 	 **/
 	@Label("Project Property view") PROJECT_PROPERTY_VIEW,
@@ -284,12 +331,12 @@ public enum UserRole
 	/**
 	 * The project property delete.
 	 **/
-	@Label("CampaignType Delete") PROJECT_PROPERTY_DELETE(false, PROJECT_PROPERTY_VIEW),
+	@Label("Project Property Delete") PROJECT_PROPERTY_DELETE(false, PROJECT_PROPERTY_VIEW),
 
 	/**
 	 * The project property delete all.
 	 **/
-	@Label("CampaignType DeleteAll") PROJECT_PROPERTY_DELETE_ALL(false, PROJECT_PROPERTY_VIEW),
+	@Label("Project Property DeleteAll") PROJECT_PROPERTY_DELETE_ALL(false, PROJECT_PROPERTY_VIEW),
 
 	/**
 	 * The project price plan view.
@@ -331,6 +378,21 @@ public enum UserRole
 	 */
 	@Label("Lead DeleteAll") LEAD_DELETE_ALL(false, LEAD_VIEW),
 
+	/** 
+	 * The user setting. 
+	 **/
+	@Label("User Setting") USER_SETTING_VIEW,
+	
+	/** 
+	 * The user setting edit. 
+	 **/
+	@Label("User setting Edit") USER_SETTING_EDIT(false, USER_SETTING_VIEW, SETTINGS_GROUP),
+	
+	/** 
+	 * The user setting delete. 
+	 **/
+	@Label("User setting Delete") USER_SETTING_DELETE(false, USER_SETTING_VIEW),
+	
 	;
 
 	/**

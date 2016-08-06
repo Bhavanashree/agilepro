@@ -13,9 +13,14 @@ public interface ITestConstants
 	double T_DUE_AMOUNT = 1000.0;
 
 	/**
-	 * Debug Message.
+	 * Debug Message for customer. 
 	 */
-	String T_DEBUG_MESSAGE = "Saved customer with id - {}";
+	String T_DEBUG_CUS_MESSAGE = "Saved customer with id - {}";
+	
+	/** 
+	 * Debug message for project. 
+	 * */
+	String T_DEBUG_PRO_MESSAGE = "Saved project with id - {}";
 
 	/**
 	 * Phone Number.
@@ -27,6 +32,16 @@ public interface ITestConstants
 	 */
 	String PASSWORD = "12345";
 
+	/** 
+	 * The start date will be added from current date. 
+	 **/
+	Integer START_DATE = 5;
+	
+	/** 
+	 * The end date will be added from current date. 
+	 **/
+	Integer END_DATE = 7;
+			
 	/**
 	 * Email id.
 	 */

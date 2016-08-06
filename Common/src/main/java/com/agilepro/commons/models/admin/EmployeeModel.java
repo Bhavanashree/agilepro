@@ -9,6 +9,7 @@ import com.yukthi.validation.annotations.NotEmpty;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.IWebUtilsCommonConstants;
+import com.yukthi.webutils.common.ImageInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
@@ -87,7 +88,12 @@ public class EmployeeModel extends AbstractExtendableModel
 	 **/
 	@LOV(name = "designationList")
 	@Required
-	private Long designations;
+	private Long designationId;
+
+	/**
+	 * The photo.
+	 **/
+	private ImageInfo photo;
 
 	/**
 	 * Version used for update.
@@ -107,29 +113,24 @@ public class EmployeeModel extends AbstractExtendableModel
 	 * @param name
 	 *            the name
 	 * @param mailId
-	 *            the mailId
+	 *            the mail id
 	 * @param phoneNumber
-	 *            the phoneNumber
-	 * @param address
-	 *            the address
+	 *            the phone number
 	 * @param password
 	 *            the password
 	 * @param confirmPassword
 	 *            the confirm password
-	 * @param designations
-	 *            the designations
-	 * @param id
-	 *            the id
+	 * @param designationId
+	 *            the designation id
 	 */
-	public EmployeeModel(Long id, String name, String mailId, String phoneNumber, String address, String password, String confirmPassword, Long designations)
+	public EmployeeModel(String name, String mailId, String phoneNumber, String password, String confirmPassword, Long designationId)
 	{
 		this.name = name;
 		this.mailId = mailId;
 		this.phoneNumber = phoneNumber;
-		this.address = address;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
-		this.designations = designations;
+		this.designationId = designationId;
 	}
 
 	/**
@@ -301,23 +302,44 @@ public class EmployeeModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the designations.
+	 * Gets the designation id.
 	 *
-	 * @return the designations
+	 * @return the designation id
 	 */
-	public Long getDesignations()
+	public Long getDesignationId()
 	{
-		return designations;
+		return designationId;
 	}
 
 	/**
-	 * Sets the designations.
+	 * Sets the designation id.
 	 *
-	 * @param designations
-	 *            the new designations
+	 * @param designationId
+	 *            the new designation id
 	 */
-	public void setDesignations(Long designations)
+	public void setDesignationId(Long designationId)
 	{
-		this.designations = designations;
+		this.designationId = designationId;
+	}
+
+	/**
+	 * Gets the photo.
+	 *
+	 * @return the photo
+	 */
+	public ImageInfo getPhoto()
+	{
+		return photo;
+	}
+
+	/**
+	 * Sets the photo.
+	 *
+	 * @param photo
+	 *            the new photo
+	 */
+	public void setPhoto(ImageInfo photo)
+	{
+		this.photo = photo;
 	}
 }

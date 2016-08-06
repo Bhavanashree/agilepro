@@ -115,7 +115,7 @@ public class TFDesignationSearchQuery extends TFBase
 		List<UserRole> listExp1 = new ArrayList<UserRole>();
 		listExp1.add(UserRole.DESIGNATION_EDIT);
 		listExp1.add(UserRole.DESIGNATION_DELETE);
-		listExp1.add(UserRole.DESIGNATION_DELETE_ALL);
+		listExp1.add(UserRole.TEST_DELETE_ALL);
 		designationModel.setRoles(listExp1);
 		Assert.assertTrue(designationId > 0);
 	}
