@@ -99,17 +99,28 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public EmployeeEntity save(EmployeeModel model)
 	{
-		CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
-
-		Long customerId = cbiller.getCustomerId();
-
-		// saving employee
-		EmployeeEntity employeeEntity = super.save(model);
-
-		// saving user
-		saveUser(model, customerId, employeeEntity);
-
-		return employeeEntity;
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+	
+			Long customerId = cbiller.getCustomerId();
+	
+			// saving employee
+			EmployeeEntity employeeEntity = super.save(model);
+	
+			// saving user
+			saveUser(model, customerId, employeeEntity);
+			
+			transaction.commit();
+			
+			return employeeEntity;
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while saving model - {}", model);
+		}
 	}
 
 	/**

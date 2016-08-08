@@ -139,7 +139,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 			throw ex;
 		} catch(Exception ex)
 		{
-			throw new InvalidStateException(ex, "An error occurred while deleing customer with id - {}", id);
+			throw new InvalidStateException(ex, "An error occurred while deleting customer with id - {}", id);
 		}
 	}
 

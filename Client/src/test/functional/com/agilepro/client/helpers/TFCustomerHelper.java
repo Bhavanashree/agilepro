@@ -104,7 +104,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 	public void testSave()
 	{
 		// Customer Table
-		CustomerModel model = new CustomerModel("Customer1", "customer1@gmail.com", PHONE_NUMBER, null, null, null, null, new Date(), PASSWORD, PASSWORD, "path1", null);
+		CustomerModel model = new CustomerModel("Customer1", "customer1@gmail.com", T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, "path1", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -135,7 +135,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 	public void testSaveMaximumLength()
 	{
 		// Customer Table
-		CustomerModel model = new CustomerModel("Testing is my hobby.The more you test the more perfect your code becomes so do it again and again", "customer2@gmail.com", PHONE_NUMBER, null, null, null, null, null, PASSWORD, PASSWORD, "path2", null);
+		CustomerModel model = new CustomerModel("Testing is my hobby.The more you test the more perfect your code becomes so do it again and again", "customer2@gmail.com", T_PHONE_NUMBER, null, null, null, null, null, T_PASSWORD, T_PASSWORD, "path2", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -149,7 +149,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 	public void testSaveMinimumLength()
 	{
 		// Customer table
-		CustomerModel model = new CustomerModel("", "customer3@gmail.com", PHONE_NUMBER, null, null, null, null, null, PASSWORD, PASSWORD, "path3", null);
+		CustomerModel model = new CustomerModel("", "customer3@gmail.com", T_PHONE_NUMBER, null, null, null, null, null, T_PASSWORD, T_PASSWORD, "path3", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -163,7 +163,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 	public void testEmail()
 	{
 		// Customer table
-		CustomerModel model = new CustomerModel("Customer4", "customer4gmailcom", PHONE_NUMBER, null, null, null, null, null, PASSWORD, PASSWORD, "path4", null);
+		CustomerModel model = new CustomerModel("Customer4", "customer4gmailcom", T_PHONE_NUMBER, null, null, null, null, null, T_PASSWORD, T_PASSWORD, "path4", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -177,7 +177,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 	public void testPhoneNumberMaximumLength()
 	{
 		// Customer table
-		CustomerModel model = new CustomerModel("Customer5", "customer5@gmail.com", "1234567891123456789123456", null, null, null, null, null, PASSWORD, PASSWORD, "path5", null);
+		CustomerModel model = new CustomerModel("Customer5", "customer5@gmail.com", "1234567891123456789123456", null, null, null, null, null, T_PASSWORD, T_PASSWORD, "path5", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -191,7 +191,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 	public void testPhoneNumberMinimumLength()
 	{
 		// Customer table
-		CustomerModel model = new CustomerModel("Customer6", "customer6@gmail.com", "977", null, null, null, null, null, PASSWORD, PASSWORD, "path6", null);
+		CustomerModel model = new CustomerModel("Customer6", "customer6@gmail.com", "977", null, null, null, null, null, T_PASSWORD, T_PASSWORD, "path6", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -211,7 +211,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 		String workType = "group";
 		
 		// Customer table
-		CustomerModel model = new CustomerModel(customerName, customerEmail, PHONE_NUMBER, address, taxNumber, null, workType, new Date(), PASSWORD, PASSWORD, "path7", null);
+		CustomerModel model = new CustomerModel(customerName, customerEmail, T_PHONE_NUMBER, address, taxNumber, null, workType, new Date(), T_PASSWORD, T_PASSWORD, "path7", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -222,7 +222,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 		CustomerModel cm = customerHelper.read(clientContext, id);
 		Assert.assertEquals(customerName, cm.getName());
 		Assert.assertEquals(customerEmail, cm.getEmail());
-		Assert.assertEquals(PHONE_NUMBER, cm.getPhoneNumber());
+		Assert.assertEquals(T_PHONE_NUMBER, cm.getPhoneNumber());
 		Assert.assertEquals(address, cm.getAddress());
 		Assert.assertEquals(taxNumber, cm.getSalesTaxNumber());
 		Assert.assertEquals(workType, cm.getWorkType());
@@ -242,7 +242,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 		String newName = "New Name";
 		
 		// Customer table
-		CustomerModel model = new CustomerModel(customerName, customerEmail, PHONE_NUMBER, null, null, null, null, new Date(), PASSWORD, PASSWORD, "path8", null);
+		CustomerModel model = new CustomerModel(customerName, customerEmail, T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, "path8", null);
 
 		model.setCustomerPricePlanId(idOfPricePlan);
 
@@ -252,7 +252,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 
 		CustomerModel modelFromDb = customerHelper.read(clientContext, id);
 
-		model = new CustomerModel(customerName, customerEmail, PHONE_NUMBER, null, null, null, null, new Date(), PASSWORD, PASSWORD, "path9", null);
+		model = new CustomerModel(customerName, customerEmail, T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, "path9", null);
 		model.setName(newName);
 		model.setId(id);
 		model.setVersion(modelFromDb.getVersion());
@@ -274,7 +274,7 @@ public class TFCustomerHelper extends TFBase implements ITestConstants
 	public void testDelete()
 	{
 		// Customer table
-		CustomerModel model = new CustomerModel("Customer9", "customer9@gmail.com", PHONE_NUMBER, null, null, null, null, new Date(), PASSWORD, PASSWORD, "path10", null);
+		CustomerModel model = new CustomerModel("Customer9", "customer9@gmail.com", T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, "path10", null);
 		
 		model.setCustomerPricePlanId(idOfPricePlan);
 

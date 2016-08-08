@@ -132,26 +132,33 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	 */
 	public CustomerEntity()
 	{}
-	
+
 	/**
 	 * Instantiates a new customer entity.
 	 *
-	 * @param id the id
+	 * @param id
+	 *            the id
 	 */
 	public CustomerEntity(Long id)
 	{
 		super(id);
 	}
-	
+
 	/**
 	 * Instantiates a new customer entity.
 	 *
-	 * @param name the name
-	 * @param customerPricePlan the customer price plan
-	 * @param dueAmount the due amount
-	 * @param variableMap the variable map
-	 * @param lastPayEvalDate the last pay eval date
-	 * @param nextPayEvalDate the next pay eval date
+	 * @param name
+	 *            the name
+	 * @param customerPricePlan
+	 *            the customer price plan
+	 * @param dueAmount
+	 *            the due amount
+	 * @param variableMap
+	 *            the variable map
+	 * @param lastPayEvalDate
+	 *            the last pay eval date
+	 * @param nextPayEvalDate
+	 *            the next pay eval date
 	 */
 	public CustomerEntity(String name, CustomerPricePlanEntity customerPricePlan, Double dueAmount, Map<String, Double> variableMap, Date lastPayEvalDate, Date nextPayEvalDate)
 	{
@@ -457,11 +464,10 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Sets the customer Point of Contact (having contacts of customer).
+	 * Sets the customer poc model list.
 	 *
-	 * @param customerPocEntity
-	 *            the new customer Point of Contact (having contacts of
-	 *            customer)
+	 * @param customerPocModel
+	 *            the new customer poc model list
 	 */
 	public void setCustomerPocModelList(List<CustomerPocModel> customerPocModel)
 	{

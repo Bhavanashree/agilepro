@@ -153,6 +153,7 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		
 		projectId = $scope.getActiveProject();
 		
+		console.log("PROJECT ID = " + projectId);
 		if(!projectId || projectId == 0)
 		{
 			return;
