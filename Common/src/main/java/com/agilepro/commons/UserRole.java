@@ -9,6 +9,7 @@ import com.yukthi.webutils.common.annotations.Label;
  */
 public enum UserRole
 {
+	
 	/**
 	 * Represents settings group under which settings related roles should be
 	 * defined.
