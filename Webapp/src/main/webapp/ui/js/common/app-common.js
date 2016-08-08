@@ -121,7 +121,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		$scope.selectedProject = {"id" : presentProjectId};
     		
     		// broad cast for project member 
-    		$scope.$broadcast("activeProjectSelected");
+    		$scope.$broadcast("activeProjectSelectionChanged");
     	}
     	
     	actionHelper.invokeAction("project.readAll", null, null, readProCallBack);
