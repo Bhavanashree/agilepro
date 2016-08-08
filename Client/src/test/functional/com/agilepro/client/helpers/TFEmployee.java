@@ -29,6 +29,7 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
  */
 public class TFEmployee extends TFBase
 {
+	
 	/**
 	 * The logger.
 	 **/
