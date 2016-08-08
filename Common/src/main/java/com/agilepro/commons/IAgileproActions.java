@@ -524,7 +524,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PRIORITY_DELETE = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
 
 	/**
-	 *  The action sprint deleteall. 
+	 *  The action sprint delete all. 
 	 **/
 	public String ACTION_PRIORITY_DELETEALL = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
 }

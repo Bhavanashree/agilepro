@@ -8,13 +8,13 @@ import com.yukthi.webutils.common.annotations.Label;
 public enum BacklogStatus
 {
 	/**
-	 * Indicates story is assigned.
+	 * Indicates story is not started.
 	 */
 	@Label("Not started") 
 	NOT_STARTED,	
 
 	/**
-	 * Indicates story is not assigned.
+	 * Indicates story is in progress.
 	 */
 	@Label("In Progress") 
 	IN_PROGRESS,
