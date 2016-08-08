@@ -61,8 +61,8 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("designation","resources/resources-menu.html", "resources/designation.html", "resourcesTab");
 	
 	//Projects
-	addState("story","story/story-menu.html", "story/story.html", "storyTab");
-	addState("sprint","story/story-menu.html", "story/sprint.html", "storyTab");
-	addState("priority","story/story-menu.html", "story/priority.html", "storyTab");
+	addState("sprint","story/sprints-menu.html", "story/sprint.html", "sprintTab");
+	addState("backlog","story/sprints-menu.html", "story/backlog.html", "sprintTab");
+	addState("priority","story/sprints-menu.html", "story/priority.html", "sprintTab");
 	
 });

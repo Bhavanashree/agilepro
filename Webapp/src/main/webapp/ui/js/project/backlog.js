@@ -37,7 +37,7 @@ $.application.controller('backlogController', ["$scope", "crudController", "util
 			   //enter key   
 			   if (key == 13) {  
 				   $scope.saveSubstory(element.val());
-			      } 
+			   } 
 		}
 			
 		 

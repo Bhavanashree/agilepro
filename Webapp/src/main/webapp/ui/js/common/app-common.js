@@ -42,6 +42,8 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
 		}
 	];
     
+    $scope.defaultShow = true;
+    
     $scope.toggleLeftMenu = function() {
     	var leftMenu = $("#appLeftMenu");
     	leftMenu.toggleClass('visibleElem');
@@ -57,7 +59,6 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	var leftMenu = $("#appLeftMenu");
     	leftMenu.removeClass('visibleElem');
     });
-    
     
     $scope.showConversation = function(){
     	
@@ -83,7 +84,22 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	console.log(message);
     	
     }
-    $scope.data = [];
     
+    $scope.common_hideLeftMenu = function() {
+    	$scope.hideMenu = false;
+    }
+    
+    
+    $scope.displayLeftMenu = function() {
+    	$scope.displayMenu = true;
+    }
+    
+    $scope.$on('$displayLeftMenu', function(event, toState, toParams) {
+    	console.log("routeeeeeeeeeeeeeeeeee");
+    	  $scope.displayLeftMenu();
+    
+   });
+
+    $scope.data = [];
     
 }]);

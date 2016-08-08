@@ -1,7 +1,7 @@
 package com.agilepro.commons;
 
 import com.agilepro.commons.models.projects.PriorityModel;
-import com.agilepro.commons.models.projects.StoryModel;
+import com.agilepro.commons.models.projects.BacklogModel;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
