@@ -280,6 +280,26 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PREFIX_USER_SETTING = "userSetting";
 	
 	/**
+	 * The action prefix backlog.
+	 */
+	public String ACTION_PREFIX_BACKLOG = "backlog";
+
+	/**
+	 * The action prefix priority.
+	 */
+	public String ACTION_PREFIX_PRIORITY = "priority";
+	
+	/**
+	 * The action type readSprints.
+	 */
+	public String ACTION_TYPE_READ_SPRINT = "readSprints";
+	
+	/**
+	 *  The action prefix sprint. 
+	 **/
+	public String ACTION_PREFIX_SPRINT = "sprint";
+	
+	/**
 	 * The param id.
 	 **/
 	public String PARAM_ID = "id";
@@ -901,4 +921,100 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action user setting delete all. 
 	 **/
 	public String ACTION_USER_SETTING_DELETE_ALL = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_DELETE_ALL;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * The action Story save.
+	 **/
+	public String ACTION_BACKLOG_SAVE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_SAVE;
+
+	/**
+	 * The action Story read.
+	 **/
+	public String ACTION_BACKLOG_READ = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_READ;
+
+	/**
+	 *  The action backlog readall.
+	 **/
+	public String ACTION_BACKLOG_READALL = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_READ_ALL;
+
+	/**
+	 *  The action sprint read.
+	 **/
+	public String ACTION_BACKLOG_READSPRINT = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_READ_SPRINT;
+	/**
+	 * The action backlog update.
+	 **/
+	public String ACTION_BACKLOG_UPDATE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_UPDATE;
+
+	/**
+	 * The action backlog delete.
+	 **/
+	public String ACTION_BACKLOG_DELETE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_DELETE;
+
+	/**
+	 * The action backlog delete all.
+	 **/
+	public String ACTION_BACKLOG_DELETE_ALL = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_DELETE_ALL;
+
+	/**
+	 *  The action sprint save. 
+	 **/
+	public String ACTION_SPRINT_SAVE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_SAVE;
+
+	/**
+	 *  The action sprint read. 
+	 **/
+	public String ACTION_SPRINT_READ = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ;
+
+	/** 
+	 * The action sprint readall. 
+	 **/
+	public String ACTION_SPRINT_READALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ_ALL;
+
+	/** 
+	 * The action sprint update.
+	 **/
+	public String ACTION_SPRINT_UPDATE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_UPDATE;
+
+	/**
+	 *  The action sprint delete. 
+	 */
+	public String ACTION_SPRINT_DELETE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
+
+	/**
+	 *  The action sprint deleteall. 
+	 **/
+	public String ACTION_SPRINT_DELETEALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
+	
+	/**
+	 *  The action sprint save. 
+	 **/
+	public String ACTION_PRIORITY_SAVE = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_SAVE;
+
+	/**
+	 *  The action sprint read. 
+	 **/
+	public String ACTION_PRIORITY_READ = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_READ;
+
+	/** 
+	 * The action sprint readall. 
+	 **/
+	public String ACTION_PRIORITY_READALL = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_READ_ALL;
+
+	/** 
+	 * The action sprint update.
+	 **/
+	public String ACTION_PRIORITY_UPDATE = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_UPDATE;
+
+	/**
+	 *  The action sprint delete. 
+	 */
+	public String ACTION_PRIORITY_DELETE = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
+
+	/**
+	 *  The action sprint delete all. 
+	 **/
+	public String ACTION_PRIORITY_DELETEALL = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
+
 }

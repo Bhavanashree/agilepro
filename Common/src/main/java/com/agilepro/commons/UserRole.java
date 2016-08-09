@@ -393,7 +393,65 @@ public enum UserRole
 	 * The user setting delete. 
 	 **/
 	@Label("User setting Delete") USER_SETTING_DELETE(false, USER_SETTING_VIEW),
+
+	/**
+	 * The Story view.
+	 */
+	@Label("Story view") BACKLOG_VIEW,
+
+	/**
+	 * The Story edit.
+	 */
+	@Label("Story Edit") BACKLOG_EDIT(false, BACKLOG_VIEW),
+
+	/**
+	 * The Story delete.
+	 */ 
+	@Label("Story Delete") BACKLOG_DELETE(false, BACKLOG_VIEW),
+
+	/**
+	 * The Story delete.
+	 */
+	@Label("Story DeleteAll") BACKLOG_DELETE_ALL(false, BACKLOG_VIEW),
 	
+	/**
+	 * The sprint view. 
+	 */
+	@Label("Sprint view") SPRINT_VIEW,
+	
+	/** 
+	 * The sprint edit.
+	 */
+	@Label("Sprint Edit") SPRINT_EDIT(false, SPRINT_VIEW),
+	
+	/**
+	 *  The sprint delete.
+	 */
+	@Label("Sprint Delete") SPRINT_DELETE(false, SPRINT_VIEW),
+	
+	/**
+	 *  The sprint delete all. 
+	 */
+	@Label("Sprint DeleteAll") SPRINT_DELETE_ALL(false, SPRINT_VIEW),
+	/**
+	 * The Priority view. 
+	 */
+	@Label("Priority view") PRIORITY_VIEW,
+	
+	/** 
+	 * The Priority edit.
+	 */
+	@Label("Priority Edit") PRIORITY_EDIT(false, PRIORITY_VIEW),
+	
+	/**
+	 *  The Priority delete.
+	 */
+	@Label("Priority Delete") PRIORITY_DELETE(false, PRIORITY_VIEW),
+	
+	/**
+	 *  The Priority delete all. 
+	 */
+	@Label("Priority DeleteAll") PRIORITY_DELETE_ALL(false, PRIORITY_VIEW),
 	;
 
 	/**

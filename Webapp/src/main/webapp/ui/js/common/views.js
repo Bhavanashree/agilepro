@@ -66,4 +66,10 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	
 	//Members related states
 	addState("member", "member/member-menu.html", "member/member.html", "membersTab");
+	
+	//backlog
+	addState("sprint","backlog/sprints-menu.html", "backlog/sprint.html", "sprintTab");
+	addState("backlog","backlog/sprints-menu.html", "backlog/backlog.html", "sprintTab");
+	addState("priority","backlog/sprints-menu.html", "backlog/priority.html", "sprintTab");
+	
 });

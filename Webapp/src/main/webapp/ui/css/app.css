@@ -317,5 +317,49 @@ body
 	border: 1px solid blue;
 }
 
+.hoverDiv
+{
+	padding: 0.1em;
+	width: 100%;
+	border-top: 1px dotted #b3e0ff;
 
+}
+
+.borderhover
+{
+	border: 4px solid #0000a0;
+	box-shadow: 5px 5px 5px grey;
+}
+
+.displayElement
+{
+	display:inline;
+
+}
+
+.displayHidden
+{
+	display:none;
+}
+
+.displayBorder
+{
+	
+}
+
+
+.grabIt
+{
+	cursor: move; 
+}
+/*end*/
+
+.storyBoards .col 
+{
+   width: 20%; 
+   float: left;
+   padding: 2%;
+}
+        
+        
 
