@@ -6,8 +6,9 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
-import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_BACKLOG;
+import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_SPRINT;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.List;
@@ -26,11 +27,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
-import com.agilepro.commons.controllers.project.IBacklogController;
-import com.agilepro.commons.models.project.BacklogModel;
-import com.agilepro.persistence.entity.project.BacklogEntity;
+import com.agilepro.commons.controllers.project.IStoryController;
+import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.services.common.Authorization;
-import com.agilepro.services.project.BacklogService;
+import com.agilepro.services.project.StoryService;
 import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
@@ -45,21 +46,21 @@ import com.yukthi.webutils.controllers.BaseController;
  * client received from service class.
  */
 @RestController
-@ActionName(ACTION_PREFIX_BACKLOG)
-@RequestMapping("/backlog")
-public class BacklogController extends BaseController implements IBacklogController
+@ActionName(ACTION_PREFIX_STORY)
+@RequestMapping("/story")
+public class StoryController extends BaseController implements IStoryController
 {
 
 	/**
 	 * The logger.
 	 **/
-	private static Logger logger = LogManager.getLogger(BacklogController.class);
+	private static Logger logger = LogManager.getLogger(StoryController.class);
 
 	/**
 	 * The story service.
 	 **/
 	@Autowired
-	private BacklogService storyService;
+	private StoryService storyService;
 
 	/**
 	 * Save the StoryModel.
@@ -68,14 +69,15 @@ public class BacklogController extends BaseController implements IBacklogControl
 	 *            StoryModel
 	 * @return the StoryModel save response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid BacklogModel model)
+	public BasicSaveResponse save(@RequestBody @Valid StoryModel model)
 	{
 
-		BacklogEntity entity = storyService.saveStory(model);
+		StoryEntity entity = storyService.saveStory(model);
 
 		return new BasicSaveResponse(entity.getId());
 	}
@@ -88,43 +90,61 @@ public class BacklogController extends BaseController implements IBacklogControl
 	 * 
 	 * @return the StoryModel read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<BacklogModel> read(@PathVariable(PARAM_ID) Long id)
+	public BasicReadResponse<StoryModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		BacklogModel storyModel = storyService.fetchFullModel(id, BacklogModel.class);
+		StoryModel storyModel = storyService.fetchFullModel(id, StoryModel.class);
 
-		return new BasicReadResponse<BacklogModel>(storyModel);
+		return new BasicReadResponse<StoryModel>(storyModel);
 	}
 
 	/**
 	 * Read the list of stories.
 	 *
-	 * @param title
-	 *            title of StoryModel
-	 * 
+	 * @param storyTitle the story title
 	 * @return the StoryModel read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ_ALL)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<BacklogModel>> fetchAllStory(@RequestParam(value = "storyTitle", required = false) String storyTitle)
+	public BasicReadResponse<List<StoryModel>> fetchAllStory(@RequestParam(value = "storyTitle", required = false) String storyTitle)
 	{
-		return new BasicReadResponse<List<BacklogModel>>(storyService.fetchAllStory(storyTitle));
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStory(storyTitle));
+	}
+	
+	/**
+	 * Fetch story by project id.
+	 *
+	 * @param projectId the project id
+	 * @return the basic read response
+	 */
+	@ActionName(ACTION_TYPE_READ_STORY_PROJECT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/storyProjectId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<StoryModel>> fetchstoryByProjId(@RequestParam(value = "projectId", required = true) Long projectId) 
+	{
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStories(projectId));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.agilepro.commons.controllers.project.IStoryController#fetchStoryBySprintId(java.lang.Long)
+	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ_SPRINT)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readSprints", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<BacklogModel>> fetchStoryBySprintId(@RequestParam(value = "sprintId", required = true) Long sprintId)
+	public BasicReadResponse<List<StoryModel>> fetchStoryBySprintId(@RequestParam(value = "sprintId", required = true) Long sprintId)
 	{
 
-		return new BasicReadResponse<List<BacklogModel>>(storyService.fetchStoryBySprintId(sprintId));
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
 	}
 
 	/**
@@ -139,7 +159,7 @@ public class BacklogController extends BaseController implements IBacklogControl
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse update(@RequestBody @Valid BacklogModel model)
+	public BaseResponse update(@RequestBody @Valid StoryModel model)
 	{
 		logger.trace("Recieved request to update ", model.getId());
 		if(model.getId() == null || model.getId() <= 0)

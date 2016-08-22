@@ -60,51 +60,6 @@ public enum UserRole
 	CUSTOMER_GROUP(false),
 
 	/**
-	 * The meeting room view.
-	 */
-	@Label("Meeting Room View") MEETING_ROOM_VIEW,
-
-	/**
-	 * The meeting room edit.
-	 */
-	@Label("Meeting Room Edit") MEETING_ROOM_EDIT(false, MEETING_ROOM_VIEW, RESOURCES_GROUP),
-
-	/**
-	 * The meeting room delete.
-	 */
-	@Label("Meeting Room Delete") MEETING_ROOM_DELETE(false, MEETING_ROOM_VIEW),
-
-	/**
-	 * The meeting room features view.
-	 */
-	@Label("Meeting Room features View") MEETING_ROOM_FEATURES_VIEW,
-
-	/**
-	 * The meeting room features edit.
-	 */
-	@Label("Meeting Room features Edit") MEETING_ROOM_FEATURES_EDIT(false, MEETING_ROOM_FEATURES_VIEW),
-
-	/**
-	 * The meeting room features delete.
-	 */
-	@Label("Meeting Room features Delete") MEETING_ROOM_FEATURES_DELETE(false, MEETING_ROOM_FEATURES_VIEW),
-
-	/**
-	 * The task view.
-	 */
-	@Label("Task View") TASK_VIEW,
-
-	/**
-	 * The task edit.
-	 */
-	@Label("Task Edit") TASK_EDIT(false, TASK_VIEW, SETTINGS_GROUP),
-
-	/**
-	 * The task delete.
-	 */
-	@Label("Task Delete") TASK_DELETE(false, TASK_VIEW),
-
-	/**
 	 * The Designation view.
 	 */
 	@Label("Designation View") DESIGNATION_VIEW,
@@ -452,6 +407,31 @@ public enum UserRole
 	 *  The Priority delete all. 
 	 */
 	@Label("Priority DeleteAll") PRIORITY_DELETE_ALL(false, PRIORITY_VIEW),
+	
+	/**
+	 * The Task view. 
+	 */
+	@Label("Task view") TASK_VIEW,
+	
+	/** 
+	 * The Task edit.
+	 */
+	@Label("Task Edit") TASK_EDIT(false, TASK_VIEW),
+	
+	/**
+	 *  The Task Update.
+	 */
+	@Label("Task Update") TASK_UPDATE(false, TASK_VIEW),
+	
+	/**
+	 *  The Task delete.
+	 */
+	@Label("Task Delete") TASK_DELETE(false, TASK_VIEW),
+	
+	/**
+	 *  The Task delete all. 
+	 */
+	@Label("Task DeleteAll") TASK_DELETE_ALL(false, TASK_VIEW),
 	;
 
 	/**

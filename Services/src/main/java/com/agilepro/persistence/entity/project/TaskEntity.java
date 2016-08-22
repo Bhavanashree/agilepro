@@ -4,9 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.agilepro.commons.BacklogStatus;
-import com.agilepro.commons.models.project.BacklogModel;
+import com.agilepro.commons.TaskStatus;
+import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.commons.models.project.TaskModel;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
+import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.utils.annotations.PropertyMapping;
@@ -14,22 +16,22 @@ import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * Maintains the Stories created by Teams.
+ * Maintains the Task created by Teams.
  * 
  * @author Bhavana.
  */
-@ExtendableEntity(name = "Backlog")
-@Table(name = "BACKLOG")
-public class BacklogEntity extends WebutilsExtendableEntity
+@ExtendableEntity(name = "Task")
+@Table(name = "TASK")
+public class TaskEntity extends WebutilsExtendableEntity
 {
 	/**
-	 * The Story title.
+	 * The task title.
 	 **/
 	@Column(name = "TITLE", length = 50, nullable = false)
 	private String title;
 
 	/**
-	 * The story description.
+	 * The task description.
 	 **/
 	@Column(name = "DESCRIPTION")
 	private String description;
@@ -39,19 +41,20 @@ public class BacklogEntity extends WebutilsExtendableEntity
 	 **/
 	@Column(name = "ESTIMATE")
 	private Integer estimate;
-
 	/**
-	 * The parent story id.
-	 **/
-	@Column(name = "PARENT_STORY_ID")
-	private Long parentStoryId;
+	 * The project id.
+	 */
+	@Column(name = "PROJECT_ID")
+	@ManyToOne
+	@PropertyMapping(type = StoryModel.class, from = "projectId", subproperty = "id")
+	private ProjectEntity projectId;
 
 	/**
 	 * The owner.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = BacklogModel.class, from = "ownerId", subproperty = "id")
-	@Column(name = "STORY_OWNER_ID")
+	@PropertyMapping(type = TaskModel.class, from = "ownerId", subproperty = "id")
+	@Column(name = "TASK_OWNER_ID")
 	private EmployeeEntity owner;
 
 	/**
@@ -59,48 +62,40 @@ public class BacklogEntity extends WebutilsExtendableEntity
 	 **/
 	@Column(name = "STATUS")
 	@DataTypeMapping(type = DataType.STRING)
-	private BacklogStatus status;
+	private TaskStatus status;
 
 	/**
-	 * The priority id.
-	 */
-	@Column(name = "STORY_PRIORITY_ID")
+	 * The actualTime.
+	 **/
+	@Column(name = "ACTUAL_TIME")
+	private Double actualtime;
+
+	@Column(name = "STORY_ID")
 	@ManyToOne
-	@PropertyMapping(type = BacklogModel.class, from = "priority", subproperty = "id")
-	private PriorityEntity priorityId;
+	@PropertyMapping(type = TaskModel.class, from = "story", subproperty = "id")
+	private StoryEntity story;
 
 	/**
-	 * sprintId of the story.
+	 * Instantiates a new task entity.
 	 */
-	@Column(name = "Sprint_ID")
-	@ManyToOne
-	@PropertyMapping(type = BacklogModel.class, from = "sprint", subproperty = "id")
-	private SprintEntity sprint;
-
-	/**
-	 * Instantiates a new back log entity.
-	 */
-	public BacklogEntity()
+	public TaskEntity()
 	{}
 
 	/**
-	 * Instantiates a new back log entity.
+	 * Instantiates a new task entity.
 	 *
 	 * @param title
 	 *            the title
-	 * @param estimate
-	 *            the estimate
 	 * @param description
 	 *            the description
-	 * @param status
-	 *            the status
+	 * @param estimate
+	 *            the estimate
 	 */
-	public BacklogEntity(String title, Integer estimate, String description, BacklogStatus status)
+	public TaskEntity(String title, String description, Integer estimate)
 	{
 		this.title = title;
 		this.description = description;
 		this.estimate = estimate;
-		this.status = status;
 	}
 
 	/**
@@ -167,24 +162,24 @@ public class BacklogEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the parent story id.
+	 * Gets the project id.
 	 *
-	 * @return the parent story id
+	 * @return the project id
 	 */
-	public Long getParentStoryId()
+	public ProjectEntity getProjectId()
 	{
-		return parentStoryId;
+		return projectId;
 	}
 
 	/**
-	 * Sets the parent story id.
+	 * Sets the project id.
 	 *
-	 * @param parentStoryId
-	 *            the new parent story id
+	 * @param projectId
+	 *            the new project id
 	 */
-	public void setParentStoryId(Long parentStoryId)
+	public void setProjectId(ProjectEntity projectId)
 	{
-		this.parentStoryId = parentStoryId;
+		this.projectId = projectId;
 	}
 
 	/**
@@ -213,7 +208,7 @@ public class BacklogEntity extends WebutilsExtendableEntity
 	 *
 	 * @return the status
 	 */
-	public BacklogStatus getStatus()
+	public TaskStatus getStatus()
 	{
 		return status;
 	}
@@ -224,49 +219,8 @@ public class BacklogEntity extends WebutilsExtendableEntity
 	 * @param status
 	 *            the new status
 	 */
-	public void setStatus(BacklogStatus status)
+	public void setStatus(TaskStatus status)
 	{
 		this.status = status;
-	}
-
-	/**
-	 * Gets the priority id.
-	 *
-	 * @return the priority id
-	 */
-	public PriorityEntity getPriorityId()
-	{
-		return priorityId;
-	}
-
-	/**
-	 * Sets the priority id.
-	 *
-	 * @param priorityId
-	 *            the new priority id
-	 */
-	public void setPriorityId(PriorityEntity priorityId)
-	{
-		this.priorityId = priorityId;
-	}
-
-	/**
-	 * Gets the sprint.
-	 *
-	 * @return the sprint
-	 */
-	public SprintEntity getSprint()
-	{
-		return sprint;
-	}
-
-	/**
-	 * Sets the sprint.
-	 *
-	 * @param sprint the new sprint
-	 */
-	public void setSprint(SprintEntity sprint)
-	{
-		this.sprint = sprint;
 	}
 }

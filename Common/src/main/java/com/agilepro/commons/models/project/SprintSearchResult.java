@@ -42,7 +42,7 @@ public class SprintSearchResult extends AbstractExtendedSearchResult
 	 **/
 	@Field(value = "endDate")
 	private Date endDate;
-
+	
 	/**
 	 * Gets the id.
 	 *

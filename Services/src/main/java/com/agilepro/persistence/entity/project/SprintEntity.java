@@ -4,9 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.agilepro.commons.models.project.SprintModel;
+import com.agilepro.persistence.entity.admin.ProjectEntity;
+import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
@@ -20,7 +24,7 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * The name of Sprint.
 	 */
-	@Column(name = "NAME", length = 50, nullable = false)
+	@Column(name = "NAME", length = 50)
 	private String name;
 
 	/**
@@ -42,10 +46,18 @@ public class SprintEntity extends WebutilsExtendableEntity
 	private Date endDate;
 	
 	/**
+	 * project id of sprint.
+	 */
+	@Column(name = "PROJECT_ID")
+	@ManyToOne
+	@PropertyMapping(type = SprintModel.class, from = "projectId", subproperty = "id")
+	private ProjectEntity sprintProjectId;
+	
+	/**
 	 * The list of stories under this sprint. 
 	 **/
 	@OneToMany(mappedBy = "sprint")
-	private List<BacklogEntity> stories;
+	private List<StoryEntity> stories;
 
 	/**
 	 * Instantiates a new sprint entity.
@@ -162,7 +174,7 @@ public class SprintEntity extends WebutilsExtendableEntity
 	 *
 	 * @return the stories
 	 */
-	public List<BacklogEntity> getStories()
+	public List<StoryEntity> getStories()
 	{
 		return stories;
 	}
@@ -172,7 +184,7 @@ public class SprintEntity extends WebutilsExtendableEntity
 	 *
 	 * @param stories the new stories
 	 */
-	public void setStories(List<BacklogEntity> stories)
+	public void setStories(List<StoryEntity> stories)
 	{
 		this.stories = stories;
 	}

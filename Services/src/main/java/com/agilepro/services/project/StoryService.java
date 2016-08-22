@@ -3,28 +3,27 @@ package com.agilepro.services.project;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.models.project.BacklogModel;
-import com.agilepro.persistence.entity.admin.EmployeeEntity;
-import com.agilepro.persistence.entity.project.BacklogEntity;
-import com.agilepro.persistence.repository.project.IBacklogRepository;
+import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.persistence.entity.project.StoryEntity;
+import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
-import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.services.BaseCrudService;
-import com.yukthi.webutils.services.UserService;
 
 /**
  * The Class StoryService is responsible to save,read,update and delete the
  * stories.
  */
 @Service
-public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepository>
+public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 {
 
 	/**
@@ -36,14 +35,23 @@ public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepos
 	/**
 	 * The story repo.
 	 **/
-	private IBacklogRepository storyRepo;
-
+	private IStoryRepository storyRepo;
+	
+	/**
+	 * Initialize the iprojectMemberRepository.
+	 */
+	@PostConstruct
+	private void init()
+	{
+		storyRepo = repositoryFactory.getRepository(IStoryRepository.class);
+	}
+	
 	/**
 	 * Instantiates a new StoryService.
 	 */
-	public BacklogService()
+	public StoryService()
 	{
-		super(BacklogEntity.class, IBacklogRepository.class);
+		super(StoryEntity.class, IStoryRepository.class);
 	}
 
 	/**
@@ -53,12 +61,12 @@ public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepos
 	 *            the model
 	 * @return the story entity
 	 */
-	public BacklogEntity saveStory(BacklogModel model)
+	public StoryEntity saveStory(StoryModel model)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 
-			BacklogEntity entity = super.save(model);
+			StoryEntity entity = super.save(model);
 
 			transaction.commit();
 
@@ -77,7 +85,7 @@ public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepos
 	 *            the model
 	 * @return the story entity
 	 */
-	public BacklogEntity updateStories(BacklogModel model)
+	public StoryEntity updateStories(StoryModel model)
 	{
 		if(model == null)
 		{
@@ -87,7 +95,7 @@ public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepos
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			// updating campaign
-			BacklogEntity story = super.update(model);
+			StoryEntity story = super.update(model);
 
 			transaction.commit();
 			return story;
@@ -107,17 +115,17 @@ public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepos
 	 *            the story title
 	 * @return the list
 	 */
-	public List<BacklogModel> fetchAllStory(String storyTitle)
+	public List<StoryModel> fetchAllStory(String storyTitle)
 	{
-		List<BacklogModel> storymodel = null;
-		storyRepo = repositoryFactory.getRepository(IBacklogRepository.class);
-		List<BacklogEntity> storyEntity = storyRepo.fetchAllStory(storyTitle);
+		List<StoryModel> storymodel = null;
+		storyRepo = repositoryFactory.getRepository(IStoryRepository.class);
+		List<StoryEntity> storyEntity = storyRepo.fetchAllStory(storyTitle);
 		if(storyEntity != null)
 		{
-			storymodel = new ArrayList<BacklogModel>(storyEntity.size());
-			for(BacklogEntity entity : storyEntity)
+			storymodel = new ArrayList<StoryModel>(storyEntity.size());
+			for(StoryEntity entity : storyEntity)
 			{
-				storymodel.add(super.toModel(entity, BacklogModel.class));
+				storymodel.add(super.toModel(entity, StoryModel.class));
 			}
 		}
 
@@ -131,24 +139,45 @@ public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepos
 	 *            the sprint id
 	 * @return the list
 	 */
-	public List<BacklogModel> fetchStoryBySprintId(Long sprintId)
+	public List<StoryModel> fetchStoryBySprintId(Long sprintId)
 	{
-		List<BacklogModel> storymodel = null;
-		storyRepo = repositoryFactory.getRepository(IBacklogRepository.class);
+		List<StoryModel> storymodel = null;
+		storyRepo = repositoryFactory.getRepository(IStoryRepository.class);
 
-		List<BacklogEntity> storyEntity = storyRepo.fetchStoryBySprintId(sprintId);
+		List<StoryEntity> storyEntity = storyRepo.fetchStoryBySprintId(sprintId);
 		if(storyEntity != null)
 		{
-			storymodel = new ArrayList<BacklogModel>(storyEntity.size());
-			for(BacklogEntity entity : storyEntity)
+			storymodel = new ArrayList<StoryModel>(storyEntity.size());
+			for(StoryEntity entity : storyEntity)
 			{
-				storymodel.add(super.toModel(entity, BacklogModel.class));
+				storymodel.add(super.toModel(entity, StoryModel.class));
 			}
 		}
 
 		return storymodel;
 	}
+	
+	/**
+	 * fetch a stories by project id.
+	 *
+	 * @param projectId the project id
+	 * @return the list
+	 */
+	public List<StoryModel> fetchStories(Long projectId)
+	{
+		List<StoryEntity> storyEntity = storyRepo.fetchstoryByProjId(projectId);
 
+		List<StoryModel> storiesmodel = new ArrayList<StoryModel>();
+
+		StoryModel storyModel;
+		for(StoryEntity stories : storyEntity)
+		{
+			storyModel = super.toModel(stories, StoryModel.class);
+			storiesmodel.add(storyModel);
+		}
+		return storiesmodel;
+	}
+	
 	/**
 	 * Delete expense.
 	 *
@@ -160,7 +189,7 @@ public class BacklogService extends BaseCrudService<BacklogEntity, IBacklogRepos
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 
-			BacklogEntity backlogEntity = super.repository.findById(parentStoryId);
+			StoryEntity backlogEntity = super.repository.findById(parentStoryId);
 
 			if(backlogEntity == null)
 			{

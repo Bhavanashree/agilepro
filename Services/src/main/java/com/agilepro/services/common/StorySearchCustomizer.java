@@ -7,21 +7,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.agilepro.commons.models.project.BacklogSearchResult;
+import com.agilepro.commons.models.project.StorySearchResult;
 import com.yukthi.webutils.repository.search.ISearchResultCustomizer;
 
 /**
  * customized stories results are obtained from StorySearchCustomizer.
  */
-public class BacklogSearchCustomizer implements ISearchResultCustomizer<BacklogSearchResult>
+public class StorySearchCustomizer implements ISearchResultCustomizer<StorySearchResult>
 {
 	/**
 	 * The Constant titleComparator.
 	 **/
-	private static final Comparator<BacklogSearchResult> TITLE_COMPARATOR = new Comparator<BacklogSearchResult>()
+	private static final Comparator<StorySearchResult> TITLE_COMPARATOR = new Comparator<StorySearchResult>()
 	{
 		@Override
-		public int compare(BacklogSearchResult o1, BacklogSearchResult o2)
+		public int compare(StorySearchResult o1, StorySearchResult o2)
 		{
 			return o1.getTitle().compareTo(o2.getTitle());
 		}
@@ -32,12 +32,12 @@ public class BacklogSearchCustomizer implements ISearchResultCustomizer<BacklogS
 	 * to list & sorting list of stories.
 	 */
 	@Override
-	public List<BacklogSearchResult> customize(List<BacklogSearchResult> results)
+	public List<StorySearchResult> customize(List<StorySearchResult> results)
 	{
-		Map<Long, List<BacklogSearchResult>> idToChildren = new HashMap<>();
-		List<BacklogSearchResult> childStories = null;
+		Map<Long, List<StorySearchResult>> idToChildren = new HashMap<>();
+		List<StorySearchResult> childStories = null;
 
-		for(BacklogSearchResult story : results)
+		for(StorySearchResult story : results)
 		{
 			childStories = idToChildren.get(story.getParentStoryId());
 
@@ -50,7 +50,7 @@ public class BacklogSearchCustomizer implements ISearchResultCustomizer<BacklogS
 			childStories.add(story);
 		}
 
-		List<BacklogSearchResult> sortedResults = new ArrayList<>(results.size());
+		List<StorySearchResult> sortedResults = new ArrayList<>(results.size());
 
 		// sort parent stories
 		sortChildren(idToChildren, null, sortedResults, 0);
@@ -71,18 +71,18 @@ public class BacklogSearchCustomizer implements ISearchResultCustomizer<BacklogS
 	 *            the indent
 	 * 
 	 */
-	public void sortChildren(Map<Long, List<BacklogSearchResult>> idToChildren, Long parentId, List<BacklogSearchResult> sortedResults, int indent)
+	public void sortChildren(Map<Long, List<StorySearchResult>> idToChildren, Long parentId, List<StorySearchResult> sortedResults, int indent)
 	{
-		List<BacklogSearchResult> lst = idToChildren.get(parentId);
+		List<StorySearchResult> lst = idToChildren.get(parentId);
 
 		if(lst == null)
 		{
 			return;
 		}
 
-		Collections.sort(lst, BacklogSearchCustomizer.TITLE_COMPARATOR);
+		Collections.sort(lst, StorySearchCustomizer.TITLE_COMPARATOR);
 
-		for(BacklogSearchResult br : lst)
+		for(StorySearchResult br : lst)
 		{
 			br.setIndent(indent);
 			sortedResults.add(br);

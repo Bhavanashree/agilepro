@@ -19,6 +19,7 @@ import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.CurrentUserService;
 import com.yukthi.webutils.utils.WebUtils;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class SprintService is responsible to save,read,update and delete the
  * sprints.
@@ -135,6 +136,32 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 
 		ISprintRepository sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
 		List<SprintEntity> sprintEntity = sprintRepository.fetchAllSprint(sprintName);
+
+		if(sprintEntity != null)
+		{
+			sprintModels = new ArrayList<SprintModel>(sprintEntity.size());
+
+			for(SprintEntity entity : sprintEntity)
+			{
+				sprintModels.add(super.toModel(entity, SprintModel.class));
+			}
+		}
+
+		return sprintModels;
+	}
+
+	/**
+	 * Fetch sprint By project id.
+	 *
+	 * @param projectId the project id
+	 * @return the list
+	 */
+	public List<SprintModel> fetchSprintByProjectId(Long projectId)
+	{
+		List<SprintModel> sprintModels = null;
+
+		ISprintRepository sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
+		List<SprintEntity> sprintEntity = sprintRepository.fetchsprintByProjId(projectId);
 
 		if(sprintEntity != null)
 		{

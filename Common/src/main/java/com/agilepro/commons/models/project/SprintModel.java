@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
-import com.yukthi.validation.annotations.NotEmpty;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.IgnoreField;
@@ -34,7 +33,6 @@ public class SprintModel extends AbstractExtendableModel
 	/**
 	 * The name of the Sprint.
 	 **/
-	@NotEmpty
 	@MinLen(3)
 	@MaxLen(50)
 	private String name;
@@ -62,6 +60,11 @@ public class SprintModel extends AbstractExtendableModel
 	@NonDisplayable
 	@IgnoreField
 	private List<Long> stories;
+	
+	/**
+	 * projectd.
+	 */
+	private Long projectId;
 
 	/**
 	 * Instantiates a new sprint model.
@@ -234,5 +237,25 @@ public class SprintModel extends AbstractExtendableModel
 	public void setStories(List<Long> stories)
 	{
 		this.stories = stories;
+	}
+
+	/**
+	 * Gets the project id.
+	 *
+	 * @return the project id
+	 */
+	public Long getProjectId() 
+	{
+		return projectId;
+	}
+
+	/**
+	 * Sets the project id.
+	 *
+	 * @param projectId the new project id
+	 */
+	public void setProjectId(Long projectId) 
+	{
+		this.projectId = projectId;
 	}
 }

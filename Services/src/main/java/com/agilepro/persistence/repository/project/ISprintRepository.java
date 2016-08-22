@@ -5,7 +5,8 @@ import java.util.List;
 import com.agilepro.commons.models.project.SprintSearchQuery;
 import com.agilepro.commons.models.project.SprintSearchResult;
 import com.agilepro.persistence.entity.project.SprintEntity;
-import com.agilepro.services.common.BacklogSearchCustomizer;
+import com.agilepro.persistence.entity.project.StoryEntity;
+import com.agilepro.services.common.StorySearchCustomizer;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Operator;
 import com.yukthi.persistence.repository.annotations.OrderBy;
@@ -28,13 +29,16 @@ public interface ISprintRepository extends IWebutilsRepository<SprintEntity>
 	 * @return the list
 	 */
 	@RestrictBySpace
-	@SearchQueryMethod(name = "sprintSearch", queryModel = SprintSearchQuery.class, customizer = BacklogSearchCustomizer.class)
+	@SearchQueryMethod(name = "sprintSearch", queryModel = SprintSearchQuery.class, customizer = StorySearchCustomizer.class)
 	@OrderBy("name")
 	public List<SprintSearchResult> findSprint(SearchQuery searchQuery);
 
 	@RestrictBySpace
 	public List<SprintEntity> fetchAllSprint(@Condition(value = "name", op = Operator.LIKE, ignoreCase = true) String sprintName);
 	
+	@RestrictBySpace
+	public List<SprintEntity> fetchsprintByProjId(@Condition(value = "sprintProjectId.id") Long projectId);
+
 	/**
 	 * Delete All.
 	 */

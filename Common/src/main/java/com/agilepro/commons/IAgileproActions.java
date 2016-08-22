@@ -2,6 +2,7 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -282,7 +283,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action prefix backlog.
 	 */
-	public String ACTION_PREFIX_BACKLOG = "backlog";
+	public String ACTION_PREFIX_STORY = "story";
 
 	/**
 	 * The action prefix priority.
@@ -293,6 +294,14 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type readSprints.
 	 */
 	public String ACTION_TYPE_READ_SPRINT = "readSprints";
+	
+	/**
+	 * The action type readProjectid.
+	 */
+
+	public String ACTION_TYPE_READ_STORY_PROJECT_ID = "storyProjectId";
+
+	public String ACTION_TYPE_READ_SPRINT_PROJECT_ID = "sprintProjectId";
 	
 	/**
 	 *  The action prefix sprint. 
@@ -926,36 +935,40 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action Story save.
 	 **/
-	public String ACTION_BACKLOG_SAVE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_SAVE;
+	public String ACTION_STORY_SAVE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_SAVE;
 
 	/**
 	 * The action Story read.
 	 **/
-	public String ACTION_BACKLOG_READ = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_READ;
+	public String ACTION_STORY_READ = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ;
 
 	/**
 	 *  The action backlog readall.
 	 **/
-	public String ACTION_BACKLOG_READALL = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_READ_ALL;
+	public String ACTION_STORY_READALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_ALL;
 
+	/**
+	 *  The action story read project id. 
+	 **/
+	public String ACTION_STORY_READ_PROJECT_ID = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_STORY_PROJECT_ID;
 	/**
 	 *  The action sprint read.
 	 **/
-	public String ACTION_BACKLOG_READSPRINT = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_READ_SPRINT;
+	public String ACTION_STORY_READSPRINT = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_SPRINT;
 	/**
 	 * The action backlog update.
 	 **/
-	public String ACTION_BACKLOG_UPDATE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_UPDATE;
+	public String ACTION_STORY_UPDATE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_UPDATE;
 
 	/**
 	 * The action backlog delete.
 	 **/
-	public String ACTION_BACKLOG_DELETE = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_DELETE;
+	public String ACTION_STORY_DELETE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_DELETE;
 
 	/**
 	 * The action backlog delete all.
 	 **/
-	public String ACTION_BACKLOG_DELETE_ALL = ACTION_PREFIX_BACKLOG + "." + ACTION_TYPE_DELETE_ALL;
+	public String ACTION_STORY_DELETE_ALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_DELETE_ALL;
 
 	/**
 	 *  The action sprint save. 
@@ -971,7 +984,12 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action sprint readall. 
 	 **/
 	public String ACTION_SPRINT_READALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ_ALL;
-
+	
+	/**
+	 *  The action sprint read projectid. 
+	 **/
+	public String ACTION_SPRINT_READ_PROJECTID = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ_SPRINT_PROJECT_ID;
+	
 	/** 
 	 * The action sprint update.
 	 **/

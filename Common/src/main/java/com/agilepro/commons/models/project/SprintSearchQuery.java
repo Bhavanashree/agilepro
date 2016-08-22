@@ -36,7 +36,7 @@ public class SprintSearchQuery
 	 **/
 	@Condition(value = "endDate", op = Operator.EQ, ignoreCase = true)
 	private Date endDate;
-
+	
 	/**
 	 * Instantiates a new sprint search query.
 	 *

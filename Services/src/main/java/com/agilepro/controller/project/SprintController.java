@@ -7,8 +7,8 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
-
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_SPRINT;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
@@ -106,6 +106,15 @@ public class SprintController extends BaseController implements ISprintControlle
 	public BasicReadResponse<List<SprintModel>> fetchAllSprint(@RequestParam(value = "sprintName", required = false) String sprintName)
 	{
 		return new BasicReadResponse<List<SprintModel>>(sprintService.fetchAllSprint(sprintName));
+	}
+
+	@ActionName(ACTION_TYPE_READ_SPRINT_PROJECT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/sprintProjectId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<SprintModel>> fetchSprintbyProjectId(@RequestParam(value = "projectId", required = false) Long projectId)
+	{
+		return new BasicReadResponse<List<SprintModel>>(sprintService.fetchSprintByProjectId(projectId));
 	}
 
 	/**
