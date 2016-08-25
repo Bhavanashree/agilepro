@@ -3,50 +3,52 @@ package com.agilepro.persistence.entity.admin;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.yukthi.persistence.annotations.DataType;
-import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.agilepro.commons.models.admin.ConversationModel;
+import com.agilepro.persistence.entity.project.StoryEntity;
+import com.yukthi.utils.annotations.PropertyMapping;
+import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ConversationEntity.
- * @author akanksha
+ * The Class ConversationEntity. Maintains and tracks the conversation between
+ * the members.
+ * 
+ * @author Pritam
  */
-@Table(name = "CONVERSATION_TABLE")
+@Table(name = "CONVERSATION")
 public class ConversationEntity extends WebutilsEntity
 {
+	/**
+	 * The story entity.
+	 **/
+	@Column(name = "STORY_ID", nullable = false)
+	@ManyToOne
+	@PropertyMapping(type = ConversationModel.class, from = "storyId", subproperty = "id")
+	private StoryEntity storyEntity;
+
 	/**
 	 * The message.
 	 */
 	@Column(name = "MESSAGE", length = 2000)
 	private String message;
 
-	/**
-	 * The parent conversation id.
-	 */
-	@Column(name = "PARENT_CONVERSATION_ID")
-	private Long parentConversationId;
-
-	/**
-	 * The owner entity type.
-	 */
-	@Column(name = "OWNER_ENTITY_TYPE", length = 200)
-	private String ownerEntityType;
-
-	/**
-	 * The owner entity id.
-	 */
-	@Column(name = "OWNER_ENTITY_ID", nullable = false)
-	private Long ownerEntityId = 0L;
-
-	/**
-	 * The time.
-	 */
-	@Column(name = "TIME")
-	@DataTypeMapping(type = DataType.DATE_TIME)
-	private Date time;
-
+	/** 
+	 * The user entity. 
+	 **/
+	@Column(name = "USER_ID", nullable = false)
+	@ManyToOne
+	@PropertyMapping(type = ConversationModel.class, from = "userId", subproperty = "id")
+	private UserEntity userEntity;
+	
+	/** 
+	 * The time. 
+	 **/
+	@Column(name = "DATE", nullable = false)
+	private Date date;
+	
 	/**
 	 * Gets the message.
 	 *
@@ -69,86 +71,43 @@ public class ConversationEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the parent conversation id.
+	 * Gets the story entity.
 	 *
-	 * @return the parent conversation id
+	 * @return the story entity
 	 */
-	public Long getParentConversationId()
+	public StoryEntity getStoryEntity()
 	{
-		return parentConversationId;
+		return storyEntity;
 	}
 
 	/**
-	 * Sets the parent conversation id.
+	 * Sets the story entity.
 	 *
-	 * @param parentConversationId
-	 *            the new parent conversation id
+	 * @param storyEntity
+	 *            the new story entity
 	 */
-	public void setParentConversationId(Long parentConversationId)
+	public void setStoryEntity(StoryEntity storyEntity)
 	{
-		this.parentConversationId = parentConversationId;
+		this.storyEntity = storyEntity;
 	}
 
-	/**
-	 * Gets the owner entity type.
-	 *
-	 * @return the owner entity type
-	 */
-	public String getOwnerEntityType()
+	public UserEntity getUserEntity()
 	{
-		return ownerEntityType;
+		return userEntity;
 	}
 
-	/**
-	 * Sets the owner entity type.
-	 *
-	 * @param ownerEntityType
-	 *            the new owner entity type
-	 */
-	public void setOwnerEntityType(String ownerEntityType)
+	public void setUserEntity(UserEntity userEntity)
 	{
-		this.ownerEntityType = ownerEntityType;
+		this.userEntity = userEntity;
 	}
 
-	/**
-	 * Gets the owner entity id.
-	 *
-	 * @return the owner entity id
-	 */
-	public Long getOwnerEntityId()
+	public Date getDate()
 	{
-		return ownerEntityId;
+		return date;
 	}
 
-	/**
-	 * Sets the owner entity id.
-	 *
-	 * @param ownerEntityId
-	 *            the new owner entity id
-	 */
-	public void setOwnerEntityId(Long ownerEntityId)
+	public void setDate(Date date)
 	{
-		this.ownerEntityId = ownerEntityId;
-	}
-
-	/**
-	 * Gets the time.
-	 *
-	 * @return the time
-	 */
-	public Date getTime()
-	{
-		return time;
-	}
-
-	/**
-	 * Sets the time.
-	 *
-	 * @param time
-	 *            the new time
-	 */
-	public void setTime(Date time)
-	{
-		this.time = time;
+		this.date = date;
 	}
 }

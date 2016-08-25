@@ -191,7 +191,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	actionHelper.invokeAction("userSetting.read", null, {"userId" : $scope.activeUser.userId}, versionCallBack);
     };
     
-    // Method for update
+    // Method for update setting
     editUserSetting = function(currentProjectId){
     	
     	var model = {"id" : userSettingId, "userId" : $scope.activeUser.userId, "key" : "activeProjectId", "value" : currentProjectId, "version" : version};

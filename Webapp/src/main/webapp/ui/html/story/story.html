@@ -3,6 +3,7 @@
 		<action id="addBacklog" label="Add backlog " color="blue" icon="glyphicon-plus" method="addEntry($event)"/>
 		<action id="editBacklog" label="Edit backlog " color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true"/>
 		<action id="deleteBacklogStory" label="Delete backlog " color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true"/>
+		
 		<result-customizer>
 			<div style="cursor: pointer;" search-row-id="0" ng-dblclick="changeRowSelection($index, $event); editEntry();" ng-repeat="result in searchResults "  ng-class="getActiveIndex()==$index ? 'borderhover' : 'hoverDiv' " ng-mouseover="changeRowSelection($index, $event);">
 				<table style="width: 100%; padding: 0px;  border-collapse: collapse; ">
@@ -24,17 +25,90 @@
 					<tr>
 						<td>
 							<div ng-class="getActiveIndex()==$index ? 'displayElement' : 'displayHidden'">
-								<input type="text" name="textarea" placeholder="Sub Story Title" style=" width:120%; padding : 0.2em;margin:0.2em;" ng-keyup="handleKeyForSubtitle($event);"/>
+								<input type="text" name="textarea" placeholder="Sub Story Title" style="width:120%; padding : 0.2em;margin:0.2em;" ng-keyup="handleKeyForSubtitle($event);"/>
 							</div>
 						</td>
 					</tr>
 				</table>
 			</div>
 		</result-customizer>
+		
 	</yk-search-query>
-	<yk-model-dialog id="storyDialog" name="StoryModel" title="Story" columns="2" actionMethod="saveChanges($event)"/>
+	
+	<!-- <yk-model-dialog id="storyDialog" name="StoryModel" title="Story" columns="1" actionMethod="saveChanges($event)">
+	</yk-model-dialog> -->
+	
+	<yk-dialog id="storyDialog" title="Story">
+		<content>
+			<div class="row">
+				<div id="modelFormId" class="col-md-6 col-lg-6">
+					<yk-model-form name="StoryModel" columns="1"/>
+				</div>
+				
+				<!-- Conversation --> 
+				<div class="col-md-6 col-lg-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<i class="fa fa-users" aria-hidden="true"></i>
+							drop down 
+							<div class="btn-group pull-right">
+								<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
+								ng-click="addTitle()">
+								</span>
+							</div>
+						</div>
+						<div id="panelBodyId" class="panel-body" style="overflow-y:auto; height: 224px;">
+							<table style="width:100%;">
+								<tr ng-repeat="conversation in conversations | orderBy : 'conversation.date'">
+									<td>
+										<table style="width:100%;">
+											<tr ng-show="true"><td>{{conversation.date}}</td></tr>
+											<tr style="height: 2em; color: #CD5C5C; font-size: 0.8em;">
+												<td><b>{{conversation.displayName}}</b></td>
+											</tr>
+											<tr>
+												<td style="width: 1%;"></td>
+												<td style="background-color: lightblue; border-radius: 5px; width: 98%; 
+													height: 1em; padding-top: 0.3em; padding-bottom: 0.3em; 
+													padding-left: 0.5em; padding-right: 0.5em;">
+												{{conversation.message}}
+												<span style="float: right;">{{conversation.time}}</span>
+												</td>
+												<td style="width: 1%;">
+													<div class="arrow-right"></div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="panel-footer">
+							<div class="input-group">
+								<textarea rows="2" cols="2" id="messageId" type="text" ng-model="message" ng-keyup="onType($event)" class="form-control" 
+									placeholder="Type your message here" style="height: 2.5em; resize: none;"></textarea>
+								<span class="input-group-btn">
+		                            <button id="sendButtonId" class="btn btn-primary" style="height: 2.5em;" ng-click="saveConversation()"> 
+		                              <i class="glyphicon glyphicon-send"></i>
+		                            </button>
+		                        </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+		</content>
+		<footer>
+			<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)">{{newStoryMode ? 'Save' : 'Update'}}</button>
+			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal">Cancel</button>
+		</footer>
+	</yk-dialog>
+	
 	<div> 
 		<input id="parentStorytextarea" type="text" name="textarea1" placeholder="New story title" ng-model="inlineTitle" ng-keyup="handleKeyPress($event);" ng-bind="model.title"/>
 	</div>
+	
 	<br/>
 </div>
