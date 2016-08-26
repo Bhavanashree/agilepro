@@ -62,20 +62,58 @@
 								<tr ng-repeat="conversation in conversations | orderBy : 'conversation.date'">
 									<td>
 										<table style="width:100%;">
-											<tr ng-show="true"><td>{{conversation.date}}</td></tr>
-											<tr style="height: 2em; color: #CD5C5C; font-size: 0.8em;">
-												<td><b>{{conversation.displayName}}</b></td>
+											<tr ng-show="conversation.displayLeft" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+												<td colspan="2">
+													<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden;">
+														<b>{{conversation.displayName}}</b>
+													</div>
+													
+													<div ng-if="conversation.displayName.length == 0">
+														<b>{{conversation.displayName}}</b>
+													</div>
+												</td>
 											</tr>
-											<tr>
-												<td style="width: 1%;"></td>
-												<td style="background-color: lightblue; border-radius: 5px; width: 98%; 
-													height: 1em; padding-top: 0.3em; padding-bottom: 0.3em; 
-													padding-left: 0.5em; padding-right: 0.5em;">
-												{{conversation.message}}
-												<span style="float: right;">{{conversation.time}}</span>
+											
+											<tr ng-show="conversation.displayRight" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+												<td colspan="3">
+													<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; padding-left: 1.7em;">
+														<b>{{conversation.displayName}}</b>
+													</div>
+													
+													<div ng-if="conversation.displayName.length == 0">
+														<b>{{conversation.displayName}}</b>
+													</div>
+												</td>
+											</tr>
+											<tr ng-show="conversation.displayLeft">
+												<td style="background-color: lightblue; border-radius: 5px; width: 95%; 
+													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+													padding-right: 0.5em; padding-bottom: 0.3em;">
+												{{conversation.message}} <br/>
+												<span style="float: right; font-size: 0.8em; color: #008080;">
+													{{conversation.displayDate}}, {{conversation.time}}
+												</span>
+												</td>
+												<td style="width: 5%;">
+													<div class="arrow-right"></div>
+												</td>
+												<td>
+												</td>
+											</tr>
+											
+											<tr ng-show="conversation.displayRight">
+												<td style="width: 4%;">
 												</td>
 												<td style="width: 1%;">
-													<div class="arrow-right"></div>
+													<div class="arrow-left"></div>
+												</td>
+												<td style="background-color: #b3ffb3; border-radius: 5px; width: 95%; 
+													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+													padding-right: 0.5em; padding-bottom: 0.3em;">
+												{{conversation.message}} <br/>
+												<span style="float: right; font-size: 0.8em; color: #008080;">
+													{{conversation.displayDate}}, {{conversation.time}}
+												</span>
 												</td>
 											</tr>
 										</table>

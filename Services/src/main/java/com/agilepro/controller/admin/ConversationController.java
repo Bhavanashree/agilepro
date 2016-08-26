@@ -58,7 +58,7 @@ public class ConversationController extends BaseController
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER})
+	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid ConversationModel conversationmodel)
 	{
@@ -137,7 +137,7 @@ public class ConversationController extends BaseController
 	}
 	
 	@ActionName(ACTION_TYPE_READ_ALL)
-	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW  })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<ConversationModel>> fetchConversations(@RequestParam(value = "storyId") Long storyId)

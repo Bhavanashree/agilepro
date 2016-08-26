@@ -3,74 +3,76 @@ package com.agilepro.commons.models.admin;
 import java.util.Date;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class ConversationModel.
+ * 
+ * @author Pritam
  */
 @Model
 public class ConversationModel
 {
-	
-	/** 
+	/**
 	 * The id.
-	 *  */
+	 */
 	@NonDisplayable
 	private Long id;
-	
-	/** 
+
+	/**
 	 * The message.
-	 *  */
-	@MinLen(3)
+	 */
+	@MinLen(1)
 	@MaxLen(1000)
 	private String message;
+
+	/**
+	 * The time.
+	 */
+	private Date date;
+
+	/** 
+	 * The story id. 
+	 **/
+	@Required
+	private Long storyId;
+	
+	/** 
+	 * The user id. 
+	 **/
+	@Required
+	private Long userId;
+	
+	/** 
+	 * The display name. 
+	 **/
+	private String displayName;
+	
+	/** 
+	 * The time. 
+	 **/
+	private String time;
+	
+	private String displayDate;
+	
+	private Boolean displayLeft = false;
+	
+	private Boolean displayRight = false;
 	
 	/**
-	 *  The owner entity type.
-	 *   */
-	@MinLen(3)
-	@MaxLen(1000)
-	private String ownerEntityType;
-	
-	/**
-	 *  The owner entity id.
-	 *   */
-	private Long ownerEntityId;
-	
-	/**
-	 *  The time.
-	 *   */
-	private Date time;
-	
-	/**
-	 *  The version. 
-	 *  */
+	 * The version.
+	 */
 	@NonDisplayable
 	private Integer version;
-	
+
 	/**
 	 * Instantiates a new conversation model.
 	 */
 	public ConversationModel()
-	{
-	}
+	{}
 
-	/**
-	 * Instantiates a new conversation model.
-	 *
-	 * @param message the message
-	 * @param ownerEntityType the owner entity type
-	 * @param ownerEntityId the owner entity id
-	 * @param time the time
-	 */
-	public ConversationModel(String message, String ownerEntityType, Long ownerEntityId, Date time)
-	{
-		this.message = message;
-		this.ownerEntityType = ownerEntityType;
-		this.ownerEntityId = ownerEntityId;
-		this.time = time;
-	}
 
 	/**
 	 * Gets the id.
@@ -85,7 +87,8 @@ public class ConversationModel
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Long id)
 	{
@@ -105,7 +108,8 @@ public class ConversationModel
 	/**
 	 * Sets the message.
 	 *
-	 * @param message the new message
+	 * @param message
+	 *            the new message
 	 */
 	public void setMessage(String message)
 	{
@@ -113,63 +117,24 @@ public class ConversationModel
 	}
 
 	/**
-	 * Gets the owner entity type.
+	 * Gets the story id.
 	 *
-	 * @return the owner entity type
+	 * @return the story id
 	 */
-	public String getOwnerEntityType()
+	public Long getStoryId()
 	{
-		return ownerEntityType;
+		return storyId;
 	}
 
 	/**
-	 * Sets the owner entity type.
+	 * Sets the story id.
 	 *
-	 * @param ownerEntityType the new owner entity type
+	 * @param storyId
+	 *            the new story id
 	 */
-	public void setOwnerEntityType(String ownerEntityType)
+	public void setStoryId(Long storyId)
 	{
-		this.ownerEntityType = ownerEntityType;
-	}
-
-	/**
-	 * Gets the owner entity id.
-	 *
-	 * @return the owner entity id
-	 */
-	public Long getOwnerEntityId()
-	{
-		return ownerEntityId;
-	}
-
-	/**
-	 * Sets the owner entity id.
-	 *
-	 * @param ownerEntityId the new owner entity id
-	 */
-	public void setOwnerEntityId(Long ownerEntityId)
-	{
-		this.ownerEntityId = ownerEntityId;
-	}
-	
-	/**
-	 * Gets the time.
-	 *
-	 * @return the time
-	 */
-	public Date getTime()
-	{
-		return time;
-	}
-
-	/**
-	 * Sets the time.
-	 *
-	 * @param time the new time
-	 */
-	public void setTime(Date time)
-	{
-		this.time = time;
+		this.storyId = storyId;
 	}
 
 	/**
@@ -185,10 +150,82 @@ public class ConversationModel
 	/**
 	 * Sets the version.
 	 *
-	 * @param version the new version
+	 * @param version
+	 *            the new version
 	 */
 	public void setVersion(Integer version)
 	{
 		this.version = version;
-	}	
+	}
+
+	public Long getUserId()
+	{
+		return userId;
+	}
+
+	public void setUserId(Long userId)
+	{
+		this.userId = userId;
+	}
+
+	public String getDisplayName()
+	{
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName)
+	{
+		this.displayName = displayName;
+	}
+	public Date getDate()
+	{
+		return date;
+	}
+	public void setDate(Date date)
+	{
+		this.date = date;
+	}
+
+	public String getTime()
+	{
+		return time;
+	}
+
+
+	public void setTime(String time)
+	{
+		this.time = time;
+	}
+
+	public String getDisplayDate()
+	{
+		return displayDate;
+	}
+
+	public void setDisplayDate(String displayDate)
+	{
+		this.displayDate = displayDate;
+	}
+
+
+	public Boolean getDisplayLeft()
+	{
+		return displayLeft;
+	}
+
+
+	public void setDisplayLeft(Boolean displayLeft)
+	{
+		this.displayLeft = displayLeft;
+	}
+
+	public Boolean getDisplayRight()
+	{
+		return displayRight;
+	}
+
+	public void setDisplayRight(Boolean displayRight)
+	{
+		this.displayRight = displayRight;
+	}
 }

@@ -92,7 +92,7 @@ public class StoryController extends BaseController implements IStoryController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<StoryModel> read(@PathVariable(PARAM_ID) Long id)

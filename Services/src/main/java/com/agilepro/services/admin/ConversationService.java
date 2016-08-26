@@ -1,5 +1,6 @@
 package com.agilepro.services.admin;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.agilepro.persistence.entity.admin.ConversationEntity;
 import com.agilepro.persistence.repository.admin.IConversationRepository;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
+import com.yukthi.webutils.services.CurrentUserService;
 import com.yukthi.webutils.services.UserService;
 
 /**
@@ -33,6 +35,12 @@ public class ConversationService extends BaseCrudService<ConversationEntity, ICo
 	 **/
 	@Autowired
 	private UserService userService;
+	
+	/**
+	 * Used to fetch current user info.
+	 */
+	@Autowired
+	private CurrentUserService currentUserService;
 	
 	/**
 	 * The i conversation repository.
@@ -75,13 +83,46 @@ public class ConversationService extends BaseCrudService<ConversationEntity, ICo
 	 */
 	public List<ConversationModel> fetchConversations(Long storyId)
 	{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+		
+		String previousDisplayName = new String(), displayName;
+		Date conversationDate;
+		
 		List<ConversationEntity> conversationEntities = iconversationRepository.fetchConversationByStroyId(storyId);
 
 		List<ConversationModel> conversationModels = new ArrayList<ConversationModel>();
 
 		conversationEntities.forEach(entity -> conversationModels.add(super.toModel(entity, ConversationModel.class))); 
-
-		conversationModels.forEach(model -> model.setDisplayName(userService.fetch(model.getUserId()).getDisplayName()));
+		
+		for(ConversationModel model : conversationModels)
+		{
+			conversationDate = model.getDate();
+			displayName = userService.fetch(model.getUserId()).getDisplayName();
+			
+			if(previousDisplayName.equals(displayName))
+			{
+				model.setDisplayName(new String());
+			}
+			else
+			{
+				model.setDisplayName(displayName);
+			}
+			
+			if(currentUserService.getCurrentUserDetails().getUserId() == model.getUserId().longValue())
+			{
+				model.setDisplayLeft(true);
+			}
+			else
+			{
+				model.setDisplayRight(true);
+			}
+			
+			model.setDisplayDate(dateFormat.format(conversationDate));
+			model.setTime(timeFormat.format(conversationDate));
+			
+			previousDisplayName = displayName;
+		}
 		
 		return conversationModels;
 	}

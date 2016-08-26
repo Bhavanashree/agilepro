@@ -317,6 +317,12 @@ body
 	border: 1px solid blue;
 }
 
+.conversation
+{
+	border: 2px solid #87CEEB;
+	border-radius: 5px;
+}
+
 .hoverDiv
 {
 	padding: 0.1em;
@@ -347,12 +353,10 @@ body
 	
 }
 
-
 .grabIt
 {
 	cursor: move; 
 }
-/*end*/
 
 .storyBoards .col 
 {
@@ -361,5 +365,23 @@ body
    padding: 2%;
 }
         
-        
+.arrow-right
+{
+  width: 0; 
+  height: 0; 
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  
+  border-left: 5px solid lightblue;
+}  
+
+.arrow-left 
+{
+  width: 0; 
+  height: 0; 
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent; 
+  
+  border-right: 5px solid #b3ffb3; 
+}     
 
