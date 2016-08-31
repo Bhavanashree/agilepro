@@ -1,5 +1,6 @@
-$.application.controller('storyController', ["$scope", "crudController", "utils","modelDefService", "validator","$state","actionHelper",
-                                               function($scope, crudController,utils, modelDefService, validator,$state,actionHelper) {
+$.application.controller('storyController', ["$scope", "crudController", "utils","modelDefService", 
+                                             "validator","$state","actionHelper",
+       function($scope, crudController,utils, modelDefService, validator,$state,actionHelper) {
 	
 	 crudController.extend($scope, {
 		"name": "Story",
@@ -28,7 +29,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 			storyId = model.id;
 			
-			getAllConversation();
+			getAllTitle();
 		}
 
 	});
@@ -68,7 +69,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.newModelMode = true;
 	$scope.storyModel = {};
 	$scope.model = {};
-
+	
 	var storyId;
 	var projectId;
 		
@@ -148,12 +149,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	   
 	});
 			
-	 // method for saving conversation 	
 	 $scope.onType = function(e) {
-		 
-		console.log("onType invoked");
+
+		$scope.message = $("#messageId").val();
+		
 		e = e || window.event;
 		var key = e.keyCode ? e.keyCode : e.which;
+		
 		
 		if($scope.message)
 		{
@@ -172,11 +174,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			reduceHeight();
 		}
 		
-		
 		// if enter
 		if((key == 13) && $scope.message)
 		{
-			$scope.saveConversation();
+			$scope.saveConversationMessage();
 		}
 		else
 		{
@@ -184,12 +185,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 	 };
 	 
-	 
-	 $scope.addTitle = function(){
-		 
-		 console.log("add the title");
-	 };
-		
 	 readCallBack = function(readResponse, respConfig){
 		 
 		 $scope.conversations = readResponse.model;
@@ -204,13 +199,14 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	 getAllConversation = function(){
 		 
-		 actionHelper.invokeAction("conversation.readAll", null, {"storyId" : storyId}, readCallBack);
+		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack);
 	 };
 	 
-	 saveCallBack = function(readResponse, respConfig){
+	 saveConverCallBack = function(readResponse, respConfig){
 		 
 		 if(respConfig.success)
 		 {
+			 $("#messageId").val("");
 			 $scope.message = "";
 			 $("#messageId").focus();
 			 
@@ -218,19 +214,22 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 }
 	 };
 	 
-	 $scope.saveConversation = function(){
+	 $scope.saveConversationMessage = function(){
 		
+		$scope.message = $("#messageId").val();
+		 
 		if($scope.message)
 		{
-			if($scope.message.length > 0)
+			if($scope.message.length > 0 && $scope.selectedTitle)
 			{
-				var model = {"message" : $scope.message.trim(), "storyId" : storyId, 
-							"userId" : $scope.activeUser.userId};
+				var model = {"message" : $scope.message.trim(), "conversationTitleId" : $scope.selectedTitle.id,
+						"userId" : $scope.activeUser.userId};
 				 
-				actionHelper.invokeAction("conversation.save", model, null, saveCallBack);
+				actionHelper.invokeAction("conversationMessage.save", model, null, saveConverCallBack);
 			}
 			else
 			{
+				utils.alert("Please select a title");
 				return;
 			}
 		}
@@ -241,8 +240,83 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$("#messageId").css('height', 2.5 + 'em');
 		$("#sendButtonId").css('height', 2.5 + 'em');
+	};
+	
+	$scope.initModelDef = function() {
+		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){
+			this.$scope.modelDef = modelDefResp.modelDef;
+		}, {"$scope": $scope}));
 		
-		console.log("height is reduced");
+		modelDefService.getModelDef("ConversationTitleModel", $.proxy(function(modelDefResp){
+			this.$scope.titleModelDef = modelDefResp.modelDef;
+		}, {"$scope": $scope}));
+	};
+	
+	$scope.addTitle = function(){
+		 
+		 $scope.converTitleModel = {};
+		 
+		 utils.openModal('conversationTitleModelDialog');
+		 
+		 console.log("add the title");
+	 };
+	
+	 readTitleCallBack = function(readResponse, respConfig){
+
+		 $scope.titles = readResponse.model;
+		 
+		 try
+		{
+			 $scope.$apply();
+		}catch(ex)
+		{}	
+		
+		// getAllConversation();
+	 };
+	 
+	 getAllTitle = function(){
+		 
+		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : storyId}, readTitleCallBack);
+	 };
+	 
+	 saveTitleCallBack = function(readResponse, respConfig){
+		 
+		 $('#conversationTitleModelDialog').modal('hide');
+		 
+		 getAllTitle();
+	 };
+	 
+	$scope.saveTitle = function(e){
+		
+		$scope.initErrors("converTitleModel", false);
+
+		$scope.converTitleModel.storyId = storyId;
+		
+		$scope.converTitleModel.ownerId = $scope.activeUser.userId;
+		
+		if(!validator.validateModel($scope.converTitleModel, $scope.titleModelDef, $scope.errors.converTitleModel))
+		{
+			utils.alert("Please correct the errors and then try!", function(){
+				$('body').addClass('modal-open');
+			});
+			
+			return;
+		}
+		
+		actionHelper.invokeAction("conversationTitle.save", $scope.converTitleModel, null, saveTitleCallBack);
+	};
+	
+	$scope.titleSelectionChanged = function(selectedTitle){
+	
+		$scope.selectedTitle = selectedTitle;
+		
+		if(!$scope.selectedTitle)
+		{
+			$scope.conversations = {};
+			return;
+		}
+		
+		getAllConversation();
 	};
 	
 }]);

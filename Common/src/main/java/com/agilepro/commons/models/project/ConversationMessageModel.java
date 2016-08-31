@@ -1,24 +1,22 @@
-package com.agilepro.commons.models.admin;
+package com.agilepro.commons.models.project;
 
 import java.util.Date;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
-import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class ConversationModel.
+ * The Class ConversationMessageModel.
  * 
  * @author Pritam
  */
 @Model
-public class ConversationModel
+public class ConversationMessageModel
 {
 	/**
 	 * The id.
 	 */
-	@NonDisplayable
 	private Long id;
 
 	/**
@@ -34,16 +32,10 @@ public class ConversationModel
 	private Date date;
 
 	/** 
-	 * The story id. 
+	 * The conversation title id. 
 	 **/
 	@Required
-	private Long storyId;
-	
-	/** 
-	 * The user id. 
-	 **/
-	@Required
-	private Long userId;
+	private Long conversationTitleId;
 	
 	/** 
 	 * The display name. 
@@ -61,16 +53,18 @@ public class ConversationModel
 	
 	private Boolean displayRight = false;
 	
+	@Required
+	private Long userId;
+	
 	/**
 	 * The version.
 	 */
-	@NonDisplayable
 	private Integer version;
 
 	/**
 	 * Instantiates a new conversation model.
 	 */
-	public ConversationModel()
+	public ConversationMessageModel()
 	{}
 
 
@@ -117,27 +111,6 @@ public class ConversationModel
 	}
 
 	/**
-	 * Gets the story id.
-	 *
-	 * @return the story id
-	 */
-	public Long getStoryId()
-	{
-		return storyId;
-	}
-
-	/**
-	 * Sets the story id.
-	 *
-	 * @param storyId
-	 *            the new story id
-	 */
-	public void setStoryId(Long storyId)
-	{
-		this.storyId = storyId;
-	}
-
-	/**
 	 * Gets the version.
 	 *
 	 * @return the version
@@ -156,16 +129,6 @@ public class ConversationModel
 	public void setVersion(Integer version)
 	{
 		this.version = version;
-	}
-
-	public Long getUserId()
-	{
-		return userId;
-	}
-
-	public void setUserId(Long userId)
-	{
-		this.userId = userId;
 	}
 
 	public String getDisplayName()
@@ -213,7 +176,6 @@ public class ConversationModel
 		return displayLeft;
 	}
 
-
 	public void setDisplayLeft(Boolean displayLeft)
 	{
 		this.displayLeft = displayLeft;
@@ -227,5 +189,25 @@ public class ConversationModel
 	public void setDisplayRight(Boolean displayRight)
 	{
 		this.displayRight = displayRight;
+	}
+
+	public Long getConversationTitleId()
+	{
+		return conversationTitleId;
+	}
+
+	public void setConversationTitleId(Long conversationTitleId)
+	{
+		this.conversationTitleId = conversationTitleId;
+	}
+
+	public Long getUserId()
+	{
+		return userId;
+	}
+
+	public void setUserId(Long userId)
+	{
+		this.userId = userId;
 	}
 }

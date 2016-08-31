@@ -1,6 +1,6 @@
-package com.agilepro.controller.admin;
+package com.agilepro.controller.project;
 
-import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_CONVERSATION;
+import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_CONVERSATION_MESSAGE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
-import com.agilepro.commons.models.admin.ConversationModel;
-import com.agilepro.persistence.entity.admin.ConversationEntity;
-import com.agilepro.services.admin.ConversationService;
+import com.agilepro.commons.models.project.ConversationMessageModel;
+import com.agilepro.persistence.entity.project.ConversationMessageEntity;
 import com.agilepro.services.common.Authorization;
+import com.agilepro.services.project.ConversationMessageService;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
@@ -34,20 +34,20 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
 /**
- * The Class ConversationController.
+ * The Class ConversationMessageController.
  * 
  * @author Pritam
  */
 @RestController
-@ActionName(ACTION_PREFIX_CONVERSATION)
-@RequestMapping("/conversation")
-public class ConversationController extends BaseController
+@ActionName(ACTION_PREFIX_CONVERSATION_MESSAGE)
+@RequestMapping("/conversationMessage")
+public class ConversationMessageController extends BaseController
 {
 	/**
 	 * The conversation service.
 	 */
 	@Autowired
-	private ConversationService conversationService;
+	private ConversationMessageService conversationService;
 
 	/**
 	 * Save.
@@ -60,9 +60,9 @@ public class ConversationController extends BaseController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid ConversationModel conversationmodel)
+	public BasicSaveResponse save(@RequestBody @Valid ConversationMessageModel conversationmodel)
 	{
-		ConversationEntity entity = conversationService.save(conversationmodel);
+		ConversationMessageEntity entity = conversationService.save(conversationmodel);
 
 		return new BasicSaveResponse(entity.getId());
 	}
@@ -78,11 +78,11 @@ public class ConversationController extends BaseController
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@Authorization(roles = { UserRole.ADMINISTRATOR })
 	@ResponseBody
-	public BasicReadResponse<ConversationModel> read(@PathVariable(PARAM_ID) Long id)
+	public BasicReadResponse<ConversationMessageModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		ConversationModel model = conversationService.fetchFullModel(id, ConversationModel.class);
+		ConversationMessageModel model = conversationService.fetchFullModel(id, ConversationMessageModel.class);
 
-		return new BasicReadResponse<ConversationModel>(model);
+		return new BasicReadResponse<ConversationMessageModel>(model);
 	}
 
 	/**
@@ -97,9 +97,9 @@ public class ConversationController extends BaseController
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.ADMINISTRATOR })
 	@ResponseBody
-	public BaseResponse update(@RequestBody @Valid ConversationModel user)
+	public BaseResponse update(@RequestBody @Valid ConversationMessageModel user)
 	{
-		ConversationEntity entity = conversationService.update(user);
+		ConversationMessageEntity entity = conversationService.update(user);
 
 		return new BaseResponse();
 	}
@@ -136,12 +136,18 @@ public class ConversationController extends BaseController
 		return new BaseResponse();
 	}
 	
+	/**
+	 * Fetch conversations.
+	 *
+	 * @param storyId the story id
+	 * @return the basic read response
+	 */
 	@ActionName(ACTION_TYPE_READ_ALL)
 	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW  })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<ConversationModel>> fetchConversations(@RequestParam(value = "storyId") Long storyId)
+	public BasicReadResponse<List<ConversationMessageModel>> fetchConversations(@RequestParam(value = "conversationTitleId") Long conversationTitleId)
 	{
-		return new BasicReadResponse<List<ConversationModel>>(conversationService.fetchConversations(storyId));
+		return new BasicReadResponse<List<ConversationMessageModel>>(conversationService.fetchConversations(conversationTitleId));
 	}
 }

@@ -40,103 +40,105 @@
 	
 	<yk-dialog id="storyDialog" title="Story">
 		<content>
-			<div class="row">
-				<div id="modelFormId" class="col-md-6 col-lg-6">
-					<yk-model-form name="StoryModel" columns="1"/>
-				</div>
+			<yk-tabs>
+				<tab id="modelFormId" label="Basic">
+					<yk-model-form name="StoryModel" columns="2"/>
+				</tab>
+				
+				<tab id="conversationId" label="Conversation">
 				
 				<!-- Conversation --> 
-				<div class="col-md-6 col-lg-6">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<i class="fa fa-users" aria-hidden="true"></i>
-							drop down 
-							<div class="btn-group pull-right">
-								<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
-								ng-click="addTitle()">
-								</span>
-							</div>
+				<div class="panel panel-primary" style="margin-bottom: 0px;">
+					<div class="panel-heading">
+						<i class="fa fa-users" aria-hidden="true"></i>
+							<select ng-options="title as title.name for title in titles track by title.id" 
+								ng-model="selectedTitle" ng-change="titleSelectionChanged(selectedTitle)" style="color: black;">
+								<option value=""> -- Select Title -- </option>
+							</select> 
+						<div class="btn-group pull-right">
+							<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
+							ng-click="addTitle()" data-toggle="tooltip" title="Add Title">
+							</span>
 						</div>
-						<div id="panelBodyId" class="panel-body" style="overflow-y:auto; height: 224px;">
-							<table style="width:100%;">
-								<tr ng-repeat="conversation in conversations | orderBy : 'conversation.date'">
-									<td>
-										<table style="width:100%;">
-											<tr ng-show="conversation.displayLeft" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
-												<td colspan="2">
-													<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden;">
-														<b>{{conversation.displayName}}</b>
-													</div>
-													
-													<div ng-if="conversation.displayName.length == 0">
-														<b>{{conversation.displayName}}</b>
-													</div>
-												</td>
-											</tr>
-											
-											<tr ng-show="conversation.displayRight" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
-												<td colspan="3">
-													<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; padding-left: 1.7em;">
-														<b>{{conversation.displayName}}</b>
-													</div>
-													
-													<div ng-if="conversation.displayName.length == 0">
-														<b>{{conversation.displayName}}</b>
-													</div>
-												</td>
-											</tr>
-											<tr ng-show="conversation.displayLeft">
-												<td style="background-color: lightblue; border-radius: 5px; width: 95%; 
-													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
-													padding-right: 0.5em; padding-bottom: 0.3em;">
-												{{conversation.message}} <br/>
-												<span style="float: right; font-size: 0.8em; color: #008080;">
-													{{conversation.displayDate}}, {{conversation.time}}
-												</span>
-												</td>
-												<td style="width: 5%;">
-													<div class="arrow-right"></div>
-												</td>
-												<td>
-												</td>
-											</tr>
-											
-											<tr ng-show="conversation.displayRight">
-												<td style="width: 4%;">
-												</td>
-												<td style="width: 1%;">
-													<div class="arrow-left"></div>
-												</td>
-												<td style="background-color: #b3ffb3; border-radius: 5px; width: 95%; 
-													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
-													padding-right: 0.5em; padding-bottom: 0.3em;">
-												{{conversation.message}} <br/>
-												<span style="float: right; font-size: 0.8em; color: #008080;">
-													{{conversation.displayDate}}, {{conversation.time}}
-												</span>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="panel-footer">
-							<div class="input-group">
-								<textarea rows="2" cols="2" id="messageId" type="text" ng-model="message" ng-keyup="onType($event)" class="form-control" 
-									placeholder="Type your message here" style="height: 2.5em; resize: none;"></textarea>
-								<span class="input-group-btn">
-		                            <button id="sendButtonId" class="btn btn-primary" style="height: 2.5em;" ng-click="saveConversation()"> 
-		                              <i class="glyphicon glyphicon-send"></i>
-		                            </button>
-		                        </span>
-							</div>
+					</div>
+					<div id="panelBodyId" class="panel-body" style="overflow-y:auto; height: 230px;">
+						<table style="width:100%;">
+							<tr ng-repeat="conversation in conversations | orderBy : 'conversation.date'">
+								<td>
+									<table style="width:100%;">
+										<tr ng-show="conversation.displayLeft" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+											<td colspan="2">
+												<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden;">
+													<b>{{conversation.displayName}}</b>
+												</div>
+												
+												<div ng-if="conversation.displayName.length == 0">
+													<b>{{conversation.displayName}}</b>
+												</div>
+											</td>
+										</tr>
+										
+										<tr ng-show="conversation.displayRight" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+											<td colspan="3">
+												<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; padding-left: 1.7em;">
+													<b>{{conversation.displayName}}</b>
+												</div>
+												
+												<div ng-if="conversation.displayName.length == 0">
+													<b>{{conversation.displayName}}</b>
+												</div>
+											</td>
+										</tr>
+										<tr ng-show="conversation.displayLeft">
+											<td style="background-color: lightblue; border-radius: 5px; width: 95%; 
+												height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+												padding-right: 0.5em; padding-bottom: 0.3em;">
+											{{conversation.message}} <br/>
+											<span style="float: right; font-size: 0.8em; color: #008080;">
+												{{conversation.displayDate}}, {{conversation.time}}
+											</span>
+											</td>
+											<td style="width: 5%;">
+												<div class="arrow-right"></div>
+											</td>
+											<td>
+											</td>
+										</tr>
+										
+										<tr ng-show="conversation.displayRight">
+											<td style="width: 5%;">
+											</td>
+											<td style="width: 0%;">
+												<div class="arrow-left"></div>
+											</td>
+											<td style="background-color: #b3ffb3; border-radius: 5px; width: 95%; 
+												height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+												padding-right: 0.5em; padding-bottom: 0.3em;">
+											{{conversation.message}} <br/>
+											<span style="float: right; font-size: 0.8em; color: #008080;">
+												{{conversation.displayDate}}, {{conversation.time}}
+											</span>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="panel-footer">
+						<div class="input-group">
+							<textarea rows="2" cols="2" id="messageId" type="text" ng-model="message" ng-keyup="onType($event)" class="form-control" 
+								placeholder="Type your message here" style="height: 2.5em; resize: none;"></textarea>
+							<span class="input-group-btn">
+	                            <button id="sendButtonId" class="btn btn-primary" style="height: 2.5em;" ng-click="saveConversationMessage()"> 
+	                              <i class="glyphicon glyphicon-send"></i>
+	                            </button>
+	                        </span>
 						</div>
 					</div>
 				</div>
-				
-			</div>
-			
+				</tab>
+			</yk-tabs>
 		</content>
 		<footer>
 			<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)">{{newStoryMode ? 'Save' : 'Update'}}</button>
@@ -149,4 +151,7 @@
 	</div>
 	
 	<br/>
+	
+	<yk-model-dialog id="conversationTitleModelDialog" name="ConversationTitleModel" title="Title" columns="1" actionMethod="saveTitle($event)" modelObj="converTitleModel" size="small">
+	</yk-model-dialog>
 </div>

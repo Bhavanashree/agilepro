@@ -2,7 +2,6 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -250,10 +249,15 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_ADMINUSER = "admin";
 
-	/**
-	 * The action prefix conversation.
+	/** 
+	 * The action prefix conversation message. 
 	 **/
-	public String ACTION_PREFIX_CONVERSATION = "conversation";
+	public String ACTION_PREFIX_CONVERSATION_MESSAGE = "conversationMessage";
+	
+	/** 
+	 * The action prefix conversation title. 
+	 **/
+	public String ACTION_PREFIX_CONVERSATION_TITLE = "conversationTitle";
 
 	/**
 	 * Parameter with name "name".
@@ -706,27 +710,27 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action conversation save.
 	 **/
-	public String ACTION_CONVERSATION_SAVE = ACTION_PREFIX_CONVERSATION + DOT + ACTION_TYPE_SAVE;
+	public String ACTION_CONVERSATION_SAVE = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_SAVE;
 
 	/**
 	 * The action conversation read.
 	 **/
-	public String ACTION_CONVERSATION_READ = ACTION_PREFIX_CONVERSATION + DOT + ACTION_TYPE_READ;
+	public String ACTION_CONVERSATION_READ = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_READ;
 
 	/**
 	 * The action conversation update.
 	 **/
-	public String ACTION_CONVERSATION_UPDATE = ACTION_PREFIX_CONVERSATION + DOT + ACTION_TYPE_UPDATE;
+	public String ACTION_CONVERSATION_UPDATE = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_UPDATE;
 
 	/**
 	 * The action conversation delete.
 	 **/
-	public String ACTION_CONVERSATION_DELETE = ACTION_PREFIX_CONVERSATION + DOT + ACTION_TYPE_DELETE;
+	public String ACTION_CONVERSATION_DELETE = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_DELETE;
 
 	/**
 	 * The action conversation delete all.
 	 **/
-	public String ACTION_CONVERSATION_DELETE_ALL = ACTION_PREFIX_CONVERSATION + DOT + ACTION_TYPE_DELETE_ALL;
+	public String ACTION_CONVERSATION_DELETE_ALL = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	
