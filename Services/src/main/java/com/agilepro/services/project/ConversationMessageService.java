@@ -41,7 +41,7 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 	/**
 	 * The i conversation repository.
 	 **/
-	private IConversationMessageRepository iconversationRepository;
+	private IConversationMessageRepository iconversationMessageRepository;
 	
 	/** 
 	 * The user service. 
@@ -63,7 +63,7 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 	@PostConstruct
 	private void init()
 	{
-		iconversationRepository = repositoryFactory.getRepository(IConversationMessageRepository.class);
+		iconversationMessageRepository = repositoryFactory.getRepository(IConversationMessageRepository.class);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 	 */
 	private void checkConversation(Long conversationTitleId, Long userId)
 	{
-		List<ConversationMessageEntity> conversationMessageEntities = iconversationRepository.fetchConversationMessageByTitleId(conversationTitleId);
+		List<ConversationMessageEntity> conversationMessageEntities = iconversationMessageRepository.fetchConversationMessageByTitleId(conversationTitleId);
 
 		if(conversationMessageEntities.size() == 0)
 		{
@@ -121,7 +121,7 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 
 		Long ownerId = conversationTitleService.fetchFullModel(conversationTitleId, ConversationTitleModel.class).getOwnerId();
 		
-		List<ConversationMessageEntity> conversationEntities = iconversationRepository.fetchConversationMessageByTitleId(conversationTitleId);
+		List<ConversationMessageEntity> conversationEntities = iconversationMessageRepository.fetchConversationMessageByTitleId(conversationTitleId);
 
 		List<ConversationMessageModel> conversationModels = new ArrayList<ConversationMessageModel>();
 

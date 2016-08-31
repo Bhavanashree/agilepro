@@ -13,20 +13,17 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
  * @author Pritam
  */
 public interface IConversationMessageRepository extends IWebutilsRepository<ConversationMessageEntity>
-{ 
-	/*@SearchQueryMethod(name = "conversationSearch", queryModel = ConversationSearchQuery.class)
-	@OrderBy("message")
-	public List<ConversationSearchResult> findConversation(SearchQuery searchQuery);*/
-	
+{
 	/**
 	 * Fetch conversation by stroy id.
 	 *
-	 * @param conversationTitleId the conversation title id
+	 * @param conversationTitleId
+	 *            the conversation title id
 	 * @return the list
 	 */
 	@RestrictBySpace
-	public List<ConversationMessageEntity> fetchConversationMessageByTitleId(@Condition(value = "conversationTitleEntity.id")Long conversationTitleId);
-	
+	public List<ConversationMessageEntity> fetchConversationMessageByTitleId(@Condition(value = "conversationTitleEntity.id") Long conversationTitleId);
+
 	/**
 	 * Delete all.
 	 */

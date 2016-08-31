@@ -305,6 +305,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 
 	public String ACTION_TYPE_READ_STORY_PROJECT_ID = "storyProjectId";
 
+	/** 
+	 * The action type read sprint project id. 
+	 **/
 	public String ACTION_TYPE_READ_SPRINT_PROJECT_ID = "sprintProjectId";
 	
 	/**
@@ -939,104 +942,103 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action Story save.
 	 **/
-	public String ACTION_STORY_SAVE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_SAVE;
+	public String ACTION_STORY_SAVE = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_SAVE;
 
 	/**
 	 * The action Story read.
 	 **/
-	public String ACTION_STORY_READ = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ;
+	public String ACTION_STORY_READ = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ;
 
 	/**
 	 *  The action backlog readall.
 	 **/
-	public String ACTION_STORY_READALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_ALL;
+	public String ACTION_STORY_READALL = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_ALL;
 
 	/**
 	 *  The action story read project id. 
 	 **/
-	public String ACTION_STORY_READ_PROJECT_ID = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_STORY_PROJECT_ID;
+	public String ACTION_STORY_READ_PROJECT_ID = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_STORY_PROJECT_ID;
 	/**
 	 *  The action sprint read.
 	 **/
-	public String ACTION_STORY_READSPRINT = ACTION_PREFIX_STORY + "." + ACTION_TYPE_READ_SPRINT;
+	public String ACTION_STORY_READSPRINT = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_SPRINT;
 	/**
 	 * The action backlog update.
 	 **/
-	public String ACTION_STORY_UPDATE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_UPDATE;
+	public String ACTION_STORY_UPDATE = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_UPDATE;
 
 	/**
 	 * The action backlog delete.
 	 **/
-	public String ACTION_STORY_DELETE = ACTION_PREFIX_STORY + "." + ACTION_TYPE_DELETE;
+	public String ACTION_STORY_DELETE = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_DELETE;
 
 	/**
 	 * The action backlog delete all.
 	 **/
-	public String ACTION_STORY_DELETE_ALL = ACTION_PREFIX_STORY + "." + ACTION_TYPE_DELETE_ALL;
+	public String ACTION_STORY_DELETE_ALL = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_DELETE_ALL;
 
 	/**
 	 *  The action sprint save. 
 	 **/
-	public String ACTION_SPRINT_SAVE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_SAVE;
+	public String ACTION_SPRINT_SAVE = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_SAVE;
 
 	/**
 	 *  The action sprint read. 
 	 **/
-	public String ACTION_SPRINT_READ = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ;
+	public String ACTION_SPRINT_READ = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_READ;
 
 	/** 
 	 * The action sprint readall. 
 	 **/
-	public String ACTION_SPRINT_READALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ_ALL;
+	public String ACTION_SPRINT_READALL = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_READ_ALL;
 	
 	/**
 	 *  The action sprint read projectid. 
 	 **/
-	public String ACTION_SPRINT_READ_PROJECTID = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_READ_SPRINT_PROJECT_ID;
+	public String ACTION_SPRINT_READ_PROJECTID = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_READ_SPRINT_PROJECT_ID;
 	
 	/** 
 	 * The action sprint update.
 	 **/
-	public String ACTION_SPRINT_UPDATE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_UPDATE;
+	public String ACTION_SPRINT_UPDATE = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_UPDATE;
 
 	/**
 	 *  The action sprint delete. 
 	 */
-	public String ACTION_SPRINT_DELETE = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
+	public String ACTION_SPRINT_DELETE = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_DELETE;
 
 	/**
 	 *  The action sprint deleteall. 
 	 **/
-	public String ACTION_SPRINT_DELETEALL = ACTION_PREFIX_SPRINT + "." + ACTION_TYPE_DELETE;
+	public String ACTION_SPRINT_DELETEALL = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_DELETE;
 	
 	/**
 	 *  The action sprint save. 
 	 **/
-	public String ACTION_PRIORITY_SAVE = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_SAVE;
+	public String ACTION_PRIORITY_SAVE = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_SAVE;
 
 	/**
 	 *  The action sprint read. 
 	 **/
-	public String ACTION_PRIORITY_READ = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_READ;
+	public String ACTION_PRIORITY_READ = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_READ;
 
 	/** 
 	 * The action sprint readall. 
 	 **/
-	public String ACTION_PRIORITY_READALL = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_READ_ALL;
+	public String ACTION_PRIORITY_READALL = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_READ_ALL;
 
 	/** 
 	 * The action sprint update.
 	 **/
-	public String ACTION_PRIORITY_UPDATE = ACTION_PREFIX_PRIORITY + "." + ACTION_TYPE_UPDATE;
+	public String ACTION_PRIORITY_UPDATE = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_UPDATE;
 
 	/**
 	 *  The action sprint delete. 
 	 */
-	public String ACTION_PRIORITY_DELETE = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
+	public String ACTION_PRIORITY_DELETE = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_DELETE;
 
 	/**
 	 *  The action sprint delete all. 
 	 **/
-	public String ACTION_PRIORITY_DELETEALL = ACTION_PREFIX_PRIORITY+ "." + ACTION_TYPE_DELETE;
-
+	public String ACTION_PRIORITY_DELETEALL = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_DELETE;
 }

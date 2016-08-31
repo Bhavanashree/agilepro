@@ -36,16 +36,17 @@ import com.yukthi.webutils.controllers.BaseController;
 @RequestMapping("/conversationTitle")
 public class ConversationTitleController extends BaseController
 {
-	/** 
-	 * The conversation title service. 
+	/**
+	 * The conversation title service.
 	 **/
 	@Autowired
 	private ConversationTitleService conversationTitleService;
-	
+
 	/**
 	 * Save.
 	 *
-	 * @param conversationTitleModel the conversation title model
+	 * @param conversationTitleModel
+	 *            the conversation title model
 	 * @return the basic save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
@@ -58,9 +59,16 @@ public class ConversationTitleController extends BaseController
 
 		return new BasicSaveResponse(entity.getId());
 	}
-	
+
+	/**
+	 * Fetch conversations.
+	 *
+	 * @param storyId
+	 *            the story id
+	 * @return the basic read response
+	 */
 	@ActionName(ACTION_TYPE_READ_ALL)
-	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW  })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<ConversationTitleModel>> fetchConversations(@RequestParam(value = "storyId") Long storyId)

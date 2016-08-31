@@ -44,25 +44,25 @@ import com.yukthi.webutils.controllers.BaseController;
 public class ConversationMessageController extends BaseController
 {
 	/**
-	 * The conversation service.
-	 */
+	 * The conversation message service.
+	 **/
 	@Autowired
-	private ConversationMessageService conversationService;
+	private ConversationMessageService conversationMessageService;
 
 	/**
 	 * Save.
 	 *
-	 * @param conversationmodel
-	 *            the conversationmodel
+	 * @param conversationMessagemodel
+	 *            the conversation messagemodel
 	 * @return the basic save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid ConversationMessageModel conversationmodel)
+	public BasicSaveResponse save(@RequestBody @Valid ConversationMessageModel conversationMessagemodel)
 	{
-		ConversationMessageEntity entity = conversationService.save(conversationmodel);
+		ConversationMessageEntity entity = conversationMessageService.save(conversationMessagemodel);
 
 		return new BasicSaveResponse(entity.getId());
 	}
@@ -80,7 +80,7 @@ public class ConversationMessageController extends BaseController
 	@ResponseBody
 	public BasicReadResponse<ConversationMessageModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		ConversationMessageModel model = conversationService.fetchFullModel(id, ConversationMessageModel.class);
+		ConversationMessageModel model = conversationMessageService.fetchFullModel(id, ConversationMessageModel.class);
 
 		return new BasicReadResponse<ConversationMessageModel>(model);
 	}
@@ -99,7 +99,7 @@ public class ConversationMessageController extends BaseController
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid ConversationMessageModel user)
 	{
-		ConversationMessageEntity entity = conversationService.update(user);
+		ConversationMessageEntity entity = conversationMessageService.update(user);
 
 		return new BaseResponse();
 	}
@@ -117,7 +117,7 @@ public class ConversationMessageController extends BaseController
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
 	{
-		conversationService.deleteById(id);
+		conversationMessageService.deleteById(id);
 		return new BaseResponse("success");
 	}
 
@@ -131,23 +131,24 @@ public class ConversationMessageController extends BaseController
 	@ResponseBody
 	public BaseResponse deleteAll()
 	{
-		conversationService.deleteAll();
+		conversationMessageService.deleteAll();
 
 		return new BaseResponse();
 	}
-	
+
 	/**
 	 * Fetch conversations.
 	 *
-	 * @param storyId the story id
+	 * @param conversationTitleId
+	 *            the conversation title id
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_ALL)
-	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW  })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<ConversationMessageModel>> fetchConversations(@RequestParam(value = "conversationTitleId") Long conversationTitleId)
 	{
-		return new BasicReadResponse<List<ConversationMessageModel>>(conversationService.fetchConversations(conversationTitleId));
+		return new BasicReadResponse<List<ConversationMessageModel>>(conversationMessageService.fetchConversations(conversationTitleId));
 	}
 }

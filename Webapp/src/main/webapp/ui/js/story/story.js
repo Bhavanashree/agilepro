@@ -195,11 +195,17 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
     		$scope.$apply();
 		}catch(ex)
 		{}	
+		
+		$("#panelBodyId").animate({ scrollTop: $("#panelBodyId")[0].scrollHeight });
 	 };
 	 
 	 getAllConversation = function(){
 		 
 		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack);
+		 
+		 $('#' + IN_PRGORESS_DLG_ID).modal('hide');
+		 
+		 //setTimeout(getAllConversation, (5 * 1000));
 	 };
 	 
 	 saveConverCallBack = function(readResponse, respConfig){
