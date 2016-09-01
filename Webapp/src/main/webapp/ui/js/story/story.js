@@ -15,21 +15,35 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		"updateAction": "story.update",
 		"deleteAction": "story.delete",
 		
-		"onDisplay" : function(model, containerHeight){
+		"onDisplay" : function(model){
 			
-			$scope.message = "";
-			
-			var modelFormElem = angular.element('#modelFormId'); 
-			
-			var panelBodyElem = angular.element('#panelBodyId');
-			
-			var conversationHeight = modelFormElem.height() - 100;
+			if(!(model.id))
+			{
+				$scope.conversationTab = false;
+			}
+			else
+			{
+				$scope.message = "";
+				$scope.conversationTab = true;
+				
+				var modelFormElem = angular.element('#modelFormId'); 
+				
+				var panelBodyElem = angular.element('#panelBodyId');
+				
+				var conversationHeight = modelFormElem.height() - 100;
 
-			panelBodyElem.css('height', conversationHeight + 'px');
+				panelBodyElem.css('height', conversationHeight + 'px');
+				
+				storyId = model.id;
+				
+				getAllTitle();
+			}
 			
-			storyId = model.id;
-			
-			getAllTitle();
+			try
+			{
+	    		$scope.$apply();
+			}catch(ex)
+			{}	
 		}
 
 	});
@@ -151,6 +165,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 	 $scope.onType = function(e) {
 
+		if(!$scope.selectedTitle)
+		{
+			utils.alert("Please select a title");
+			//$("#messageId").val($("#messageId").val("").trim());
+			return;
+		}
+		
 		$scope.message = $("#messageId").val();
 		
 		e = e || window.event;
@@ -161,6 +182,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{
 			if($scope.message.length > 50)
 			{
+				console.log("$scope.message.length = " + $scope.message.length); 
+				console.log("$(#messageId).width() = " + $("#messageId").width());
+				
 				$("#messageId").css('height', 4 + 'em');
 				$("#sendButtonId").css('height', 4 + 'em');
 			}
@@ -226,17 +250,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		if($scope.message)
 		{
-			if($scope.message.length > 0 && $scope.selectedTitle)
+			if($scope.message.length > 0)
 			{
 				var model = {"message" : $scope.message.trim(), "conversationTitleId" : $scope.selectedTitle.id,
 						"userId" : $scope.activeUser.userId};
 				 
 				actionHelper.invokeAction("conversationMessage.save", model, null, saveConverCallBack);
-			}
-			else
-			{
-				utils.alert("Please select a title");
-				return;
 			}
 		}
 	 };
@@ -251,11 +270,24 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.initModelDef = function() {
 		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){
 			this.$scope.modelDef = modelDefResp.modelDef;
+			
+			console.log("Story Model");
 		}, {"$scope": $scope}));
 		
 		modelDefService.getModelDef("ConversationTitleModel", $.proxy(function(modelDefResp){
 			this.$scope.titleModelDef = modelDefResp.modelDef;
+			
+			console.log("Title model");
 		}, {"$scope": $scope}));
+	};
+	
+	$scope.getModelDef = function(prefix) {
+		if(prefix == 'converTitleModel')
+		{
+			return $scope.titleModelDef;
+		}
+		
+		return $scope.modelDef;
 	};
 	
 	$scope.addTitle = function(){
@@ -293,6 +325,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 };
 	 
 	$scope.saveTitle = function(e){
+		
+		console.log($scope.model);
 		
 		$scope.initErrors("converTitleModel", false);
 

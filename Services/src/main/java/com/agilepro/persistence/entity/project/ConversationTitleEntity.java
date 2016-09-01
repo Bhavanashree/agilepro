@@ -5,6 +5,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.models.project.ConversationTitleModel;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.WebutilsEntity;
@@ -15,12 +17,13 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "CONVERSATION_TITLE")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
 public class ConversationTitleEntity extends WebutilsEntity
 {
 	/**
 	 * The title.
 	 **/
-	@Column(name = "NAME", length = 2000)
+	@Column(name = "NAME", length = 50)
 	private String name;
 
 	/**

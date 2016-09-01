@@ -1,18 +1,13 @@
 package com.agilepro.client.helpers;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_CONVERSATION_SAVE;
-
 import static com.agilepro.commons.IAgileproActions.ACTION_CONVERSATION_READ;
-
 import static com.agilepro.commons.IAgileproActions.ACTION_CONVERSATION_UPDATE;
-
 import static com.agilepro.commons.IAgileproActions.ACTION_CONVERSATION_DELETE;
-
 import static com.agilepro.commons.IAgileproActions.ACTION_CONVERSATION_DELETE_ALL;
-
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
-import com.agilepro.commons.models.admin.ConversationModel;
+import com.agilepro.commons.models.project.ConversationMessageModel;
 import com.yukthi.utils.CommonUtils;
 import com.yukthi.utils.rest.RestClient;
 import com.yukthi.utils.rest.RestRequest;
@@ -39,7 +34,7 @@ public class ConversationHelper
 	 *            the conversation
 	 * @return the long
 	 */
-	public long save(ClientContext context, ConversationModel conversation)
+	public long save(ClientContext context, ConversationMessageModel conversation)
 	{
 		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_CONVERSATION_SAVE, conversation, null);
 		RestClient client = context.getRestClient();
@@ -65,20 +60,20 @@ public class ConversationHelper
 	 * @return the conversation model
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public ConversationModel read(ClientContext context, long id)
+	public ConversationMessageModel read(ClientContext context, long id)
 	{
 		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_CONVERSATION_READ, null, CommonUtils.toMap(PARAM_ID, "" + id));
 		RestClient client = context.getRestClient();
 
-		RestResult<BasicReadResponse<ConversationModel>> readResult = (RestResult) client.invokeJsonRequest(request, BasicReadResponse.class, ConversationModel.class);
-		BasicReadResponse<ConversationModel> response = readResult.getValue();
+		RestResult<BasicReadResponse<ConversationMessageModel>> readResult = (RestResult) client.invokeJsonRequest(request, BasicReadResponse.class, ConversationMessageModel.class);
+		BasicReadResponse<ConversationMessageModel> response = readResult.getValue();
 
 		if(response == null || response.getCode() != 0)
 		{
 			throw new RestException("An error occurred while reading conversation", readResult.getStatusCode(), response);
 		}
 
-		return (ConversationModel) response.getModel();
+		return (ConversationMessageModel) response.getModel();
 	}
 
 	/**
@@ -89,7 +84,7 @@ public class ConversationHelper
 	 * @param user
 	 *            the user
 	 */
-	public void update(ClientContext context, ConversationModel user)
+	public void update(ClientContext context, ConversationMessageModel user)
 	{
 		RestRequest<?> request = ActionRequestBuilder.buildRequest(context, ACTION_CONVERSATION_UPDATE, user, null);
 		RestClient client = context.getRestClient();
