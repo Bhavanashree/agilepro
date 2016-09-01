@@ -179,7 +179,7 @@ public class ProjectController extends BaseController implements IProjectControl
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ_ALL)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_VIEW, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<ProjectModel>> fetchProjects()

@@ -90,7 +90,7 @@ public class UserSettingController extends BaseController implements IUserSettin
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.USER_SETTING_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.USER_SETTING_VIEW, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<UserSettingModel> read(@RequestParam(value = "userId") Long userId)
