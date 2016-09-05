@@ -254,6 +254,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_CONVERSATION_MESSAGE = "conversationMessage";
 	
+	public String ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE = "storyAttachment";
+	
 	/** 
 	 * The action prefix conversation title. 
 	 **/
@@ -734,8 +736,21 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action conversation delete all.
 	 **/
 	public String ACTION_CONVERSATION_DELETE_ALL = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
-
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public String ACTION_STORY_ATTACHMENT_SAVE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
+	
+	public String ACTION_STORY_ATTACHMENT_READ = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ;
+	
+	public String ACTION_STORY_ATTACHMENT_UPDATE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_UPDATE;
+	
+	public String ACTION_STORY_ATTACHMENT_DELETE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE;
+	
+	public String ACTION_STORY_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	/**
 	 * The action employee save.
