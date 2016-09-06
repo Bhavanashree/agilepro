@@ -28,19 +28,19 @@ import com.yukthi.webutils.client.ClientControllerFactory;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 
 /**
- * The Class TFProjectMember.
+ * The Class TFProjectMemberHelper.
  *
  * @param <MultipartHttpServletRequest>
  *            the generic type
  *            
  * @author Pritam
  */
-public class TFProjectMember<MultipartHttpServletRequest> extends TFBase implements ITestConstants
+public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase implements ITestConstants
 {
 	/**
 	 * The logger.
 	 **/
-	private static Logger logger = LogManager.getLogger(TFProjectMember.class);
+	private static Logger logger = LogManager.getLogger(TFProjectMemberHelper.class);
 
 	/**
 	 * DesignationHelper object with default values.
@@ -191,16 +191,17 @@ public class TFProjectMember<MultipartHttpServletRequest> extends TFBase impleme
 	/**
 	 * Gets the project member model.
 	 *
-	 * @param projectId the project id
+	 * @param projectId
+	 *            the project id
 	 * @return the project member model
 	 */
 	private List<ProjectMemberModel> getProjectMemberModel(Long projectId)
 	{
 		BasicReadResponse<List<ProjectMemberModel>> basicReadResponse = iprojectMemberController.fetchProjectMembers(projectId);
-		
+
 		return basicReadResponse.getModel();
 	}
-	
+
 	/**
 	 * Test save.
 	 */
@@ -210,12 +211,12 @@ public class TFProjectMember<MultipartHttpServletRequest> extends TFBase impleme
 		ProjectMemberModel projectMemberModel = new ProjectMemberModel(projectIds.get(0), employeeIds.get(0), ProjectMemberRole.PROJECT_ADMIN);
 
 		iprojectMemberController.save(projectMemberModel);
-		
+
 		List<ProjectMemberModel> projectMemberModels = getProjectMemberModel(projectIds.get(0));
-		
+
 		Assert.assertTrue(projectMemberModels.contains(projectMemberModel));
 	}
-	
+
 	/**
 	 * cleanup.
 	 */

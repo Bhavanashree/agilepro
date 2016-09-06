@@ -138,6 +138,48 @@
 					</div>
 				</div>
 				</tab>
+				
+				<!-- Attachment -->
+				<tab id="storyFormId" label="Attachment">
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<div class="panel panel-default">
+							
+								<div class="panel-heading" style="padding: 0.1em 0.5em; width: 100%; text-align: right;">
+									<a role="button" ng-click="addAttachment()" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" 
+												data-toggle="tooltip" title="Add Attachment">
+										<i class="glyphicon glyphicon-plus"></i>
+									</a>
+								</div>
+								<div style="width: 100%; overflow: auto;">
+									<table class="table table-bordered table-striped table-hover" id="customerPocList" style="margin: 0px;">
+										<tr>
+											<th style="text-align: center;">Title</th>
+											<th style="text-align: center;">Description</th>
+											<th style="text-align: center;">File</th>
+											<th style="text-align: center; width: 1em;">&nbsp;</th>
+										</tr>
+										<tr class="ng-scope" style="cursor: pointer;" poc-row-id="{{$index}}" ng-repeat="attach in attachments">
+											<td align="center">{{attach.title}}</td>
+											<td align="center">{{attach.description}}</td>
+											<td align="center">{{attach.file}}</td>
+											<td style=" width: 1em; white-space: nowrap;">
+												<a role="button" ng-click="editAttachment(attach)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" 
+															data-toggle="tooltip" title="Edit Attachment">
+													<i class="glyphicon glyphicon-edit"></i>
+												</a>
+												<a role="button" ng-click="removeAttachment(attach)" style="text-decoration: none; color: red; font-size: 1.3em;" class="yk-icon-link" 
+															data-toggle="tooltip" title="Remove Attachment">
+													<i class="glyphicon glyphicon-remove"></i>
+												</a>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</tab>
 			</yk-tabs>
 		</content>
 		<footer>
@@ -154,4 +196,8 @@
 	
 	<yk-model-dialog id="conversationTitleModelDialog" name="ConversationTitleModel" title="Title" columns="1" actionMethod="saveTitle($event)" modelObj="converTitleModel" size="small">
 	</yk-model-dialog>
+	
+	<yk-model-dialog id="storyAttachmentModelDialog" name="StoryAttachmentModel" title="Attachment" columns="2" actionMethod="newModelMode ? saveAttachment($event) : updateAttachment($event)" modelObj="storyAttachmentModel">
+	</yk-model-dialog>
+	
 </div>

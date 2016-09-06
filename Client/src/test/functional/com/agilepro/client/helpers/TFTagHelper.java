@@ -24,14 +24,14 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 /**
  * The Class TFTagHelper.
  * 
- * @author Pritam
+ *  @author Pritam
  */
-public class TFTag extends TFBase implements ITestConstants
+public class TFTagHelper extends TFBase implements ITestConstants
 {
 	/**
 	 * The logger.
 	 **/
-	private static Logger logger = LogManager.getLogger(TFTag.class);
+	private static Logger logger = LogManager.getLogger(TFTagHelper.class);
 
 	/**
 	 * The customer price plan helper.
@@ -48,11 +48,11 @@ public class TFTag extends TFBase implements ITestConstants
 	 */
 	private Long customerId;
 
-	/** 
-	 * The itag controller. 
+	/**
+	 * The itag controller.
 	 **/
 	private ITagController itagController;
-	
+
 	/**
 	 * The Session object.
 	 */
@@ -94,19 +94,19 @@ public class TFTag extends TFBase implements ITestConstants
 		Assert.assertTrue(customerId > 0);
 
 		customerSession = super.newClientContext(T_CUS_EMAIL_ID, T_PASSWORD, customerId);
-		
+
 		clientControllerFactory = new ClientControllerFactory(customerSession);
-		
+
 		itagController = clientControllerFactory.getController(ITagController.class);
 	}
 
 	private TagModel getTag(long tagId)
 	{
 		BasicReadResponse<TagModel> response = itagController.read(tagId);
-		
+
 		return response.getModel();
 	}
-	
+
 	@Test
 	public void testSaveTag()
 	{
@@ -116,9 +116,9 @@ public class TFTag extends TFBase implements ITestConstants
 		BasicSaveResponse responseTag = itagController.save(tagsModel);
 
 		Assert.assertEquals(responseTag.getCode(), IWebUtilsCommonConstants.RESPONSE_CODE_SUCCESS);
-		
+
 		tagsModel = getTag(responseTag.getId());
-		
+
 		Assert.assertTrue(tagsModel.getId() > 0);
 	}
 
@@ -153,7 +153,7 @@ public class TFTag extends TFBase implements ITestConstants
 		itagController.update(fetchdModel);
 
 		TagModel updatedModel = getTag(fetchdModel.getId());
-		
+
 		Assert.assertEquals(updatedModel.getName(), tagName);
 		Assert.assertEquals(updatedModel.getDescription(), T_TAG_DESCRIPTION);
 	}

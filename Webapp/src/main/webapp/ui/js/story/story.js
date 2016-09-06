@@ -198,7 +198,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			reduceHeight();
 		}
 		
-		// if enter
+		// if enter key is pressed
 		if((key == 13) && $scope.message)
 		{
 			$scope.saveConversationMessage();
@@ -279,12 +279,22 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 			console.log("Title model");
 		}, {"$scope": $scope}));
+		
+		modelDefService.getModelDef("StoryAttachmentModel", $.proxy(function(modelDefResp){
+			this.$scope.attachmentModelDef = modelDefResp.modelDef;
+			
+			console.log("Attachment model");
+		}, {"$scope": $scope}));
 	};
 	
 	$scope.getModelDef = function(prefix) {
 		if(prefix == 'converTitleModel')
 		{
 			return $scope.titleModelDef;
+		}
+		else if(prefix == 'storyAttachmentModel')
+		{
+			return $scope.attachmentModelDef;
 		}
 		
 		return $scope.modelDef;
@@ -310,6 +320,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{}	
 		
 		// getAllConversation();
+		
+		getAllAttachment();
 	 };
 	 
 	 getAllTitle = function(){
@@ -357,6 +369,107 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 		
 		getAllConversation();
+	};
+	
+	
+	// Attachment
+	$scope.addAttachment = function(){
+		
+		$scope.storyAttachmentModel = {};
+		 
+		utils.openModal('storyAttachmentModelDialog');
+	};
+	
+	saveAttachmentCallBack = function(readResponse, respConfig){
+		 
+		 $('#storyAttachmentModelDialog').modal('hide');
+		 
+		 getAllAttachment();
+	 };
+	 
+	$scope.saveAttachment = function(e){
+		
+		$scope.initErrors("storyAttachmentModel", false);
+		
+		$scope.storyAttachmentModel.storyId = storyId;
+		
+		if(!validator.validateModel($scope.storyAttachmentModel, $scope.attachmentModelDef, $scope.errors.storyAttachmentModel))
+		{
+			utils.alert("Please correct the errors and then try!", function(){
+				$('body').addClass('modal-open');
+			});
+			
+			return;
+		}
+		
+		actionHelper.invokeAction("storyAttachment.save", $scope.storyAttachmentModel, null, saveAttachmentCallBack);
+	};
+	
+	readAttachmentCallBack = function(readResponse, respConfig){
+		 
+		$scope.attachments = readResponse.model;
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}	
+	 };
+	 
+	getAllAttachment = function(){
+		
+		actionHelper.invokeAction("storyAttachment.readAll", null, {"storyId" : storyId}, readAttachmentCallBack);
+	};
+	
+	$scope.editAttachment = function(obj){
+		
+		$scope.initErrors("storyAttachmentModel", false);
+		
+		$scope.newModelMode = false;
+		
+		$scope.storyAttachmentModel = obj;
+		
+		utils.openModal('storyAttachmentModelDialog');
+	};
+	
+	updateAttachmentCallBack = function(readResponse, respConfig){
+		 $('#storyAttachmentModelDialog').modal('hide');
+		 
+		getAllAttachment();
+	};
+	
+	$scope.updateAttachment = function(e){
+		
+		actionHelper.invokeAction("storyAttachment.update", $scope.storyAttachmentModel, null, updateAttachmentCallBack);
+	};
+	
+	deleteAttachmentCallBack = function(readResponse, respConfig){
+		 
+		getAllAttachment();
+	};
+	
+	$scope.removeAttachment = function(obj){
+		
+		var deleteOp = $.proxy(function(confirmed) {
+			
+			if(!confirmed)
+			{
+				return;
+			}
+			else
+			{
+				actionHelper.invokeAction("storyAttachment.delete", null, {"id" : obj.id}, deleteAttachmentCallBack);
+			}
+			
+			try
+			{
+				this.$scope.$parent.$digest();
+			}catch(ex)
+			{}
+			
+		}, {"$scope": $scope});
+
+		utils.confirm(["Are you sure you want to delete attachment with name '{}' ?", obj.title], deleteOp);
 	};
 	
 }]);

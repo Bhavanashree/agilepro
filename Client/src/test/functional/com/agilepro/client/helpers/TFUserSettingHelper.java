@@ -25,16 +25,19 @@ import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 
 /**
- * The Class TFUserSetting.
+ * The Class TFUserSettingHelper.
  *
- * @param <MultipartHttpServletRequest> the generic type
+ * @param <MultipartHttpServletRequest>
+ *            the generic type
+ * 
+ * @author Pritam
  */
-public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implements ITestConstants
+public class TFUserSettingHelper<MultipartHttpServletRequest> extends TFBase implements ITestConstants
 {
 	/**
 	 * The logger.
 	 **/
-	private static Logger logger = LogManager.getLogger(TFUserSetting.class);
+	private static Logger logger = LogManager.getLogger(TFUserSettingHelper.class);
 
 	/**
 	 * The customer price plan helper.
@@ -47,10 +50,10 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 	private static CustomerHelper customerHelper = new CustomerHelper();
 
 	/**
-	 *  The test project id. 
-	 * */
+	 * The test project id.
+	 */
 	private static String TEST_PROJECT_KEY = "activeProjectId";
-	
+
 	/**
 	 * customerId.
 	 */
@@ -75,17 +78,17 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 	 * The iproject controller.
 	 **/
 	private IProjectController<MultipartHttpServletRequest> iprojectController;
-	
+
 	/**
 	 * The project id.
 	 **/
 	private List<Long> projectIds = new ArrayList<Long>();
-	
-	/** 
-	 * The user id. 
+
+	/**
+	 * The user id.
 	 **/
 	private Long userId;
-	
+
 	/**
 	 * Inits the prc cus.
 	 */
@@ -124,14 +127,14 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 		customerSession = super.newClientContext(T_CUS_EMAIL_ID, T_PASSWORD, customerId);
 
 		userId = customerSession.getUserId();
-		
+
 		clientControllerFactory = new ClientControllerFactory(customerSession);
 
 		saveProjects();
-		
+
 		iuserSettingController = clientControllerFactory.getController(IUserSettingController.class);
 	}
-	
+
 	/**
 	 * Save projects.
 	 */
@@ -139,12 +142,12 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 	private void saveProjects()
 	{
 		iprojectController = clientControllerFactory.getController(IProjectController.class);
-		
+
 		ProjectModel projectModel = new ProjectModel();
 		projectModel.setName("Project1");
 		BasicSaveResponse basicSaveResponse = iprojectController.save(projectModel, null);
 		projectIds.add(basicSaveResponse.getId());
-		
+
 		projectModel = new ProjectModel();
 		projectModel.setName("Project2");
 		basicSaveResponse = iprojectController.save(projectModel, null);
@@ -155,7 +158,7 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 		basicSaveResponse = iprojectController.save(projectModel, null);
 		projectIds.add(basicSaveResponse.getId());
 	}
-	
+
 	/**
 	 * Test read.
 	 *
@@ -180,13 +183,13 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 		BasicSaveResponse basicSaveResponse = iuserSettingController.save(userSettingModel);
 
 		userSettingModel = testReadUserSetting(userId);
-		
+
 		Assert.assertTrue(basicSaveResponse.getId() > 0);
 		Assert.assertEquals(userSettingModel.getValue(), projectIds.get(0).toString());
-		
+
 		iuserSettingController.deleteAll();
 	}
-	
+
 	/**
 	 * Test update.
 	 */
@@ -195,16 +198,16 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 	{
 		UserSettingModel userSettingModel = new UserSettingModel(userId, TEST_PROJECT_KEY, projectIds.get(1).toString());
 		iuserSettingController.save(userSettingModel);
-		
+
 		userSettingModel = testReadUserSetting(customerSession.getUserId());
-		
+
 		UserSettingModel modelForUpdate = new UserSettingModel(userId, TEST_PROJECT_KEY, projectIds.get(2).toString());
 		modelForUpdate.setVersion(userSettingModel.getVersion());
 		modelForUpdate.setId(userSettingModel.getId());
-		
+
 		iuserSettingController.update(modelForUpdate);
 	}
-	
+
 	/**
 	 * cleanup.
 	 */
@@ -213,7 +216,7 @@ public class TFUserSetting<MultipartHttpServletRequest> extends TFBase implement
 	{
 		iuserSettingController.deleteAll();
 		iprojectController.deleteAll();
-		
+
 		customerHelper.deleteAll(clientContext);
 		customerPricePlanHelper.deleteAll(clientContext);
 	}
