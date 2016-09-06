@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.IConversationTitleController;
 import com.agilepro.commons.models.project.ConversationTitleModel;
 import com.agilepro.persistence.entity.project.ConversationTitleEntity;
 import com.agilepro.services.common.Authorization;
@@ -34,7 +35,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_CONVERSATION_TITLE)
 @RequestMapping("/conversationTitle")
-public class ConversationTitleController extends BaseController
+public class ConversationTitleController extends BaseController implements IConversationTitleController
 {
 	/**
 	 * The conversation title service.
@@ -49,6 +50,7 @@ public class ConversationTitleController extends BaseController
 	 *            the conversation title model
 	 * @return the basic save response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
@@ -67,6 +69,7 @@ public class ConversationTitleController extends BaseController
 	 *            the story id
 	 * @return the basic read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ_ALL)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
