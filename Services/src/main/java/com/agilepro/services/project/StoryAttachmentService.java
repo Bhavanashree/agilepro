@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.apache.commons.lang.StringUtils;
 
 import com.agilepro.commons.models.project.StoryAttachmentModel;
 import com.agilepro.persistence.entity.project.StoryAttachmentEntity;
@@ -61,6 +62,8 @@ public class StoryAttachmentService extends BaseCrudService<StoryAttachmentEntit
 		List<StoryAttachmentModel> storyAttachmentModels = new ArrayList<StoryAttachmentModel>();
 		
 		istoryAttachmentRepository.fetchAttachmentByStoryId(storyId).forEach(entity -> storyAttachmentModels.add(super.toModel(entity, StoryAttachmentModel.class)));
+		
+		storyAttachmentModels.forEach(model -> model.setLinkForDisplay(StringUtils.abbreviate(model.getLink(), 30)));
 		
 		return storyAttachmentModels;
 	}

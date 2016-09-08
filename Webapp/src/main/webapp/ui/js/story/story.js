@@ -25,6 +25,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			{
 				$scope.message = "";
 				$scope.conversationTab = true;
+				$scope.attachmentTab = true;
 				
 				var modelFormElem = angular.element('#modelFormId'); 
 				
@@ -225,9 +226,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	 getAllConversation = function(){
 		 
-		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack);
-		 
-		 $('#' + IN_PRGORESS_DLG_ID).modal('hide');
+		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack, true);
 		 
 		 //setTimeout(getAllConversation, (5 * 1000));
 	 };
@@ -303,6 +302,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.addTitle = function(){
 		 
 		 $scope.converTitleModel = {};
+		 $scope.initErrors("converTitleModel", true);
 		 
 		 utils.openModal('conversationTitleModelDialog');
 		 
@@ -375,6 +375,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	// Attachment
 	$scope.addAttachment = function(){
 		
+		$scope.newModelMode = true;
 		$scope.storyAttachmentModel = {};
 		 
 		utils.openModal('storyAttachmentModelDialog');
@@ -399,6 +400,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				$('body').addClass('modal-open');
 			});
 			
+			return;
+		}
+		
+		if(!$scope.storyAttachmentModel.file && !$scope.storyAttachmentModel.link)
+		{
+			utils.alert("Please provide at least one value for link or file or both");
 			return;
 		}
 		
@@ -439,6 +446,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	};
 	
 	$scope.updateAttachment = function(e){
+		
+		if(!$scope.storyAttachmentModel.file && !$scope.storyAttachmentModel.link)
+		{
+			utils.alert("Please provide at least one value for link or file or both");
+			return;
+		}
 		
 		actionHelper.invokeAction("storyAttachment.update", $scope.storyAttachmentModel, null, updateAttachmentCallBack);
 	};

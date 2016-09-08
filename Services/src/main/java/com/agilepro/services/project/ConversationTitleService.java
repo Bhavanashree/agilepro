@@ -66,4 +66,12 @@ public class ConversationTitleService extends BaseCrudService<ConversationTitleE
 		
 		return conversationTitleModels;
 	}
+	
+	/**
+	 * Delete all.
+	 */
+	public void deleteAll()
+	{
+		repository.deleteAll();
+	}
 }

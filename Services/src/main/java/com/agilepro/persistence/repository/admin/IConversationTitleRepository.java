@@ -23,4 +23,9 @@ public interface IConversationTitleRepository extends IWebutilsRepository<Conver
 	 */
 	@RestrictBySpace
 	public List<ConversationTitleEntity> fetchTitleByStroyId(@Condition(value = "storyEntity.id") Long storyId);
+
+	/**
+	 * Delete all.
+	 */
+	public void deleteAll();
 }

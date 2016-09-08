@@ -57,6 +57,9 @@
 							</select> 
 						<div class="btn-group pull-right">
 							<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
+							data-toggle="modal" data-target="#myModal">
+							</span>
+							<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
 							ng-click="addTitle()" data-toggle="tooltip" title="Add Title">
 							</span>
 						</div>
@@ -140,7 +143,7 @@
 				</tab>
 				
 				<!-- Attachment -->
-				<tab id="storyFormId" label="Attachment">
+				<tab id="storyFormId" label="Attachment" ng-show="attachmentTab">
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12">
 							<div class="panel panel-default">
@@ -155,14 +158,22 @@
 									<table class="table table-bordered table-striped table-hover" id="customerPocList" style="margin: 0px;">
 										<tr>
 											<th style="text-align: center;">Title</th>
-											<th style="text-align: center;">Description</th>
 											<th style="text-align: center;">File</th>
+											<th style="text-align: center;">Link</th>
 											<th style="text-align: center; width: 1em;">&nbsp;</th>
 										</tr>
 										<tr class="ng-scope" style="cursor: pointer;" poc-row-id="{{$index}}" ng-repeat="attach in attachments">
 											<td align="center">{{attach.title}}</td>
-											<td align="center">{{attach.description}}</td>
-											<td align="center">{{attach.file}}</td>
+											<td align="center">
+												<a class="ng-binding" style="font-weight: bold;" yk-file-link="{{attach.file.id}}" href="#" data-toggle="tooltip" title="Click to download the file">
+												{{attach.file.fileName}}
+												</a>
+											</td>
+											<td align="center">
+												<a target="_blank" href="{{attach.link}}" data-toggle="tooltip" title="{{attach.link}}">
+												{{attach.linkForDisplay}}
+												</a>
+											</td>
 											<td style=" width: 1em; white-space: nowrap;">
 												<a role="button" ng-click="editAttachment(attach)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" 
 															data-toggle="tooltip" title="Edit Attachment">
@@ -200,4 +211,57 @@
 	<yk-model-dialog id="storyAttachmentModelDialog" name="StoryAttachmentModel" title="Attachment" columns="2" actionMethod="newModelMode ? saveAttachment($event) : updateAttachment($event)" modelObj="storyAttachmentModel">
 	</yk-model-dialog>
 	
+	
+	<div class="modal fade" id="myModal" role="dialog">
+	   <div role="document" class="modal-dialog modal-sm">
+			<div class="modal-content">
+					<!-- Header -->
+					<div class="modal-header app-dlg-header">
+						<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+						<h4 class="modal-title">Title</h4>
+					</div>
+					
+					<!-- Content -->
+					<div yk-model="ConversationTitleModel" class="modal-body">
+						<div style="" yk-model-def="converTitleModel" class="container-fluid model-form ng-scope">
+						<span ng-init="modelName = 'ConversationTitleModel';" style="display: none;"></span>
+							<div style="width: 100%;">
+							<!-- Customizes the field as specified -->
+							<div model-field-div="converTitleModel.name" style="display: inline-block; vertical-align: top; width: 95%; margin: 0px; margin-top: 1em;" class="ng-scope">
+								<table style="width: 100%;border-collapse: collapse;border-spacing: 0px;">
+									<tbody>
+									<tr>
+										<td field-label="name" class="yk-field-label hidden-xs yk-field-label-mandatory" yk-hide-from="xs" style="vertical-align: top; padding: 0px; width: 50px; min-width: 50px; ">
+											Name
+										</td>
+										<td style="padding: 0px;">
+											<div style="font-size: 0.8em;" field-label="name" class="visible-xs-block yk-field-label yk-field-label-mandatory">
+											Name
+											</div>
+											<div style="width: 100%; display: inline-block; padding: 0px;">
+											<input type="text" ng-change="validateField('name', 'converTitleModel')" yk-read-only="false" ng-model="converTitleModel.name" placeholder="Name" name="name" class="ng-pristine ng-untouched ng-valid">
+											</div>
+											<div ng-bind="errors.converTitleModel.name" class="yk-field-error ng-binding"></div>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							
+						</div>							
+						<div style="width: 100%;"></div>							
+					</div>
+				</div>
+					
+				<!-- Footer -->
+				<div style="padding: 0.5em 1em;" class="modal-footer">
+					<button ng-click="saveTitle($event)" class="btn btn-primary action-button ng-binding" type="button">Save</button>
+					<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>

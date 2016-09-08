@@ -44,6 +44,26 @@ public class ConversationTitleModel
 	private String name;
 
 	/**
+	 * Instantiates a new conversation title model.
+	 */
+	public ConversationTitleModel()
+	{}
+
+	/**
+	 * Instantiates a new conversation title model.
+	 *
+	 * @param storyId
+	 *            the story id
+	 * @param name
+	 *            the name
+	 */
+	public ConversationTitleModel(Long storyId, String name)
+	{
+		this.storyId = storyId;
+		this.name = name;
+	}
+
+	/**
 	 * Gets the id.
 	 *
 	 * @return the id

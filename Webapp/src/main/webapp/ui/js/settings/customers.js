@@ -132,10 +132,12 @@ $.application.controller('customerController', ["$scope", "crudController", "uti
 	$scope.initModelDef = function() {
 		modelDefService.getModelDef("Customer", $.proxy(function(modelDefResp){
 			this.$scope.modelDef = modelDefResp.modelDef;
+			
 		}, {"$scope": $scope}));
 		
 		modelDefService.getModelDef("CustomerPocModel", $.proxy(function(modelDefResp){
 			this.$scope.pocModelDef = modelDefResp.modelDef;
+			
 		}, {"$scope": $scope}));
 	};
 	

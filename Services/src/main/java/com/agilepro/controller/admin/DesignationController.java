@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.IDesignationController;
 import com.agilepro.commons.models.admin.DesignationModel;
 import com.agilepro.persistence.entity.admin.DesignationEntity;
 import com.agilepro.services.admin.DesignationService;
@@ -38,9 +39,8 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_DESIGNATION)
 @RequestMapping("/designation")
-public class DesignationController extends BaseController
+public class DesignationController extends BaseController implements IDesignationController
 {
-
 	/**
 	 * The logger.
 	 */
@@ -59,6 +59,7 @@ public class DesignationController extends BaseController
 	 * 
 	 * @return the Designation save response designationModel designationModel
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.DESIGNATION_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -77,6 +78,7 @@ public class DesignationController extends BaseController
 	 *            the id
 	 * @return the designations read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@Authorization(roles = { UserRole.DESIGNATION_VIEW, UserRole.CUSTOMER_SUPER_USER })
@@ -95,6 +97,7 @@ public class DesignationController extends BaseController
 	 *            the designation model
 	 * @return the Designation update response the designation model
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_UPDATE)
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.DESIGNATION_EDIT, UserRole.CUSTOMER_SUPER_USER })
@@ -113,6 +116,7 @@ public class DesignationController extends BaseController
 	 *            the id
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_DELETE)
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.DESIGNATION_DELETE, UserRole.CUSTOMER_SUPER_USER })
@@ -129,6 +133,7 @@ public class DesignationController extends BaseController
 	 *
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.POST)

@@ -1,6 +1,7 @@
 package com.agilepro.controller.project;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_CONVERSATION_TITLE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 
@@ -23,6 +24,7 @@ import com.agilepro.persistence.entity.project.ConversationTitleEntity;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.ConversationTitleService;
 import com.yukthi.webutils.annotations.ActionName;
+import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
@@ -77,5 +79,16 @@ public class ConversationTitleController extends BaseController implements IConv
 	public BasicReadResponse<List<ConversationTitleModel>> fetchConversations(@RequestParam(value = "storyId") Long storyId)
 	{
 		return new BasicReadResponse<List<ConversationTitleModel>>(conversationTitleService.fetchConversationTitles(storyId));
+	}
+	
+	@Override
+	@Authorization(roles = { UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@ActionName(ACTION_TYPE_DELETE_ALL)
+	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
+	@ResponseBody
+	public BaseResponse deleteAll()
+	{
+		conversationTitleService.deleteAll();
+		return new BaseResponse();
 	}
 }

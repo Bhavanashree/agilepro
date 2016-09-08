@@ -37,6 +37,12 @@ public class StoryAttachmentEntity extends WebutilsEntity
 	private StoryEntity storyEntity;
 
 	/**
+	 * The link.
+	 **/
+	@Column(name = "LINK_URL")
+	private String link;
+
+	/**
 	 * Gets the title.
 	 *
 	 * @return the title
@@ -97,5 +103,26 @@ public class StoryAttachmentEntity extends WebutilsEntity
 	public void setStoryEntity(StoryEntity storyEntity)
 	{
 		this.storyEntity = storyEntity;
+	}
+
+	/**
+	 * Gets the link.
+	 *
+	 * @return the link
+	 */
+	public String getLink()
+	{
+		return link;
+	}
+
+	/**
+	 * Sets the link.
+	 *
+	 * @param link
+	 *            the new link
+	 */
+	public void setLink(String link)
+	{
+		this.link = link;
 	}
 }

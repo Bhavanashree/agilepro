@@ -83,7 +83,7 @@ public class DesignationModel extends AbstractExtendableModel
 	 *            the roles
 	 * 
 	 */
-	public DesignationModel(long id, String name, String description, List<UserRole> roles)
+	public DesignationModel(Long id, String name, String description, List<UserRole> roles)
 	{
 		this.name = name;
 		this.description = description;

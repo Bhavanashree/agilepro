@@ -43,12 +43,33 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @RequestMapping("/storyAttachment")
 public class StoryAttachmentController extends BaseController
 {
+	/** 
+	 * The exception message. 
+	 **/
+	private static String EXCEPTION_MESSAGE = "Please provide at least one value for file and link";
+	
 	/**
 	 * The story attachment service.
 	 **/
 	@Autowired
 	private StoryAttachmentService storyAttachmentService;
-
+	
+	/**
+	 * Checks if is file or link.
+	 *
+	 * @param storyAttachmentModel the story attachment model
+	 * @return true, if is file or link
+	 */
+	private boolean isFileOrLink(StoryAttachmentModel storyAttachmentModel)
+	{
+		if(storyAttachmentModel.getFile() == null && storyAttachmentModel.getLink() == null)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Save.
 	 *
@@ -65,6 +86,11 @@ public class StoryAttachmentController extends BaseController
 	@AttachmentsExpected
 	public BasicSaveResponse save(@RequestPart(IWebUtilsCommonConstants.MULTIPART_DEFAULT_PART) @Valid StoryAttachmentModel storyAttachmentModel, MultipartHttpServletRequest request)
 	{
+		if(isFileOrLink(storyAttachmentModel))
+		{
+			throw new IllegalArgumentException(EXCEPTION_MESSAGE);
+		}
+		
 		return new BasicSaveResponse(storyAttachmentService.save(storyAttachmentModel).getId());
 	}
 
@@ -84,6 +110,11 @@ public class StoryAttachmentController extends BaseController
 	@AttachmentsExpected
 	public BaseResponse update(@RequestPart(IWebUtilsCommonConstants.MULTIPART_DEFAULT_PART) @Valid StoryAttachmentModel storyAttachmentModel, MultipartHttpServletRequest request)
 	{
+		if(isFileOrLink(storyAttachmentModel))
+		{
+			throw new IllegalArgumentException(EXCEPTION_MESSAGE);
+		}
+		
 		storyAttachmentService.update(storyAttachmentModel);
 
 		return new BaseResponse();

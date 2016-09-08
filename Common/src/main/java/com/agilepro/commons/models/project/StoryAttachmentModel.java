@@ -4,6 +4,10 @@ import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 import com.yukthi.webutils.common.FileInfo;
+import com.yukthi.webutils.common.IWebUtilsCommonConstants;
+
+import javax.validation.constraints.Pattern;
+
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.Required;
@@ -27,13 +31,26 @@ public class StoryAttachmentModel
 	 **/
 	@Required
 	@MinLen(5)
-	@MaxLen(15)
+	@MaxLen(20)
 	private String title;
 
 	/**
 	 * The file.
 	 **/
 	private FileInfo file;
+
+	/**
+	 * The link.
+	 **/
+	@MaxLen(1000)
+	@Pattern(regexp = IWebUtilsCommonConstants.PATTERN_URL_LINK, message = "Invalid url specified")
+	private String link;
+	
+	/** 
+	 * The link for display. 
+	 **/
+	@NonDisplayable
+	private String linkForDisplay;
 
 	/**
 	 * The description.
@@ -160,6 +177,27 @@ public class StoryAttachmentModel
 	}
 
 	/**
+	 * Gets the link.
+	 *
+	 * @return the link
+	 */
+	public String getLink()
+	{
+		return link;
+	}
+
+	/**
+	 * Sets the link.
+	 *
+	 * @param link
+	 *            the new link
+	 */
+	public void setLink(String link)
+	{
+		this.link = link;
+	}
+
+	/**
 	 * Gets the version.
 	 *
 	 * @return the version
@@ -178,5 +216,25 @@ public class StoryAttachmentModel
 	public void setVersion(Integer version)
 	{
 		this.version = version;
+	}
+
+	/**
+	 * Gets the link for display.
+	 *
+	 * @return the link for display
+	 */
+	public String getLinkForDisplay()
+	{
+		return linkForDisplay;
+	}
+
+	/**
+	 * Sets the link for display.
+	 *
+	 * @param linkForDisplay the new link for display
+	 */
+	public void setLinkForDisplay(String linkForDisplay)
+	{
+		this.linkForDisplay = linkForDisplay;
 	}
 }
