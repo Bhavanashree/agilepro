@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.project;
 
+import com.yukthi.validation.annotations.MaxLen;
+import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -41,6 +43,8 @@ public class ConversationTitleModel
 	 * The title.
 	 **/
 	@Required
+	@MinLen(5)
+	@MaxLen(20)
 	private String name;
 
 	/**

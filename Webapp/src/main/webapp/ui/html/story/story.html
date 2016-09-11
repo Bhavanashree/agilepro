@@ -35,8 +35,6 @@
 		
 	</yk-search-query>
 	
-	<!-- <yk-model-dialog id="storyDialog" name="StoryModel" title="Story" columns="1" actionMethod="saveChanges($event)">
-	</yk-model-dialog> -->
 	
 	<yk-dialog id="storyDialog" title="Story">
 		<content>
@@ -57,10 +55,7 @@
 							</select> 
 						<div class="btn-group pull-right">
 							<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
-							data-toggle="modal" data-target="#myModal">
-							</span>
-							<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
-							ng-click="addTitle()" data-toggle="tooltip" title="Add Title">
+							data-toggle="modal" data-target="#conversationTitleModal" ng-click="addTitle()">
 							</span>
 						</div>
 					</div>
@@ -205,14 +200,14 @@
 	
 	<br/>
 	
-	<yk-model-dialog id="conversationTitleModelDialog" name="ConversationTitleModel" title="Title" columns="1" actionMethod="saveTitle($event)" modelObj="converTitleModel" size="small">
-	</yk-model-dialog>
+	<!-- <yk-model-dialog id="conversationTitleModelDialog" name="ConversationTitleModel" title="Title" columns="1" actionMethod="saveTitle($event)" modelObj="converTitleModel" size="small">
+	</yk-model-dialog> -->
 	
 	<yk-model-dialog id="storyAttachmentModelDialog" name="StoryAttachmentModel" title="Attachment" columns="2" actionMethod="newModelMode ? saveAttachment($event) : updateAttachment($event)" modelObj="storyAttachmentModel">
 	</yk-model-dialog>
 	
 	
-	<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal fade" id="conversationTitleModal" role="dialog">
 	   <div role="document" class="modal-dialog modal-sm">
 			<div class="modal-content">
 					<!-- Header -->

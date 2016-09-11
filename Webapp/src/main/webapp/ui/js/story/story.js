@@ -304,8 +304,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 $scope.converTitleModel = {};
 		 $scope.initErrors("converTitleModel", true);
 		 
-		 utils.openModal('conversationTitleModelDialog');
-		 
 		 console.log("add the title");
 	 };
 	
@@ -331,7 +329,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	 saveTitleCallBack = function(readResponse, respConfig){
 		 
-		 $('#conversationTitleModelDialog').modal('hide');
+		 $('#conversationTitleModal').modal('hide');
 		 
 		 getAllTitle();
 	 };
@@ -377,6 +375,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.newModelMode = true;
 		$scope.storyAttachmentModel = {};
+		$scope.initErrors("storyAttachmentModel", true);
 		 
 		utils.openModal('storyAttachmentModelDialog');
 	};
@@ -434,7 +433,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.newModelMode = false;
 		
-		$scope.storyAttachmentModel = obj;
+		$scope.storyAttachmentModel = $.extend(true, {}, obj);
 		
 		utils.openModal('storyAttachmentModelDialog');
 	};
