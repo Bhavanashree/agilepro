@@ -15,6 +15,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		"updateAction": "story.update",
 		"deleteAction": "story.delete",
 		
+		"onHide" : function(){
+		
+			stopInterval();
+		},
+		
 		"onDisplay" : function(model){
 			
 			if(!(model.id))
@@ -84,6 +89,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.newModelMode = true;
 	$scope.storyModel = {};
 	$scope.model = {};
+	
+	$scope.isFirstRequest = true;
 	
 	var storyId;
 	var projectId;
@@ -215,29 +222,55 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 $scope.conversations = readResponse.model;
 		 reduceHeight();
 		 
+		 var panelBodyElem = $("#panelBodyId");
+		 
 		try
 		{
     		$scope.$apply();
 		}catch(ex)
 		{}	
 		
-		$("#panelBodyId").animate({ scrollTop: $("#panelBodyId")[0].scrollHeight });
+		if($scope.saveSuccess || $scope.onTitleSelectionChange || ($scope.prvsScrlHeight <=  panelBodyElem.scrollTop()))
+		{
+			$scope.saveSuccess = false;
+			$scope.onTitleSelectionChange = false;
+			$scope.prvsScrlHeight =  panelBodyElem.scrollTop();
+			
+			panelBodyElem.animate({ scrollTop: panelBodyElem[0].scrollHeight });
+			
+			$scope.prvsScrlHeight =  panelBodyElem.scrollTop();
+			
+			console.log("$scope.prvsScrlHeight =" + $scope.prvsScrlHeight);
+			console.log("panelBodyElem.scrollTop() = " + panelBodyElem.scrollTop());
+		}
+		
 	 };
 	 
 	 getAllConversation = function(){
 		 
 		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack, true);
 		 
-		 //setTimeout(getAllConversation, (5 * 1000));
+		 if($scope.isFirstRequest)
+		 {
+			 $scope.intervalValue = setInterval(getAllConversation, (5 * 1000));
+			 
+			 $scope.isFirstRequest = false;
+		 }
+		 
+	 };
+	 
+	 stopInterval = function(){
+		 clearInterval($scope.intervalValue); 
 	 };
 	 
 	 saveConverCallBack = function(readResponse, respConfig){
 		 
 		 if(respConfig.success)
 		 {
-			 $("#messageId").val("");
 			 $scope.message = "";
 			 $("#messageId").focus();
+			 
+			 $scope.saveSuccess = true;
 			 
 			 getAllConversation();
 		 }
@@ -246,7 +279,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.saveConversationMessage = function(){
 		
 		$scope.message = $("#messageId").val();
-		 
+		$("#messageId").val(""); 
+		
 		if($scope.message)
 		{
 			if($scope.message.length > 0)
@@ -254,7 +288,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				var model = {"message" : $scope.message.trim(), "conversationTitleId" : $scope.selectedTitle.id,
 						"userId" : $scope.activeUser.userId};
 				 
-				actionHelper.invokeAction("conversationMessage.save", model, null, saveConverCallBack);
+				actionHelper.invokeAction("conversationMessage.save", model, null, saveConverCallBack, true);
 			}
 		}
 	 };
@@ -359,6 +393,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.titleSelectionChanged = function(selectedTitle){
 	
 		$scope.selectedTitle = selectedTitle;
+		
+		$scope.onTitleSelectionChange = true;
 		
 		if(!$scope.selectedTitle)
 		{
