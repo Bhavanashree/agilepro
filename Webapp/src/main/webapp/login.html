@@ -36,34 +36,39 @@
 
 			<div class="row preProcessHidden">
 				
-				
 				<!-- login form -->
 				<div class="col-md-4">
 					<div class="row" yk-hide-from="sm" style="height: 5em;">
+						
 					</div>
 					
 					<!-- Start of login box row -->
 					<div class="row">
-						<div id ="loginForm" class="col-xs-12 col-md-11 loginBox">
+						<div id ="loginForm" class="col-xs-12 col-md-11 box1">
 							<form class="form-horizontal" action="" method="POST">
+								<br/>
 								<yk-field label="Email" type="email" model="email"></yk-field>
+								
+								<br/>
 								<yk-field label="Password" type="password" model="password"></yk-field>
 								
+								<br/>
 								<div class="row">
 									<div id="loginButton" class="col-xs-12" style="text-align: center;">
-										<input type="submit" value="Login" class="btn btn-primary" style="width: 60%;" ng-click="authenticate($event)"/>
+										<input type="submit" value="Login" class="btn btn-primary" style="width: 100%;" ng-click="authenticate($event)"/>
 									</div>
 								</div>
 								<div class="row">
                 				   <div class="col-xs-12" style="text-align: right;">
       								     <a href="#" ng-click="showPopup($event)" style="font-size: 0.8em; font-weight: bold;">Forgotten Password?</a>
-      								     
  									</div>
  								</div> 
 							</form>
 						</div>
 					</div>
 					<!-- End of login box row -->
+					
+					
 					<!-- news -->
 					<div class="row" style="padding: 0px; margin-top: 2em;" ng-if="newsLst && newsLst.length > 0">
 						<div class="col-xs-12 col-md-11 newsBox" yk-hide-from="sm">
@@ -102,6 +107,9 @@
 				</yk-dialog>
 				<!-- end forgootten password -->
 			</div>
+			
+			
+			
 		</div>
 		
 		

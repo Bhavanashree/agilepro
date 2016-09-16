@@ -43,6 +43,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				storyId = model.id;
 				
 				getAllTitle();
+				
+				getAllAttachment();
 			}
 			
 			try
@@ -244,6 +246,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			console.log("panelBodyElem.scrollTop() = " + panelBodyElem.scrollTop());
 		}
 		
+		// for getting new saved title
+		getAllTitle();
 	 };
 	 
 	 getAllConversation = function(){
@@ -345,6 +349,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 
 		 $scope.titles = readResponse.model;
 		 
+		// $scope.selectedTitle = ;
+		 
+		 console.log($scope.titles);
+		 
 		 try
 		{
 			 $scope.$apply();
@@ -352,13 +360,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{}	
 		
 		// getAllConversation();
-		
-		getAllAttachment();
 	 };
 	 
 	 getAllTitle = function(){
 		 
-		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : storyId}, readTitleCallBack);
+		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : storyId}, readTitleCallBack, true);
 	 };
 	 
 	 saveTitleCallBack = function(readResponse, respConfig){
@@ -390,15 +396,18 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		actionHelper.invokeAction("conversationTitle.save", $scope.converTitleModel, null, saveTitleCallBack);
 	};
 	
+	
 	$scope.titleSelectionChanged = function(selectedTitle){
 	
 		$scope.selectedTitle = selectedTitle;
 		
+		// variable used for scroll down
 		$scope.onTitleSelectionChange = true;
 		
 		if(!$scope.selectedTitle)
 		{
 			$scope.conversations = {};
+			stopInterval();
 			return;
 		}
 		

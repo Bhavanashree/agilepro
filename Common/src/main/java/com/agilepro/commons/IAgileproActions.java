@@ -254,7 +254,15 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_CONVERSATION_MESSAGE = "conversationMessage";
 	
+	/** 
+	 * The action prefix story attachment message. 
+	 **/
 	public String ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE = "storyAttachment";
+	
+	/** 
+	 * The action prefix mail template. 
+	 **/
+	public String ACTION_PREFIX_MAIL_TEMPLATE = "mailTemplate";
 	
 	/** 
 	 * The action prefix conversation title. 
