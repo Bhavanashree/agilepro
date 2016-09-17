@@ -2,6 +2,7 @@ package com.agilepro.persistence.repository.project;
 
 import java.util.List;
 
+import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StorySearchQuery;
 import com.agilepro.commons.models.project.StorySearchResult;
 import com.agilepro.persistence.entity.project.StoryEntity;
@@ -30,8 +31,15 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@RestrictBySpace
 	@SearchQueryMethod(name = "storySearch", queryModel = StorySearchQuery.class, customizer = StorySearchCustomizer.class)
 	@OrderBy("title")
-	public List<StorySearchResult> findBacklog(SearchQuery searchQuery);
+	public List<StorySearchResult> findStories(SearchQuery searchQuery);
 
+	@RestrictBySpace
+	@SearchQueryMethod(name = "storyTaskSearch", queryModel = StorySearchQuery.class)
+	public List<StoryAndTaskResult> findByStories(SearchQuery searchQuery);
+	
+	@RestrictBySpace
+	public List<StoryEntity> findByTitle(@Condition(value = "title") String title);
+	
 	@LovQuery(name = "parentStoryId", valueField = "id", labelField = "title")
 	@RestrictBySpace
 	public List<ValueLabel> findParentStoryIdLov();
@@ -43,8 +51,11 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	public List<StoryEntity> fetchStoryBySprintId(@Condition(value = "sprint.id") Long sprintId);
 	
 	@RestrictBySpace
-	public List<StoryEntity> fetchstoryByProjId(@Condition(value = "projectId.id") Long projectId);
+	public List<StoryEntity> fetchstoryByProjId(@Condition(value = "projectEntity.id") Long projectId);
 
+	@RestrictBySpace
+	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStoryId") Long parentStoryId);
+	
 	/**
 	 * Delete all.
 	 */

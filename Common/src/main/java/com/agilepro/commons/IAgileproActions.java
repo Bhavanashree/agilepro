@@ -2,6 +2,7 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -310,6 +311,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_READ_SPRINT = "readSprints";
 	
 	/**
+	 * The action type readSprints.
+	 */
+	public String ACTION_TYPE_READ_STORY_SPRINT = "readStoriesBySprint";
+	
+	/**
 	 * The action type readProjectid.
 	 */
 
@@ -320,6 +326,10 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_TYPE_READ_SPRINT_PROJECT_ID = "sprintProjectId";
 	
+	/** 
+	 * The action type read story id.
+	 **/
+	public String ACTION_TYPE_READ_STORY_ID = "readStoryId";
 	/**
 	 *  The action prefix sprint. 
 	 **/
@@ -476,6 +486,15 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * Task read action name.
 	 */
 	public String ACTION_TASK_READ = ACTION_PREFIX_TASK + DOT + ACTION_TYPE_READ;
+	/**
+	 *  The action backlog readall.
+	 **/
+	public String ACTION_TASK_READALL = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_ALL;
+	
+
+	/** The action task read id. */
+	public String ACTION_TASK_READ_ID = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_STORY_ID;
+	
 	/**
 	 * Task delete action name.
 	 */
@@ -747,14 +766,19 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	/** The action story attachment save. */
 	public String ACTION_STORY_ATTACHMENT_SAVE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
 	
+	/** The action story attachment read. */
 	public String ACTION_STORY_ATTACHMENT_READ = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ;
 	
+	/** The action story attachment update. */
 	public String ACTION_STORY_ATTACHMENT_UPDATE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_UPDATE;
 	
+	/** The action story attachment delete. */
 	public String ACTION_STORY_ATTACHMENT_DELETE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE;
 	
+	/** The action story attachment delete all. */
 	public String ACTION_STORY_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1045,7 +1069,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PRIORITY_READ = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_READ;
 
-	/** 
+	/** import static com.agilepro.commons.IAgileproActions.
 	 * The action sprint readall. 
 	 **/
 	public String ACTION_PRIORITY_READALL = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_READ_ALL;

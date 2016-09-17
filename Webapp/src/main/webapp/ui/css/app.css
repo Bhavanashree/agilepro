@@ -397,3 +397,13 @@ body
   border-right: 5px solid #b3ffb3; 
 }     
 
+/*  aaaaaaaaaaaaaaaaaaa*/
+
+.uncheckedClass {
+    list-style-image: url("/ui/images/toggle-small-expand.png");
+    font-size: large;
+}
+
+.checkedClass {
+     list-style-image: url("/ui/images/toggle-small.png");
+}

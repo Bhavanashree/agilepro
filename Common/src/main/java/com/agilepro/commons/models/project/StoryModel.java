@@ -1,11 +1,16 @@
 package com.agilepro.commons.models.project;
 
+import java.util.List;
+
 import com.agilepro.commons.StoryStatus;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.NotEmpty;
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
+import com.yukthi.webutils.common.ImageInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
+import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
@@ -50,9 +55,9 @@ public class StoryModel extends AbstractExtendableModel
 	private String description;
 
 	/**
-	 * The estimate.
+	 *  The story points.
 	 **/
-	private Integer estimate;
+	private Integer storyPoints;
 
 	/**
 	 * The parent story id.
@@ -87,7 +92,21 @@ public class StoryModel extends AbstractExtendableModel
 	 * the project id.
 	 */
 	@NonDisplayable
+	@Required
 	private Long projectId;
+
+	/**
+	 * The tasks.
+	 */
+	@NonDisplayable
+	@IgnoreField
+	private List<Long> tasks;
+
+	/**
+	 * The photo.
+	 */
+	@NonDisplayable
+	private ImageInfo photo;
 
 	/**
 	 * Instantiates a new back log model.
@@ -98,21 +117,16 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Instantiates a new story model.
 	 *
-	 * @param title
-	 *            the title
-	 * @param estimate
-	 *            the estimate
-	 * @param description
-	 *            the description
-	 * @param parentStoryId
-	 *            the parent story id
-	 * @param priority
-	 *            the priority
+	 * @param title            the title
+	 * @param storyPoints the story points
+	 * @param description            the description
+	 * @param parentStoryId            the parent story id
+	 * @param priority            the priority
 	 */
-	public StoryModel(String title, Integer estimate, String description, Long parentStoryId, Long priority)
+	public StoryModel(String title, Integer storyPoints, String description, Long parentStoryId, Long priority)
 	{
 		this.title = title;
-		this.estimate = estimate;
+		this.storyPoints = storyPoints;
 		this.description = description;
 		this.parentStoryId = parentStoryId;
 		this.priority = priority;
@@ -203,24 +217,23 @@ public class StoryModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the estimate.
+	 * Gets the story points.
 	 *
-	 * @return the estimate
+	 * @return the story points
 	 */
-	public Integer getEstimate()
+	public Integer getStoryPoints()
 	{
-		return estimate;
+		return storyPoints;
 	}
 
 	/**
-	 * Sets the estimate.
+	 * Sets the story points.
 	 *
-	 * @param estimate
-	 *            the new estimate
+	 * @param storyPoints the new story points
 	 */
-	public void setEstimate(Integer estimate)
+	public void setStoryPoints(Integer storyPoints)
 	{
-		this.estimate = estimate;
+		this.storyPoints = storyPoints;
 	}
 
 	/**
@@ -347,5 +360,47 @@ public class StoryModel extends AbstractExtendableModel
 	public void setProjectId(Long projectId)
 	{
 		this.projectId = projectId;
+	}
+
+	/**
+	 * Gets the tasks.
+	 *
+	 * @return the tasks
+	 */
+	public List<Long> getTasks()
+	{
+		return tasks;
+	}
+
+	/**
+	 * Sets the tasks.
+	 *
+	 * @param tasks
+	 *            the new tasks
+	 */
+	public void setTasks(List<Long> tasks)
+	{
+		this.tasks = tasks;
+	}
+
+	/**
+	 * Gets the photo.
+	 *
+	 * @return the photo
+	 */
+	public ImageInfo getPhoto()
+	{
+		return photo;
+	}
+
+	/**
+	 * Sets the photo.
+	 *
+	 * @param photo
+	 *            the new photo
+	 */
+	public void setPhoto(ImageInfo photo)
+	{
+		this.photo = photo;
 	}
 }

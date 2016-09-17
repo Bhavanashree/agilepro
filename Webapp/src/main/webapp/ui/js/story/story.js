@@ -88,7 +88,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 		 
 	$scope.isDisplayElement = false;
-	$scope.newModelMode = true;
 	$scope.storyModel = {};
 	$scope.model = {};
 	
@@ -104,19 +103,20 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		projectId = $scope.getActiveProject();
 		
+		if(!projectId)
+		{
+			utils.alert("Please Select Project");
+			return;
+		}
+		
 		$scope.model = {"title" : $scope.inlineTitle.trim(),"projectId" : projectId};
-			
-		console.log("model is invoked===model====" + projectId); 
-
-		console.log("model is invoked===model====" + $scope.model); 
-			
+		
 		$scope.initErrors("model", true);
 			
-		$scope.newModelMode= 'Save';
+		$scope.newStoryMode= 'true';
 			
 		$scope.saveChanges();
-			
-		document.getElementById('parentStorytextarea').value=null;
+		$("#parentStorytextarea").val(null);
 		$scope.refreshSearch();
 	};
 
@@ -159,16 +159,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		projectId = $scope.getActiveProject();
 
 		console.log("PROJECT ID = " + projectId);
-		if(!projectId) return;
-		
-		console.log("storyById");
-
 		//actionHelper.invokeAction("story.readAll", null, null, updatefetchStoriesByProjectId);
 		actionHelper.invokeAction("story.storyProjectId", null, {"projectId" : projectId}, updatefetchStoriesByProjectId);				
 	};
 			
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
+		projectId = $scope.getActiveProject();
 		$scope.fetchStoriesByProjectId();
 	   
 	});
