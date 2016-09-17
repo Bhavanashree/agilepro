@@ -36,7 +36,7 @@
 			There is no sprint created
 		</div>
 			 <!-- backlog drag -->
-		<div style="background-color: #ece4e4; border: 6px solid black; height: 41em; overflow:scroll;" ng-show="true">
+		<div style="background-color: #ece4e4; border: 6px solid black; overflow:scroll;" ng-show="true" yk-full-height="document">
 			<div align="center" class = "col"  style = "background-color : #bbc7c7;  margin-top: 2px; height : 40em;  padding: 5px;">  
 				<h4 style = "text-align : center; " >Backlog</h4>
 					<div id={{backlog}} draggable="true" yk-on-drag ="onDragStories(event)" ng-repeat="backlog in story  | filter: orderBy:'title'" 

@@ -4,7 +4,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	// For any unmatched url, redirect to /state1
 	$urlRouterProvider.otherwise("default");
 	
-	var addState = function(name, menuUrl, contentUrl, tabName) {
+	var addState = function(name, menuUrl, contentUrl, tabName, hideLeftMenu) {
 		var url = "/" + name;
 		
 		var stateConfig = {
@@ -20,7 +20,8 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 		        	"templateUrl" : "/ui/html/" + contentUrl
 		        }
 		    },
-		    "tab": tabName
+		    "tab": tabName,
+		    "leftMenu": hideLeftMenu == true ? false : true
 		};
 		
 		$stateProvider.state(name, stateConfig);
@@ -68,9 +69,9 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("member", "member/member-menu.html", "member/member.html", "membersTab");
 	
 	//backlog
-	addState("sprint","story/sprints-menu.html", "story/sprint.html", "sprintTab");
-	addState("story","story/sprints-menu.html", "story/story.html", "sprintTab");
-	addState("priority","story/sprints-menu.html", "story/priority.html", "sprintTab");
-	addState("task","story/sprints-menu.html", "story/task.html", "sprintTab");
+	addState("sprint","story/sprints-menu.html", "story/sprint.html", "kanbanTab", true);
+	addState("story","story/sprints-menu.html", "story/story.html", "storyTab");
+	addState("priority","story/story-menu.html", "story/priority.html", "storyTab");
+	addState("task","story/story-menu.html", "story/task.html", "storyTab");
 	
 });

@@ -153,21 +153,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{}				
 	};
 			
-	//
-	$scope.fetchStoriesByProjectId = function(){
-		
-		projectId = $scope.getActiveProject();
-
-		console.log("PROJECT ID = " + projectId);
-		//actionHelper.invokeAction("story.readAll", null, null, updatefetchStoriesByProjectId);
-		actionHelper.invokeAction("story.storyProjectId", null, {"projectId" : projectId}, updatefetchStoriesByProjectId);				
-	};
-			
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
-		projectId = $scope.getActiveProject();
-		$scope.fetchStoriesByProjectId();
-	   
+		$scope.$broadcast("rowsModified");
 	});
 			
 	 $scope.onType = function(e) {
@@ -524,6 +512,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}, {"$scope": $scope});
 
 		utils.confirm(["Are you sure you want to delete attachment with name '{}' ?", obj.title], deleteOp);
+	};
+	
+	$scope.customizeSearchQuery = function(searchQuery) {
+		searchQuery.projectId = $scope.getActiveProject();
 	};
 	
 }]);
