@@ -10,8 +10,6 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,10 +39,6 @@ import com.yukthi.webutils.controllers.BaseController;
 @RequestMapping("/designation")
 public class DesignationController extends BaseController implements IDesignationController
 {
-	/**
-	 * The logger.
-	 */
-	private static Logger logger = LogManager.getLogger(DesignationModel.class);
 	/**
 	 * services to fetch designations. The designation service.
 	 */
@@ -85,7 +79,6 @@ public class DesignationController extends BaseController implements IDesignatio
 	@ResponseBody
 	public BasicReadResponse<DesignationModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		logger.trace("Sending request to designation tracked with ID ", id);
 		DesignationModel model = designationService.fetchFullModel(id, DesignationModel.class);
 		return new BasicReadResponse<DesignationModel>(model);
 	}
@@ -94,7 +87,7 @@ public class DesignationController extends BaseController implements IDesignatio
 	 * Update designation.
 	 *
 	 * @param designationModel
-	 *            the designation model
+s	 *            the designation model
 	 * @return the Designation update response the designation model
 	 */
 	@Override

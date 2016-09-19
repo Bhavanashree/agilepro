@@ -2,18 +2,12 @@
 	
 	<table>
 		<tr>
-			<td>	
-				<!-- LOGO -->
-				<div>
-				<img src="" alt="agilePrologo" style="height:30px;">
-				</div>
-			</td>
 			<td>
 				<div yk-hide-from="sm">
-				<span style="color: white; font-weight: bold; font-size: 2em;">AgilePro</span>
+				<span style="color: white; font-weight: bold; font-size: 2em; margin-left: 0.5em;">AgilePro</span>
 				</div>
 			</td>
-			<td style="position:absolute;right:3.5em;color:white;top:10px;font-size:20px;">
+			<td style="position:absolute;right:1.5em;color:white;top:10px;font-size:20px;">
 				<em>{{activeUser.displayName}}</em>
 			</td>
 		</tr>
@@ -112,15 +106,15 @@
 				</tab>
 				<tab id="customersTab" label="Customer" state="customers" icon="fa fa-user" icon-color="black" yk-for-role="ADMINISTRATOR">
 				</tab>
-				<tab id="projectsTab" label="Projects" state="project" icon="glyphicon glyphicon-th-large" icon-colo="red" yk-for-role="CUSTOMER_SUPER_USER">
-				</tab>
-				<tab id="kanbanTab" label="KanbanBoard" state="sprint" icon="glyphicon-duplicate" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER">
-				</tab>
-				<tab id="storyTab" label="Story" state="story" icon="glyphicon-th" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER">
-				</tab>
 				<tab id="resourcesTab" label="Resources" state="designation" icon="glyphicon-flash" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER">
 				</tab>
+				<tab id="projectsTab" label="Projects" state="project" icon="glyphicon glyphicon-th-large" icon-colo="red" yk-for-role="CUSTOMER_SUPER_USER">
+				</tab>
 				<tab id="membersTabId" label="Members" state="member" icon="glyphicon-flash" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER" ng-show="projects.length > 0">
+				</tab>
+				<tab id="storyTab" label="Story" state="story" icon="glyphicon-th" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER" ng-show="projects.length > 0">
+				</tab>
+				<tab id="kanbanTab" label="KanbanBoard" state="sprint" icon="glyphicon-duplicate" icon-color="red" yk-for-role="CUSTOMER_SUPER_USER" ng-show="projects.length > 0">
 				</tab>
 				<tab id="settingsTab" label="Settings" state="extensions" icon="glyphicon-cog" icon-color="red" yk-for-role="ADMINISTRATOR ,CUSTOMER_SUPER_USER, EMPLOYEE_VIEW">
 				</tab>
