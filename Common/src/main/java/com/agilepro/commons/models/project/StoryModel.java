@@ -105,8 +105,9 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * The photo.
 	 */
-	@NonDisplayable
+	//@NonDisplayable
 	private ImageInfo photo;
+	
 
 	/**
 	 * Instantiates a new back log model.
