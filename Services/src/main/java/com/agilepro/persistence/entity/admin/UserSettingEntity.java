@@ -16,7 +16,9 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "USER_SETTING")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_KEY", fields = { "spaceIdentity", "userEntity", "key" }) })
+@UniqueConstraints({ 
+	@UniqueConstraint(name = "USER_ID_KEY", fields = { "userEntity", "key" }) 
+	})
 public class UserSettingEntity extends WebutilsEntity
 {
 	/**
@@ -31,7 +33,6 @@ public class UserSettingEntity extends WebutilsEntity
 	 * The key.
 	 **/
 	@Column(name = "SET_KEY", length = 50, nullable = false)
-	@UniqueConstraint(name = "key", message = "Please provide a different key, provided key is already present")
 	private String key;
 
 	/**
