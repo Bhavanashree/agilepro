@@ -1,6 +1,7 @@
 package com.agilepro.services.project;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,12 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	 */
 	@Autowired
 	private RepositoryFactory repositoryFactory;
-	
+
+	/**
+	 * The sprint repository.
+	 **/
+	private ISprintRepository sprintRepository;
+
 	/**
 	 * Instantiates a new sprint service.
 	 */
@@ -106,7 +112,8 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	/**
 	 * Update sprint.
 	 *
-	 * @param model the model
+	 * @param model
+	 *            the model
 	 */
 	public void updateSprint(SprintModel model)
 	{
@@ -133,7 +140,7 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	{
 		List<SprintModel> sprintModels = null;
 
-		ISprintRepository sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
+		sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
 		List<SprintEntity> sprintEntity = sprintRepository.fetchAllSprint(sprintName);
 
 		if(sprintEntity != null)
@@ -150,17 +157,22 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	}
 
 	/**
-	 * Fetch sprint By project id.
+	 * Fetch sprint by project id.
 	 *
-	 * @param projectId the project id
+	 * @param projectId
+	 *            the project id
+	 * @param date
+	 *            the date
 	 * @return the list
 	 */
-	public List<SprintModel> fetchSprintByProjectId(Long projectId)
+	public List<SprintModel> fetchSprintByProjectId(Long projectId, Date date)
 	{
 		List<SprintModel> sprintModels = null;
 
-		ISprintRepository sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
-		List<SprintEntity> sprintEntity = sprintRepository.fetchsprintByProjId(projectId);
+		sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
+		List<SprintEntity> sprintEntity = sprintRepository.fetchSprintByProjId(projectId, date);
+
+		SprintModel sprintModel = null;
 
 		if(sprintEntity != null)
 		{
@@ -168,7 +180,8 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 
 			for(SprintEntity entity : sprintEntity)
 			{
-				sprintModels.add(super.toModel(entity, SprintModel.class));
+				sprintModel = super.toModel(entity, SprintModel.class);
+				sprintModels.add(sprintModel);
 			}
 		}
 

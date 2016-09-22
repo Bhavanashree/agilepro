@@ -14,6 +14,7 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
+// TODO: Auto-generated Javadoc
 /**
  * SprintEntity class maintains Sprints of project.
  */
@@ -44,17 +45,17 @@ public class SprintEntity extends WebutilsExtendableEntity
 	 */
 	@Column(name = "END_DATE")
 	private Date endDate;
-	
+
 	/**
 	 * project id of sprint.
 	 */
 	@Column(name = "PROJECT_ID")
 	@ManyToOne
 	@PropertyMapping(type = SprintModel.class, from = "projectId", subproperty = "id")
-	private ProjectEntity sprintProjectId;
-	
+	private ProjectEntity project;
+
 	/**
-	 * The list of stories under this sprint. 
+	 * The list of stories under this sprint.
 	 **/
 	@OneToMany(mappedBy = "sprint")
 	private List<StoryEntity> stories;
@@ -182,10 +183,31 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the stories.
 	 *
-	 * @param stories the new stories
+	 * @param stories
+	 *            the new stories
 	 */
 	public void setStories(List<StoryEntity> stories)
 	{
 		this.stories = stories;
+	}
+
+	/**
+	 * Gets the project.
+	 *
+	 * @return the project
+	 */
+	public ProjectEntity getProject()
+	{
+		return project;
+	}
+
+	/**
+	 * Sets the project.
+	 *
+	 * @param project the new project
+	 */
+	public void setProject(ProjectEntity project)
+	{
+		this.project = project;
 	}
 }

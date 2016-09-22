@@ -93,7 +93,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 *            the model
 	 * @return the story entity
 	 */
-	public StoryEntity updateStories(StoryModel model)
+	public int updateStories(StoryModel model)
 	{
 		if(model == null)
 		{
@@ -103,10 +103,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 
-			StoryEntity story = super.update(model);
-
+			super.update(model);
 			transaction.commit();
-			return story;
+
+			StoryEntity updateEntity = super.fetch(model.getId());
+
+			return updateEntity.getVersion();
 		} catch(RuntimeException ex)
 		{
 			throw ex;
@@ -219,7 +221,8 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Search by title.
 	 *
-	 * @param title the title
+	 * @param title
+	 *            the title
 	 * @return the list
 	 */
 	public List<StoryAndTaskResult> searchByTitle(String title)

@@ -20,7 +20,7 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		 
 		 var element = $(e.target);
 		 
-		 console.log("handlekey press 2:   from save task->  " +  element.attr('name'));
+		 console.log("handle Enter key press:   from save task->  " +  element.attr('name'));
 	
 		 e = e || window.event;
 		 var key = e.keyCode ? e.keyCode : e.which;

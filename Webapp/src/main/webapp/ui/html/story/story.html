@@ -19,7 +19,7 @@
 								<a role="button" ng-click="changeRowSelection($index, $event); addEntry($event);" style="text-decoration: none; color: blue; font-size: 0.9em;" class="yk-icon-link" data-toggle="tooltip" title="Add">
 									<i class="glyphicon glyphicon-plus"/>
 								</a>
-								<a role="button" ng-click="changeRowSelection($index, $event); deleteEntry($event);" style="text-decoration: none; color: red; font-size: 0.9em;" class="yk-icon-link" data-toggle="tooltip" title="Remove">
+								<a role="button" ng-click="changeRowSelection($index, $event); deleteTask(result);" style="text-decoration: none; color: red; font-size: 0.9em;" class="yk-icon-link" data-toggle="tooltip" title="Remove">
 									<i class="glyphicon glyphicon-remove"/>
 								</a>
 							</div>
@@ -37,6 +37,10 @@
 		</result-customizer>
 	</yk-search-query>
 	
+	
+	<div> 
+		<input id="parentStorytextarea" type="text" name="textarea1" placeholder="New story title" ng-model="inlineTitle" ng-keyup="handleKeyPress($event);" ng-bind="model.title"/>
+	</div>
 	
 	<yk-dialog id="storyDialog" title="Story">
 		<content>
@@ -196,9 +200,6 @@
 		</footer>
 	</yk-dialog>
 	
-	<div> 
-		<input id="parentStorytextarea" type="text" name="textarea1" placeholder="New story title" ng-model="inlineTitle" ng-keyup="handleKeyPress($event);" ng-bind="model.title"/>
-	</div>
 	
 	<br/>
 	

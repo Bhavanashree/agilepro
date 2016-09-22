@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.StoryModel;
@@ -159,7 +160,7 @@ public class StoryController extends BaseController implements IStoryController
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse update(@RequestBody @Valid StoryModel model)
+	public BasicVersionResponse update(@RequestBody @Valid StoryModel model)
 	{
 		logger.trace("Recieved request to update ", model.getId());
 		if(model.getId() == null || model.getId() <= 0)
@@ -167,9 +168,9 @@ public class StoryController extends BaseController implements IStoryController
 			throw new InvalidRequestParameterException("Invalid id specified for update: " + model.getId());
 		}
 
-		storyService.updateStories(model);
+		Integer updatedVersion = storyService.updateStories(model);
 
-		return new BaseResponse();
+		return new BasicVersionResponse(updatedVersion);
 	}
 
 	/**
