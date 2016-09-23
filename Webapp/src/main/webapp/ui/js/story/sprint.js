@@ -19,8 +19,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 		}
 
 		});
-	 
-	 $scope.childStrsToUpdt = [];
+	 $scope.childStrsToUpdtInDb = [];
 	
 	 $scope.noSprintIsSelected = true;
 	 
@@ -204,11 +203,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 		
 		var selectedId = $scope.selectedStoryForDrag.id;
 		
-		
-		$scope.tempInProgress = [];
-		$scope.tempNotStarted = [];
-		$scope.tempCompleted = [];
-		$scope.tempStories = [];
+		$scope.tempChldstrsDragging = [];
 		
 		if($scope.selectedStoryForDrag.status)
 		{
@@ -219,7 +214,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 					{
 						if($scope.inProgress[i].parentStoryId == selectedId)
 						{
-							$scope.tempInProgress.push($scope.inProgress[i]);
+							$scope.tempChldstrsDragging.push($scope.inProgress[i]);
 						}
 					}
 					break;
@@ -228,7 +223,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 					{
 						if($scope.notStarted[i].parentStoryId == selectedId)
 						{
-							$scope.tempNotStarted.push($scope.notStarted[i]);
+							$scope.tempChldstrsDragging.push($scope.notStarted[i]);
 						}
 					}
 					break;
@@ -237,7 +232,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 					{
 						if($scope.completed[i].parentStoryId == selectedId)
 						{
-							$scope.tempCompleted.push($scope.completed[i]);
+							$scope.tempChldstrsDragging.push($scope.completed[i]);
 						}
 					}
 			}
@@ -247,7 +242,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 			{
 				if($scope.story[i].parentStoryId == selectedId)
 				{
-					$scope.tempStories.push($scope.story[i]);
+					$scope.tempChldstrsDragging.push($scope.story[i]);
 				}
 			}
 		}
@@ -269,6 +264,36 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 		
 	};	
 	
+	//dropping 2 on progress
+	$scope.allowDropOnProgress = function(event){
+		console.log("area for allowDropOnProgress");
+		event.preventDefault();
+	};
+	
+	$scope.onDropofInProgress = function(event){
+		event.preventDefault();
+		
+		$scope.sprintUpdateAfterDrop("IN_PROGRESS");	
+			
+		$scope.$apply();
+		
+	};
+	
+	//dropping 2	
+	$scope.allowDropOnCompleted = function(event){
+		console.log("area for allowDropOndragToCompleted");
+		 event.preventDefault();
+	};
+	
+	$scope.onDropofCompleted = function(event){
+		console.log("invoked onDropofCompleted ");
+		event.preventDefault();
+		$scope.sprintUpdateAfterDrop("COMPLETED");	
+
+		$scope.$apply();		
+	};
+	
+	// call back forr stry updATE
 	var updateEditStoryCallBack = function(updateResponse, respConfig){
 		
 		$scope.sprintVerId[dropedStoryId] = updateResponse.version;
@@ -336,42 +361,33 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 		// logic to push update object in array
 		switch($scope.selectedStoryForDrag.status)
 		{
-			case 'IN_PROGRESS':
-				{
-					$scope.inProgress.push($scope.selectedStoryForDrag);
-					
-					if($scope.tempStories.length > 0)
-					{
-						pushChildStories($scope.tempStories, status, $scope.selectedSprintObj.id, $scope.inProgress);
-					}else($scope.tempInProgress.length > 0)
-					{
-						pushChildStories($scope.tempInProgress, status, $scope.selectedSprintObj.id, $scope.inProgress);
-					}
-				}				
-				break;
 			case 'NOT_STARTED':
 				{
 					$scope.notStarted.push($scope.selectedStoryForDrag);
 					
-					if($scope.tempStories.length > 0)
+					if($scope.tempChldstrsDragging.length > 0)
 					{
-						pushChildStories($scope.tempStories, status, $scope.selectedSprintObj.id, $scope.notStarted);
-					}else($scope.tempNotStarted.length > 0)
-					{
-						pushChildStories($scope.tempNotStarted, status, $scope.selectedSprintObj.id, $scope.notStarted);
+						pushChildStories($scope.tempChldstrsDragging, status, $scope.selectedSprintObj.id, $scope.notStarted);
 					}
 				}
+			break;
+			case 'IN_PROGRESS':
+				{
+					$scope.inProgress.push($scope.selectedStoryForDrag);
+					
+					if($scope.tempChldstrsDragging.length > 0)
+					{
+						pushChildStories($scope.tempChldstrsDragging, status, $scope.selectedSprintObj.id, $scope.inProgress);
+					}
+				}				
 				break;
 			case 'COMPLETED':
 				{
 					$scope.completed.push($scope.selectedStoryForDrag);
 					
-					if($scope.tempStories.length > 0)
+					if($scope.tempChldstrsDragging.length > 0)
 					{
-						pushChildStories($scope.tempStories, status, $scope.selectedSprintObj.id, $scope.completed);
-					}else($scope.tempCompleted.length > 0)
-					{
-						pushChildStories($scope.tempCompleted, status, $scope.selectedSprintObj.id, $scope.completed);
+						pushChildStories($scope.tempChldstrsDragging, status, $scope.selectedSprintObj.id, $scope.completed);
 					}
 				}
 		}
@@ -391,19 +407,20 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 		
 		$scope.$apply();
 
-		console.log("actionhelper ++ " ,  $scope.childStrsToUpdt[i] );
+		console.log("actionhelper ++ " ,  $scope.childStrsToUpdtInDb[i] );
 		
 		actionHelper.invokeAction("story.update", $scope.selectedStoryForDrag, null, updateEditStoryCallBack);
 		
-		if($scope.childStrsToUpdt.length > 0)
+		if($scope.childStrsToUpdtInDb.length > 0)
 		{
-			for(i = 0; i < $scope.childStrsToUpdt.length ; i++)
+			for(i = 0; i < $scope.childStrsToUpdtInDb.length ; i++)
 			{
-				actionHelper.invokeAction("story.update", $scope.childStrsToUpdt[i], null, updateEditStoryCallBack);
+				actionHelper.invokeAction("story.update", $scope.childStrsToUpdtInDb[i], null, updateEditStoryCallBack);
 			}
 			
 		}
 		// update all the child stoires
+		 $scope.childStrsToUpdtInDb = [];
 	}
 	
 	// method to push all the child stories
@@ -415,7 +432,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 			arrayFrom[i].sprint = sprintId;
 
 			toArray.push(arrayFrom[i]);
-			$scope.childStrsToUpdt.push(arrayFrom[i]);
+			$scope.childStrsToUpdtInDb.push(arrayFrom[i]);
 		}
 	};
 	

@@ -64,7 +64,7 @@
             yk-on-drag-over ="allowDropOnNotStarted(event)"  yk-on-drop="onDropofNotStarted(event)">
             
             <div  align="center"  id = {{objNotstarted}}  draggable="true" ng-repeat="objNotstarted in notStarted | filter: orderBy:'title'" 
-               style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
+               style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 60px;
                		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; "  yk-on-drag ="onDragStories(event)">
                  <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">{{objNotstarted.title}}</b> 
               
@@ -75,7 +75,8 @@
          <!-- drop to inProgress -->	
          <div  align="center"  id = "inProgress" class = "col-md-3"  style = "background-color : #afcdd0; height :50em; border-radius:30px;  padding:5px;  margin: 5px;"  
             yk-on-drag-over ="allowDropOnProgress(event)"  yk-on-drop="onDropofInProgress(event)">
-            <div id = {{obj}}  draggable="true" ng-repeat="obj in inProgress  | filter: orderBy:'title'" style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
+            <div id = {{obj}}  draggable="true" ng-repeat="obj in inProgress  | filter: orderBy:'title'" style = "background-color : #e3f6f9; 
+            					border-radius:20px; margin:10px; width :150px; height : 60px;
                		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; "  yk-on-drag ="onDragStories(event)">
                <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">
               {{obj.title}} {{obj.status}}</b>
