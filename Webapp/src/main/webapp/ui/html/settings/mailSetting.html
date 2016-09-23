@@ -1,0 +1,26 @@
+<div class="container-fluid" ng-controller="mailSettingsController" style="padding: 0px;">
+
+	<div class="col-xs-12 col-md-12 col-md-12 col-xl-12">
+
+		<form>
+			<div class="form-group">
+				<label for="email">Email:</label> 
+				<input type="email" class="form-control" id="email" placeholder="Enter email">
+			</div>
+			
+			<div class="form-group">
+				<label for="pwd">Password:</label> 
+				<input type="password" class="form-control" id="pwd" placeholder="Enter password">
+			</div>
+			
+			<button type="submit" class="btn btn-default" ng-click="addEntry($event)">Save or update</button>
+		</form>
+
+	</div>
+
+	<yk-model-dialog id="mailDialogId" name="NotificationMailDetails" title="Mail Settings" columns="2" actionMethod="saveChanges($event)">
+	</yk-model-dialog>
+
+</div>
+
+

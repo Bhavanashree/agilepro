@@ -56,6 +56,8 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("adminSettings", "settings/settings-menu.html", "settings/settings.html", "settingsTab");
 	addState("pricePlans", "settings/settings-menu.html", "settings/price-plans.html", "settingsTab");
 	addState("adminUser", "settings/settings-menu.html", "settings/adminuser.html", "settingsTab");
+	addState("mailSettings", "settings/settings-menu.html", "settings/mailSetting.html", "settingsTab");
+	
 	
 	//Resources related states
 	addState("employee", "resources/resources-menu.html", "resources/employee.html", "resourcesTab");

@@ -2,7 +2,6 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -264,6 +263,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix mail template. 
 	 **/
 	public String ACTION_PREFIX_MAIL_TEMPLATE = "mailTemplate";
+	
+	/** 
+	 * The action prefix mail details. 
+	 **/
+	public String ACTION_PREFIX_MAIL_DETAILS = "mailDetails";
 	
 	/** 
 	 * The action prefix conversation title. 
@@ -738,33 +742,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_ADMINUSER_DELETE_ALL = ACTION_PREFIX_ADMINUSER + DOT + ACTION_TYPE_DELETE_ALL;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The action conversation save.
-	 **/
-	public String ACTION_CONVERSATION_SAVE = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_SAVE;
-
-	/**
-	 * The action conversation read.
-	 **/
-	public String ACTION_CONVERSATION_READ = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_READ;
-
-	/**
-	 * The action conversation update.
-	 **/
-	public String ACTION_CONVERSATION_UPDATE = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_UPDATE;
-
-	/**
-	 * The action conversation delete.
-	 **/
-	public String ACTION_CONVERSATION_DELETE = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_DELETE;
-
-	/**
-	 * The action conversation delete all.
-	 **/
-	public String ACTION_CONVERSATION_DELETE_ALL = ACTION_PREFIX_CONVERSATION_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/** The action story attachment save. */
 	public String ACTION_STORY_ATTACHMENT_SAVE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
@@ -782,7 +759,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_STORY_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	
 	/**
 	 * The action employee save.

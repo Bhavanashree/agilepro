@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.customer.CustomerModel;
+import com.agilepro.commons.models.customer.NotificationMailDetails;
 import com.agilepro.controller.IRealEstateServerConstants;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.repository.admin.ICustomerRepository;
@@ -68,6 +69,11 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
+			/*NotificationMailDetails notificationMailDetails = new NotificationMailDetails(model.getEmail(),
+					model.getPassword(), mailSmtpHost, mailSmtpPort, false);
+
+			model.setNotificationMailDetails(notificationMailDetails);*/
+
 			// saving customer
 			CustomerEntity customerUser = super.save(model);
 
@@ -120,7 +126,9 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 
 	/**
 	 * Deletes entity with specified id.
-	 * @param id Entity id to delete
+	 * 
+	 * @param id
+	 *            Entity id to delete
 	 * 
 	 * @return boolean result
 	 */
@@ -129,7 +137,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			userService.deleteByBaseEntity(CustomerEntity.class.getName(), id);
-			
+
 			boolean res = super.deleteById(id);
 
 			transaction.commit();
@@ -174,14 +182,14 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 		userEntity.setDisplayName(customerEntity.getName());
 		userEntity.setBaseEntityId(customerEntity.getId());
 		userEntity.setBaseEntityType(customerEntity.getClass().getName());
-		userEntity.setSpaceIdentity( IRealEstateServerConstants.customerSpace(customerEntity.getId()) );
+		userEntity.setSpaceIdentity(IRealEstateServerConstants.customerSpace(customerEntity.getId()));
 
 		UserRoleEntity roleEntity = new UserRoleEntity();
 		roleEntity.setOwnerType(Object.class.getName());
 		roleEntity.setOwnerId(0L);
 		roleEntity.setRole(UserRole.CUSTOMER_SUPER_USER);
 		roleEntity.setUser(userEntity);
-		roleEntity.setSpaceIdentity( IRealEstateServerConstants.customerSpace(customerEntity.getId()) );
+		roleEntity.setSpaceIdentity(IRealEstateServerConstants.customerSpace(customerEntity.getId()));
 
 		userService.save(userEntity, null);
 		userRoleService.save(roleEntity, null);
