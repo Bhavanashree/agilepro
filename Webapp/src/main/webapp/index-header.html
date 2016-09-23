@@ -27,6 +27,16 @@
 				</td>
 				<td style="text-align: right;">
 					
+					 <span class="dropdown" ng-model="selectedProject" ng-change="projectSelectionChanged(selectedProject)" ng-show="show">
+						  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+						  -- Select Project --
+						  <span class="caret"></span>
+						  </button>
+							  <ul class="dropdown-menu">
+							    <li ng-repeat="proj in projects"><a href="#">{{proj.name}}</a></li>
+							  </ul>
+					</span>
+
 					<select ng-options="proj as proj.name for proj in projects track by proj.id" 
 						ng-model="selectedProject" ng-change="projectSelectionChanged(selectedProject)" ng-show="show">
 						<option value=""> -- Select Project -- </option>

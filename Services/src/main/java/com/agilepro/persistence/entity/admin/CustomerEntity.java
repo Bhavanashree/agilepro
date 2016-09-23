@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.CustomerPocModel;
 import com.agilepro.commons.models.customer.CustomerType;
+import com.agilepro.commons.models.customer.NotificationMailDetails;
 import com.agilepro.services.common.AdminExtension;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -126,6 +127,13 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	 */
 	@Column(name = "NEXT_PAY_EVAL_DATE")
 	private Date nextPayEvalDate;
+
+	/**
+	 * The mail settings.
+	 **/
+	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
+	@Column(name = "MAIL_SETTINGS")
+	private NotificationMailDetails notificationMailDetails;
 
 	/**
 	 * Instantiates a new customer entity.
@@ -483,5 +491,26 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	public void setRegistrationDate(Date registrationDate)
 	{
 		this.registrationDate = registrationDate;
+	}
+
+	/**
+	 * Gets the notification mail details.
+	 *
+	 * @return the notification mail details
+	 */
+	public NotificationMailDetails getNotificationMailDetails()
+	{
+		return notificationMailDetails;
+	}
+
+	/**
+	 * Sets the notification mail details.
+	 *
+	 * @param notificationMailDetails
+	 *            the new notification mail details
+	 */
+	public void setNotificationMailDetails(NotificationMailDetails notificationMailDetails)
+	{
+		this.notificationMailDetails = notificationMailDetails;
 	}
 }
