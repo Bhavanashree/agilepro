@@ -11,7 +11,7 @@
                   </td>
                   <td>
                      <select style="font-size: 20px; border-radius: 6px;padding: 5px;margin-left: 20px; margin-right: 20px;" name="repeatSelect"  id="repeatSelect"  ng-model="selectedSprintObj" 
-                        ng-options="sprintObj as sprintObj.name for sprintObj in sprint track by sprintObj.id" 
+                        ng-options="sprintObj as sprintObj.name for sprintObj in sprints track by sprintObj.id" 
                         ng-change="displayStoriesBySprint(selectedSprintObj)">
                         <option value=""> -- Select Sprint -- </option>
                      </select>
@@ -49,11 +49,11 @@
          </table>
       </div>
          
-         <div align="center" class = "col"  style = "background-color : #bbc7c7; border-radius:31px;margin-top: 2px; margin-right: 4px; margin-left: 4px; height : 60em; padding: 5px;">
+         <div align="center" class = "col"  style = "background-color : #bbc7c7; border-radius:31px; margin-top: 2px; margin-right: 4px; margin-left: 4px; height : 60em; padding: 5px;">
           
             <div id={{backlog}} draggable="true" yk-on-drag ="onDragStories(event)" ng-repeat="backlog in story  | filter: orderBy:'title'" 
                style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px; border: 3px solid ghostwhite;  cursor:-moz-grabbing; " >
-                 <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">{{backlog.title}}</b> 
+                 <b style="color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">{{backlog.title}}</b> 
                <img src="{{backlog.$photoUrl}}" style ="height: 50px; width: 55px; float: right; margin: 6px; border-radius: 4px;"/>
             </div>
             
@@ -89,7 +89,7 @@
             <div  id = {{objCompleted}}  draggable="true" ng-repeat=" objCompleted in completed"  style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
                		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; " yk-on-drag ="onDragStories(event)" >
               <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">
-             {{objCompleted.title}}  {{objCompleted.status}} </b>
+             		{{objCompleted.title}}  {{objCompleted.status}} </b>
                <img src="{{objCompleted.$photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
             </div>
          </div>
