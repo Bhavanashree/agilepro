@@ -69,6 +69,7 @@ public class SprintModel extends AbstractExtendableModel
 	 * projectd.
 	 */
 	@NonDisplayable
+	@Required
 	private Long projectId;
 
 	/**

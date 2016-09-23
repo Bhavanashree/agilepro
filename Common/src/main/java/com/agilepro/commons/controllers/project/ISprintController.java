@@ -1,7 +1,5 @@
 package com.agilepro.commons.controllers.project;
 
-import java.util.List;
-
 import com.agilepro.commons.models.project.SprintModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
@@ -32,7 +30,7 @@ public interface ISprintController
 	 * @return the basic read response
 	 */
 	public BasicReadResponse<SprintModel> read(Long id);
-
+	
 	/**
 	 * Update.
 	 *
@@ -58,12 +56,4 @@ public interface ISprintController
 	 */
 	public BaseResponse deleteAll();
 
-	/**
-	 * Fetch all sprint.
-	 *
-	 * @param id
-	 *            the id
-	 * @return the basic read response
-	 */
-	public BasicReadResponse<List<SprintModel>> fetchAllSprint(String sprintName);
 }

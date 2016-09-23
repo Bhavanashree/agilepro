@@ -134,7 +134,6 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 			{
 				model.setTimeTaken(timeTaken + modelExtraTime);
 			}
-			System.out.println(" +++++++++******************************************" + timeTaken + " " + modelExtraTime);
 
 			super.update(model);
 			transaction.commit();

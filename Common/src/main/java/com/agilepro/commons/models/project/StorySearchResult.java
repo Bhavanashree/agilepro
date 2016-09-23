@@ -66,6 +66,7 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	@Field(value = "projectEntity.id")
 	private Long projectId;
 	
+	
 	/**
 	 * The status.
 	 */
@@ -280,4 +281,5 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	{
 		this.projectId = projectId;
 	}
+
 }

@@ -128,9 +128,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 	$scope.saveSubstory= function(title){
 		
+		projectId = $scope.getActiveProject();
+		
 		$scope.model = {"title" : title, "parentStoryId": $scope.selectedId, "projectId" : projectId};
 
-		$scope.newModelMode= 'Save';
+		$scope.initErrors("model", true);
+		$scope.newStoryMode= 'true';
+		
 		$scope.saveChanges();
 		$scope.refreshSearch();
 	};
@@ -518,6 +522,15 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		searchQuery.projectId = $scope.getActiveProject();
 	};
 	
+	
+	$scope.deleteTask = function(object){
+		
+		$scope.selectedId = object.id;
+		console.log("$scope.selectedId  -----",$scope.selectedId );
+
+		$scope.deleteEntry(object);
+		
+	};
 }]);
 
 

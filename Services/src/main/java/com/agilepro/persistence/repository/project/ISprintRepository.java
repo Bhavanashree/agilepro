@@ -1,11 +1,13 @@
 package com.agilepro.persistence.repository.project;
 
+import static com.agilepro.controller.IRealEstateServerConstants.ADMIN_USER_SPACE;
+
+import java.util.Date;
 import java.util.List;
 
 import com.agilepro.commons.models.project.SprintSearchQuery;
 import com.agilepro.commons.models.project.SprintSearchResult;
 import com.agilepro.persistence.entity.project.SprintEntity;
-import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.services.common.StorySearchCustomizer;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Operator;
@@ -37,7 +39,9 @@ public interface ISprintRepository extends IWebutilsRepository<SprintEntity>
 	public List<SprintEntity> fetchAllSprint(@Condition(value = "name", op = Operator.LIKE, ignoreCase = true) String sprintName);
 	
 	@RestrictBySpace
-	public List<SprintEntity> fetchsprintByProjId(@Condition(value = "sprintProjectId.id") Long projectId);
+	@OrderBy("startDate")
+	public List<SprintEntity> fetchSprintByProjId(@Condition(value = "project.id") Long projectId,
+									@Condition(value = "endDate", op = Operator.GE) Date date);
 
 	/**
 	 * Delete All.
