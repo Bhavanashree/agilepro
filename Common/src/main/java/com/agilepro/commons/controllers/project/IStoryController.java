@@ -40,7 +40,7 @@ public interface IStoryController
 	 *            the project id
 	 * @return the basic read response
 	 */
-	public BasicReadResponse<List<StoryModel>> fetchAllStory(Long projectId);
+	//public BasicReadResponse<List<StoryModel>> fetchAllStory(Long projectId);
 
 	/**
 	 * Update.

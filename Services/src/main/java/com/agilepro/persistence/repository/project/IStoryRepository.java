@@ -8,6 +8,9 @@ import com.agilepro.commons.models.project.StorySearchResult;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.services.common.StorySearchCustomizer;
 import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.JoinOperator;
+import com.yukthi.persistence.repository.annotations.MethodConditions;
+import com.yukthi.persistence.repository.annotations.NullCheck;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.search.SearchQuery;
 import com.yukthi.webutils.annotations.LovQuery;
@@ -51,7 +54,14 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	public List<StoryEntity> fetchStoryBySprintId(@Condition(value = "sprint.id") Long sprintId);
 	
 	@RestrictBySpace
-	public List<StoryEntity> fetchstoryByProjId(@Condition(value = "projectEntity.id") Long projectId);
+	public List<StoryEntity> fetchStoryByProjIdAndSprint(@Condition(value = "projectEntity.id") Long projectId, 
+									@Condition(value = "sprint.id") Long sprintId);
+
+	@RestrictBySpace
+	@MethodConditions(
+		nullChecks = @NullCheck(field = "sprint.id")
+	)
+	public List<StoryEntity> fetchUnassingedStories(@Condition(value = "projectEntity.id") Long projectId);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStoryId") Long parentStoryId);

@@ -323,7 +323,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type readProjectid.
 	 */
 
-	public String ACTION_TYPE_READ_STORY_PROJECT_ID = "storyProjectId";
+	public String ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID = "fetchStoryBysprintAndProjectId";
 
 	/** 
 	 * The action type read sprint project id. 
@@ -980,7 +980,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 *  The action story read project id. 
 	 **/
-	public String ACTION_STORY_READ_PROJECT_ID = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_STORY_PROJECT_ID;
+	public String ACTION_STORY_READ_PROJECT_ID = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
 	/**
 	 *  The action sprint read.
 	 **/

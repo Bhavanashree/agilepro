@@ -20,6 +20,7 @@ import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.services.BaseCrudService;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class StoryService is responsible to save,read,update and delete the
  * stories.
@@ -121,24 +122,35 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Fetch all story.
 	 *
-	 * @param projectId
-	 *            the project id
+	 * @param projectId the project id
+	 * @param sprintId the sprint id
 	 * @return the list
 	 */
-	public List<StoryModel> fetchAllStory(Long projectId)
+	public List<StoryModel> fetchAllStoryByPrjAndSprint(Long projectId, Long sprintId)
 	{
 		List<StoryModel> storymodels = null;
 
-		List<StoryEntity> storyEntity = storyRepo.fetchstoryByProjId(projectId);
+		List<StoryEntity> stories = storyRepo.fetchStoryByProjIdAndSprint(projectId, sprintId);
+		List<StoryEntity> unassignedStories = storyRepo.fetchUnassingedStories(projectId);
+		
+		if(stories == null)
+		{
+			stories = new ArrayList<>();
+		}
+		
+		if(unassignedStories != null)
+		{
+			stories.addAll(unassignedStories);
+		}
 
 		StoryModel storyModel = null;
 		EmployeeModel employeeModel = null;
 
-		if(storyEntity.size() > 0)
+		if(stories.size() > 0)
 		{
-			storymodels = new ArrayList<StoryModel>(storyEntity.size());
+			storymodels = new ArrayList<StoryModel>(stories.size());
 
-			for(StoryEntity entity : storyEntity)
+			for(StoryEntity entity : stories)
 			{
 				storyModel = super.toModel(entity, StoryModel.class);
 
@@ -193,29 +205,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 
 		return storymodels;
-	}
-
-	/**
-	 * fetch a stories by project id.
-	 * 
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the list
-	 */
-	public List<StoryModel> fetchStories(Long projectId)
-	{
-		List<StoryEntity> storyEntity = storyRepo.fetchstoryByProjId(projectId);
-
-		List<StoryModel> storiesmodels = new ArrayList<StoryModel>();
-
-		StoryModel storyModel;
-		for(StoryEntity stories : storyEntity)
-		{
-			storyModel = super.toModel(stories, StoryModel.class);
-			storiesmodels.add(storyModel);
-		}
-		return storiesmodels;
 	}
 
 	/**

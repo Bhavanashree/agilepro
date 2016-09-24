@@ -52,8 +52,25 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	    		$scope.$apply();
 			}catch(ex)
 			{}	
+		},
+		
+		
+		
+		"deleteOp" : function(confirmed)
+		{
+			
+			if(!confirmed)
+			{
+				return;
+			}
+			else
+			{
+				$scope.deleteEntry(object);
+			}
+			
+			
 		}
-
+		
 	});
 	 
 	 
@@ -527,7 +544,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.selectedId = object.id;
 		console.log("$scope.selectedId  -----",$scope.selectedId );
-
+		//utils.confirm(["Are you sure you want tlllllllllllllllllllo delete {} '{}' ?", $scope.crudConfig.name, $scope.selectedName], deleteOp);
+		
 		$scope.deleteEntry(object);
 		
 	};

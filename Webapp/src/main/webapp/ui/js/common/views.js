@@ -72,7 +72,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	
 	//backlog
 	addState("sprint","story/sprints-menu.html", "story/sprint.html", "kanbanTab", true);
-	addState("story","story/sprints-menu.html", "story/story.html", "storyTab");
+	addState("story","story/story-menu.html", "story/story.html", "storyTab");
 	addState("priority","story/story-menu.html", "story/priority.html", "storyTab");
 	addState("task","story/story-menu.html", "story/task.html", "storyTab");
 	

@@ -5,7 +5,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_PROJECT_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
@@ -103,21 +103,21 @@ public class StoryController extends BaseController implements IStoryController
 		return new BasicReadResponse<StoryModel>(storyModel);
 	}
 	
-	/**
-	 * Read the list of stories.
-	 *
-	 * @param storyTitle the story title
-	 * @return the StoryModel read response
-	 */
-	@Override
-	@ActionName(ACTION_TYPE_READ_ALL)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
-	@ResponseBody
-	public BasicReadResponse<List<StoryModel>> fetchAllStory(@RequestParam(value = "projectId", required = true) Long projectId)
-	{
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStory(projectId));
-	}
+//	/**
+//	 * Read the list of stories.
+//	 *
+//	 * @param storyTitle the story title
+//	 * @return the StoryModel read response
+//	 */
+//	@Override
+//	@ActionName(ACTION_TYPE_READ_ALL)
+//	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+//	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+//	@ResponseBody
+//	public BasicReadResponse<List<StoryModel>> fetchAllStory(@RequestParam(value = "projectId", required = true) Long projectId)
+//	{
+//		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStory(projectId));
+//	}
 	
 	/**
 	 * Fetch story by project id.
@@ -125,13 +125,15 @@ public class StoryController extends BaseController implements IStoryController
 	 * @param projectId the project id
 	 * @return the basic read response
 	 */
-	@ActionName(ACTION_TYPE_READ_STORY_PROJECT_ID)
+	@ActionName(ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/storyProjectId", method = RequestMethod.GET)
+	@RequestMapping(value = "/fetchStoryBysprintAndProjectId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<StoryModel>> fetchstoryByProjId(@RequestParam(value = "projectId", required = true) Long projectId) 
+	public BasicReadResponse<List<StoryModel>> fetchAllStoryByPrjAndSprint(
+			@RequestParam(value = "projectId", required = true) Long projectId,
+			@RequestParam(value = "sprint", required = true)  Long sprint) 
 	{
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStories(projectId));
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStoryByPrjAndSprint(projectId, sprint));
 	}
 
 	/* (non-Javadoc)
@@ -206,5 +208,12 @@ public class StoryController extends BaseController implements IStoryController
 	{
 		storyService.deleteAll();
 		return new BaseResponse();
+	}
+
+	@Override
+	public BasicReadResponse<List<StoryModel>> fetchstoryByProjId(Long projectId)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
