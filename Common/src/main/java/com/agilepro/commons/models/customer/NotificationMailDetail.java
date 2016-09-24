@@ -16,7 +16,7 @@ import com.yukthi.webutils.common.annotations.Password;
  * @author Pritam
  */
 @Model
-public class NotificationMailDetails
+public class NotificationMailDetail
 {
 	// mail server, port, secured or not, mail id, password
 
@@ -73,7 +73,7 @@ public class NotificationMailDetails
 	/**
 	 * Instantiates a new notification mail details.
 	 */
-	public NotificationMailDetails()
+	public NotificationMailDetail()
 	{
 		super();
 	}
@@ -92,7 +92,7 @@ public class NotificationMailDetails
 	 * @param securedOrNot
 	 *            the secured or not
 	 */
-	public NotificationMailDetails(String mailId, String password, String mailSmtpHost, String mailSmtpPort, boolean securedOrNot)
+	public NotificationMailDetail(String mailId, String password, String mailSmtpHost, String mailSmtpPort, boolean securedOrNot)
 	{
 		super();
 		this.mailId = mailId;

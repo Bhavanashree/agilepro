@@ -162,7 +162,7 @@ public class CustomerModel extends AbstractExtendableModel
 	 **/
 	@NonDisplayable
 	@IgnoreField
-	private NotificationMailDetails notificationMailDetails;
+	private NotificationMailDetail notificationMailDetails;
 
 	/**
 	 * Instantiates a new customer model.
@@ -570,12 +570,12 @@ public class CustomerModel extends AbstractExtendableModel
 		this.attachments = attachments;
 	}
 
-	public NotificationMailDetails getNotificationMailDetails()
+	public NotificationMailDetail getNotificationMailDetails()
 	{
 		return notificationMailDetails;
 	}
 
-	public void setNotificationMailDetails(NotificationMailDetails notificationMailDetails)
+	public void setNotificationMailDetails(NotificationMailDetail notificationMailDetails)
 	{
 		this.notificationMailDetails = notificationMailDetails;
 	}

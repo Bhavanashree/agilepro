@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.customer.CustomerModel;
-import com.agilepro.commons.models.customer.NotificationMailDetails;
+import com.agilepro.commons.models.customer.NotificationMailDetail;
 import com.agilepro.services.admin.CustomerService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
@@ -64,7 +64,7 @@ public class NotificationMailDetailsController extends BaseController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid NotificationMailDetails notificationMailDetails)
+	public BasicSaveResponse save(@RequestBody @Valid NotificationMailDetail notificationMailDetails)
 	{
 		UserDetails userDetails = currentUserService.getCurrentUserDetails();
 

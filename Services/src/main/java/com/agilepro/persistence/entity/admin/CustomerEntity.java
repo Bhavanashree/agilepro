@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.CustomerPocModel;
 import com.agilepro.commons.models.customer.CustomerType;
-import com.agilepro.commons.models.customer.NotificationMailDetails;
+import com.agilepro.commons.models.customer.NotificationMailDetail;
 import com.agilepro.services.common.AdminExtension;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -133,7 +133,7 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	 **/
 	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
 	@Column(name = "MAIL_SETTINGS")
-	private NotificationMailDetails notificationMailDetails;
+	private NotificationMailDetail notificationMailDetails;
 
 	/**
 	 * Instantiates a new customer entity.
@@ -498,7 +498,7 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	 *
 	 * @return the notification mail details
 	 */
-	public NotificationMailDetails getNotificationMailDetails()
+	public NotificationMailDetail getNotificationMailDetails()
 	{
 		return notificationMailDetails;
 	}
@@ -509,7 +509,7 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	 * @param notificationMailDetails
 	 *            the new notification mail details
 	 */
-	public void setNotificationMailDetails(NotificationMailDetails notificationMailDetails)
+	public void setNotificationMailDetails(NotificationMailDetail notificationMailDetails)
 	{
 		this.notificationMailDetails = notificationMailDetails;
 	}
