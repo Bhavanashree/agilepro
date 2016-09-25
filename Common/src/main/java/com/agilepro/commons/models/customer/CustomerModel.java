@@ -156,6 +156,13 @@ public class CustomerModel extends AbstractExtendableModel
 	 * Customer related documents.
 	 **/
 	private List<FileInfo> attachments;
+	
+	/** 
+	 * The notification mail details. 
+	 **/
+	@NonDisplayable
+	@IgnoreField
+	private NotificationMailDetail notificationMailDetails;
 
 	/**
 	 * Instantiates a new customer model.
@@ -561,6 +568,16 @@ public class CustomerModel extends AbstractExtendableModel
 	public void setAttachments(List<FileInfo> attachments)
 	{
 		this.attachments = attachments;
+	}
+
+	public NotificationMailDetail getNotificationMailDetails()
+	{
+		return notificationMailDetails;
+	}
+
+	public void setNotificationMailDetails(NotificationMailDetail notificationMailDetails)
+	{
+		this.notificationMailDetails = notificationMailDetails;
 	}
 
 	/*

@@ -25,6 +25,7 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 			if(!(Array.isArray(objArr)))
 			{
 				fileId = objArr.photo.fileId;
+				console.log(fileId)
 				objArr.photoUrl = actionHelper.actionUrl("files.fetch", {"id": fileId});
 				return;
 			}
@@ -153,6 +154,7 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		
 		projectId = $scope.getActiveProject();
 		
+		console.log("PROJECT ID = " + projectId);
 		if(!projectId || projectId == 0)
 		{
 			return;

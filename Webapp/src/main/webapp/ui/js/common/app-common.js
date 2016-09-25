@@ -120,8 +120,8 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		
     		$scope.selectedProject = {"id" : presentProjectId};
     		
-    		// broad cast for project member 
-    		$scope.$broadcast("activeProjectSelected");
+    		// broad cast for (project member) , (sprint display stories according to project)
+    		$scope.$broadcast("activeProjectSelectionChanged");
     	}
     	
     	actionHelper.invokeAction("project.readAll", null, null, readProCallBack);
@@ -191,7 +191,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	actionHelper.invokeAction("userSetting.read", null, {"userId" : $scope.activeUser.userId}, versionCallBack);
     };
     
-    // Method for update
+    // Method for update setting
     editUserSetting = function(currentProjectId){
     	
     	var model = {"id" : userSettingId, "userId" : $scope.activeUser.userId, "key" : "activeProjectId", "value" : currentProjectId, "version" : version};

@@ -44,6 +44,18 @@
 	left:890px;
 }
 
+.box1
+{
+	border-radius: 4px;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+	border-style: solid;
+	border-width: 1px;
+	border-color: lightblue;
+	padding: 2em;
+	position:absolute;
+	left:450px;
+}
+
 .newsBox
 {
 	border: 1px solid rgb(220, 220, 220);
@@ -317,18 +329,82 @@ body
 	border: 1px solid blue;
 }
 
-.dropDownItemHide
+.conversation
 {
-	display	: none;
+	border: 2px solid #87CEEB;
+	border-radius: 5px;
 }
 
-.dropDownItemShow
+.hoverDiv
 {
-	color: red;
-	position: absolute;
-	z-index: 1;
-	padding-top: 100em;
+	padding: 0.1em;
+	width: 100%;
+	border-top: 1px dotted #b3e0ff;
+
 }
 
+.borderhover
+{
+	border: 4px solid #0000a0;
+	box-shadow: 5px 5px 5px grey;
+}
 
+.displayElement
+{
+	display:inline;
 
+}
+
+.displayHidden
+{
+	display:none;
+}
+
+.displayBorder
+{
+	
+}
+
+.grabIt
+{
+	cursor: move; 
+}
+
+.storyBoards .col 
+{
+   width: 22%; 
+   float: left;
+   padding: 2%;
+  
+}
+        
+.arrow-right
+{
+  width: 0; 
+  height: 0; 
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  
+  border-left: 5px solid lightblue;
+}  
+
+.arrow-left 
+{
+  width: 0; 
+  height: 0; 
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent; 
+  
+  border-right: 5px solid #b3ffb3; 
+}     
+
+/*  aaaaaaaaaaaaaaaaaaa*/
+
+.uncheckedClass {
+    list-style-image: url("/ui/images/toggle-small-expand.png");
+    font-size: large;
+}
+
+.checkedClass {
+     list-style-image: url("/ui/images/toggle-small.png");
+}

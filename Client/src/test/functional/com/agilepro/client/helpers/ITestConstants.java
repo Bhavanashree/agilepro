@@ -13,52 +13,62 @@ public interface ITestConstants
 	double T_DUE_AMOUNT = 1000.0;
 
 	/**
-	 * Debug Message for customer. 
+	 * Debug Message for customer.
 	 */
 	String T_DEBUG_CUS_MESSAGE = "Saved customer with id - {}";
-	
-	/** 
-	 * Debug message for project. 
-	 * */
+
+	/**
+	 * Debug message for project.
+	 */
 	String T_DEBUG_PRO_MESSAGE = "Saved project with id - {}";
 
 	/**
 	 * Phone Number.
 	 */
-	String PHONE_NUMBER = "1234567891";
+	String T_PHONE_NUMBER = "1234567891";
 
 	/**
 	 * Password.
 	 */
-	String PASSWORD = "12345";
+	String T_PASSWORD = "12345";
 
-	/** 
-	 * The start date will be added from current date. 
+	/**
+	 * The start date will be added from current date.
 	 **/
 	Integer START_DATE = 5;
-	
-	/** 
-	 * The end date will be added from current date. 
+
+	/**
+	 * The end date will be added from current date.
 	 **/
 	Integer END_DATE = 7;
-			
+
 	/**
 	 * Email id.
 	 */
-	String CUS_EMAIL_ID = "customer1@gmail.com";
+	String T_CUS_EMAIL_ID = "customer1@gmail.com";
+
+	/**
+	 * The t cus path.
+	 **/
+	String T_CUS_PATH = "customer1";
 
 	/**
 	 * ClientGroup name.
 	 */
-	String CLI_GROUP_NAME = "ClientGroup1";
+	String T_CLI_GROUP_NAME = "ClientGroup1";
 
 	/**
 	 * ClientGroup name.
 	 */
-	String CLI_NAME = "Client1";
+	String T_CLI_NAME = "Client1";
 
 	/**
 	 * The project property name.
 	 **/
-	String PROJECT_PROPERTY_NAME = "ProjectPropertyType1";
+	String T_PROJECT_PROPERTY_NAME = "ProjectPropertyType1";
+
+	/**
+	 * The tag description.
+	 **/
+	String T_TAG_DESCRIPTION = "This new feature for tagging user";
 }

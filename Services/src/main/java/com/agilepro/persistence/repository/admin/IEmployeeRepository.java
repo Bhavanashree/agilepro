@@ -65,6 +65,14 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	 */
 	@LovQuery(name = "employeeLov", valueField = "id", labelField = "name")
 	public List<ValueLabel> findEmployeeLov();
+	
+	/**
+	 * Find project members.
+	 *
+	 * @return the list
+	 */
+	@LovQuery(name = "projectMembers", valueField = "id", labelField = "name")
+	public List<ValueLabel> findProjectMembers();
 
 	/**
 	 * Delete All.

@@ -52,7 +52,7 @@ public class UserSettingController extends BaseController implements IUserSettin
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.USER_SETTING_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.USER_SETTING_EDIT, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid UserSettingModel userSettingModel)
@@ -71,7 +71,7 @@ public class UserSettingController extends BaseController implements IUserSettin
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.USER_SETTING_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.USER_SETTING_EDIT, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid UserSettingModel userSettingModel)
@@ -90,7 +90,7 @@ public class UserSettingController extends BaseController implements IUserSettin
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.USER_SETTING_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.USER_SETTING_VIEW, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<UserSettingModel> read(@RequestParam(value = "userId") Long userId)
@@ -104,7 +104,7 @@ public class UserSettingController extends BaseController implements IUserSettin
 	 * @return the base response
 	 */
 	@Override
-	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

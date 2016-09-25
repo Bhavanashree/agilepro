@@ -17,6 +17,7 @@
 	    
 	    <link href="webutils/css/bootstrap-colorpicker.min.css" rel="stylesheet">
 	    
+		
 	</head>
 	
 	<body ng-app="application" ng-controller="mainController">
@@ -43,10 +44,10 @@
 				</div>
 				
 				<!-- Tabs + Main content row -->
-				<div class="col-md-10 col-md-offset-2 col-sm-12">
+				<div id="mainContentContainer" class="col-md-10 col-md-offset-2 col-sm-12">
 					<!-- Main content row -->
 					<div class="row">
-						<div id="mainContent" ui-view="mainContent" class="col-xs-12" style="padding-top: 4em;">
+						<div id="mainContent" ui-view="mainContent" class="col-xs-12" style="padding-top: 1em;">
 						</div>
 					</div>
 				</div>
@@ -70,6 +71,9 @@
 		<script src="webutils/js/bootstrap-datetimepicker.min.js"></script>
 		<script src="webutils/js/bootstrap-contextmenu.js"></script>
 		
+	    <!-- Graph required js files -->
+	   <script src="webutils/js/highcharts.src.js"></script>
+		<!-- <script src="https://code.highcharts.com/modules/exporting.js"></script> -->
 		
 		<!--Color -->
 		<script src="webutils/js/bootstrap-colorpicker.js"></script>
@@ -98,6 +102,7 @@
 		<script type="text/javascript" src="/ui/js/settings/invoice.js"></script>
 		<script type="text/javascript" src="/ui/js/settings/designation.js"></script>
 	    <script type="text/javascript" src="/ui/js/settings/adminuser.js"></script>
+	    <script type="text/javascript" src="/ui/js/settings/mailSettings.js"></script>
 	    
 		<script type="text/javascript" src="/ui/js/resources/employee.js"></script>
 		
@@ -105,6 +110,15 @@
 		<script type="text/javascript" src="/ui/js/project/tag.js"></script>
 		
 		<script type="text/javascript" src="/ui/js/member/member.js"></script>
+		
+		<script type="text/javascript" src="/ui/js/story/story.js"></script>
+		<script type="text/javascript" src="/ui/js/story/sprint.js"></script>
+		<script type="text/javascript" src="/ui/js/story/priority.js"></script>
+		<script type="text/javascript" src="/ui/js/story/task.js"></script>
+		
+		
+		<!-- dashboard -->
+		<script type="text/javascript" src="/ui/js/common/dashboard.js"></script>
 		
 	</body>
 </html>

@@ -77,7 +77,7 @@ public class TFCustomerSearchQuery extends TFBase implements ITestConstants
 		/**
 		 *Customer. 
 		 **/
-		CustomerModel model = new CustomerModel("Customer1", CUS_EMAIL_ID, PHONE_NUMBER, null, null, null, null, new Date(), PASSWORD, PASSWORD, "clientGroupPath", null);
+		CustomerModel model = new CustomerModel("Customer1", T_CUS_EMAIL_ID, T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, "clientGroupPath", null);
 		model.setSubDomainPath("bbb");
 		model.setCustomerPricePlanId(idOfPricePlan);
 		model.setDueAmount(T_DUE_AMOUNT);

@@ -9,6 +9,7 @@ import com.yukthi.webutils.common.annotations.Label;
  */
 public enum UserRole
 {
+	
 	/**
 	 * Represents settings group under which settings related roles should be
 	 * defined.
@@ -57,51 +58,6 @@ public enum UserRole
 	 * defined.
 	 */
 	CUSTOMER_GROUP(false),
-
-	/**
-	 * The meeting room view.
-	 */
-	@Label("Meeting Room View") MEETING_ROOM_VIEW,
-
-	/**
-	 * The meeting room edit.
-	 */
-	@Label("Meeting Room Edit") MEETING_ROOM_EDIT(false, MEETING_ROOM_VIEW, RESOURCES_GROUP),
-
-	/**
-	 * The meeting room delete.
-	 */
-	@Label("Meeting Room Delete") MEETING_ROOM_DELETE(false, MEETING_ROOM_VIEW),
-
-	/**
-	 * The meeting room features view.
-	 */
-	@Label("Meeting Room features View") MEETING_ROOM_FEATURES_VIEW,
-
-	/**
-	 * The meeting room features edit.
-	 */
-	@Label("Meeting Room features Edit") MEETING_ROOM_FEATURES_EDIT(false, MEETING_ROOM_FEATURES_VIEW),
-
-	/**
-	 * The meeting room features delete.
-	 */
-	@Label("Meeting Room features Delete") MEETING_ROOM_FEATURES_DELETE(false, MEETING_ROOM_FEATURES_VIEW),
-
-	/**
-	 * The task view.
-	 */
-	@Label("Task View") TASK_VIEW,
-
-	/**
-	 * The task edit.
-	 */
-	@Label("Task Edit") TASK_EDIT(false, TASK_VIEW, SETTINGS_GROUP),
-
-	/**
-	 * The task delete.
-	 */
-	@Label("Task Delete") TASK_DELETE(false, TASK_VIEW),
 
 	/**
 	 * The Designation view.
@@ -392,7 +348,90 @@ public enum UserRole
 	 * The user setting delete. 
 	 **/
 	@Label("User setting Delete") USER_SETTING_DELETE(false, USER_SETTING_VIEW),
+
+	/**
+	 * The Story view.
+	 */
+	@Label("Story view") BACKLOG_VIEW,
+
+	/**
+	 * The Story edit.
+	 */
+	@Label("Story Edit") BACKLOG_EDIT(false, BACKLOG_VIEW),
+
+	/**
+	 * The Story delete.
+	 */ 
+	@Label("Story Delete") BACKLOG_DELETE(false, BACKLOG_VIEW),
+
+	/**
+	 * The Story delete.
+	 */
+	@Label("Story DeleteAll") BACKLOG_DELETE_ALL(false, BACKLOG_VIEW),
 	
+	/**
+	 * The sprint view. 
+	 */
+	@Label("Sprint view") SPRINT_VIEW,
+	
+	/** 
+	 * The sprint edit.
+	 */
+	@Label("Sprint Edit") SPRINT_EDIT(false, SPRINT_VIEW),
+	
+	/**
+	 *  The sprint delete.
+	 */
+	@Label("Sprint Delete") SPRINT_DELETE(false, SPRINT_VIEW),
+	
+	/**
+	 *  The sprint delete all. 
+	 */
+	@Label("Sprint DeleteAll") SPRINT_DELETE_ALL(false, SPRINT_VIEW),
+	/**
+	 * The Priority view. 
+	 */
+	@Label("Priority view") PRIORITY_VIEW,
+	
+	/** 
+	 * The Priority edit.
+	 */
+	@Label("Priority Edit") PRIORITY_EDIT(false, PRIORITY_VIEW),
+	
+	/**
+	 *  The Priority delete.
+	 */
+	@Label("Priority Delete") PRIORITY_DELETE(false, PRIORITY_VIEW),
+	
+	/**
+	 *  The Priority delete all. 
+	 */
+	@Label("Priority DeleteAll") PRIORITY_DELETE_ALL(false, PRIORITY_VIEW),
+	
+	/**
+	 * The Task view. 
+	 */
+	@Label("Task view") TASK_VIEW,
+	
+	/** 
+	 * The Task edit.
+	 */
+	@Label("Task Edit") TASK_EDIT(false, TASK_VIEW),
+	
+	/**
+	 *  The Task Update.
+	 */
+	@Label("Task Update") TASK_UPDATE(false, TASK_VIEW),
+	
+	/**
+	 *  The Task delete.
+	 */
+	@Label("Task Delete") TASK_DELETE(false, TASK_VIEW),
+	
+	/**
+	 *  The Task delete all. 
+	 */
+	@Label("Task DeleteAll") TASK_DELETE_ALL(false, TASK_VIEW),
 	;
 
 	/**
