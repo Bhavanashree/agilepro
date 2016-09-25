@@ -15,22 +15,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		"updateAction": "story.update",
 		"deleteAction": "story.delete",
 		
-		"init": function() {
-			console.log("Init function is called......................");
-			tinymce.init({
-			    "selector": '#messageId',
-			    "plugins": "autolink link emoticons  textcolor",
-			    "toolbar": "undo, redo| bold, italic, underline, strikethrough, subscript, superscript| forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
-			    "menubar": false
-			});
-		},
-		
 		"onHide" : function(){
 		
 			stopInterval();
 		},
 		
 		"onDisplay" : function(model){
+			$scope.init();
 			
 			if(!(model.id))
 			{
@@ -64,8 +55,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			{}	
 		},
 		
-		
-		
 		"deleteOp" : function(confirmed)
 		{
 			
@@ -77,14 +66,32 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			{
 				$scope.deleteEntry(object);
 			}
-			
-			
 		}
 		
 	});
 	 
 	 
 	 $scope.dlgModeField = "newStoryMode";
+
+	 $scope.init = function() {
+		console.log(">>>>>>>>>>>>>>>>Init function is called......................");
+		tinymce.init({
+		    "selector": '#messageId',
+		    "plugins": "autolink link emoticons  textcolor",
+		    "toolbar": "undo, redo| bold, italic, underline, strikethrough, subscript, superscript| forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
+		    "menubar": false
+		});
+	};
+	
+	$scope.submitContent = function() {
+		var content = tinymce.activeEditor.getContent();
+		$scope.message = content; 
+		
+		console.log("Got message as ", $scope.message);
+		
+		$scope.saveConversationMessage();
+	};
+
 	 
 	 $scope.handleKeyPress = function(e) {
 		 console.log("handleKeyPress is invoked " + $scope.inlineTitle);
@@ -239,7 +246,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 readCallBack = function(readResponse, respConfig){
 		 
 		 $scope.conversations = readResponse.model;
-		 reduceHeight();
 		 
 		 var panelBodyElem = $("#panelBodyId");
 		 

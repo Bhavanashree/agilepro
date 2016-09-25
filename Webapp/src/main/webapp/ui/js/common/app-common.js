@@ -14,7 +14,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     $scope.selectedProject = null;
     
     /**
-     * 
+     * default project id for current user from settings.
      */
     $scope.userDefaultProjectId = -1;
     
@@ -78,6 +78,11 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		{
     			$scope.idToProject["" + $scope.projects[i].id] = $scope.projects[i];
     		}
+    		
+    		if($scope.userDefaultProjectId > 0)
+    		{
+    			$scope.setActiveProject($scope.userDefaultProjectId);
+    		}
     	}
     	
     	try
@@ -98,9 +103,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		version = userSettingModel.version;
     		
     		$scope.selectedProject = $scope.idToProject["" + userSettingModel.value];
-    		
-    		console.log("Got active project is as - ", userSettingModel.value);
-    		console.log("Got active project as - ", $scope.selectedProject);
+   			$scope.userDefaultProjectId = userSettingModel.value;
     		
     		// broad cast for (project member) , (sprint display stories according to project)
     		$scope.$broadcast("activeProjectSelectionChanged");

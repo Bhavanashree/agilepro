@@ -130,16 +130,9 @@
 						</table>
 					</div>
 					<div class="panel-footer">
-						<div class="input-group" ng-init="init()">
-							<textarea rows="2" cols="2" id="messageId" type="text" ng-model="message" ng-keyup="onType($event)" class="form-control" 
-								placeholder="Type your message here" style="height: 2.5em; resize: none;"></textarea>
-								
-							<span class="input-group-btn">
-	                            <button id="sendButtonId" class="btn btn-primary" style="height: 2.5em;" ng-click="saveConversationMessage()"> 
-	                              <i class="glyphicon glyphicon-send"></i>
-	                            </button>
-	                        </span>
-						</div>
+						<textarea rows="2" cols="2" id="messageId" ng-model="message" ng-keyup="onType($event)" class="form-control" 
+							placeholder="Type your message here" style="height: 10em; resize: none;"></textarea>
+						<button ng-click="submitContent()">Send</button>						
 					</div>
 				</div>
 				</tab>
