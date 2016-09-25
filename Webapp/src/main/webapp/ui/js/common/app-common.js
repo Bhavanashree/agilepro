@@ -1,47 +1,22 @@
 $.application.controller('commonController', ["$scope", "clientContext", "utils", "actionHelper", function($scope, clientContext, utils, actionHelper) {
 	$scope.name = "Common Controller";
+
+	$scope.data = [];
 	
-    $scope.mails = [
-		{
-			"id" : 1,
-			"subject" : "Subject line 1",
-			"from": "From1"
-		},
-		{
-			"id" : 2,
-			"subject" : "Subject line 2",
-			"from": "From2"
-		}
-	];
+	/**
+	 * Project mapping from id to project object.
+	 */
+    $scope.idToProject = {};
     
-    $scope.notifications = [
-		{
-			"id": 1,
-			"title" : "New project created"
-		},
-		{
-			"id": 2,
-			"title" : "Pending Due Amoount - 3000$"
-		},
-		{
-			"id": 3,
-			"title" : "Low usage by Customer"
-		}
-	];
+    /**
+     * Current active project (selected by user on top)
+     */
+    $scope.selectedProject = null;
     
-    $scope.alerts = [
-		{
-			"id": 1,
-			"title": "Scrum meeting @ 10",
-			"time": "10:30 AM"
-		},
-		{
-			"id": 2,
-			"title": "Retrospection",
-			"time": "10:45 AM"
-		}
-	];
-    
+    /**
+     * 
+     */
+    $scope.userDefaultProjectId = -1;
     
     $scope.toggleLeftMenu = function() {
     	var leftMenu = $("#appLeftMenu");
@@ -78,10 +53,6 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	document.getElementById("message").value = " ";
     }
     
-    $scope.data = [];
-    
-    var presentProjectId;
-    
     var projArr;
     
     var userSettingId;
@@ -97,7 +68,16 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
 
     	if(!$scope.show)
     	{
-    		presentProjectId = 0;
+    		$scope.selectedProject = null;
+    	}
+    	else
+    	{
+    		$scope.idToProject = {};
+    		
+    		for(var i = 0; i < $scope.projects.length; i++)
+    		{
+    			$scope.idToProject["" + $scope.projects[i].id] = $scope.projects[i];
+    		}
     	}
     	
     	try
@@ -115,10 +95,12 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	if(userSettingModel)
     	{
     		userSettingId = userSettingModel.id;
-    		presentProjectId = Number(userSettingModel.value); // convert string to number
     		version = userSettingModel.version;
     		
-    		$scope.selectedProject = {"id" : presentProjectId};
+    		$scope.selectedProject = $scope.idToProject["" + userSettingModel.value];
+    		
+    		console.log("Got active project is as - ", userSettingModel.value);
+    		console.log("Got active project as - ", $scope.selectedProject);
     		
     		// broad cast for (project member) , (sprint display stories according to project)
     		$scope.$broadcast("activeProjectSelectionChanged");
@@ -140,6 +122,14 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	$scope.fetchProjects();
 	});
     
+    /**
+     * Event method called when project selection is changed in ui.
+     */
+    $scope.setActiveProject = function(projectId) {
+    	var project = $scope.idToProject["" + projectId];
+    	$scope.projectSelectionChanged(project);
+    };
+    
     // Get invoked while selecting a project
     $scope.projectSelectionChanged = function(proObj){
     	$scope.selectedProject = proObj;
@@ -149,7 +139,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		return;
     	}
     	
-		presentProjectId = proObj.id;
+		var presentProjectId = proObj.id;
 		
 		if(!userSettingId)
     	{
@@ -200,8 +190,13 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     };
     
     // To get the current active project
-    $scope.getActiveProject = function(){
-    	return presentProjectId;
+    $scope.getActiveProject = function() {
+    	if(!$scope.selectedProject)
+    	{
+    		return -1;
+    	}
+    	
+    	return $scope.selectedProject.id;
     };
     
 }]);

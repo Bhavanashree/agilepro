@@ -15,6 +15,16 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		"updateAction": "story.update",
 		"deleteAction": "story.delete",
 		
+		"init": function() {
+			console.log("Init function is called......................");
+			tinymce.init({
+			    "selector": '#messageId',
+			    "plugins": "autolink link emoticons  textcolor",
+			    "toolbar": "undo, redo| bold, italic, underline, strikethrough, subscript, superscript| forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
+			    "menubar": false
+			});
+		},
+		
 		"onHide" : function(){
 		
 			stopInterval();
@@ -193,7 +203,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		e = e || window.event;
 		var key = e.keyCode ? e.keyCode : e.which;
 		
-		
+		/*
 		if($scope.message)
 		{
 			if($scope.message.length > 50)
@@ -213,6 +223,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{
 			reduceHeight();
 		}
+		*/
 		
 		// if enter key is pressed
 		if((key == 13) && $scope.message)
@@ -303,12 +314,14 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 	 };
 	 
+	 /*
 	// Reduce height of input field conversation
 	reduceHeight = function(){
 		
 		$("#messageId").css('height', 2.5 + 'em');
 		$("#sendButtonId").css('height', 2.5 + 'em');
 	};
+	*/
 	
 	$scope.initModelDef = function() {
 		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){

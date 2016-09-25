@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.agilepro.commons.IAgileproCommonConstants;
 import com.agilepro.commons.UserRole;
 import com.agilepro.controller.CbillerUserDetails;
-import com.agilepro.controller.IRealEstateServerConstants;
+import com.agilepro.controller.IAgileProConstants;
 import com.yukthi.persistence.utils.PasswordEncryptor;
 import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.WebutilsConfiguration;
@@ -77,7 +77,7 @@ public class SecurityService implements ISecurityService
 	public UserDetails authenticate(String userName, String password, Map<String, String> attributes)
 	{
 		String ownerIdStr = (attributes != null) ? attributes.get(IAgileproCommonConstants.REQ_PARAM_CUSTOMER_ID) : null;
-		String userSpace = IRealEstateServerConstants.ADMIN_USER_SPACE;
+		String userSpace = IAgileProConstants.ADMIN_USER_SPACE;
 		long customerId = -1;
 
 		// if customer id is specified use the customer space for authentication
@@ -89,7 +89,7 @@ public class SecurityService implements ISecurityService
 
 				if(reqOwnerId > 0)
 				{
-					userSpace = IRealEstateServerConstants.customerSpace(reqOwnerId);
+					userSpace = IAgileProConstants.customerSpace(reqOwnerId);
 					customerId = reqOwnerId;
 				}
 			} catch(Exception ex)
@@ -269,9 +269,9 @@ public class SecurityService implements ISecurityService
 
 		if(user == null || user.getCustomerId() <= 0)
 		{
-			return IRealEstateServerConstants.ADMIN_USER_SPACE;
+			return IAgileProConstants.ADMIN_USER_SPACE;
 		}
 
-		return IRealEstateServerConstants.customerSpace(user.getCustomerId());
+		return IAgileProConstants.customerSpace(user.getCustomerId());
 	}
 }

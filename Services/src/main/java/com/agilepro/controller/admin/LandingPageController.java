@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.LandingPageModel;
-import com.agilepro.controller.IRealEstateServerConstants;
+import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.services.admin.CustomerService;
 import com.yukthi.webutils.InvalidRequestParameterException;
@@ -102,7 +102,7 @@ public class LandingPageController extends BaseController
 	@PostConstruct
 	private void init()
 	{
-		String pattern = configuration.getAppConfigurations().get(IRealEstateServerConstants.CONFIG_URL_PATTERN);
+		String pattern = configuration.getAppConfigurations().get(IAgileProConstants.CONFIG_URL_PATTERN);
 		this.urlPattern = Pattern.compile(pattern);
 	}
 
@@ -185,12 +185,12 @@ public class LandingPageController extends BaseController
 		if(customerId >= 0)
 		{
 			logger.debug("Updating password for user under customer with mail id - {}", mailId);
-			updateRes = userService.updatePassword(IRealEstateServerConstants.customerSpace(customerId), mailId, newPwd);
+			updateRes = userService.updatePassword(IAgileProConstants.customerSpace(customerId), mailId, newPwd);
 		}
 		else
 		{
 			logger.debug("Updating password for admin user with mail id - {}", mailId);
-			updateRes = userService.updatePassword(IRealEstateServerConstants.ADMIN_USER_SPACE, mailId, newPwd);
+			updateRes = userService.updatePassword(IAgileProConstants.ADMIN_USER_SPACE, mailId, newPwd);
 		}
 
 		if(!updateRes)

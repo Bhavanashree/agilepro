@@ -1,6 +1,6 @@
 package com.agilepro.services;
 
-import static com.agilepro.controller.IRealEstateServerConstants.ADMIN_USER_SPACE;
+import static com.agilepro.controller.IAgileProConstants.ADMIN_USER_SPACE;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
