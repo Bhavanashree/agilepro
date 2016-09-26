@@ -16,22 +16,10 @@
 		<input id="loginPageMarker" type="hidden" value="true"/>
 		
 		<div class="container-fluid" ng-controller="lpageHelper">
-			<div class="row headerBox">
-				<!-- First row for
-						Logo on left
-						Links on right
-				 -->
+			<div class="row" style="background: black;">
 				<div class="col-md-4">
-					<span style="color: white; font-weight: bold; font-size: 2em;">AgilePro</span>
+					<img alt="AgilePro" src="/ui/images/agilepro-logo.png" style="width: 10em; height: 4em;" yk-hide-from="sm">
 				</div>
-				<div class="col-md-8" style="text-align: right; padding: 0.5em;">
-					<div ng-repeat="link in contentLinks" style="display: inline; margin-right: 1em;">
-						<a href="{{link.link}}" style="font-weight: bold; color: white;" yk-file-link="{{link.file ? link.file.id : -1}}">
-							{{link.label}}
-						</a>
-					</div>
-				</div>
-								 
 			</div>
 
 			<div class="row preProcessHidden">
@@ -55,7 +43,8 @@
 								<br/>
 								<div class="row">
 									<div id="loginButton" class="col-xs-12" style="text-align: center;">
-										<input type="submit" value="Login" class="btn btn-primary" style="width: 100%;" ng-click="authenticate($event)"/>
+										<input type="submit" value="Login" class="btn btn-primary" 
+											style="width: 100%; font-weight: bold; padding: 0.5em; height: auto;" ng-click="authenticate($event)"/>
 									</div>
 								</div>
 								<div class="row">
@@ -67,27 +56,6 @@
 						</div>
 					</div>
 					<!-- End of login box row -->
-					
-					
-					<!-- news -->
-					<div class="row" style="padding: 0px; margin-top: 2em;" ng-if="newsLst && newsLst.length > 0">
-						<div class="col-xs-12 col-md-11 newsBox" yk-hide-from="sm">
-							<yk-marquee id="newsScroller" width="100%" height="10em" speed="100">
-								<table style="width: 100%;">
-									<tr ng-repeat-start="news in newsLst">
-										<td style="background-color: rgb(230, 230, 230); padding: 0.3em;">
-											<b>{{news.title}}</b> 
-										</td> 
-									</tr>
-									<tr ng-repeat-end>
-										<td ng-bind-html="news.news | unsafe" style="padding: 0.5em;">
-										</td> 
-									</tr>
-								</table>
-							</yk-marquee>							
-						</div>
-					</div>
-					<!-- end of news -->
 	
 				</div>
 				

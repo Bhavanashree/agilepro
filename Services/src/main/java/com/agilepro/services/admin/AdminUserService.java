@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.admin.AdminUserModel;
-import com.agilepro.controller.IRealEstateServerConstants;
+import com.agilepro.controller.IAgileProConstants;
 import com.yukthi.webutils.repository.IUserRepository;
 import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.UserRoleEntity;
@@ -54,7 +54,7 @@ public class AdminUserService extends BaseCrudService<UserEntity, IUserRepositor
 		UserEntity userEntity = null;
 
 		userEntity = (UserEntity) WebUtils.convertBean(model, UserEntity.class);
-		userEntity.setSpaceIdentity(IRealEstateServerConstants.ADMIN_USER_SPACE);
+		userEntity.setSpaceIdentity(IAgileProConstants.ADMIN_USER_SPACE);
 
 		// saving user
 		super.save(userEntity, model);
@@ -64,7 +64,7 @@ public class AdminUserService extends BaseCrudService<UserEntity, IUserRepositor
 		roleEntity.setOwnerId(0L);
 		roleEntity.setRole(UserRole.ADMINISTRATOR);
 		roleEntity.setUser(userEntity);
-		roleEntity.setSpaceIdentity(IRealEstateServerConstants.ADMIN_USER_SPACE);
+		roleEntity.setSpaceIdentity(IAgileProConstants.ADMIN_USER_SPACE);
 
 		userRoleService.save(roleEntity, null);
 		logger.debug("Added new Admin user with user-name - " + userEntity.getUserName());

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.NotificationMailDetail;
-import com.agilepro.controller.IRealEstateServerConstants;
+import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.repository.admin.ICustomerRepository;
 import com.yukthi.persistence.ITransaction;
@@ -182,14 +182,14 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 		userEntity.setDisplayName(customerEntity.getName());
 		userEntity.setBaseEntityId(customerEntity.getId());
 		userEntity.setBaseEntityType(customerEntity.getClass().getName());
-		userEntity.setSpaceIdentity(IRealEstateServerConstants.customerSpace(customerEntity.getId()));
+		userEntity.setSpaceIdentity(IAgileProConstants.customerSpace(customerEntity.getId()));
 
 		UserRoleEntity roleEntity = new UserRoleEntity();
 		roleEntity.setOwnerType(Object.class.getName());
 		roleEntity.setOwnerId(0L);
 		roleEntity.setRole(UserRole.CUSTOMER_SUPER_USER);
 		roleEntity.setUser(userEntity);
-		roleEntity.setSpaceIdentity(IRealEstateServerConstants.customerSpace(customerEntity.getId()));
+		roleEntity.setSpaceIdentity(IAgileProConstants.customerSpace(customerEntity.getId()));
 
 		userService.save(userEntity, null);
 		userRoleService.save(roleEntity, null);

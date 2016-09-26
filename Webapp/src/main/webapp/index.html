@@ -22,33 +22,27 @@
 	
 	<body ng-app="application" ng-controller="mainController">
 
-		<div class="container-fluid" ng-controller="commonController">
+		<div class="container-fluid" ng-controller="commonController" style="padding: 0px; padding-left: 0.2em; padding-right: 0.2em;">
 		
 			<!-- Header row starts here -->
-			<div style="position: fixed; width: 100%;height: 3em;z-index: 100;" ng-include="'index-header.html'">
+			<div class="row" style="margin: 0px;z-index: 100;" ng-include="'index-header.html'">
 			</div>
 			<!-- Header row ends here -->
 
 			<!-- Left menu row starts here -->
-			<div class="row" style="margin-top: 9em;">
+			<div class="row">
 				<!-- Left menu -->
-				<div id="appLeftMenu" class="col-md-2 col-sm-10 col-xs-10 leftNavBox" yk-hide-from="sm" yk-full-height="document" 
-							style="position: fixed; z-index: 100; background-color: white;">
-					
-					
-					<div class="row">
-						<div class="col-xs-12" ui-view="menuView" 
-								style="overflow-y: auto; padding-top: 0.5em;" yk-full-height="document">
-						</div>
+				<div id="appLeftMenu" class="col-md-2 col-sm-10 col-xs-10 leftNavBox" yk-hide-from="sm" yk-full-height="document" yk-height-margin="60" 
+							style="z-index: 100; background-color: white;">
+					<div class="col-xs-12" ui-view="menuView" 
+							style="overflow-y: auto; padding-top: 0.5em;" yk-full-height="parent" yk-height-margin="10">
 					</div>
 				</div>
 				
 				<!-- Tabs + Main content row -->
-				<div id="mainContentContainer" class="col-md-10 col-md-offset-2 col-sm-12">
+				<div id="mainContentContainer" class="col-md-10 col-sm-12" yk-full-height="document" yk-height-margin="60" style="overflow: auto;">
 					<!-- Main content row -->
-					<div class="row">
-						<div id="mainContent" ui-view="mainContent" class="col-xs-12" style="padding-top: 1em;">
-						</div>
+					<div id="mainContent" ui-view="mainContent" style="padding-top: 2em; margin-right: 0.5em; padding-right: 1em;">
 					</div>
 				</div>
 			</div>
@@ -71,6 +65,8 @@
 		<script src="webutils/js/bootstrap-datetimepicker.min.js"></script>
 		<script src="webutils/js/bootstrap-contextmenu.js"></script>
 		
+		<script src="webutils/js/tinymce/tinymce.min.js"></script>
+
 	    <!-- Graph required js files -->
 	   <script src="webutils/js/highcharts.src.js"></script>
 		<!-- <script src="https://code.highcharts.com/modules/exporting.js"></script> -->

@@ -1,6 +1,6 @@
 package com.agilepro.persistence.repository.project;
 
-import static com.agilepro.controller.IRealEstateServerConstants.ADMIN_USER_SPACE;
+import static com.agilepro.controller.IAgileProConstants.ADMIN_USER_SPACE;
 
 import java.util.Date;
 import java.util.List;

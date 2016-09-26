@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.UserRole;
-import com.agilepro.controller.IRealEstateServerConstants;
+import com.agilepro.controller.IAgileProConstants;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
@@ -67,7 +67,7 @@ public class BootstrapService
 		}
 
 		// create default users in db
-		if(userService.checkForUser(defaultUser.getUserName(), IRealEstateServerConstants.ADMIN_USER_SPACE))
+		if(userService.checkForUser(defaultUser.getUserName(), IAgileProConstants.ADMIN_USER_SPACE))
 		{
 			logger.info("Ignoring adding default user {} as it is already present", defaultUser.getUserName());
 			return;

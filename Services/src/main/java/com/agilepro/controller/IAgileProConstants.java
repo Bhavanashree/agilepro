@@ -5,7 +5,7 @@ package com.agilepro.controller;
  * 
  * @author akiran
  */
-public interface IRealEstateServerConstants
+public interface IAgileProConstants
 {
 	/**
 	 * Configuration key specifying expected url pattern of the cbiller.
