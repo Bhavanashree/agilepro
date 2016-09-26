@@ -81,7 +81,14 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		
     		if($scope.userDefaultProjectId > 0)
     		{
-    			$scope.setActiveProject($scope.userDefaultProjectId);
+    			//$scope.setActiveProject($scope.userDefaultProjectId);
+    			$scope.selectedProject = $scope.idToProject["" + $scope.userDefaultProjectId];
+    			
+    			// After assigning active project, fetch all project members
+    	    	actionHelper.invokeAction("projectMember.readAll", null, {"projectId" : $scope.selectedProject.id}, 
+    	    			function(readResponse, respConfig){
+    	    				$scope.projectMembers = readResponse.model;
+    	    			});
     		}
     	}
     	
@@ -116,8 +123,6 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     $scope.fetchProjects = function(){
     	
     	actionHelper.invokeAction("userSetting.read", null, {"userId" : $scope.activeUser.userId}, readUserCallBack);
-    	
-    	// moved to readUserCallBack for synch calls
     };
     
     $scope.$on("activeUserIsReady", function(event, args) {
@@ -130,6 +135,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
      */
     $scope.setActiveProject = function(projectId) {
     	var project = $scope.idToProject["" + projectId];
+    	
     	$scope.projectSelectionChanged(project);
     };
     
@@ -200,6 +206,12 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	}
     	
     	return $scope.selectedProject.id;
+    };
+    
+    // To get list of project members of current active project
+    $scope.getProjectMembersOfActiveProject = function(){
+    	
+    	return $scope.projectMembers;
     };
     
 }]);

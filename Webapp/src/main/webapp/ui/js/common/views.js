@@ -66,6 +66,8 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	// Project related states
 	addState("project","project/project-menu.html", "project/project.html", "projectsTab");
 	addState("tag","project/project-menu.html", "project/tag.html", "projectsTab");
+	addState("realse","project/project-menu.html", "project/realse.html", "projectsTab");
+	addState("projectRealse","project/project-menu.html", "project/projectRealse.html", "projectsTab");
 	
 	//Members related states
 	addState("member", "member/member-menu.html", "member/member.html", "membersTab");

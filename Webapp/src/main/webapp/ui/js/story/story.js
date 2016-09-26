@@ -21,6 +21,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		},
 		
 		"onDisplay" : function(model){
+			
 			$scope.init();
 			
 			if(!(model.id))
@@ -74,16 +75,26 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.dlgModeField = "newStoryMode";
 
 	 $scope.init = function() {
+		 
 		console.log(">>>>>>>>>>>>>>>>Init function is called......................");
 		tinymce.init({
 		    "selector": '#messageId',
-		    "plugins": "autolink link emoticons  textcolor",
-		    "toolbar": "undo, redo| bold, italic, underline, strikethrough, subscript, superscript| forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
-		    "menubar": false
+		    "plugins": "autolink link emoticons  textcolor mention",
+		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
+		    "menubar": false,
+		    "mentions" : {
+		    	 "source": [
+		    	          { name: 'Tyra Porcelli' }, 
+		    	          { name: 'Brigid Reddish' },
+		    	          { name: 'Ashely Buckler' },
+		    	          { name: 'Teddy Whelan' }
+		    	      ]
+		    }
 		});
 	};
 	
 	$scope.submitContent = function() {
+		
 		var content = tinymce.activeEditor.getContent();
 		$scope.message = content; 
 		
@@ -305,9 +316,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	 $scope.saveConversationMessage = function(){
 		
-		$scope.message = $("#messageId").val();
-		$("#messageId").val(""); 
-		
+		if(!$scope.selectedTitle)
+		{
+			utils.alert("Please select a title");
+			return;
+		}
+		 
 		if($scope.message)
 		{
 			if($scope.message.length > 0)

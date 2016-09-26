@@ -1,0 +1,53 @@
+<div class="container-fluid" ng-controller="projectRealseController" style="padding: 0px;">
+	 
+		<div class="row" ng-init="fetchAllPrjctAndStrs()">
+		
+			<div class="col-md-5 col-xs-5" style="margin-left: 5em; border: solid; border-width: 0.1em; 
+			box-shadow: 10px 10px 5px #888888; height: 35em;">
+				
+				
+				
+			</div>
+			
+			<div class="col-md-5 col-xs-5" style="margin-left: 5em; border: solid; border-width: 0.2em; 
+			box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 35em;">
+				
+				<table width="100%">
+						<tr style="height: 2em; text-align:center">
+							<td width="50%">Stories</td>
+							<td width="50%">Drop Down</td>
+						</tr>
+						<tr>
+							<td>
+								<div style="border: solid; border-width: 0.2em; border-color: lightblue;
+								border-radius: 10px; height: 30em; margin: 1em;">
+									<div ng-repeat="project in projects" style="background-color: yellow; height: 5em; width: 5em;">
+										{{project.name}}
+									</div>
+								</div>
+							</td>
+							<td>
+								<div style="border: solid; border-width: 0.2em; border-color: lightblue;
+								border-radius: 10px; height: 30em; margin: 1em;">
+								</div>
+							</td>
+						</tr>
+				</table>
+				
+				<!-- <div class="row">
+					<div class="col-md-5 col-xs-5" style="border: solid; border-width: 0.2em; border-color: lightblue;
+					border-radius: 10px; height: 20em;">
+						list of stroies
+					</div>
+					
+					<div class="col-md-5 col-xs-5" style="border: solid; border-width: 0.2em; border-color: lightblue;
+					border-radius: 10px; height: 20em;">
+						list of realse
+					</div>
+				</div> -->
+				
+			</div>
+			
+		</div>
+		
+</div>
