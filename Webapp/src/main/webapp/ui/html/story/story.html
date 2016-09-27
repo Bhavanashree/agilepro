@@ -1,8 +1,12 @@
 <div class="container-fluid" ng-controller="storyController" style="padding: 0px;">
+	<div ng-include="'/ui/html/story/bulk-story.html'" ng-controller="bulkStoryController">
+	</div>
+
 	<yk-search-query id="storySearch" title="Story" name="storySearch">
-		<action id="addBacklog" label="Add backlog " color="blue" icon="glyphicon-plus" method="addEntry($event)"/>
-		<action id="editBacklog" label="Edit backlog " color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true"/>
-		<action id="deleteBacklogStory" label="Delete backlog " color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true"/>
+		<action id="addBacklog" label="Add Story" color="blue" icon="glyphicon-plus" method="addEntry($event)"/>
+		<action id="addBacklogBulk" label="Add Story Bulk" color="blue" icon="fa fa-indent" method="openBulkStories($event)"/>
+		<action id="editBacklog" label="Edit Story" color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true"/>
+		<action id="deleteBacklogStory" label="Delete Story" color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true"/>
 		
 			<result-customizer>
 			<div style="cursor: pointer;" search-row-id="0" ng-dblclick="changeRowSelection($index, $event); editEntry();" ng-repeat="result in searchResults" 
@@ -255,5 +259,4 @@
 			</div>
 		</div>
 	</div>
-
 </div>

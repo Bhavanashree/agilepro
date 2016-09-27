@@ -74,11 +74,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.dlgModeField = "newStoryMode";
 
 	 $scope.init = function() {
-		console.log(">>>>>>>>>>>>>>>>Init function is called......................");
 		tinymce.init({
 		    "selector": '#messageId',
 		    "plugins": "autolink link emoticons  textcolor",
-		    "toolbar": "undo, redo| bold, italic, underline, strikethrough, subscript, superscript| forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
+		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
 		    "menubar": false
 		});
 	};
@@ -563,11 +562,20 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.selectedId = object.id;
 		console.log("$scope.selectedId  -----",$scope.selectedId );
-		//utils.confirm(["Are you sure you want tlllllllllllllllllllo delete {} '{}' ?", $scope.crudConfig.name, $scope.selectedName], deleteOp);
 		
 		$scope.deleteEntry(object);
 		
 	};
+	
+	/**
+	 * Displays bulk story dialog.
+	 */
+	$scope.openBulkStories = function() {
+		utils.openModal("bulkStoryDialog", {
+		});
+		
+	};
+	
 }]);
 
 

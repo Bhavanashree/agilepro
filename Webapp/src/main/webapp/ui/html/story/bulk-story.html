@@ -1,0 +1,32 @@
+<yk-dialog id="bulkStoryDialog" title="Story" ng-controller="bulkStoryController">
+	<content>
+		<table style="width: 100%" ng-controller="storyController">
+			<tr>
+				<td style="width: 60%;">
+					<textarea id="bulkStoryText" style="width: 100%; height: 20em;" ng-keyup="bulkStoryTextModified(event)"></textarea>
+				</td>
+				<td style="vertical-align: top;">
+					<div style="width: 100%; height: 20em; overflow: auto;">
+						<script type="text/ng-template" id="bulkStoryTree">
+							<span style="font-weight: bold;" ng-if="story.$root">{{ story.title }}</span>
+							<span ng-if="!story.$root">{{ story.title }}</span>
+							
+							<ul ng-if="story.substories">
+								<li ng-repeat="story in story.substories" ng-include="'bulkStoryTree'">           
+								</li>
+							</ul>
+						</script>				
+						
+						<ul>
+							<li ng-repeat="story in bulkStories" ng-include="'bulkStoryTree'">
+						</ul>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</content>
+	<footer>
+		<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)">{{newStoryMode ? 'Save' : 'Update'}}</button>
+		<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal">Cancel</button>
+	</footer>
+</yk-dialog>
