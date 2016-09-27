@@ -21,7 +21,9 @@
 							<td>
 								<div style="border: solid; border-width: 0.2em; border-color: lightblue;
 								border-radius: 10px; height: 30em; margin: 1em;">
-									<div ng-repeat="project in projects" style="background-color: yellow; height: 5em; width: 5em;">
+									<div ng-repeat="project in projects" draggable="true" yk-on-drag ="onDragStories(event)" 
+									style="background-color: yellow; height: 5em; width: 10em; padding: 1em; 
+									margin: 1em; cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;">
 										{{project.name}}
 									</div>
 								</div>
@@ -29,6 +31,10 @@
 							<td>
 								<div style="border: solid; border-width: 0.2em; border-color: lightblue;
 								border-radius: 10px; height: 30em; margin: 1em;">
+									<div ng-repeat="realse in realses" style="background-color: yellow; height: 5em; width: 14em;
+										padding: 1em; margin: 1em;">
+										{{realse.name}}
+									</div>
 								</div>
 							</td>
 						</tr>

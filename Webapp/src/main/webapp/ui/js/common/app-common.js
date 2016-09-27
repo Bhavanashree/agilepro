@@ -211,6 +211,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     // To get list of project members of current active project
     $scope.getProjectMembersOfActiveProject = function(){
     	
+    	console.log($scope.projectMembers);
     	return $scope.projectMembers;
     };
     

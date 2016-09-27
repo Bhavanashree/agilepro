@@ -83,12 +83,19 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
 		    "menubar": false,
 		    "mentions" : {
-		    	 "source": [
-		    	          { name: 'Tyra Porcelli' }, 
-		    	          { name: 'Brigid Reddish' },
-		    	          { name: 'Ashely Buckler' },
-		    	          { name: 'Teddy Whelan' }
-		    	      ]
+		    	 "source":  [
+		    	             { name: 'Tyra Porcelli' }, 
+		    	             { name: 'Brigid Reddish' },
+		    	             { name: 'Ashely Buckler' },
+		    	             { name: 'Teddy Whelan' }
+		    	         ],
+		    	 
+	    	      "render": function(item) {
+	    	    	  console.log("item is called");
+	    	    	    return '<li>' +
+	    	    	               '<a href="javascript:;"><span>' + item.name + '</span></a>' +
+	    	    	           '</li>';
+	    	    	}
 		    }
 		});
 	};
