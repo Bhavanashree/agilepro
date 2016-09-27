@@ -1,0 +1,83 @@
+<div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllReleasePrjctStrs()">
+	 
+	 <div class="btn-group">
+    	<button type="button" class="btn btn-primary">{{selectedRelease}}</button>
+    	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+      	<span class="caret"></span>
+    	</button>
+	    <ul class="dropdown-menu" role="menu">
+	      <li ng-repeat="release in releases" ng-click="onReleaseChange(release.id)"><a href="">{{release.name}}</a></li>
+	    </ul>
+  	</div>
+  
+	<div class="row" style="margin-top: 1em;">
+	
+		<div class="col-md-5 col-xs-5" style="margin-left: 5em; border: solid; border-width: 0.2em; 
+		box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 35em;">
+			
+			<table width="100%">
+					<tr style="height: 2em; text-align:center">
+						<td width="50%">Project</td>
+						<td width="50%">{{releaseToDisplay}}</td>
+					</tr>
+					<tr>
+						<td>
+							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
+							border-radius: 10px; height: 30em; margin: 1em;">
+								<div ng-repeat="project in projectsForRelease" draggable="true" yk-on-drag ="onDragStories(event)" 
+								style="background-color: yellow; height: 5em; width: 10em; padding: 1em; 
+								margin: 1em; cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;">
+									{{project.name}}
+								</div>
+							</div>
+						</td>
+						<td>
+							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
+							border-radius: 10px; height: 30em; margin: 1em;">
+								<div ng-repeat="realse in realses" style="background-color: yellow; height: 5em; width: 14em;
+									padding: 1em; margin: 1em;">
+									{{realse.name}}
+								</div>
+							</div>
+						</td>
+					</tr>
+			</table>
+			
+		</div>
+		
+		<div class="col-md-5 col-xs-5" style="margin-left: 5em; border: solid; border-width: 0.2em; 
+		box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 35em;">
+			
+			<table width="100%">
+					<tr style="height: 2em; text-align:center">
+						<td width="50%">Stories</td>
+						<td width="50%">{{releaseToDisplay}}</td>
+					</tr>
+					<tr>
+						<td>
+							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
+							border-radius: 10px; height: 30em; margin: 1em;">
+								<div ng-repeat="project in projectsForRelease" draggable="true" yk-on-drag ="onDragStories(event)" 
+								style="background-color: yellow; height: 5em; width: 10em; padding: 1em; 
+								margin: 1em; cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;">
+									{{project.name}}
+								</div>
+							</div>
+						</td>
+						<td>
+							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
+							border-radius: 10px; height: 30em; margin: 1em;">
+								<div ng-repeat="realse in realses" style="background-color: yellow; height: 5em; width: 14em;
+									padding: 1em; margin: 1em;">
+									{{realse.name}}
+								</div>
+							</div>
+						</td>
+					</tr>
+			</table>
+			
+		</div>
+		
+	</div>
+		
+</div>

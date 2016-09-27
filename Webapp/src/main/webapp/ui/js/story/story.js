@@ -41,7 +41,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 
 				panelBodyElem.css('height', conversationHeight + 'px');
 				
-				storyId = model.id;
+				$scope.storyId = model.id;
 				
 				getAllTitle();
 				
@@ -387,6 +387,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 };
 	 
 	 getAllTitle = function(){
+		 
+		 console.log("line number 391 = " +  $scope.storyId);
 		 
 		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : storyId}, readTitleCallBack, true);
 	 };
