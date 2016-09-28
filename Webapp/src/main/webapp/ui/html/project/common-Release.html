@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllReleasePrjctStrs()">
+<div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllRelease()">
 
 	 <div class="btn-group">
     	<button type="button" class="btn btn-primary" style="min-width: 13em; max-width: 13em;">{{selectedRelease}}</button>
@@ -17,17 +17,17 @@
 			
 			<table width="100%">
 					<tr style="height: 2em; text-align:center">
-						<td width="50%">Project</td>
-						<td width="50%">{{releaseToDisplay}}</td>
+						<td width="50%">Unreleased Project</td>
+						<td width="50%">{{projectReleaseToDisplay}}</td>
 					</tr>
 					<tr>
 						<td>
 							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
 							border-radius: 10px; height: 30em; margin: 1em;">
 								<table>
-									<tr id="project.id" ng-repeat="project in projectsForRelease">
+									<tr ng-repeat="project in projectsForRelease">
 										<td >
-											<div style="background-color: yellow; width: 100%; height: 2em; margin: 1em; 
+											<div id="{{project.id}}" style="background-color: yellow; width: 100%; height: 2em; margin: 1em; 
 											text-align: center; cursor:-moz-grabbing;" draggable="true" yk-on-drag="dragProjects(event)">
 												{{project.name}}
 											</div>
@@ -40,7 +40,7 @@
 						<td>
 							<div style="border: solid; border-width: 0.2em; border-color: lightblue; border-radius: 10px; height: 30em; 
 							margin: 1em;" yk-on-drop="dropReleases(event)">
-								<div ng-repeat="realse in realses" style="background-color: yellow; height: 5em; width: 14em;
+								<div ng-repeat="realse in projectReleased" style="background-color: yellow; height: 5em; width: 14em;
 									padding: 1em; margin: 1em;">
 									{{realse.name}}
 								</div>

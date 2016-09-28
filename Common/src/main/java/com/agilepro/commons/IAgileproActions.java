@@ -89,20 +89,26 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 */
 	public String ACTION_PREFIX_MATERIALS_GROUP = "materialsGroup";
 
-	/** 
-	 * The action prefix projects. 
+	/**
+	 * The action prefix projects.
 	 **/
 	public String ACTION_PREFIX_PROJECT = "project";
-	
+
 	/**
 	 * The action prefix members.
 	 */
 	public String ACTION_PREFIX_PROJECT_MEMBER = "projectMember";
 
+	/**
+	 * The action prefix realse.
+	 **/
 	public String ACTION_PREFIX_REALSE = "release";
-	
+
+	/**
+	 * The action prefix project realse.
+	 **/
 	public String ACTION_PREFIX_PROJECT_REALSE = "projectRelease";
-	
+
 	/**
 	 * The action prefix property type.
 	 */
@@ -253,28 +259,28 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_ADMINUSER = "admin";
 
-	/** 
-	 * The action prefix conversation message. 
+	/**
+	 * The action prefix conversation message.
 	 **/
 	public String ACTION_PREFIX_CONVERSATION_MESSAGE = "conversationMessage";
-	
-	/** 
-	 * The action prefix story attachment message. 
+
+	/**
+	 * The action prefix story attachment message.
 	 **/
 	public String ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE = "storyAttachment";
-	
-	/** 
-	 * The action prefix mail template. 
+
+	/**
+	 * The action prefix mail template.
 	 **/
 	public String ACTION_PREFIX_MAIL_TEMPLATE = "mailTemplate";
-	
-	/** 
-	 * The action prefix mail details. 
+
+	/**
+	 * The action prefix mail details.
 	 **/
 	public String ACTION_PREFIX_MAIL_DETAILS = "mailDetails";
-	
-	/** 
-	 * The action prefix conversation title. 
+
+	/**
+	 * The action prefix conversation title.
 	 **/
 	public String ACTION_PREFIX_CONVERSATION_TITLE = "conversationTitle";
 
@@ -287,22 +293,22 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix project price plan.
 	 **/
 	public String ACTION_PREFIX_PROJECT_PRICE_PLAN = "projectPricePlan";
-	
+
 	/**
 	 * The action prefix teams.
 	 **/
 	public String ACTION_PREFIX_TEAM = "teams";
-	
-	/** 
-	 * The action prefix tag. 
+
+	/**
+	 * The action prefix tag.
 	 **/
 	public String ACTION_PREFIX_TAG = "tag";
-	
-	/** 
-	 * The action prefix user setting. 
+
+	/**
+	 * The action prefix user setting.
 	 **/
 	public String ACTION_PREFIX_USER_SETTING = "userSetting";
-	
+
 	/**
 	 * The action prefix backlog.
 	 */
@@ -312,49 +318,49 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix priority.
 	 */
 	public String ACTION_PREFIX_PRIORITY = "priority";
-	
+
 	/**
 	 * The action type readSprints.
 	 */
 	public String ACTION_TYPE_READ_SPRINT = "readSprints";
-	
+
 	/**
 	 * The action type readSprints.
 	 */
 	public String ACTION_TYPE_READ_STORY_SPRINT = "readStoriesBySprint";
-	
+
 	/**
 	 * The action type readProjectid.
 	 */
 
 	public String ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID = "fetchStoryBysprintAndProjectId";
 
-	/** 
-	 * The action type read sprint project id. 
+	/**
+	 * The action type read sprint project id.
 	 **/
 	public String ACTION_TYPE_READ_SPRINT_PROJECT_ID = "sprintProjectId";
-	
-	/** 
+
+	/**
 	 * The action type read story id.
 	 **/
 	public String ACTION_TYPE_READ_STORY_ID = "readStoryId";
 	/**
-	 *  The action prefix sprint. 
+	 * The action prefix sprint.
 	 **/
 	public String ACTION_PREFIX_SPRINT = "sprint";
-	
+
 	/**
 	 * The param id.
 	 **/
 	public String PARAM_ID = "id";
-	
-	/** 
-	 * The dot. 
+
+	/**
+	 * The dot.
 	 **/
 	public String DOT = ".";
 
 	/////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * Customer save action name.
 	 */
@@ -495,14 +501,13 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 */
 	public String ACTION_TASK_READ = ACTION_PREFIX_TASK + DOT + ACTION_TYPE_READ;
 	/**
-	 *  The action backlog readall.
+	 * The action backlog readall.
 	 **/
 	public String ACTION_TASK_READALL = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_ALL;
-	
 
 	/** The action task read id. */
 	public String ACTION_TASK_READ_ID = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_STORY_ID;
-	
+
 	/**
 	 * Task delete action name.
 	 */
@@ -676,7 +681,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_MEETING_UPDATE = ACTION_PREFIX_MEETING + DOT + ACTION_TYPE_UPDATE;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * read action name.
 	 */
@@ -746,24 +751,24 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_ADMINUSER_DELETE_ALL = ACTION_PREFIX_ADMINUSER + DOT + ACTION_TYPE_DELETE_ALL;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/** The action story attachment save. */
 	public String ACTION_STORY_ATTACHMENT_SAVE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
-	
+
 	/** The action story attachment read. */
 	public String ACTION_STORY_ATTACHMENT_READ = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ;
-	
+
 	/** The action story attachment update. */
 	public String ACTION_STORY_ATTACHMENT_UPDATE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_UPDATE;
-	
+
 	/** The action story attachment delete. */
 	public String ACTION_STORY_ATTACHMENT_DELETE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE;
-	
+
 	/** The action story attachment delete all. */
 	public String ACTION_STORY_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * The action employee save.
 	 **/
@@ -790,7 +795,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_EMPLOYEE_DELETE_ALL = ACTION_PREFIX_EMPLOYEE + DOT + ACTION_TYPE_DELETE_ALL;
 
 	/////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * The action client save.
 	 **/
@@ -838,7 +843,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PROJECT_PRICE_PLAN_UPDATE = ACTION_PREFIX_PROJECT_PRICE_PLAN + DOT + ACTION_TYPE_UPDATE;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * teams save action name.
 	 */
@@ -856,112 +861,112 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * teams plan update action name.
 	 */
 	public String ACTION_TEAM_UPDATE = ACTION_PREFIX_TEAM + DOT + ACTION_TYPE_UPDATE;
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
-	 * The action projects save. 
+	 * The action projects save.
 	 **/
 	public String ACTION_PROJECT_SAVE = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_SAVE;
-	
-	/** 
-	 * The action projects read. 
+
+	/**
+	 * The action projects read.
 	 **/
 	public String ACTION_PROJECT_READ = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_READ;
-	
-	/** 
-	 * The action projects delete. 
+
+	/**
+	 * The action projects delete.
 	 **/
 	public String ACTION_PROJECT_DELETE = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_DELETE;
-	
-	/** 
-	 * The action projects update. 
+
+	/**
+	 * The action projects update.
 	 **/
 	public String ACTION_PROJECT_UPDATE = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_UPDATE;
-	
-	/** 
-	 * The action projects delete all. 
+
+	/**
+	 * The action projects delete all.
 	 **/
 	public String ACTION_PROJECT_DELETE_ALL = ACTION_PREFIX_PROJECT + DOT + ACTION_TYPE_DELETE_ALL;
-	
+
 	/////////////////////////////////////////////////////////////////////////////
-	
-	/** 
-	 * The action project members save. 
+
+	/**
+	 * The action project members save.
 	 **/
 	public String ACTION_PROJECT_MEMBER_SAVE = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_SAVE;
-	
-	/** 
-	 * The action projects members read. 
+
+	/**
+	 * The action projects members read.
 	 **/
 	public String ACTION_PROJECTS_MEMBER_READ = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_READ;
-	
-	/** 
-	 * The action project members delete. 
+
+	/**
+	 * The action project members delete.
 	 **/
 	public String ACTION_PROJECT_MEMBER_DELETE = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_DELETE;
-	
-	/** 
-	 * The action project members update. 
+
+	/**
+	 * The action project members update.
 	 **/
 	public String ACTION_PROJECT_MEMBER_UPDATE = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_UPDATE;
-	
-	/** 
-	 * The action project members delete all. 
+
+	/**
+	 * The action project members delete all.
 	 **/
 	public String ACTION_PROJECT_MEMBER_DELETE_ALL = ACTION_PREFIX_PROJECT_MEMBER + DOT + ACTION_TYPE_DELETE_ALL;
-	
+
 	/////////////////////////////////////////////////////////////////////////////
-	
-	/** 
-	 * The action tags save. 
+
+	/**
+	 * The action tags save.
 	 **/
 	public String ACTION_TAG_SAVE = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_SAVE;
-	
-	/** 
-	 * The action tags read. 
+
+	/**
+	 * The action tags read.
 	 **/
 	public String ACTION_TAG_READ = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_READ;
-	
-	/** 
-	 * The action tags delete. 
+
+	/**
+	 * The action tags delete.
 	 **/
 	public String ACTION_TAG_DELETE = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_DELETE;
-	
-	/** 
-	 * The action tags update. 
+
+	/**
+	 * The action tags update.
 	 **/
 	public String ACTION_TAG_UPDATE = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_UPDATE;
-	
-	/** 
-	 * The action tags delete all. 
+
+	/**
+	 * The action tags delete all.
 	 **/
 	public String ACTION_TAG_DELETE_ALL = ACTION_PREFIX_TAG + DOT + ACTION_TYPE_DELETE_ALL;
-	
+
 	/////////////////////////////////////////////////////////////////////////////
-	
-	/** 
-	 * The action user setting save. 
+
+	/**
+	 * The action user setting save.
 	 **/
 	public String ACTION_USER_SETTING_SAVE = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_SAVE;
-	
-	/** 
-	 * The action user setting read. 
+
+	/**
+	 * The action user setting read.
 	 **/
 	public String ACTION_USER_SETTING_READ = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_READ;
-	
-	/** 
-	 * The action user setting delete. 
+
+	/**
+	 * The action user setting delete.
 	 **/
 	public String ACTION_USER_SETTING_DELETE = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_DELETE;
-	
-	/** 
-	 * The action user setting update. 
+
+	/**
+	 * The action user setting update.
 	 **/
 	public String ACTION_USER_SETTING_UPDATE = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_UPDATE;
-	
-	/** 
-	 * The action user setting delete all. 
+
+	/**
+	 * The action user setting delete all.
 	 **/
 	public String ACTION_USER_SETTING_DELETE_ALL = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_DELETE_ALL;
 
@@ -977,16 +982,16 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_STORY_READ = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ;
 
 	/**
-	 *  The action backlog readall.
+	 * The action backlog readall.
 	 **/
 	public String ACTION_STORY_READALL = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_ALL;
 
 	/**
-	 *  The action story read project id. 
+	 * The action story read project id.
 	 **/
 	public String ACTION_STORY_READ_PROJECT_ID = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
 	/**
-	 *  The action sprint read.
+	 * The action sprint read.
 	 **/
 	public String ACTION_STORY_READSPRINT = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_READ_SPRINT;
 	/**
@@ -1005,67 +1010,68 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_STORY_DELETE_ALL = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_DELETE_ALL;
 
 	/**
-	 *  The action sprint save. 
+	 * The action sprint save.
 	 **/
 	public String ACTION_SPRINT_SAVE = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_SAVE;
 
 	/**
-	 *  The action sprint read. 
+	 * The action sprint read.
 	 **/
 	public String ACTION_SPRINT_READ = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_READ;
 
-	/** 
-	 * The action sprint readall. 
+	/**
+	 * The action sprint readall.
 	 **/
 	public String ACTION_SPRINT_READALL = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_READ_ALL;
-	
+
 	/**
-	 *  The action sprint read projectid. 
+	 * The action sprint read projectid.
 	 **/
 	public String ACTION_SPRINT_READ_PROJECTID = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_READ_SPRINT_PROJECT_ID;
-	
-	/** 
+
+	/**
 	 * The action sprint update.
 	 **/
 	public String ACTION_SPRINT_UPDATE = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_UPDATE;
 
 	/**
-	 *  The action sprint delete. 
+	 * The action sprint delete.
 	 */
 	public String ACTION_SPRINT_DELETE = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_DELETE;
 
 	/**
-	 *  The action sprint deleteall. 
+	 * The action sprint deleteall.
 	 **/
 	public String ACTION_SPRINT_DELETEALL = ACTION_PREFIX_SPRINT + DOT + ACTION_TYPE_DELETE;
-	
+
 	/**
-	 *  The action sprint save. 
+	 * The action sprint save.
 	 **/
 	public String ACTION_PRIORITY_SAVE = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_SAVE;
 
 	/**
-	 *  The action sprint read. 
+	 * The action sprint read.
 	 **/
 	public String ACTION_PRIORITY_READ = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_READ;
 
-	/** import static com.agilepro.commons.IAgileproActions.
-	 * The action sprint readall. 
+	/**
+	 * import static com.agilepro.commons.IAgileproActions. The action sprint
+	 * readall.
 	 **/
 	public String ACTION_PRIORITY_READALL = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_READ_ALL;
 
-	/** 
+	/**
 	 * The action sprint update.
 	 **/
 	public String ACTION_PRIORITY_UPDATE = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_UPDATE;
 
 	/**
-	 *  The action sprint delete. 
+	 * The action sprint delete.
 	 */
 	public String ACTION_PRIORITY_DELETE = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_DELETE;
 
 	/**
-	 *  The action sprint delete all. 
+	 * The action sprint delete all.
 	 **/
 	public String ACTION_PRIORITY_DELETEALL = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_DELETE;
 }

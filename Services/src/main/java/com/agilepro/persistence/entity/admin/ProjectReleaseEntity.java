@@ -7,36 +7,47 @@ import com.agilepro.commons.models.customer.ProjectReleaseModel;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
+/**
+ * The Class ProjectReleaseEntity.
+ * 
+ * @author Pritam
+ */
 @Table(name = "PROJECT_RELEASE")
 public class ProjectReleaseEntity extends WebutilsEntity
 {
+	/**
+	 * The release entity.
+	 **/
 	@ManyToOne
 	@PropertyMapping(type = ProjectReleaseModel.class, from = "releaseId", subproperty = "id")
 	@Column(name = "RELEASE_ID", nullable = false)
-	private ReleaseEntity releaseEntity;
+	private ReleaseEntity release;
 
+	/**
+	 * The project entity.
+	 **/
 	@ManyToOne
 	@PropertyMapping(type = ProjectReleaseModel.class, from = "projectId", subproperty = "id")
 	@Column(name = "PROJECT_ID", nullable = false)
-	private ProjectEntity projectEntity;
+	private ProjectEntity project;
 
-	public ProjectEntity getProjectEntity()
+	public ReleaseEntity getRelease()
 	{
-		return projectEntity;
+		return release;
 	}
 
-	public void setProjectEntity(ProjectEntity projectEntity)
+	public void setRelease(ReleaseEntity release)
 	{
-		this.projectEntity = projectEntity;
+		this.release = release;
 	}
 
-	public ReleaseEntity getReleaseEntity()
+	public ProjectEntity getProject()
 	{
-		return releaseEntity;
+		return project;
 	}
 
-	public void setReleaseEntity(ReleaseEntity releaseEntity)
+	public void setProject(ProjectEntity project)
 	{
-		this.releaseEntity = releaseEntity;
+		this.project = project;
 	}
 }

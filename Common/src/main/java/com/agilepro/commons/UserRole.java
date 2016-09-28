@@ -9,7 +9,7 @@ import com.yukthi.webutils.common.annotations.Label;
  */
 public enum UserRole
 {
-	
+
 	/**
 	 * Represents settings group under which settings related roles should be
 	 * defined.
@@ -32,9 +32,9 @@ public enum UserRole
 	 * defined.
 	 **/
 	PROJECT_GROUP(true),
-	
-	/** 
-	 * The common test delete all for test cases. 
+
+	/**
+	 * The common test delete all for test cases.
 	 **/
 	TEST,
 
@@ -248,7 +248,7 @@ public enum UserRole
 	 * be defined.
 	 **/
 	PROJECT_MEMBER_GROUP(true),
-	
+
 	/**
 	 * The project members edit.
 	 **/
@@ -273,19 +273,37 @@ public enum UserRole
 	 * The tags delete.
 	 **/
 	@Label("Tag Delete") TAG_DELETE(false, TAG_VIEW),
-	
+
+	/**
+	 * The realse view.
+	 **/
 	@Label("Release View") REALSE_VIEW,
-	
+
+	/**
+	 * The realse edit.
+	 **/
 	@Label("Release Edit") REALSE_EDIT(false, REALSE_VIEW, PROJECT_GROUP),
-	
+
+	/**
+	 * The realse delete.
+	 **/
 	@Label("Release Delete") REALSE_DELETE(false, REALSE_VIEW),
-	
+
+	/**
+	 * The project realse view.
+	 **/
 	@Label("Project Release View") PROJECT_REALSE_VIEW,
-	
+
+	/**
+	 * The project realse edit.
+	 **/
 	@Label("Project Release Edit") PROJECT_REALSE_EDIT(false, PROJECT_REALSE_VIEW, PROJECT_GROUP),
-	
+
+	/**
+	 * The project realse delete.
+	 **/
 	@Label("Project Release Delete") PROJECT_REALSE_DELETE(false, PROJECT_REALSE_VIEW),
-	
+
 	/**
 	 * The project property view.
 	 **/
@@ -346,18 +364,18 @@ public enum UserRole
 	 */
 	@Label("Lead DeleteAll") LEAD_DELETE_ALL(false, LEAD_VIEW),
 
-	/** 
-	 * The user setting. 
+	/**
+	 * The user setting.
 	 **/
 	@Label("User Setting") USER_SETTING_VIEW,
-	
-	/** 
-	 * The user setting edit. 
+
+	/**
+	 * The user setting edit.
 	 **/
 	@Label("User setting Edit") USER_SETTING_EDIT(false, USER_SETTING_VIEW, SETTINGS_GROUP),
-	
-	/** 
-	 * The user setting delete. 
+
+	/**
+	 * The user setting delete.
 	 **/
 	@Label("User setting Delete") USER_SETTING_DELETE(false, USER_SETTING_VIEW),
 
@@ -373,78 +391,77 @@ public enum UserRole
 
 	/**
 	 * The Story delete.
-	 */ 
+	 */
 	@Label("Story Delete") BACKLOG_DELETE(false, BACKLOG_VIEW),
 
 	/**
 	 * The Story delete.
 	 */
 	@Label("Story DeleteAll") BACKLOG_DELETE_ALL(false, BACKLOG_VIEW),
-	
+
 	/**
-	 * The sprint view. 
+	 * The sprint view.
 	 */
 	@Label("Sprint view") SPRINT_VIEW,
-	
-	/** 
+
+	/**
 	 * The sprint edit.
 	 */
 	@Label("Sprint Edit") SPRINT_EDIT(false, SPRINT_VIEW),
-	
+
 	/**
-	 *  The sprint delete.
+	 * The sprint delete.
 	 */
 	@Label("Sprint Delete") SPRINT_DELETE(false, SPRINT_VIEW),
-	
+
 	/**
-	 *  The sprint delete all. 
+	 * The sprint delete all.
 	 */
 	@Label("Sprint DeleteAll") SPRINT_DELETE_ALL(false, SPRINT_VIEW),
 	/**
-	 * The Priority view. 
+	 * The Priority view.
 	 */
 	@Label("Priority view") PRIORITY_VIEW,
-	
-	/** 
+
+	/**
 	 * The Priority edit.
 	 */
 	@Label("Priority Edit") PRIORITY_EDIT(false, PRIORITY_VIEW),
-	
+
 	/**
-	 *  The Priority delete.
+	 * The Priority delete.
 	 */
 	@Label("Priority Delete") PRIORITY_DELETE(false, PRIORITY_VIEW),
-	
+
 	/**
-	 *  The Priority delete all. 
+	 * The Priority delete all.
 	 */
 	@Label("Priority DeleteAll") PRIORITY_DELETE_ALL(false, PRIORITY_VIEW),
-	
+
 	/**
-	 * The Task view. 
+	 * The Task view.
 	 */
 	@Label("Task view") TASK_VIEW,
-	
-	/** 
+
+	/**
 	 * The Task edit.
 	 */
 	@Label("Task Edit") TASK_EDIT(false, TASK_VIEW),
-	
+
 	/**
-	 *  The Task Update.
+	 * The Task Update.
 	 */
 	@Label("Task Update") TASK_UPDATE(false, TASK_VIEW),
-	
+
 	/**
-	 *  The Task delete.
+	 * The Task delete.
 	 */
 	@Label("Task Delete") TASK_DELETE(false, TASK_VIEW),
-	
+
 	/**
-	 *  The Task delete all. 
+	 * The Task delete all.
 	 */
-	@Label("Task DeleteAll") TASK_DELETE_ALL(false, TASK_VIEW),
-	;
+	@Label("Task DeleteAll") TASK_DELETE_ALL(false, TASK_VIEW),;
 
 	/**
 	 * Indicates this is an internal role and should not be used for external
