@@ -22,7 +22,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			{
 				$scope.rlseIdObjMap[$scope.releases[index].id] = $scope.releases[index];
 			}
-		})
+		});
 		
 		actionHelper.invokeAction("project.readAll", null, null, function(readResponse, respConfig){
 			
@@ -50,6 +50,8 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		
 		$scope.selectedRelease = $scope.rlseIdObjMap[releaseId].name;
 		
+		$scope.slectedReleaseId = $scope.rlseIdObjMap[releaseId].id;
+		
 		$scope.releaseToDisplay = $scope.selectedRelease;
 	};
 	
@@ -57,28 +59,52 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	// Dragging methods
 	$scope.dragProjects = function(event){
 	
+		console.log("drag project is called");
+		
+		event.originalEvent.dataTransfer.setData('text/plain', 'text');
+		
+		if(!$scope.slectedReleaseId)
+		{
+			utils.alert("Please select release");
+			return;
+		}
+		
 		if($scope.multipleSelectedProjects.length == 0)
 			{
 				$scope.selectedPrjctId = event.target.id;
 			}
-		
 	};
 	
 	
 	$scope.dropReleases = function(event){
 		
+		event.preventDefault();
+		
 		if($scope.multipleSelectedProjects.length == 0)
 		{
 			$scope.selectedPrjctId = event.target.id;
+			
+			var model = {"releaseId" : $scope.slectedReleaseId, "projectId" : $scope.selectedPrjctId};
+			
+			saveNewRelease(model);
 		}
 	};
 	
-	// save new release
-	saveNewRelease = function(obj){
+	// call back method after save new already releasde
+	saveAlreadyReleasecallBack = function(readResponse, respConfig){
 		
-		// actionHelper
+		if(readResponse.code == 0)
+		{
+			
+		}
+		
 	};
 	
+	// save new release
+	saveNewRelease = function(model){
+		
+		actionHelper.invokeAction("projectRelease.save", model, null, saveAlreadyReleasecallBack, true);
+	};
 	
 }]);
 

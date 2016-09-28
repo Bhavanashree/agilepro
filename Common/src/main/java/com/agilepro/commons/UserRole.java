@@ -274,17 +274,17 @@ public enum UserRole
 	 **/
 	@Label("Tag Delete") TAG_DELETE(false, TAG_VIEW),
 	
-	@Label("Tags View") REALSE_VIEW,
+	@Label("Release View") REALSE_VIEW,
 	
-	@Label("Tag Edit") REALSE_EDIT(false, REALSE_VIEW, PROJECT_GROUP),
+	@Label("Release Edit") REALSE_EDIT(false, REALSE_VIEW, PROJECT_GROUP),
 	
-	@Label("Tag Delete") REALSE_DELETE(false, REALSE_VIEW),
+	@Label("Release Delete") REALSE_DELETE(false, REALSE_VIEW),
 	
-	@Label("Tags View") ALREADY_REALSE_VIEW,
+	@Label("Project Release View") PROJECT_REALSE_VIEW,
 	
-	@Label("Tag Edit") ALREADY_REALSE_EDIT(false, ALREADY_REALSE_VIEW, PROJECT_GROUP),
+	@Label("Project Release Edit") PROJECT_REALSE_EDIT(false, PROJECT_REALSE_VIEW, PROJECT_GROUP),
 	
-	@Label("Tag Delete") ALREADY_REALSE_DELETE(false, ALREADY_REALSE_VIEW),
+	@Label("Project Release Delete") PROJECT_REALSE_DELETE(false, PROJECT_REALSE_VIEW),
 	
 	/**
 	 * The project property view.

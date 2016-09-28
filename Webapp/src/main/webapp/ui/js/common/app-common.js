@@ -193,7 +193,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     };
     
     // To get the current active project
-    $scope.getActiveProject = function() {
+    $scope.getActiveProjectId = function() {
     	if(!$scope.selectedProject)
     	{
     		return -1;

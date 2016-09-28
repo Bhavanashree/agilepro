@@ -39,7 +39,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 	$scope.listOfSprint = function(){	
 		console.log("listofsprint");
 		
-		projectId = $scope.getActiveProject();
+		projectId = $scope.getActiveProjectId();
 		$scope.isSprintIsSelected = false;
 		$scope.selectedSprintObj = null;
 		
@@ -66,7 +66,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 	// after broad cast from projectId selection 
 	$scope.listOfStories = function(){
 		
-		projectId = $scope.getActiveProject();
+		projectId = $scope.getActiveProjectId();
 		 
 		 //List of stories
 		var readStoryCallBack = function(read, response){
@@ -117,7 +117,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 	 
 	 // save new sprint
 	 $scope.saveSprint = function() {
-		projectId = $scope.getActiveProject();
+		projectId = $scope.getActiveProjectId();
 		
 		$scope.model.projectId =  projectId;
 		

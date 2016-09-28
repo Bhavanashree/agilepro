@@ -134,7 +134,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 		console.log("inlinetext:     " + $scope.inlineTitle );
 		
-		projectId = $scope.getActiveProject();
+		projectId = $scope.getActiveProjectId();
 		
 		if(!projectId)
 		{
@@ -161,7 +161,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 	$scope.saveSubstory= function(title){
 		
-		projectId = $scope.getActiveProject();
+		projectId = $scope.getActiveProjectId();
 		
 		$scope.model = {"title" : title, "parentStoryId": $scope.selectedId, "projectId" : projectId};
 
@@ -556,7 +556,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	};
 	
 	$scope.customizeSearchQuery = function(searchQuery) {
-		searchQuery.projectId = $scope.getActiveProject();
+		searchQuery.projectId = $scope.getActiveProjectId();
 	};
 	
 	

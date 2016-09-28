@@ -152,7 +152,7 @@ $.application.controller('memberController', ["$scope", "crudController", "actio
 		
 		employeeIds = []
 		
-		projectId = $scope.getActiveProject();
+		projectId = $scope.getActiveProjectId();
 		
 		console.log("PROJECT ID = " + projectId);
 		if(!projectId || projectId == 0)

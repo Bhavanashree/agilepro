@@ -101,7 +101,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 
 	public String ACTION_PREFIX_REALSE = "release";
 	
-	public String ACTION_PREFIX_ALREADY_REALSE = "alreadyRelease";
+	public String ACTION_PREFIX_PROJECT_REALSE = "projectRelease";
 	
 	/**
 	 * The action prefix property type.

@@ -1,11 +1,11 @@
 <div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllReleasePrjctStrs()">
 
 	 <div class="btn-group">
-    	<button type="button" class="btn btn-primary" style="min-width: 15em; max-width: 15em;">{{selectedRelease}}</button>
+    	<button type="button" class="btn btn-primary" style="min-width: 13em; max-width: 13em;">{{selectedRelease}}</button>
     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
       	<span class="caret"></span>
     	</button>
-	    <ul class="dropdown-menu" role="menu">
+	    <ul class="dropdown-menu" role="menu" style="min-width: 13em; max-width: 13em;"> 
 	      <li ng-repeat="release in releases" ng-click="onReleaseChange(release.id)"><a href="">{{release.name}}</a></li>
 	    </ul>
   	</div>
@@ -24,11 +24,17 @@
 						<td>
 							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
 							border-radius: 10px; height: 30em; margin: 1em;">
-								<div id="project.id" ng-repeat="project in projectsForRelease" draggable="true" yk-on-drag ="onDragStories(event)" 
-								style="background-color: yellow; height: 3em; width: 14em; padding-top: 0.5em; margin: 1em; text-align: 
-								center; cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;" yk-on-drag="dragProjects(event)">
-									{{project.name}}
-								</div>
+								<table>
+									<tr id="project.id" ng-repeat="project in projectsForRelease">
+										<td >
+											<div style="background-color: yellow; width: 100%; height: 2em; margin: 1em; 
+											text-align: center; cursor:-moz-grabbing;" draggable="true" yk-on-drag="dragProjects(event)">
+												{{project.name}}
+											</div>
+										</td>
+									</tr>
+								</table>
+								
 							</div>
 						</td>
 						<td>
