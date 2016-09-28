@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.customer.ProjectReleaseModel;
+import com.agilepro.commons.models.project.BasicProjectInfo;
 import com.agilepro.persistence.entity.admin.ProjectReleaseEntity;
 import com.agilepro.persistence.repository.admin.IProjectReleaseRepository;
 import com.yukthi.webutils.services.BaseCrudService;
@@ -51,11 +52,11 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	 */
 	public List<ProjectReleaseModel> fetchAllProjectRelease(Long releaseId)
 	{
-		List<ProjectReleaseEntity> projectReleaseEntities = iprojectReleaseRepository.fetchAllProjectRelease(releaseId);
+		List<BasicProjectInfo> basicProjectInfos = iprojectReleaseRepository.fetchProjectsByRelease(releaseId);
 
-		List<ProjectReleaseModel> projectReleaseModels = new ArrayList<ProjectReleaseModel>(projectReleaseEntities.size());
+		List<ProjectReleaseModel> projectReleaseModels = new ArrayList<ProjectReleaseModel>(basicProjectInfos.size());
 
-		projectReleaseEntities.forEach(entity -> projectReleaseModels.add(super.toModel(entity, ProjectReleaseModel.class)));
+		//projectReleaseEntities.forEach(entity -> projectReleaseModels.add(super.toModel(entity, ProjectReleaseModel.class)));
 
 		return projectReleaseModels;
 	}
