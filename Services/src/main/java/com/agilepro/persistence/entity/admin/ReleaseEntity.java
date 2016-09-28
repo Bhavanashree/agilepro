@@ -8,7 +8,7 @@ import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 @Table(name = "REALSE")
- @UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
 public class ReleaseEntity extends WebutilsEntity
 {
 	@Column(name = "NAME", length = 50, nullable = false)

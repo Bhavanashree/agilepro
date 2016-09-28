@@ -1,7 +1,7 @@
 <div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllReleasePrjctStrs()">
-	 
+
 	 <div class="btn-group">
-    	<button type="button" class="btn btn-primary">{{selectedRelease}}</button>
+    	<button type="button" class="btn btn-primary" style="min-width: 15em; max-width: 15em;">{{selectedRelease}}</button>
     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
       	<span class="caret"></span>
     	</button>
@@ -24,16 +24,16 @@
 						<td>
 							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
 							border-radius: 10px; height: 30em; margin: 1em;">
-								<div ng-repeat="project in projectsForRelease" draggable="true" yk-on-drag ="onDragStories(event)" 
-								style="background-color: yellow; height: 5em; width: 10em; padding: 1em; 
-								margin: 1em; cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;">
+								<div id="project.id" ng-repeat="project in projectsForRelease" draggable="true" yk-on-drag ="onDragStories(event)" 
+								style="background-color: yellow; height: 3em; width: 14em; padding-top: 0.5em; margin: 1em; text-align: 
+								center; cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;" yk-on-drag="dragProjects(event)">
 									{{project.name}}
 								</div>
 							</div>
 						</td>
 						<td>
-							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
-							border-radius: 10px; height: 30em; margin: 1em;">
+							<div style="border: solid; border-width: 0.2em; border-color: lightblue; border-radius: 10px; height: 30em; 
+							margin: 1em;" yk-on-drop="dropReleases(event)">
 								<div ng-repeat="realse in realses" style="background-color: yellow; height: 5em; width: 14em;
 									padding: 1em; margin: 1em;">
 									{{realse.name}}
@@ -57,10 +57,10 @@
 						<td>
 							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
 							border-radius: 10px; height: 30em; margin: 1em;">
-								<div ng-repeat="project in projectsForRelease" draggable="true" yk-on-drag ="onDragStories(event)" 
+								<div ng-repeat="story in storiesForRelease" draggable="true" yk-on-drag ="onDragStories(event)" 
 								style="background-color: yellow; height: 5em; width: 10em; padding: 1em; 
 								margin: 1em; cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;">
-									{{project.name}}
+									{{story.name}}
 								</div>
 							</div>
 						</td>

@@ -280,6 +280,12 @@ public enum UserRole
 	
 	@Label("Tag Delete") REALSE_DELETE(false, REALSE_VIEW),
 	
+	@Label("Tags View") ALREADY_REALSE_VIEW,
+	
+	@Label("Tag Edit") ALREADY_REALSE_EDIT(false, ALREADY_REALSE_VIEW, PROJECT_GROUP),
+	
+	@Label("Tag Delete") ALREADY_REALSE_DELETE(false, ALREADY_REALSE_VIEW),
+	
 	/**
 	 * The project property view.
 	 **/

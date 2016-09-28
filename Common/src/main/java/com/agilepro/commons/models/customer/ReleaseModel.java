@@ -20,7 +20,7 @@ public class ReleaseModel
 
 	@Required
 	@MinLen(5)
-	@MaxLen(20)
+	@MaxLen(25)
 	private String name;
 	
 	/**
