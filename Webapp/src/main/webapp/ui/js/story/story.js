@@ -76,9 +76,17 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.init = function() {
 		tinymce.init({
 		    "selector": '#messageId',
-		    "plugins": "autolink link emoticons  textcolor",
+		    "plugins": "autolink link emoticons  textcolor mention",
 		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
-		    "menubar": false
+		    "menubar": false,
+		    "mentions": {
+		        "source": [
+		            { name: 'Tyra Porcelli' }, 
+		            { name: 'Brigid Reddish' },
+		            { name: 'Ashely Buckler' },
+		            { name: 'Teddy Whelan' }
+		        ]
+		    }
 		});
 	};
 	
