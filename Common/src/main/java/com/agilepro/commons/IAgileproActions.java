@@ -2,6 +2,7 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -344,6 +345,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read story id.
 	 **/
 	public String ACTION_TYPE_READ_STORY_ID = "readStoryId";
+	
+	/**
+	 *  The action type save stories in bulk.
+	 **/
+	public String ACTION_TYPE_SAVE_STORIES_IN_BULK = "storiesInbulk";
 	/**
 	 * The action prefix sprint.
 	 **/
@@ -975,6 +981,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action Story save.
 	 **/
 	public String ACTION_STORY_SAVE = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_SAVE;
+	
+	/**
+	 *  The action story save stories in bulk.
+	 **/
+	public String ACTION_STORY_SAVE_STORIES_IN_BULK = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_SAVE_STORIES_IN_BULK;
 
 	/**
 	 * The action Story read.
