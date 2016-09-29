@@ -85,7 +85,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		            { name: 'Brigid Reddish' },
 		            { name: 'Ashely Buckler' },
 		            { name: 'Teddy Whelan' }
-		        ]
+		        ],
+		        "render": function(item) {
+		            return '<li>' +
+		                       '<a href="javascript:;"><span>' + item.name + '</span></a>' +
+		                   '</li>';
+		        }
 		    }
 		});
 	};
@@ -134,7 +139,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	
 	$scope.isFirstRequest = true;
 	
-	var storyId;
 	var projectId;
 		
 	//set title to model
@@ -398,7 +402,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		 console.log("line number 391 = " +  $scope.storyId);
 		 
-		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : storyId}, readTitleCallBack, true);
+		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : $scope.storyId}, readTitleCallBack, true);
 	 };
 	 
 	 saveTitleCallBack = function(readResponse, respConfig){
@@ -414,7 +418,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.initErrors("converTitleModel", false);
 
-		$scope.converTitleModel.storyId = storyId;
+		$scope.converTitleModel.storyId = $scope.storyId;
 		
 		$scope.converTitleModel.ownerId = $scope.activeUser.userId;
 		
@@ -470,7 +474,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.initErrors("storyAttachmentModel", false);
 		
-		$scope.storyAttachmentModel.storyId = storyId;
+		$scope.storyAttachmentModel.storyId = $scope.storyId;
 		
 		if(!validator.validateModel($scope.storyAttachmentModel, $scope.attachmentModelDef, $scope.errors.storyAttachmentModel))
 		{
@@ -503,7 +507,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	getAllAttachment = function(){
 		
-		actionHelper.invokeAction("storyAttachment.readAll", null, {"storyId" : storyId}, readAttachmentCallBack);
+		actionHelper.invokeAction("storyAttachment.readAll", null, {"storyId" : $scope.storyId}, readAttachmentCallBack);
 	};
 	
 	$scope.editAttachment = function(obj){
