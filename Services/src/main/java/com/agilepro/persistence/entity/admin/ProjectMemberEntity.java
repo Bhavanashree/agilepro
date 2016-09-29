@@ -20,7 +20,7 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "PROJECT_MEMBER")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "projectEntity", "employeeEntity" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "project", "employee" }) })
 public class ProjectMemberEntity extends WebutilsEntity
 {
 	/**
@@ -29,7 +29,7 @@ public class ProjectMemberEntity extends WebutilsEntity
 	@ManyToOne
 	@Column(name = "PROJECT_ID", nullable = false)
 	@PropertyMapping(type = ProjectMemberModel.class, from = "projectId", subproperty = "id")
-	private ProjectEntity projectEntity;
+	private ProjectEntity project;
 
 	/**
 	 * The employee entity.
@@ -37,7 +37,7 @@ public class ProjectMemberEntity extends WebutilsEntity
 	@ManyToOne
 	@Column(name = "EMPLOYEE_ID", nullable = false)
 	@PropertyMapping(type = ProjectMemberModel.class, from = "employeeId", subproperty = "id")
-	private EmployeeEntity employeeEntity;
+	private EmployeeEntity employee;
 
 	/**
 	 * The user role.
@@ -47,45 +47,45 @@ public class ProjectMemberEntity extends WebutilsEntity
 	private ProjectMemberRole projectMemberRole;
 
 	/**
-	 * Gets the employee entity.
+	 * Gets the project.
 	 *
-	 * @return the employee entity
+	 * @return the project
 	 */
-	public EmployeeEntity getEmployeeEntity()
+	public ProjectEntity getProject()
 	{
-		return employeeEntity;
+		return project;
 	}
 
 	/**
-	 * Gets the project entity.
+	 * Sets the project.
 	 *
-	 * @return the project entity
+	 * @param project
+	 *            the new project
 	 */
-	public ProjectEntity getProjectEntity()
+	public void setProject(ProjectEntity project)
 	{
-		return projectEntity;
+		this.project = project;
 	}
 
 	/**
-	 * Sets the project entity.
+	 * Gets the employee.
 	 *
-	 * @param projectEntity
-	 *            the new project entity
+	 * @return the employee
 	 */
-	public void setProjectEntity(ProjectEntity projectEntity)
+	public EmployeeEntity getEmployee()
 	{
-		this.projectEntity = projectEntity;
+		return employee;
 	}
 
 	/**
-	 * Sets the employee entity.
+	 * Sets the employee.
 	 *
-	 * @param employeeEntity
-	 *            the new employee entity
+	 * @param employee
+	 *            the new employee
 	 */
-	public void setEmployeeEntity(EmployeeEntity employeeEntity)
+	public void setEmployee(EmployeeEntity employee)
 	{
-		this.employeeEntity = employeeEntity;
+		this.employee = employee;
 	}
 
 	/**

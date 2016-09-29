@@ -22,7 +22,7 @@ public interface IProjectMemberRepository extends IWebutilsRepository<ProjectMem
 	 * @return the list
 	 */
 	@RestrictBySpace
-	public List<ProjectMemberEntity> fetchProjMemByProjId(@Condition(value = "projectEntity.id") Long id);
+	public List<ProjectMemberEntity> fetchProjMemByProjId(@Condition(value = "project.id") Long id);
 
 	/**
 	 * Delete all.

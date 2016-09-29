@@ -24,7 +24,7 @@ public class StoryReleaseEntity extends WebutilsEntity
 	@ManyToOne
 	@PropertyMapping(type = ProjectReleaseModel.class, from = "releaseId", subproperty = "id")
 	@Column(name = "RELEASE_ID", nullable = false)
-	private ReleaseEntity releaseEntity;
+	private ReleaseEntity release;
 
 	/**
 	 * The story.
@@ -35,24 +35,23 @@ public class StoryReleaseEntity extends WebutilsEntity
 	private StoryEntity story;
 
 	/**
-	 * Gets the release entity.
+	 * Gets the release.
 	 *
-	 * @return the release entity
+	 * @return the release
 	 */
-	public ReleaseEntity getReleaseEntity()
+	public ReleaseEntity getRelease()
 	{
-		return releaseEntity;
+		return release;
 	}
 
 	/**
-	 * Sets the release entity.
+	 * Sets the release.
 	 *
-	 * @param releaseEntity
-	 *            the new release entity
+	 * @param release the new release
 	 */
-	public void setReleaseEntity(ReleaseEntity releaseEntity)
+	public void setRelease(ReleaseEntity release)
 	{
-		this.releaseEntity = releaseEntity;
+		this.release = release;
 	}
 
 	/**

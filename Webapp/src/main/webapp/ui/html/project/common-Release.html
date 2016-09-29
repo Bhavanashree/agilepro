@@ -1,6 +1,23 @@
 <div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllRelease()">
 
-	 <div class="btn-group">
+	<div style="background: white; padding-left: 0.5em; padding-right: 0.5em; padding-top: 5px; border-top-left-radius: 0.5em;">
+		<div class="input-group">
+			<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" value="{{selectedRelease.name}}">
+			<div class="input-group-btn">
+				<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Release <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+				    <li ng-repeat="release in releases"><a ng-click="onReleaseChange(release.id)" href="">{{release.name}}</a></li>
+				</ul>
+			</div>
+			<!-- btn-group -->
+		</div>
+		<!-- input-group  -->
+	</div> 
+				
+	<!--  <div class="btn-group">
+	 
     	<button type="button" class="btn btn-primary" style="min-width: 13em; max-width: 13em;">{{selectedRelease}}</button>
     	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
       	<span class="caret"></span>
@@ -8,7 +25,7 @@
 	    <ul class="dropdown-menu" role="menu" style="min-width: 13em; max-width: 13em;"> 
 	      <li ng-repeat="release in releases" ng-click="onReleaseChange(release.id)"><a href="">{{release.name}}</a></li>
 	    </ul>
-  	</div>
+  	</div>  -->
   
 	<div class="row" style="margin-top: 1em;">
 	
@@ -40,9 +57,9 @@
 						<td>
 							<div style="border: solid; border-width: 0.2em; border-color: lightblue; border-radius: 10px; height: 30em; 
 							margin: 1em;" yk-on-drop="dropReleases(event)">
-								<div ng-repeat="realse in projectReleased" style="background-color: yellow; height: 5em; width: 14em;
+								<div ng-repeat="release in projectReleased" style="background-color: yellow; height: 5em; width: 14em;
 									padding: 1em; margin: 1em;">
-									{{realse.name}}
+									{{release.name}}
 								</div>
 							</div>
 						</td>

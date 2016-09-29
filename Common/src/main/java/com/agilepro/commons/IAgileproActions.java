@@ -67,6 +67,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type runtime variables.
 	 */
 	public String ACTION_TYPE_RUNTIME_VARIABLES = "readRuntimeVariables";
+	
+	/** 
+	 * The action type read project and project release. 
+	 **/
+	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE = "readAllProjectAndProjectRelease";
 
 	////////////////////////////////////////////////////////////////////////////
 

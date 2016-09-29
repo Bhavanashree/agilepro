@@ -1,14 +1,17 @@
 package com.agilepro.services.admin;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.models.customer.ProjectReleaseModel;
+import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.commons.models.project.BasicProjectInfo;
+import com.agilepro.controller.response.ProjectReleaseReadResponse;
 import com.agilepro.persistence.entity.admin.ProjectReleaseEntity;
 import com.agilepro.persistence.repository.admin.IProjectReleaseRepository;
 import com.yukthi.webutils.services.BaseCrudService;
@@ -25,6 +28,12 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	 * The iproject release repository.
 	 **/
 	private IProjectReleaseRepository iprojectReleaseRepository;
+	
+	/** 
+	 * The project service. 
+	 **/
+	@Autowired
+	private ProjectService projectService;
 
 	/**
 	 * Instantiates a new project release service.
@@ -50,14 +59,21 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	 *            the release id
 	 * @return the list
 	 */
-	public List<ProjectReleaseModel> fetchAllProjectRelease(Long releaseId)
+	public ProjectReleaseReadResponse fetchAllProjectRelease(Long releaseId)
 	{
 		List<BasicProjectInfo> basicProjectInfos = iprojectReleaseRepository.fetchProjectsByRelease(releaseId);
-
-		List<ProjectReleaseModel> projectReleaseModels = new ArrayList<ProjectReleaseModel>(basicProjectInfos.size());
-
-		//projectReleaseEntities.forEach(entity -> projectReleaseModels.add(super.toModel(entity, ProjectReleaseModel.class)));
-
-		return projectReleaseModels;
+		
+		List<ProjectModel> projectModels = projectService.fetchProjects();
+		
+		if(basicProjectInfos.isEmpty())
+		{
+			return new ProjectReleaseReadResponse(basicProjectInfos, projectModels);
+		}
+		
+		Set<Long> projectIds =  basicProjectInfos.stream().map(basicInfo -> basicInfo.getId()).collect(Collectors.toSet());
+		
+		List<ProjectModel> flteredModels = projectModels.stream().filter(model -> !projectIds.contains(model.getId())).collect(Collectors.toList());
+		
+		return new ProjectReleaseReadResponse(basicProjectInfos, flteredModels);
 	}
 }
