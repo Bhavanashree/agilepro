@@ -4,7 +4,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_BULK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
+import com.agilepro.commons.models.project.StoriesInBulk;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.services.common.Authorization;
@@ -102,23 +103,7 @@ public class StoryController extends BaseController implements IStoryController
 
 		return new BasicReadResponse<StoryModel>(storyModel);
 	}
-	
-//	/**
-//	 * Read the list of stories.
-//	 *
-//	 * @param storyTitle the story title
-//	 * @return the StoryModel read response
-//	 */
-//	@Override
-//	@ActionName(ACTION_TYPE_READ_ALL)
-//	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
-//	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
-//	@ResponseBody
-//	public BasicReadResponse<List<StoryModel>> fetchAllStory(@RequestParam(value = "projectId", required = true) Long projectId)
-//	{
-//		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStory(projectId));
-//	}
-	
+
 	/**
 	 * Fetch story by project id.
 	 *
@@ -176,6 +161,23 @@ public class StoryController extends BaseController implements IStoryController
 	}
 
 	/**
+	 * Save stories in bulk.
+	 *
+	 * @param model the model
+	 * @return the basic save response
+	 */
+	@ActionName(ACTION_TYPE_SAVE_STORIES_IN_BULK)
+	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/storiesInbulk", method = RequestMethod.POST)
+	@ResponseBody
+	public BasicSaveResponse saveStoriesInBulk(@RequestBody @Valid StoriesInBulk model)
+	{
+		storyService.saveListOfStories(model.getStories(), model.getProjectId(), null);
+		
+		return new BasicSaveResponse();
+	}
+	
+	/**
 	 * Delete the story.
 	 *
 	 * @param id
@@ -208,12 +210,5 @@ public class StoryController extends BaseController implements IStoryController
 	{
 		storyService.deleteAll();
 		return new BaseResponse();
-	}
-
-	@Override
-	public BasicReadResponse<List<StoryModel>> fetchstoryByProjId(Long projectId)
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

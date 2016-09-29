@@ -3,7 +3,7 @@
 		<table style="width: 100%" ng-controller="storyController">
 			<tr>
 				<td style="width: 60%;">
-					<textarea id="bulkStoryText" style="width: 100%; height: 20em;" ng-keyup="bulkStoryTextModified(event)"></textarea>
+					<textarea id="bulkStoryText" style="width: 100%; height: 20em;" ng-keyup="bulkStoryTextModified($event)"></textarea>
 				</td>
 				<td style="vertical-align: top;">
 					<div style="width: 100%; height: 20em; overflow: auto;">
@@ -26,7 +26,7 @@
 		</table>
 	</content>
 	<footer>
-		<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)">{{newStoryMode ? 'Save' : 'Update'}}</button>
+		<button type="button" class="btn btn-primary save-button" ng-click="saveStoryTitle($event)">{{newStoryMode ? 'Save' : 'Update'}}</button>
 		<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal">Cancel</button>
 	</footer>
 </yk-dialog>

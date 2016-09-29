@@ -130,4 +130,15 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 			{}
 		};
 		
+		$scope.saveStoryTitle = function(e){
+			$scope.newStoryMode= 'true';
+			
+			var model = {"stories" : $scope.bulkStories, "projectId" :  $scope.getActiveProjectId()};
+		
+			actionHelper.invokeAction("story.storiesInbulk", model, null, function(read, Response){
+				
+			});
+			
+		};
+		
 }]);

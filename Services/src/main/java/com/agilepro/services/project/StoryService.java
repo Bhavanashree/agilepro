@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
+import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.project.IStoryRepository;
@@ -20,7 +21,6 @@ import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.services.BaseCrudService;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StoryService is responsible to save,read,update and delete the
  * stories.
@@ -83,7 +83,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		} catch(Exception ex)
 		{
 
-			throw new IllegalStateException("An error occurred while saving  story - " + model, ex);
+			throw new IllegalStateException("An error occurred  while saving  story - " + model, ex);
 		}
 	}
 
@@ -122,8 +122,10 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Fetch all story.
 	 *
-	 * @param projectId the project id
-	 * @param sprintId the sprint id
+	 * @param projectId
+	 *            the project id
+	 * @param sprintId
+	 *            the sprint id
 	 * @return the list
 	 */
 	public List<StoryModel> fetchAllStoryByPrjAndSprint(Long projectId, Long sprintId)
@@ -132,12 +134,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 		List<StoryEntity> stories = storyRepo.fetchStoryByProjIdAndSprint(projectId, sprintId);
 		List<StoryEntity> unassignedStories = storyRepo.fetchUnassingedStories(projectId);
-		
+
 		if(stories == null)
 		{
 			stories = new ArrayList<>();
 		}
-		
+
 		if(unassignedStories != null)
 		{
 			stories.addAll(unassignedStories);
@@ -224,6 +226,38 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			storiesmodel.add(storyandTask);
 		}
 		return storiesmodel;
+	}
+
+	/**
+	 * Save bulk of stories.
+	 *
+	 * @param storieBulkModels the storie bulk models
+	 * @param projectId the project id
+	 * @param parentId the parent id
+	 */
+	public void saveListOfStories(List<StoryBulkModel> storieBulkModels, Long projectId, Long parentId)
+	{
+		StoryEntity storyEntity = null;
+
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			for(StoryBulkModel stryBulkModel : storieBulkModels)
+			{
+				stryBulkModel.setProjectId(projectId);
+				System.out.println(parentId);
+				stryBulkModel.setParentStoryId(parentId);
+				storyEntity = super.save(stryBulkModel);
+
+				if(stryBulkModel.getSubstories() != null)
+				{
+					saveListOfStories(stryBulkModel.getSubstories(), projectId, storyEntity.getId());
+				}
+			}
+			transaction.commit();
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred while saving  story - ", ex);
+		}
 	}
 
 	/**

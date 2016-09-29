@@ -1,5 +1,6 @@
 package com.agilepro.commons.models.project;
 
+import java.util.Date;
 import java.util.List;
 
 import com.agilepro.commons.StoryStatus;
@@ -16,6 +17,7 @@ import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class StoryModel.
  * 
@@ -55,7 +57,7 @@ public class StoryModel extends AbstractExtendableModel
 	private String description;
 
 	/**
-	 *  The story points.
+	 * The story points.
 	 **/
 	private Integer storyPoints;
 
@@ -105,9 +107,13 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * The photo.
 	 */
-	//@NonDisplayable
+	@NonDisplayable
 	private ImageInfo photo;
-	
+
+	/**
+	 * The time taken for story.
+	 **/
+	private Date timeTakenForStory;
 
 	/**
 	 * Instantiates a new back log model.
@@ -118,11 +124,16 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Instantiates a new story model.
 	 *
-	 * @param title            the title
-	 * @param storyPoints the story points
-	 * @param description            the description
-	 * @param parentStoryId            the parent story id
-	 * @param priority            the priority
+	 * @param title
+	 *            the title
+	 * @param storyPoints
+	 *            the story points
+	 * @param description
+	 *            the description
+	 * @param parentStoryId
+	 *            the parent story id
+	 * @param priority
+	 *            the priority
 	 */
 	public StoryModel(String title, Integer storyPoints, String description, Long parentStoryId, Long priority)
 	{
@@ -230,7 +241,8 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the story points.
 	 *
-	 * @param storyPoints the new story points
+	 * @param storyPoints
+	 *            the new story points
 	 */
 	public void setStoryPoints(Integer storyPoints)
 	{
@@ -403,5 +415,25 @@ public class StoryModel extends AbstractExtendableModel
 	public void setPhoto(ImageInfo photo)
 	{
 		this.photo = photo;
+	}
+
+	/**
+	 * Gets the time taken for story.
+	 *
+	 * @return the time taken for story
+	 */
+	public Date getTimeTakenForStory()
+	{
+		return timeTakenForStory;
+	}
+
+	/**
+	 * Sets the time taken for story.
+	 *
+	 * @param timeTakenForStory the new time taken for story
+	 */
+	public void setTimeTakenForStory(Date timeTakenForStory)
+	{
+		this.timeTakenForStory = timeTakenForStory;
 	}
 }

@@ -1,5 +1,6 @@
 package com.agilepro.persistence.entity.project;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,12 +9,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.agilepro.commons.StoryStatus;
+import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.utils.annotations.PropertyMapping;
+import com.yukthi.utils.annotations.PropertyMappings;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
@@ -86,7 +89,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 */
 	@Column(name = "PROJECT_ID", nullable = false)
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "projectId", subproperty = "id")
+	@PropertyMappings({ @PropertyMapping(type = StoryModel.class, from = "projectId", subproperty = "id"), @PropertyMapping(type = StoryBulkModel.class, from = "projectId", subproperty = "id") })
 	private ProjectEntity projectEntity;
 
 	/**
@@ -94,6 +97,12 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 **/
 	@OneToMany(mappedBy = "story")
 	private List<TaskEntity> tasks;
+
+	/**
+	 * The time taken for story.
+	 */
+	@Column(name = "TIME_TAKEN_FOR_A_STORY")
+	private Date timeTakenForStory;
 
 	/**
 	 * Instantiates a new back log entity.
@@ -104,10 +113,14 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * Instantiates a new back log entity.
 	 *
-	 * @param title            the title
-	 * @param storyPoints the story points
-	 * @param description            the description
-	 * @param status            the status
+	 * @param title
+	 *            the title
+	 * @param storyPoints
+	 *            the story points
+	 * @param description
+	 *            the description
+	 * @param status
+	 *            the status
 	 */
 	public StoryEntity(String title, Integer storyPoints, String description, StoryStatus status)
 	{
@@ -172,7 +185,8 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the story points.
 	 *
-	 * @param storyPoints the new story points
+	 * @param storyPoints
+	 *            the new story points
 	 */
 	public void setStoryPoints(Integer storyPoints)
 	{
@@ -297,7 +311,8 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the project entity.
 	 *
-	 * @param projectEntity the new project entity
+	 * @param projectEntity
+	 *            the new project entity
 	 */
 	public void setProjectEntity(ProjectEntity projectEntity)
 	{
@@ -323,5 +338,25 @@ public class StoryEntity extends WebutilsExtendableEntity
 	public void setTasks(List<TaskEntity> tasks)
 	{
 		this.tasks = tasks;
+	}
+
+	/**
+	 * Gets the time taken for story.
+	 *
+	 * @return the time taken for story
+	 */
+	public Date getTimeTakenForStory()
+	{
+		return timeTakenForStory;
+	}
+
+	/**
+	 * Sets the time taken for story.
+	 *
+	 * @param timeTakenForStory the new time taken for story
+	 */
+	public void setTimeTakenForStory(Date timeTakenForStory)
+	{
+		this.timeTakenForStory = timeTakenForStory;
 	}
 }
