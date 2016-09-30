@@ -11,13 +11,18 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	
 	$scope.projectsForRelease = [];
 	
-	$scope.selectedRelease = "--Select Release--";
-	
+	// init method
 	$scope.fetchAllRelease = function(){
 		
 		actionHelper.invokeAction("release.readAll", null, null, function(readResponse, respConfig){
 			
 			$scope.releases = readResponse.model;
+			
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 			
 			var index;
 			
@@ -25,65 +30,39 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			{
 				$scope.rlseIdObjMap[$scope.releases[index].id] = $scope.releases[index];
 			}
+			
 		});
-		
-		/*actionHelper.invokeAction("project.readAll", null, null, function(readResponse, respConfig){
-			
-			$scope.projectsForRelease = readResponse.model;
-			
-			var index;
-			
-			for(index in $scope.projectsForRelease)
-			{
-				$scope.prjctIdObjMap[$scope.projectsForRelease[index].id] = $scope.projectsForRelease[index];
-			}
-			
-		});*/
 		
 	};
 	
 
+	readAlPrjctAndReleaseCallBack =  function(readResponse, respConfig){
+		
+		$scope.projectReleased = readResponse.basicProjectInfos;
+		$scope.projectsForRelease = readResponse.projectForRelease;
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
+	}
+	
 	// On change
 	$scope.onReleaseChange  = function(releaseId){
 		
 		console.log("releaseId = " + releaseId);
 		
-		$scope.selectedRelease = $scope.rlseIdObjMap[releaseId].name;
+		$scope.selectedRelease = $scope.rlseIdObjMap[releaseId];
+		
+		console.log($scope.rlseIdObjMap[releaseId]);
 		
 		$scope.slectedReleaseId = $scope.rlseIdObjMap[releaseId].id;
 		
-		$scope.projectReleaseToDisplay = "Project release with " + $scope.selectedRelease;
+		$scope.projectReleaseToDisplay = "Project release with " + $scope.selectedRelease.name;
 		
-		actionHelper.invokeAction("projectRelease.readAll", null, {"releaseId" : $scope.slectedReleaseId},
-									function(readResponse, respConfig){
-									$scope.projectReleased = readResponse.model;
-									}
-								, true);
-		
-		actionHelper.invokeAction("project.readAll", null, null, function(readResponse, respConfig){
-			
-			var index;
-			var tempProjectArr = readResponse.model;
-
-			for(index in tempProjectArr)
-			{
-				if($scope.projectReleased.indexOf(tempProjectArr[index]) == -1)
-				{
-					$scope.projectsForRelease.push(tempProjectArr[index]);
-					
-					console.log("pushed to for release");
-				}
-			}
-			
-			//$scope.projectsForRelease = readResponse.model;
-			
-			for(index in $scope.projectsForRelease)
-			{
-				$scope.prjctIdObjMap[$scope.projectsForRelease[index].id] = $scope.projectsForRelease[index];
-			}
-			
-		});
-		
+		actionHelper.invokeAction("projectRelease.readAllProjectAndProjectRelease", null, {"releaseId" : $scope.slectedReleaseId}, 
+				readAlPrjctAndReleaseCallBack, true);
 	};
 	
 	

@@ -32,7 +32,7 @@ public class ConversationTitleEntity extends WebutilsEntity
 	@Column(name = "STORY_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = ConversationTitleModel.class, from = "storyId", subproperty = "id")
-	private StoryEntity storyEntity;
+	private StoryEntity story;
 
 	/**
 	 * The user entity.
@@ -40,7 +40,7 @@ public class ConversationTitleEntity extends WebutilsEntity
 	@Column(name = "OWNER_ID")
 	@ManyToOne
 	@PropertyMapping(type = ConversationTitleModel.class, from = "ownerId", subproperty = "id")
-	private UserEntity userEntity;
+	private UserEntity user;
 
 	/**
 	 * Gets the name.
@@ -64,44 +64,44 @@ public class ConversationTitleEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the story entity.
+	 * Gets the story.
 	 *
-	 * @return the story entity
+	 * @return the story
 	 */
-	public StoryEntity getStoryEntity()
+	public StoryEntity getStory()
 	{
-		return storyEntity;
+		return story;
 	}
 
 	/**
-	 * Sets the story entity.
+	 * Sets the story.
 	 *
-	 * @param storyEntity
-	 *            the new story entity
+	 * @param story
+	 *            the new story
 	 */
-	public void setStoryEntity(StoryEntity storyEntity)
+	public void setStory(StoryEntity story)
 	{
-		this.storyEntity = storyEntity;
+		this.story = story;
 	}
 
 	/**
-	 * Gets the user entity.
+	 * Gets the user.
 	 *
-	 * @return the user entity
+	 * @return the user
 	 */
-	public UserEntity getUserEntity()
+	public UserEntity getUser()
 	{
-		return userEntity;
+		return user;
 	}
 
 	/**
-	 * Sets the user entity.
+	 * Sets the user.
 	 *
-	 * @param userEntity
-	 *            the new user entity
+	 * @param user
+	 *            the new user
 	 */
-	public void setUserEntity(UserEntity userEntity)
+	public void setUser(UserEntity user)
 	{
-		this.userEntity = userEntity;
+		this.user = user;
 	}
 }

@@ -20,5 +20,5 @@ public interface IStoryAttachmentRepository extends IWebutilsRepository<StoryAtt
 	 *            the story id
 	 * @return the list
 	 */
-	public List<StoryAttachmentEntity> fetchAttachmentByStoryId(@Condition(value = "storyEntity.id") Long storyId);
+	public List<StoryAttachmentEntity> fetchAttachmentByStoryId(@Condition(value = "story.id") Long storyId);
 }

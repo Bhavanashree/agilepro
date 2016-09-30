@@ -22,7 +22,7 @@ public interface IConversationMessageRepository extends IWebutilsRepository<Conv
 	 * @return the list
 	 */
 	@RestrictBySpace
-	public List<ConversationMessageEntity> fetchConversationMessageByTitleId(@Condition(value = "conversationTitleEntity.id") Long conversationTitleId);
+	public List<ConversationMessageEntity> fetchConversationMessageByTitleId(@Condition(value = "conversationTitle.id") Long conversationTitleId);
 
 	/**
 	 * Delete all.

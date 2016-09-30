@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.project;
 
+import java.util.Map;
+
 import com.yukthi.persistence.repository.annotations.Field;
 
 public class BasicProjectInfo
@@ -10,7 +12,7 @@ public class BasicProjectInfo
 	
 	@Field("project.name")
 	private String name;
-
+	
 	public Long getId()
 	{
 		return id;

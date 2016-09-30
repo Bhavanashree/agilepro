@@ -31,21 +31,43 @@ public class ProjectReleaseEntity extends WebutilsEntity
 	@Column(name = "PROJECT_ID", nullable = false)
 	private ProjectEntity project;
 
+	/**
+	 * Gets the release.
+	 *
+	 * @return the release
+	 */
 	public ReleaseEntity getRelease()
 	{
 		return release;
 	}
 
+	/**
+	 * Sets the release.
+	 *
+	 * @param release
+	 *            the new release
+	 */
 	public void setRelease(ReleaseEntity release)
 	{
 		this.release = release;
 	}
 
+	/**
+	 * Gets the project.
+	 *
+	 * @return the project
+	 */
 	public ProjectEntity getProject()
 	{
 		return project;
 	}
 
+	/**
+	 * Sets the project.
+	 *
+	 * @param project
+	 *            the new project
+	 */
 	public void setProject(ProjectEntity project)
 	{
 		this.project = project;

@@ -23,7 +23,7 @@ public class ConversationMessageEntity extends WebutilsEntity
 	@Column(name = "CONVERSATION_TITLE_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = ConversationMessageModel.class, from = "conversationTitleId", subproperty = "id")
-	private ConversationTitleEntity conversationTitleEntity;
+	private ConversationTitleEntity conversationTitle;
 
 	/**
 	 * The user entity.
@@ -88,24 +88,24 @@ public class ConversationMessageEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the conversation title entity.
+	 * Gets the conversation title.
 	 *
-	 * @return the conversation title entity
+	 * @return the conversation title
 	 */
-	public ConversationTitleEntity getConversationTitleEntity()
+	public ConversationTitleEntity getConversationTitle()
 	{
-		return conversationTitleEntity;
+		return conversationTitle;
 	}
 
 	/**
-	 * Sets the conversation title entity.
+	 * Sets the conversation title.
 	 *
-	 * @param conversationTitleEntity
-	 *            the new conversation title entity
+	 * @param conversationTitle
+	 *            the new conversation title
 	 */
-	public void setConversationTitleEntity(ConversationTitleEntity conversationTitleEntity)
+	public void setConversationTitle(ConversationTitleEntity conversationTitle)
 	{
-		this.conversationTitleEntity = conversationTitleEntity;
+		this.conversationTitle = conversationTitle;
 	}
 
 	/**

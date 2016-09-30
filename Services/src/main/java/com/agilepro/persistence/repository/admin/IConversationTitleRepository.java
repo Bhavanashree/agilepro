@@ -22,7 +22,7 @@ public interface IConversationTitleRepository extends IWebutilsRepository<Conver
 	 * @return the list
 	 */
 	@RestrictBySpace
-	public List<ConversationTitleEntity> fetchTitleByStroyId(@Condition(value = "storyEntity.id") Long storyId);
+	public List<ConversationTitleEntity> fetchTitleByStroyId(@Condition(value = "story.id") Long storyId);
 
 	/**
 	 * Delete all.
