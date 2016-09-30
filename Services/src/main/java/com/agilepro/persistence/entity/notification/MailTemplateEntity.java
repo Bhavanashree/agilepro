@@ -1,12 +1,8 @@
 package com.agilepro.persistence.entity.notification;
 
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.agilepro.commons.models.notification.MailTemplateModel;
-import com.yukthi.utils.annotations.PropertyMapping;
-import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
@@ -17,45 +13,29 @@ import com.yukthi.webutils.repository.WebutilsEntity;
 @Table(name = "MAIL_TEMPLATE")
 public class MailTemplateEntity extends WebutilsEntity
 {
-	/** 
-	 * The user entity. 
-	 **/
-	@Column(name = "USER_ID", nullable = false)
-	@ManyToOne
-	@PropertyMapping(type = MailTemplateModel.class, from = "userId", subproperty = "id")
-	private UserEntity userEntity;
-	
-	/** 
-	 * The subject. 
+	/**
+	 * The subject.
 	 **/
 	@Column(name = "SUBJECT", length = 200)
 	private String subject;
-	
-	/** 
-	 * The body. 
+
+	/**
+	 * The body.
 	 **/
 	@Column(name = "BODY", length = 2000)
 	private String body;
 
 	/**
-	 * Gets the user entity.
-	 *
-	 * @return the user entity
-	 */
-	public UserEntity getUserEntity()
-	{
-		return userEntity;
-	}
+	 * The cc.
+	 **/
+	@Column(name = "CC_MAIL")
+	private String ccSend;
 
 	/**
-	 * Sets the user entity.
-	 *
-	 * @param userEntity the new user entity
-	 */
-	public void setUserEntity(UserEntity userEntity)
-	{
-		this.userEntity = userEntity;
-	}
+	 * The To.
+	 **/
+	@Column(name = "TO_SEND")
+	private String toSend;
 
 	/**
 	 * Gets the subject.
@@ -70,7 +50,8 @@ public class MailTemplateEntity extends WebutilsEntity
 	/**
 	 * Sets the subject.
 	 *
-	 * @param subject the new subject
+	 * @param subject
+	 *            the new subject
 	 */
 	public void setSubject(String subject)
 	{
@@ -90,10 +71,51 @@ public class MailTemplateEntity extends WebutilsEntity
 	/**
 	 * Sets the body.
 	 *
-	 * @param body the new body
+	 * @param body
+	 *            the new body
 	 */
 	public void setBody(String body)
 	{
 		this.body = body;
+	}
+
+	/**
+	 * Gets the cc send.
+	 *
+	 * @return the cc send
+	 */
+	public String getCcSend()
+	{
+		return ccSend;
+	}
+
+	/**
+	 * Sets the cc send.
+	 *
+	 * @param ccSend the new cc send
+	 */
+	public void setCcSend(String ccSend)
+	{
+		this.ccSend = ccSend;
+	}
+
+	/**
+	 * Gets the to send.
+	 *
+	 * @return the to send
+	 */
+	public String getToSend()
+	{
+		return toSend;
+	}
+
+	/**
+	 * Sets the to send.
+	 *
+	 * @param toSend the new to send
+	 */
+	public void setToSend(String toSend)
+	{
+		this.toSend = toSend;
 	}
 }

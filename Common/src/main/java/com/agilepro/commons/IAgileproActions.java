@@ -354,6 +354,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix sprint.
 	 **/
 	public String ACTION_PREFIX_SPRINT = "sprint";
+	
+	/** The action prefix mail template definition. */
+	public String ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION = "mailTemplteDefinition";
 
 	/**
 	 * The param id.
@@ -1085,4 +1088,23 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action sprint delete all.
 	 **/
 	public String ACTION_PRIORITY_DELETEALL = ACTION_PREFIX_PRIORITY + DOT + ACTION_TYPE_DELETE;
+	/**
+	 * The action for mailtemplatedefinitions.
+	 */
+	public String ACTION_MAIL_TEMPLATE_DEFINITION_SAVE = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_SAVE;
+	
+	/**
+	 *  The action mail template definition read.
+	 **/
+	public String ACTION_MAIL_TEMPLATE_DEFINITION_READ = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_READ;
+	
+	/** 
+	 * The action mail template definition update.
+	 **/
+	public String ACTION_MAIL_TEMPLATE_DEFINITION_UPDATE = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_UPDATE;
+	
+	/** 
+	 *The action mail template definition delete.
+	 **/
+	public String ACTION_MAIL_TEMPLATE_DEFINITION_DELETE = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_DELETE;
 }
