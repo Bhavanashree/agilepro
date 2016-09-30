@@ -1,5 +1,6 @@
 <div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllRelease()">
 
+	<!-- Release select drop down -->
 	<div style="background: white; padding-left: 0.5em; padding-right: 0.5em; padding-top: 5px; border-top-left-radius: 0.5em;">
 		<div class="input-group">
 			<table>
@@ -19,54 +20,86 @@
 					</td>
 				</tr>
 			</table>
-			<!-- btn-group -->
 		</div>
-		<!-- input-group  -->
 	</div> 
   
 	<div class="row" style="margin-top: 2em;">
 	
-		<div class="col-md-5 col-xs-5" style="margin-left: 5em; border: solid; border-width: 0.2em; 
-		box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 38em;">
+		<div class="col-md-5 col-xs-5" style="margin-left: 4em; border: solid; border-width: 0.2em; 
+		box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 35em;">
 			
-			<table width="100%" style="margin-top: 1em;">
-					<tr style="height: 2em; text-align:center;">
-						<td width="50%"><input type="text" placeholder="Project Name" class="form-control" ng-model="searchProject"/></td>
-						<td width="50%"><input type="text" placeholder="Realse Name" class="form-control"/></td>
-					</tr>
-					<tr>
-						<td>
-							<div style="border: solid; border-width: 0.2em; border-color: lightblue;
-							border-radius: 10px; height: 30em; margin: 1em;">
-								<table>
-									<tr ng-repeat="project in projectsForRelease | filter:searchProject">
-										<td >
-											<div id="{{project.id}}" style="background-color: yellow; width: 100%; height: 4em; margin: 1em; padding: 1em;
-											text-align: center; cursor:-moz-grabbing;" draggable="true" yk-on-drag="dragProjects(event)">
-												{{project.name}}
-											</div>
-										</td>
-									</tr>
-								</table>
-								
+		<!-- 	<div style="position: absoulte; margin-top: -2em;">Project</div> -->
+			
+			<div class="row">
+			
+				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="border: solid; border-width: 0.2em; 
+				border-color: lightblue; border-radius: 5px; height: 32em; margin: 1em;">
+					
+					<!-- Search Unreleased Project Name -->
+					<form>
+						<div class="row">
+							<div class="input-group">
+								<input type="text" ng-model="searchUnreleaseProject" class="form-control" placeholder="Unrelease Project" style="min-width: auto; max-width: 10em; border: none;">
+								<span class="input-group-addon dropdown-toggle" style="border: none;" data-toggle="dropdown">
+									<a href=""><i class="fa fa-caret-down" aria-hidden="true" style="font-size:1.3em;"></i></a>
+								</span>
+								<ul class="dropdown-menu" role="menu" style="margin-left: 5.5em; max-width: 7em; min-width: 7em;">
+							      <li><a href="" ng-click="checkAllUnreleasedProject()">Select All</a></li>
+							      <li><a href="" ng-click="unCheckAllUnreleasedProject()">Reset</a></li>
+							    </ul>
 							</div>
-						</td>
-						<td>
-							<div style="border: solid; border-width: 0.2em; border-color: lightblue; border-radius: 10px; height: 30em; 
-							margin: 1em;" yk-on-drop="dropReleases(event)">
-								<div ng-repeat="release in projectReleased" style="background-color: yellow; height: 5em; width: 14em;
-									padding: 1em; margin: 1em;">
-									{{release.name}}
-								</div>
+						</div>
+					</form>	
+				
+				<div class="row" style="border-bottom: 2px solid #87CEEB;"></div>
+				
+				<!-- Unreleased Project box -->
+				<div class="row" style="text-align: center; height:32em; overflow-y:auto;">
+					<div ng-repeat="project in projectsForRelease | filter:searchUnreleaseProject">
+						<div id="{{project.id}}" style="background-color: yellow; width: 10em; margin: 1em; height: 3em; padding-top: 0.5em;
+						cursor:-moz-grabbing;" draggable="true" yk-on-drag="dragProjects(event)" ng-click="checkBoxProject(project.id)">
+							<table>
+								<tr>
+									<td style="padding-left: 0.9em;"><i class="fa fa-check" aria-hidden="true" ng-show="project.check"></i></td>
+									<td style="padding-left: 0.5em;">{{project.name}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="border: solid; border-width: 0.2em; 
+				border-color: lightblue; border-radius: 5px; height: 32em; margin: 1em;" yk-on-drop="dropReleases(event)">
+					
+					<!-- Search Released Project Name -->
+					<form>
+						<div class="row">
+							<div class="input-group">
+								<input type="text" ng-model="searchReleaseProject" class="form-control" placeholder="Released Project" style="min-width: auto; max-width: 15em; border: none;">
 							</div>
-						</td>
-					</tr>
-			</table>
+						</div>
+					</form>	
+				
+				<div class="row" style="border-bottom: 2px solid #87CEEB;"></div>
+				
+				<!-- Released Project box -->
+				<div class="row" style="height:32em; overflow-y:auto;">
+					<div ng-repeat="release in projectReleased | filter:searchReleaseProject">
+						<div id="{{project.id}}" style="background-color: yellow; width: 10em; height: 3em; margin: 1em; padding-top: 0.5em;
+						padding-left: 0.9em; float: left;">
+							{{release.name}}
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>	
 			
 		</div>
 		
 		<div class="col-md-5 col-xs-5" style="margin-left: 5em; border: solid; border-width: 0.2em; 
-		box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 38em;">
+		box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 35em;">
 			
 			<table width="100%">
 					<tr style="height: 2em; text-align:center">

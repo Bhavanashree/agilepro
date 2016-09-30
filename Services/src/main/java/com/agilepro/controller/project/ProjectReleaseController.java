@@ -40,7 +40,7 @@ public class ProjectReleaseController extends BaseController
 	/**
 	 * Save.
 	 *
-	 * @param alreadyReleasedModel
+	 * @param projectReleasedModel
 	 *            the already released model
 	 * @return the basic save response
 	 */
@@ -48,9 +48,9 @@ public class ProjectReleaseController extends BaseController
 	@Authorization(roles = { UserRole.PROJECT_REALSE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid ProjectReleaseModel alreadyReleasedModel)
+	public BasicSaveResponse save(@RequestBody @Valid ProjectReleaseModel projectReleasedModel)
 	{
-		return new BasicSaveResponse(projectReleaseService.save(alreadyReleasedModel).getId());
+		return new BasicSaveResponse(projectReleaseService.save(projectReleasedModel).getId());
 	}
 
 	/**

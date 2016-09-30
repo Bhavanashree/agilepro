@@ -11,12 +11,25 @@ import com.yukthi.webutils.common.models.BasicReadResponse;
  * 
  * @author Pritam
  */
+@SuppressWarnings("rawtypes")
 public class ProjectReleaseReadResponse extends BasicReadResponse
 {
+	/** 
+	 * The basic project infos. 
+	 **/
 	private List<BasicProjectInfo> basicProjectInfos;
-	
+
+	/** 
+	 * The project for release. 
+	 **/
 	private List<ProjectModel> projectForRelease;
 
+	/**
+	 * Instantiates a new project release read response.
+	 *
+	 * @param basicProjectInfos the basic project infos
+	 * @param projectForRelease the project for release
+	 */
 	public ProjectReleaseReadResponse(List<BasicProjectInfo> basicProjectInfos, List<ProjectModel> projectForRelease)
 	{
 		super();

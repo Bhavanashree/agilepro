@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.customer;
 
+import java.util.List;
+
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -22,6 +24,8 @@ public class ProjectReleaseModel
 	 * The project id.
 	 **/
 	private Long projectId;
+	
+	private List<Long> projectIds; 
 
 	/**
 	 * The release id.
@@ -34,6 +38,19 @@ public class ProjectReleaseModel
 	 **/
 	@NonDisplayable
 	private Integer version;
+
+	
+	public ProjectReleaseModel()
+	{
+		super();
+	}
+
+	public ProjectReleaseModel(Long projectId, Long releaseId)
+	{
+		super();
+		this.projectId = projectId;
+		this.releaseId = releaseId;
+	}
 
 	/**
 	 * Gets the id.
@@ -117,5 +134,15 @@ public class ProjectReleaseModel
 	public void setReleaseId(Long releaseId)
 	{
 		this.releaseId = releaseId;
+	}
+
+	public List<Long> getProjectIds()
+	{
+		return projectIds;
+	}
+
+	public void setProjectIds(List<Long> projectIds)
+	{
+		this.projectIds = projectIds;
 	}
 }

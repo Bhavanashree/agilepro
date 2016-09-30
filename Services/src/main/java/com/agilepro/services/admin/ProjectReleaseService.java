@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.customer.ProjectModel;
+import com.agilepro.commons.models.customer.ProjectReleaseModel;
 import com.agilepro.commons.models.project.BasicProjectInfo;
 import com.agilepro.controller.response.ProjectReleaseReadResponse;
 import com.agilepro.persistence.entity.admin.ProjectReleaseEntity;
@@ -28,9 +29,9 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	 * The iproject release repository.
 	 **/
 	private IProjectReleaseRepository iprojectReleaseRepository;
-	
-	/** 
-	 * The project service. 
+
+	/**
+	 * The project service.
 	 **/
 	@Autowired
 	private ProjectService projectService;
@@ -52,6 +53,27 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 		iprojectReleaseRepository = repositoryFactory.getRepository(IProjectReleaseRepository.class);
 	}
 
+	public ProjectReleaseEntity save(ProjectReleaseModel projectReleasedModel)
+	{
+		ProjectReleaseEntity projectReleaseEntity = null;
+
+		List<Long> projectIds = projectReleasedModel.getProjectIds();
+		
+		if(projectIds == null)
+		{
+			return super.save(projectReleasedModel);
+		}
+		else
+		{
+			for(Long prjId : projectIds)
+			{
+				projectReleaseEntity = super.save(new ProjectReleaseModel(prjId, projectReleasedModel.getReleaseId()));
+			}
+		}
+
+		return projectReleaseEntity;
+	}
+
 	/**
 	 * Fetch all project release.
 	 *
@@ -62,20 +84,15 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	public ProjectReleaseReadResponse fetchAllProjectRelease(Long releaseId)
 	{
 		List<BasicProjectInfo> basicProjectInfos = iprojectReleaseRepository.fetchProjectsByRelease(releaseId);
-		
-		List<ProjectReleaseEntity>  projectReleaseEntities = iprojectReleaseRepository.fetchAllProjectRelease();
-		
+
+		List<ProjectReleaseEntity> projectReleaseEntities = iprojectReleaseRepository.fetchAllProjectRelease();
+
+		Set<Long> projectIds = projectReleaseEntities.stream().map(entity -> entity.getProject().getId()).collect(Collectors.toSet());
+
 		List<ProjectModel> projectModels = projectService.fetchProjects();
-		
-		if(basicProjectInfos.isEmpty())
-		{
-			return new ProjectReleaseReadResponse(basicProjectInfos, projectModels);
-		}
-		
-		Set<Long> projectIds =  projectReleaseEntities.stream().map(entity -> entity.getProject().getId()).collect(Collectors.toSet());
-		
+
 		List<ProjectModel> filteredModels = projectModels.stream().filter(model -> !projectIds.contains(model.getId())).collect(Collectors.toList());
-		
+
 		return new ProjectReleaseReadResponse(basicProjectInfos, filteredModels);
 	}
 }
