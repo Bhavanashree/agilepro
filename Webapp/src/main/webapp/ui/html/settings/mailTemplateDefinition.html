@@ -1,0 +1,100 @@
+<div class="container-fluid" ng-controller="mailTemplteDefinitionController" >
+	
+	<div style="margin-right: -0.5em; background: white; margin-top: 2px; margin-bottom :4px;padding-left: 0.5em; padding-right: 0.5em; padding-top:  5px; border-top-left-radius: 0.5em;" ng-show="show" ng-init="listOfMailDefin()">
+		<div class="input-group">
+			<table>
+				<tr>
+					<td>
+						<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" value="{{selectedmailObj.name}}">
+					</td>
+					<td>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									MailTemplateDefinition <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+							   <li ng-repeat= "obj in mailDefinitionTemplates" ><a ng-click="setMailTemDefId(obj.id)">{{obj.name}}</a> </li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+			</table>	
+		</div>
+	</div>
+		
+	<div class="row" style="">
+		<div style = "height: 100%; width:75%; border:1px solid black; float:left;" >
+			<table style=" width: 800px;">
+				<tr>
+					<td>
+					
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="padding-top: 1em; padding-left: 5px; padding-bottom:1em;padding-right: 4px;">
+					Sub:<input type="text" style="padding: 2px;width: 54em;border: 2px solid grey;" ng-model="mailTempSub" />
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<div class="panel-footer">
+								<textarea rows="2" cols="2" id="messageId" ng-model="mailTempBody" ng-keyup="onType($event)" class="form-control" 
+									placeholder="Type your message here" style="height: 15em; resize: none;"></textarea>
+								<button ng-click="submitContent()">Send</button>						
+						</div>
+					</td>
+				</tr>
+				<!-- To-->
+				<tr>
+					<td>
+						<div  style="float: left;height: 100px;overflow:scroll;  width: 500px; ">
+							To:<br>
+							<input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />projectManager<br>
+							   <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>Manager<br>
+							   <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>team<br>
+								  <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>Manager<br>
+							   <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>team<br>
+								
+						
+						</div>
+					
+						<div style="float:left">
+						cc:<br>
+							<input type="checkbox"  style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />me<br>
+							<input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />projectManager<br>
+							<input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>Manager<br>
+								   
+						</div>
+					</td>
+					
+					<td>
+					
+					</td>
+
+				</tr>
+					<!-- Footer -->
+				<tr>
+					<td>
+						<div style="padding: 0.2em 1em;" class="modal-footer">
+							<button ng-click="saveMailSubDesc()" class="btn btn-primary action-button ng-binding" type="button">Save</button>
+							<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Reset</button>
+						</div>
+						
+					</td>
+				</tr>
+			</table>
+		</div>	
+			
+		
+		<div style = "height:100%; width:25%;  float:right; background-color:#f3efce">
+			<div >
+				<input type="text" class="form-control" aria-label="..." style="width: 250px; height: 200px; padding: 20px; margin: 10px; border-radius: 5px;" readonly="readonly" value="{{selectedmailObj.description}}">
+			</div>
+			<div>
+				<input type="text" class="form-control" aria-label="..." style="width: 250px; height: 250px;scroll:auto; padding: 20px; margin: 10px; border-radius: 5px;" readonly="readonly" value="{{selectedmailObj.contextAttribute}}">
+			</div>
+		</div>
+	</div>
+</div>
