@@ -63,6 +63,8 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	{
 		List<BasicProjectInfo> basicProjectInfos = iprojectReleaseRepository.fetchProjectsByRelease(releaseId);
 		
+		List<ProjectReleaseEntity>  projectReleaseEntities = iprojectReleaseRepository.fetchAllProjectRelease();
+		
 		List<ProjectModel> projectModels = projectService.fetchProjects();
 		
 		if(basicProjectInfos.isEmpty())
@@ -70,10 +72,10 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 			return new ProjectReleaseReadResponse(basicProjectInfos, projectModels);
 		}
 		
-		Set<Long> projectIds =  basicProjectInfos.stream().map(basicInfo -> basicInfo.getId()).collect(Collectors.toSet());
+		Set<Long> projectIds =  projectReleaseEntities.stream().map(entity -> entity.getProject().getId()).collect(Collectors.toSet());
 		
-		List<ProjectModel> flteredModels = projectModels.stream().filter(model -> !projectIds.contains(model.getId())).collect(Collectors.toList());
+		List<ProjectModel> filteredModels = projectModels.stream().filter(model -> !projectIds.contains(model.getId())).collect(Collectors.toList());
 		
-		return new ProjectReleaseReadResponse(basicProjectInfos, flteredModels);
+		return new ProjectReleaseReadResponse(basicProjectInfos, filteredModels);
 	}
 }
