@@ -19,6 +19,7 @@ public interface IProjectReleaseRepository extends IWebutilsRepository<ProjectRe
 	@SearchResult
 	public List<BasicProjectInfo> fetchProjectsByRelease(@Condition(value = "release.id") Long releaseId);
 	
+	
 	@RestrictBySpace
 	public List<ProjectReleaseEntity> fetchAllProjectRelease();
 }
