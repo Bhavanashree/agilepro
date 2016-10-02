@@ -190,6 +190,11 @@
 						</div>
 					</div>
 				</tab>
+				
+				<tab id="storyNoteId" label="Notes" ng-show="conversationTab">
+					<div ng-include="'/ui/html/story/story-note.html'" ng-controller="storyNoteController"></div>
+				</tab>
+				
 			</yk-tabs>
 		</content>
 		<footer>

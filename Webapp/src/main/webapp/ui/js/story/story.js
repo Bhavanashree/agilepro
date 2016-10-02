@@ -33,11 +33,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				$scope.conversationTab = true;
 				$scope.attachmentTab = true;
 				
+				// logic for adjust height as extension value can be added
 				var modelFormElem = angular.element('#modelFormId'); 
 				
 				var panelBodyElem = angular.element('#panelBodyId');
 				
-				var conversationHeight = modelFormElem.height() - 100;
+				var conversationHeight = modelFormElem.height();
 
 				panelBodyElem.css('height', conversationHeight + 'px');
 				
