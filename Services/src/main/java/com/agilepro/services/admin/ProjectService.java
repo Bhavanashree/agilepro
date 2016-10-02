@@ -55,16 +55,13 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 	 *
 	 * @return the list
 	 */
-	public List<ProjectModel> fetchProjects()
+	public List<ProjectModel> fetchAllProjects()
 	{
-		List<ProjectEntity> projectEntities = iprojectRepository.fetchProjects();
+		List<ProjectEntity> projectEntities = iprojectRepository.fetchAllProjects();
 		
-		List<ProjectModel> projectModels = new ArrayList<>();
+		List<ProjectModel> projectModels = new ArrayList<>(projectEntities.size());
 		
-		for(ProjectEntity pentity : projectEntities)
-		{
-			projectModels.add(super.toModel(pentity, ProjectModel.class));
-		}
+		projectEntities.forEach(entity -> projectModels.add(super.toModel(entity, ProjectModel.class)));
 		
 		return projectModels;
 	}

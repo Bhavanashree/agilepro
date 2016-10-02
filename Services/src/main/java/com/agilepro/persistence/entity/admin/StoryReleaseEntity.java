@@ -22,7 +22,7 @@ public class StoryReleaseEntity extends WebutilsEntity
 	 * The release entity.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = ProjectReleaseModel.class, from = "releaseId", subproperty = "id")
+	@PropertyMapping(type = StoryReleaseModel.class, from = "releaseId", subproperty = "id")
 	@Column(name = "RELEASE_ID", nullable = false)
 	private ReleaseEntity release;
 

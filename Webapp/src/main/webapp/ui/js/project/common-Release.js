@@ -7,13 +7,28 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		var index;
 		var prjctObj;
 		
-		for(index in $scope.projectsForRelease)
+		if($scope.searchUnreleaseProject)
+		{
+			console.log("custom serach " + $scope.searchUnreleaseProject);
+			
+			for(index in $scope.projectsForRelease)
+			{
+				prjctObj = $scope.projectsForRelease[index];
+				
+				if(prjctObj.name.includes($scope.searchUnreleaseProject))
+				{
+					console.log(prjctObj.name);
+				}
+			}
+		}
+		
+		/*for(index in $scope.projectsForRelease)
 		{
 			prjctObj = $scope.projectsForRelease[index];
 			
 			prjctObj.check = true;
 			$scope.multipleUnreleasedSelectedProjectsId.push(prjctObj.id);
-		}
+		}*/
 	};
 	
 	$scope.unCheckAllUnreleasedProject = function(){
@@ -32,7 +47,8 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	 */
 	$scope.checkBoxProject = function(projectId){
 		
-		$scope.unreleasedPrjctIdObjMap[projectId].check = $scope.unreleasedPrjctIdObjMap[projectId].check ? false : true;
+		$scope.unreleasedPrjctIdObjMap[projectId].check = !$scope.unreleasedPrjctIdObjMap[projectId].check;
+		
 		
 		if($scope.unreleasedPrjctIdObjMap[projectId].check)
 		{
@@ -73,9 +89,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 
 	readAlPrjctAndReleaseCallBack =  function(readResponse, respConfig){
 		
-		$scope.projectReleased = [];
-		$scope.projectsForRelease = [];
-		
 		$scope.projectReleased = readResponse.basicProjectInfos;
 		$scope.projectsForRelease = readResponse.projectForRelease;
 		
@@ -91,12 +104,9 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			$scope.unreleasedPrjctIdObjMap[obj.id] = obj;
 		}
 		
-		try
-		{
-			$scope.$apply();
-		}catch(ex)
-		{}
-	}
+		console.log("broadcast release");
+		$scope.$broadcast("activeReleaseSelectionChanged");
+	};
 	
 	// On change
 	$scope.onReleaseChange  = function(releaseId){
@@ -114,8 +124,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		console.log($scope.rlseIdObjMap[releaseId]);
 		
 		$scope.slectedReleaseId = $scope.rlseIdObjMap[releaseId].id;
-		
-		$scope.projectReleaseToDisplay = "Project release with " + $scope.selectedRelease.name;
 		
 		actionHelper.invokeAction("projectRelease.readAllProjectAndProjectRelease", null, 
 				{"releaseId" : $scope.slectedReleaseId}, readAlPrjctAndReleaseCallBack, true);
@@ -142,7 +150,9 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	};
 	
 	
-	$scope.dropReleases = function(event){
+	$scope.dropProjects = function(event){
+		
+		console.log("project drop");
 		
 		event.preventDefault();
 		
@@ -161,7 +171,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		
 	};
 	
-	// save new release
+	// save new project release
 	saveNewProjectRelease = function(model){
 		
 		actionHelper.invokeAction("projectRelease.save", model, null, function(readResponse, respConfig){
@@ -173,5 +183,12 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 							}, true);
 	};
 	
+	$scope.getActiveReleaseId = function(){
+		
+		return $scope.selectedRelease.id;
+	};
+
+	
 }]);
+
 

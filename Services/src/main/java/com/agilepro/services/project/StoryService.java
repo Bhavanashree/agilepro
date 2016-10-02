@@ -290,6 +290,17 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
+	public List<StoryModel> fetchAllStories()
+	{
+		List<StoryEntity> storyEntities = storyRepo.fetchAllStories();
+		
+		List<StoryModel> storyModels = new ArrayList(storyEntities.size());
+		
+		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
+		
+		return storyModels;
+	}
+	
 	/**
 	 * Deletes all entities.
 	 */

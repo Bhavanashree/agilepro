@@ -65,7 +65,7 @@ public class ReleaseController extends BaseController
 	 * @return the basic save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.REALSE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid ReleaseModel realseModel)
@@ -83,7 +83,7 @@ public class ReleaseController extends BaseController
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.REALSE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<ReleaseModel> read(@PathVariable(PARAM_ID) Long id)
@@ -99,7 +99,7 @@ public class ReleaseController extends BaseController
 	 * @return the base response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.REALSE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid ReleaseModel realseModel)
@@ -119,7 +119,7 @@ public class ReleaseController extends BaseController
 	 * @return the base response
 	 */
 	@ActionName(ACTION_TYPE_DELETE)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.REALSE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
@@ -134,7 +134,7 @@ public class ReleaseController extends BaseController
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_ALL)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.REALSE_VIEW, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<ReleaseModel>> fetchAllRelease()

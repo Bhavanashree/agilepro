@@ -72,7 +72,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read project and project release. 
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE = "readAllProjectAndProjectRelease";
-
+	
+	public String ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE = "readAllStoryAndStoryRelease";
+	
 	////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -114,6 +116,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix project realse.
 	 **/
 	public String ACTION_PREFIX_PROJECT_REALSE = "projectRelease";
+	
+	public String ACTION_PREFIX_STORY_REALSE = "storyRelease";
 
 	/**
 	 * The action prefix property type.

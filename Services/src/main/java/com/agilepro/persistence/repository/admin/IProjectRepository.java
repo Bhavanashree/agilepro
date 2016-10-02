@@ -47,7 +47,7 @@ public interface IProjectRepository extends IWebutilsRepository<ProjectEntity>
 	 * @return the list
 	 */
 	@RestrictBySpace
-	public List<ProjectEntity> fetchProjects();
+	public List<ProjectEntity> fetchAllProjects();
 
 	/**
 	 * Delete all.

@@ -184,6 +184,6 @@ public class ProjectController extends BaseController implements IProjectControl
 	@ResponseBody
 	public BasicReadResponse<List<ProjectModel>> fetchProjects()
 	{
-		return new BasicReadResponse<List<ProjectModel>>(projectService.fetchProjects());
+		return new BasicReadResponse<List<ProjectModel>>(projectService.fetchAllProjects());
 	}
 }

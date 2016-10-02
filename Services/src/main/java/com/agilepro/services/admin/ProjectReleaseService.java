@@ -89,7 +89,7 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 
 		Set<Long> projectIds = projectReleaseEntities.stream().map(entity -> entity.getProject().getId()).collect(Collectors.toSet());
 
-		List<ProjectModel> projectModels = projectService.fetchProjects();
+		List<ProjectModel> projectModels = projectService.fetchAllProjects();
 
 		List<ProjectModel> filteredModels = projectModels.stream().filter(model -> !projectIds.contains(model.getId())).collect(Collectors.toList());
 

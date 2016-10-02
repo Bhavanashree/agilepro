@@ -1,0 +1,76 @@
+<div class="container-fluid" ng-controller="storyReleaseController" style="padding: 0px;" ng-init="fetchAllStoryRelease()">
+
+	<div class="col-md-5 col-xs-5" style="margin-left: 4em; border: solid; border-width: 0.2em; 
+			box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 35em;">
+				
+			<!-- 	<div style="position: absoulte; margin-top: -2em;">Project</div> -->
+				
+				<div class="row">
+				
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="border: solid; border-width: 0.2em; 
+					border-color: lightblue; border-radius: 5px; margin-top: 1em; margin-left: 2em;">
+						
+						<!-- Search Unreleased Project Name -->
+						<form>
+							<div class="row">
+								<div class="input-group col-md-12 col-xs-12">
+									<input type="text" ng-model="searchUnreleaseStory" class="form-control" placeholder="Unrelease Story" style="min-width: auto; max-width: 15em; border: none;">
+									<span class="input-group-addon dropdown-toggle" style="border: none;" data-toggle="dropdown">
+										<a href=""><i class="fa fa-caret-down" aria-hidden="true" style="font-size:1.3em;"></i></a>
+									</span>
+									<ul class="dropdown-menu" role="menu" style="margin-left: 5.5em; max-width: 7em; min-width: 7em;">
+								      <li><a href="" ng-click="checkAllUnreleasedStory()">Select All</a></li>
+								      <li><a href="" ng-click="unCheckAllUnreleasedStory()">Reset</a></li>
+								    </ul>
+								</div>
+							</div>
+						</form>	
+					
+					<div class="row" style="border-bottom: 2px solid #87CEEB;"></div>
+					
+					<!-- Unreleased Project box -->
+					<div class="row" style="text-align: center; height:29em; overflow-y:auto;">
+						<div class="col-md-12 col-xs-12" ng-repeat="story in storiesForRelease | filter:searchUnreleaseStory">
+							<div id="{{story.id}}" class="member" ng-class="story.check ? 'blueBackGround' : 'whiteBackGround'"
+							style="width: 10em; margin-left: 1.2em; margin-top: 1.5em; height: 3em; padding-top: 0.7em;
+							cursor:-moz-grabbing;-webkit-grab" draggable="true" yk-on-drag="dragStories(event)" ng-click="checkBoxStory(story.id)">
+								<table>
+									<tr>
+										<td style="padding-left: 0.9em;"><span ng-class="story.check ? 'fa fa-check-circle-o': 'fa fa-circle-o'" aria-hidden="true"></span></td>
+										<td style="padding-left: 0.5em;">{{story.title}}</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="border: solid; border-width: 0.2em; 
+					border-color: lightblue; border-radius: 5px; margin-top: 1em; margin-left: 2em;" yk-on-drop="dropStories(event)">
+						
+						<!-- Search Released Project Name -->
+						<form>
+							<div class="row">
+								<div class="input-group col-md-12 col-xs-12">
+									<input type="text" ng-model="searchReleaseStory" class="form-control" placeholder="Released Story" style="min-width: auto; max-width: 15em; border: none;">
+								</div>
+							</div>
+						</form>	
+					
+					<div class="row" style="border-bottom: 2px solid #87CEEB;"></div>
+					
+					<!-- Released Project box -->
+					<div class="row" style="height:29em; overflow-y:auto;">
+						<div class="col-md-12 col-xs-12" ng-repeat="release in storiesReleased | filter:searchReleaseStory">
+							<div id="{{project.id}}" style="background-color: lightblue; width: 10em; height: 3em; margin-left:1.2em; margin-top: 1.5em; padding-top: 0.7em;
+							padding-left: 0.9em; float: left; border-radius: 5px;">
+								{{release.name}}
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>	
+				
+			</div>
+</div>

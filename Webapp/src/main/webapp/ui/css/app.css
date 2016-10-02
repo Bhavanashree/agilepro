@@ -398,6 +398,16 @@ body
   border-right: 5px solid #b3ffb3; 
 }     
 
+.blueBackGround
+{
+	background-color: lightblue;
+}
+
+.whiteBackGround
+{
+	background-color: white;
+}
+
 /*  aaaaaaaaaaaaaaaaaaa*/
 
 .uncheckedClass {

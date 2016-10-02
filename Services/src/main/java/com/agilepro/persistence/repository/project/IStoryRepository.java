@@ -65,6 +65,9 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStoryId") Long parentStoryId);
+
+	@RestrictBySpace
+	public List<StoryEntity> fetchAllStories();
 	
 	/**
 	 * Delete all.

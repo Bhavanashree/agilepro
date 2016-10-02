@@ -45,7 +45,7 @@ public class ProjectReleaseController extends BaseController
 	 * @return the basic save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.PROJECT_REALSE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.PROJECT_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid ProjectReleaseModel projectReleasedModel)
@@ -61,7 +61,7 @@ public class ProjectReleaseController extends BaseController
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_REALSE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readAllProjectAndProjectRelease", method = RequestMethod.GET)
 	@ResponseBody
 	public ProjectReleaseReadResponse fetchEmployees(@RequestParam(value = "releaseId", required = false) Long releaseId)

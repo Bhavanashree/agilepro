@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.customer;
 
+import java.util.List;
+
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -28,6 +30,21 @@ public class StoryReleaseModel
 	 * The story id.
 	 **/
 	private Long storyId;
+	
+	private List<Long> storyIds;
+
+	
+	public StoryReleaseModel() 
+	{
+		super();
+	}
+	
+	public StoryReleaseModel(Long storyId, Long releaseId) 
+	{
+		super();
+		this.storyId = storyId;
+		this.releaseId = releaseId;
+	}
 
 	/**
 	 * Version used for update.
@@ -117,5 +134,13 @@ public class StoryReleaseModel
 	public void setVersion(Integer version)
 	{
 		this.version = version;
+	}
+
+	public List<Long> getStoryIds() {
+		return storyIds;
+	}
+
+	public void setStoryIds(List<Long> storyIds) {
+		this.storyIds = storyIds;
 	}
 }

@@ -277,33 +277,39 @@ public enum UserRole
 	/**
 	 * The realse view.
 	 **/
-	@Label("Release View") REALSE_VIEW,
+	@Label("Release View") RELEASE_VIEW,
 
 	/**
 	 * The realse edit.
 	 **/
-	@Label("Release Edit") REALSE_EDIT(false, REALSE_VIEW, PROJECT_GROUP),
+	@Label("Release Edit") RELEASE_EDIT(false, RELEASE_VIEW, PROJECT_GROUP),
 
 	/**
 	 * The realse delete.
 	 **/
-	@Label("Release Delete") REALSE_DELETE(false, REALSE_VIEW),
+	@Label("Release Delete") RELEASE_DELETE(false, RELEASE_VIEW),
 
 	/**
 	 * The project realse view.
 	 **/
-	@Label("Project Release View") PROJECT_REALSE_VIEW,
+	@Label("Project Release View") PROJECT_RELEASE_VIEW,
 
 	/**
 	 * The project realse edit.
 	 **/
-	@Label("Project Release Edit") PROJECT_REALSE_EDIT(false, PROJECT_REALSE_VIEW, PROJECT_GROUP),
+	@Label("Project Release Edit") PROJECT_RELEASE_EDIT(false, PROJECT_RELEASE_VIEW, PROJECT_GROUP),
 
 	/**
 	 * The project realse delete.
 	 **/
-	@Label("Project Release Delete") PROJECT_REALSE_DELETE(false, PROJECT_REALSE_VIEW),
+	@Label("Project Release Delete") PROJECT_RELEASE_DELETE(false, PROJECT_RELEASE_VIEW),
 
+	@Label("Story Release View") STORY_RELEASE_VIEW,
+
+	@Label("Story Release Edit") STORY_RELEASE_EDIT(false, STORY_RELEASE_VIEW, PROJECT_GROUP),
+
+	@Label("Story Release Delete") STORY_RELEASE_DELETE(false, STORY_RELEASE_VIEW),
+	
 	/**
 	 * The project property view.
 	 **/
