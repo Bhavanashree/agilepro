@@ -1,26 +1,43 @@
 $.application.controller('projectReleaseController', ["$scope", "crudController", "utils", "actionHelper", 
                          function($scope, crudController, utils, actionHelper) {
 	
+	$scope.projectFilter = function(){
+		
+		return function( item ) {
+			
+			if($scope.searchUnreleaseProject)
+			{
+				return item.name.toLowerCase().includes($scope.searchUnreleaseProject.toLowerCase());
+			}
+			
+		    return true;
+		  };
+	};
+	
 	
 	$scope.checkAllUnreleasedProject = function(){
 		
 		var index;
 		var prjctObj;
 		
-		if($scope.searchUnreleaseProject)
-		{
-			console.log("custom serach " + $scope.searchUnreleaseProject);
-			
+					
 			for(index in $scope.projectsForRelease)
 			{
 				prjctObj = $scope.projectsForRelease[index];
 				
-				if(prjctObj.name.includes($scope.searchUnreleaseProject))
+				if($scope.searchUnreleaseProject)
 				{
-					console.log(prjctObj.name);
+					if(prjctObj.name.toLowerCase().includes($scope.searchUnreleaseProject.toLowerCase()))
+					{
+						prjctObj.check = true;
+						$scope.multipleUnreleasedSelectedProjectsId.push(prjctObj.id);
+					}
+				}else
+				{
+					prjctObj.check = true;
+					$scope.multipleUnreleasedSelectedProjectsId.push(prjctObj.id);
 				}
 			}
-		}
 		
 		/*for(index in $scope.projectsForRelease)
 		{

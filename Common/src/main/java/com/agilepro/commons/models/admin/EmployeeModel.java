@@ -38,7 +38,7 @@ public class EmployeeModel extends AbstractExtendableModel
 	 **/
 	@NotEmpty
 	@MinLen(3)
-	@MaxLen(50)
+	@MaxLen(20)
 	private String name;
 
 	/**
@@ -46,7 +46,7 @@ public class EmployeeModel extends AbstractExtendableModel
 	 **/
 	@Pattern(regexp = IWebUtilsCommonConstants.PATTERN_EMAIL, message = "Invalid mail id specified")
 	@MinLen(5)
-	@MaxLen(50)
+	@MaxLen(30)
 	@NotEmpty
 	private String mailId;
 

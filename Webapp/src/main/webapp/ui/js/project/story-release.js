@@ -1,22 +1,42 @@
 $.application.controller('storyReleaseController', ["$scope", "crudController", "utils", "actionHelper", 
                          function($scope, crudController, utils, actionHelper) {
+
+	$scope.storyFilter = function(){
+		
+		return function( item ) {
+			
+			if($scope.searchUnreleaseStory)
+			{
+				return item.name.toLowerCase().includes($scope.searchUnreleaseStory.toLowerCase());
+			}
+			
+		    return true;
+		  };
+	};
 	
 	$scope.checkAllUnreleasedStory = function(){
 		
 		var index;
 		var storyObj;
 		
-		if($scope.searchUnreleaseStory)
-		{
-			console.log("custom serach");
-		}
+		
 		
 		for(index in $scope.storiesForRelease)
 		{
 			storyObj = $scope.storiesForRelease[index];
 			
-			storyObj.check = true;
-			$scope.multipleUnreleasedSelectedStoryIds.push(storyObj.id);
+			if($scope.searchUnreleaseStory)
+			{
+				if(item.name.toLowerCase().includes($scope.searchUnreleaseStory.toLowerCase()))
+				{
+					storyObj.check = true;
+					$scope.multipleUnreleasedSelectedStoryIds.push(storyObj.id);
+				}
+			}else
+			{
+				storyObj.check = true;
+				$scope.multipleUnreleasedSelectedStoryIds.push(storyObj.id);
+			}
 		}
 	};
 	

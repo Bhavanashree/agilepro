@@ -26,7 +26,7 @@
 	<div class="row" style="margin-top: 2em;">
 	
 		<div class="col-md-5 col-xs-5" style="margin-left: 4em; border: solid; border-width: 0.2em; 
-		box-shadow: 10px 10px 5px #888888; border-color: lightgreen; border-radius: 25px; height: 35em;">
+		box-shadow: 10px 10px 5px #888888; border-color: #A9A9A9; border-radius: 25px; height: 35em;">
 			
 		<!-- 	<div style="position: absoulte; margin-top: -2em;">Project</div> -->
 			
@@ -55,14 +55,14 @@
 				
 				<!-- Unreleased Project box -->
 				<div class="row" style="text-align: center; height:29em; overflow-y:auto;">
-					<div class="col-md-12 col-xs-12" ng-repeat="project in projectsForRelease | filter:searchUnreleaseProject">
+					<div class="col-md-12 col-xs-12" ng-repeat="project in projectsForRelease | filter:projectFilter()">
 						<div id="{{project.id}}" class="member" ng-class="project.check ? 'blueBackGround' : 'whiteBackGround'"
-						style="width: 10em; margin-left: 1.2em; margin-top: 1.5em; height: 3em; padding-top: 0.7em;
-						cursor:-moz-grabbing;" draggable="true" yk-on-drag="dragProjects(event)" ng-click="checkBoxProject(project.id)">
+						style="width: 13em;  margin-top: 1.5em; height: 3em; padding-top: 0.7em;
+						cursor:-moz-grabbing; overflow: hidden;" draggable="true" yk-on-drag="dragProjects(event)" ng-click="checkBoxProject(project.id)">
 							<table>
 								<tr>
-									<td style="padding-left: 0.9em;"><span ng-class="project.check ? 'fa fa-check-circle-o': 'fa fa-circle-o'" aria-hidden="true"></span></td>
-									<td style="padding-left: 0.5em;">{{project.name}}</td>
+									<td style="padding-left: 0.5em;"><span ng-class="project.check ? 'fa fa-check-circle-o': 'fa fa-circle-o'" aria-hidden="true"></span></td>
+									<td style="padding-left: 0.3em;">{{project.name}}</td>
 								</tr>
 							</table>
 						</div>
@@ -71,7 +71,7 @@
 			</div>
 			
 			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="border: solid; border-width: 0.2em; 
-				border-color: lightblue; border-radius: 5px; margin-top: 1em; margin-left: 2em;" yk-on-drop="dropProjects(event)">
+				border-color: lightgreen; border-radius: 5px; margin-top: 1em; margin-left: 2em;" yk-on-drop="dropProjects(event)">
 					
 					<!-- Search Released Project Name -->
 					<form>
@@ -87,7 +87,7 @@
 				<!-- Released Project box -->
 				<div class="row" style="height:29em; overflow-y:auto;">
 					<div class="col-md-12 col-xs-12" ng-repeat="release in projectReleased | filter:searchReleaseProject">
-						<div id="{{project.id}}" style="background-color: lightblue; width: 10em; height: 3em; margin-left:1.2em; margin-top: 1.5em; padding-top: 0.7em;
+						<div id="{{project.id}}" style="background-color: lightgreen; width: 13em; height: 3em; margin-top: 1.5em; padding-top: 0.7em;
 						padding-left: 0.9em; float: left; border-radius: 5px;">
 							{{release.name}}
 						</div>

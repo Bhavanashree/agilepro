@@ -30,7 +30,7 @@ public class ProjectModel
 	 **/
 	@NotEmpty
 	@MinLen(3)
-	@MaxLen(50)
+	@MaxLen(20)
 	@Required
 	private String name;
 
