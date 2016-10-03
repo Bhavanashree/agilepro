@@ -79,9 +79,9 @@ $.application.controller('mailTemplteDefinitionController', ["$scope", "crudCont
 		
 		console.log($scope.mailTempSub);
 		
-		vmodel = { "subject": $scope.mailTempSub, "body" : $scope.mailTempBody};
+		var model = { "subject": $scope.mailTempSub, "body" : $scope.mailTempBody ,"to": "projectManager" , "cc":"test1"};
 		
-		actionHelper.invokeAction("mailTemplate.save", model, null, function(read, Response){
+		actionHelper.invokeAction("mailTemplate.saveMailTemplate", model, null, function(read, Response){
 			
 			console.log(read.model);
 			

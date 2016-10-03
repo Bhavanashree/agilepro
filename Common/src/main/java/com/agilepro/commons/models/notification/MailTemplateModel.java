@@ -30,6 +30,7 @@ public class MailTemplateModel
 	 **/
 	private String body;
 
+	private String to;
 	/**
 	 * The cc.
 	 **/
@@ -140,5 +141,15 @@ public class MailTemplateModel
 	public void setCc(String cc)
 	{
 		this.cc = cc;
+	}
+
+	public String getTo()
+	{
+		return to;
+	}
+
+	public void setTo(String to)
+	{
+		this.to = to;
 	}
 }

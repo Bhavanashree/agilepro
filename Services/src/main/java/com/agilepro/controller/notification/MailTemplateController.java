@@ -2,6 +2,7 @@ package com.agilepro.controller.notification;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_MAIL_TEMPLATE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_MAIL_TEMPLATE;
 
 import javax.validation.Valid;
 
@@ -31,16 +32,17 @@ import com.yukthi.webutils.controllers.BaseController;
 @RequestMapping("/mailTemplate")
 public class MailTemplateController extends BaseController implements IMailTemplateController
 {
-	/** 
-	 * The mail notification service. 
+	/**
+	 * The mail notification service.
 	 **/
 	@Autowired
-	private MailNotificationService mailNotificationService; 
-	
+	private MailNotificationService mailNotificationService;
+
 	/**
 	 * Save.
 	 *
-	 * @param mailTemplateModel the mail template model
+	 * @param mailTemplateModel
+	 *            the mail template model
 	 * @return the basic save response
 	 */
 	@Override
@@ -51,7 +53,17 @@ public class MailTemplateController extends BaseController implements IMailTempl
 	public BasicSaveResponse save(@RequestBody @Valid MailTemplateModel mailTemplateModel)
 	{
 		mailNotificationService.send(mailTemplateModel);
-		
+
+		return new BasicSaveResponse();
+	}
+
+	@ActionName(ACTION_TYPE_SAVE_MAIL_TEMPLATE)
+	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/saveMailTemplate", method = RequestMethod.POST)
+	@ResponseBody
+	public BasicSaveResponse saveMailTemplate(@RequestBody @Valid MailTemplateModel model)
+	{
+		mailNotificationService.save(model);
 		return new BasicSaveResponse();
 	}
 }

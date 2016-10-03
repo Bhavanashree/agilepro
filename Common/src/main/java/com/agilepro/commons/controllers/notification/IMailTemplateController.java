@@ -12,5 +12,20 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 @RemoteService
 public interface IMailTemplateController
 {
+	
+	/**
+	 * Save.
+	 *
+	 * @param mailTemplateModel the mail template model
+	 * @return the basic save response
+	 */
 	public BasicSaveResponse save(MailTemplateModel mailTemplateModel);
+
+	/**
+	 * Save mail template.
+	 *
+	 * @param mailModel the mail model
+	 * @return the basic save response
+	 */
+	public BasicSaveResponse saveMailTemplate(MailTemplateModel mailModel);
 }

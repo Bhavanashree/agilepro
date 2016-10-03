@@ -73,6 +73,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE = "readAllProjectAndProjectRelease";
 	
+	/** The action type read all story and story release. */
 	public String ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE = "readAllStoryAndStoryRelease";
 	
 	////////////////////////////////////////////////////////////////////////////
@@ -117,6 +118,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_PROJECT_REALSE = "projectRelease";
 	
+	/** The action prefix story realse. */
 	public String ACTION_PREFIX_STORY_REALSE = "storyRelease";
 
 	/**
@@ -364,8 +366,15 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_SPRINT = "sprint";
 	
-	/** The action prefix mail template definition. */
+	/**
+	 * The action prefix mail template definition.
+	 **/
 	public String ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION = "mailTemplteDefinition";
+	
+	/** 
+	 *The action prefix save mail template definition.
+	 **/
+	public String ACTION_TYPE_SAVE_MAIL_TEMPLATE = "saveMailTemplate";
 
 	/**
 	 * The param id.
@@ -1116,4 +1125,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 *The action mail template definition delete.
 	 **/
 	public String ACTION_MAIL_TEMPLATE_DEFINITION_DELETE = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_DELETE;
+	
+	 /**
+	  *  The action mail template savetemplate.
+	  **/
+ 	public String ACTION_MAIL_TEMPLATE_SAVETEMPLATE = ACTION_PREFIX_MAIL_TEMPLATE + DOT + ACTION_TYPE_SAVE_MAIL_TEMPLATE;
 }
