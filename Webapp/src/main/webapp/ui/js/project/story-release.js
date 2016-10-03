@@ -107,8 +107,6 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 		$scope.multipleUnreleasedSelectedStoryIds = [];
 		
-		/////////////////////////////////////////
-		
 		console.log("releaseId = " + releaseId);
 		
 		$scope.selectedRelease = $scope.rlseIdObjMap[releaseId];
@@ -145,34 +143,61 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	$scope.dropStories = function(event){
 		
 		console.log("drop story" + $scope.slectedStoryId);
+		var storyObj;
+		var storyId;
+		var index;
 		
 		event.preventDefault();
 		
 		if($scope.multipleUnreleasedSelectedStoryIds.length == 0)
 		{
-			var model = {"releaseId" : $scope.slectedReleaseId, "storyId" : $scope.slectedStoryId};
+			storyObj = $scope.unreleasedStoryIdObjMap[$scope.slectedStoryId];
 			
+			$scope.storiesForRelease.splice($scope.storiesForRelease.indexOf(storyObj),1);
+			
+			$scope.storiesReleased.push(storyObj);
+			
+			var model = {"releaseId" : $scope.slectedReleaseId, "storyId" : $scope.slectedStoryId};
 			saveNewStoryRelease(model);
 		}
 		else
 		{
-			var model = {"releaseId" : $scope.slectedReleaseId, "storyIds" : $scope.multipleUnreleasedSelectedStoryIds};
+			for(index in $scope.multipleUnreleasedSelectedStoryIds)
+			{
+				storyId = $scope.multipleUnreleasedSelectedStoryIds[index];
+				
+				storyObj = $scope.unreleasedStoryIdObjMap[storyId];
+				
+				$scope.storiesForRelease.splice($scope.storiesForRelease.indexOf(storyObj),1);
+				
+				$scope.storiesReleased.push(storyObj);
+			}
 			
+			var model = {"releaseId" : $scope.slectedReleaseId, "storyIds" : $scope.multipleUnreleasedSelectedStoryIds};
 			saveNewStoryRelease(model);
 		}
 		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
 	};
+	
+	
+	saveStoryReleaseCallBack = function(readResponse, respConfig){
+		
+		if(readResponse.code != 0)
+		{
+			$scope.onReleaseChange($scope.selectedRelease.id);
+		}
+	};
+	
 	
 	// save new story release
 	saveNewStoryRelease = function(model){
 		
-		actionHelper.invokeAction("storyRelease.save", model, null, function(readResponse, respConfig){
-								if(readResponse.code == 0)
-								{
-									$scope.onReleaseChange($scope.selectedRelease.id);
-								}
-								
-							}, true);
+		actionHelper.invokeAction("storyRelease.save", model, null, saveStoryReleaseCallBack, true);
 	};
 	
 }]);

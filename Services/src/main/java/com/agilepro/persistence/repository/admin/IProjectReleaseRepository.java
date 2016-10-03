@@ -22,4 +22,7 @@ public interface IProjectReleaseRepository extends IWebutilsRepository<ProjectRe
 	
 	@RestrictBySpace
 	public List<ProjectReleaseEntity> fetchAllProjectRelease();
+	
+	@RestrictBySpace
+	public boolean deleteByProjectId(@Condition(value = "project.id") Long projectId);
 }

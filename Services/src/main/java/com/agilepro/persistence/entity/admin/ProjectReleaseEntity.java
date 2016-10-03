@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.agilepro.commons.models.customer.ProjectReleaseModel;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
@@ -13,6 +15,7 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "PROJECT_RELEASE")
+@UniqueConstraints({ @UniqueConstraint(name = "PROJECT_RELEASE_ID", fields = { "release", "project" }) })
 public class ProjectReleaseEntity extends WebutilsEntity
 {
 	/**

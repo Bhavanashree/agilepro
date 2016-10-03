@@ -1,8 +1,10 @@
 package com.agilepro.controller.project;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PROJECT_REALSE;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_BY_PROJECT_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import com.agilepro.controller.response.ProjectReleaseReadResponse;
 import com.agilepro.services.admin.ProjectReleaseService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
+import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
@@ -60,12 +63,30 @@ public class ProjectReleaseController extends BaseController
 	 *            the release id
 	 * @return the basic read response
 	 */
-	@ActionName(ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE)
+	@ActionName(ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readAllProjectAndProjectRelease", method = RequestMethod.GET)
+	@RequestMapping(value = "/readAllProjectAndProjectReleaseByReleaseId", method = RequestMethod.GET)
 	@ResponseBody
 	public ProjectReleaseReadResponse fetchEmployees(@RequestParam(value = "releaseId", required = false) Long releaseId)
 	{
 		return projectReleaseService.fetchAllProjectRelease(releaseId);
+	}
+
+	/**
+	 * Delete.
+	 *
+	 * @param projectReleasedModel
+	 *            the project released model
+	 * @return the base response
+	 */
+	@ActionName(ACTION_TYPE_DELETE_BY_PROJECT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/deleteByProjectId", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResponse delete(@RequestBody @Valid ProjectReleaseModel projectReleasedModel)
+	{
+		projectReleaseService.deleteByProjectId(projectReleasedModel);
+
+		return new BaseResponse();
 	}
 }

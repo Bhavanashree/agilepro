@@ -1,7 +1,10 @@
 package com.agilepro.commons;
 
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
+
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -67,14 +70,21 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 */
 	public String ACTION_TYPE_RUNTIME_VARIABLES = "readRuntimeVariables";
 
-	/**
-	 * The action type read project and project release.
+	/** 
+	 * The action type read all project and project release by release id. 
 	 **/
-	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE = "readAllProjectAndProjectRelease";
+	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID = "readAllProjectAndProjectReleaseByReleaseId";
+	
+	public String ACTION_TYPE_DELETE_BY_PROJECT_ID = "deleteByProjectId";
 
-	/** The action type read all story and story release. */
+	/** 
+	 * The action type read all story and story release. 
+	 **/
 	public String ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE = "readAllStoryAndStoryRelease";
 
+	/** 
+	 * The action prefix story note. 
+	 **/
 	public String ACTION_PREFIX_STORY_NOTE = "storyNote";
 	
 	////////////////////////////////////////////////////////////////////////////

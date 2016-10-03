@@ -7,6 +7,8 @@ import javax.persistence.Table;
 import com.agilepro.commons.models.customer.ProjectReleaseModel;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
 import com.agilepro.persistence.entity.project.StoryEntity;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
@@ -16,6 +18,7 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "STORY_RELEASE")
+@UniqueConstraints({ @UniqueConstraint(name = "STORY_RELEASE_ID", fields = { "release", "story" }) })
 public class StoryReleaseEntity extends WebutilsEntity
 {
 	/**

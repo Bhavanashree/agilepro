@@ -15,6 +15,7 @@ import com.agilepro.commons.models.project.BasicProjectInfo;
 import com.agilepro.controller.response.ProjectReleaseReadResponse;
 import com.agilepro.persistence.entity.admin.ProjectReleaseEntity;
 import com.agilepro.persistence.repository.admin.IProjectReleaseRepository;
+import com.yukthi.persistence.ITransaction;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -53,25 +54,40 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 		iprojectReleaseRepository = repositoryFactory.getRepository(IProjectReleaseRepository.class);
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @param projectReleasedModel
+	 *            the project released model
+	 * @return the project release entity
+	 */
 	public ProjectReleaseEntity save(ProjectReleaseModel projectReleasedModel)
 	{
-		ProjectReleaseEntity projectReleaseEntity = null;
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			ProjectReleaseEntity projectReleaseEntity = null;
 
-		List<Long> projectIds = projectReleasedModel.getProjectIds();
-		
-		if(projectIds == null)
-		{
-			return super.save(projectReleasedModel);
-		}
-		else
-		{
-			for(Long prjId : projectIds)
+			List<Long> projectIds = projectReleasedModel.getProjectIds();
+
+			if(projectIds == null)
 			{
-				projectReleaseEntity = super.save(new ProjectReleaseModel(prjId, projectReleasedModel.getReleaseId()));
+				projectReleaseEntity = super.save(projectReleasedModel);
 			}
-		}
+			else
+			{
+				for(Long prjId : projectIds)
+				{
+					projectReleaseEntity = super.save(new ProjectReleaseModel(prjId, projectReleasedModel.getReleaseId()));
+				}
+			}
 
-		return projectReleaseEntity;
+			transaction.commit();
+
+			return projectReleaseEntity;
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred  while saving  project release - ", ex);
+		}
 	}
 
 	/**
@@ -94,5 +110,28 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 		List<ProjectModel> filteredModels = projectModels.stream().filter(model -> !projectIds.contains(model.getId())).collect(Collectors.toList());
 
 		return new ProjectReleaseReadResponse(basicProjectInfos, filteredModels);
+	}
+
+	/**
+	 * Delete by project id.
+	 *
+	 * @param projectReleasedModel the project released model
+	 */
+	public void deleteByProjectId(ProjectReleaseModel projectReleasedModel)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			for(Long projectId : projectReleasedModel.getProjectIds())
+			{
+				if(!iprojectReleaseRepository.deleteByProjectId(projectId))
+				{
+					throw new IllegalStateException();
+				}
+			}
+			transaction.commit();
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred  while deleting project release - ", ex);
+		}
 	}
 }
