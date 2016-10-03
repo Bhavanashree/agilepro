@@ -404,6 +404,21 @@ public enum UserRole
 	 * The Story delete.
 	 */
 	@Label("Story DeleteAll") BACKLOG_DELETE_ALL(false, BACKLOG_VIEW),
+	
+	/** 
+	 * The story note view. 
+	 **/
+	@Label("Story Note view") STORY_NOTE_VIEW,
+
+	/** 
+	 * The story note edit. 
+	 **/
+	@Label("Story Note Edit") STORY_NOTE_EDIT(false, STORY_NOTE_VIEW),
+
+	/** 
+	 * The story note delete. 
+	 **/
+	@Label("Story Note Delete") STORY_NOTE_DELETE(false, STORY_NOTE_VIEW),
 
 	/**
 	 * The sprint view.

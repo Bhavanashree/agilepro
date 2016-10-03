@@ -33,13 +33,13 @@
 			<div class="row">
 			
 				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="border: solid; border-width: 0.2em; 
-				border-color: lightblue; border-radius: 5px; margin-top: 1em; margin-left: 2em;">
+				border-color: lightblue; border-radius: 5px; margin-top: 1em; margin-left: 1.5em;">
 					
 					<!-- Search Unreleased Project Name -->
 					<form>
 						<div class="row">
 							<div class="input-group col-md-12 col-xs-12">
-								<input type="text" ng-model="searchUnreleaseProject" class="form-control" placeholder="Unrelease Project" style="min-width: auto; max-width: 15em; border: none;">
+								<input type="text" ng-model="searchUnreleaseProject" class="form-control" placeholder="Unreleased Project" style="min-width: auto; max-width: 15em; border: none;">
 								<span class="input-group-addon dropdown-toggle" style="border: none;" data-toggle="dropdown">
 									<a href=""><i class="fa fa-caret-down" aria-hidden="true" style="font-size:1.3em;"></i></a>
 								</span>
@@ -57,7 +57,7 @@
 				<div class="row" style="text-align: center; height:29em; overflow-y:auto;">
 					<div class="col-md-12 col-xs-12" ng-repeat="project in projectsForRelease | filter:projectFilter()">
 						<div id="{{project.id}}" class="member" ng-class="project.check ? 'blueBackGround' : 'whiteBackGround'"
-						style="width: 13em;  margin-top: 1.5em; height: 3em; padding-top: 0.7em;
+						style="width: 100%;  margin-top: 1.5em; height: 3em; padding-top: 0.7em;
 						cursor:-moz-grabbing; overflow: hidden;" draggable="true" yk-on-drag="dragProjects(event)" ng-click="checkBoxProject(project.id)">
 							<table>
 								<tr>
@@ -82,12 +82,12 @@
 						</div>
 					</form>	
 				
-				<div class="row" style="border-bottom: 2px solid #87CEEB;"></div>
+				<div class="row" style="border-bottom: 2px solid lightgreen;"></div>
 				
 				<!-- Released Project box -->
 				<div class="row" style="height:29em; overflow-y:auto;">
 					<div class="col-md-12 col-xs-12" ng-repeat="release in projectReleased | filter:searchReleaseProject">
-						<div id="{{project.id}}" style="background-color: lightgreen; width: 13em; height: 3em; margin-top: 1.5em; padding-top: 0.7em;
+						<div id="{{project.id}}" style="background-color: lightgreen; width: 100%; height: 3em; margin-top: 1.5em; padding-top: 0.7em;
 						padding-left: 0.9em; float: left; border-radius: 5px;">
 							{{release.name}}
 						</div>

@@ -2,7 +2,6 @@ package com.agilepro.commons;
 
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -67,14 +66,16 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type runtime variables.
 	 */
 	public String ACTION_TYPE_RUNTIME_VARIABLES = "readRuntimeVariables";
-	
-	/** 
-	 * The action type read project and project release. 
+
+	/**
+	 * The action type read project and project release.
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE = "readAllProjectAndProjectRelease";
-	
+
 	/** The action type read all story and story release. */
 	public String ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE = "readAllStoryAndStoryRelease";
+
+	public String ACTION_PREFIX_STORY_NOTE = "storyNote";
 	
 	////////////////////////////////////////////////////////////////////////////
 
@@ -117,7 +118,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix project realse.
 	 **/
 	public String ACTION_PREFIX_PROJECT_REALSE = "projectRelease";
-	
+
 	/** The action prefix story realse. */
 	public String ACTION_PREFIX_STORY_REALSE = "storyRelease";
 
@@ -356,23 +357,23 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read story id.
 	 **/
 	public String ACTION_TYPE_READ_STORY_ID = "readStoryId";
-	
+
 	/**
-	 *  The action type save stories in bulk.
+	 * The action type save stories in bulk.
 	 **/
 	public String ACTION_TYPE_SAVE_STORIES_IN_BULK = "storiesInbulk";
 	/**
 	 * The action prefix sprint.
 	 **/
 	public String ACTION_PREFIX_SPRINT = "sprint";
-	
+
 	/**
 	 * The action prefix mail template definition.
 	 **/
 	public String ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION = "mailTemplteDefinition";
-	
-	/** 
-	 *The action prefix save mail template definition.
+
+	/**
+	 * The action prefix save mail template definition.
 	 **/
 	public String ACTION_TYPE_SAVE_MAIL_TEMPLATE = "saveMailTemplate";
 
@@ -1002,9 +1003,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action Story save.
 	 **/
 	public String ACTION_STORY_SAVE = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_SAVE;
-	
+
 	/**
-	 *  The action story save stories in bulk.
+	 * The action story save stories in bulk.
 	 **/
 	public String ACTION_STORY_SAVE_STORIES_IN_BULK = ACTION_PREFIX_STORY + DOT + ACTION_TYPE_SAVE_STORIES_IN_BULK;
 
@@ -1110,24 +1111,24 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action for mailtemplatedefinitions.
 	 */
 	public String ACTION_MAIL_TEMPLATE_DEFINITION_SAVE = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_SAVE;
-	
+
 	/**
-	 *  The action mail template definition read.
+	 * The action mail template definition read.
 	 **/
 	public String ACTION_MAIL_TEMPLATE_DEFINITION_READ = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_READ;
-	
-	/** 
+
+	/**
 	 * The action mail template definition update.
 	 **/
 	public String ACTION_MAIL_TEMPLATE_DEFINITION_UPDATE = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_UPDATE;
-	
-	/** 
-	 *The action mail template definition delete.
+
+	/**
+	 * The action mail template definition delete.
 	 **/
 	public String ACTION_MAIL_TEMPLATE_DEFINITION_DELETE = ACTION_PREFIX_MAIL_TEMPLATE_DEFINITION + DOT + ACTION_TYPE_DELETE;
-	
-	 /**
-	  *  The action mail template savetemplate.
-	  **/
- 	public String ACTION_MAIL_TEMPLATE_SAVETEMPLATE = ACTION_PREFIX_MAIL_TEMPLATE + DOT + ACTION_TYPE_SAVE_MAIL_TEMPLATE;
+
+	/**
+	 * The action mail template savetemplate.
+	 **/
+	public String ACTION_MAIL_TEMPLATE_SAVETEMPLATE = ACTION_PREFIX_MAIL_TEMPLATE + DOT + ACTION_TYPE_SAVE_MAIL_TEMPLATE;
 }
