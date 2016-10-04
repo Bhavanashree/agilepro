@@ -1,0 +1,9 @@
+<native-queries>
+	<query name="addSprintAnalytics"><![CDATA[
+		SELECT SPRINT.ID, SUM(STORY.STORY_POINTS)
+		FROM SPRINT SPRINT, STORY STORY
+		WHERE STORY.SPRINT_ID = SPRINT.ID
+		AND SPRINT.END_DATE > ?{date}
+		GROUP BY SPRINT.ID 
+	]]></query>
+</native-queries>

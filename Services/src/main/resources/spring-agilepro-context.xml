@@ -53,6 +53,16 @@
 				<constructor-arg type="java.lang.String" value="mysql"></constructor-arg>
 				
 				<property name="dataSource" ref="dataSource"/>
+				
+				<property name="nativeQueryFactory">
+					<bean class="com.yukthi.persistence.NativeQueryFactory">
+						<property name="resources">
+							<list>
+								<value>/agile-native-queries.xml</value>
+							</list>
+						</property>
+					</bean>
+				</property>
 			</bean>
 		</property>
 	</bean>

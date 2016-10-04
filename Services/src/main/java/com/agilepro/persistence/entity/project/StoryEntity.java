@@ -79,7 +79,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * sprintId of the story.
 	 */
-	@Column(name = "Sprint_ID")
+	@Column(name = "SPRINT_ID")
 	@ManyToOne
 	@PropertyMapping(type = StoryModel.class, from = "sprint", subproperty = "id")
 	private SprintEntity sprint;
