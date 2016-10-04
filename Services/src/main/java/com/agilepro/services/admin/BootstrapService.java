@@ -12,6 +12,7 @@ import com.agilepro.controller.IAgileProConstants;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
+import com.yukthi.webutils.bootstrap.BootstrapManager;
 import com.yukthi.webutils.repository.IUserRepository;
 import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.UserRoleEntity;
@@ -52,13 +53,28 @@ public class BootstrapService
 	 */
 	@Autowired
 	private RepositoryFactory repositoryFactory;
+	
+	/**
+	 * Manager to load bootstrap files if any.
+	 */
+	@Autowired
+	private BootstrapManager bootstrapManager;
 
 	/**
 	 * Post construct method. Creates the default user, if configured and does
 	 * not exist already in db.
 	 */
 	@PostConstruct
-	private void init()
+	private void init() throws Exception
+	{
+		createDefaultUser();
+		bootstrapManager.load();
+	}
+	
+	/**
+	 * Creates a default user if one is specified.
+	 */
+	private void createDefaultUser()
 	{
 		// if no default user is defined
 		if(defaultUser == null)

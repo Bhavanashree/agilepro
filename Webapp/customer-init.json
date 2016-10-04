@@ -1,0 +1,56 @@
+{
+  "defaultUserName": "admin@cbiller.com",
+  "entityGroups": [
+    {
+      "name": "PricePlan",
+      "entityType": "com.agilepro.persistence.entity.admin.CustomerPricePlanEntity",
+      "modelType": "com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel",
+      "identityField": "name",
+      
+      "spaceIdentity": "ADMIN",
+      
+      "entities": [
+        {
+          "name": "DefaultPricePlan",
+          "description": "Dummy Price Plan to create Customer",
+          "numericVariables": [
+            {
+              "name": "var1",
+              "label": "Var1",
+              "defaultValue": 1
+            }
+          ],
+          "expressions": [
+            {
+              "name": "expr1",
+              "label": "Expr1",
+              "expression": "1"
+            }
+          ],
+          "paymentCycle": "Monthly"
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "entityType": "com.agilepro.persistence.entity.admin.CustomerEntity",
+      "modelType": "com.agilepro.commons.models.customer.CustomerModel",
+      "identityField": "name",
+      "serviceMethod": "com.agilepro.services.admin.CustomerService.save(com.agilepro.commons.models.customer.CustomerModel)",
+
+      "spaceIdentity": "ADMIN",
+      
+      "entities": [
+        {
+          "name": "customer1",
+          "email": "customer1@gmail.com",
+          "phoneNumber": "1233434354564",
+          "address": "Some dummy address",
+          "subDomainPath": "customer1",
+          "password": "password",
+          "customerPricePlanId": "${entity(PricePlan.DefaultPricePlan).id}"
+        }
+      ]
+    }
+  ]
+}

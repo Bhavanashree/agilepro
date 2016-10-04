@@ -13,6 +13,7 @@ import com.agilepro.commons.IAgileproCommonConstants;
 import com.agilepro.commons.UserRole;
 import com.agilepro.controller.CbillerUserDetails;
 import com.agilepro.controller.IAgileProConstants;
+import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.yukthi.persistence.utils.PasswordEncryptor;
 import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.WebutilsConfiguration;
@@ -108,6 +109,23 @@ public class SecurityService implements ISecurityService
 
 		UserEntity user = userService.getUser(userName, userSpace);
 		return new CbillerUserDetails(user.getId(), customerId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.yukthi.webutils.security.ISecurityService#getUserDetailsFor(com.yukthi.webutils.repository.UserEntity)
+	 */
+	@Override
+	public UserDetails getUserDetailsFor(UserEntity userEntity) 
+	{
+		long customerId = 0;
+		
+		//for customer based user, use customer id on result user details
+		if( CustomerEntity.class.getName().equals(userEntity.getBaseEntityType()) )
+		{
+			customerId = userEntity.getBaseEntityId();
+		}
+		
+		return new CbillerUserDetails(userEntity.getId(), customerId);
 	}
 
 	/*
@@ -265,7 +283,9 @@ public class SecurityService implements ISecurityService
 	@Override
 	public String getUserSpaceIdentity()
 	{
-		CbillerUserDetails user = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		UserDetails userDetails = currentUserService.getCurrentUserDetails();
+		
+		CbillerUserDetails user = (CbillerUserDetails) userDetails;
 
 		if(user == null || user.getCustomerId() <= 0)
 		{

@@ -68,5 +68,11 @@ public enum PaymentCycle implements IAgileproCommonConstants
 		}
 	},;
 
+	/**
+	 * Fetches next evaluation data for current cycle from specified
+	 * "from" date.
+	 * @param from Date from which next eval needs to be calculated.
+	 * @return Next eval date of current cycle.
+	 */
 	public abstract Date nextEvalDate(Date from);
 }

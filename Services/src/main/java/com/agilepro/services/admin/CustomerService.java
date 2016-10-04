@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.customer.CustomerModel;
-import com.agilepro.commons.models.customer.NotificationMailDetail;
 import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.repository.admin.ICustomerRepository;
