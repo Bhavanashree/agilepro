@@ -1,4 +1,4 @@
-<div class="container-fluid"  ng-controller="projectTeamController" style="padding: 0px;">
+<div class="container-fluid"  ng-controller="projectTeamController" style="padding: 0px;" ng-init="fetchAllProjectTeam()">
 
 	<div style="background: white; padding-left: 0.5em; padding-right: 0.5em; padding-top: 5px; 
 		border-top-left-radius: 0.5em; margin-top: 1em;">
@@ -14,7 +14,7 @@
 									Team <span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu dropdown-menu-right">
-								    <li ng-repeat="team in projectTeams"><a ng-click="onReleaseChange(release.id)" href="">
+								    <li ng-repeat="team in projectTeams"><a ng-click="onTeamChange(team.id)" href="">
 								    {{team.name}}
 								    </a></li>
 								</ul>
@@ -22,7 +22,7 @@
 								ng-click="addNewTeam()" data-toggle="modal" data-target="#projectTeamModal">
 									<i class="fa fa-plus" aria-hidden="true"></i>
 								</button>
-								<button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+								<button ng-click="deleteTeam(selectedTeam.id)" type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
 									<i class="fa fa-times" aria-hidden="true"></i>
 								</button>
 							</div>
