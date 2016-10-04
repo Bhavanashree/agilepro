@@ -1,15 +1,14 @@
-<div class="container-fluid" ng-controller="mailTemplteDefinitionController" >
-	
-	<div style="margin-right: -0.5em; background: white; margin-top: 2px; margin-bottom :4px;padding-left: 0.5em; padding-right: 0.5em; padding-top:  5px; border-top-left-radius: 0.5em;" ng-show="show" ng-init="listOfMailDefin()">
+<div ng-controller="mailTemplteDefinitionController" >
+	<div style="margin-bottom :4px; width:20em; " ng-show="show" ng-init="listOfMailDefin()">
 		<div class="input-group">
 			<table>
 				<tr>
 					<td>
-						<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" value="{{selectedmailObj.name}}">
+						<input type="text" class="form-control" aria-label="..." style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; width: 15em;" readonly="readonly" value="{{selectedmailObj.name}}">
 					</td>
 					<td>
 						<div class="input-group-btn">
-							<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button type="button" class="btn btn-danger dropdown-toggle"  style="border-bottom-right-radius:5px;border-top-right-radius:5px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									MailTemplateDefinition <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu dropdown-menu-right">
@@ -21,80 +20,65 @@
 			</table>	
 		</div>
 	</div>
-		
-	<div class="row" style="">
-		<div style = "height: 100%; width:75%; border:1px solid black; float:left;" >
-			<table style=" width: 800px;">
-				<tr>
-					<td>
-					
-					</td>
-				</tr>
+	<!-- end of drop down -->
+	
+	<div class = "col-md-9 col-xs-9 col-lg-9" style="padding: 0; margin:2px;  border:2px solid #e2e2e2; border-radius:5px; height:34em;"> 
+		<table style=" ">
+			<tr>
+				<td style="padding-top: 1em; padding-bottom:1em;padding-right: 4px;">
+					<div style="float: left; margin-left: 5px; width: 30px; font-size: 15px; padding: 2px; color:#9e9e9e; margin-right: 5px;">Sub:</div>
+						<input type="text" style="padding: 2px;width: 750px;border: 2px solid #f0f0f0;" ng-model="mailTempSub" />
+				</td>
+			</tr>
 				
-				<tr>
-					<td style="padding-top: 1em; padding-left: 5px; padding-bottom:1em;padding-right: 4px;">
-					Sub:<input type="text" style="padding: 2px;width: 40em;border: 2px solid grey;" ng-model="mailTempSub" />
-					</td>
-				</tr>
+			<tr>
+				<td>
+					<div class="panel-footer" style= "width:58em;">
+						<textarea rows="2" cols="2" id="messageId" ng-model="mailTempBody" class="form-control" 
+								placeholder="Type your message here" style="height: 12em; resize: none;"></textarea>					
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div style=" width: 50px; float: left;">To:</div>
+					<div style=" width: 50px;  margin-left: 30em;">cc:</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div  style="float: left;height: 80px;overflow:scroll; border:2px solid #e2e2e2; width: 401px; ">
+						<input type="checkbox" ng-model="admin.toAdmin" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{admin.name}}<br>
+						<input type="checkbox" ng-model="projectManager.toProjectManager" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{projectManager.name}}<br>
 				
-				<tr>
-					<td>
-						<div class="panel-footer">
-								<textarea rows="2" cols="2" id="messageId" ng-model="mailTempBody" ng-keyup="onType($event)" class="form-control" 
-									placeholder="Type your message here" style="height: 15em; resize: none;"></textarea>
-								<button ng-click="submitContent()">Send</button>						
-						</div>
-					</td>
-				</tr>
-				<!-- To-->
-				<tr>
-					<td>
-						<div  style="float: left;height: 100px;overflow:scroll;  width: 500px; ">
-							To:<br>
-							<input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />projectManager<br>
-							   <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>Manager<br>
-							   <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>team<br>
-								  <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>Manager<br>
-							   <input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>team<br>
-								
-						
-						</div>
+					</div>
 					
-						<div style="float:left">
-						cc:<br>
-							<input type="checkbox"  style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />me<br>
-							<input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />projectManager<br>
-							<input type="checkbox" style="min-width: 1px; height: 1em; width: 1em; margin: 0.2em;margin-left: 2em;"/>Manager<br>
-								   
-						</div>
-					</td>
-					
-					<td>
-					
-					</td>
-
-				</tr>
-					<!-- Footer -->
-				<tr>
-					<td>
-						<div style="padding: 0.2em 1em;" class="modal-footer">
-							<button ng-click="saveMailSubDesc()" class="btn btn-primary action-button ng-binding" type="button">Save</button>
-							<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Reset</button>
-						</div>
-						
-					</td>
-				</tr>
-			</table>
-		</div>	
+					<div style="float:left; height: 80px; border:2px solid #e2e2e2;  width: 400px;  margin-left:10px;">
+						<input type="checkbox" ng-model="ccAdmins.ccAdmin" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{admin.name}}<br>
+						<input type="checkbox" ng-model="ccProjectManagers.ccProjectManager" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{ccProjectManagers.name}}<br>
+					</div>
+				</td>	
+				
+			</tr>
+			<tr>	
+				<td>
+						<!-- Footer -->
+					<div style="padding: 0.5em 1em;" class="modal-footer">
+						<button ng-click="saveMailSubDesc()" class="btn btn-primary action-button ng-binding" type="button">Save</button>
+						<button ng-click ="resetTable()" data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Reset</button>
+					</div>
+				</td>	
+			</tr>	
+		</table>
+	</div>
+	<!--  other box -->
+	<div class ="col-md-2" style="background-color: #e2e2e2;  border-radius: 5px;height:34em;padding:4px; width:230px">
+		<div>
+			<input type="text" class="form-control" aria-label="..." placeholder="description" style="width: 30px; height: 250px; overflow:scroll; padding: 20px; margin: 4px; border-radius: 5px;" readonly="readonly" value="{{selectedmailObj.contextAttribute}}">
+		</div>
 			
-		
-		<div style = "height:445px; width:25%;  float:right; background-color:#f3efce">
-			<div >
-				<input type="text" class="form-control" aria-label="..." style="width: 250px; height: 200px; padding: 20px; margin: 10px; border-radius: 5px;" readonly="readonly" value="{{selectedmailObj.description}}">
-			</div>
-			<div>
-				<input type="text" class="form-control" aria-label="..." style="width: 250px; height: 250px;scroll:auto; padding: 20px; margin: 10px; border-radius: 5px;" readonly="readonly" value="{{selectedmailObj.contextAttribute}}">
-			</div>
+		<div>
+			<input type="text" class="form-control" aria-label="..."  placeholder =" context"  style="width: 30px; height:200px; margin: 4px;overflow:scroll;  border-radius: 2px;" readonly="readonly" value="{{selectedmailObj.description}}">
 		</div>
 	</div>
 </div>

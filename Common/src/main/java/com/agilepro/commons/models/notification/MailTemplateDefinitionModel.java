@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.IgnoreField;
-import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 
 /**
@@ -14,35 +13,54 @@ import com.yukthi.webutils.common.annotations.Model;
 public class MailTemplateDefinitionModel
 {
 
-	/** The id. */
+	/**
+	 * The id.
+	 **/
 	private Long id;
-	
-	/** The name. */
+
+	/**
+	 * The name.
+	 **/
 	private String name;
-	
-	/** The description. */
+
+	/**
+	 * The description.
+	 **/
 	private String description;
-	
-	/** The context attribute. */
+
+	/**
+	 * The context attribute.
+	 **/
 	@IgnoreField
 	private Map<String, String> contextAttribute;
-	
-	
+
+	/** 
+	 * The customer id.
+	 **/
 	@Required
 	private Long customerId;
-	
-	
+
+	/**
+	 * Instantiates a new mail template definition model.
+	 */
 	public MailTemplateDefinitionModel()
 	{
-		
 	}
-	
-	public MailTemplateDefinitionModel(String name, String Description ,Long customerId )
+
+	/**
+	 * Instantiates a new mail template definition model.
+	 *
+	 * @param name the name
+	 * @param description the description
+	 * @param customerId the customer id
+	 */
+	public MailTemplateDefinitionModel(String name, String description, Long customerId)
 	{
-		this.name= name;
-		this.description =description;
+		this.name = name;
+		this.description = description;
 		this.customerId = customerId;
 	}
+
 	/**
 	 * Gets the id.
 	 *
@@ -56,7 +74,8 @@ public class MailTemplateDefinitionModel
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Long id)
 	{
@@ -76,7 +95,8 @@ public class MailTemplateDefinitionModel
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name)
 	{
@@ -96,7 +116,8 @@ public class MailTemplateDefinitionModel
 	/**
 	 * Sets the description.
 	 *
-	 * @param description the new description
+	 * @param description
+	 *            the new description
 	 */
 	public void setDescription(String description)
 	{
@@ -116,18 +137,29 @@ public class MailTemplateDefinitionModel
 	/**
 	 * Sets the context attribute.
 	 *
-	 * @param contextAttribute the context attribute
+	 * @param contextAttribute
+	 *            the context attribute
 	 */
 	public void setContextAttribute(Map<String, String> contextAttribute)
 	{
 		this.contextAttribute = contextAttribute;
 	}
 
+	/**
+	 * Gets the customer id.
+	 *
+	 * @return the customer id
+	 */
 	public Long getCustomerId()
 	{
 		return customerId;
 	}
 
+	/**
+	 * Sets the customer id.
+	 *
+	 * @param customerId the new customer id
+	 */
 	public void setCustomerId(Long customerId)
 	{
 		this.customerId = customerId;
