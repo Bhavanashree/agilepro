@@ -1,18 +1,15 @@
 package com.agilepro.controller.admin;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PROJECT_MEMBER;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_EMPLOYEE_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
-import static com.agilepro.commons.IAgileproActions.PARAM_ID;
-
 import java.util.List;
 
 import javax.validation.Valid;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,22 +72,18 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	{
 		return new BasicReadResponse<List<ProjectMemberModel>>(projectMemberService.fetchProjectMembers(projectId));
 	}
-
-	/**
-	 * Delete.
-	 *
-	 * @param id
-	 *            the id
-	 * @return the base response
+	
+	/* (non-Javadoc)
+	 * @see com.agilepro.commons.controllers.admin.IProjectMemberController#delete(java.lang.Long)
 	 */
 	@Override
-	@ActionName(ACTION_TYPE_DELETE)
+	@ActionName(ACTION_TYPE_DELETE_EMPLOYEE_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_MEMBER_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteByEmployeeId", method = RequestMethod.GET)
 	@ResponseBody
-	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
+	public BaseResponse delete(@RequestParam(value = "employeeId") Long employeeId)
 	{
-		projectMemberService.deleteById(id);
+		projectMemberService.deleteByEmployee(employeeId);
 
 		return new BaseResponse();
 	}

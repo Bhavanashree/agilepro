@@ -12,6 +12,6 @@ public enum EmployeeGender
 	@Label(value = "Male")
 	MALE,
 	
-	@Label(value = "Male")
+	@Label(value = "Female")
 	FEMALE
 }

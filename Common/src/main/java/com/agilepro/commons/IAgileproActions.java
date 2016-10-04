@@ -77,6 +77,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	
 	public String ACTION_TYPE_DELETE_BY_PROJECT_ID = "deleteByProjectId";
 
+	public String ACTION_TYPE_DELETE_EMPLOYEE_ID = "deleteByEmployeeId";
+	
 	/** 
 	 * The action type read all story and story release. 
 	 **/
@@ -118,6 +120,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix members.
 	 */
 	public String ACTION_PREFIX_PROJECT_MEMBER = "projectMember";
+	
+	/** 
+	 * The action prefix project team. 
+	 **/
+	public String ACTION_PREFIX_PROJECT_TEAM = "projectTeam";
 
 	/**
 	 * The action prefix realse.
@@ -129,7 +136,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_PROJECT_REALSE = "projectRelease";
 
-	/** The action prefix story realse. */
+	/** 
+	 * The action prefix story realse. 
+	 **/
 	public String ACTION_PREFIX_STORY_REALSE = "storyRelease";
 
 	/**
@@ -367,6 +376,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read story id.
 	 **/
 	public String ACTION_TYPE_READ_STORY_ID = "readStoryId";
+	
+	/** 
+	 * The action type read by project id. 
+	 **/
+	public String ACTION_TYPE_READ_BY_PROJECT_ID = "readByProjectId";
 
 	/**
 	 * The action type save stories in bulk.

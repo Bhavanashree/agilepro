@@ -4,8 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.agilepro.commons.EmployeeGender;
 import com.agilepro.commons.models.admin.EmployeeModel;
+import com.yukthi.persistence.annotations.DataType;
+import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.conversion.impl.JsonConverter;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
@@ -52,6 +56,13 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	private String address;
 
 	/**
+	 * The gender.
+	 **/
+	@Column(name = "GENDER")
+	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
+	private EmployeeGender gender;
+
+	/**
 	 * Employees designation.
 	 */
 	@ManyToOne
@@ -63,8 +74,7 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	 * Instantiates a new employee entity.
 	 */
 	public EmployeeEntity()
-	{
-	}
+	{}
 
 	/**
 	 * Instantiates a new employee entity.
@@ -189,5 +199,26 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	public void setDesignation(DesignationEntity designation)
 	{
 		this.designation = designation;
+	}
+
+	/**
+	 * Gets the gender.
+	 *
+	 * @return the gender
+	 */
+	public EmployeeGender getGender()
+	{
+		return gender;
+	}
+
+	/**
+	 * Sets the gender.
+	 *
+	 * @param gender
+	 *            the new gender
+	 */
+	public void setGender(EmployeeGender gender)
+	{
+		this.gender = gender;
 	}
 }

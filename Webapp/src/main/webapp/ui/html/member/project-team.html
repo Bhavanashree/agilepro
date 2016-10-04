@@ -1,0 +1,87 @@
+<div class="container-fluid"  ng-controller="projectTeamController" style="padding: 0px;">
+
+	<div style="background: white; padding-left: 0.5em; padding-right: 0.5em; padding-top: 5px; 
+		border-top-left-radius: 0.5em; margin-top: 1em;">
+			<div class="input-group">
+				<table>
+					<tr>
+						<td>
+							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" value="{{selectedTeam.name}}">
+						</td>
+						<td>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Team <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu dropdown-menu-right">
+								    <li ng-repeat="team in projectTeams"><a ng-click="onReleaseChange(release.id)" href="">
+								    {{team.name}}
+								    </a></li>
+								</ul>
+								<button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false"
+								ng-click="addNewTeam()" data-toggle="modal" data-target="#projectTeamModal">
+									<i class="fa fa-plus" aria-hidden="true"></i>
+								</button>
+								<button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+									<i class="fa fa-times" aria-hidden="true"></i>
+								</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div> 
+				
+	<div class="modal fade" id="projectTeamModal" role="dialog">
+	
+	   <div role="document" class="modal-dialog modal-sm">
+			<div class="modal-content">
+					<!-- Header -->
+					<div class="modal-header app-dlg-header">
+						<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+						<h4 class="modal-title">Team</h4>
+					</div>
+					
+					<!-- Content -->
+					<div yk-model="ProjectTeam" class="modal-body">
+						<div style="" yk-model-def="projectTeam" class="container-fluid model-form ng-scope">
+						<span ng-init="modelName = 'ProjectTeam';" style="display: none;"></span>
+							<div style="width: 100%;">
+							<!-- Customizes the field as specified -->
+							<div model-field-div="projectTeam.name" style="display: inline-block; vertical-align: top; width: 95%; margin: 0px; margin-top: 1em;" class="ng-scope">
+								<table style="width: 100%;border-collapse: collapse;border-spacing: 0px;">
+									<tbody>
+									<tr>
+										<td field-label="name" class="yk-field-label hidden-xs yk-field-label-mandatory" yk-hide-from="xs" style="vertical-align: top; padding: 0px; width: 50px; min-width: 50px; ">
+											Name
+										</td>
+										<td style="padding: 0px;">
+											<div style="font-size: 0.8em;" field-label="name" class="visible-xs-block yk-field-label yk-field-label-mandatory">
+											Name
+											</div>
+											<div style="width: 100%; display: inline-block; padding: 0px;">
+											<input type="text" ng-change="validateField('name', 'projectTeam')" yk-read-only="false" ng-model="projectTeam.name" placeholder="Name" name="name" class="ng-pristine ng-untouched ng-valid">
+											</div>
+											<div ng-bind="errors.projectTeam.name" class="yk-field-error ng-binding"></div>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+							
+						</div>							
+						<div style="width: 100%;"></div>							
+					</div>
+				</div>
+					
+				<!-- Footer -->
+				<div style="padding: 0.5em 1em;" class="modal-footer">
+					<button ng-click="saveTeam($event)" class="btn btn-primary action-button ng-binding" type="button">Save</button>
+					<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

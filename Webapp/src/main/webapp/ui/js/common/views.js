@@ -72,6 +72,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	
 	//Members related states
 	addState("member", "member/member-menu.html", "member/member.html", "membersTab");
+	addState("memberTest", "member/member-menu.html", "member/memberTest.html", "membersTab");
 	
 	//backlog
 	addState("sprint","story/sprints-menu.html", "story/sprint.html", "kanbanTab", true);

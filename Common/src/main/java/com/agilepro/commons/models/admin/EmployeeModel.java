@@ -2,6 +2,7 @@ package com.agilepro.commons.models.admin;
 
 import javax.validation.constraints.Pattern;
 
+import com.agilepro.commons.EmployeeGender;
 import com.yukthi.validation.annotations.MatchWith;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
@@ -82,6 +83,12 @@ public class EmployeeModel extends AbstractExtendableModel
 	@MatchWith(field = "password", message = "Confirm password dosent match with password")
 	@Required
 	private String confirmPassword;
+
+	/**
+	 * The employee gender.
+	 **/
+	@Required
+	private EmployeeGender gender;
 
 	/**
 	 * The designations.
@@ -341,5 +348,26 @@ public class EmployeeModel extends AbstractExtendableModel
 	public void setPhoto(ImageInfo photo)
 	{
 		this.photo = photo;
+	}
+
+	/**
+	 * Gets the gender.
+	 *
+	 * @return the gender
+	 */
+	public EmployeeGender getGender()
+	{
+		return gender;
+	}
+
+	/**
+	 * Sets the gender.
+	 *
+	 * @param gender
+	 *            the new gender
+	 */
+	public void setGender(EmployeeGender gender)
+	{
+		this.gender = gender;
 	}
 }

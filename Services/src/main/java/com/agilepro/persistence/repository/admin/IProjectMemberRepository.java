@@ -24,6 +24,9 @@ public interface IProjectMemberRepository extends IWebutilsRepository<ProjectMem
 	@RestrictBySpace
 	public List<ProjectMemberEntity> fetchProjMemByProjId(@Condition(value = "project.id") Long id);
 
+	@RestrictBySpace
+	public boolean deleteByEmployeeId(@Condition(value = "employee.id") Long employeeId);
+	
 	/**
 	 * Delete all.
 	 */

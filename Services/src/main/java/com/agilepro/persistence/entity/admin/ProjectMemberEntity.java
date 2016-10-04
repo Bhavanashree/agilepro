@@ -38,6 +38,14 @@ public class ProjectMemberEntity extends WebutilsEntity
 	@Column(name = "EMPLOYEE_ID", nullable = false)
 	@PropertyMapping(type = ProjectMemberModel.class, from = "employeeId", subproperty = "id")
 	private EmployeeEntity employee;
+	
+	/** 
+	 * The project team. 
+	 **/
+	@ManyToOne
+	@Column(name = "TEAM_ID")
+	@PropertyMapping(type = ProjectMemberModel.class, from = "projectTeamId", subproperty = "id")
+	private ProjectTeamEntity projectTeam;
 
 	/**
 	 * The user role.

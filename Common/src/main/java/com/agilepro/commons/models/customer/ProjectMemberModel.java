@@ -33,20 +33,30 @@ public class ProjectMemberModel
 	private Long employeeId;
 
 	/**
+	 * The project team id.
+	 **/
+	private Long projectTeamId;
+
+	/**
 	 * The project member role.
 	 **/
 	@Required
 	private ProjectMemberRole projectMemberRole;
 
 	/**
-	 * The employee name.
+	 * The name.
 	 **/
-	private String employeeName;
+	private String name;
 
 	/**
 	 * The photo.
 	 **/
 	private ImageInfo photo;
+
+	/**
+	 * The photo url.
+	 **/
+	private String photoUrl;
 
 	/**
 	 * Version used for update.
@@ -144,24 +154,24 @@ public class ProjectMemberModel
 	}
 
 	/**
-	 * Gets the employee name.
+	 * Gets the name.
 	 *
-	 * @return the employee name
+	 * @return the name
 	 */
-	public String getEmployeeName()
+	public String getName()
 	{
-		return employeeName;
+		return name;
 	}
 
 	/**
-	 * Sets the employee name.
+	 * Sets the name.
 	 *
-	 * @param employeeName
-	 *            the new employee name
+	 * @param name
+	 *            the new name
 	 */
-	public void setEmployeeName(String employeeName)
+	public void setName(String name)
 	{
-		this.employeeName = employeeName;
+		this.name = name;
 	}
 
 	/**
@@ -225,5 +235,47 @@ public class ProjectMemberModel
 	public void setVersion(Integer version)
 	{
 		this.version = version;
+	}
+
+	/**
+	 * Gets the photo url.
+	 *
+	 * @return the photo url
+	 */
+	public String getPhotoUrl()
+	{
+		return photoUrl;
+	}
+
+	/**
+	 * Sets the photo url.
+	 *
+	 * @param photoUrl
+	 *            the new photo url
+	 */
+	public void setPhotoUrl(String photoUrl)
+	{
+		this.photoUrl = photoUrl;
+	}
+
+	/**
+	 * Gets the project team id.
+	 *
+	 * @return the project team id
+	 */
+	public Long getProjectTeamId()
+	{
+		return projectTeamId;
+	}
+
+	/**
+	 * Sets the project team id.
+	 *
+	 * @param projectTeamId
+	 *            the new project team id
+	 */
+	public void setProjectTeamId(Long projectTeamId)
+	{
+		this.projectTeamId = projectTeamId;
 	}
 }

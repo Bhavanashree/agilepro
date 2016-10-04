@@ -12,6 +12,7 @@ import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.ProjectMemberModel;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.repository.admin.IProjectMemberRepository;
+import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 
@@ -81,13 +82,26 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 			employeeModel = employeeService.fetchEmployee(projectMemberModel.getEmployeeId());
 
 			projectMemberModel.setPhoto(employeeModel.getPhoto());
-			projectMemberModel.setEmployeeName(employeeModel.getName());
+			projectMemberModel.setName(employeeModel.getName());
 
 			projectMemberModels.add(projectMemberModel);
 		}
 		return projectMemberModels;
 	}
 
+	public void deleteByEmployee(Long employeeId)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			iprojectMemberRepository.deleteByEmployeeId(employeeId);
+
+			transaction.commit();
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred  while deleting project member - ", ex);
+		}
+	}
+	
 	/**
 	 * Deletes all entities.
 	 */

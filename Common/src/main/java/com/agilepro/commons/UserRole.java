@@ -258,7 +258,13 @@ public enum UserRole
 	 * The project members delete.
 	 **/
 	@Label("Project Members Delete") PROJECT_MEMBER_DELETE(false, PROJECT_MEMBER_VIEW),
-
+	
+	@Label("Project Team view") PROJECT_TEAM_VIEW,
+	
+	@Label("Project Team Edit") PROJECT_TEAM_EDIT(false, PROJECT_TEAM_VIEW, PROJECT_MEMBER_GROUP),
+	
+	@Label("Project Team Delete") PROJECT_TEAM_DELETE(false, PROJECT_TEAM_VIEW),
+	
 	/**
 	 * The tags view.
 	 **/
@@ -309,7 +315,7 @@ public enum UserRole
 	@Label("Story Release Edit") STORY_RELEASE_EDIT(false, STORY_RELEASE_VIEW, PROJECT_GROUP),
 
 	@Label("Story Release Delete") STORY_RELEASE_DELETE(false, STORY_RELEASE_VIEW),
-	
+
 	/**
 	 * The project property view.
 	 **/
@@ -404,19 +410,19 @@ public enum UserRole
 	 * The Story delete.
 	 */
 	@Label("Story DeleteAll") BACKLOG_DELETE_ALL(false, BACKLOG_VIEW),
-	
-	/** 
-	 * The story note view. 
+
+	/**
+	 * The story note view.
 	 **/
 	@Label("Story Note view") STORY_NOTE_VIEW,
 
-	/** 
-	 * The story note edit. 
+	/**
+	 * The story note edit.
 	 **/
 	@Label("Story Note Edit") STORY_NOTE_EDIT(false, STORY_NOTE_VIEW),
 
-	/** 
-	 * The story note delete. 
+	/**
+	 * The story note delete.
 	 **/
 	@Label("Story Note Delete") STORY_NOTE_DELETE(false, STORY_NOTE_VIEW),
 

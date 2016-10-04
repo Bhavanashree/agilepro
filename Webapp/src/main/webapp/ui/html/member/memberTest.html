@@ -1,0 +1,97 @@
+<div class="container-fluid"  ng-controller="memberTestController" style="padding: 0px;" ng-init="initProMem()">
+
+	<div class="row" style="margin-top: 2em;">
+		
+			<div class="col-xs-8 col-sm-8 col-md-9 col-lg-9">
+			
+				<div class="row">
+					<!-- Manager box -->
+					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 member"  yk-on-drag-over="allowDrop(event)" yk-on-drop="dropManager(event)" 
+					style="margin-left: 1em; padding-top: 0.5em; height: 10em; text-align:center;">
+						<div class="h5"><strong>Manager</strong></div>
+						<div ng-show="manager.name">
+							<img src="{{manager.photoUrl}}"  draggable="false" class="img-circle" width="65" height="65"/>
+							<br/>
+							{{manager.name}}
+							<a href=""  ng-click="removeProjectMembers(manager)">
+					        	<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+					        </a>
+					    </div>
+					</div>
+					
+					<!-- Admin box -->
+					<div class="col-xs-3 col-sm-3 col-md-7 col-lg-7 member" yk-on-drag-over="allowDrop(event)" yk-on-drop="dropAdmins(event)" 
+					style="margin-left: 5.5em; padding-top: 0.5em;height: 10em; overflow-y:auto;">
+						<div class="h5"><strong>Admin</strong></div>
+							<div ng-repeat="admin in admins">
+								<div style="width:9em; margin-bottom: 0.5em; float: left; text-align: center;">
+				              		<img ng-src="{{admin.photoUrl}}"  draggable="false" class="img-circle" width="65" height="65"/>
+				              		<br/>
+				              		{{admin.name}} 
+				              		<a href=""  ng-click="removeProjectMembers(admin)">
+				              			<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+				              		</a>
+			              		</div>
+		              		</div>
+					</div>
+				</div>
+				
+				<!-- Team -->	
+				<div ng-include="'/ui/html/member/project-team.html'" ng-controller="projectTeamController">
+				</div>
+		
+				<div class="row" style="padding-top: 2em;">
+					<!-- Member box -->
+					<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11 member" yk-on-drag-over="allowDrop(event)" yk-on-drop="dropMembers(event)" 
+					style="margin-left: 1em; padding-top: 1em; height: 20em; overflow-y:auto;">
+						<div class="h5"><strong>Members</strong></div>
+							
+							<div ng-repeat="member in members">
+								<div style="width:9em; margin-bottom: 0.5em; float: left; text-align: center;">
+			              			<img ng-src="{{member.photoUrl}}"  draggable="false" class="img-circle" width="65" height="65"/>
+			              			<br/>
+			              			{{member.name}} 
+			              			<a href=""  ng-click="removeProjectMembers(member)">
+			              				<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+			              			</a>
+		              			</div>
+		          			</div>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 member" style="margin-left: 1em;  height: 35em;">
+					
+				<form>
+					<div class="row">
+						<div class="input-group col-sm-12 col-md-12 col-lg-12">
+							<input type="text" ng-model="ngemployeeName" ng-keyup="checkKey($event)" class="form-control" placeholder="Employee Name" 
+							style="min-width: auto; max-width: 15em; border: none;">
+							<span class="input-group-addon" style="border: none;">
+								<a href="" ng-click="searchEmployee(ngemployeeName)"><i class="fa fa-search" aria-hidden="true" style="font-size:1.3em;"></i></a>
+							</span>
+						</div>
+					</div>
+				</form>	
+				
+				
+				<div class="row" style="border-bottom: 2px solid #87CEEB;"></div>
+				<!-- Employee box -->
+				<div class="row" style="text-align: center; height:32em; overflow-y:auto;">
+					<div class="h5"><strong>Employees</strong></div>
+					<div ng-repeat="employee in employees">
+						
+						<div class="memberPhoto" style="margin-top: 1em;">
+		  					<img id={{employee.id}} src="{{employee.photoUrl}}" draggable="true" yk-on-drag="dragEmployees(event)" 
+		  					class="img-circle" width="65" height="65" style="cursor:-moz-grab; cursor:grab; cursor:-webkit-grab;">
+		  					<br/>
+							{{employee.name}}
+							</img>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+</div>
