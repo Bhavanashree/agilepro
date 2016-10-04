@@ -4,12 +4,10 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_MAIL_TEMPLATE_
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,14 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.notification.IMailTemplateDefinitionController;
 import com.agilepro.commons.models.notification.MailTemplateDefinitionModel;
-import com.agilepro.commons.models.project.SprintModel;
 import com.agilepro.persistence.entity.notification.MailTemplateDefinitionEntity;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.notification.MailTemplateDefinitionService;

@@ -12,6 +12,12 @@ $.application.controller('mailTemplteDefinitionController', ["$scope", "crudCont
 		"readAction": "mailTemplteDefinition.read",
 	});
 	
+	$scope.admin = {"name" : "Admin", "toAdmin" : false};
+	$scope.projectManager = {"name" : "To Manager", "toProjectManager" : false};
+	$scope.ccAdmins = {"name" : "Admin", "ccAdmin" : false};
+	$scope.ccProjectManagers = {"name" : "ProjectManager", "ccProjectManager" : false};
+	
+	
 	$scope.model={};	
 	 $scope.init = function() {
 		 console.log("check");
@@ -36,61 +42,70 @@ $.application.controller('mailTemplteDefinitionController', ["$scope", "crudCont
 			});
 		};
 	
+		$scope.setMailTemDefId =function(mailDefId)
+		{
+			$scope.selectedmailObj = $scope.mailDefIdObjMap[mailDefId];
+		};
 		
-	$scope.setMailTemDefId =function(mailDefId)
-	{
-		$scope.selectedmailObj = $scope.mailDefIdObjMap[mailDefId];
-	};
-	
-	$scope.listOfMailDefin = function()
-	{
-		actionHelper.invokeAction("mailTemplteDefinition.readAll", null, null,  readCallBack );		
-	};
-	
-	 readCallBack =  function(read, response){
-				
-				$scope.mailDefinitionTemplates = read.model;
-				
-				$scope.mailDefIdObjMap = {};
-				var index;
-				var obj;
-				
-				for(index in $scope.mailDefinitionTemplates)
-				{
-					obj = $scope.mailDefinitionTemplates[index];
+		$scope.listOfMailDefin = function()
+		{
+			actionHelper.invokeAction("mailTemplteDefinition.readAll", null, null,  readCallBack );		
+		};
+		
+		 readCallBack =  function(read, response){
 					
-					$scope.mailDefIdObjMap[obj.id] = obj;
-				}
-				
-				console.log($scope.mailDefinitionTemplates);
+					$scope.mailDefinitionTemplates = read.model;
+					
+					$scope.mailDefIdObjMap = {};
+					var index;
+					var obj;
+					
+					for(index in $scope.mailDefinitionTemplates)
+					{
+						obj = $scope.mailDefinitionTemplates[index];
+						
+						$scope.mailDefIdObjMap[obj.id] = obj;
+					}
+					
+					console.log($scope.mailDefinitionTemplates);
 
-				console.log("$scope.mailDefi------" + read.model);
-				try
-				{
-			    	$scope.$apply();
-				}catch(ex)
-				{}	
-				};
-				//TODO: description and cotext attributes//json objects
+					console.log("$scope.mailDefi------" + read.model);
+					try
+					{
+				    	$scope.$apply();
+					}catch(ex)
+					{}
 					
-	$scope.saveMailSubDesc =function()
-	{
-		console.log("sssssss");
-		
-		console.log($scope.mailTempSub);
-		
-		var model = { "subject": $scope.mailTempSub, "body" : $scope.mailTempBody ,"to": "projectManager" , "cc":"test1"};
-		
-		actionHelper.invokeAction("mailTemplate.saveMailTemplate", model, null, function(read, Response){
+			$scope.init();
+		};
+					//TODO: description and context attributes//json objects
+						
+		$scope.saveMailSubDesc =function()
+		{
+			console.log($scope.mailTempBody);
+			var model = { "subject": $scope.mailTempSub, "body" : $scope.mailTempBody,"toAdmin": $scope.admin.toAdmin , "toProjectManager":$scope.projectManager.toProjectManager,
+							"ccAdmin": $scope.ccAdmins.ccAdmin, "ccProjectManager": $scope.ccProjectManagers.ccProjectManager
+							};
 			
-			console.log(read.model);
-			
-		});
+			actionHelper.invokeAction("mailTemplate.saveMailTemplate", model, null, function(read, Response){
+			});
+		};
+				
+		//TODO: save body 
+		$scope.onType = function(e) {
 		
-	};
-				
-				
-				
-				
-	
+			 $scope.message = $("#messageId").val();
+			
+		 };
+		
+		 //reset
+		 $scope.resetTable = function()
+		 {
+			$scope.mailTempSub=null;
+			$scope.mailTempBody=null;
+			$scope.admin.toAdmin =null;
+			$scope.ccAdmins.ccAdmin = null;
+			$scope.ccProjectManagers.ccProjectManager = null;
+			$scope.projectManager.toProjectManager = null;
+		 };
 }]);

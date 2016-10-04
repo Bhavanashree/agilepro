@@ -26,16 +26,28 @@ public class MailTemplateEntity extends WebutilsEntity
 	private String body;
 
 	/**
-	 * The cc.
-	 **/
-	@Column(name = "CC_MAIL")
-	private String ccSend;
-
-	/**
 	 * The To.
 	 **/
-	@Column(name = "TO_SEND")
-	private String toSend;
+	@Column(name = "TO_ADMIN")
+	private Boolean toAdmin;
+
+	/**
+	 * The to project manager.
+	 **/
+	@Column(name = "TO_PROJECT_MANAGER")
+	private Boolean toProjectManager;
+
+	/**
+	 * The cc admin.
+	 **/
+	@Column(name = "CC_ADMIN")
+	private Boolean ccAdmin;
+
+	/**
+	 * The cc project manager.
+	 **/
+	@Column(name = "CC_PROJECT_MANAGER")
+	private Boolean ccProjectManager;
 
 	/**
 	 * Gets the subject.
@@ -80,42 +92,86 @@ public class MailTemplateEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the cc send.
+	 * Gets the to admin.
 	 *
-	 * @return the cc send
+	 * @return the to admin
 	 */
-	public String getCcSend()
+	public Boolean getToAdmin()
 	{
-		return ccSend;
+		return toAdmin;
 	}
 
 	/**
-	 * Sets the cc send.
+	 * Sets the to admin.
 	 *
-	 * @param ccSend the new cc send
+	 * @param toAdmin
+	 *            the new to admin
 	 */
-	public void setCcSend(String ccSend)
+	public void setToAdmin(Boolean toAdmin)
 	{
-		this.ccSend = ccSend;
+		this.toAdmin = toAdmin;
 	}
 
 	/**
-	 * Gets the to send.
+	 * Gets the to project manager.
 	 *
-	 * @return the to send
+	 * @return the to project manager
 	 */
-	public String getToSend()
+	public Boolean getToProjectManager()
 	{
-		return toSend;
+		return toProjectManager;
 	}
 
 	/**
-	 * Sets the to send.
+	 * Sets the to project manager.
 	 *
-	 * @param toSend the new to send
+	 * @param toProjectManager
+	 *            the new to project manager
 	 */
-	public void setToSend(String toSend)
+	public void setToProjectManager(Boolean toProjectManager)
 	{
-		this.toSend = toSend;
+		this.toProjectManager = toProjectManager;
+	}
+
+	/**
+	 * Gets the cc admin.
+	 *
+	 * @return the cc admin
+	 */
+	public Boolean getCcAdmin()
+	{
+		return ccAdmin;
+	}
+
+	/**
+	 * Sets the cc admin.
+	 *
+	 * @param ccAdmin
+	 *            the new cc admin
+	 */
+	public void setCcAdmin(Boolean ccAdmin)
+	{
+		this.ccAdmin = ccAdmin;
+	}
+
+	/**
+	 * Gets the cc project manager.
+	 *
+	 * @return the cc project manager
+	 */
+	public Boolean getCcProjectManager()
+	{
+		return ccProjectManager;
+	}
+
+	/**
+	 * Sets the cc project manager.
+	 *
+	 * @param ccProjectManager
+	 *            the new cc project manager
+	 */
+	public void setCcProjectManager(Boolean ccProjectManager)
+	{
+		this.ccProjectManager = ccProjectManager;
 	}
 }

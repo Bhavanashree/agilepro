@@ -2,9 +2,7 @@ package com.agilepro.commons.models.notification;
 
 import java.util.List;
 
-import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
-import com.yukthi.webutils.common.annotations.ReadOnly;
 
 /**
  * The Class MailTemplateModel.
@@ -17,7 +15,6 @@ public class MailTemplateModel
 	/**
 	 * The to.
 	 **/
-	@Required
 	private List<String> recipient;
 
 	/**
@@ -30,11 +27,25 @@ public class MailTemplateModel
 	 **/
 	private String body;
 
-	private String to;
 	/**
-	 * The cc.
+	 *  The to admin. 
 	 **/
-	private String cc;
+	private Boolean toAdmin;
+
+	/** 
+	 * The to project manager.
+	 */
+	private Boolean toProjectManager;
+
+	/**
+	 *  The cc admin.
+	 **/
+	private Boolean ccAdmin;
+
+	/** 
+	 * The cc project manager. 
+	 **/
+	private Boolean ccProjectManager;
 
 	/**
 	 * Instantiates a new mail template model.
@@ -124,32 +135,82 @@ public class MailTemplateModel
 	}
 
 	/**
-	 * Gets the cc.
+	 * Gets the to admin.
 	 *
-	 * @return the cc
+	 * @return the to admin
 	 */
-	public String getCc()
+	public Boolean getToAdmin()
 	{
-		return cc;
+		return toAdmin;
 	}
 
 	/**
-	 * Sets the cc.
+	 * Sets the to admin.
 	 *
-	 * @param cc the new cc
+	 * @param toAdmin the new to admin
 	 */
-	public void setCc(String cc)
+	public void setToAdmin(Boolean toAdmin)
 	{
-		this.cc = cc;
+		this.toAdmin = toAdmin;
 	}
 
-	public String getTo()
+	/**
+	 * Gets the to project manager.
+	 *
+	 * @return the to project manager
+	 */
+	public Boolean getToProjectManager()
 	{
-		return to;
+		return toProjectManager;
 	}
 
-	public void setTo(String to)
+	/**
+	 * Sets the to project manager.
+	 *
+	 * @param toProjectManager the new to project manager
+	 */
+	public void setToProjectManager(Boolean toProjectManager)
 	{
-		this.to = to;
+		this.toProjectManager = toProjectManager;
+	}
+
+	/**
+	 * Gets the cc admin.
+	 *
+	 * @return the cc admin
+	 */
+	public Boolean getCcAdmin()
+	{
+		return ccAdmin;
+	}
+
+	/**
+	 * Sets the cc admin.
+	 *
+	 * @param ccAdmin the new cc admin
+	 */
+	public void setCcAdmin(Boolean ccAdmin)
+	{
+		this.ccAdmin = ccAdmin;
+	}
+
+	/**
+	 * Gets the cc project manager.
+	 *
+	 * @return the cc project manager
+	 */
+	public Boolean getCcProjectManager()
+	{
+		return ccProjectManager;
+	}
+
+	/**
+	 * Sets the cc project manager.
+	 *
+	 * @param ccProjectManager the new cc project manager
+	 */
+	public void setCcProjectManager(Boolean ccProjectManager)
+	{
+		this.ccProjectManager = ccProjectManager;
 	}
 }
