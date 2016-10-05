@@ -25,7 +25,7 @@ $.application.controller('mailTemplteDefinitionController', ["$scope", "crudCont
 			    "selector": '#messageId',
 			    "plugins": "autolink link emoticons  textcolor mention",
 			    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
-			    "menubar": false,
+			    "menubar": true,
 			    "mentions": {
 			        "source": [
 			            { name: 'Tyra Porcelli' }, 

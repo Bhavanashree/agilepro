@@ -1,5 +1,5 @@
 <div ng-controller="mailTemplteDefinitionController" >
-	<div style="margin-bottom :4px; width:20em; " ng-show="show" ng-init="listOfMailDefin()">
+	<div style="margin-bottom :4px; width:20em; "  ng-init="listOfMailDefin()">
 		<div class="input-group">
 			<table>
 				<tr>
@@ -22,7 +22,7 @@
 	</div>
 	<!-- end of drop down -->
 	
-	<div class = "col-md-9 col-xs-9 col-lg-9" style="padding: 0; margin:2px;  border:2px solid #e2e2e2; border-radius:5px; height:34em;"> 
+	<div class = "col-md-9 col-xs-9 col-lg-9" style="padding: 0; margin:2px;  border:2px solid #e2e2e2; border-radius:5px; height:auto;"> 
 		<table style=" ">
 			<tr>
 				<td style="padding-top: 1em; padding-bottom:1em;padding-right: 4px;">
@@ -41,21 +41,23 @@
 			</tr>
 			<tr>
 				<td>
-					<div style=" width: 50px; float: left;">To:</div>
+					<div style=" width: 50px;  margin-left:5px; float: left;">To:</div>
 					<div style=" width: 50px;  margin-left: 30em;">cc:</div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<div  style="float: left;height: 80px;overflow:scroll; border:2px solid #e2e2e2; width: 401px; ">
-						<input type="checkbox" ng-model="admin.toAdmin" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{admin.name}}<br>
-						<input type="checkbox" ng-model="projectManager.toProjectManager" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{projectManager.name}}<br>
+					<div  style="float: left; height: 80px; overflow:auto; border:2px solid #e2e2e2; width: 401px; ">
+						<input type="checkbox" ng-model="admin.toAdmin" style=" min-width: 1px; height: 1em; width:1em; margin: 0.2em; 
+								margin-left: 2em; vertical-align: middle;" />{{admin.name}}<br>
+						<input type="checkbox" ng-model="projectManager.toProjectManager" style=" min-width: 1px; height:1em; width: 1em; 
+								margin: 0.2em; margin-left: 2em; vertical-align: middle;" />{{projectManager.name}}<br>
 				
 					</div>
 					
 					<div style="float:left; height: 80px; border:2px solid #e2e2e2;  width: 400px;  margin-left:10px;">
-						<input type="checkbox" ng-model="ccAdmins.ccAdmin" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{admin.name}}<br>
-						<input type="checkbox" ng-model="ccProjectManagers.ccProjectManager" style=" min-width: 1px; height: 1em; width: 1em; margin: 0.2em; margin-left: 2em;" />{{ccProjectManagers.name}}<br>
+						<input type="checkbox" ng-model="ccAdmins.ccAdmin" style="height: 1em; width: 1em; margin: 0.2em 0.2em 0.2em 10px; min-width: 1px;" />{{admin.name}}<br>
+						<input type="checkbox" ng-model="ccProjectManagers.ccProjectManager" style=" height: 1em; width: 1em; margin: 0.2em 0.2em 0.2em 10px; min-width: 1px;" />{{ccProjectManagers.name}}<br>
 					</div>
 				</td>	
 				
