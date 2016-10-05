@@ -35,6 +35,9 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@SearchQueryMethod(name = "storySearch", queryModel = StorySearchQuery.class, customizer = StorySearchCustomizer.class)
 	@OrderBy("title")
 	public List<StorySearchResult> findStories(SearchQuery searchQuery);
+	
+	@LovQuery(name = "storiesLov", valueField = "id", labelField = "title")
+	public List<ValueLabel> findStoriesLov();
 
 	@RestrictBySpace
 	@SearchQueryMethod(name = "storyTaskSearch", queryModel = StorySearchQuery.class)

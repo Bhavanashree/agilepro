@@ -75,8 +75,10 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID = "readAllProjectAndProjectReleaseByReleaseId";
 	
+	/** The action type delete by project id. */
 	public String ACTION_TYPE_DELETE_BY_PROJECT_ID = "deleteByProjectId";
 
+	/** The action type delete employee id. */
 	public String ACTION_TYPE_DELETE_EMPLOYEE_ID = "deleteByEmployeeId";
 	
 	/** 
@@ -405,6 +407,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix for bug.
 	 **/
 	public String ACTION_PREFIX_BUG = "bug";
+	
+	/**
+	 *  The action prefix bug comments.
+	 **/
+	public String ACTION_PREFIX_BUG_COMMENTS= "bugComment";
 
 	/**
 	 * The param id.
@@ -1185,4 +1192,28 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action bug delete all.
 	 **/
 	public String ACTION_BUG_DELETE_ALL = ACTION_PREFIX_BUG + DOT + ACTION_TYPE_DELETE_ALL;
+	/**
+	 * The action bugComment save.
+	 */
+	public String ACTION_BUG_COMMENT_SAVE = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_SAVE;
+
+	/**
+	 * The action bugComment read.
+	 **/
+	public String ACTION_BUG_COMMENT_READ = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_READ;
+
+	/**
+	 * The action bugComment update.
+	 **/
+	public String ACTION_BUG_COMMENT_UPDATE = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_UPDATE;
+
+	/**
+	 * The action bugComment delete.
+	 **/
+	public String ACTION_BUG_COMMENT_DELETE = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_DELETE;
+
+	/**
+	 * The action bugComment delete all.
+	 **/
+	public String ACTION_BUG_COMMENT_DELETE_ALL = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_DELETE_ALL;
 }
