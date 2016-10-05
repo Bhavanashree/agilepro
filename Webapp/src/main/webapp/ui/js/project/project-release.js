@@ -250,11 +250,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		actionHelper.invokeAction("projectRelease.save", model, null, saveProjectReleaseCallBack, true);
 	};
 	
-	$scope.getActiveReleaseId = function(){
-		
-		return $scope.selectedRelease.id;
-	};
-
 	// Reverse Drag
 	$scope.dragBackProjects = function(event){
 		

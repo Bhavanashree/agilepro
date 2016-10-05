@@ -6,23 +6,31 @@
 				<table>
 					<tr>
 						<td>
-							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" value="{{selectedTeam.name}}">
+							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+							placeholder="Please create a team" value="{{selectedTeam.name}}">
 						</td>
 						<td>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									Team <span class="caret"></span>
 								</button>
-								<ul class="dropdown-menu dropdown-menu-right">
-								    <li ng-repeat="team in projectTeams"><a ng-click="onTeamChange(team.id)" href="">
-								    {{team.name}}
-								    </a></li>
+								<ul class="dropdown-menu dropdown-menu-right" ng-if="selectedTeam.name">
+								    <li ng-repeat="team in projectTeams">
+								    	<a ng-click="onTeamChange(team.id)" href="">
+								    	{{team.name}}
+								    	</a>
+								    </li>
 								</ul>
 								<button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false"
 								ng-click="addNewTeam()" data-toggle="modal" data-target="#projectTeamModal">
 									<i class="fa fa-plus" aria-hidden="true"></i>
 								</button>
-								<button ng-click="deleteTeam(selectedTeam.id)" type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+								<button ng-click="editTeam(selectedTeam.id)" type="button" class="btn btn-primary" 
+								aria-haspopup="true" aria-expanded="false">
+									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+								</button>
+								<button ng-click="deleteTeam(selectedTeam.id)" type="button" class="btn btn-danger" 
+								aria-haspopup="true" aria-expanded="false">
 									<i class="fa fa-times" aria-hidden="true"></i>
 								</button>
 							</div>

@@ -36,11 +36,11 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	@Autowired
 	private EmployeeService employeeService;
 
-	/** 
-	 * The iproject member repository. 
+	/**
+	 * The iproject member repository.
 	 **/
 	private IProjectMemberRepository iprojectMemberRepository;
-	
+
 	/**
 	 * Instantiates a new project members service.
 	 */
@@ -57,7 +57,7 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	{
 		iprojectMemberRepository = repositoryFactory.getRepository(IProjectMemberRepository.class);
 	}
-	
+
 	/**
 	 * Fetch project members.
 	 *
@@ -89,6 +89,12 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 		return projectMemberModels;
 	}
 
+	/**
+	 * Delete by employee.
+	 *
+	 * @param employeeId
+	 *            the employee id
+	 */
 	public void deleteByEmployee(Long employeeId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
@@ -101,7 +107,7 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 			throw new IllegalStateException("An error occurred  while deleting project member - ", ex);
 		}
 	}
-	
+
 	/**
 	 * Deletes all entities.
 	 */
