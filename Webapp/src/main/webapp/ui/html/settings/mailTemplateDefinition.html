@@ -22,18 +22,18 @@
 	</div>
 	<!-- end of drop down -->
 	
-	<div class = "col-md-9 col-xs-9 col-lg-9" style="padding: 0; margin:2px;  border:2px solid #e2e2e2; border-radius:5px; height:auto;"> 
+	<div class = "col-md-8 col-xs-8 col-lg-8" style="padding: 0; margin:2px;  border:2px solid #e2e2e2; border-radius:5px; height:auto;"> 
 		<table style=" ">
 			<tr>
 				<td style="padding-top: 1em; padding-bottom:1em;padding-right: 4px;">
 					<div style="float: left; margin-left: 5px; width: 30px; font-size: 15px; padding: 2px; color:#9e9e9e; margin-right: 5px;">Sub:</div>
-						<input type="text" style="padding: 2px;width: 750px;border: 2px solid #f0f0f0;" ng-model="mailTempSub" />
+						<input type="text" style="padding: 2px; max-width:48em; min-width:30em; border: 2px solid #f0f0f0;" ng-model="mailTempSub" />
 				</td>
 			</tr>
 				
 			<tr>
 				<td>
-					<div class="panel-footer" style= "width:58em;">
+					<div class="panel-footer" style= "width:51em;">
 						<textarea rows="2" cols="2" id="messageId" ng-model="mailTempBody" class="form-control" 
 								placeholder="Type your message here" style="height: 12em; resize: none;"></textarea>					
 					</div>
@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td>
-					<div  style="float: left; height: 80px; overflow:auto; border:2px solid #e2e2e2; width: 401px; ">
+					<div  style="float: left; height: 80px; overflow:auto; border:2px solid #e2e2e2; width:25.3125em; margin-left:3px;">
 						<input type="checkbox" ng-model="admin.toAdmin" style=" min-width: 1px; height: 1em; width:1em; margin: 0.2em; 
 								margin-left: 2em; vertical-align: middle;" />{{admin.name}}<br>
 						<input type="checkbox" ng-model="projectManager.toProjectManager" style=" min-width: 1px; height:1em; width: 1em; 
@@ -55,7 +55,7 @@
 				
 					</div>
 					
-					<div style="float:left; height: 80px; border:2px solid #e2e2e2;  width: 400px;  margin-left:10px;">
+					<div style="float:left; height: 80px; border:2px solid #e2e2e2;  width:25em;  margin-left:10px; ">
 						<input type="checkbox" ng-model="ccAdmins.ccAdmin" style="height: 1em; width: 1em; margin: 0.2em 0.2em 0.2em 10px; min-width: 1px;" />{{admin.name}}<br>
 						<input type="checkbox" ng-model="ccProjectManagers.ccProjectManager" style=" height: 1em; width: 1em; margin: 0.2em 0.2em 0.2em 10px; min-width: 1px;" />{{ccProjectManagers.name}}<br>
 					</div>
@@ -65,7 +65,7 @@
 			<tr>	
 				<td>
 						<!-- Footer -->
-					<div style="padding: 0.5em 1em;" class="modal-footer">
+					<div style =" text-align:right;margin:10px;">
 						<button ng-click="saveMailSubDesc()" class="btn btn-primary action-button ng-binding" type="button">Save</button>
 						<button ng-click ="resetTable()" data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Reset</button>
 					</div>
@@ -73,14 +73,15 @@
 			</tr>	
 		</table>
 	</div>
+	
 	<!--  other box -->
-	<div class ="col-md-2" style="background-color: #e2e2e2;  border-radius: 5px;height:34em;padding:4px; width:230px">
+	<div class ="col-md-2" style="background-color: #e2e2e2;  border-radius: 5px; height:34em; margin-left: 3em;">
 		<div>
-			<input type="text" class="form-control" aria-label="..." placeholder="description" style="width: 30px; height: 250px; overflow:scroll; padding: 20px; margin: 4px; border-radius: 5px;" readonly="readonly" value="{{selectedmailObj.contextAttribute}}">
+			{{selectedmailObj.contextAttribute}}
 		</div>
 			
 		<div>
-			<input type="text" class="form-control" aria-label="..."  placeholder =" context"  style="width: 30px; height:200px; margin: 4px;overflow:scroll;  border-radius: 2px;" readonly="readonly" value="{{selectedmailObj.description}}">
+			{{selectedmailObj.description}}
 		</div>
 	</div>
 </div>
