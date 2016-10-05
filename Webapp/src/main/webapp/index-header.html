@@ -14,11 +14,11 @@
 				</yk-tab-button>
 				<yk-tab-button id="projectsTab" label="Projects" state="project" icon="glyphicon glyphicon-th-large" color="white" yk-for-role="CUSTOMER_SUPER_USER">
 				</yk-tab-button>
-				<yk-tab-button id="membersTabId" label="Members" state="member" icon="glyphicon glyphicon-flash" color="white" yk-for-role="CUSTOMER_SUPER_USER" ng-if="projects.length > 0">
+				<yk-tab-button id="membersTabId" label="Members" state="member" icon="glyphicon glyphicon-flash" color="white" yk-for-role="CUSTOMER_SUPER_USER" ng-if="selectedProject">
 				</yk-tab-button>
-				<yk-tab-button id="storyTab" label="Story" state="story" icon="glyphicon glyphicon-th" color="white" yk-for-role="CUSTOMER_SUPER_USER" ng-if="projects.length > 0">
+				<yk-tab-button id="storyTab" label="Story" state="story" icon="glyphicon glyphicon-th" color="white" yk-for-role="CUSTOMER_SUPER_USER" ng-if="selectedProject">
 				</yk-tab-button>
-				<yk-tab-button id="kanbanTab" label="KanbanBoard" state="sprint" icon="glyphicon glyphicon-duplicate" color="white" yk-for-role="CUSTOMER_SUPER_USER" ng-if="projects.length > 0">
+				<yk-tab-button id="kanbanTab" label="KanbanBoard" state="sprint" icon="glyphicon glyphicon-duplicate" color="white" yk-for-role="CUSTOMER_SUPER_USER" ng-if="selectedProject">
 				</yk-tab-button>
 				<yk-tab-button id="settingsTab" label="Settings" state="extensions" icon="glyphicon glyphicon-cog" color="white" yk-for-role="ADMINISTRATOR ,CUSTOMER_SUPER_USER, EMPLOYEE_VIEW">
 				</yk-tab-button>
