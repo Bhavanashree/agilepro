@@ -1,28 +1,5 @@
-<div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;" ng-init="fetchAllRelease()">
+<div class="container-fluid" ng-controller="projectReleaseController" style="padding: 0px;">
 
-	<!-- Release select drop down -->
-	<div style="background: white; padding-left: 0.5em; padding-right: 0.5em; padding-top: 5px; border-top-left-radius: 0.5em;">
-		<div class="input-group">
-			<table>
-				<tr>
-					<td>
-						<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" value="{{selectedRelease.name}}">
-					</td>
-					<td>
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Release <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu dropdown-menu-right">
-							    <li ng-repeat="release in releases"><a ng-click="onReleaseChange(release.id)" href="">{{release.name}}</a></li>
-							</ul>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div> 
-  
 	<div class="row" style="margin-top: 2em;">
 	
 		<div class="col-md-5 col-xs-5" style="margin-left: 4em; border: solid; border-width: 0.2em; 

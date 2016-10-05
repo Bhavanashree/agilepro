@@ -2,30 +2,48 @@ $.application.controller('projectTeamController',
 						["$scope", "crudController", "actionHelper", "utils","modelDefService", "validator", 
                         function($scope, crudController, actionHelper, utils, modelDefService, validator){
 	
-	$scope.projectTeams = [];
-	$scope.teamIdObjMap = {};	
-	
-	
+			crudController.extend($scope, {
+				"name": "ProjectTeam",
+				
+				"nameColumn" : "name",
+				
+				"modelDailogId": "projectTeamModal",
+				
+				
+				"saveAction": "projectTeam.save",
+				"readAction": "projectTeam.read",
+				"updateAction": "projectTeam.update",
+				"deleteAction": "projectTeam.delete",
+			});
+		
+			
+	readAllProjectTeamCallBack = function(readResponse, respConfig){
+
+		$scope.teamIdObjMap = {};
+		
+		$scope.projectTeams = readResponse.model;
+		$scope.selectedTeam = $scope.projectTeams[0]; 
+		
+		for(index in $scope.projectTeams)
+		{
+			$scope.teamIdObjMap[$scope.projectTeams[index].id] = $scope.projectTeams[index];
+		}
+		
+		
+		console.log("team is inserted " + $scope.selectedTeam.name);
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
+		
+	};
+			
 	$scope.fetchAllProjectTeam = function(){
 	
-		actionHelper.invokeAction("projectTeam.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, function(readResponse, respConfig){
-			
-			$scope.projectTeams = readResponse.model;
-			$scope.selectedTeam = $scope.projectTeams[0]; 
-			
-			for(index in $scope.projectTeams)
-			{
-				$scope.teamIdObjMap[$scope.projectTeams[index].id] = $scope.projectTeams[index];
-			}
-			
-			try
-			{
-				$scope.$apply();
-			}catch(ex)
-			{}
-			
-		}, true);
-		
+		actionHelper.invokeAction("projectTeam.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
+				readAllProjectTeamCallBack, true);
 		
 	};
 	
@@ -38,8 +56,8 @@ $.application.controller('projectTeamController',
 	$scope.addNewTeam = function(){
 		
 		$scope.projectTeam = {};
-		//$scope.initErrors("projectTeam", true);
-		 
+		$scope.initErrors("projectTeam", true);
+		
 		console.log("add new team");
 	};
 	
@@ -48,16 +66,29 @@ $.application.controller('projectTeamController',
 		
 		$scope.projectTeam.projectId = $scope.getActiveProjectId();
 		
-		$scope.projectTeams.push($scope.projectTeam);
-		
-		$scope.selectedTeam = $scope.projectTeams[0]; 
-		
 		actionHelper.invokeAction("projectTeam.save", $scope.projectTeam, null, function(readResponse, respConfig){
 			
-			if(readResponse.code != 0)
+			if(readResponse.code == 0)
+			{
+				$scope.projectTeam.id = readResponse.id; 
+				
+				$scope.projectTeams.push($scope.projectTeam);
+				
+				$scope.teamIdObjMap[$scope.projectTeam.id] = $scope.projectTeam;
+				
+				$scope.selectedTeam = $scope.projectTeams[0];
+				
+				$('#projectTeamModal').modal('hide');
+			}else
 			{
 				// fetch all
 			}
+			
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 			
 		}, true);
 	};
