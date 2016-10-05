@@ -402,6 +402,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_SAVE_MAIL_TEMPLATE = "saveMailTemplate";
 
 	/**
+	 * The action prefix for bug.
+	 **/
+	public String ACTION_PREFIX_BUG = "bug";
+
+	/**
 	 * The param id.
 	 **/
 	public String PARAM_ID = "id";
@@ -1155,4 +1160,29 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action mail template savetemplate.
 	 **/
 	public String ACTION_MAIL_TEMPLATE_SAVETEMPLATE = ACTION_PREFIX_MAIL_TEMPLATE + DOT + ACTION_TYPE_SAVE_MAIL_TEMPLATE;
+
+	/**
+	 * The action bug save.
+	 */
+	public String ACTION_BUG_SAVE = ACTION_PREFIX_BUG + DOT + ACTION_TYPE_SAVE;
+
+	/**
+	 * The action bug read.
+	 **/
+	public String ACTION_BUG_READ = ACTION_PREFIX_BUG + DOT + ACTION_TYPE_READ;
+
+	/**
+	 * The action bug update.
+	 **/
+	public String ACTION_BUG_UPDATE = ACTION_PREFIX_BUG + DOT + ACTION_TYPE_UPDATE;
+
+	/**
+	 * The action bug delete.
+	 **/
+	public String ACTION_BUG_DELETE = ACTION_PREFIX_BUG + DOT + ACTION_TYPE_DELETE;
+
+	/**
+	 * The action bug delete all.
+	 **/
+	public String ACTION_BUG_DELETE_ALL = ACTION_PREFIX_BUG + DOT + ACTION_TYPE_DELETE_ALL;
 }

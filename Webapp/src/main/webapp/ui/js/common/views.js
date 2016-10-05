@@ -79,4 +79,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("priority","story/story-menu.html", "story/priority.html", "storyTab");
 	addState("task","story/story-menu.html", "story/task.html", "storyTab");
 	
+	//bug
+	addState("bug","bug/bug-menu.html", "bug/bug.html", "bugTab");
+	
 });
