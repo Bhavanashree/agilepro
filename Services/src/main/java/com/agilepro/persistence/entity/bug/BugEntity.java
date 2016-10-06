@@ -97,7 +97,7 @@ public class BugEntity extends WebutilsExtendableEntity
 	@ManyToOne
 	@PropertyMapping(type = BugModel.class, from = "commentsId", subproperty = "id")
 	@Column(name = "Comments_ID")
-	private BugComments comments;
+	private BugCommentsEntity comments;
 
 	/**
 	 * Gets the name.
@@ -251,7 +251,7 @@ public class BugEntity extends WebutilsExtendableEntity
 	 *
 	 * @return the comments
 	 */
-	public BugComments getComments()
+	public BugCommentsEntity getComments()
 	{
 		return comments;
 	}
@@ -262,7 +262,7 @@ public class BugEntity extends WebutilsExtendableEntity
 	 * @param comments
 	 *            the new comments
 	 */
-	public void setComments(BugComments comments)
+	public void setComments(BugCommentsEntity comments)
 	{
 		this.comments = comments;
 	}
