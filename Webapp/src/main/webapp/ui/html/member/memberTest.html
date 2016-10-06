@@ -8,7 +8,7 @@
 					<!-- Manager box -->
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 member"  yk-on-drag-over="allowDrop(event)" yk-on-drop="dropManager(event)" 
 					style="margin-left: 1em; padding-top: 0.5em; height: 10em; text-align:center;">
-						<div class="h5"><strong>Manager</strong></div>
+						<div class="h5" style="color: brown;">Manager</div>
 						<div ng-show="manager.name">
 							<img src="{{manager.photoUrl}}"  draggable="false" class="img-circle" width="65" height="65"/>
 							<br/>
@@ -22,7 +22,7 @@
 					<!-- Admin box -->
 					<div class="col-xs-3 col-sm-3 col-md-7 col-lg-7 member" yk-on-drag-over="allowDrop(event)" yk-on-drop="dropAdmins(event)" 
 					style="margin-left: 5.5em; padding-top: 0.5em;height: 10em; overflow-y:auto;">
-						<div class="h5"><strong>Admin</strong></div>
+						<div class="h5" style="color: brown; text-align: center;">Admin</div>
 							<div ng-repeat="admin in admins">
 								<div style="width:9em; margin-bottom: 0.5em; float: left; text-align: center;">
 				              		<img ng-src="{{admin.photoUrl}}"  draggable="false" class="img-circle" width="65" height="65"/>
@@ -37,14 +37,14 @@
 				</div>
 				
 				<!-- Team -->	
-				<div ng-include="'/ui/html/member/project-team.html'" ng-controller="projectTeamController">
+				<div ng-include="'/ui/html/member/project-team.html'" ng-controller="projectTeamController" style="margin-top: 0.5em;">
 				</div>
 		
-				<div class="row" style="padding-top: 2em;">
+				<div class="row" style="padding-top: 0.5em;">
 					<!-- Member box -->
 					<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11 member" yk-on-drag-over="allowDrop(event)" yk-on-drop="dropMembers(event)" 
 					style="margin-left: 1em; padding-top: 1em; height: 20em; overflow-y:auto;">
-						<div class="h5"><strong>Members</strong></div>
+						<div class="h5" style="color: brown; text-align: center;">Members</div>
 							
 							<div ng-repeat="member in members">
 								<div style="width:9em; margin-bottom: 0.5em; float: left; text-align: center;">

@@ -29,9 +29,6 @@ $.application.controller('projectTeamController',
 			$scope.teamIdObjMap[$scope.projectTeams[index].id] = $scope.projectTeams[index];
 		}
 		
-		
-		console.log("team is inserted " + $scope.selectedTeam.name);
-		
 		try
 		{
 			$scope.$apply();
@@ -54,6 +51,8 @@ $.application.controller('projectTeamController',
 	
 	
 	$scope.addNewTeam = function(){
+		
+		$scope.newModelMode = true;
 		
 		$scope.projectTeam = {};
 		$scope.initErrors("projectTeam", true);
@@ -93,6 +92,45 @@ $.application.controller('projectTeamController',
 		}, true);
 	};
 	
+	
+	
+	$scope.readTeam = function(){
+		
+		actionHelper.invokeAction("projectTeam.read", null, {"id" : $scope.selectedTeam.id}, function(readResponse, respConfig){
+			
+			if(readResponse.code == 0)
+			{
+				$scope.newModelMode = false;
+				
+				$scope.initErrors("projectTeam", false);
+				
+				$scope.projectTeam = readResponse.model;
+				
+				utils.openModal("projectTeamModal");
+			}
+			
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
+			
+		}, true);
+	};
+	
+	$scope.updateTeam = function(){
+		
+		actionHelper.invokeAction("projectTeam.update", $scope.projectTeam, null, function(readResponse, respConfig){
+			
+			if(readResponse.code == 0)
+			{
+				$('#projectTeamModal').modal('hide');
+			}
+			
+		}, true);
+		
+	};
+	
 	$scope.deleteTeam = function(teamId){
 		
 		var deleteOp = $.proxy(function(confirmed) {
@@ -103,7 +141,28 @@ $.application.controller('projectTeamController',
 			}
 			else
 			{
-				actionHelper.invokeAction("projectTeam.delete", null, {"id" : $scope.teamIdObjMap[teamId].id}, deleteAttachmentCallBack);
+				actionHelper.invokeAction("projectTeam.delete", null, {"id" : $scope.selectedTeam.id}, function(readResponse, respConfig){
+					
+					if(readResponse.code == 0)
+					{
+						$scope.projectTeams.splice($scope.projectTeams.indexOf($scope.selectedTeam), 1);
+						
+						if($scope.projectTeams.length > 0)
+						{
+							$scope.onTeamChange($scope.projectTeams[0])
+						}else
+						{
+							$scope.selectedTeam = {};
+						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+
+					}
+				}, true);
 			}
 			
 			try
@@ -114,7 +173,7 @@ $.application.controller('projectTeamController',
 			
 		}, {"$scope": $scope});
 
-		utils.confirm(["Are you sure you want to delete {} and there respective members ?", $scope.teamIdObjMap[teamId].name], deleteOp);
+		utils.confirm(["Are you sure you want to delete {} along with there respective members ?", $scope.selectedTeam.name], deleteOp);
 
 	};
 	
