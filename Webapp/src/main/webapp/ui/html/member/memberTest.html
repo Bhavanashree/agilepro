@@ -1,6 +1,6 @@
 <div class="container-fluid"  ng-controller="memberTestController" style="padding: 0px;" ng-init="initProMem()">
 
-	<div class="row" style="margin-top: 2em;">
+	<div class="row">
 		
 			<div class="col-xs-8 col-sm-8 col-md-9 col-lg-9">
 			
@@ -23,8 +23,8 @@
 					<div class="col-xs-3 col-sm-3 col-md-7 col-lg-7 member" yk-on-drag-over="allowDrop(event)" yk-on-drop="dropAdmins(event)" 
 					style="margin-left: 5.5em; padding-top: 0.5em;height: 10em; overflow-y:auto;">
 						<div class="h5" style="color: brown; text-align: center;">Admin</div>
-							<div ng-repeat="admin in admins">
-								<div style="width:9em; margin-bottom: 0.5em; float: left; text-align: center;">
+							<div ng-repeat="admin in admins" style="padding-left: 0.5em;">
+								<div style="width:8em; margin-left: 0.5em; margin-bottom: 0.5em; float: left; text-align: center;">
 				              		<img ng-src="{{admin.photoUrl}}"  draggable="false" class="img-circle" width="65" height="65"/>
 				              		<br/>
 				              		{{admin.name}} 
@@ -43,11 +43,11 @@
 				<div class="row" style="padding-top: 0.5em;">
 					<!-- Member box -->
 					<div class="col-xs-8 col-sm-8 col-md-11 col-lg-11 member" yk-on-drag-over="allowDrop(event)" yk-on-drop="dropMembers(event)" 
-					style="margin-left: 1em; padding-top: 1em; height: 20em; overflow-y:auto;">
+					style="margin-left: 1em; padding-top: 1em; height: 22em; overflow-y:auto;">
 						<div class="h5" style="color: brown; text-align: center;">Members</div>
 							
 							<div ng-repeat="member in members">
-								<div style="width:9em; margin-bottom: 0.5em; float: left; text-align: center;">
+								<div style="width:8.5em; margin-left: 1.2em; margin-top: 0.5em; margin-bottom: 0.5em; float: left; text-align: center;">
 			              			<img ng-src="{{member.photoUrl}}"  draggable="false" class="img-circle" width="65" height="65"/>
 			              			<br/>
 			              			{{member.name}} 
@@ -61,7 +61,7 @@
 				
 			</div>
 			
-			<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 member" style="margin-left: 1em;  height: 35em;">
+			<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 member" style="margin-left: 1em;  height: 37em;">
 					
 				<form>
 					<div class="row">
@@ -78,7 +78,7 @@
 				
 				<div class="row" style="border-bottom: 2px solid #87CEEB;"></div>
 				<!-- Employee box -->
-				<div class="row" style="text-align: center; height:32em; overflow-y:auto;">
+				<div class="row" style="text-align: center; height: 33.5em; overflow-y:auto;">
 					<div class="h5"><strong>Employees</strong></div>
 					<div ng-repeat="employee in employees">
 						
