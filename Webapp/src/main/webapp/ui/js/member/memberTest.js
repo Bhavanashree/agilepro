@@ -260,10 +260,10 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 			
 			if(index == -1)
 			{
-				if($scope.manager.employeeName)
+				/*if($scope.selectedEmployee.employeeName)
 				{
-					deleteProjectMembers($scope.manager.employeeId);
-				}
+					deleteProjectMembers($scope.selectedEmployee.employeeId);
+				}*/
 				
 				saveProjectMembers(empObj.id, "PROJECT_MANAGER");
 			}
@@ -331,7 +331,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 				}
 			case 'PROJECT_MANAGER':
 				{
-					if($scope.manager.employeeId)
+					if($scope.manager)
 					{
 						$scope.removeProjectMembers($scope.manager);
 					}
