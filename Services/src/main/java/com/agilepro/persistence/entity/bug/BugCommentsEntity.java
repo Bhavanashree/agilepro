@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class BugComments.
+ * The Class BugComment.
  */
 @Table(name = "COMMENTS")
 public class BugCommentsEntity extends WebutilsEntity

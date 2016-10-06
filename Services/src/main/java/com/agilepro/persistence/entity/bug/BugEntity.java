@@ -92,7 +92,7 @@ public class BugEntity extends WebutilsExtendableEntity
 	private PriorityStatus priorityStatus;
 
 	/**
-	 * comments.
+	 *comments.
 	 **/
 	@ManyToOne
 	@PropertyMapping(type = BugModel.class, from = "commentsId", subproperty = "id")
