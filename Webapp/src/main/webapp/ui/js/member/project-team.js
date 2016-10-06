@@ -37,7 +37,10 @@ $.application.controller('projectTeamController',
 			{
 				$scope.teamIdObjMap[$scope.projectTeams[index].id] = $scope.projectTeams[index];
 			}
-			
+		}else
+		{
+			$scope.projectTeams = [];
+			$scope.selectedTeam = {};
 		}
 		
 		try
@@ -63,9 +66,9 @@ $.application.controller('projectTeamController',
 		$scope.selectedTeam = $scope.teamIdObjMap[teamId];
 		
 		// set in parent 
-		$scope.setActiveTeamId($scope.selectedTeam.id); 
+		$scope.setActiveTeamId(teamId); 
 		
-		$scope.fetchMembers($scope.selectedTeam.id);
+		$scope.fetchMembers(teamId);
 	};
 	
 	
@@ -94,10 +97,7 @@ $.application.controller('projectTeamController',
 				
 				$scope.teamIdObjMap[$scope.projectTeam.id] = $scope.projectTeam;
 				
-				$scope.selectedTeam = $scope.projectTeams[0];
-				
-				// set in parent 
-				$scope.setActiveTeamId($scope.selectedTeam.id);
+				$scope.onTeamChange($scope.projectTeams[0].id);
 				
 				$('#projectTeamModal').modal('hide');
 			}else
@@ -163,18 +163,27 @@ $.application.controller('projectTeamController',
 			}
 			else
 			{
+				console.log($scope.selectedTeam.id + " for delete");
+				
 				actionHelper.invokeAction("projectTeam.delete", null, {"id" : $scope.selectedTeam.id}, function(readResponse, respConfig){
 					
 					if(readResponse.code == 0)
 					{
 						$scope.projectTeams.splice($scope.projectTeams.indexOf($scope.selectedTeam), 1);
 						
+						console.log($scope.projectTeams);
+						
 						if($scope.projectTeams.length > 0)
 						{
-							$scope.onTeamChange($scope.projectTeams[0])
+							$scope.onTeamChange($scope.projectTeams[0].id)
 						}else
 						{
+							$scope.fetchMembers($scope.selectedTeam.id)
+							
 							$scope.selectedTeam = {};
+							
+							// set in parent 
+							$scope.setActiveTeamId(null);
 						}
 						
 						try

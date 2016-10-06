@@ -104,7 +104,6 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 	
 	var projectId;
 	
-	
 	$scope.setActiveTeamId = function(teamId){
 		
 		$scope.activeTeamId = teamId;
@@ -368,6 +367,10 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 		$scope.initProMem();
 	   
 	});
-
+	
+	
+	$scope.setMembers = function(membersArr){
+		$scope.members = membersArr;
+	};
 	
 }]);

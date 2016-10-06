@@ -118,7 +118,7 @@ public class ProjectTeamController extends BaseController
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
 	{
-		projectTeamService.deleteById(id);
+		projectTeamService.deleteProjectMember(id);
 		return new BaseResponse();
 	}
 }

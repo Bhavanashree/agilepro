@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.customer;
 
+import java.util.List;
+
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.Required;
