@@ -25,11 +25,11 @@
 								ng-click="addNewTeam()" data-toggle="modal" data-target="#projectTeamModal">
 									<i class="fa fa-plus" aria-hidden="true"></i>
 								</button>
-								<button ng-click="editTeam(selectedTeam.id)" type="button" class="btn btn-primary" 
+								<button ng-click="readTeam()" type="button" class="btn btn-primary" ng-if="selectedTeam.name"
 								aria-haspopup="true" aria-expanded="false">
 									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 								</button>
-								<button ng-click="deleteTeam(selectedTeam.id)" type="button" class="btn btn-danger" 
+								<button ng-click="deleteTeam()" type="button" class="btn btn-danger" ng-if="selectedTeam.name"
 								aria-haspopup="true" aria-expanded="false">
 									<i class="fa fa-times" aria-hidden="true"></i>
 								</button>
@@ -86,7 +86,7 @@
 					
 				<!-- Footer -->
 				<div style="padding: 0.5em 1em;" class="modal-footer">
-					<button ng-click="saveTeam($event)" class="btn btn-primary action-button ng-binding" type="button">Save</button>
+					<button ng-click="newModelMode ? saveTeam($event) : updateTeam()" class="btn btn-primary action-button ng-binding" type="button">{{newModelMode ? 'Save' : 'Update'}}</button>
 					<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Cancel</button>
 				</div>
 			</div>
