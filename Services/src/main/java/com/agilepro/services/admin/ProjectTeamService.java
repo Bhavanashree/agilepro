@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.customer.ProjectTeamModel;
 import com.agilepro.persistence.entity.admin.ProjectTeamEntity;
-import com.agilepro.persistence.repository.admin.IProjectRepository;
 import com.agilepro.persistence.repository.admin.IProjectTeamRepository;
 import com.yukthi.webutils.services.BaseCrudService;
 

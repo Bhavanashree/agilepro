@@ -8,8 +8,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agilepro.commons.ProjectMemberRole;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.ProjectMemberModel;
+import com.agilepro.controller.response.ProjectMemberReadResponse;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.repository.admin.IProjectMemberRepository;
 import com.yukthi.persistence.ITransaction;
@@ -58,21 +60,11 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 		iprojectMemberRepository = repositoryFactory.getRepository(IProjectMemberRepository.class);
 	}
 
-	/**
-	 * Fetch project members.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the list
-	 */
-	public List<ProjectMemberModel> fetchProjectMembers(Long projectId)
+	private List<ProjectMemberModel> initPhoto(List<ProjectMemberEntity> projectMemberEntities)
 	{
-		List<ProjectMemberEntity> projectMemberEntities = iprojectMemberRepository.fetchProjMemByProjId(projectId);
-
-		List<ProjectMemberModel> projectMemberModels = new ArrayList<ProjectMemberModel>();
+		List<ProjectMemberModel> projectMemberModels = new ArrayList<ProjectMemberModel>(projectMemberEntities.size());
 
 		ProjectMemberModel projectMemberModel;
-
 		EmployeeModel employeeModel;
 
 		for(ProjectMemberEntity pentity : projectMemberEntities)
@@ -86,7 +78,48 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 
 			projectMemberModels.add(projectMemberModel);
 		}
+
 		return projectMemberModels;
+	}
+
+	/**
+	 * Fetch project admin members.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the project member read response
+	 */
+	public ProjectMemberReadResponse fetchProjectAdminManagers(Long projectId)
+	{
+		List<ProjectMemberModel> projectMemberModels = initPhoto(iprojectMemberRepository.fetchAdminManagers(projectId));
+
+		ProjectMemberModel manager = null;
+
+		for(int i = 0; i < projectMemberModels.size(); i++)
+		{
+			if(projectMemberModels.get(i).getProjectMemberRole().equals(ProjectMemberRole.PROJECT_MANAGER))
+			{
+				manager = projectMemberModels.get(i);
+				projectMemberModels.remove(i);
+				break;
+			}
+		}
+
+		return new ProjectMemberReadResponse(manager, projectMemberModels);
+	}
+
+	/**
+	 * Fetch project members.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the project member read response
+	 */
+	public ProjectMemberReadResponse fetchProjectMembers(Long projectId)
+	{
+		List<ProjectMemberModel> projectMemberModels = initPhoto(iprojectMemberRepository.fetchMembers(projectId));
+
+		return new ProjectMemberReadResponse(projectMemberModels);
 	}
 
 	/**

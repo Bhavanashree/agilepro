@@ -2,15 +2,6 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
                                         function($scope, crudController, actionHelper, utils){
 	
 	
-	$scope.fetchTeamByProjectId = function(){
-		
-	};
-	
-	$scope.addNewTeam = function(){
-		
-		utils.openModal("projectTeamModelDialog");
-	};
-	
 	// For enter key
 	$scope.checkKey = function(event){
 		
@@ -114,63 +105,40 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 	var projectId;
 	
 	
+	$scope.setActiveTeamId = function(teamId){
+		
+		$scope.activeTeamId = teamId;
+		console.log("active team id is set  = " + $scope.activeTeamId);
+	};
+	 
 	
 	// Call back method for reading the existing project members
 	var initMemCallBack = function(readResponse, respConfig){
 		
-		var model = readResponse.model;
-		
-		if(model.length == 0)
-		{
-			try
-			{
-	    		$scope.$apply();
-			}catch(ex)
-			{}
+		$scope.admins = readResponse.admins;
 			
-			return;
+		$scope.manager = readResponse.manager;
+		
+		if($scope.admins)
+		{
+			initPhoto($scope.admins);
+		}
+		if($scope.manager)
+		{
+			initPhoto($scope.manager);
 		}
 		
-		if(model)
-		{
-			for(index in model)
-			{
-				employeeIds.push(model[index].employeeId);
-				
-				switch(model[index].projectMemberRole)
-				{
-					case 'PROJECT_ADMIN':
-						$scope.admins.push(model[index]);
-						break;
-					case 'PROJECT_MEMBER':
-						$scope.members.push(model[index]);
-						break;
-					case 'PROJECT_MANAGER':
-						$scope.manager = model[index];
-				}
-			}
-			
-			if($scope.admins)
-			{
-				initPhoto($scope.admins);
-			}
-			if($scope.members)
-			{
-				initPhoto($scope.members);
-			}
-			if($scope.manager)
-			{
-				initPhoto($scope.manager);
-			}
-		}
-		
-		try
+		// Broad cast 
+		console.log("broadcast");
+    	$scope.$broadcast("adminAndMembersAreFetched");
+    	
+    	/*	try
 		{
     		$scope.$apply();
 		}catch(ex)
-		{}
+		{}*/
 	};
-	
+
 	// Fetch existing project member
 	$scope.initProMem = function(){
 
@@ -190,7 +158,35 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 			return;
 		}
 		
-		actionHelper.invokeAction("projectMember.readAll", null, {"projectId" : projectId}, initMemCallBack, true);
+		actionHelper.invokeAction("projectMember.readAdminManagersByProjectId", null, {"projectId" : projectId}, 
+				initMemCallBack, true);
+	};
+	
+	
+	$scope.fetchMembers = function(projectTeamId){
+		
+		actionHelper.invokeAction("projectMember.readMembersByProjectId", null, {"projectTeamId" : projectTeamId}, 
+				function(readResponse, respConfig){
+			
+					if(readResponse.code == 0)
+					{
+						$scope.members = readResponse.members; 
+						console.log($scope.members);
+					}
+					
+					if($scope.members)
+					{
+						initPhoto($scope.members);
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
+		}, true);
+		
 	};
 	
 	// Invoked on drag
@@ -218,6 +214,12 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 	 $scope.dropMembers = function(event){
 		 
 		    event.preventDefault();
+		    
+		    if(!$scope.activeTeamId)
+		    {
+		    	utils.alert("Please Select a team");
+		    	return;
+		    }
 		    
 		    var index = employeeIds.indexOf(empObj.id);
 			
@@ -323,6 +325,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 				}
 			case 'PROJECT_MEMBER':
 				{
+					model.projectTeamId = $scope.activeTeamId;
 					$scope.members.push(model);
 					initPhoto($scope.members);
 					break;

@@ -16,17 +16,28 @@ $.application.controller('projectTeamController',
 				"deleteAction": "projectTeam.delete",
 			});
 		
-			
+		
+	$scope.projectTeams = [];
+	$scope.teamIdObjMap = {};
+	
 	readAllProjectTeamCallBack = function(readResponse, respConfig){
 
-		$scope.teamIdObjMap = {};
-		
-		$scope.projectTeams = readResponse.model;
-		$scope.selectedTeam = $scope.projectTeams[0]; 
-		
-		for(index in $scope.projectTeams)
+		if(readResponse.model.length != 0)
 		{
-			$scope.teamIdObjMap[$scope.projectTeams[index].id] = $scope.projectTeams[index];
+			$scope.projectTeams = readResponse.model;
+			$scope.selectedTeam = $scope.projectTeams[0];
+			
+			// set in parent 
+			$scope.setActiveTeamId($scope.selectedTeam.id); 
+			
+			
+			$scope.fetchMembers($scope.selectedTeam.id);
+			
+			for(index in $scope.projectTeams)
+			{
+				$scope.teamIdObjMap[$scope.projectTeams[index].id] = $scope.projectTeams[index];
+			}
+			
 		}
 		
 		try
@@ -36,17 +47,25 @@ $.application.controller('projectTeamController',
 		{}
 		
 	};
-			
-	$scope.fetchAllProjectTeam = function(){
 	
+	// Listener for broadcast
+	$scope.$on("adminAndMembersAreFetched", function(event, args) {
+
+		console.log("listener");
+		
 		actionHelper.invokeAction("projectTeam.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
 				readAllProjectTeamCallBack, true);
-		
-	};
-	
+	   
+	});
+
 	$scope.onTeamChange = function(teamId){
 		
 		$scope.selectedTeam = $scope.teamIdObjMap[teamId];
+		
+		// set in parent 
+		$scope.setActiveTeamId($scope.selectedTeam.id); 
+		
+		$scope.fetchMembers($scope.selectedTeam.id);
 	};
 	
 	
@@ -76,6 +95,9 @@ $.application.controller('projectTeamController',
 				$scope.teamIdObjMap[$scope.projectTeam.id] = $scope.projectTeam;
 				
 				$scope.selectedTeam = $scope.projectTeams[0];
+				
+				// set in parent 
+				$scope.setActiveTeamId($scope.selectedTeam.id);
 				
 				$('#projectTeamModal').modal('hide');
 			}else
@@ -176,6 +198,5 @@ $.application.controller('projectTeamController',
 		utils.confirm(["Are you sure you want to delete {} along with there respective members ?", $scope.selectedTeam.name], deleteOp);
 
 	};
-	
 	
 }]);

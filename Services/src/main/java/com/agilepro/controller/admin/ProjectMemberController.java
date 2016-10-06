@@ -1,10 +1,10 @@
 package com.agilepro.controller.admin;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PROJECT_MEMBER;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_EMPLOYEE_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_BY_EMPLOYEE_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
-import java.util.List;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ADMIN_MANAGERS_BY_PROEJCT_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_MEMBERS_BY_PROEJCT_ID;
 
 import javax.validation.Valid;
 
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.admin.IProjectMemberController;
 import com.agilepro.commons.models.customer.ProjectMemberModel;
+import com.agilepro.controller.response.ProjectMemberReadResponse;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.services.admin.ProjectMemberService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
-import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
@@ -64,20 +64,29 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	}
 
 	@Override
-	@ActionName(ACTION_TYPE_READ_ALL)
+	@ActionName(ACTION_TYPE_READ_ADMIN_MANAGERS_BY_PROEJCT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_MEMBER_VIEW, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+	@RequestMapping(value = "/readAdminManagersByProjectId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<ProjectMemberModel>> fetchProjectMembers(@RequestParam(value = "projectId") Long projectId)
+	public ProjectMemberReadResponse fetchAdminManagers(@RequestParam(value = "projectId") Long projectId)
 	{
-		return new BasicReadResponse<List<ProjectMemberModel>>(projectMemberService.fetchProjectMembers(projectId));
+		return projectMemberService.fetchProjectAdminManagers(projectId);
+	}
+	
+	@ActionName(ACTION_TYPE_READ_MEMBERS_BY_PROEJCT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_MEMBER_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readMembersByProjectId", method = RequestMethod.GET)
+	@ResponseBody
+	public ProjectMemberReadResponse fetchMembers(@RequestParam(value = "projectTeamId") Long projectTeamId)
+	{
+		return projectMemberService.fetchProjectMembers(projectTeamId);
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.agilepro.commons.controllers.admin.IProjectMemberController#delete(java.lang.Long)
 	 */
 	@Override
-	@ActionName(ACTION_TYPE_DELETE_EMPLOYEE_ID)
+	@ActionName(ACTION_TYPE_DELETE_BY_EMPLOYEE_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_MEMBER_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/deleteByEmployeeId", method = RequestMethod.GET)
 	@ResponseBody

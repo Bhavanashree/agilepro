@@ -1,10 +1,7 @@
 package com.agilepro.commons;
 
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
-
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ICloudbillerActions.
  */
@@ -70,27 +67,41 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 */
 	public String ACTION_TYPE_RUNTIME_VARIABLES = "readRuntimeVariables";
 
-	/** 
-	 * The action type read all project and project release by release id. 
+	/**
+	 * The action type read all project and project release by release id.
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID = "readAllProjectAndProjectReleaseByReleaseId";
-	
-	/** The action type delete by project id. */
+
+	/**
+	 * The action type delete by project id.
+	 **/
 	public String ACTION_TYPE_DELETE_BY_PROJECT_ID = "deleteByProjectId";
 
-	/** The action type delete employee id. */
-	public String ACTION_TYPE_DELETE_EMPLOYEE_ID = "deleteByEmployeeId";
-	
-	/** 
-	 * The action type read all story and story release. 
+	/**
+	 * The action type delete employee id.
+	 **/
+	public String ACTION_TYPE_DELETE_BY_EMPLOYEE_ID = "deleteByEmployeeId";
+
+	/**
+	 * The action type read all story and story release.
 	 **/
 	public String ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE = "readAllStoryAndStoryRelease";
 
 	/** 
-	 * The action prefix story note. 
+	 * The action type read admin managers by proejct id. 
+	 **/
+	public String ACTION_TYPE_READ_ADMIN_MANAGERS_BY_PROEJCT_ID = "readAdminManagersByProjectId";
+
+	/**
+	 * The action type read members by proejct id.
+	 **/
+	public String ACTION_TYPE_READ_MEMBERS_BY_PROEJCT_ID = "readMembersByProjectId";
+
+	/**
+	 * The action prefix story note.
 	 **/
 	public String ACTION_PREFIX_STORY_NOTE = "storyNote";
-	
+
 	////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -122,9 +133,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix members.
 	 */
 	public String ACTION_PREFIX_PROJECT_MEMBER = "projectMember";
-	
-	/** 
-	 * The action prefix project team. 
+
+	/**
+	 * The action prefix project team.
 	 **/
 	public String ACTION_PREFIX_PROJECT_TEAM = "projectTeam";
 
@@ -138,8 +149,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_PREFIX_PROJECT_REALSE = "projectRelease";
 
-	/** 
-	 * The action prefix story realse. 
+	/**
+	 * The action prefix story realse.
 	 **/
 	public String ACTION_PREFIX_STORY_REALSE = "storyRelease";
 
@@ -378,9 +389,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read story id.
 	 **/
 	public String ACTION_TYPE_READ_STORY_ID = "readStoryId";
-	
-	/** 
-	 * The action type read by project id. 
+
+	/**
+	 * The action type read by project id.
 	 **/
 	public String ACTION_TYPE_READ_BY_PROJECT_ID = "readByProjectId";
 
@@ -407,11 +418,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix for bug.
 	 **/
 	public String ACTION_PREFIX_BUG = "bug";
-	
+
 	/**
-	 *  The action prefix bug comments.
+	 * The action prefix bug comments.
 	 **/
-	public String ACTION_PREFIX_BUG_COMMENTS= "bugComment";
+	public String ACTION_PREFIX_BUG_COMMENTS = "bugComment";
 
 	/**
 	 * The param id.

@@ -38,9 +38,9 @@ public class ProjectMemberEntity extends WebutilsEntity
 	@Column(name = "EMPLOYEE_ID", nullable = false)
 	@PropertyMapping(type = ProjectMemberModel.class, from = "employeeId", subproperty = "id")
 	private EmployeeEntity employee;
-	
-	/** 
-	 * The project team. 
+
+	/**
+	 * The project team.
 	 **/
 	@ManyToOne
 	@Column(name = "TEAM_ID")
@@ -115,5 +115,26 @@ public class ProjectMemberEntity extends WebutilsEntity
 	public void setProjectMemberRole(ProjectMemberRole projectMemberRole)
 	{
 		this.projectMemberRole = projectMemberRole;
+	}
+
+	/**
+	 * Gets the project team.
+	 *
+	 * @return the project team
+	 */
+	public ProjectTeamEntity getProjectTeam()
+	{
+		return projectTeam;
+	}
+
+	/**
+	 * Sets the project team.
+	 *
+	 * @param projectTeam
+	 *            the new project team
+	 */
+	public void setProjectTeam(ProjectTeamEntity projectTeam)
+	{
+		this.projectTeam = projectTeam;
 	}
 }

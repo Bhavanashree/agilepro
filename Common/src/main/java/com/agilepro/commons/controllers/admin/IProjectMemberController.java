@@ -31,7 +31,7 @@ public interface IProjectMemberController
 	 *            the project id
 	 * @return the basic read response
 	 */
-	public BasicReadResponse<List<ProjectMemberModel>> fetchProjectMembers(Long projectId);
+	public BasicReadResponse<List<ProjectMemberModel>> fetchAdminManagers(Long projectId);
 
 	/**
 	 * Delete.

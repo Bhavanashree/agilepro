@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.MethodConditions;
+import com.yukthi.persistence.repository.annotations.NullCheck;
 import com.yukthi.webutils.annotations.RestrictBySpace;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
@@ -15,18 +17,29 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 public interface IProjectMemberRepository extends IWebutilsRepository<ProjectMemberEntity>
 {
 	/**
-	 * Fetch proj mem by proj id.
+	 * Fetch admin managers.
 	 *
-	 * @param id
-	 *            the id
+	 * @param projectId
+	 *            the project id
 	 * @return the list
 	 */
 	@RestrictBySpace
-	public List<ProjectMemberEntity> fetchProjMemByProjId(@Condition(value = "project.id") Long id);
+	@MethodConditions(nullChecks = @NullCheck(field = "projectTeam.id"))
+	public List<ProjectMemberEntity> fetchAdminManagers(@Condition(value = "project.id") Long projectId);
+
+	/**
+	 * Fetch members.
+	 *
+	 * @param projectTeamId
+	 *            the project team id
+	 * @return the list
+	 */
+	@RestrictBySpace
+	public List<ProjectMemberEntity> fetchMembers(@Condition(value = "projectTeam.id") Long projectTeamId);
 
 	@RestrictBySpace
 	public boolean deleteByEmployeeId(@Condition(value = "employee.id") Long employeeId);
-	
+
 	/**
 	 * Delete all.
 	 */
