@@ -49,6 +49,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				getAllAttachment();
 			}
 			
+			// Broad cast 
+	    	$scope.$broadcast("fetchAllStoryNotes");
+			
 			try
 			{
 	    		$scope.$apply();
@@ -392,7 +395,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		 console.log($scope.titles);
 		 
-		 try
+		try
 		{
 			 $scope.$apply();
 		}catch(ex)

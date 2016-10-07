@@ -1,14 +1,25 @@
-<div class="container-fluid" ng-controller="storyNoteController" style="padding: 0px;" ng-init="initStoryNote()">
+<div class="container-fluid" ng-controller="storyNoteController" style="padding: 0px;">
 
-	<div class="row" style="border: solid;">
-		<div class="col-md-8 col-lg-8 col-sm-8 col-xs-8" style="height: 20em;">
-			 
-			 <textarea rows="2" cols="2" id="noteId" class="form-control" style="height: 10em; resize: none;"></textarea>
-							
+	<div class="row" style="height: 20em; padding-top: 1em;">
+		
+		<div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
+		
+			<div>
+				<textarea rows="2" cols="2" id="noteId" class="form-control" style="height: 15em; resize: none;"></textarea>
+			</div>
+		
+			 <div class="btn-group" style="margin-top: 0.5em;">
+			    <button type="button" class="btn btn-info" ng-click="saveNote(false)">Save</button>
+			    <button type="button" class="btn btn-success" ng-click="saveNote(true)">Publish</button>
+			    <button type="button" class="btn btn-danger">Clear</button>
+			 </div>
+			 			
 		</div>
 		
-		<div class="col-md-4 col-lg-4 col-sm-4 col-xs-4" style="border-left: solid; height: 20em;">
-			 Right
+		<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2" style="border: 2px solid #87CEEB; height: 27em;">
+			 <span ng-repeat="note in publishedNotes">{{note.content}}</span>
 		</div>
+		
 	</div>
+	
 </div>

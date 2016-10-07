@@ -43,7 +43,7 @@
 	
 	
 	<div> 
-		<input id="parentStorytextarea" type="text" name="textarea1" placeholder="New story title" ng-model="inlineTitle" ng-keyup="handleKeyPress($event);" ng-bind="model.title"/>
+		<input class="form-control" id="parentStorytextarea" type="text" name="textarea1" placeholder="New story title" ng-model="inlineTitle" ng-keyup="handleKeyPress($event);" ng-bind="model.title"/>
 	</div>
 	
 	<yk-dialog id="storyDialog" title="Story">
@@ -55,7 +55,7 @@
 				
 				<tab id="conversationId" label="Conversation" ng-show="conversationTab">
 				
-				<!-- Conversation --> 
+				<!-- Conversation -->
 				<div class="panel panel-primary" style="margin-bottom: 0px;">
 					<div class="panel-heading">
 						<i class="fa fa-users" aria-hidden="true"></i>

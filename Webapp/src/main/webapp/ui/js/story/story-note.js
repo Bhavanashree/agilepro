@@ -1,16 +1,9 @@
 $.application.controller('storyNoteController', ["$scope", "crudController", "utils", "actionHelper",
        function($scope, crudController, utils, actionHelper) {
 	
-	/* crudController.extend($scope, {
-		
-		 "onDisplay" : function(model){
-			 
-			 $scope.initStoryNote();
-		 }
-	 });*/
-	
-	$scope.initStoryNote = function() {
-		
+	// Listener for broadcast
+	$scope.$on("fetchAllStoryNotes", function(event, args) {
+
 		console.log("$scope.initStoryNote is invoked");
 		
 		tinymce.init({
@@ -24,14 +17,56 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		    			"insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
 		    "menubar": true,
 		    "mentions": {
-		        "source": [
-		            { name: 'Tyra Porcelli' }, 
-		            { name: 'Brigid Reddish' },
-		            { name: 'Ashely Buckler' },
-		            { name: 'Teddy Whelan' }
-		        ]
+		        
 		    }
 		});
+		
+		fetchNotes();
+	   
+	});
+	
+	fetchNotes = function(){
+		
+		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : $scope.storyId}, 
+				function(readResponse, respConfig){
+			
+			$scope.publishedNotes = readResponse.model;
+			
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
+			
+		}, {"hideInProgress" : true});
+	}
+	
+	$scope.saveNote = function(published){
+		
+		var content = tinymce.activeEditor.getContent();
+		
+		console.log(content);
+		
+		var model = {"content" : content, "storyId" : $scope.storyId, "published" : published};
+		
+		if(published)
+		{
+			$scope.publishedNotes.push(model);
+		}
+		
+		actionHelper.invokeAction("storyNote.save", model, null, function(saveResponse, respConfig){
+			
+			if(saveResponse.code == 0)
+			{
+				tinymce.activeEditor.setContent("");
+			}else
+			{
+				fetchNotes();
+			}
+			
+		}, {"hideInProgress" : true});
+		
 	};
+	
 	
 }]);
