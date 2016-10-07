@@ -116,7 +116,7 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		$scope.slectedReleaseId = $scope.rlseIdObjMap[releaseId].id;
 		
 		actionHelper.invokeAction("storyRelease.readAllStoryAndStoryRelease", null, 
-				{"releaseId" : $scope.slectedReleaseId}, readAlStoryAndReleaseCallBack, true);
+				{"releaseId" : $scope.slectedReleaseId}, readAlStoryAndReleaseCallBack, {"hideInProgress" : true});
 	   
 	});
 
@@ -197,7 +197,7 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	// save new story release
 	saveNewStoryRelease = function(model){
 		
-		actionHelper.invokeAction("storyRelease.save", model, null, saveStoryReleaseCallBack, true);
+		actionHelper.invokeAction("storyRelease.save", model, null, saveStoryReleaseCallBack, {"hideInProgress" : true});
 	};
 	
 }]);

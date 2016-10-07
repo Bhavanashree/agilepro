@@ -89,11 +89,11 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 		{
 			searchName = employeeName;
 			
-			actionHelper.invokeAction("employee.readAll", null, {"employeeName" : employeeName}, readEmpcallBack, true);
+			actionHelper.invokeAction("employee.readAll", null, {"employeeName" : employeeName}, readEmpcallBack, {"hideInProgress" : true});
 			return;
 		}
 		
-		actionHelper.invokeAction("employee.readAll", null, null, readEmpcallBack, true);
+		actionHelper.invokeAction("employee.readAll", null, null, readEmpcallBack, {"hideInProgress" : true});
 	};
 	
 	var employeeIds = [];
@@ -158,7 +158,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 		}
 		
 		actionHelper.invokeAction("projectMember.readAdminManagersByProjectId", null, {"projectId" : projectId}, 
-				initMemCallBack, true);
+				initMemCallBack, {"hideInProgress" : true});
 	};
 	
 	
@@ -184,7 +184,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 					}catch(ex)
 					{}
 					
-		}, true);
+		}, {"hideInProgress" : true});
 		
 	};
 	
@@ -349,7 +349,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 		}catch(ex)
 		{}
 		
-		actionHelper.invokeAction("projectMember.save", model, null, callBack, true);
+		actionHelper.invokeAction("projectMember.save", model, null, callBack, {"hideInProgress" : true});
 		
 	};
 	
@@ -357,7 +357,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 	deleteProjectMembers = function(employeeId){
 		
 		console.log(employeeId);
-		actionHelper.invokeAction("projectMember.deleteByEmployeeId", null, {"employeeId" : employeeId}, callBack, true);
+		actionHelper.invokeAction("projectMember.deleteByEmployeeId", null, {"employeeId" : employeeId}, callBack, {"hideInProgress" : true});
 		
 	};
 	

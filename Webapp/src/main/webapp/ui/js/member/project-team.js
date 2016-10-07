@@ -57,7 +57,7 @@ $.application.controller('projectTeamController',
 		console.log("listener");
 		
 		actionHelper.invokeAction("projectTeam.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
-				readAllProjectTeamCallBack, true);
+				readAllProjectTeamCallBack, {"hideInProgress" : true});
 	   
 	});
 
@@ -111,7 +111,7 @@ $.application.controller('projectTeamController',
 			}catch(ex)
 			{}
 			
-		}, true);
+		}, {"hideInProgress" : true});
 	};
 	
 	
@@ -137,7 +137,7 @@ $.application.controller('projectTeamController',
 			}catch(ex)
 			{}
 			
-		}, true);
+		}, {"hideInProgress" : true});
 	};
 	
 	$scope.updateTeam = function(){
@@ -149,7 +149,7 @@ $.application.controller('projectTeamController',
 				$('#projectTeamModal').modal('hide');
 			}
 			
-		}, true);
+		}, {"hideInProgress" : true});
 		
 	};
 	
@@ -193,7 +193,7 @@ $.application.controller('projectTeamController',
 						{}
 
 					}
-				}, true);
+				}, {"hideInProgress" : true});
 			}
 			
 			try

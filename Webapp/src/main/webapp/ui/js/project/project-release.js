@@ -95,7 +95,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	// init method
 	$scope.fetchAllRelease = function(){
 		
-		actionHelper.invokeAction("release.readAll", null, null, readAllReleaseCallBack, true);
+		actionHelper.invokeAction("release.readAll", null, null, readAllReleaseCallBack, {"hideInProgress" : true});
 		
 	};
 	
@@ -147,7 +147,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		$scope.slectedReleaseId = $scope.rlseIdObjMap[releaseId].id;
 		
 		actionHelper.invokeAction("projectRelease.readAllProjectAndProjectReleaseByReleaseId", null, 
-				{"releaseId" : $scope.slectedReleaseId}, readAlPrjctAndReleaseCallBack, true);
+				{"releaseId" : $scope.slectedReleaseId}, readAlPrjctAndReleaseCallBack, {"hideInProgress" : true});
 	};
 	
 	
@@ -247,7 +247,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	// save new project release
 	saveNewProjectRelease = function(model){
 		
-		actionHelper.invokeAction("projectRelease.save", model, null, saveProjectReleaseCallBack, true);
+		actionHelper.invokeAction("projectRelease.save", model, null, saveProjectReleaseCallBack, {"hideInProgress" : true});
 	};
 	
 	// Reverse Drag
@@ -361,7 +361,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	
 	deleteProjectRelease = function(model){
 		
-		actionHelper.invokeAction("projectRelease.deleteByProjectId", model, null, deleteCallBack, true);
+		actionHelper.invokeAction("projectRelease.deleteByProjectId", model, null, deleteCallBack, {"hideInProgress" : true});
 	};
 	
 }]);

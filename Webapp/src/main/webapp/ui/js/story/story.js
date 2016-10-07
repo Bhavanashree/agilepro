@@ -75,6 +75,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.dlgModeField = "newStoryMode";
 
 	 $scope.init = function() {
+		 console.log("init is invoked");
+		 
 		tinymce.init({
 		    "selector": '#messageId',
 		    "plugins": "autolink link emoticons  textcolor mention",
@@ -287,7 +289,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	 getAllConversation = function(){
 		 
-		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack, true);
+		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack, {"hideInProgress" : true});
 		 
 		 if($scope.isFirstRequest)
 		 {
@@ -327,7 +329,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				var model = {"message" : $scope.message.trim(), "conversationTitleId" : $scope.selectedTitle.id,
 						"userId" : $scope.activeUser.userId};
 				 
-				actionHelper.invokeAction("conversationMessage.save", model, null, saveConverCallBack, true);
+				actionHelper.invokeAction("conversationMessage.save", model, null, saveConverCallBack, {"hideInProgress" : true});
 			}
 		}
 	 };
@@ -403,7 +405,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		 console.log("line number 391 = " +  $scope.storyId);
 		 
-		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : $scope.storyId}, readTitleCallBack, true);
+		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : $scope.storyId}, readTitleCallBack, {"hideInProgress" : true});
 	 };
 	 
 	 saveTitleCallBack = function(readResponse, respConfig){
@@ -432,7 +434,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			return;
 		}
 		
-		actionHelper.invokeAction("conversationTitle.save", $scope.converTitleModel, null, saveTitleCallBack);
+		actionHelper.invokeAction("conversationTitle.save", $scope.converTitleModel, null, saveTitleCallBack, {"hideInProgress" : true});
 	};
 	
 	
@@ -492,7 +494,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			return;
 		}
 		
-		actionHelper.invokeAction("storyAttachment.save", $scope.storyAttachmentModel, null, saveAttachmentCallBack);
+		actionHelper.invokeAction("storyAttachment.save", $scope.storyAttachmentModel, null, saveAttachmentCallBack, {"hideInProgress" : true});
 	};
 	
 	readAttachmentCallBack = function(readResponse, respConfig){
@@ -508,7 +510,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	getAllAttachment = function(){
 		
-		actionHelper.invokeAction("storyAttachment.readAll", null, {"storyId" : $scope.storyId}, readAttachmentCallBack);
+		actionHelper.invokeAction("storyAttachment.readAll", null, {"storyId" : $scope.storyId}, readAttachmentCallBack, {"hideInProgress" : true});
 	};
 	
 	$scope.editAttachment = function(obj){
@@ -536,7 +538,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			return;
 		}
 		
-		actionHelper.invokeAction("storyAttachment.update", $scope.storyAttachmentModel, null, updateAttachmentCallBack);
+		actionHelper.invokeAction("storyAttachment.update", $scope.storyAttachmentModel, null, updateAttachmentCallBack, {"hideInProgress" : true});
 	};
 	
 	deleteAttachmentCallBack = function(readResponse, respConfig){
@@ -554,7 +556,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			}
 			else
 			{
-				actionHelper.invokeAction("storyAttachment.delete", null, {"id" : obj.id}, deleteAttachmentCallBack);
+				actionHelper.invokeAction("storyAttachment.delete", null, {"id" : obj.id}, deleteAttachmentCallBack, {"hideInProgress" : true});
 			}
 			
 			try

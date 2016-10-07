@@ -69,7 +69,7 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 			return;
 		}
 		
-		actionHelper.invokeAction("release.save", $scope.releaseModel, null, saveReleaseCallBack);
+		actionHelper.invokeAction("release.save", $scope.releaseModel, null, saveReleaseCallBack, {"hideInProgress" : true});
 	};
 	
 	readAllReleaseCallBack = function(readResponse, respConfig){
@@ -96,7 +96,7 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 	// init method
 	$scope.fetchAllRelease = function(){
 		
-		actionHelper.invokeAction("release.readAll", null, null, readAllReleaseCallBack, true);
+		actionHelper.invokeAction("release.readAll", null, null, readAllReleaseCallBack, {"hideInProgress" : true});
 		
 	};
 	
