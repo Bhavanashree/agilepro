@@ -1,6 +1,5 @@
 <div class="container-fluid" ng-controller="storyController" style="padding: 0px;">
-	<div ng-include="'/ui/html/story/bulk-story.html'" ng-controller="bulkStoryController">
-	</div>
+	
 
 	<yk-search-query id="storySearch" title="Story" name="storySearch">
 		<action id="addBacklog" label="Add Story" color="blue" icon="glyphicon-plus" method="addEntry($event)"/>
@@ -264,4 +263,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<div ng-include="'/ui/html/story/bulk-story.html'" ng-controller="bulkStoryController">
+	</div>
+	
 </div>

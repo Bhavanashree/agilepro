@@ -1,6 +1,7 @@
 $.application.controller('bulkStoryController', ["$scope", "crudController", "utils","modelDefService", 
-                                             "validator","$state","actionHelper",
+                                             "validator", "$state", "actionHelper",
    function($scope, crudController, utils, modelDefService, validator, $state, actionHelper) {
+		
 		/**
 		 * Specifies the indentation used by last story. Which in turn is used for new lines.
 		 */

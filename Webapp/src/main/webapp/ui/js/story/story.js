@@ -44,7 +44,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				
 				$scope.storyId = model.id;
 				
-				getAllTitle();
+				$scope.getAllTitle();
 				
 				getAllAttachment();
 			}
@@ -287,7 +287,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 		
 		// for getting new saved title
-		getAllTitle();
+		$scope.getAllTitle();
 	 };
 	 
 	 getAllConversation = function(){
@@ -386,36 +386,36 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		 console.log("add the title");
 	 };
-	
-	 readTitleCallBack = function(readResponse, respConfig){
-
-		 $scope.titles = readResponse.model;
-		 
-		// $scope.selectedTitle = ;
-		 
-		 console.log($scope.titles);
-		 
-		try
-		{
-			 $scope.$apply();
-		}catch(ex)
-		{}	
-		
-		// getAllConversation();
-	 };
 	 
-	 getAllTitle = function(){
+	 
+	 $scope.getAllTitle = function(){
 		 
 		 console.log("line number 391 = " +  $scope.storyId);
 		 
-		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : $scope.storyId}, readTitleCallBack, {"hideInProgress" : true});
+		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : $scope.storyId}, 
+			function(readResponse, respConfig){
+			 
+			 $scope.titles = readResponse.model;
+			 
+			// $scope.selectedTitle = ;
+			 
+			 console.log($scope.titles);
+			 
+			try
+			{
+				 $scope.$apply();
+			}catch(ex)
+			{}	
+			
+			// getAllConversation();
+		 }, {"hideInProgress" : true});
 	 };
 	 
 	 saveTitleCallBack = function(readResponse, respConfig){
 		 
 		 $('#conversationTitleModal').modal('hide');
 		 
-		 getAllTitle();
+		 $scope.getAllTitle();
 	 };
 	 
 	$scope.saveTitle = function(e){

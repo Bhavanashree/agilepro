@@ -47,6 +47,12 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		
 		console.log(content);
 		
+		if(content.length == 0)
+		{
+			utils.alert("Please provide some note");
+			return;
+		}
+		
 		var model = {"content" : content, "storyId" : $scope.storyId, "published" : published};
 		
 		if(published)
@@ -66,6 +72,18 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			
 		}, {"hideInProgress" : true});
 		
+	};
+	
+	
+	$scope.activeNote = function(content){
+		
+		tinymce.activeEditor.setContent(content);
+	};
+	
+	
+	$scope.clear = function(){
+		
+		tinymce.activeEditor.setContent("");
 	};
 	
 	

@@ -55,7 +55,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 			}
 			else
 			{
-				utils.alert("There are currently no employee");
+				utils.alert("Currently there are no employees");
 			}
 			
 			return;
