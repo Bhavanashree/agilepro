@@ -97,7 +97,10 @@ $.application.controller('projectTeamController',
 				
 				$scope.teamIdObjMap[$scope.projectTeam.id] = $scope.projectTeam;
 				
-				$scope.onTeamChange($scope.projectTeams[0].id);
+				if(!$scope.selectedTeam.name)
+				{
+					$scope.onTeamChange($scope.projectTeams[0].id);
+				}
 				
 				$('#projectTeamModal').modal('hide');
 			}else

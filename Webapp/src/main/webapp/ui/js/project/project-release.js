@@ -74,36 +74,19 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			console.log(projectId + " removed from list");
 		}
 		
-	};
-	
-	readAllReleaseCallBack = function(readResponse, respConfig){
-		
-		$scope.rlseIdObjMap = {};
-		
-		$scope.releases = readResponse.model;
-		
-		var index;
-		
-		for(index in $scope.releases)
-		{
-			$scope.rlseIdObjMap[$scope.releases[index].id] = $scope.releases[index];
-		}
-		
-		$scope.onReleaseChange($scope.releases[0].id);
-	};
-	
-	// init method
-	$scope.fetchAllRelease = function(){
-		
-		actionHelper.invokeAction("release.readAll", null, null, readAllReleaseCallBack, {"hideInProgress" : true});
-		
-	};
+	};	
 	
 
 	readAlPrjctAndReleaseCallBack =  function(readResponse, respConfig){
 		
 		$scope.projectReleased = readResponse.basicProjectInfos;
 		$scope.projectsForRelease = readResponse.projectForRelease;
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
 		
 		var obj;
 		var index
@@ -124,12 +107,12 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			$scope.releasedPrjctIdNameMap[obj.id] = obj.name;
 		}
 		
-		console.log("broadcast release");
-		$scope.$broadcast("activeReleaseSelectionChanged");
 	};
 	
-	// On change
-	$scope.onReleaseChange  = function(releaseId){
+	// Listener for broadcast
+	$scope.$on("activeReleaseSelectionChanged", function(event, args) {
+		
+		console.log("listener is invoked");
 		
 		$scope.unreleasedPrjctIdObjMap = {};
 		$scope.multipleUnreleasedSelectedProjectsId = [];
@@ -138,17 +121,12 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		$scope.releasedPrjctIdNameMap = {};
 		$scope.multipleReleasedSelectedProjectsId = [];
 		
-		console.log("releaseId = " + releaseId);
 		
-		$scope.selectedRelease = $scope.rlseIdObjMap[releaseId];
-		
-		console.log($scope.rlseIdObjMap[releaseId]);
-		
-		$scope.slectedReleaseId = $scope.rlseIdObjMap[releaseId].id;
+		$scope.slectedReleaseId = $scope.getActiveReleaseId();
 		
 		actionHelper.invokeAction("projectRelease.readAllProjectAndProjectReleaseByReleaseId", null, 
 				{"releaseId" : $scope.slectedReleaseId}, readAlPrjctAndReleaseCallBack, {"hideInProgress" : true});
-	};
+	});
 	
 	
 	// Dragging methods
@@ -186,7 +164,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		$scope.notAllowedInReleased = false;
 		$scope.notAllowedInDropBack = false;
 		
-		console.log("project drop");
+		console.log("project drop " + $scope.slectedReleaseId);
 		var projectObj;
 		var projectId;
 		var index;

@@ -97,7 +97,7 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	};
 	
 	// Listener for broadcast
-	$scope.$on("activeReleaseSelectionChanged", function(event, args) {
+	$scope.$on("activeReleaseSelectionChangedTest", function(event, args) {
 
 		console.log("listenr story");
 		

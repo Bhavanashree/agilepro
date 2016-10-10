@@ -44,18 +44,7 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 		utils.openModal("releaseDialogId");
 	};
 	
-	saveReleaseCallBack = function(saveResponse, respConfig){
 		
-		if(saveResponse.code == 0)
-		{
-			$scope.releaseModel.id = saveResponse.id;
-			$scope.releases.push($scope.releaseModel);
-			
-			$('#releaseDialogId').modal('hide');
-		}
-	};
-	
-	
 	$scope.saveRelease = function(){
 		
 		$scope.initErrors("releaseModel", false);
@@ -69,7 +58,19 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 			return;
 		}
 		
-		actionHelper.invokeAction("release.save", $scope.releaseModel, null, saveReleaseCallBack, {"hideInProgress" : true});
+		actionHelper.invokeAction("release.save", $scope.releaseModel, null, 
+				function(saveResponse, respConfig){
+			
+					if(saveResponse.code == 0)
+					{
+						$scope.releaseModel.id = saveResponse.id;
+						$scope.releases.push($scope.releaseModel);
+						$scope.selectedRelease = $scope.releases[0];
+						
+						$('#releaseDialogId').modal('hide');
+					}
+					
+				}, {"hideInProgress" : true});
 	};
 	
 	readAllReleaseCallBack = function(readResponse, respConfig){
@@ -82,7 +83,11 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 		{
 			$scope.selectedRelease = $scope.releases[0];
 			
-			$scope.onReleaseChange($scope.selectedRelease.id);
+			console.log("Release is selected");
+			
+			$scope.$broadcast("activeReleaseSelectionChanged");
+			
+			console.log("broadcast");
 		}
 		
 		var index;
@@ -91,6 +96,7 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 		{
 			$scope.rlseIdObjMap[$scope.releases[index].id] = $scope.releases[index];
 		}
+		
 	};
 	
 	// init method
@@ -103,6 +109,9 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 	
 	$scope.onReleaseChange  = function(releaseId){
 		
+		$scope.selectedRelease = $scope.rlseIdObjMap[releaseId];
+		
+		$scope.$broadcast("activeReleaseSelectionChanged");
 	};
 	
 	$scope.getActiveReleaseId = function(){
