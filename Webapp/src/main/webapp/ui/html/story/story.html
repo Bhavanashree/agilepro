@@ -196,6 +196,8 @@
 			</yk-tabs>
 		</content>
 		<footer>
+			<button type="button" class="btn btn-info" ng-click="saveNote(false)">Save Draft</button>
+			<button type="button" class="btn btn-success" ng-click="saveNote(true)">Publish</button>
 			<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)">{{newStoryMode ? 'Save' : 'Update'}}</button>
 			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal">Cancel</button>
 		</footer>

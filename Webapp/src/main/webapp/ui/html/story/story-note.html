@@ -4,21 +4,20 @@
 		
 		<div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
 		
-			<div>
+			<div class="form-inline">
+				Version
+				<input type="text" class="form-control" placeholder="Title Version" style="border-color: #CD5C5C;" ng-model="titleVersion"/>
+			</div>
+			
+			<div style="padding-top: 0.5em;">
 				<textarea rows="2" cols="2" id="noteId" class="form-control" style="height: 15em; resize: none;"></textarea>
 			</div>
 		
-			 <div class="btn-group" style="margin-top: 0.5em;">
-			    <button type="button" class="btn btn-info" ng-click="saveNote(false)">Save</button>
-			    <button type="button" class="btn btn-success" ng-click="saveNote(true)">Publish</button>
-			    <button type="button" class="btn btn-danger" ng-click="clear()">Clear</button>
-			 </div>
-			 			
 		</div>
 		
-		<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2" style="border: 2px solid #87CEEB; height: 27em;">
+		<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2" style="border: 2px solid #87CEEB; height: 29em;">
 			 <div ng-repeat="note in publishedNotes" style="margin-top: 0.5em;
-			 font-weight: bold; color: red;">
+			 font-weight: bold;">
 			  <a href="" ng-click="activeNote(note.content)">{{note.content}}</a>
 			 </div>
 		</div>

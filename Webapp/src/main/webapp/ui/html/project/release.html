@@ -1,6 +1,6 @@
 <div class="container-fluid" ng-controller="releaseController" style="padding: 0px;" ng-init="fetchAllRelease()">
 
-	<yk-model-dialog id="releaseDialogId" name="Release" title="Realses" columns="2" actionMethod="saveRelease()" modelObj="releaseModel">
+	<yk-model-dialog id="releaseDialogId" name="Release" title="Realses" columns="2" actionMethod="newModelMode ? saveRelease() : updateRelease()" modelObj="releaseModel">
 	</yk-model-dialog>
 	
 	
@@ -24,11 +24,11 @@
 							<button type="button" class="btn btn-primary" ng-click="addNewRelease()" title="Add new release">
 								<i class="fa fa-plus" aria-hidden="true"></i>
 							</button>
-							<button type="button" class="btn btn-primary" ng-click="editEntry($event)" title="Edit selected release"
+							<button type="button" class="btn btn-primary" ng-click="readRelease()" title="Edit selected release"
 							ng-if="selectedRelease.name">
 								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</button>
-							<button type="button" class="btn btn-danger" ng-click="deleteEntry($event)" title="Delete selected release"
+							<button type="button" class="btn btn-danger" ng-click="deleteRelease()" title="Delete selected release"
 							ng-if="selectedRelease.name">
 								<i class="fa fa-times" aria-hidden="true"></i>
 							</button>

@@ -149,8 +149,20 @@ $.application.controller('projectTeamController',
 			
 			if(readResponse.code == 0)
 			{
+				$scope.projectTeams[$scope.projectTeams.indexOf($scope.selectedTeam)] = $scope.projectTeam; 
+				
+				$scope.teamIdObjMap[$scope.projectTeam.id] = $scope.projectTeam;
+				
+				$scope.selectedTeam = $scope.projectTeam;
+				
 				$('#projectTeamModal').modal('hide');
 			}
+			
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 			
 		}, {"hideInProgress" : true});
 		

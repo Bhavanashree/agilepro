@@ -43,6 +43,12 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	
 	$scope.saveNote = function(published){
 		
+		if(titleVersion.length == 0)
+		{
+			
+			return;
+		}
+		
 		var content = tinymce.activeEditor.getContent();
 		
 		console.log(content);

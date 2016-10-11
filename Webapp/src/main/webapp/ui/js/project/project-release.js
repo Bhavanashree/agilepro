@@ -62,7 +62,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		
 		$scope.unreleasedPrjctIdObjMap[projectId].check = !$scope.unreleasedPrjctIdObjMap[projectId].check;
 		
-		
 		if($scope.unreleasedPrjctIdObjMap[projectId].check)
 		{
 			$scope.multipleUnreleasedSelectedProjectsId.push(projectId);
@@ -128,6 +127,12 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 				{"releaseId" : $scope.slectedReleaseId}, readAlPrjctAndReleaseCallBack, {"hideInProgress" : true});
 	});
 	
+	// Listener for broadcast
+	$scope.$on("initProjectReleaseToNull", function(event, args) {
+	
+		$scope.projectReleased = null;
+		$scope.projectsForRelease = null;
+	});
 	
 	// Dragging methods
 	$scope.dragProjects = function(event){
