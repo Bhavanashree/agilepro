@@ -81,8 +81,6 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		
     		if($scope.userDefaultProjectId > 0)
     		{
-    			//$scope.setActiveProject($scope.userDefaultProjectId);
-    			
     			var project = $scope.idToProject["" + $scope.userDefaultProjectId];
     			
     			$scope.selectedProject = project; 

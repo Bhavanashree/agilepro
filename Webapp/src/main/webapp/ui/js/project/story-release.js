@@ -19,8 +19,6 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		var index;
 		var storyObj;
 		
-		
-		
 		for(index in $scope.storiesForRelease)
 		{
 			storyObj = $scope.storiesForRelease[index];

@@ -204,6 +204,8 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 				$scope.projectsForRelease.splice($scope.projectsForRelease.indexOf(projectObj),1);
 				
 				$scope.projectReleased.push(projectObj);
+				
+				$scope.releasedPrjctIdNameMap[projectObj.id] = projectObj.name;
 			}
 			
 			try
@@ -286,6 +288,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		var projectName;
 		var indexReleased;
 		var indexToRemove;
+		var releasedObj;
 		
 		if($scope.multipleReleasedSelectedProjectsId.length == 0)
 		{
@@ -302,7 +305,13 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 				}
 			}
 			
-			$scope.projectsForRelease.push($scope.projectReleased[indexToRemove]);
+			releasedObj = $scope.projectReleased[indexToRemove];
+			
+			releasedObj.check = false;
+			
+			$scope.projectsForRelease.push(releasedObj);
+			
+			$scope.unreleasedPrjctIdObjMap[releasedObj.id] = releasedObj;
 			
 			$scope.projectReleased.splice(indexToRemove, 1);
 			
