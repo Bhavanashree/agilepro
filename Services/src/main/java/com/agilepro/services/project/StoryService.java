@@ -231,9 +231,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Save bulk of stories.
 	 *
-	 * @param storieBulkModels the storie bulk models
-	 * @param projectId the project id
-	 * @param parentId the parent id
+	 * @param storieBulkModels
+	 *            the storie bulk models
+	 * @param projectId
+	 *            the project id
+	 * @param parentId
+	 *            the parent id
 	 */
 	public void saveListOfStories(List<StoryBulkModel> storieBulkModels, Long projectId, Long parentId)
 	{
@@ -290,17 +293,24 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
-	public List<StoryModel> fetchAllStories()
+	/**
+	 * Fetch all stories by project.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the list
+	 */
+	public List<StoryModel> fetchAllStoriesByProject(Long projectId)
 	{
-		List<StoryEntity> storyEntities = storyRepo.fetchAllStories();
-		
-		List<StoryModel> storyModels = new ArrayList(storyEntities.size());
-		
+		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
+
+		List<StoryModel> storyModels = new ArrayList<StoryModel>(storyEntities.size());
+
 		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
-		
+
 		return storyModels;
 	}
-	
+
 	/**
 	 * Deletes all entities.
 	 */

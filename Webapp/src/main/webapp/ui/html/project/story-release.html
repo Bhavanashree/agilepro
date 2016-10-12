@@ -3,28 +3,34 @@
 	<div class="col-md-5 col-xs-5" style="margin-left: 4em; border: solid; border-width: 0.2em; 
 			box-shadow: 10px 10px 5px #888888; border-color: #A9A9A9; border-radius: 25px; height: 35em;">
 				
-				<div style="background: white; padding-left: 0.5em; padding-right: 0.5em; padding-top: 5px; border-top-left-radius: 0.5em;">
-					<div class="input-group">
-						<table>
-							<tr>
-								<td>
-									<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-									 placeholder="Please create release" value="{{selectedRelease.name}}">
-								</td>
-								<td>
-									<div class="input-group-btn">
-										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											Release <span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu dropdown-menu-right" ng-if="selectedRelease.name">
-										    <li ng-repeat="release in releases"><a ng-click="onReleaseChange(release.id)" href="">{{release.name}}</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</div>
+			<!-- Drop down -->
+			<div style="background: white; padding-left: 0.5em; padding-right: 0.5em; padding-top: 5px; 
+			border-top-left-radius: 0.5em; margin-left: 3.5em;">
+				<div class="input-group">
+					<table>
+						<tr>
+							<td>
+								<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+								 placeholder="Please select a project" value="{{selectedReleasedProject.name}}">
+							</td>
+							<td>
+								<div class="input-group-btn">
+									<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Project <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right" ng-if="selectedReleasedProject.name">
+									    <li ng-repeat="releasedProject in projectReleased">
+									    	<a ng-click="onReleaseProjectChange(releasedProject.id)" href="">
+									    		{{releasedProject.name}}
+									    	</a>
+									    </li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
 				</div>
+			</div>
 				
 				<div class="row">
 				
@@ -57,7 +63,7 @@
 							cursor:-moz-grabbing; overflow: hidden;" draggable="true" yk-on-drag="dragStories(event)" ng-click="checkBoxStory(story.id)">
 								<table>
 									<tr>
-										<td style="padding-left: 0.5em;"><span ng-class="story.check ? 'fa fa-check-circle-o': 'fa fa-circle-o'" aria-hidden="true"></span></td>
+										<td style="padding-left: 0.5em;"><span ng-class="story.check ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true"></span></td>
 										<td style="padding-left: 0.3em;">{{story.title}}</td>
 									</tr>
 								</table>
@@ -73,7 +79,7 @@
 						<form>
 							<div class="row">
 								<div class="input-group col-md-12 col-xs-12">
-									<input type="text" ng-model="searchReleaseStory" class="form-control" placeholder="On Release Story" style="min-width: auto; max-width: 15em; border: none;">
+									<input type="text" ng-model="searchReleaseStory" class="form-control" placeholder="Story On Release" style="min-width: auto; max-width: 15em; border: none;">
 								</div>
 							</div>
 						</form>	

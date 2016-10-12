@@ -3,8 +3,6 @@ package com.agilepro.persistence.entity.admin;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.agilepro.commons.models.customer.ProjectReleaseModel;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.yukthi.persistence.annotations.UniqueConstraint;
@@ -18,43 +16,30 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam
  */
 @Table(name = "STORY_RELEASE")
-@UniqueConstraints({ @UniqueConstraint(name = "STORY_RELEASE_ID", fields = { "release", "story" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "STORY_RELEASE_ID", fields = { "project", "story" }) })
 public class StoryReleaseEntity extends WebutilsEntity
 {
-	/**
-	 * The release entity.
-	 **/
 	@ManyToOne
-	@PropertyMapping(type = StoryReleaseModel.class, from = "releaseId", subproperty = "id")
-	@Column(name = "RELEASE_ID", nullable = false)
-	private ReleaseEntity release;
+	@PropertyMapping(type = StoryReleaseModel.class, from = "projectId", subproperty = "id")
+	@Column(name = "PROJECT_ID", nullable = false)
+	private ProjectEntity project;
 
 	/**
 	 * The story.
 	 **/
-	@Column(name = "STORY_ID")
+	@Column(name = "STORY_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = StoryReleaseModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;
 
-	/**
-	 * Gets the release.
-	 *
-	 * @return the release
-	 */
-	public ReleaseEntity getRelease()
+	public ProjectEntity getProject()
 	{
-		return release;
+		return project;
 	}
 
-	/**
-	 * Sets the release.
-	 *
-	 * @param release the new release
-	 */
-	public void setRelease(ReleaseEntity release)
+	public void setProject(ProjectEntity project)
 	{
-		this.release = release;
+		this.project = project;
 	}
 
 	/**

@@ -5,8 +5,6 @@
 		<div class="col-md-5 col-xs-5" style="margin-left: 4em; border: solid; border-width: 0.2em; 
 		box-shadow: 10px 10px 5px #888888; border-color: #A9A9A9; border-radius: 25px; height: 35em;">
 			
-		<!-- 	<div style="position: absoulte; margin-top: -2em;">Project</div> -->
-			
 			<div class="row">
 			
 				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="border: solid; border-width: 0.2em; 
@@ -39,7 +37,7 @@
 						cursor:-moz-grabbing; overflow: hidden;" draggable="true" yk-on-drag="dragProjects(event)" ng-click="checkBoxProject(project.id)">
 							<table>
 								<tr>
-									<td style="padding-left: 0.5em;"><span ng-class="project.check ? 'fa fa-check-circle-o': 'fa fa-circle-o'" aria-hidden="true"></span></td>
+									<td style="padding-left: 0.5em;"><span ng-class="project.check ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true"></span></td>
 									<td style="padding-left: 0.3em;">{{project.name}}</td>
 								</tr>
 							</table>
@@ -55,7 +53,7 @@
 					<form>
 						<div class="row">
 							<div class="input-group col-md-12 col-xs-12">
-								<input type="text" ng-model="searchReleaseProject" class="form-control" placeholder="On Release Project" style="min-width: auto; max-width: 15em; border: none;">
+								<input type="text" ng-model="searchReleaseProject" class="form-control" placeholder="Project On Release" style="min-width: auto; max-width: 15em; border: none;">
 							</div>
 						</div>
 					</form>	

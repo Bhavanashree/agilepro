@@ -53,7 +53,7 @@ public class ProjectReleaseController extends BaseController
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid ProjectReleaseModel projectReleasedModel)
 	{
-		return new BasicSaveResponse(projectReleaseService.save(projectReleasedModel).getId());
+		return new BasicSaveResponse(projectReleaseService.saveProjectRelease(projectReleasedModel).getId());
 	}
 
 	/**

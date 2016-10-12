@@ -23,27 +23,25 @@ public class StoryReleaseModel
 	/**
 	 * The release id.
 	 **/
-	@Required
-	private Long releaseId;
+	private Long projectId;
 
 	/**
 	 * The story id.
 	 **/
 	private Long storyId;
-	
+
 	private List<Long> storyIds;
 
-	
-	public StoryReleaseModel() 
+	public StoryReleaseModel()
 	{
 		super();
 	}
-	
-	public StoryReleaseModel(Long storyId, Long releaseId) 
+
+	public StoryReleaseModel(Long storyId, Long projectId)
 	{
 		super();
 		this.storyId = storyId;
-		this.releaseId = releaseId;
+		this.projectId = projectId;
 	}
 
 	/**
@@ -73,25 +71,14 @@ public class StoryReleaseModel
 		this.id = id;
 	}
 
-	/**
-	 * Gets the release id.
-	 *
-	 * @return the release id
-	 */
-	public Long getReleaseId()
+	public Long getProjectId()
 	{
-		return releaseId;
+		return projectId;
 	}
 
-	/**
-	 * Sets the release id.
-	 *
-	 * @param releaseId
-	 *            the new release id
-	 */
-	public void setReleaseId(Long releaseId)
+	public void setProjectId(Long projectId)
 	{
-		this.releaseId = releaseId;
+		this.projectId = projectId;
 	}
 
 	/**
@@ -136,11 +123,13 @@ public class StoryReleaseModel
 		this.version = version;
 	}
 
-	public List<Long> getStoryIds() {
+	public List<Long> getStoryIds()
+	{
 		return storyIds;
 	}
 
-	public void setStoryIds(List<Long> storyIds) {
+	public void setStoryIds(List<Long> storyIds)
+	{
 		this.storyIds = storyIds;
 	}
 }

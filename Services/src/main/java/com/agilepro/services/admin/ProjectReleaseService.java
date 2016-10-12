@@ -61,7 +61,7 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	 *            the project released model
 	 * @return the project release entity
 	 */
-	public ProjectReleaseEntity save(ProjectReleaseModel projectReleasedModel)
+	public ProjectReleaseEntity saveProjectRelease(ProjectReleaseModel projectReleasedModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
@@ -125,7 +125,7 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 			{
 				if(!iprojectReleaseRepository.deleteByProjectId(projectId))
 				{
-					throw new IllegalStateException();
+					throw new IllegalStateException("An error occurred  while deleting project release");
 				}
 			}
 			transaction.commit();

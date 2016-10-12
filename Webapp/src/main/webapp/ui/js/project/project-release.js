@@ -1,9 +1,6 @@
 $.application.controller('projectReleaseController', ["$scope", "crudController", "utils", "actionHelper", 
                          function($scope, crudController, utils, actionHelper) {
 	
-	$scope.notAllowedInReleased = false;
-	$scope.notAllowedInDropBack = false;
-	
 	$scope.projectFilter = function(){
 		
 		return function( item ) {
@@ -103,13 +100,21 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		for(index in $scope.projectReleased)
 		{
 			obj = $scope.projectReleased[index];
-			$scope.releasedPrjctIdNameMap[obj.id] = obj.name;
+			$scope.releasedPrjctIdObjMap[obj.id] = obj;
 		}
+		
+		// init the drop down for story
+		$scope.$broadcast("initProjectReleasedForStory");
 		
 	};
 	
 	// Listener for broadcast
 	$scope.$on("activeReleaseSelectionChanged", function(event, args) {
+		
+		if($scope.slectedReleaseId == $scope.getActiveReleaseId())
+		{
+			return;
+		}
 		
 		console.log("listener is invoked");
 		
@@ -117,7 +122,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		$scope.multipleUnreleasedSelectedProjectsId = [];
 		
 		// drag back
-		$scope.releasedPrjctIdNameMap = {};
+		$scope.releasedPrjctIdObjMap = {};
 		$scope.multipleReleasedSelectedProjectsId = [];
 		
 		
@@ -137,8 +142,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	// Dragging methods
 	$scope.dragProjects = function(event){
 	
-		$scope.notAllowedInDropBack = true;
-		
 		console.log("drag project is called");
 		
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
@@ -159,16 +162,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	$scope.dropProjects = function(event){
 		event.preventDefault();
 		
-		if($scope.notAllowedInReleased)
-		{
-			$scope.notAllowedInReleased = false;
-			return;
-		}
-		
-		// validation for not dropping in same area
-		$scope.notAllowedInReleased = false;
-		$scope.notAllowedInDropBack = false;
-		
 		console.log("project drop " + $scope.slectedReleaseId);
 		var projectObj;
 		var projectId;
@@ -181,7 +174,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			$scope.projectsForRelease.splice($scope.projectsForRelease.indexOf(projectObj),1);
 			
 			$scope.projectReleased.push(projectObj);
-			$scope.releasedPrjctIdNameMap[projectObj.id] = projectObj.name;
+			$scope.releasedPrjctIdObjMap[projectObj.id] = projectObj;
 			
 			try
 			{
@@ -205,7 +198,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 				
 				$scope.projectReleased.push(projectObj);
 				
-				$scope.releasedPrjctIdNameMap[projectObj.id] = projectObj.name;
+				$scope.releasedPrjctIdObjMap[projectObj.id] = projectObj;
 			}
 			
 			try
@@ -226,6 +219,9 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		if(readResponse.code != 0)
 		{
 			$scope.onReleaseChange($scope.selectedRelease.id);
+		}else
+		{
+			$scope.$broadcast("initProjectReleasedForStory");
 		}
 	};
 	
@@ -237,8 +233,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	
 	// Reverse Drag
 	$scope.dragBackProjects = function(event){
-		
-		$scope.notAllowedInReleased = true;
 		
 		console.log("drag back project is called");
 		
@@ -261,7 +255,10 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		
 		if(deleteResponse.code != 0)
 		{
-			//$scope.onReleaseChange($scope.selectedRelease.id);
+			$scope.onReleaseChange($scope.selectedRelease.id);
+		}else
+		{
+			$scope.$broadcast("initProjectReleasedStoryAfterDropBack");
 		}
 	};
 	
@@ -270,50 +267,25 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	$scope.dropBackProjects = function(event){
 		event.preventDefault();
 		
-		if($scope.notAllowedInDropBack)
-		{
-			$scope.notAllowedInDropBack = false;
-			return;
-		}
-		
-		// validation for not dropping in same area
-		$scope.notAllowedInReleased = false;
-		$scope.notAllowedInDropBack = false;
-		
 		console.log("drop back project");
 		var projectObj;
 		var projectId;
 		var index;
 		
-		var projectName;
 		var indexReleased;
 		var indexToRemove;
 		var releasedObj;
 		
 		if($scope.multipleReleasedSelectedProjectsId.length == 0)
 		{
-			console.log($scope.releasedPrjctIdNameMap);
+			projectObj = $scope.releasedPrjctIdObjMap[$scope.selectedPrjctId];
 			
-			projectName = $scope.releasedPrjctIdNameMap[$scope.selectedPrjctId];
+			//$scope.$broadcast("initProjectReleasedStoryAfterDropBack");
+			$scope.projectReleased.splice($scope.projectReleased.indexOf(projectObj), 1);
 			
-			for(indexReleased in $scope.projectReleased)
-			{
-				if($scope.projectReleased[indexReleased].name === projectName)
-				{
-					indexToRemove = indexReleased;
-					break;
-				}
-			}
-			
-			releasedObj = $scope.projectReleased[indexToRemove];
-			
-			releasedObj.check = false;
-			
-			$scope.projectsForRelease.push(releasedObj);
-			
-			$scope.unreleasedPrjctIdObjMap[releasedObj.id] = releasedObj;
-			
-			$scope.projectReleased.splice(indexToRemove, 1);
+			projectObj.check = false;
+			$scope.projectsForRelease.push(projectObj);
+			$scope.unreleasedPrjctIdObjMap[projectObj.id] = projectObj;
 			
 			try
 			{
@@ -355,6 +327,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		
 		actionHelper.invokeAction("projectRelease.deleteByProjectId", model, null, deleteCallBack, {"hideInProgress" : true});
 	};
+	
 	
 }]);
 

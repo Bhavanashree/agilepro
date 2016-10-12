@@ -231,6 +231,8 @@ $.application.controller('releaseController', ["$scope", "crudController", "util
 	$scope.onReleaseChange  = function(releaseId){
 		
 		$scope.selectedRelease = $scope.rlseIdObjMap[releaseId];
+
+		console.log("$scope.$broadcast(activeReleaseSelectionChanged)");
 		
 		$scope.$broadcast("activeReleaseSelectionChanged");
 	};
