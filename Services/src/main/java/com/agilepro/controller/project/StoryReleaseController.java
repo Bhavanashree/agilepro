@@ -2,8 +2,10 @@ package com.agilepro.controller.project;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY_REALSE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_BY_PROJECT_ID;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_STORY_RELEASE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
+import com.agilepro.commons.models.project.BasicStoryInfo;
 import com.agilepro.controller.response.StoryReleaseReadResponse;
 import com.agilepro.services.admin.StoryReleaseService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
+import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 
 /**
@@ -63,15 +67,14 @@ public class StoryReleaseController
 	 *            the project id
 	 * @return the story release read response
 	 */
-	@ActionName(ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE)
+	@ActionName(ACTION_TYPE_READ_ALL_STORY_RELEASE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readAllStoryAndStoryRelease", method = RequestMethod.GET)
+	@RequestMapping(value = "/readAllStoryRelease", method = RequestMethod.GET)
 	@ResponseBody
-	public StoryReleaseReadResponse fetchStoryRelease(@RequestParam(value = "projectId", required = false) Long projectId)
+	public BasicReadResponse<List<BasicStoryInfo>> fetchStoryRelease(@RequestParam(value = "releaseId", required = true) Long releaseId)
 	{
-		return storyReleaseService.fetchAllStoryRelease(projectId);
+		return new BasicReadResponse<List<BasicStoryInfo>>(storyReleaseService.fetchAllStoryRelease(releaseId));
 	}
-
 	
 	@ActionName(ACTION_TYPE_DELETE_BY_PROJECT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })

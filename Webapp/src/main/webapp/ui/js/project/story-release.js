@@ -74,10 +74,10 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 	};
 	
-	readAlStoryAndReleaseCallBack =  function(readResponse, respConfig){
+	readAllStoryReleaseCallBack =  function(readResponse, respConfig){
 		
-		$scope.storiesReleased = readResponse.basicStoryInfos.length > 0 ? readResponse.basicStoryInfos : [];
-		$scope.storiesForRelease = readResponse.storiesForRelease.length > 0 ? readResponse.storiesForRelease : [] ;
+		$scope.storiesReleased = readResponse.model;
+		$scope.storiesForRelease = [];
 		
 		var obj;
 		var index
@@ -91,6 +91,8 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 			$scope.unreleasedStoryIdObjMap[obj.id] = obj;
 		}
 		
+		$scope.selectedReleasedProject = $scope.projectReleased.length > 0 ? $scope.projectReleased[0] : {};
+		
 		try
 		{
 			$scope.$apply();
@@ -98,6 +100,28 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		{}
 	};
 
+	// Listener for broadcast
+	$scope.$on("fetchAllStoryRelease", function(event, args) {
+		
+		if($scope.activeReleaseId == $scope.getActiveReleaseId())
+		{
+			return;
+		}
+		
+		console.log("listener is invoked");
+		
+		$scope.activeReleaseId = $scope.getActiveReleaseId();
+		
+		$scope.unreleasedStoryIdObjMap = {};
+		
+		$scope.multipleUnreleasedSelectedStoryIds = [];
+		
+		actionHelper.invokeAction("storyRelease.readAllStoryRelease", null, 
+				{"releaseId" : $scope.activeReleaseId}, readAllStoryReleaseCallBack, {"hideInProgress" : true});
+		
+	});
+	
+	
 	$scope.onReleaseProjectChange = function(projectId){
 		
 		/*if($scope.selectedReleasedProject == $scope.releasedPrjctIdObjMap[projectId])
@@ -109,12 +133,7 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 		console.log($scope.selectedReleasedProject);
 		
-		$scope.unreleasedStoryIdObjMap = {};
 		
-		$scope.multipleUnreleasedSelectedStoryIds = [];
-		
-		actionHelper.invokeAction("storyRelease.readAllStoryAndStoryRelease", null, 
-				{"projectId" : $scope.selectedReleasedProject.id}, readAlStoryAndReleaseCallBack, {"hideInProgress" : true});
 	};
 	
 	// Dragging methods

@@ -16,16 +16,9 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
  */
 public interface IStoryReleaseRepository extends IWebutilsRepository<StoryReleaseEntity>
 {
-	/**
-	 * Fetch storys by project.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the list
-	 */
 	@RestrictBySpace
 	@SearchResult
-	public List<BasicStoryInfo> fetchStorysByProject(@Condition(value = "project.id") Long projectId);
+	public List<BasicStoryInfo> fetchStorysByRelease(@Condition(value = "release.id") Long releaseId);
 
 	/**
 	 * Fetch all story release.
@@ -34,7 +27,4 @@ public interface IStoryReleaseRepository extends IWebutilsRepository<StoryReleas
 	 */
 	@RestrictBySpace
 	public List<StoryReleaseEntity> fetchAllStoryRelease();
-	
-	@RestrictBySpace
-	public boolean deleteByProjectId(@Condition(value = "project.id") Long projectId);
 }

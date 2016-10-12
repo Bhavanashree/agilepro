@@ -78,6 +78,9 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		$scope.projectReleased = readResponse.basicProjectInfos;
 		$scope.projectsForRelease = readResponse.projectForRelease;
 		
+		
+		$scope.$broadcast("fetchAllStoryRelease");
+		
 		try
 		{
 			$scope.$apply();
@@ -104,7 +107,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		}
 		
 		// init the drop down for story
-		$scope.$broadcast("initProjectReleasedForStory");
+		//$scope.$broadcast("initProjectReleasedForStory");
 		
 	};
 	

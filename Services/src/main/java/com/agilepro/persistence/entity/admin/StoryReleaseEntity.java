@@ -10,19 +10,21 @@ import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
+import freemarker.core._RegexBuiltins.replace_reBI;
+
 /**
  * The Class StoryReleaseEntity.
  * 
  * @author Pritam
  */
 @Table(name = "STORY_RELEASE")
-@UniqueConstraints({ @UniqueConstraint(name = "STORY_RELEASE_ID", fields = { "project", "story" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "STORY_RELEASE_ID", fields = { "release", "story" }) })
 public class StoryReleaseEntity extends WebutilsEntity
 {
+	@Column(name = "RELEASE_ID", nullable = false)
 	@ManyToOne
-	@PropertyMapping(type = StoryReleaseModel.class, from = "projectId", subproperty = "id")
-	@Column(name = "PROJECT_ID", nullable = false)
-	private ProjectEntity project;
+	@PropertyMapping(type = StoryReleaseModel.class, from = "releaseId", subproperty = "id")
+	private ReleaseEntity release;
 
 	/**
 	 * The story.
@@ -32,14 +34,12 @@ public class StoryReleaseEntity extends WebutilsEntity
 	@PropertyMapping(type = StoryReleaseModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;
 
-	public ProjectEntity getProject()
-	{
-		return project;
+	public ReleaseEntity getRelease() {
+		return release;
 	}
 
-	public void setProject(ProjectEntity project)
-	{
-		this.project = project;
+	public void setRelease(ReleaseEntity release) {
+		this.release = release;
 	}
 
 	/**

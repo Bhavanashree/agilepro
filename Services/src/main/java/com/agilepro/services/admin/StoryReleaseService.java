@@ -77,7 +77,7 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 			{
 				for(Long stryId : storyIds)
 				{
-					storyReleaseEntity = super.save(new StoryReleaseModel(stryId, storyReleaseModel.getProjectId()));
+					storyReleaseEntity = super.save(new StoryReleaseModel(stryId, storyReleaseModel.getReleaseId()));
 				}
 			}
 
@@ -90,37 +90,30 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 		}
 	}
 
-	/**
-	 * Fetch all story release.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the story release read response
-	 */
-	public StoryReleaseReadResponse fetchAllStoryRelease(Long projectId)
+	public List<BasicStoryInfo> fetchAllStoryRelease(Long releaseId)
 	{
-		List<BasicStoryInfo> basicStoryInfos = istoryReleaseRepository.fetchStorysByProject(projectId);
+		return istoryReleaseRepository.fetchStorysByRelease(releaseId);
 
-		List<StoryReleaseEntity> storyReleaseEntities = istoryReleaseRepository.fetchAllStoryRelease();
+		/*List<StoryReleaseEntity> storyReleaseEntities = istoryReleaseRepository.fetchAllStoryRelease();
 
 		Set<Long> storyIds = storyReleaseEntities.stream().map(entity -> entity.getStory().getId()).collect(Collectors.toSet());
 
-		List<StoryModel> storyModels = storyService.fetchAllStoriesByProject(projectId);
+		List<StoryModel> storyModels = storyService.fetchAllStoriesByProject(releaseId);
 
 		List<StoryModel> filteredModels = storyModels.stream().filter(model -> !storyIds.contains(model.getId())).collect(Collectors.toList());
 
 		return new StoryReleaseReadResponse(basicStoryInfos, filteredModels);
-	}
+*/	}
 
 	
 	public void deleteByProjectId(Long projectId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			if(!istoryReleaseRepository.deleteByProjectId(projectId))
+			/*if(!istoryReleaseRepository.deleteByProjectId(projectId))
 			{
 				throw new IllegalStateException("An error occurred  while deleting story release");
-			}
+			}*/
 			
 			transaction.commit();
 		} catch(Exception ex)

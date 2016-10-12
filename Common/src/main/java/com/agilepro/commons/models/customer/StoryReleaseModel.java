@@ -23,7 +23,8 @@ public class StoryReleaseModel
 	/**
 	 * The release id.
 	 **/
-	private Long projectId;
+	@Required
+	private Long releaseId;
 
 	/**
 	 * The story id.
@@ -37,11 +38,11 @@ public class StoryReleaseModel
 		super();
 	}
 
-	public StoryReleaseModel(Long storyId, Long projectId)
+	public StoryReleaseModel(Long storyId, Long releaseId)
 	{
 		super();
 		this.storyId = storyId;
-		this.projectId = projectId;
+		this.releaseId = releaseId;
 	}
 
 	/**
@@ -71,14 +72,12 @@ public class StoryReleaseModel
 		this.id = id;
 	}
 
-	public Long getProjectId()
-	{
-		return projectId;
+	public Long getReleaseId() {
+		return releaseId;
 	}
 
-	public void setProjectId(Long projectId)
-	{
-		this.projectId = projectId;
+	public void setReleaseId(Long releaseId) {
+		this.releaseId = releaseId;
 	}
 
 	/**

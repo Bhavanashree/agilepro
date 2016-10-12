@@ -88,9 +88,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_DELETE_BY_EMPLOYEE_ID = "deleteByEmployeeId";
 
 	/**
-	 * The action type read all story and story release.
+	 * The action type read all story release.
 	 **/
-	public String ACTION_TYPE_READ_ALL_STORY_AND_STORY_RELEASE = "readAllStoryAndStoryRelease";
+	public String ACTION_TYPE_READ_ALL_STORY_RELEASE = "readAllStoryRelease";
 
 	/** 
 	 * The action type read admin managers by proejct id. 
