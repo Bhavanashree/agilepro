@@ -29,7 +29,7 @@
 				<a href="#" style="color: white;"> Logout {{activeUser.displayName}} </a>
 				
 				<div style="margin-right: -0.5em; background: white; margin-top: 2px; padding-left: 0.5em; padding-right: 0.5em; padding-top:  5px; border-top-left-radius: 0.5em;" 
-					ng-show="show">
+					ng-show="showProjects && currentState.projectSpecific">
 					<div class="input-group">
 						<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" value="{{selectedProject.name}}">
 						<div class="input-group-btn">

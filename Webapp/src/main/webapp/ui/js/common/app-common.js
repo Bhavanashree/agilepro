@@ -64,9 +64,9 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	
     	$scope.projects = readResponse.model;
     	
-    	$scope.show = $scope.projects.length > 0 ? true : false;
+    	$scope.showProjects = $scope.projects.length > 0 ? true : false;
 
-    	if(!$scope.show)
+    	if(!$scope.showProjects)
     	{
     		$scope.selectedProject = null;
     	}

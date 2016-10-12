@@ -4,7 +4,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	// For any unmatched url, redirect to /state1
 	$urlRouterProvider.otherwise("default");
 	
-	var addState = function(name, menuUrl, contentUrl, tabName, hideLeftMenu) {
+	var addState = function(name, menuUrl, contentUrl, tabName, hideLeftMenu, projectSpecific) {
 		var url = "/" + name;
 		
 		var stateConfig = {
@@ -21,7 +21,8 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 		        }
 		    },
 		    "tab": tabName,
-		    "leftMenu": hideLeftMenu == true ? false : true
+		    "leftMenu": hideLeftMenu == true ? false : true,
+		    "projectSpecific": projectSpecific == false ? false : true
 		};
 		
 		$stateProvider.state(name, stateConfig);
@@ -67,7 +68,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	// Project related states
 	addState("project","project/project-menu.html", "project/project.html", "projectsTab");
 	addState("tag","project/project-menu.html", "project/tag.html", "projectsTab");
-	addState("release","project/project-menu.html", "project/release.html", "projectsTab");
+	addState("release","project/project-menu.html", "project/release.html", "projectsTab", false, false);
 	
 	//Members related states
 	addState("member", "member/member-menu.html", "member/member.html", "membersTab");
