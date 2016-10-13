@@ -4,6 +4,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_UNRELEASED_STORY_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_BULK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
@@ -107,22 +108,24 @@ public class StoryController extends BaseController implements IStoryController
 	/**
 	 * Fetch story by project id.
 	 *
-	 * @param projectId the project id
+	 * @param projectId
+	 *            the project id
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/fetchStoryBysprintAndProjectId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<StoryModel>> fetchAllStoryByPrjAndSprint(
-			@RequestParam(value = "projectId", required = true) Long projectId,
-			@RequestParam(value = "sprint", required = true)  Long sprint) 
+	public BasicReadResponse<List<StoryModel>> fetchAllStoryByPrjAndSprint(@RequestParam(value = "projectId", required = true) Long projectId, @RequestParam(value = "sprint", required = true) Long sprint)
 	{
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStoryByPrjAndSprint(projectId, sprint));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.project.IStoryController#fetchStoryBySprintId(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.agilepro.commons.controllers.project.IStoryController#
+	 * fetchStoryBySprintId(java.lang.Long)
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ_STORY_SPRINT)
@@ -133,6 +136,22 @@ public class StoryController extends BaseController implements IStoryController
 	{
 
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
+	}
+
+	/**
+	 * Fetch story by project id.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the basic read response
+	 */
+	@ActionName(ACTION_TYPE_READ_UNRELEASED_STORY_BY_PROJECT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readUnreleasedStoryByProjectId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<StoryModel>> fetchStoryByProjectId(@RequestParam(value = "projectId", required = true) Long projectId)
+	{
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllUnreleasedStoriesByProject(projectId));
 	}
 
 	/**
@@ -163,7 +182,8 @@ public class StoryController extends BaseController implements IStoryController
 	/**
 	 * Save stories in bulk.
 	 *
-	 * @param model the model
+	 * @param model
+	 *            the model
 	 * @return the basic save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE_STORIES_IN_BULK)
@@ -173,10 +193,10 @@ public class StoryController extends BaseController implements IStoryController
 	public BasicSaveResponse saveStoriesInBulk(@RequestBody @Valid StoriesInBulk model)
 	{
 		storyService.saveListOfStories(model.getStories(), model.getProjectId(), null);
-		
+
 		return new BasicSaveResponse();
 	}
-	
+
 	/**
 	 * Delete the story.
 	 *

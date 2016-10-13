@@ -2,6 +2,8 @@ package com.agilepro.services.project;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -12,9 +14,12 @@ import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.persistence.entity.admin.StoryReleaseEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
+import com.agilepro.persistence.repository.admin.IStoryReleaseRepository;
 import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.agilepro.services.admin.EmployeeService;
+import com.agilepro.services.admin.StoryReleaseService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
@@ -47,6 +52,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	private IStoryRepository storyRepo;
 
 	/**
+	 * The istory release repository.
+	 **/
+	private IStoryReleaseRepository istoryReleaseRepository;
+
+	/**
 	 * Instantiates a new StoryService.
 	 */
 	public StoryService()
@@ -55,12 +65,14 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Initialize the iprojectMemberRepository.
+	 * Inits the storyRepo, istoryReleaseRepository.
 	 */
 	@PostConstruct
 	private void init()
 	{
 		storyRepo = repositoryFactory.getRepository(IStoryRepository.class);
+
+		istoryReleaseRepository = repositoryFactory.getRepository(IStoryReleaseRepository.class);
 	}
 
 	/**
@@ -294,19 +306,25 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Fetch all stories by project.
+	 * Fetch all unreleased stories by project.
 	 *
 	 * @param projectId
 	 *            the project id
 	 * @return the list
 	 */
-	public List<StoryModel> fetchAllStoriesByProject(Long projectId)
+	public List<StoryModel> fetchAllUnreleasedStoriesByProject(Long projectId)
 	{
+		List<StoryReleaseEntity> storyReleaseEntities = istoryReleaseRepository.fetchAllStoryRelease();
+
+		Set<Long> storyIds = storyReleaseEntities.stream().map(entity -> entity.getStory().getId()).collect(Collectors.toSet());
+
 		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
 
-		List<StoryModel> storyModels = new ArrayList<StoryModel>(storyEntities.size());
+		List<StoryEntity> filterdStories = storyEntities.stream().filter(entity -> !storyIds.contains(entity.getId())).collect(Collectors.toList());
 
-		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
+		List<StoryModel> storyModels = new ArrayList<StoryModel>(filterdStories.size());
+
+		filterdStories.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
 
 		return storyModels;
 	}

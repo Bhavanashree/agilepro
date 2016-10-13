@@ -1,7 +1,8 @@
 package com.agilepro.controller.project;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY_REALSE;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_BY_PROJECT_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_BY_STORY_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_STORY_RELEASE_BY_RELEASE_AND_PROJECT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_STORY_RELEASE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
 import com.agilepro.commons.models.project.BasicStoryInfo;
-import com.agilepro.controller.response.StoryReleaseReadResponse;
 import com.agilepro.services.admin.StoryReleaseService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
@@ -63,9 +63,9 @@ public class StoryReleaseController
 	/**
 	 * Fetch story release.
 	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the story release read response
+	 * @param releaseId
+	 *            the release id
+	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_ALL_STORY_RELEASE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER })
@@ -75,14 +75,30 @@ public class StoryReleaseController
 	{
 		return new BasicReadResponse<List<BasicStoryInfo>>(storyReleaseService.fetchAllStoryRelease(releaseId));
 	}
-	
-	@ActionName(ACTION_TYPE_DELETE_BY_PROJECT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/deleteByProjectId", method = RequestMethod.POST)
+
+	@ActionName(ACTION_TYPE_READ_ALL_STORY_RELEASE_BY_RELEASE_AND_PROJECT)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readAllStoryReleaseByReleaseAndProject", method = RequestMethod.GET)
 	@ResponseBody
-	public BaseResponse delete(@RequestParam(value = "projectId", required = false) Long projectId)
+	public BasicReadResponse<List<BasicStoryInfo>> fetchStoryRelease(@RequestBody @Valid StoryReleaseModel storyReleaseModel)
 	{
-		storyReleaseService.deleteByProjectId(projectId);
+		return new BasicReadResponse<List<BasicStoryInfo>>(storyReleaseService.fetchAllStoryRelease(null));
+	}
+	
+	/**
+	 * Delete.
+	 *
+	 * @param storyReleaseModel
+	 *            the story release model
+	 * @return the base response
+	 */
+	@ActionName(ACTION_TYPE_DELETE_BY_STORY_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/deleteByStoryId", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResponse delete(@RequestBody @Valid StoryReleaseModel storyReleaseModel)
+	{
+		storyReleaseService.deleteByStoryId(storyReleaseModel);
 
 		return new BaseResponse();
 	}

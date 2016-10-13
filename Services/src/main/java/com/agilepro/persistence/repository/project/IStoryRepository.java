@@ -57,20 +57,20 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	public List<StoryEntity> fetchStoryBySprintId(@Condition(value = "sprint.id") Long sprintId);
 	
 	@RestrictBySpace
-	public List<StoryEntity> fetchStoryByProjIdAndSprint(@Condition(value = "projectEntity.id") Long projectId, 
+	public List<StoryEntity> fetchStoryByProjIdAndSprint(@Condition(value = "project.id") Long projectId, 
 									@Condition(value = "sprint.id") Long sprintId);
 
 	@RestrictBySpace
 	@MethodConditions(
 		nullChecks = @NullCheck(field = "sprint.id")
 	)
-	public List<StoryEntity> fetchUnassingedStories(@Condition(value = "projectEntity.id") Long projectId);
+	public List<StoryEntity> fetchUnassingedStories(@Condition(value = "project.id") Long projectId);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStoryId") Long parentStoryId);
 
 	@RestrictBySpace
-	public List<StoryEntity> fetchStoriesByProject(@Condition(value = "projectEntity.id") Long projectId);
+	public List<StoryEntity> fetchStoriesByProject(@Condition(value = "project.id") Long projectId);
 	
 	/**
 	 * Delete all.

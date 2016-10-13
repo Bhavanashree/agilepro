@@ -119,7 +119,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			return;
 		}
 		
-		console.log("listener is invoked");
+		console.log("listener activeReleaseSelectionChanged is invoked");
 		
 		$scope.unreleasedPrjctIdObjMap = {};
 		$scope.multipleUnreleasedSelectedProjectsId = [];

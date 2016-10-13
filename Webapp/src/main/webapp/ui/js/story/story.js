@@ -322,8 +322,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	 $scope.saveConversationMessage = function(){
 		
-		$scope.message = $("#messageId").val();
-		$("#messageId").val(""); 
+		/*$scope.message = $("#messageId").val();
+		$("#messageId").val(""); */
 		
 		if($scope.message)
 		{

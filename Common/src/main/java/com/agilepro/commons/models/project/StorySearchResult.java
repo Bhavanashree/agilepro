@@ -63,7 +63,7 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	/**
 	 * The project id.
 	 **/
-	@Field(value = "projectEntity.id")
+	@Field(value = "project.id")
 	private Long projectId;
 	
 	

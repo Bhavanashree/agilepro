@@ -54,7 +54,7 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	};
 	
 	/*
-	 * Check box method to select multiple projects
+	 * Check box method to select multiple stories
 	 */
 	$scope.checkBoxStory = function(storyId){
 		
@@ -77,27 +77,31 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	readAllStoryReleaseCallBack =  function(readResponse, respConfig){
 		
 		$scope.storiesReleased = readResponse.model;
-		$scope.storiesForRelease = [];
 		
-		var obj;
-		var index
-		
-		for(index in $scope.storiesForRelease)
+		if($scope.projectReleased.length > 0)
 		{
-			obj = $scope.storiesForRelease[index];
+			$scope.selectedReleasedProject = $scope.projectReleased[0];
 			
-			obj.check = false;
-			
-			$scope.unreleasedStoryIdObjMap[obj.id] = obj;
+			$scope.fetchUnreleasedStoriesByProject($scope.selectedReleasedProject.id);
+		}else
+		{
+			$scope.selectedReleasedProject = {};
+			$scope.storiesForRelease = [];
 		}
-		
-		$scope.selectedReleasedProject = $scope.projectReleased.length > 0 ? $scope.projectReleased[0] : {};
 		
 		try
 		{
 			$scope.$apply();
 		}catch(ex)
 		{}
+		
+		var index
+		
+		for(index in $scope.storiesReleased)
+		{
+			$scope.releasedStoryIdObjMap[$scope.storiesReleased[index].id] = $scope.storiesReleased[index];
+		}
+		
 	};
 
 	// Listener for broadcast
@@ -108,13 +112,13 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 			return;
 		}
 		
-		console.log("listener is invoked");
+		console.log("listener fetchAllStoryRelease is invoked");
+		
+		$scope.releasedStoryIdObjMap = {};
+		
+		$scope.multipleReleasedSelectedStoryIds = [];
 		
 		$scope.activeReleaseId = $scope.getActiveReleaseId();
-		
-		$scope.unreleasedStoryIdObjMap = {};
-		
-		$scope.multipleUnreleasedSelectedStoryIds = [];
 		
 		actionHelper.invokeAction("storyRelease.readAllStoryRelease", null, 
 				{"releaseId" : $scope.activeReleaseId}, readAllStoryReleaseCallBack, {"hideInProgress" : true});
@@ -124,15 +128,52 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	
 	$scope.onReleaseProjectChange = function(projectId){
 		
-		/*if($scope.selectedReleasedProject == $scope.releasedPrjctIdObjMap[projectId])
+		if($scope.selectedReleasedProject.id == $scope.releasedPrjctIdObjMap[projectId].id)
 		{
 			return;
-		}*/
+		}
 		
 		$scope.selectedReleasedProject = $scope.releasedPrjctIdObjMap[projectId];
 		
 		console.log($scope.selectedReleasedProject);
 		
+		$scope.fetchUnreleasedStoriesByProject($scope.selectedReleasedProject.id);
+	};
+	
+	$scope.fetchUnreleasedStoriesByProject = function(projectId){
+
+		$scope.unreleasedStoryIdObjMap = {};
+		
+		$scope.multipleUnreleasedSelectedStoryIds = [];
+		
+		actionHelper.invokeAction("story.readUnreleasedStoryByProjectId", null, {"projectId" : projectId},
+				
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						$scope.storiesForRelease = readResponse.model;
+						
+						var obj;
+						var index
+						
+						for(index in $scope.storiesForRelease)
+						{
+							obj = $scope.storiesForRelease[index];
+							
+							obj.check = false;
+							
+							$scope.unreleasedStoryIdObjMap[obj.id] = obj;
+						}
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
+				}, {"hideInProgress" : true});
 		
 	};
 	
@@ -151,13 +192,13 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 		if($scope.multipleUnreleasedSelectedStoryIds.length == 0)
 		{
-			$scope.slectedStoryId = event.target.id;
+			$scope.selectedStoryId = event.target.id;
 		}
 	};
 	
 	$scope.dropStories = function(event){
 		
-		console.log("drop story" + $scope.slectedStoryId);
+		console.log("drop story" + $scope.selectedStoryId);
 		var storyObj;
 		var storyId;
 		var index;
@@ -166,13 +207,15 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 		if($scope.multipleUnreleasedSelectedStoryIds.length == 0)
 		{
-			storyObj = $scope.unreleasedStoryIdObjMap[$scope.slectedStoryId];
+			storyObj = $scope.unreleasedStoryIdObjMap[$scope.selectedStoryId];
 			
 			$scope.storiesForRelease.splice($scope.storiesForRelease.indexOf(storyObj),1);
 			
 			$scope.storiesReleased.push(storyObj);
 			
-			var model = {"projectId" : $scope.selectedReleasedProject.id, "storyId" : $scope.slectedStoryId};
+			$scope.releasedStoryIdObjMap[storyObj.id] = storyObj;
+			
+			var model = {"releaseId" : $scope.selectedRelease.id, "storyId" : $scope.selectedStoryId};
 			saveNewStoryRelease(model);
 		}
 		else
@@ -186,9 +229,11 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 				$scope.storiesForRelease.splice($scope.storiesForRelease.indexOf(storyObj),1);
 				
 				$scope.storiesReleased.push(storyObj);
+				
+				$scope.releasedStoryIdObjMap[storyObj.id] = storyObj;
 			}
 			
-			var model = {"projectId" : $scope.selectedReleasedProject.id, "storyIds" : $scope.multipleUnreleasedSelectedStoryIds};
+			var model = {"releaseId" : $scope.selectedRelease.id, "storyIds" : $scope.multipleUnreleasedSelectedStoryIds};
 			saveNewStoryRelease(model);
 		}
 		
@@ -215,22 +260,44 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		actionHelper.invokeAction("storyRelease.save", model, null, saveStoryReleaseCallBack, {"hideInProgress" : true});
 	};
 	
-	// listener
+	// listener for drop down
 	$scope.$on("initProjectReleasedForStory", function(event, args) {
 		
 		if($scope.projectReleased.length > 0)
 		{
 			if(!$scope.selectedReleasedProject.name)
 			{
+				console.log("if = " + $scope.selectedReleasedProject.name);
 				$scope.onReleaseProjectChange($scope.projectReleased[0].id);
 				//$scope.selectedReleasedProject = $scope.projectReleased[0];
 			}
 		}else
 		{
 			$scope.selectedReleasedProject = {};
-			
-			$scope.storiesReleased = [];
 			$scope.storiesForRelease = [];
+			
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
+		}
+		
+	});
+	
+	// listener
+	$scope.$on("initProjectReleasedStoryAfterDropBack", function(event, args) {
+		
+		console.log("listener initProjectReleasedStoryAfterDropBack");
+		
+		if($scope.projectReleased.length == 0)
+		{
+			$scope.selectedReleasedProject = {};
+			$scope.storiesForRelease = [];
+		}
+		else if($scope.selectedPrjctId == $scope.selectedReleasedProject.id)
+		{
+			$scope.onReleaseProjectChange($scope.projectReleased[0].id);
 		}
 		
 		try
@@ -240,40 +307,101 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		{}
 	});
 	
-	// listener
-	$scope.$on("initProjectReleasedStoryAfterDropBack", function(event, args) {
+	
+	/*
+	 * Drag stories back
+	 * 
+	 */
+	$scope.dragBackStories = function(event){
 		
-		if($scope.storiesReleased.length > 0)
+		console.log("drag back story is called");
+		
+		event.originalEvent.dataTransfer.setData('text/plain', 'text');
+		
+		if(!$scope.selectedReleasedProject)
 		{
-			actionHelper.invokeAction("storyRelease.deleteByProjectId", null, {"projectId" : $scope.selectedPrjctId}, 
-					
-					function(deleteResponse, respConfig){
+			utils.alert("Please select project");
+			return;
+		}
+		
+		if($scope.multipleUnreleasedSelectedStoryIds.length == 0)
+		{
+			$scope.selectedStoryId = event.target.id;
+		}
+	};
+	
+	/*
+	 * Drop back stories
+	 */
+	$scope.dropBackStories = function(event){
+		
+		console.log("drop back story" + $scope.selectedStoryId);
+		
+		event.preventDefault();
+		
+		var storyObj;
+		var storyId;
+		var index;
+		
+		if($scope.multipleReleasedSelectedStoryIds.length == 0)
+		{
+			storyObj = $scope.releasedStoryIdObjMap[$scope.selectedStoryId];
 			
-						if(deleteResponse.code == 0)
-						{
-							
-						}
-				}, {"hideInProgress" : true});
-		}
-		
-		if($scope.projectReleased.length == 0)
-		{
-			$scope.selectedReleasedProject = {};
+			if(storyObj.projectId != $scope.selectedReleasedProject.id)
+			{
+				utils.alert("This story belongs to : " + $scope.idToProject[storyObj.projectId]);
+				return;
+			}
 			
-			$scope.storiesReleased = [];
-			$scope.storiesForRelease = [];
+			$scope.storiesReleased.splice($scope.storiesReleased.indexOf(storyObj), 1);
+			
+			storyObj.check = false;
+			
+			$scope.storiesForRelease.push(storyObj);
+			
+			var model = {"releaseId" : $scope.selectedRelease.id, "storyIds" : [$scope.selectedStoryId]};
+			
+			deleteStoryRelease(model);
 		}
-		else if($scope.selectedPrjctId == $scope.selectedReleasedProject.id)
+		else
 		{
-			$scope.onReleaseProjectChange($scope.projectReleased[0].id);
+			for(index in $scope.multipleUnreleasedSelectedStoryIds)
+			{
+				storyId = $scope.multipleUnreleasedSelectedStoryIds[index];
+				
+				storyObj = $scope.unreleasedStoryIdObjMap[storyId];
+				
+				$scope.storiesForRelease.splice($scope.storiesForRelease.indexOf(storyObj),1);
+				
+				$scope.storiesReleased.push(storyObj);
+			}
+			
+			var model = {"releaseId" : $scope.selectedRelease.id, "storyIds" : $scope.multipleUnreleasedSelectedStoryIds};
+			saveNewStoryRelease(model);
 		}
-		
 		
 		try
 		{
 			$scope.$apply();
 		}catch(ex)
 		{}
-	});
+		
+	};
+	
+	
+	deleteStoryRelease = function(model){
+		
+		actionHelper.invokeAction("storyRelease.deleteByStoryId", model, null, 
+				function(deleteResponse, respConfig){
+			
+					if(deleteResponse.code != 0)
+					{
+						$scope.onReleaseProjectChange($scope.selectedReleasedProject.id);
+					}
+					
+				}, {"hideInProgress" : true});
+		
+	};
+	
 	
 }]);

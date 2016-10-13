@@ -90,7 +90,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@Column(name = "PROJECT_ID", nullable = false)
 	@ManyToOne
 	@PropertyMappings({ @PropertyMapping(type = StoryModel.class, from = "projectId", subproperty = "id"), @PropertyMapping(type = StoryBulkModel.class, from = "projectId", subproperty = "id") })
-	private ProjectEntity projectEntity;
+	private ProjectEntity project;
 
 	/**
 	 * The list of stories under this sprint.
@@ -298,25 +298,14 @@ public class StoryEntity extends WebutilsExtendableEntity
 		this.sprint = sprint;
 	}
 
-	/**
-	 * Gets the project entity.
-	 *
-	 * @return the project entity
-	 */
-	public ProjectEntity getProjectEntity()
+	public ProjectEntity getProject()
 	{
-		return projectEntity;
+		return project;
 	}
 
-	/**
-	 * Sets the project entity.
-	 *
-	 * @param projectEntity
-	 *            the new project entity
-	 */
-	public void setProjectEntity(ProjectEntity projectEntity)
+	public void setProject(ProjectEntity project)
 	{
-		this.projectEntity = projectEntity;
+		this.project = project;
 	}
 
 	/**

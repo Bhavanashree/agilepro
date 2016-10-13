@@ -22,6 +22,12 @@ public class BasicStoryInfo
 	private String title;
 
 	/**
+	 * The project id.
+	 **/
+	@Field("story.project.id")
+	private Long projectId;
+
+	/**
 	 * Gets the id.
 	 *
 	 * @return the id
@@ -61,5 +67,26 @@ public class BasicStoryInfo
 	public void setTitle(String title)
 	{
 		this.title = title;
+	}
+
+	/**
+	 * Gets the project id.
+	 *
+	 * @return the project id
+	 */
+	public Long getProjectId()
+	{
+		return projectId;
+	}
+
+	/**
+	 * Sets the project id.
+	 *
+	 * @param projectId
+	 *            the new project id
+	 */
+	public void setProjectId(Long projectId)
+	{
+		this.projectId = projectId;
 	}
 }

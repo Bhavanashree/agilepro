@@ -1,5 +1,7 @@
 package com.agilepro.commons;
 
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID;
+
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
 /**
@@ -81,6 +83,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type delete by project id.
 	 **/
 	public String ACTION_TYPE_DELETE_BY_PROJECT_ID = "deleteByProjectId";
+	
+	/** 
+	 * The action type delete by story id. 
+	 **/
+	public String ACTION_TYPE_DELETE_BY_STORY_ID = "deleteByStoryId";
 
 	/**
 	 * The action type delete employee id.
@@ -91,6 +98,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read all story release.
 	 **/
 	public String ACTION_TYPE_READ_ALL_STORY_RELEASE = "readAllStoryRelease";
+	
+	/** 
+	 * The action type read all story release by release and project. 
+	 **/
+	public String ACTION_TYPE_READ_ALL_STORY_RELEASE_BY_RELEASE_AND_PROJECT = "readAllStoryReleaseByReleaseAndProject";
 
 	/** 
 	 * The action type read admin managers by proejct id. 
@@ -378,6 +390,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type readSprints.
 	 */
 	public String ACTION_TYPE_READ_STORY_SPRINT = "readStoriesBySprint";
+	
+	/** 
+	 * The action type read unreleased story by project id. 
+	 **/
+	public String ACTION_TYPE_READ_UNRELEASED_STORY_BY_PROJECT_ID = "readUnreleasedStoryByProjectId";
 
 	/**
 	 * The action type readProjectid.

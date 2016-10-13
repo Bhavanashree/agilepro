@@ -32,7 +32,6 @@ import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.controllers.BaseController;
 import com.yukthi.webutils.mail.EmailData;
 import com.yukthi.webutils.mail.EmailService;
-import com.yukthi.webutils.mail.EmailTemplateService;
 import com.yukthi.webutils.services.UserService;
 
 /**
@@ -76,8 +75,8 @@ public class LandingPageController extends BaseController
 	/**
 	 * Service to build mails from templates.
 	 */
-	@Autowired
-	private EmailTemplateService emailTemplateService;
+	//@Autowired
+	//private EmailTemplateService emailTemplateService;
 
 	/**
 	 * Used to fetch app configuration.
@@ -204,9 +203,9 @@ public class LandingPageController extends BaseController
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("password", newPwd);
 
-		EmailData email = emailTemplateService.getEmailTemplate("resetPassword").toEmailData(paramMap);
+		/*EmailData email = emailTemplateService.getEmailTemplate("resetPassword").toEmailData(paramMap);
 		email.setToList(new String[] { mailId });
-		emailService.sendEmail(email);
+		emailService.sendEmail(email);*/
 
 		// return success message
 		return new BaseResponse();
