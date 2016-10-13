@@ -2,8 +2,8 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
                          function($scope, crudController, utils, actionHelper) {
 
 	$scope.selectedReleasedProject = {};
+	$scope.storiesForRelease = [];
 	$scope.storiesReleased = [];
-	
 	
 	$scope.storyFilter = function(){
 		
@@ -74,20 +74,10 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 	};
 	
-	readAllStoryReleaseCallBack =  function(readResponse, respConfig){
+	readAllStoryAndStoryReleaseCallBack =  function(readResponse, respConfig){
 		
-		$scope.storiesReleased = readResponse.model;
-		
-		if($scope.projectReleased.length > 0)
-		{
-			$scope.selectedReleasedProject = $scope.projectReleased[0];
-			
-			$scope.fetchUnreleasedStoriesByProject($scope.selectedReleasedProject.id);
-		}else
-		{
-			$scope.selectedReleasedProject = {};
-			$scope.storiesForRelease = [];
-		}
+		$scope.storiesReleased = readResponse.basicStoryInfos;
+		$scope.storiesForRelease = readResponse.storiesForRelease;
 		
 		try
 		{
@@ -96,35 +86,22 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		{}
 		
 		var index
-		
 		for(index in $scope.storiesReleased)
 		{
 			$scope.releasedStoryIdObjMap[$scope.storiesReleased[index].id] = $scope.storiesReleased[index];
 		}
 		
-	};
-
-	// Listener for broadcast
-	$scope.$on("fetchAllStoryRelease", function(event, args) {
-		
-		if($scope.activeReleaseId == $scope.getActiveReleaseId())
+		var obj;
+		var index
+		for(index in $scope.storiesForRelease)
 		{
-			return;
+			obj = $scope.storiesForRelease[index];
+			
+			obj.check = false;
+			
+			$scope.unreleasedStoryIdObjMap[obj.id] = obj;
 		}
-		
-		console.log("listener fetchAllStoryRelease is invoked");
-		
-		$scope.releasedStoryIdObjMap = {};
-		
-		$scope.multipleReleasedSelectedStoryIds = [];
-		
-		$scope.activeReleaseId = $scope.getActiveReleaseId();
-		
-		actionHelper.invokeAction("storyRelease.readAllStoryRelease", null, 
-				{"releaseId" : $scope.activeReleaseId}, readAllStoryReleaseCallBack, {"hideInProgress" : true});
-		
-	});
-	
+	};
 	
 	$scope.onReleaseProjectChange = function(projectId){
 		
@@ -137,45 +114,18 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 		console.log($scope.selectedReleasedProject);
 		
-		$scope.fetchUnreleasedStoriesByProject($scope.selectedReleasedProject.id);
-	};
-	
-	$scope.fetchUnreleasedStoriesByProject = function(projectId){
-
-		$scope.unreleasedStoryIdObjMap = {};
+		$scope.releasedStoryIdObjMap = {};
+		$scope.multipleReleasedSelectedStoryIds = [];
 		
+		$scope.unreleasedStoryIdObjMap = {};
 		$scope.multipleUnreleasedSelectedStoryIds = [];
 		
-		actionHelper.invokeAction("story.readUnreleasedStoryByProjectId", null, {"projectId" : projectId},
-				
-				function(readResponse, respConfig)
-				{
-					if(readResponse.code == 0)
-					{
-						$scope.storiesForRelease = readResponse.model;
-						
-						var obj;
-						var index
-						
-						for(index in $scope.storiesForRelease)
-						{
-							obj = $scope.storiesForRelease[index];
-							
-							obj.check = false;
-							
-							$scope.unreleasedStoryIdObjMap[obj.id] = obj;
-						}
-					}
-					
-					try
-					{
-						$scope.$apply();
-					}catch(ex)
-					{}
-					
-				}, {"hideInProgress" : true});
+		$scope.activeReleaseId = $scope.getActiveReleaseId();
 		
+		actionHelper.invokeAction("storyRelease.readAllStoryReleaseByReleaseAndProject", null, 
+				{"releaseId" : $scope.activeReleaseId, "projectId" : $scope.selectedReleasedProject.id}, readAllStoryAndStoryReleaseCallBack, {"hideInProgress" : true});
 	};
+	
 	
 	// Dragging methods
 	$scope.dragStories = function(event){
@@ -243,21 +193,21 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		}catch(ex)
 		{}
 	};
-	
-	
-	saveStoryReleaseCallBack = function(readResponse, respConfig){
 		
-		if(readResponse.code != 0)
-		{
-			$scope.onReleaseChange($scope.selectedRelease.id);
-		}
-	};
-	
 	
 	// save new story release
 	saveNewStoryRelease = function(model){
 		
-		actionHelper.invokeAction("storyRelease.save", model, null, saveStoryReleaseCallBack, {"hideInProgress" : true});
+		actionHelper.invokeAction("storyRelease.save", model, null, 
+			function(readResponse, respConfig){
+			
+				if(readResponse.code != 0)
+				{
+					$scope.onReleaseChange($scope.selectedRelease.id);
+				}
+				
+		}, {"hideInProgress" : true});
+		
 	};
 	
 	// listener for drop down
@@ -275,6 +225,7 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		{
 			$scope.selectedReleasedProject = {};
 			$scope.storiesForRelease = [];
+			$scope.storiesReleased = [];
 			
 			try
 			{
@@ -286,14 +237,21 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	});
 	
 	// listener
-	$scope.$on("initProjectReleasedStoryAfterDropBack", function(event, args) {
+	$scope.$on("initProjectReleasedStoryAfterDropBackProject", function(event, args) {
 		
-		console.log("listener initProjectReleasedStoryAfterDropBack");
+		console.log("listener initProjectReleasedStoryAfterDropBackProject");
+
+		actionHelper.invokeAction("storyRelease.deleteByProjectId", null, {"projectId" : $scope.selectedPrjctId}, 
+				function(deleteResponse, respConfig){
+			
+		}, {"hideInProgress" : true});
+
 		
 		if($scope.projectReleased.length == 0)
 		{
 			$scope.selectedReleasedProject = {};
 			$scope.storiesForRelease = [];
+			$scope.storiesReleased = [];
 		}
 		else if($scope.selectedPrjctId == $scope.selectedReleasedProject.id)
 		{
@@ -346,12 +304,6 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		if($scope.multipleReleasedSelectedStoryIds.length == 0)
 		{
 			storyObj = $scope.releasedStoryIdObjMap[$scope.selectedStoryId];
-			
-			if(storyObj.projectId != $scope.selectedReleasedProject.id)
-			{
-				utils.alert("This story belongs to : " + $scope.idToProject[storyObj.projectId]);
-				return;
-			}
 			
 			$scope.storiesReleased.splice($scope.storiesReleased.indexOf(storyObj), 1);
 			

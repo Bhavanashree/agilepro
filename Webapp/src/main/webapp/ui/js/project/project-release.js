@@ -77,10 +77,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		
 		$scope.projectReleased = readResponse.basicProjectInfos;
 		$scope.projectsForRelease = readResponse.projectForRelease;
-		
-		
-		$scope.$broadcast("fetchAllStoryRelease");
-		
+
 		try
 		{
 			$scope.$apply();
@@ -106,8 +103,10 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			$scope.releasedPrjctIdObjMap[obj.id] = obj;
 		}
 		
-		// init the drop down for story
-		//$scope.$broadcast("initProjectReleasedForStory");
+		if($scope.projectReleased.length > 0)
+		{
+			$scope.$broadcast("initProjectReleasedForStory");
+		}
 		
 	};
 	
@@ -261,7 +260,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			$scope.onReleaseChange($scope.selectedRelease.id);
 		}else
 		{
-			$scope.$broadcast("initProjectReleasedStoryAfterDropBack");
+			$scope.$broadcast("initProjectReleasedStoryAfterDropBackProject");
 		}
 	};
 	

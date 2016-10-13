@@ -93,11 +93,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type delete employee id.
 	 **/
 	public String ACTION_TYPE_DELETE_BY_EMPLOYEE_ID = "deleteByEmployeeId";
-
-	/**
-	 * The action type read all story release.
-	 **/
-	public String ACTION_TYPE_READ_ALL_STORY_RELEASE = "readAllStoryRelease";
 	
 	/** 
 	 * The action type read all story release by release and project. 
@@ -391,11 +386,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 */
 	public String ACTION_TYPE_READ_STORY_SPRINT = "readStoriesBySprint";
 	
-	/** 
-	 * The action type read unreleased story by project id. 
-	 **/
-	public String ACTION_TYPE_READ_UNRELEASED_STORY_BY_PROJECT_ID = "readUnreleasedStoryByProjectId";
-
 	/**
 	 * The action type readProjectid.
 	 */

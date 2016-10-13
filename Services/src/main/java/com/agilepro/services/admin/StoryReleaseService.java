@@ -1,12 +1,21 @@
 package com.agilepro.services.admin;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
 import com.agilepro.commons.models.project.BasicStoryInfo;
+import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.controller.response.ProjectReleaseReadResponse;
+import com.agilepro.controller.response.StoryReleaseReadResponse;
 import com.agilepro.persistence.entity.admin.StoryReleaseEntity;
 import com.agilepro.persistence.repository.admin.IStoryReleaseRepository;
+import com.agilepro.services.project.StoryService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.webutils.services.BaseCrudService;
 
@@ -21,6 +30,9 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 	 **/
 	private IStoryReleaseRepository istoryReleaseRepository;
 
+	@Autowired
+	private StoryService storyService;
+	
 	/**
 	 * Instantiates a new story release service.
 	 */
@@ -74,18 +86,37 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 		}
 	}
 
-	/**
-	 * Fetch all story release.
-	 *
-	 * @param releaseId
-	 *            the release id
-	 * @return the list
-	 */
-	public List<BasicStoryInfo> fetchAllStoryRelease(Long releaseId)
+	public StoryReleaseReadResponse fetchAllStoryReleaseByReleaseAndProject(Long releaseId, Long projectId)
 	{
-		return istoryReleaseRepository.fetchStorysByRelease(releaseId);
+		List<BasicStoryInfo> basicStoryInfos = istoryReleaseRepository.fetchStorysByReleaseAndProject(releaseId, projectId);
+		
+		Set<Long> storyIds = basicStoryInfos.stream().map(basicInfo -> basicInfo.getId()).collect(Collectors.toSet());
+		
+		List<StoryModel> storyModels = storyService.fetchAllStoriesByProject(projectId);
+		
+		List<StoryModel> filterdModels = storyModels.stream().filter(model -> !storyIds.contains(model.getId())).collect(Collectors.toList());
+		
+		return new StoryReleaseReadResponse(basicStoryInfos, filterdModels);
 	}
-
+	
+	public void deleteByProjectId(Long projectId)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			if(!istoryReleaseRepository.deleteByProjectId(projectId))
+			{
+				throw new IllegalStateException("An error occurred  while deleting story release");
+			}
+			
+			transaction.commit();
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred  while deleting story release - ", ex);
+		}
+	}
+	
+	
+	
 	/**
 	 * Delete by story id.
 	 *

@@ -52,11 +52,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	private IStoryRepository storyRepo;
 
 	/**
-	 * The istory release repository.
-	 **/
-	private IStoryReleaseRepository istoryReleaseRepository;
-
-	/**
 	 * Instantiates a new StoryService.
 	 */
 	public StoryService()
@@ -71,8 +66,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	private void init()
 	{
 		storyRepo = repositoryFactory.getRepository(IStoryRepository.class);
-
-		istoryReleaseRepository = repositoryFactory.getRepository(IStoryReleaseRepository.class);
 	}
 
 	/**
@@ -305,16 +298,9 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
-	/**
-	 * Fetch all unreleased stories by project.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the list
-	 */
-	public List<StoryModel> fetchAllUnreleasedStoriesByProject(Long projectId)
+	public List<StoryModel> fetchAllStoriesByProject(Long projectId)
 	{
-		List<StoryReleaseEntity> storyReleaseEntities = istoryReleaseRepository.fetchAllStoryRelease();
+		/*List<StoryReleaseEntity> storyReleaseEntities = istoryReleaseRepository.fetchAllStoryRelease();
 
 		Set<Long> storyIds = storyReleaseEntities.stream().map(entity -> entity.getStory().getId()).collect(Collectors.toSet());
 
@@ -325,7 +311,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		List<StoryModel> storyModels = new ArrayList<StoryModel>(filterdStories.size());
 
 		filterdStories.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
-
+*/
+		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
+		
+		List<StoryModel> storyModels = new ArrayList<StoryModel>(storyEntities.size());
+		
+		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
+		
 		return storyModels;
 	}
 

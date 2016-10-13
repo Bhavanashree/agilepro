@@ -4,7 +4,6 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_UNRELEASED_STORY_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_BULK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
@@ -53,7 +52,6 @@ import com.yukthi.webutils.controllers.BaseController;
 @RequestMapping("/story")
 public class StoryController extends BaseController implements IStoryController
 {
-
 	/**
 	 * The logger.
 	 **/
@@ -136,22 +134,6 @@ public class StoryController extends BaseController implements IStoryController
 	{
 
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
-	}
-
-	/**
-	 * Fetch story by project id.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the basic read response
-	 */
-	@ActionName(ACTION_TYPE_READ_UNRELEASED_STORY_BY_PROJECT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readUnreleasedStoryByProjectId", method = RequestMethod.GET)
-	@ResponseBody
-	public BasicReadResponse<List<StoryModel>> fetchStoryByProjectId(@RequestParam(value = "projectId", required = true) Long projectId)
-	{
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllUnreleasedStoriesByProject(projectId));
 	}
 
 	/**
