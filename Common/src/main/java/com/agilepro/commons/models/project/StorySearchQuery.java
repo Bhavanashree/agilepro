@@ -32,7 +32,7 @@ public class StorySearchQuery
 	 *  The project id. 
 	 **/
 	@NonDisplayable
-	@Condition(value = "projectEntity.id", op = Operator.EQ)
+	@Condition(value = "project.id", op = Operator.EQ)
 	private Long projectId;
 	
 	/** 
