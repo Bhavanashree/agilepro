@@ -48,7 +48,7 @@
           "address": "Some dummy address",
           "subDomainPath": "customer1",
           "password": "password",
-          "customerPricePlanId": "${entity(PricePlan.DefaultPricePlan).id}"
+          "customerPricePlanId": <#noparse>"${entity.PricePlan.DefaultPricePlan.id}"</#noparse>
         }
       ]
     }
