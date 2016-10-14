@@ -21,16 +21,24 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		    }
 		});
 		
-		fetchNotes();
-	   
+		$scope.fetchNotes();
 	});
 	
-	fetchNotes = function(){
+	$scope.fetchNotes = function(){
 		
 		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : $scope.storyId}, 
 				function(readResponse, respConfig){
 			
+			$scope.versionTitle = "";
 			$scope.publishedNotes = readResponse.model;
+			$scope.activeContent = "";
+			
+			if($scope.publishedNotes.length > 0)
+			{
+				$scope.activeContent  = $scope.publishedNotes[0].content;
+				
+				tinymce.activeEditor.setContent($scope.activeContent);
+			}
 			
 			try
 			{
@@ -39,31 +47,37 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			{}
 			
 		}, {"hideInProgress" : true});
-	}
+	};
 	
-	$scope.saveNote = function(published){
+	//$scope.saveNote = function(published){
+	$scope.$on("saveNewStoryNote", function(event, published) {
 		
-		if(titleVersion.length == 0)
+		if($scope.versionTitle.length == 0)
 		{
-			
+			utils.alert("Please provide version");
 			return;
 		}
 		
-		var content = tinymce.activeEditor.getContent();
+		$scope.editedContent = tinymce.activeEditor.getContent();
 		
-		console.log(content);
+		console.log($scope.editedContent);
 		
-		if(content.length == 0)
+		if($scope.editedContent.length == 0)
 		{
 			utils.alert("Please provide some note");
 			return;
 		}
 		
-		var model = {"content" : content, "storyId" : $scope.storyId, "published" : published};
+		var model = {"content" : $scope.editedContent, "storyId" : $scope.storyId, "published" : published};
 		
 		if(published)
 		{
 			$scope.publishedNotes.push(model);
+		}
+		
+		if($scope.activeContent.length > 0)
+		{
+			
 		}
 		
 		actionHelper.invokeAction("storyNote.save", model, null, function(saveResponse, respConfig){
@@ -73,12 +87,12 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 				tinymce.activeEditor.setContent("");
 			}else
 			{
-				fetchNotes();
+				$scope.fetchNotes();
 			}
 			
 		}, {"hideInProgress" : true});
 		
-	};
+	});
 	
 	
 	$scope.activeNote = function(content){

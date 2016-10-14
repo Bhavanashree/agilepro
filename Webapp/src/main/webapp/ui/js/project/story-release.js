@@ -210,8 +210,20 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 	};
 	
+	$scope.$on("activeReleaseSelectionChanged", function(event, args) {
+		
+		console.log("activeReleaseSelectionChanged story-release");
+		
+		// init stories as release is changed
+		$scope.selectedReleasedProject = {};
+		$scope.storiesForRelease = [];
+		$scope.storiesReleased = [];
+	});
+	
 	// listener for drop down
 	$scope.$on("initProjectReleasedForStory", function(event, args) {
+		
+		console.log("listener for initProjectReleasedForStory = " + $scope.selectedReleasedProject.name);
 		
 		if($scope.projectReleased.length > 0)
 		{
@@ -241,11 +253,11 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		
 		console.log("listener initProjectReleasedStoryAfterDropBackProject");
 
-		actionHelper.invokeAction("storyRelease.deleteByProjectId", null, {"projectId" : $scope.selectedPrjctId}, 
+		/*actionHelper.invokeAction("storyRelease.deleteByProjectId", null, {"projectId" : $scope.selectedPrjctId}, 
 				function(deleteResponse, respConfig){
 			
 		}, {"hideInProgress" : true});
-
+*/
 		
 		if($scope.projectReleased.length == 0)
 		{
@@ -311,6 +323,8 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 			
 			$scope.storiesForRelease.push(storyObj);
 			
+			$scope.unreleasedStoryIdObjMap[storyObj.id] = storyObj;
+			
 			var model = {"releaseId" : $scope.selectedRelease.id, "storyIds" : [$scope.selectedStoryId]};
 			
 			deleteStoryRelease(model);
@@ -326,6 +340,8 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 				$scope.storiesForRelease.splice($scope.storiesForRelease.indexOf(storyObj),1);
 				
 				$scope.storiesReleased.push(storyObj);
+				
+				$scope.unreleasedStoryIdObjMap[storyObj.id] = storyObj;
 			}
 			
 			var model = {"releaseId" : $scope.selectedRelease.id, "storyIds" : $scope.multipleUnreleasedSelectedStoryIds};

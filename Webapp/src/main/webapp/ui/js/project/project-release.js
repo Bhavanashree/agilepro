@@ -127,7 +127,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		$scope.releasedPrjctIdObjMap = {};
 		$scope.multipleReleasedSelectedProjectsId = [];
 		
-		
 		$scope.slectedReleaseId = $scope.getActiveReleaseId();
 		
 		actionHelper.invokeAction("projectRelease.readAllProjectAndProjectReleaseByReleaseId", null, 

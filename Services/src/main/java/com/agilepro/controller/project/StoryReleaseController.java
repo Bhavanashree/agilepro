@@ -69,7 +69,7 @@ public class StoryReleaseController
 	@ResponseBody
 	public BaseResponse deleteByProject(@RequestParam(value = "projectId", required = true) Long projectId)
 	{
-		storyReleaseService.deleteByProjectId(projectId);
+		//storyReleaseService.deleteByProjectId(projectId);
 		
 		return new BaseResponse();
 	}
