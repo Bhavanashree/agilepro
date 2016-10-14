@@ -1,0 +1,32 @@
+{
+  "defaultUserName": "yukthi@gmail.com",
+  "entityGroups": [
+    {
+      "name": "Story",
+      "entityType": "com.agilepro.persistence.entity.project.StoryEntity",
+      "modelType": "com.agilepro.commons.models.project.StoryModel",
+      "identityField": "title",
+    
+      "spaceIdentity": "Yukthi-1",
+      
+      "entities": [
+        {
+          "title": "sprint",
+          "projectId":"${entity(Projects.AgilePro).id}"
+        },
+        
+        {
+          "title": "storynotes",
+          "projectId":"${entity(Projects.AgilePro).id}"
+        },
+        
+        {
+          "title": "bugcomments",
+          "projectId":"${entity(Projects.AgilePro).id}"
+        }
+        
+      ]
+      
+    }
+  ]
+}

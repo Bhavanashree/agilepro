@@ -1,0 +1,20 @@
+{
+  "defaultUserName": "yukthi@gmail.com",
+  "entityGroups": [
+    {
+      "name": "Sprint",
+      "entityType": "com.agilepro.persistence.entity.project.SprintEntity",
+      "modelType": "com.agilepro.commons.models.project.SprintModel",
+      "identityField": "name",
+    
+      "spaceIdentity": "Yukthi-1",
+      
+      "entities": [
+        {
+          "name": "Sprint1"
+          
+        }
+      ]
+    }
+  ]
+}

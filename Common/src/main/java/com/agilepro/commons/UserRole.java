@@ -488,7 +488,59 @@ public enum UserRole
 	/**
 	 * The Task delete all.
 	 */
-	@Label("Task DeleteAll") TASK_DELETE_ALL(false, TASK_VIEW),;
+	@Label("Task DeleteAll") TASK_DELETE_ALL(false, TASK_VIEW),
+	
+	/**
+	 * The Bug view.
+	 */
+	@Label("Bug view") BUG_VIEW,
+
+	/**
+	 * The bug edit.
+	 */
+	@Label("Bug Edit") BUG_EDIT(false, BUG_VIEW),
+
+	/**
+	 * The Bug Update.
+	 */
+	@Label("Bug Update") BUG_UPDATE(false, BUG_VIEW),
+
+	/**
+	 * The Bug delete.
+	 */
+	@Label("Bug Delete") BUG_DELETE(false, BUG_VIEW),
+
+	/**
+	 * The Bug delete all.
+	 */
+	@Label("Bug DeleteAll") BUG_DELETE_ALL(false, BUG_VIEW),
+	
+	/**
+	 * The BugComment view.
+	 */
+	@Label("BugComment view") BUG_COMMENT_VIEW,
+
+	/**
+	 * The BugComment edit.
+	 */
+	@Label("BugComment Edit") BUG_COMMENT_EDIT(false, BUG_VIEW),
+
+	/**
+	 * The BugComment Update.
+	 */
+	@Label("BugComment Update") BUG_COMMENT_UPDATE(false, BUG_VIEW),
+
+	/**
+	 * The BugComment delete.
+	 */
+	@Label("BugComment Delete") BUG_COMMENT_DELETE(false, BUG_VIEW),
+
+	/**
+	 * The BugComment delete all.
+	 */
+	@Label("BugComment DeleteAll") BUG_COMMENT_DELETE_ALL(false, BUG_VIEW),
+	
+;
 
 	/**
 	 * Indicates this is an internal role and should not be used for external

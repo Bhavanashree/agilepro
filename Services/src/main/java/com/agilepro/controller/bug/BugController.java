@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.bug.IBugController;
+import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.bug.BugModel;
+import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.services.bug.BugService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
@@ -28,7 +30,6 @@ import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BugController.
  */
@@ -39,17 +40,21 @@ public class BugController extends BaseController implements IBugController
 {
 
 	/**
-	 *  The bug service.
+	 * The bug service.
 	 **/
 	@Autowired
 	private BugService bugService;
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.bug.IBugController#save(com.agilepro.commons.models.bug.BugModel)
+	/**
+	 * Save the BugModel.
+	 *
+	 * @param model
+	 *            BugModel
+	 * @return the BugModel save response
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = {UserRole.BUG_EDIT, UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid BugModel model)
@@ -58,26 +63,36 @@ public class BugController extends BaseController implements IBugController
 		return new BasicSaveResponse();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.bug.IBugController#read(java.lang.Long)
+	/**
+	 * Read the Bug.
+	 *
+	 * @param id
+	 *            id of BugModel
+	 * 
+	 * @return the BugModel read response
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_VIEW,UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT,  UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<BugModel> read(@PathVariable(PARAM_ID) Long id)
 	{
 		BugModel model = bugService.fetchFullModel(id, BugModel.class);
 
-		return new BasicReadResponse<BugModel>(model);
+		return new BasicReadResponse<BugModel>(model);	
 	}
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.bug.IBugController#update(com.agilepro.commons.models.bug.BugModel)
+	/**
+	 * Update the bug.
+	 *
+	 * @param model
+	 *            id of BugModel
+	 * 
+	 * @return the BugModel response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_UPDATE,UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT,  UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid BugModel model)
@@ -87,11 +102,16 @@ public class BugController extends BaseController implements IBugController
 		return new BaseResponse();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.bug.IBugController#delete(java.lang.Long)
+	/**
+	 * Delete the bug.
+	 *
+	 * @param id
+	 *            the id of bug
+	 * 
+	 * @return the bug base response
 	 */
 	@ActionName(ACTION_TYPE_DELETE)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_DELETE,UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT,  UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)

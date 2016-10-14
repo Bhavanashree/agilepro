@@ -1,0 +1,101 @@
+{
+  "defaultUserName": "yukthi@gmail.com",
+  "entityGroups": [
+    {
+      "name": "Designation",
+      "entityType": "com.agilepro.persistence.entity.admin.DesignationEntity",
+      "modelType": "com.agilepro.commons.models.admin.DesignationModel",
+      "identityField": "name",
+    
+      "spaceIdentity": "${entity(Customers.YukthitechSoft).id}",
+      
+      "entities": [
+        {
+          "name": "ProjectManger"
+        },
+        
+        {
+          "name": "TeamLead"
+        },
+        
+        {
+          "name": "developers"
+        },
+        
+        {
+          "name": "testers"
+        },
+         
+        {
+          "name": "scrumMaster"
+        }
+      ]
+},
+    {
+      "name": "Employees",
+      "entityType": "com.agilepro.persistence.entity.admin.EmployeeEntity",
+      "modelType": "com.agilepro.commons.models.admin.EmployeeModel",
+      "identityField": "name",
+    
+       "spaceIdentity": "Yukthi-1",
+      
+      "entities": [
+        {
+	        "name": "employee4",
+	        "mailId":"employee4@gmail.com",
+	        "phoneNumber":"9000000000",
+	        "address":"  kr puram bangalore",
+	        "password":"password",
+	        "confirmPassword":"password",
+	        "gender":"FEMALE",
+	        "designationId": "${entity(Designation.ProjectManger).id}" 
+        },
+        
+        {
+	        "name": "employee5",
+	        "mailId":"employee5@gmail.com",
+	        "phoneNumber":"9000000000",
+	        "address":"  kr puram bangalore",
+	        "password":"password",
+	        "confirmPassword":"password",
+	        "gender":"FEMALE",
+	        "designationId": "${entity(Designation.ProjectManger).id}" 
+        },
+      
+        {
+	        "name": "kranti",
+	        "mailId":"akranthi@yukthi-tech.co.in",
+	        "phoneNumber":"9000099000",
+	        "address":"  kr puram bangalore",
+	        "password":"password",
+	        "confirmPassword":"password",
+	        "gender":"MALE",
+	        "designationId": "${entity(Designation.TeamLead).id}" 
+        },
+        
+        {
+	        "name": "pritam",
+	        "mailId":"pritamjosephjojo@gmail.com",
+	        "phoneNumber":"90011111000",
+	        "address":" marathalli bangalore",
+	        "password":"password",
+	        "confirmPassword":"password",
+	        "gender":"MALE",
+	        "designationId": "${entity(Designation.developers).id}" 
+        },
+        
+       {
+	        "name": "bhavana",
+	        "mailId":"bhavana.shree75@gmail.com",
+	        "phoneNumber":"90222211000",
+	        "address":"shanthi layout bangalore",
+	        "password":"password",
+	        "confirmPassword":"password",
+	        "gender":"FEMALE",
+	        "designationId": "${entity(Designation.developers).id}" 
+        }
+        
+      ]
+    }
+  ]
+}
