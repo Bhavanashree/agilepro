@@ -7,12 +7,12 @@
       "modelType": "com.agilepro.commons.models.project.SprintModel",
       "identityField": "name",
     
-      "spaceIdentity": "Yukthi-1",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.Yukthitech.id}",
       
       "entities": [
         {
-          "name": "Sprint1"
-          
+          "name": "Sprint1",
+          "projectId":"${entity.Projects.AgilePro.id}"
         }
       ]
     }

@@ -7,22 +7,22 @@
       "modelType": "com.agilepro.commons.models.project.StoryModel",
       "identityField": "title",
     
-      "spaceIdentity": "Yukthi-1",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
       
       "entities": [
         {
           "title": "sprint",
-          "projectId":"${entity(Projects.AgilePro).id}"
+          "projectId": "${entity.Projects.AgilePro.id}"
         },
         
         {
           "title": "storynotes",
-          "projectId":"${entity(Projects.AgilePro).id}"
+          "projectId":"${entity.Projects.AgilePro.id}"
         },
         
         {
           "title": "bugcomments",
-          "projectId":"${entity(Projects.AgilePro).id}"
+          "projectId":"${entity.Projects.AgilePro.id}"
         }
         
       ]
