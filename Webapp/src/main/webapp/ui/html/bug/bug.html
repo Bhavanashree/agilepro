@@ -4,6 +4,78 @@
 		<action label="Edit bug" color="blue" icon="glyphicon-edit" method="editEntry($event)" row-action="true" row-action="true"></action>
 		<action label="Delete bug" color="red" icon="glyphicon-remove" method="deleteEntry($event)" row-action="true" ></action>
 	</yk-search-query>
+		
+	<yk-dialog id="bugDialog" title="Details" width="95%">
+		<content>
+			<yk-tabs ng-model="selectedTab">
+				<tab id="modelFormId" label="BUG">
+					<yk-model-form name="BugModel" columns="2"/>
+				</tab>
+				<!-- bugcomment --> 
+				<tab id="bugComment" label="Comments"   >
+					<div class="panel panel-primary" style="margin-bottom: 0px;">
+						<div id="panelBodyId" class="panel-body" style="overflow-y:auto; height: 230px;" >
+							<table style="width:100%;">
+								<tr ng-repeat="cmtObj in commentRead ">
+									<td style=" width: 95%; padding: 0.3em 0.5em;  height: 1em;">
+										<div>
+											<span style="float: left; font-size: 0.8em; color: #008080;" class="ng-binding">
+													  {{cmtObj.commentedBy}} {{cmtObj.createdOn}}
+											</span>
+											<span style="float :right; font-size: 0.8em; color: #008080;" "> status</span>
+											<br/>
+										</div>
+										
+										<div class="panel panel-default">-mesg--- {{cmtObj.content}}</div> 
+									</td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="panel-footer">
+							<textarea rows="2" cols="2" id="commentId" ng-model="comments"  class="form-control" 
+								placeholder="Type your comment here" style="height: 10em; resize: none;"></textarea>			
+						</div>
+							
+							<!-- footer + dropdown -->
+						<div class="panel-footer" style="text-align:right;">	
+							<div class="btn-group">
+								<button type="button" class="btn btn-primary save-button" ng-click="onCommentedBtn()">Comment</button>
+								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								
+								<ul class="dropdown-menu">
+								    <li ng-repeat="statusObj in commentStatus" ng-click="setStatus(selectedStatus)" ng-model="selectedStatus">{{statusObj.name}}</li>
+  								</ul>
+							</div>
+														
+							<div class="btn-group">
+								<button type="button" class="btn btn-primary save-button" ng-click="assignToEmployee()">AssignTo</button>
+									<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								
+							
+  								
+  								<ul class="dropdown-menu ">
+							   <li ng-repeat= "empObj in employees" ><a ng-click="">{{empObj.name}}</a> </li>
+							</ul>
+  				
+							</div>
+						</div>
+					</div>
+				</tab>	
+			</yk-tabs>
+		</content>
+	
+		<footer>
+			<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)"  ng-if="selectedTab == 'modelFormId'">{{newStoryMode ? 'Save' : 'Update'}}</button>
+			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal" ng-if="selectedTab == 'modelFormId'">Cancel</button>
+		</footer>
+</yk-dialog>
 	
 	<yk-model-dialog id="bugDialog" name="BugModel" title="Bug" columns="2" actionMethod="saveChanges($event)">
 	</yk-model-dialog>

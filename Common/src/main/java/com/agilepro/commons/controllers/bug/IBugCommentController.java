@@ -1,26 +1,24 @@
 package com.agilepro.commons.controllers.bug;
 
-import com.agilepro.commons.models.bug.BugModel;
+import java.util.List;
+
+import com.agilepro.commons.models.bug.BugCommentsModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 
-/**
- * The Interface IBugController.
- */
 @RemoteService
-public interface IBugController
+public interface IBugCommentController
 {
 
 	/**
 	 * Save.
 	 *
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 * @return the basic save response
 	 */
-	public BasicSaveResponse save(BugModel model);
+	public BasicSaveResponse save(BugCommentsModel model);
 
 	/**
 	 * Read.
@@ -29,7 +27,9 @@ public interface IBugController
 	 *            the id
 	 * @return the basic read response
 	 */
-	public BasicReadResponse<BugModel> read(Long id);
+	public BasicReadResponse<BugCommentsModel> read(Long id);
+	
+//	public BasicReadResponse<List<BugCommentsModel>> fetchAllcomments(Long bug);
 
 	/**
 	 * Update.
@@ -38,7 +38,7 @@ public interface IBugController
 	 *            the model
 	 * @return the base response
 	 */
-	public BaseResponse update(BugModel model);
+	public BaseResponse update(BugCommentsModel model);
 
 	/**
 	 * Delete.
@@ -48,4 +48,5 @@ public interface IBugController
 	 * @return the base response
 	 */
 	public BaseResponse delete(Long id);
+
 }

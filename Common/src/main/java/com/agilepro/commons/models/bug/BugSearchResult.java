@@ -1,4 +1,3 @@
-
 package com.agilepro.commons.models.bug;
 
 import com.yukthi.persistence.repository.annotations.Field;
@@ -11,12 +10,12 @@ import com.yukthi.webutils.common.annotations.Model;
 @Model
 public class BugSearchResult extends AbstractExtendedSearchResult
 {
-	
+
 	/**
-	 * The id. 
+	 * The id.
 	 **/
 	@Field(value = "id")
-	private long bugId;
+	private long id;
 
 	/**
 	 * The name.
@@ -31,23 +30,24 @@ public class BugSearchResult extends AbstractExtendedSearchResult
 	private String reportedBy;
 
 	/**
-	 * Gets the bug id.
+	 * Gets the id.
 	 *
-	 * @return the bug id
+	 * @return the id
 	 */
-	public long getBugId()
+	public long getId()
 	{
-		return bugId;
+		return id;
 	}
 
 	/**
-	 * Sets the bug id.
+	 * Sets the id.
 	 *
-	 * @param bugId the new bug id
+	 * @param id
+	 *            the new id
 	 */
-	public void setBugId(long bugId)
+	public void setId(long id)
 	{
-		this.bugId = bugId;
+		this.id = id;
 	}
 
 	/**
@@ -63,7 +63,8 @@ public class BugSearchResult extends AbstractExtendedSearchResult
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name)
 	{
@@ -83,7 +84,8 @@ public class BugSearchResult extends AbstractExtendedSearchResult
 	/**
 	 * Sets the reported by.
 	 *
-	 * @param reportedBy the new reported by
+	 * @param reportedBy
+	 *            the new reported by
 	 */
 	public void setReportedBy(String reportedBy)
 	{

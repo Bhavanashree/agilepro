@@ -92,14 +92,6 @@ public class BugEntity extends WebutilsExtendableEntity
 	private PriorityStatus priorityStatus;
 
 	/**
-	 *comments.
-	 **/
-	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "commentsId", subproperty = "id")
-	@Column(name = "Comments_ID")
-	private BugCommentsEntity comments;
-
-	/**
 	 * Gets the name.
 	 *
 	 * @return the name
@@ -244,27 +236,6 @@ public class BugEntity extends WebutilsExtendableEntity
 	public void setPriorityStatus(PriorityStatus priorityStatus)
 	{
 		this.priorityStatus = priorityStatus;
-	}
-
-	/**
-	 * Gets the comments.
-	 *
-	 * @return the comments
-	 */
-	public BugCommentsEntity getComments()
-	{
-		return comments;
-	}
-
-	/**
-	 * Sets the comments.
-	 *
-	 * @param comments
-	 *            the new comments
-	 */
-	public void setComments(BugCommentsEntity comments)
-	{
-		this.comments = comments;
 	}
 
 	/**
