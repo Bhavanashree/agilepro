@@ -33,6 +33,9 @@ public class StoryNoteEntity extends WebutilsEntity
 	 **/
 	@Column(name = "PUBLISHED")
 	private Boolean published;
+	
+	@Column(name = "VERSION_TITLE")
+	private String versionTitle;
 
 	/**
 	 * Gets the story.
@@ -95,5 +98,13 @@ public class StoryNoteEntity extends WebutilsEntity
 	public void setPublished(Boolean published)
 	{
 		this.published = published;
+	}
+
+	public String getVersionTitle() {
+		return versionTitle;
+	}
+
+	public void setVersionTitle(String versionTitle) {
+		this.versionTitle = versionTitle;
 	}
 }

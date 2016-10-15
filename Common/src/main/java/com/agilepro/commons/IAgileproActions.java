@@ -74,6 +74,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID = "readAllProjectAndProjectReleaseByReleaseId";
 
+	public String ACTION_TYPE_SAVE_OR_UPDATE = "saveOrUpdate";
+			
 	/** 
 	 * The action type read all note by story id. 
 	 **/

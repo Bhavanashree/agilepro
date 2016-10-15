@@ -2,6 +2,7 @@ package com.agilepro.commons.models.project;
 
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class StoryNoteModel.
@@ -32,12 +33,16 @@ public class StoryNoteModel
 	 **/
 	@Required
 	private Long storyId;
+	
+	@Required
+	private String versionTitle;
 
 	/**
-	 * The version.
+	 * Version used for update.
 	 **/
-	private Long version;
-
+	@NonDisplayable
+	private Integer version;
+	
 	/**
 	 * Gets the id.
 	 *
@@ -57,27 +62,6 @@ public class StoryNoteModel
 	public void setId(Long id)
 	{
 		this.id = id;
-	}
-
-	/**
-	 * Gets the version.
-	 *
-	 * @return the version
-	 */
-	public Long getVersion()
-	{
-		return version;
-	}
-
-	/**
-	 * Sets the version.
-	 *
-	 * @param version
-	 *            the new version
-	 */
-	public void setVersion(Long version)
-	{
-		this.version = version;
 	}
 
 	/**
@@ -141,5 +125,21 @@ public class StoryNoteModel
 	public void setPublished(Boolean published)
 	{
 		this.published = published;
+	}
+
+	public String getVersionTitle() {
+		return versionTitle;
+	}
+
+	public void setVersionTitle(String versionTitle) {
+		this.versionTitle = versionTitle;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 }

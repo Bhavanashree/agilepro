@@ -8,8 +8,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.project.StoryNoteModel;
+import com.agilepro.controller.response.StoryNoteReadResponse;
 import com.agilepro.persistence.entity.project.StoryNoteEntity;
 import com.agilepro.persistence.repository.project.IStoryNoteRepository;
+import com.yukthi.persistence.ITransaction;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -41,22 +43,42 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	{
 		istoryNoteRepository = repositoryFactory.getRepository(IStoryNoteRepository.class);
 	}
+	
+	public StoryNoteEntity saveOrUpdate(StoryNoteModel storyNoteModel)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			StoryNoteEntity storyNoteEntity;
+			
+			if(storyNoteModel.getPublished() || storyNoteModel.getId() == null)
+			{
+				storyNoteEntity = super.save(storyNoteModel);
+			}else
+			{
+				storyNoteModel.setVersion(super.fetch(storyNoteModel.getId()).getVersion());
+				
+				storyNoteEntity = super.update(storyNoteModel);
+			}
 
-	/**
-	 * Fetch all note by story id.
-	 *
-	 * @param storyId
-	 *            the story id
-	 * @return the list
-	 */
-	public List<StoryNoteModel> fetchAllNoteByStoryId(Long storyId)
+			transaction.commit();
+			
+			return storyNoteEntity;
+		}catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred  while saving story note - ", ex);
+		}
+	}
+	
+	public StoryNoteReadResponse fetchAllNoteByStoryId(Long storyId)
 	{
 		List<StoryNoteEntity> storyNoteEntities = istoryNoteRepository.fetchAllPublishedNoteByStoryId(storyId, true);
 		
-		List<StoryNoteModel> storyNoteModels = new ArrayList<StoryNoteModel>(storyNoteEntities.size());
+		List<StoryNoteModel> storyNotePublished = new ArrayList<StoryNoteModel>(storyNoteEntities.size());
 		
-		storyNoteEntities.forEach(entity -> storyNoteModels.add(super.toModel(entity, StoryNoteModel.class)));
+		storyNoteEntities.forEach(entity -> storyNotePublished.add(super.toModel(entity, StoryNoteModel.class)));
+		
+		StoryNoteModel draftNote = super.toModel(istoryNoteRepository.fetchSaveDraftNoteByStoryId(storyId, false), StoryNoteModel.class);
 
-		return storyNoteModels;
+		return new StoryNoteReadResponse(storyNotePublished, draftNote);
 	}
 }

@@ -33,6 +33,12 @@ public class StoryReleaseModel
 
 	private List<Long> storyIds;
 
+	/**
+	 * Version used for update.
+	 **/
+	@NonDisplayable
+	private Integer version;
+
 	public StoryReleaseModel()
 	{
 		super();
@@ -44,12 +50,6 @@ public class StoryReleaseModel
 		this.storyId = storyId;
 		this.releaseId = releaseId;
 	}
-
-	/**
-	 * Version used for update.
-	 **/
-	@NonDisplayable
-	private Integer version;
 
 	/**
 	 * Gets the id.

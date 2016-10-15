@@ -29,16 +29,36 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : $scope.storyId}, 
 				function(readResponse, respConfig){
 			
+			$scope.activeNoteModel = {};
+			
 			$scope.versionTitle = "";
-			$scope.publishedNotes = readResponse.model;
+			$scope.publishedNotes = readResponse.publishedNotes;
+			$scope.draftNote = readResponse.draftNote;
 			$scope.activeContent = "";
 			
-			if($scope.publishedNotes.length > 0)
+			if($scope.draftNote)
 			{
-				$scope.activeContent  = $scope.publishedNotes[0].content;
+				$scope.activeNoteModel = $scope.draftNote;
+				
+			}else if($scope.publishedNotes.length > 0)
+			{
+				$scope.activeNoteModel = $scope.publishedNotes[0];
+			}
+			
+			console.log($scope.activeNoteModel);
+			
+			if($scope.activeNoteModel.id)
+			{
+				$scope.activeContent = $scope.activeNoteModel.content;
+				
+				$scope.versionTitle = $scope.activeNoteModel.versionTitle;
+				
+				console.log("value for tny = " + $scope.activeContent);
 				
 				tinymce.activeEditor.setContent($scope.activeContent);
 			}
+			
+			console.log("tiny is assinged");
 			
 			try
 			{
@@ -68,29 +88,40 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			return;
 		}
 		
-		var model = {"content" : $scope.editedContent, "storyId" : $scope.storyId, "published" : published};
+		$scope.activeNoteModel["content"] = $scope.editedContent;
+		$scope.activeNoteModel["storyId"] = $scope.storyId;
+		$scope.activeNoteModel["published"] = published;
+		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
+		
+		
+		//var model = {"content" : $scope.editedContent, "storyId" : $scope.storyId, "published" : published, "versionTitle" : $scope.versionTitle};
 		
 		if(published)
 		{
-			$scope.publishedNotes.push(model);
+			$scope.publishedNotes.push($scope.activeNoteModel);
 		}
 		
-		if($scope.activeContent.length > 0)
-		{
-			
-		}
-		
-		actionHelper.invokeAction("storyNote.save", model, null, function(saveResponse, respConfig){
+		actionHelper.invokeAction("storyNote.saveOrUpdate", $scope.activeNoteModel, null, function(saveResponse, respConfig){
 			
 			if(saveResponse.code == 0)
 			{
 				tinymce.activeEditor.setContent("");
+				
+				$scope.versionTitle = "";
 			}else
 			{
 				$scope.fetchNotes();
 			}
+
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 			
 		}, {"hideInProgress" : true});
+		
+		
 		
 	});
 	
@@ -98,6 +129,8 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	$scope.activeNote = function(content){
 		
 		tinymce.activeEditor.setContent(content);
+		
+		//$scope.versionTitl = 
 	};
 	
 	
