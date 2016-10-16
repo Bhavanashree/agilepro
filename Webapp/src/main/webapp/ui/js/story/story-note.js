@@ -35,6 +35,11 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			$scope.publishedNotes = readResponse.publishedNotes;
 			$scope.draftNote = readResponse.draftNote;
 			$scope.activeContent = "";
+			$scope.versionTitlesSet = []; 
+			
+			$scope.alreadyPresent
+			
+			var obj;
 			
 			if($scope.draftNote)
 			{
@@ -59,6 +64,19 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			}
 			
 			console.log("tiny is assinged");
+
+			// get all the titles
+			if($scope.draftNote)
+			{
+				$scope.versionTitlesSet.push($scope.draftNote.versionTitle);
+			}
+			
+			for(index in $scope.publishedNotes)
+			{
+				obj = $scope.publishedNotes[index];
+				
+				$scope.versionTitlesSet.push(obj.versionTitle);
+			}
 			
 			try
 			{
@@ -71,6 +89,24 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	
 	//$scope.saveNote = function(published){
 	$scope.$on("saveNewStoryNote", function(event, published) {
+		
+		for(index in $scope.versionTitlesSet)
+		{
+			if($scope.versionTitle == $scope.versionTitlesSet[index])
+			{
+				$scope.titleAlreadyPresent = true;
+				break;
+			}else
+			{
+				$scope.titleAlreadyPresent = false;
+			}
+			
+		}
+		
+		if($scope.titleAlreadyPresent)
+		{
+			return;
+		}
 		
 		if($scope.versionTitle.length == 0)
 		{
@@ -101,13 +137,14 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			$scope.publishedNotes.push($scope.activeNoteModel);
 		}
 		
+		tinymce.activeEditor.setContent("");
+		$scope.versionTitle = "";
+		
 		actionHelper.invokeAction("storyNote.saveOrUpdate", $scope.activeNoteModel, null, function(saveResponse, respConfig){
 			
 			if(saveResponse.code == 0)
 			{
-				tinymce.activeEditor.setContent("");
-				
-				$scope.versionTitle = "";
+				utils.info(["Successfully saved {} "], $scope.versionTitle);
 			}else
 			{
 				$scope.fetchNotes();
@@ -122,17 +159,37 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		}, {"hideInProgress" : true});
 		
 		
-		
 	});
 	
 	
-	$scope.activeNote = function(content){
+	$scope.activeNote = function(storyNote){
 		
-		tinymce.activeEditor.setContent(content);
+		tinymce.activeEditor.setContent(storyNote.content);
 		
-		//$scope.versionTitl = 
+		$scope.versionTitle = storyNote.versionTitle;
+		
+		$scope.checkVersionTitle(null);
 	};
 	
+	
+	$scope.checkVersionTitle = function(event){
+		
+		console.log($scope.versionTitlesSet);
+		
+		for(index in $scope.versionTitlesSet)
+		{
+			if($scope.versionTitle == $scope.versionTitlesSet[index])
+			{
+				$scope.titleAlreadyPresent = true;
+				break;
+			}else
+			{
+				$scope.titleAlreadyPresent = false;
+			}
+			
+		}
+		
+	};
 	
 	$scope.clear = function(){
 		

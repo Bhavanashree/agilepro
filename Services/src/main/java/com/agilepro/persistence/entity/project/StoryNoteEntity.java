@@ -5,6 +5,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.models.project.StoryNoteModel;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
@@ -12,6 +14,7 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * The Class StoryNoteEntity.
  */
 @Table(name = "STORY_NOTE")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "story", "published", "versionTitle"}) })
 public class StoryNoteEntity extends WebutilsEntity
 {
 	/**
