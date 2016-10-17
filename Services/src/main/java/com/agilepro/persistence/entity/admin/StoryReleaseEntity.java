@@ -5,6 +5,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
 import com.agilepro.persistence.entity.project.StoryEntity;
+import com.yukthi.persistence.annotations.DeleteWithParent;
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
@@ -21,8 +22,9 @@ import freemarker.core._RegexBuiltins.replace_reBI;
 @UniqueConstraints({ @UniqueConstraint(name = "STORY_RELEASE_ID", fields = { "release", "story" }) })
 public class StoryReleaseEntity extends WebutilsEntity
 {
-	@Column(name = "RELEASE_ID", nullable = false)
+	@DeleteWithParent
 	@ManyToOne
+	@Column(name = "RELEASE_ID", nullable = false)
 	@PropertyMapping(type = StoryReleaseModel.class, from = "releaseId", subproperty = "id")
 	private ReleaseEntity release;
 

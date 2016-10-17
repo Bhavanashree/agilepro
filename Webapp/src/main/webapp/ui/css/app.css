@@ -408,6 +408,16 @@ body
 	background-color: white;
 }
 
+.greyBackGround
+{
+	background-color: #778899;
+}
+
+.greenBackGround
+{
+	background-color: lightgreen
+}
+
 /*  aaaaaaaaaaaaaaaaaaa*/
 
 .uncheckedClass {

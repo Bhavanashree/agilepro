@@ -8,6 +8,7 @@ import com.agilepro.commons.ProjectMemberRole;
 import com.agilepro.commons.models.customer.ProjectMemberModel;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.DeleteWithParent;
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.persistence.conversion.impl.JsonConverter;
@@ -42,6 +43,7 @@ public class ProjectMemberEntity extends WebutilsEntity
 	/**
 	 * The project team.
 	 **/
+	@DeleteWithParent
 	@ManyToOne
 	@Column(name = "TEAM_ID")
 	@PropertyMapping(type = ProjectMemberModel.class, from = "projectTeamId", subproperty = "id")
