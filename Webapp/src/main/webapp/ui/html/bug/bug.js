@@ -25,7 +25,8 @@ $.application.controller('bugController', ["$scope", "crudController", "utils","
 	//dropdowns array
 	$scope.commentStatus = [{"name" : "Comment"},{"name": "reopen"}, {"name": "closed"}, {"name":"deferred"}];
 	
-	$scope.selectedStatus={};
+//	$scope.selectedStatus={};
+//	$scope.selectedEmpIdToasign={};
 	$scope.init = function() {
 		 console.log("check");
 			tinymce.init({
@@ -64,8 +65,8 @@ $.application.controller('bugController', ["$scope", "crudController", "utils","
 		
 		console.log("Got message as ", $scope.comment);
 		
-		
-		 bugModel = {"content": $scope.comment.trim() , "bugId" :  $scope.bugId };
+		 bugModel = {"content": $scope.comment.trim() , "bugId" :  $scope.bugId , "commentStatus" : $scope.selectedStatus.name,
+				 "employeeId": $scope.selectedEmpIdToasign.id};
 		 
 		 console.log(bugModel);
 		 
@@ -92,7 +93,7 @@ $.application.controller('bugController', ["$scope", "crudController", "utils","
 		$scope.employees = readResponse.model;
 		console.log($scope.employees);
 	
-	}
+	}   
 	//listOfemployess
 	$scope.listOfEmployees = function(){
 		
@@ -101,10 +102,13 @@ $.application.controller('bugController', ["$scope", "crudController", "utils","
 	
 	$scope.setStatus = function(obj){
 		$scope.selectedStatus=obj; 
-		console.log($scope.selectedStatus 	);
-		
-	
+		console.log($scope.selectedStatus.name);
 	};
 	
+	$scope.assignedBugOwner = function(emObj)
+	{
+		console.log(emObj);
 	
+		$scope.selectedEmpIdToasign =emObj;
+	}
 }]);

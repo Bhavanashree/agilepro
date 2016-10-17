@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.bug.IBugController;
-import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.bug.BugModel;
-import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.services.bug.BugService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
@@ -54,7 +52,7 @@ public class BugController extends BaseController implements IBugController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = {UserRole.BUG_EDIT, UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = {UserRole.BUG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid BugModel model)
@@ -73,7 +71,7 @@ public class BugController extends BaseController implements IBugController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_VIEW,UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT,  UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_VIEW, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<BugModel> read(@PathVariable(PARAM_ID) Long id)
@@ -92,7 +90,7 @@ public class BugController extends BaseController implements IBugController
 	 * @return the BugModel response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_UPDATE,UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT,  UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_UPDATE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid BugModel model)
@@ -111,7 +109,7 @@ public class BugController extends BaseController implements IBugController
 	 * @return the bug base response
 	 */
 	@ActionName(ACTION_TYPE_DELETE)
-	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_DELETE,UserRole.EMPLOYEE_VIEW,UserRole.EMPLOYEE_EDIT,  UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)

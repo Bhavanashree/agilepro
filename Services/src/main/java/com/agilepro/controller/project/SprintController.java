@@ -48,7 +48,6 @@ import com.yukthi.webutils.controllers.BaseController;
 @RequestMapping("/sprint")
 public class SprintController extends BaseController implements ISprintController
 {
-
 	/**
 	 * The sprint service.
 	 */
@@ -63,7 +62,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	 * @return the Sprint save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.SPRINT_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.SPRINT_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid SprintModel model)
@@ -81,7 +80,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	 * @return the sprint read response
 	 */
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<SprintModel> read(@PathVariable(PARAM_ID) Long id)
@@ -92,7 +91,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	}
 
 	@ActionName(ACTION_TYPE_READ_SPRINT_PROJECT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_VIEW, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/sprintProjectId", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<SprintModel>> fetchSprintbyProjectId(@RequestParam(value = "projectId", required = false) Long projectId)
@@ -108,7 +107,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	 * @return the Sprint update response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.SPRINT_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.SPRINT_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid SprintModel model)
@@ -131,7 +130,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	 * @return the Sprint delete response
 	 */
 	@ActionName(ACTION_TYPE_DELETE)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_DELETE, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
@@ -146,7 +145,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	 *
 	 * @return the base response
 	 */
-	@Authorization(roles = { UserRole.SPRINT_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.SPRINT_DELETE_ALL, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

@@ -7,7 +7,7 @@
       "modelType": "com.agilepro.commons.models.project.StoryModel",
       "identityField": "title",
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.Yukthitech.id}",
       
       "entities": [
         {

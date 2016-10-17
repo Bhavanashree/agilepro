@@ -1,27 +1,27 @@
-<div class="container-fluid" ng-controller="sprintController"  style="padding: 0px; ">
+<div class="container-fluid" ng-controller="kanbanController"  style="padding: 0px; ">
 <result-customizer>
    <!-- sprint drop down -->
    <div class="storyBoards">
-      <div class="row" style="padding: 0px; width : 100%; margin-left:0em; margin-bottom: 1em; border-radius: 10px;" ng-init="listOfSprint()">
+      <div class="row" style="padding: 0px; width : 100%; margin-left:0em; border-radius: 10px;" ng-init="listOfSprint()">
         
             <table width="100%" style="background-color:ghostwhite; border-radius: 10px;">
                <tr>
-                  <td style="text-align: center;">
-                     <label for="repeatSelect" style="color: graytext;margin:5px;"><b style=" text-align:center; font-size: 20px;">Sprints</b>   </label>
+                  <td style="text-align: center;width: 3em; padding:5px;">
+                     <label for="repeatSelect" style="color: graytext;"><b style=" text-align:center; font-size: 20px;">Sprints</b> </label>
                   </td>
                   
                   <td>
-                     <select style="font-size: 20px; border-radius: 6px;padding: 5px;margin-left: 20px; margin-right: 20px;" name="repeatSelect"  id="repeatSelect"  ng-model="selectedSprintObj" 
+                     <select style="font-size: 20px; border-radius: 6px; padding: 5px;" name="repeatSelect"  id="repeatSelect"  ng-model="selectedSprintObj" 
                         ng-options="sprintObj as sprintObj.name for sprintObj in sprints track by sprintObj.id" 
                         ng-change="displayStoriesBySprint(selectedSprintObj)">
                         <option value=" " > -- Select Sprint -- </option>
                      </select>
         
-                     <a role="button" ng-click="addEntry($event)" style="text-decoration: none; color:blue; font-size: 2em;">
+                     <a role="button" ng-click="addEntry($event)" style="text-decoration: none; color:blue; font-size: 1em;">
                      <i class="glyphicon glyphicon-plus"/>
                      </a>
                   
-                     <a role="button" ng-click="editSprint(selectedSprintObj)" style="text-decoration: none; color: blue; font-size: 2em;margin-left:1em;margin-right:1em;">
+                     <a role="button" ng-click="editSprint(selectedSprintObj)" style="text-decoration: none; color: blue; font-size: 1em; margin-left:1em;margin-right:1em;">
                      <i class="glyphicon glyphicon-edit"/>
                      </a>
          
@@ -37,7 +37,7 @@
       <!-- backlog drag -->
     
       
-      <div  style="border-style: 6px groove grey; overflow:scroll;" ng-show="selectedSprintObj" yk-full-height="document">
+      <div  style="border-style: 6px groove grey;" ng-show="selectedSprintObj">
         <div class="wrap">
          <table  width="100%">
             <tr>
@@ -49,55 +49,50 @@
          </table>
       </div>
          
-         <div align="center" class = "col"   style =  "background-color : #bbc7c7; overflow:scroll; border-radius:31px;margin-top: 2px; margin-right: 4px; margin-left: 4px; height : 50em; padding: 5px;">
+         <div align="center" class = "col"  style =  "background-color : #bbc7c7; overflow:scroll; border-radius:31px;margin-top: 2px; margin-right: 4px; margin-left: 4px; height : 50em; padding: 5px;">
           
             <div id="{{backlog.id}}" draggable="true" yk-on-drag ="onDragStories(event)" ng-repeat="backlog in story  | filter: orderBy:'title'" 
                style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px; border: 3px solid ghostwhite;  cursor:-moz-grabbing; " >
-                 <b style="color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">{{backlog.title}}</b> 
+                 <b style="color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">{{backlog.title}}</b> 
                <img src="{{backlog.$photoUrl}}" style ="height: 50px; width: 55px; float: right; margin: 6px; border-radius: 4px;"/>
             </div>
             
          </div>
          
          <!-- drop to notStarted -->
-         <div  align="center"  id ="Notstarted"   class = "col-md-3" style =" overflow:scroll; background-color : #acccdc; border-radius:30px;
-         		height : 50em; padding: 5px; margin:5px;" yk-on-drop="onDropofNotStarted(event)">
+         <div  align="center"  id ="Notstarted"   class = "col-md-3" style =" overflow:scroll; background-color : #acccdc; border-radius:30px;  height : 50em; padding: 5px; margin:5px;" 
+            yk-on-drop="onDropofNotStarted(event)">
             
             <div  align="center"  id = "{{objNotstarted.id}}"  draggable="true" ng-repeat="objNotstarted in notStarted | filter: orderBy:'title'" 
                style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
                		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; "  yk-on-drag ="onDragStories(event)">
-                 <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">{{objNotstarted.title}} {{objNotstarted.storyPoints}}</b> 
+                 <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">{{objNotstarted.title}}</b> 
               
                <img src="{{objNotstarted.$photoUrl}}"  style ="height: 50px; width: 55px; float: right; margin: 6px; border-radius: 4px;"/>		
             </div>
-            
          </div>
          
          <!-- drop to inProgress -->	
-         <div  align="center"  id = "inProgress" class = "col-md-3" style = "overflow:scroll; background-color : #afcdd0;
-         		 height :50em; border-radius:30px;  padding:5px;  margin: 5px;" yk-on-drop="onDropofInProgress(event)">
-         		 
+         <div  align="center"  id = "inProgress" class = "col-md-3"  style = "overflow:scroll; background-color : #afcdd0; height :50em; border-radius:30px;  padding:5px;  margin: 5px;"  
+            yk-on-drop="onDropofInProgress(event)">
             <div id = "{{obj.id}}"  draggable="true" ng-repeat="obj in inProgress  | filter: orderBy:'title'" style = "background-color : #e3f6f9; 
             					border-radius:20px; margin:10px; width :150px; height : 100px;
                		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; "  yk-on-drag ="onDragStories(event)">
-               <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">
-              {{obj.title}} {{obj.storyPoints}}</b>
+               <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">
+              {{obj.title}} {{obj.status}}</b>
                <img src="{{obj.$photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
             </div>
-            
          </div>
          
          <!-- drop to completed -->
-         <div  align="center"  id = "completed"  class = "col-md-3" style = "overflow:scroll; background-color : #8eafc1; 
-         			height :50em; border-radius:30px;  padding: 5px; margin: 5px;" yk-on-drop="onDropofCompleted(event)">
-         			
+         <div  align="center"  id = "completed"  class = "col-md-3" style = "overflow:scroll; background-color : #8eafc1; height :50em; border-radius:30px;  padding: 5px; margin: 5px;"	
+            yk-on-drop="onDropofCompleted(event)">
             <div  id = "{{objCompleted.id}}"  draggable="true" ng-repeat=" objCompleted in completed"  style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
                		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; " yk-on-drag ="onDragStories(event)" >
-              <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">
-             		{{objCompleted.title}}  {{objCompleted.storyPoints}} </b>
+              <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 1em; padding: 3px;">
+             		{{objCompleted.title}}  {{objCompleted.status}} </b>
                <img src="{{objCompleted.$photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
             </div>
-            
          </div>
       </div>
    </div>
