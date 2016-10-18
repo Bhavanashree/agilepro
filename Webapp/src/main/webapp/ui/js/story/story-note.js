@@ -107,6 +107,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		$scope.activeNoteModel["storyId"] = $scope.storyId;
 		$scope.activeNoteModel["published"] = published;
 		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
+		$scope.activeNoteModel["owner"] = $scope.activeUser.displayName;
 		
 		$scope.storyNotes.push($scope.activeNoteModel);
 		$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);

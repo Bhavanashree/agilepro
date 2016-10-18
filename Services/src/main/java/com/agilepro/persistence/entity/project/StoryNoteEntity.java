@@ -39,6 +39,9 @@ public class StoryNoteEntity extends WebutilsEntity
 	
 	@Column(name = "VERSION_TITLE")
 	private String versionTitle;
+	
+	@Column(name = "OWNER")
+	private String owner;
 
 	/**
 	 * Gets the story.
@@ -109,5 +112,13 @@ public class StoryNoteEntity extends WebutilsEntity
 
 	public void setVersionTitle(String versionTitle) {
 		this.versionTitle = versionTitle;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 }
