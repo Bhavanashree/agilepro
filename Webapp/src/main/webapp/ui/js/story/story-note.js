@@ -32,8 +32,8 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			$scope.activeNoteModel = {};
 			
 			$scope.versionTitle = "";
-			$scope.publishedNotes = readResponse.publishedNotes;
-			$scope.draftNote = readResponse.draftNote;
+			
+			$scope.storyNotes = readResponse.model;
 			$scope.activeContent = "";
 			$scope.versionTitlesSet = []; 
 			
@@ -41,41 +41,13 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			
 			var obj;
 			
-			if($scope.draftNote)
+			if($scope.storyNotes.length > 0)
 			{
-				$scope.activeNoteModel = $scope.draftNote;
+				$scope.activeNoteModel = $scope.storyNotes[0];
 				
-			}else if($scope.publishedNotes.length > 0)
-			{
-				$scope.activeNoteModel = $scope.publishedNotes[0];
-			}
-			
-			console.log($scope.activeNoteModel);
-			
-			if($scope.activeNoteModel.id)
-			{
 				$scope.activeContent = $scope.activeNoteModel.content;
-				
 				$scope.versionTitle = $scope.activeNoteModel.versionTitle;
-				
-				console.log("value for tny = " + $scope.activeContent);
-				
 				tinymce.activeEditor.setContent($scope.activeContent);
-			}
-			
-			console.log("tiny is assinged");
-
-			// get all the titles
-			if($scope.draftNote)
-			{
-				$scope.versionTitlesSet.push($scope.draftNote.versionTitle);
-			}
-			
-			for(index in $scope.publishedNotes)
-			{
-				obj = $scope.publishedNotes[index];
-				
-				$scope.versionTitlesSet.push(obj.versionTitle);
 			}
 			
 			try
@@ -83,6 +55,13 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 				$scope.$apply();
 			}catch(ex)
 			{}
+			
+			for(index in $scope.storyNotes)
+			{
+				obj = $scope.storyNotes[index];
+				
+				$scope.versionTitlesSet.push(obj.versionTitle);
+			}
 			
 		}, {"hideInProgress" : true});
 	};
@@ -129,14 +108,8 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		$scope.activeNoteModel["published"] = published;
 		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
 		
-		
-		//var model = {"content" : $scope.editedContent, "storyId" : $scope.storyId, "published" : published, "versionTitle" : $scope.versionTitle};
-		
-		if(published)
-		{
-			$scope.publishedNotes.push($scope.activeNoteModel);
-		}
-		
+		$scope.storyNotes.push($scope.activeNoteModel);
+		$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
 		tinymce.activeEditor.setContent("");
 		$scope.versionTitle = "";
 		

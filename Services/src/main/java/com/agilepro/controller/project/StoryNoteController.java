@@ -62,8 +62,8 @@ public class StoryNoteController extends BaseController
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_NOTE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readAllNoteByStoryId", method = RequestMethod.GET)
 	@ResponseBody
-	public StoryNoteReadResponse fetchEmployees(@RequestParam(value = "storyId") Long storyId)
+	public BasicReadResponse<List<StoryNoteModel>> fetchEmployees(@RequestParam(value = "storyId") Long storyId)
 	{
-		return storyNoteService.fetchAllNoteByStoryId(storyId); 
+		return new BasicReadResponse(storyNoteService.fetchAllNoteByStoryId(storyId)); 
 	}
 }

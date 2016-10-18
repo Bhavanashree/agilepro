@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.project;
 
+import java.util.Date;
+
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -36,6 +38,10 @@ public class StoryNoteModel
 	
 	@Required
 	private String versionTitle;
+	
+	private String owner;
+	
+	private Date updatedOn;
 
 	/**
 	 * Version used for update.
@@ -141,5 +147,21 @@ public class StoryNoteModel
 
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public Date getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(Date updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 }
