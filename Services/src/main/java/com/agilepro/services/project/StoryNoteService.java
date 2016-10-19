@@ -59,22 +59,38 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 		{
 			Long currentUserid = currentUserService.getCurrentUserDetails().getUserId();
 			
-			String displayName = userService.fetch(currentUserid).getDisplayName(); 
+			String owner = userService.fetch(currentUserid).getDisplayName(); 
 			
-			StoryNoteEntity storyNoteEntity;
+			StoryNoteEntity storyNoteEntity, draftNote;
 			
-			if(storyNoteModel.getPublished() || storyNoteModel.getId() == null)
+			StoryNoteModel newStoryNoteModel;
+			
+			draftNote = istoryNoteRepository.fetchSaveDraftNoteByStoryId(storyNoteModel.getStoryId(), false);
+			
+			if(storyNoteModel.getPublished())
 			{
-				storyNoteModel.setOwner(displayName);
-				storyNoteEntity = super.save(storyNoteModel);
-			}else
-			{
-				storyNoteModel.setVersion(super.fetch(storyNoteModel.getId()).getVersion());
+				if(draftNote != null)
+				{
+					super.deleteById(draftNote.getId());
+				}
 				
-				storyNoteModel.setOwner(displayName);
-				storyNoteEntity = super.update(storyNoteModel);
+				newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getPublished(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), owner);
+				storyNoteEntity = super.save(newStoryNoteModel);
+			}else 
+			{
+				if(draftNote == null)
+				{
+					newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getPublished(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), owner);
+					storyNoteEntity = super.save(newStoryNoteModel);
+				}else
+				{
+					storyNoteModel.setVersion(super.fetch(storyNoteModel.getId()).getVersion());
+					
+					storyNoteModel.setOwner(owner);
+					storyNoteEntity = super.update(storyNoteModel);
+				}
 			}
-
+			
 			transaction.commit();
 			
 			return storyNoteEntity;
@@ -91,6 +107,19 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 		List<StoryNoteModel> storyNoteModels = new ArrayList<StoryNoteModel>(storyNoteEntities.size());
 
 		storyNoteEntities.forEach(entity -> storyNoteModels.add(super.toModel(entity, StoryNoteModel.class)));
+		
+		if(storyNoteModels.size() > 1)
+		{
+			for(int i=0 ; i < storyNoteModels.size() ; i++)
+			{
+				if(storyNoteModels.get(i).getPublished() == false)
+				{
+					storyNoteModels.set(0, storyNoteModels.get(i));
+					storyNoteModels.remove(i + 1);
+					break;
+				}
+			}
+		}
 		
 		return storyNoteModels;
 	}

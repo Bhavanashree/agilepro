@@ -20,10 +20,21 @@
 		</div>
 		
 		<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2" style="border: 2px solid #87CEEB; height: 29em;">
-			 <div ng-repeat="note in storyNotes" style="margin-top: 0.5em;
+			 <div ng-repeat="note in storyNotes track by $index" style="margin-top: 0.5em;
 			 font-weight: bold;">
-			  <a href="" ng-click="activeNote(note)">{{note.versionTitle}}
-			  {{note.owner}}{{note.updatedOn}}</a>
+			 
+			 	<table width="100%">
+			 		<tr>
+			 			<td>
+			 				<a href="" ng-click="activeNote(note)">{{note.versionTitle}}</a>
+			 			</td>
+			 		</tr>
+			 		<tr>
+			 			<td style="float: right;">
+			 				<span style="font-size: 10px;">{{note.owner}}{{note.updatedOn}}</span>
+			 			</td>
+			 		</tr>
+			 	</table>
 			 </div>
 		</div>
 		

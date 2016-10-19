@@ -109,8 +109,23 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
 		$scope.activeNoteModel["owner"] = $scope.activeUser.displayName;
 		
-		$scope.storyNotes.push($scope.activeNoteModel);
-		$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+		if(published)
+		{
+			console.log("published");
+			$scope.storyNotes.push($scope.activeNoteModel);
+			$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+		}else 
+		{
+			if($scope.storyNotes[0].published)
+			{
+				console.log("unshift");
+				$scope.storyNotes.unshift($scope.activeNoteModel);
+			}else
+			{
+				$scope.storyNotes[0] = $scope.activeNoteModel;
+			}
+		}
+		
 		tinymce.activeEditor.setContent("");
 		$scope.versionTitle = "";
 		
@@ -123,7 +138,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			{
 				$scope.fetchNotes();
 			}
-
+		
 			try
 			{
 				$scope.$apply();
@@ -138,10 +153,10 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	
 	$scope.activeNote = function(storyNote){
 		
+		$scope.activeNoteModel = storyNote;
+		
 		tinymce.activeEditor.setContent(storyNote.content);
-		
 		$scope.versionTitle = storyNote.versionTitle;
-		
 		$scope.checkVersionTitle(null);
 	};
 	
