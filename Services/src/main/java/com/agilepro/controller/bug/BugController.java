@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.bug.IBugController;
+import com.agilepro.commons.models.bug.BugCommentsModel;
 import com.agilepro.commons.models.bug.BugModel;
 import com.agilepro.services.bug.BugService;
 import com.agilepro.services.common.Authorization;
+import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
@@ -93,11 +96,17 @@ public class BugController extends BaseController implements IBugController
 	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_UPDATE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse update(@RequestBody @Valid BugModel model)
+	public BasicVersionResponse update(@RequestBody @Valid BugModel model)
 	{
-		bugService.update(model);
+		
+		if(model.getId() == null || model.getId() <= 0)
+		{
+			throw new InvalidRequestParameterException("Invalid id specified for update: " + model.getId());
+		}
 
-		return new BaseResponse();
+		Integer updatedVersion = bugService.updateBug(model);
+
+		return new BasicVersionResponse(updatedVersion);
 	}
 
 	/**

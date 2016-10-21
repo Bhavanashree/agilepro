@@ -442,6 +442,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 *The action type read bug comment by bug id.
 	 **/
 	public String ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID = "readByBugId";
+	
+	public String ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE = "bugAttachment";
 
 	/**
 	 * The param id.
@@ -1251,4 +1253,21 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action bugComment delete all.
 	 **/
 	public String ACTION_BUG_COMMENT_DELETE_ALL = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_DELETE_ALL;
+	
+	public String ACTION_BUG_ATTACHMENT_SAVE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
+
+	/** The action story attachment read. */
+	public String ACTION_BUG_ATTACHMENT_READ = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ;
+	
+	public String ACTION_BUG_ATTACHMENT_READALL = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE  + DOT + ACTION_TYPE_READ_ALL;
+
+	/** The action story attachment update. */
+	public String ACTION_BUG_ATTACHMENT_UPDATE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_UPDATE;
+
+	/** The action story attachment delete. */
+	public String ACTION_BUG_ATTACHMENT_DELETE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE;
+
+	/** The action story attachment delete all. */
+	public String ACTION_BUG_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
+
 }

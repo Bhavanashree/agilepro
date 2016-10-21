@@ -20,8 +20,8 @@ public class BugSearchResult extends AbstractExtendedSearchResult
 	/**
 	 * The name.
 	 **/
-	@Field(value = "name")
-	private String name;
+	@Field(value = "title")
+	private String title;
 
 	/**
 	 * The reported by.
@@ -51,24 +51,24 @@ public class BugSearchResult extends AbstractExtendedSearchResult
 	}
 
 	/**
-	 * Gets the name.
+	 * Gets the title.
 	 *
-	 * @return the name
+	 * @return the title
 	 */
-	public String getName()
+	public String getTitle()
 	{
-		return name;
+		return title;
 	}
 
 	/**
-	 * Sets the name.
+	 * Sets the title.
 	 *
-	 * @param name
-	 *            the new name
+	 * @param title
+	 *            the new title
 	 */
-	public void setName(String name)
+	public void setTitle(String title)
 	{
-		this.name = name;
+		this.title = title;
 	}
 
 	/**

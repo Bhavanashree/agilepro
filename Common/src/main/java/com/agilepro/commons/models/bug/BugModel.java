@@ -9,7 +9,9 @@ import com.yukthi.webutils.common.FileInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
+import com.yukthi.webutils.common.annotations.ReadOnly;
 
 /**
  * The Class BugModel.
@@ -33,11 +35,12 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * The name.
 	 **/
-	private String name;
+	private String title;
 
 	/**
 	 * The description.
 	 **/
+	@MultilineText
 	private String description;
 
 	/**
@@ -55,35 +58,33 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * The owner.
 	 **/
+	@ReadOnly
 	@LOV(name = "projectMembers")
-	private Long ownerId;
+	private Long owner;
 
 	/**
-	 * The story.
+	 * The priority status.
 	 **/
-	@LOV(name = "storiesLov")
-	private Long storyId;
-
-	/**
-	 * The sprint.
-	 **/
-	@LOV(name = "sprintLov")
-	private Long sprintId;
-
-	/**
-	 * The comments.
-	 **/
-	private Long commentsId;
+	@ReadOnly
+	private PriorityStatus priority;
 
 	/**
 	 * The project id.
 	 **/
 	@LOV(name = "projectsLov")
-	private Long projectId;
+	private Long project;
+
 	/**
-	 * The priority status.
+	 * The sprint.
 	 **/
-	private PriorityStatus priorityStatus;
+	@LOV(name = "sprintLov")
+	private Long sprint;
+
+	/**
+	 * The story.
+	 **/
+	@LOV(name = "storiesLov")
+	private Long story;
 
 	/**
 	 * The file.
@@ -130,27 +131,6 @@ public class BugModel extends AbstractExtendableModel
 	public void setVersion(Integer version)
 	{
 		this.version = version;
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
-	/**
-	 * Sets the name.
-	 *
-	 * @param name
-	 *            the new name
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 
 	/**
@@ -217,108 +197,129 @@ public class BugModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the owner id.
+	 * Gets the title.
 	 *
-	 * @return the owner id
+	 * @return the title
 	 */
-	public Long getOwnerId()
+	public String getTitle()
 	{
-		return ownerId;
+		return title;
 	}
 
 	/**
-	 * Sets the owner id.
+	 * Sets the title.
 	 *
-	 * @param ownerId
-	 *            the new owner id
+	 * @param title
+	 *            the new title
 	 */
-	public void setOwnerId(Long ownerId)
+	public void setTitle(String title)
 	{
-		this.ownerId = ownerId;
+		this.title = title;
 	}
 
 	/**
-	 * Gets the story id.
+	 * Gets the owner.
 	 *
-	 * @return the story id
+	 * @return the owner
 	 */
-	public Long getStoryId()
+	public Long getOwner()
 	{
-		return storyId;
+		return owner;
 	}
 
 	/**
-	 * Sets the story id.
+	 * Sets the owner.
 	 *
-	 * @param storyId
-	 *            the new story id
+	 * @param owner
+	 *            the new owner
 	 */
-	public void setStoryId(Long storyId)
+	public void setOwner(Long owner)
 	{
-		this.storyId = storyId;
+		this.owner = owner;
 	}
 
 	/**
-	 * Gets the sprint id.
+	 * Gets the priority.
 	 *
-	 * @return the sprint id
+	 * @return the priority
 	 */
-	public Long getSprintId()
+	public PriorityStatus getPriority()
 	{
-		return sprintId;
+		return priority;
 	}
 
 	/**
-	 * Sets the sprint id.
+	 * Sets the priority.
 	 *
-	 * @param sprintId
-	 *            the new sprint id
+	 * @param priority
+	 *            the new priority
 	 */
-	public void setSprintId(Long sprintId)
+	public void setPriority(PriorityStatus priority)
 	{
-		this.sprintId = sprintId;
+		this.priority = priority;
 	}
 
 	/**
-	 * Gets the comments id.
+	 * Gets the project.
 	 *
-	 * @return the comments id
+	 * @return the project
 	 */
-	public Long getCommentsId()
+	public Long getProject()
 	{
-		return commentsId;
+		return project;
 	}
 
 	/**
-	 * Sets the comments id.
+	 * Sets the project.
 	 *
-	 * @param commentsId
-	 *            the new comments id
+	 * @param project
+	 *            the new project
 	 */
-	public void setCommentsId(Long commentsId)
+	public void setProject(Long project)
 	{
-		this.commentsId = commentsId;
+		this.project = project;
 	}
 
 	/**
-	 * Gets the priority status.
+	 * Gets the sprint.
 	 *
-	 * @return the priority status
+	 * @return the sprint
 	 */
-	public PriorityStatus getPriorityStatus()
+	public Long getSprint()
 	{
-		return priorityStatus;
+		return sprint;
 	}
 
 	/**
-	 * Sets the priority status.
+	 * Sets the sprint.
 	 *
-	 * @param priorityStatus
-	 *            the new priority status
+	 * @param sprint
+	 *            the new sprint
 	 */
-	public void setPriorityStatus(PriorityStatus priorityStatus)
+	public void setSprint(Long sprint)
 	{
-		this.priorityStatus = priorityStatus;
+		this.sprint = sprint;
+	}
+
+	/**
+	 * Gets the story.
+	 *
+	 * @return the story
+	 */
+	public Long getStory()
+	{
+		return story;
+	}
+
+	/**
+	 * Sets the story.
+	 *
+	 * @param story
+	 *            the new story
+	 */
+	public void setStory(Long story)
+	{
+		this.story = story;
 	}
 
 	/**
@@ -340,26 +341,5 @@ public class BugModel extends AbstractExtendableModel
 	public void setFile(List<FileInfo> file)
 	{
 		this.file = file;
-	}
-
-	/**
-	 * Gets the project id.
-	 *
-	 * @return the project id
-	 */
-	public Long getProjectId()
-	{
-		return projectId;
-	}
-
-	/**
-	 * Sets the project id.
-	 *
-	 * @param projectId
-	 *            the new project id
-	 */
-	public void setProjectId(Long projectId)
-	{
-		this.projectId = projectId;
 	}
 }

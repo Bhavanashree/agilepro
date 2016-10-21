@@ -91,7 +91,6 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 			$scope.saveChanges();
 			$("#tasktextarea").val(null);
 			$("#actualTime").val(null);
-
 		 }
 
 		//selected index

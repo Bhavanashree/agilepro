@@ -39,14 +39,6 @@ public class BugCommentsEntity extends WebutilsExtendableEntity
 	private BugEntity bug;
 
 	/**
-	 * The owner.
-	 **/
-	@ManyToOne
-	@PropertyMapping(type = BugCommentsModel.class, from = "employeeId", subproperty = "id")
-	@Column(name = "EMPLOYEE_ID")
-	private EmployeeEntity employees;
-
-	/**
 	 * The comment status.
 	 **/
 	@Column(name = "COMMENT_STATUS")
@@ -113,27 +105,6 @@ public class BugCommentsEntity extends WebutilsExtendableEntity
 	public void setBug(BugEntity bug)
 	{
 		this.bug = bug;
-	}
-
-	/**
-	 * Gets the employees.
-	 *
-	 * @return the employees
-	 */
-	public EmployeeEntity getEmployees()
-	{
-		return employees;
-	}
-
-	/**
-	 * Sets the employees.
-	 *
-	 * @param employees
-	 *            the new employees
-	 */
-	public void setEmployees(EmployeeEntity employees)
-	{
-		this.employees = employees;
 	}
 
 	/**

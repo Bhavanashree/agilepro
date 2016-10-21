@@ -2,19 +2,20 @@
   "defaultUserName": "customer1@gmail.com",
   "entityGroups": [
     {
-      "name": "Sprint",
-      "entityType": "com.agilepro.persistence.entity.project.SprintEntity",
-      "modelType": "com.agilepro.commons.models.project.SprintModel",
-      "identityField": "name",
+      "name": "Task",
+      "entityType": "com.agilepro.persistence.entity.project.TaskEntity",
+      "modelType": "com.agilepro.commons.models.project.TaskModel",
+      "identityField": "title",
     
       "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
       
       "entities": [
       <#list 1..3 as x>
         {
-          "name": "Sprint${x}",
-          "startDate":"2016-10-18",
-          "endDate":"2016-10-28",
+          "title": "Task${x}",
+          "storyId":"${entity.Story.story1.id}",
+          "timeTaken":"4",
+          "actualTime":"2",
           "projectId":"${entity.Projects.AgilePro1.id}"
         }<#sep>,</#sep>
 	     

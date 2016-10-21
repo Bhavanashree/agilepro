@@ -31,10 +31,10 @@ public interface ISprintRepository extends IWebutilsRepository<SprintEntity>
 	 * @return the list
 	 */
 	@RestrictBySpace
-	@SearchQueryMethod(name = "sprintSearch", queryModel = SprintSearchQuery.class, customizer = StorySearchCustomizer.class)
+	@SearchQueryMethod(name = "sprintSearch", queryModel = SprintSearchQuery.class)
 	@OrderBy("name")
 	public List<SprintSearchResult> findSprint(SearchQuery searchQuery);
-
+	
 	@LovQuery(name = "sprintLov", valueField = "id", labelField = "name")
 	public List<ValueLabel> findSprintsLov();
 

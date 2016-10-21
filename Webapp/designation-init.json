@@ -1,5 +1,5 @@
 {
-  "defaultUserName": "yukthi@gmail.com",
+  "defaultUserName": "customer1@gmail.com",
   "entityGroups": [
     {
       "name": "Designation",
@@ -7,7 +7,7 @@
       "modelType": "com.agilepro.commons.models.admin.DesignationModel",
       "identityField": "name",
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.Yukthitech.id}",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
      
       "entities": [
         {

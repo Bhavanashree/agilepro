@@ -1,0 +1,30 @@
+{
+  "defaultUserName": "customer1@gmail.com",
+  "entityGroups": [
+    {
+      "name": "Employees",
+      "entityType": "com.agilepro.persistence.entity.admin.EmployeeEntity",
+      "modelType": "com.agilepro.commons.models.admin.EmployeeModel",
+      "identityField": "name",
+    
+      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
+    
+      "entities": [
+      	<#list 1..3 as x>
+	        {
+		        "name": "employee${x}",
+		        "mailId":"employee4@gmail.com",
+		        "phoneNumber":"9000000000",
+		        "address":"  kr puram bangalore",
+		        "password":"password",
+		        "confirmPassword":"password",
+		        "gender":"FEMALE",
+		        "designationId": "${entity.Designation.ProjectManger.id}"
+	        }<#sep>,</#sep>
+	     
+	    </#list>
+        
+      ]
+    }
+  ]
+}

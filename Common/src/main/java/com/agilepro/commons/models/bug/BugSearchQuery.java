@@ -12,10 +12,10 @@ public class BugSearchQuery
 {
 
 	/**
-	 *  The name.
+	 * The name.
 	 **/
-	@Condition(value = "name", op = Operator.LIKE, ignoreCase = true)
-	private String name;
+	@Condition(value = "title", op = Operator.LIKE, ignoreCase = true)
+	private String title;
 
 	/**
 	 * Instantiates a new bug search query.
@@ -24,23 +24,23 @@ public class BugSearchQuery
 	{}
 
 	/**
-	 * Gets the name.
+	 * Gets the title.
 	 *
-	 * @return the name
+	 * @return the title
 	 */
-	public String getName()
+	public String getTitle()
 	{
-		return name;
+		return title;
 	}
 
 	/**
-	 * Sets the name.
+	 * Sets the title.
 	 *
-	 * @param name
-	 *            the new name
+	 * @param title
+	 *            the new title
 	 */
-	public void setName(String name)
+	public void setTitle(String title)
 	{
-		this.name = name;
+		this.title = title;
 	}
 }
