@@ -36,11 +36,13 @@ public class StoryReleaseEntity extends WebutilsEntity
 	@PropertyMapping(type = StoryReleaseModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;
 
-	public ReleaseEntity getRelease() {
+	public ReleaseEntity getRelease()
+	{
 		return release;
 	}
 
-	public void setRelease(ReleaseEntity release) {
+	public void setRelease(ReleaseEntity release)
+	{
 		this.release = release;
 	}
 
