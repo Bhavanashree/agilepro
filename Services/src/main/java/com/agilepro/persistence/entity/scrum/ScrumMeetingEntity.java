@@ -1,7 +1,7 @@
 package com.agilepro.persistence.entity.scrum;
 
 import javax.persistence.Column;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingModel;
@@ -22,7 +22,7 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	 * The project.
 	 **/
 	@Column(name = "PROJECT_ID")
-	@ManyToMany
+	@ManyToOne
 	@PropertyMapping(type = ScrumMeetingModel.class, from = "projectId", subproperty = "id")
 	private ProjectEntity project;
 
@@ -35,7 +35,8 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	/**
 	 * The sprint.
 	 **/
-	@Column(name = "SPRINT")
+	@Column(name = "SPRINT_ID")
+	@ManyToOne
 	@PropertyMapping(type = ScrumMeetingModel.class, from = "sprintId", subproperty = "id")
 	private SprintEntity sprint;
 
