@@ -5,3 +5,4 @@ Webapp/.classpath
 Webapp/.project
 *.loaded
 *.classpath
+*.prefs
