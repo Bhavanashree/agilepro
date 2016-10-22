@@ -74,6 +74,8 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID = "readAllProjectAndProjectReleaseByReleaseId";
 
+	public String ACTION_TYPE_SAVE_OR_UPDATE = "saveOrUpdate";
+			
 	/** 
 	 * The action type read all note by story id. 
 	 **/
@@ -435,6 +437,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix bug comments.
 	 **/
 	public String ACTION_PREFIX_BUG_COMMENTS = "bugComment";
+	
+	/** 
+	 *The action type read bug comment by bug id.
+	 **/
+	public String ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID = "readByBugId";
 
 	/**
 	 * The param id.
@@ -1225,6 +1232,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_BUG_COMMENT_READ = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_READ;
 
+	/**
+	 *  The action bug comment read by bug id.
+	 **/
+	public String ACTION_BUG_COMMENT_READ_BY_BUG_ID = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID;
+	
 	/**
 	 * The action bugComment update.
 	 **/

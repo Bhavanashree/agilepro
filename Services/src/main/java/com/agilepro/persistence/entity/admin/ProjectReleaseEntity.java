@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.agilepro.commons.models.customer.ProjectReleaseModel;
+import com.yukthi.persistence.annotations.DeleteWithParent;
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
@@ -21,6 +22,7 @@ public class ProjectReleaseEntity extends WebutilsEntity
 	/**
 	 * The release entity.
 	 **/
+	@DeleteWithParent
 	@ManyToOne
 	@PropertyMapping(type = ProjectReleaseModel.class, from = "releaseId", subproperty = "id")
 	@Column(name = "RELEASE_ID", nullable = false)

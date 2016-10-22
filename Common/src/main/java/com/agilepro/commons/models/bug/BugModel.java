@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.bug;
 
+import java.util.List;
+
 import com.agilepro.commons.BugStatus;
 import com.agilepro.commons.PriorityStatus;
 import com.yukthi.webutils.common.AbstractExtendableModel;
@@ -9,7 +11,6 @@ import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BugModel.
  */
@@ -74,7 +75,7 @@ public class BugModel extends AbstractExtendableModel
 	 **/
 	private Long commentsId;
 
-	/** 
+	/**
 	 * The project id.
 	 **/
 	@LOV(name = "projectsLov")
@@ -87,7 +88,7 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * The file.
 	 **/
-	private FileInfo file;
+	private List<FileInfo> file;
 
 	/*
 	 * (non-Javadoc)
@@ -186,7 +187,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the reported by.
 	 *
-	 * @param reportedBy the new reported by
+	 * @param reportedBy
+	 *            the new reported by
 	 */
 	public void setReportedBy(Long reportedBy)
 	{
@@ -227,7 +229,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the owner id.
 	 *
-	 * @param ownerId the new owner id
+	 * @param ownerId
+	 *            the new owner id
 	 */
 	public void setOwnerId(Long ownerId)
 	{
@@ -247,7 +250,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the story id.
 	 *
-	 * @param storyId the new story id
+	 * @param storyId
+	 *            the new story id
 	 */
 	public void setStoryId(Long storyId)
 	{
@@ -267,7 +271,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the sprint id.
 	 *
-	 * @param sprintId the new sprint id
+	 * @param sprintId
+	 *            the new sprint id
 	 */
 	public void setSprintId(Long sprintId)
 	{
@@ -287,7 +292,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the comments id.
 	 *
-	 * @param commentsId the new comments id
+	 * @param commentsId
+	 *            the new comments id
 	 */
 	public void setCommentsId(Long commentsId)
 	{
@@ -320,7 +326,7 @@ public class BugModel extends AbstractExtendableModel
 	 *
 	 * @return the file
 	 */
-	public FileInfo getFile()
+	public List<FileInfo> getFile()
 	{
 		return file;
 	}
@@ -331,7 +337,7 @@ public class BugModel extends AbstractExtendableModel
 	 * @param file
 	 *            the new file
 	 */
-	public void setFile(FileInfo file)
+	public void setFile(List<FileInfo> file)
 	{
 		this.file = file;
 	}
@@ -349,7 +355,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the project id.
 	 *
-	 * @param projectId the new project id
+	 * @param projectId
+	 *            the new project id
 	 */
 	public void setProjectId(Long projectId)
 	{

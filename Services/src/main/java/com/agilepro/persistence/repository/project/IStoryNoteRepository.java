@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.agilepro.persistence.entity.project.StoryNoteEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.webutils.annotations.RestrictBySpace;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
@@ -15,5 +16,9 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 public interface IStoryNoteRepository extends IWebutilsRepository<StoryNoteEntity>
 {
 	@RestrictBySpace
-	public List<StoryNoteEntity> fetchAllPublishedNoteByStoryId(@Condition(value = "story.id") Long storyId, @Condition(value = "published") Boolean published);
+	@OrderBy("updatedOn")
+	public List<StoryNoteEntity> fetchAllNoteByStoryId(@Condition(value = "story.id") Long storyId);
+	
+	@RestrictBySpace
+	public StoryNoteEntity fetchSaveDraftNoteByStoryId(@Condition(value = "story.id") Long storyId, @Condition(value = "storyNoteStatus") String storyNoteStatus);
 }

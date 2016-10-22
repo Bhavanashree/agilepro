@@ -1,0 +1,35 @@
+{
+  "defaultUserName": "yukthi@gmail.com",
+  "entityGroups": [
+    {
+      "name": "Designation",
+      "entityType": "com.agilepro.persistence.entity.admin.DesignationEntity",
+      "modelType": "com.agilepro.commons.models.admin.DesignationModel",
+      "identityField": "name",
+    
+      "spaceIdentity": "CUSTOMER-${entity.Customers.Yukthitech.id}",
+     
+      "entities": [
+        {
+          "name": "ProjectManger"
+        },
+        
+        {
+          "name": "TeamLead"
+        },
+        
+        {
+          "name": "developers"
+        },
+        
+        {
+          "name": "testers"
+        },
+         
+        {
+          "name": "scrumMaster"
+        }
+      ]
+	}  
+  ]
+}

@@ -27,5 +27,4 @@ public interface IBugRepository extends IWebutilsRepository<BugEntity>
 	@SearchQueryMethod(name = "bugSearch", queryModel = BugSearchQuery.class)
 	@OrderBy("name")
 	public List<BugSearchResult> findBugs(SearchQuery searchQuery);
-
 }

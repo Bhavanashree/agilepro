@@ -80,7 +80,7 @@ public class TaskController extends BaseController implements ITaskController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<TaskModel> read(@PathVariable(PARAM_ID) Long id)
@@ -90,9 +90,12 @@ public class TaskController extends BaseController implements ITaskController
 		return new BasicReadResponse<TaskModel>(taskModel);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.agilepro.commons.controllers.project.ITaskController#fetchAllStories(java.lang.Long)
+	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ_STORY_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readStoryId", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<TaskModel>> fetchAllStories(@RequestParam(value = "storyId", required = true) Long storyId)
@@ -100,14 +103,11 @@ public class TaskController extends BaseController implements ITaskController
 		return new BasicReadResponse<List<TaskModel>>(taskService.fetchAllStories(storyId));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.agilepro.commons.controllers.project.ITaskController#update(com.
-	 * agilepro.commons.models.project.TaskModel)
+	/* (non-Javadoc)
+	 * @see com.agilepro.commons.controllers.project.ITaskController#update(com.agilepro.commons.models.project.TaskModel)
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_UPDATE, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_UPDATE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicVersionResponse update(@RequestBody @Valid TaskModel model)
@@ -122,15 +122,11 @@ public class TaskController extends BaseController implements ITaskController
 		return new BasicVersionResponse(updatedVersion);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.agilepro.commons.controllers.project.ITaskController#delete(java.lang
-	 * .Long)
+	/* (non-Javadoc)
+	 * @see com.agilepro.commons.controllers.project.ITaskController#delete(java.lang.Long)
 	 */
 	@ActionName(ACTION_TYPE_DELETE)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_DELETE, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
@@ -145,7 +141,7 @@ public class TaskController extends BaseController implements ITaskController
 	 * 
 	 * @see com.agilepro.commons.controllers.project.ITaskController#deleteAll()
 	 */
-	@Authorization(roles = { UserRole.TASK_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TASK_DELETE_ALL, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

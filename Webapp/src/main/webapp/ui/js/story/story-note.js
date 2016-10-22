@@ -21,16 +21,41 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		    }
 		});
 		
-		fetchNotes();
-	   
+		$scope.fetchNotes();
 	});
 	
-	fetchNotes = function(){
+	
+	$scope.errorStoryNote = {"error" : false, "message" : ""};
+	
+	$scope.fetchNotes = function(){
 		
 		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : $scope.storyId}, 
 				function(readResponse, respConfig){
 			
-			$scope.publishedNotes = readResponse.model;
+			$scope.activeNoteModel = {};
+			
+			$scope.versionTitle = "";
+			
+			$scope.activeVersionTitle = "";
+			
+			$scope.storyNotes = readResponse.model;
+			$scope.activeContent = "";
+			$scope.versionTitlesSet = []; 
+			
+			$scope.alreadyPresent
+			
+			var obj;
+			
+			if($scope.storyNotes.length > 0)
+			{
+				$scope.activeNoteModel = $scope.storyNotes[0];
+				
+				$scope.activeContent = $scope.activeNoteModel.content;
+				$scope.activeVersionTitle = $scope.activeNoteModel.versionTitle;
+				tinymce.activeEditor.setContent($scope.activeContent);
+			}
+			
+			$scope.draftIsSelected = $scope.activeNoteModel.storyNoteStatus == "DRAFT" ? true : false;
 			
 			try
 			{
@@ -38,54 +63,159 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			}catch(ex)
 			{}
 			
-		}, {"hideInProgress" : true});
-	}
-	
-	$scope.saveNote = function(published){
-		
-		if(titleVersion.length == 0)
-		{
+			for(index in $scope.storyNotes)
+			{
+				obj = $scope.storyNotes[index];
+				
+				$scope.versionTitlesSet.push(obj.versionTitle);
+			}
 			
+		}, {"hideInProgress" : true});
+	};
+	
+	//$scope.saveNote = function(published){
+	$scope.$on("saveNewStoryNote", function(event, status) {
+		
+		$scope.checkVersionTitle(null);
+		
+		if($scope.errorStoryNote.error)
+		{
 			return;
 		}
 		
-		var content = tinymce.activeEditor.getContent();
+		if($scope.versionTitle.length == 0)
+		{
+			utils.alert("Please provide version");
+			return;
+		}
 		
-		console.log(content);
+		$scope.editedContent = tinymce.activeEditor.getContent();
 		
-		if(content.length == 0)
+		console.log($scope.editedContent);
+		
+		if($scope.editedContent.length == 0)
 		{
 			utils.alert("Please provide some note");
 			return;
 		}
 		
-		var model = {"content" : content, "storyId" : $scope.storyId, "published" : published};
-		
-		if(published)
+		if(status != "DRAFT")
 		{
-			$scope.publishedNotes.push(model);
+			$scope.activeNoteModel = {};
 		}
 		
-		actionHelper.invokeAction("storyNote.save", model, null, function(saveResponse, respConfig){
+		$scope.activeNoteModel["content"] = $scope.editedContent;
+		$scope.activeNoteModel["storyId"] = $scope.storyId;
+		$scope.activeNoteModel["storyNoteStatus"] = status;
+		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
+		$scope.activeNoteModel["owner"] = $scope.activeUser.displayName;
+		$scope.activeNoteModel["draftIsSelected"] = $scope.draftIsSelected;
+		
+		var simpleDateFormatter = new simpleDateFormat('d/MM/yyyy');
+		var date = new Date();
+		
+		$scope.activeNoteModel["updatedOn"]  = simpleDateFormatter.format(date);
+		
+		if(status != "DRAFT")
+		{
+			console.log("published");
+
+			if($scope.draftIsSelected)
+			{
+				$scope.storyNotes[0] = $scope.activeNoteModel;
+			}else
+			{
+				$scope.storyNotes.push($scope.activeNoteModel);
+				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+			}
+		}else 
+		{
+			if($scope.storyNotes.length == 0)
+			{
+				$scope.storyNotes.push($scope.activeNoteModel);
+				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+			}else if($scope.storyNotes[0].storyNoteStatus != "DRAFT")
+			{
+				console.log("unshift");
+				$scope.storyNotes.unshift($scope.activeNoteModel);
+				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+			}else
+			{
+				$scope.storyNotes[0] = $scope.activeNoteModel;
+			}
+		}
+		
+		tinymce.activeEditor.setContent("");
+		$scope.versionTitle = "";
+		
+		console.log($scope.draftIsSelected);
+		
+		actionHelper.invokeAction("storyNote.saveOrUpdate", $scope.activeNoteModel, null, function(saveResponse, respConfig){
 			
 			if(saveResponse.code == 0)
 			{
-				tinymce.activeEditor.setContent("");
+				utils.info(["Successfully saved {} "], $scope.versionTitle);
 			}else
 			{
-				fetchNotes();
+				//$scope.fetchNotes();
 			}
+		
+			try
+			{
+				$scope.$apply();
+			}catch(ex)
+			{}
 			
 		}, {"hideInProgress" : true});
 		
-	};
-	
-	
-	$scope.activeNote = function(content){
 		
-		tinymce.activeEditor.setContent(content);
+	});
+	
+	
+	$scope.activeNote = function(storyNote){
+		
+		$scope.activeNoteModel = storyNote;
+		
+		$scope.draftIsSelected = $scope.activeNoteModel.storyNoteStatus == "DRAFT" ? true : false;
+		
+		tinymce.activeEditor.setContent(storyNote.content);
+		$scope.versionTitle = storyNote.versionTitle;
+		$scope.checkVersionTitle(null);
 	};
 	
+	
+	$scope.checkVersionTitle = function(event){
+		
+		console.log($scope.versionTitlesSet);
+		
+		$scope.draftIsSelected = false;
+		
+		if($scope.versionTitle.length > 20)
+		{
+			$scope.errorStoryNote.error = true,
+			$scope.errorStoryNote.message  = "Title length can be maximum 20";
+			return;
+		}else
+		{
+			$scope.errorStoryNote.error = false;
+		}
+		
+		
+		for(index in $scope.versionTitlesSet)
+		{
+			if($scope.versionTitle == $scope.versionTitlesSet[index])
+			{
+				$scope.errorStoryNote.error = true,
+				$scope.errorStoryNote.message  = "Please provide different version title, provided version title is already existing";
+				break;
+			}else
+			{
+				$scope.errorStoryNote.error = false;
+			}
+			
+		}
+		
+	};
 	
 	$scope.clear = function(){
 		

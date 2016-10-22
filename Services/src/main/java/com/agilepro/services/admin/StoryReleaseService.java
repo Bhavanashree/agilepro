@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
 import com.agilepro.commons.models.project.BasicStoryInfo;
 import com.agilepro.commons.models.project.StoryModel;
-import com.agilepro.controller.response.ProjectReleaseReadResponse;
 import com.agilepro.controller.response.StoryReleaseReadResponse;
 import com.agilepro.persistence.entity.admin.StoryReleaseEntity;
 import com.agilepro.persistence.repository.admin.IStoryReleaseRepository;
@@ -30,9 +29,12 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 	 **/
 	private IStoryReleaseRepository istoryReleaseRepository;
 
+	/**
+	 * The story service.
+	 **/
 	@Autowired
 	private StoryService storyService;
-	
+
 	/**
 	 * Instantiates a new story release service.
 	 */
@@ -86,37 +88,61 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 		}
 	}
 
+	/**
+	 * Fetch all story release by release and project.
+	 *
+	 * @param releaseId
+	 *            the release id
+	 * @param projectId
+	 *            the project id
+	 * @return the story release read response
+	 */
 	public StoryReleaseReadResponse fetchAllStoryReleaseByReleaseAndProject(Long releaseId, Long projectId)
 	{
 		List<BasicStoryInfo> basicStoryInfos = istoryReleaseRepository.fetchStorysByReleaseAndProject(releaseId, projectId);
-		
+
 		Set<Long> storyIds = basicStoryInfos.stream().map(basicInfo -> basicInfo.getId()).collect(Collectors.toSet());
-		
+
 		List<StoryModel> storyModels = storyService.fetchAllStoriesByProject(projectId);
-		
+
 		List<StoryModel> filterdModels = storyModels.stream().filter(model -> !storyIds.contains(model.getId())).collect(Collectors.toList());
-		
+
 		return new StoryReleaseReadResponse(basicStoryInfos, filterdModels);
 	}
-	
-	public void deleteByProjectId(Long projectId)
+
+	/**
+	 * Delete by project id.
+	 *
+	 * @param storyReleaseModel
+	 *            the story release model
+	 */
+	public void deleteByProjectId(StoryReleaseModel storyReleaseModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			if(!istoryReleaseRepository.deleteByProjectId(projectId))
+			Long releaseId = storyReleaseModel.getReleaseId();
+			List<Long> projectIds = storyReleaseModel.getProjectIds();
+
+			if(projectIds != null)
 			{
-				throw new IllegalStateException("An error occurred  while deleting story release");
+				for(Long projectId : projectIds)
+				{
+					if(istoryReleaseRepository.fetchStorysByReleaseAndProject(releaseId, projectId).size() > 0)
+					{
+						if(!istoryReleaseRepository.deleteByProjectId(releaseId, projectId))
+						{
+							throw new IllegalStateException("An error occurred  while deleting story release");
+						}
+					}
+				}
 			}
-			
 			transaction.commit();
 		} catch(Exception ex)
 		{
 			throw new IllegalStateException("An error occurred  while deleting story release - ", ex);
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Delete by story id.
 	 *
@@ -127,11 +153,16 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			for(Long storyId : storyReleaseModel.getStoryIds())
+			List<Long> storyIds = storyReleaseModel.getStoryIds();
+			
+			if(storyIds != null)
 			{
-				if(!istoryReleaseRepository.deleteByStoryId(storyId))
+				for(Long storyId : storyReleaseModel.getStoryIds())
 				{
-					throw new IllegalStateException("An error occurred  while deleting story release");
+					if(!istoryReleaseRepository.deleteByStoryId(storyId))
+					{
+						throw new IllegalStateException("An error occurred  while deleting story release");
+					}
 				}
 			}
 

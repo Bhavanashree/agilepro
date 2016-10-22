@@ -1,4 +1,4 @@
-$.application.controller('sprintController', ["$scope", "crudController", "utils","modelDefService","actionHelper",
+$.application.controller('kanbanController', ["$scope", "crudController", "utils","modelDefService","actionHelper",
                                                function($scope, crudController,utils, modelDefService, actionHelper) {
 	 crudController.extend($scope, {
 		"name": "Sprint",
@@ -26,6 +26,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 	 $scope.isSprintIsSelected = false;
 	 
 	 $scope.sprintVerId = {};
+	 $scope.sprints={};
 	 
 	 $scope.clean = function() {
 		 $scope.story = [];
@@ -66,7 +67,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 	// after broad cast from projectId selection 
 	$scope.listOfStories = function(){
 		
-		projectId = $scope.getActiveProjectId();
+		projectId = $scope.getActiveProject();
 		 
 		 //List of stories
 		var readStoryCallBack = function(read, response){
@@ -117,7 +118,7 @@ $.application.controller('sprintController', ["$scope", "crudController", "utils
 	 
 	 // save new sprint
 	 $scope.saveSprint = function() {
-		projectId = $scope.getActiveProjectId();
+		projectId = $scope.getActiveProject();
 		
 		$scope.model.projectId =  projectId;
 		

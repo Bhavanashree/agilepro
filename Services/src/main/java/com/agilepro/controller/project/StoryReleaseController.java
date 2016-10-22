@@ -63,13 +63,19 @@ public class StoryReleaseController
 		return storyReleaseService.fetchAllStoryReleaseByReleaseAndProject(releaseId, projectId);
 	}
 	
+	/**
+	 * Delete by project.
+	 *
+	 * @param storyReleaseModel the story release model
+	 * @return the base response
+	 */
 	@ActionName(ACTION_TYPE_DELETE_BY_PROJECT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/deleteByProjectId", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse deleteByProject(@RequestParam(value = "projectId", required = true) Long projectId)
+	public BaseResponse deleteByProject(@RequestBody @Valid StoryReleaseModel storyReleaseModel)
 	{
-		storyReleaseService.deleteByProjectId(projectId);
+		storyReleaseService.deleteByProjectId(storyReleaseModel);
 		
 		return new BaseResponse();
 	}

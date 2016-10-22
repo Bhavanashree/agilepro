@@ -113,11 +113,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	// Listener for broadcast
 	$scope.$on("activeReleaseSelectionChanged", function(event, args) {
 		
-		if($scope.slectedReleaseId == $scope.getActiveReleaseId())
-		{
-			return;
-		}
-		
 		console.log("listener activeReleaseSelectionChanged is invoked");
 		
 		$scope.unreleasedPrjctIdObjMap = {};
@@ -126,7 +121,6 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		// drag back
 		$scope.releasedPrjctIdObjMap = {};
 		$scope.multipleReleasedSelectedProjectsId = [];
-		
 		
 		$scope.slectedReleaseId = $scope.getActiveReleaseId();
 		
@@ -175,6 +169,7 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			
 			$scope.projectsForRelease.splice($scope.projectsForRelease.indexOf(projectObj),1);
 			
+			projectObj.check = false;
 			$scope.projectReleased.push(projectObj);
 			$scope.releasedPrjctIdObjMap[projectObj.id] = projectObj;
 			
@@ -198,8 +193,8 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 				
 				$scope.projectsForRelease.splice($scope.projectsForRelease.indexOf(projectObj),1);
 				
+				projectObj.check = false;
 				$scope.projectReleased.push(projectObj);
-				
 				$scope.releasedPrjctIdObjMap[projectObj.id] = projectObj;
 			}
 			
@@ -212,6 +207,8 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			var model = {"releaseId" : $scope.slectedReleaseId, "projectIds" : $scope.multipleUnreleasedSelectedProjectsId};
 			
 			saveNewProjectRelease(model);
+			
+			$scope.multipleUnreleasedSelectedProjectsId = [];
 		}
 		
 	};
@@ -301,15 +298,17 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		}
 		else
 		{
-			for(index in $scope.multipleUnreleasedSelectedProjectsId)
+			for(index in $scope.multipleReleasedSelectedProjectsId)
 			{
-				projectId = $scope.multipleUnreleasedSelectedProjectsId[index];
+				projectId = $scope.multipleReleasedSelectedProjectsId[index];
 				
-				projectObj = $scope.unreleasedPrjctIdObjMap[projectId];
+				projectObj = $scope.releasedPrjctIdObjMap[projectId];
 				
-				$scope.projectsForRelease.splice($scope.projectsForRelease.indexOf(projectObj),1);
+				$scope.projectReleased.splice($scope.projectReleased.indexOf(projectObj),1);
 				
-				$scope.projectReleased.push(projectObj);
+				projectObj.check = false;
+				$scope.projectsForRelease.push(projectObj);
+				$scope.unreleasedPrjctIdObjMap[projectObj.id] = projectObj;
 			}
 			
 			try
@@ -318,9 +317,9 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 			}catch(ex)
 			{}
 			
-			var model = {"releaseId" : $scope.slectedReleaseId, "projectIds" : $scope.multipleUnreleasedSelectedProjectsId};
+			var model = {"releaseId" : $scope.slectedReleaseId, "projectIds" : $scope.multipleReleasedSelectedProjectsId};
 			
-			saveNewProjectRelease(model);
+			deleteProjectRelease(model);
 		}
 		
 	};
@@ -330,6 +329,78 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		actionHelper.invokeAction("projectRelease.deleteByProjectId", model, null, deleteCallBack, {"hideInProgress" : true});
 	};
 	
+	/*
+	 * Selected Project Filter 
+	 */
+	$scope.projectReleaseFilter = function(){
+		
+		return function( item ) {
+			
+			if($scope.searchReleaseProject)
+			{
+				return item.name.toLowerCase().includes($scope.searchReleaseProject.toLowerCase());
+			}
+			
+		    return true;
+		  };
+	};
+	
+	/*
+	 * Check box method to select multiple released projects
+	 */
+	$scope.checkBoxReleasedProject = function(projectId){
+		
+		$scope.releasedPrjctIdObjMap[projectId].check = !$scope.releasedPrjctIdObjMap[projectId].check;
+		
+		if($scope.releasedPrjctIdObjMap[projectId].check)
+		{
+			$scope.multipleReleasedSelectedProjectsId.push(projectId);
+			console.log(projectId + " added to list");
+		}
+		else
+		{
+			$scope.multipleReleasedSelectedProjectsId.splice($scope.multipleReleasedSelectedProjectsId.indexOf(projectId), 1);
+			console.log(projectId + " removed from list");
+		}
+		
+	};	
+	
+	$scope.checkAllReleasedProject = function(){
+		
+		var index;
+		var prjctObj;
+		
+		for(index in $scope.projectReleased)
+		{
+			prjctObj = $scope.projectReleased[index];
+			
+			if($scope.searchReleaseProject)
+			{
+				if(prjctObj.name.toLowerCase().includes($scope.searchReleaseProject.toLowerCase()))
+				{
+					prjctObj.check = true;
+					$scope.multipleReleasedSelectedProjectsId.push(prjctObj.id);
+				}
+			}else
+			{
+				prjctObj.check = true;
+				$scope.multipleReleasedSelectedProjectsId.push(prjctObj.id);
+			}
+		}
+		
+	};
+	
+	
+	$scope.unCheckAllReleasedProject = function(){
+		
+		var index;
+		for(index in $scope.projectReleased)
+		{
+			$scope.projectReleased[index].check = false;
+		}
+		
+		$scope.multipleReleasedSelectedProjectsId = [];
+	};
 	
 }]);
 

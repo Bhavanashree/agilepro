@@ -596,6 +596,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 	};
 	
+	
+	$scope.saveNote = function(published){
+		
+		$scope.$broadcast("saveNewStoryNote", published);
+		
+	};
+	
 }]);
 
 

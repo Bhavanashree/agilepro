@@ -49,6 +49,16 @@
           "subDomainPath": "customer1",
           "password": "password",
           "customerPricePlanId": <#noparse>"${entity.PricePlan.DefaultPricePlan.id}"</#noparse>
+        },
+        
+        {
+          "name": "Yukthitech",
+          "email": "yukthi@gmail.com",
+          "phoneNumber": "1233434354564",
+          "address": "bhatarahalli",
+          "subDomainPath": "yukthi",
+          "password": "password",
+          "customerPricePlanId":  <#noparse>"${entity.PricePlan.DefaultPricePlan.id}"</#noparse>
         }
       ]
     }

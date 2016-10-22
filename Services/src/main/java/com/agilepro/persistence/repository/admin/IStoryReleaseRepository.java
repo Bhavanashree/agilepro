@@ -21,8 +21,7 @@ public interface IStoryReleaseRepository extends IWebutilsRepository<StoryReleas
 	public List<BasicStoryInfo> fetchStorysByReleaseAndProject(@Condition(value = "release.id") Long releaseId, @Condition(value = "story.project.id") Long projectId);
 	
 	@RestrictBySpace
-	//public boolean deleteByProjectId(@Condition(value = "story.project.id") Long projectId);
-	public boolean deleteByProjectId(@Condition(value = "story.id") Long projectId);
+	public boolean deleteByProjectId(@Condition(value = "release.id") Long releaseId, @Condition(value = "story.project.id") Long projectId);
 	
 	@RestrictBySpace
 	public boolean deleteByStoryId(@Condition(value = "story.id") Long storyId);

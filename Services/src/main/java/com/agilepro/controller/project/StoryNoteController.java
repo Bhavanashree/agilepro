@@ -2,8 +2,9 @@ package com.agilepro.controller.project;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY_NOTE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_NOTE_BY_STORY_ID;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_OR_UPDATE;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.project.StoryNoteModel;
+import com.agilepro.controller.response.StoryNoteReadResponse;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.StoryNoteService;
 import com.yukthi.webutils.annotations.ActionName;
@@ -48,13 +50,15 @@ public class StoryNoteController extends BaseController
 	 *            the story note model
 	 * @return the basic save response
 	 */
-	@ActionName(ACTION_TYPE_SAVE)
+	@ActionName(ACTION_TYPE_SAVE_OR_UPDATE)
 	@Authorization(roles = { UserRole.STORY_NOTE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid StoryNoteModel storyNoteModel)
 	{
-		return new BasicSaveResponse(storyNoteService.save(storyNoteModel).getId());
+		storyNoteModel.setUpdatedOn(new Date());
+		
+		return new BasicSaveResponse(storyNoteService.saveOrUpdate(storyNoteModel).getId());
 	}
 	
 	@ActionName(ACTION_TYPE_READ_ALL_NOTE_BY_STORY_ID)

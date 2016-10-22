@@ -72,7 +72,7 @@ public class StoryController extends BaseController implements IStoryController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid StoryModel model)
@@ -93,7 +93,7 @@ public class StoryController extends BaseController implements IStoryController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<StoryModel> read(@PathVariable(PARAM_ID) Long id)
@@ -111,7 +111,7 @@ public class StoryController extends BaseController implements IStoryController
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/fetchStoryBysprintAndProjectId", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<StoryModel>> fetchAllStoryByPrjAndSprint(@RequestParam(value = "projectId", required = true) Long projectId, @RequestParam(value = "sprint", required = true) Long sprint)
@@ -127,7 +127,7 @@ public class StoryController extends BaseController implements IStoryController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ_STORY_SPRINT)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readStoriesBySprint", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<StoryModel>> fetchStoryBySprintId(@RequestParam(value = "sprintId", required = true) Long sprintId)
@@ -145,7 +145,7 @@ public class StoryController extends BaseController implements IStoryController
 	 * @return the StoryModel response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicVersionResponse update(@RequestBody @Valid StoryModel model)
@@ -169,7 +169,7 @@ public class StoryController extends BaseController implements IStoryController
 	 * @return the basic save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE_STORIES_IN_BULK)
-	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/storiesInbulk", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse saveStoriesInBulk(@RequestBody @Valid StoriesInBulk model)
@@ -189,7 +189,7 @@ public class StoryController extends BaseController implements IStoryController
 	 */
 
 	@ActionName(ACTION_TYPE_DELETE)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_DELETE, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)

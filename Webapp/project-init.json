@@ -1,0 +1,24 @@
+{
+  "defaultUserName": "yukthi@gmail.com",
+  "entityGroups": [
+    {
+      "name": "Projects",
+      "entityType": "com.agilepro.persistence.entity.admin.ProjectEntity",
+      "modelType": "com.agilepro.commons.models.customer.ProjectModel",
+      "identityField": "name",
+    
+      "spaceIdentity": "CUSTOMER-${entity.Customers.Yukthitech.id}",
+      
+      "entities": [
+        {
+          "name": "AgilePro"
+        },
+        
+        {
+          "name": "Restate"
+        }
+        
+      ]
+    }
+  ]
+}

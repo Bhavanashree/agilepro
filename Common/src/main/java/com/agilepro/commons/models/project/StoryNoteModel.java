@@ -1,7 +1,11 @@
 package com.agilepro.commons.models.project;
 
+import java.util.Date;
+
+import com.agilepro.commons.StoryNoteStatus;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class StoryNoteModel.
@@ -22,10 +26,8 @@ public class StoryNoteModel
 	@Required
 	private String content;
 
-	/**
-	 * The published.
-	 **/
-	private Boolean published;
+	@Required
+	private StoryNoteStatus storyNoteStatus;
 
 	/**
 	 * The story id.
@@ -33,10 +35,35 @@ public class StoryNoteModel
 	@Required
 	private Long storyId;
 
+	@Required
+	private String versionTitle;
+
+	private String owner;
+
+	private Date updatedOn;
+	
+	@Required
+	private Boolean draftIsSelected;
+
 	/**
-	 * The version.
+	 * Version used for update.
 	 **/
-	private Long version;
+	@NonDisplayable
+	private Integer version;
+
+	public StoryNoteModel()
+	{
+		super();
+	}
+
+	public StoryNoteModel(String content, StoryNoteStatus storyNoteStatus, Long storyId, String versionTitle, String owner)
+	{
+		this.content = content;
+		this.storyNoteStatus = storyNoteStatus;
+		this.storyId = storyId;
+		this.versionTitle = versionTitle;
+		this.owner = owner;
+	}
 
 	/**
 	 * Gets the id.
@@ -57,27 +84,6 @@ public class StoryNoteModel
 	public void setId(Long id)
 	{
 		this.id = id;
-	}
-
-	/**
-	 * Gets the version.
-	 *
-	 * @return the version
-	 */
-	public Long getVersion()
-	{
-		return version;
-	}
-
-	/**
-	 * Sets the version.
-	 *
-	 * @param version
-	 *            the new version
-	 */
-	public void setVersion(Long version)
-	{
-		this.version = version;
 	}
 
 	/**
@@ -123,23 +129,117 @@ public class StoryNoteModel
 	}
 
 	/**
-	 * Gets the published.
+	 * Gets the story note status.
 	 *
-	 * @return the published
+	 * @return the story note status
 	 */
-	public Boolean getPublished()
+	public StoryNoteStatus getStoryNoteStatus()
 	{
-		return published;
+		return storyNoteStatus;
 	}
 
 	/**
-	 * Sets the published.
+	 * Sets the story note status.
 	 *
-	 * @param published
-	 *            the new published
+	 * @param storyNoteStatus
+	 *            the new story note status
 	 */
-	public void setPublished(Boolean published)
+	public void setStoryNoteStatus(StoryNoteStatus storyNoteStatus)
 	{
-		this.published = published;
+		this.storyNoteStatus = storyNoteStatus;
+	}
+
+	/**
+	 * Gets the version title.
+	 *
+	 * @return the version title
+	 */
+	public String getVersionTitle()
+	{
+		return versionTitle;
+	}
+
+	/**
+	 * Sets the version title.
+	 *
+	 * @param versionTitle
+	 *            the new version title
+	 */
+	public void setVersionTitle(String versionTitle)
+	{
+		this.versionTitle = versionTitle;
+	}
+
+	/**
+	 * Gets the version.
+	 *
+	 * @return the version
+	 */
+	public Integer getVersion()
+	{
+		return version;
+	}
+
+	/**
+	 * Sets the version.
+	 *
+	 * @param version
+	 *            the new version
+	 */
+	public void setVersion(Integer version)
+	{
+		this.version = version;
+	}
+
+	/**
+	 * Gets the owner.
+	 *
+	 * @return the owner
+	 */
+	public String getOwner()
+	{
+		return owner;
+	}
+
+	/**
+	 * Sets the owner.
+	 *
+	 * @param owner
+	 *            the new owner
+	 */
+	public void setOwner(String owner)
+	{
+		this.owner = owner;
+	}
+
+	/**
+	 * Gets the updated on.
+	 *
+	 * @return the updated on
+	 */
+	public Date getUpdatedOn()
+	{
+		return updatedOn;
+	}
+
+	/**
+	 * Sets the updated on.
+	 *
+	 * @param updatedOn
+	 *            the new updated on
+	 */
+	public void setUpdatedOn(Date updatedOn)
+	{
+		this.updatedOn = updatedOn;
+	}
+
+	public Boolean getDraftIsSelected()
+	{
+		return draftIsSelected;
+	}
+
+	public void setDraftIsSelected(Boolean draftIsSelected)
+	{
+		this.draftIsSelected = draftIsSelected;
 	}
 }

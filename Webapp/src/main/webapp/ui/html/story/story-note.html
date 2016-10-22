@@ -3,10 +3,14 @@
 	<div class="row" style="height: 20em; padding-top: 1em;">
 		
 		<div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
-		
+			
 			<div class="form-inline">
-				Version
-				<input type="text" class="form-control" placeholder="Title Version" style="border-color: #CD5C5C;" ng-model="titleVersion"/>
+				Version {{activeVersionTitle}}
+				<input id="versionTitleId" type="text" class="form-control" placeholder="20 Version Title" style="border-color: #CD5C5C;" ng-model="versionTitle"
+				ng-keyup="checkVersionTitle($event)"/>
+				<span ng-if="errorStoryNote.error" style="margin-left: 0.5em; color: red; font-size: 15px;">
+					{{errorStoryNote.message}}
+				</span>
 			</div>
 			
 			<div style="padding-top: 0.5em;">
@@ -15,10 +19,25 @@
 		
 		</div>
 		
-		<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2" style="border: 2px solid #87CEEB; height: 29em;">
-			 <div ng-repeat="note in publishedNotes" style="margin-top: 0.5em;
-			 font-weight: bold;">
-			  <a href="" ng-click="activeNote(note.content)">{{note.content}}</a>
+		<div class="col-md-2 col-lg-2 col-sm-2 col-xs-2" style="border: 2px solid #87CEEB; height: 29em; overflow-y:auto;">
+			 <div ng-repeat="note in storyNotes track by $index">
+			 
+			 	<table width="100%" style="border-bottom: thin solid black; margin-top: 1em; font-weight: bold;">
+			 		<tr>
+			 			<td>
+			 				<a href="" ng-click="activeNote(note)">{{note.versionTitle}}</a>
+			 				
+			 				<span style="font-size: 10px; float: right;" ng-if="note.storyNoteStatus == 'DRAFT'">
+			 				{{note.storyNoteStatus}}
+			 				</span>
+			 			</td>
+			 		</tr>
+			 		<tr>
+			 			<td style="float: right;">
+			 				<span style="font-size: 11px;">{{note.owner}}, {{note.updatedOn}}</span>
+			 			</td>
+			 		</tr>
+			 	</table>
 			 </div>
 		</div>
 		

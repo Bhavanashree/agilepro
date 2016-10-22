@@ -69,12 +69,13 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("project","project/project-menu.html", "project/project.html", "projectsTab");
 	addState("tag","project/project-menu.html", "project/tag.html", "projectsTab");
 	addState("release","project/project-menu.html", "project/release.html", "projectsTab", false, false);
+	addState("sprint","project/project-menu.html", "project/sprint.html", "projectTab");
 	
 	//Members related states
 	addState("member", "member/member-menu.html", "member/member.html", "membersTab");
 	
 	//backlog
-	addState("sprint","story/sprints-menu.html", "story/sprint.html", "kanbanTab", true);
+	addState("kanbanBoard","story/story-menu.html", "story/kanbanBoard.html", "kanbanTab", true);
 	addState("story","story/story-menu.html", "story/story.html", "storyTab");
 	addState("priority","story/story-menu.html", "story/priority.html", "storyTab");
 	addState("task","story/story-menu.html", "story/task.html", "storyTab");
