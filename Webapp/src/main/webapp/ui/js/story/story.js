@@ -17,7 +17,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		"onHide" : function(){
 		
-			stopInterval();
+			$scope.stopInterval();
 		},
 		
 		"onDisplay" : function(model){
@@ -46,7 +46,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				
 				$scope.getAllTitle();
 				
-				getAllAttachment();
+				$scope.getAllAttachment();
 			}
 			
 			// Broad cast 
@@ -86,6 +86,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
 		    "menubar": false,
 		    "content_css" : "/ui/css/conversations.css",
+		    "setup" : function(ed) {
+		    	ed.on('keyup', function (e) {  
+		    		$scope.onType(e);  
+		        });
+		     },
 		 };
 		 
 		 mceContext.mentions = {
@@ -124,6 +129,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	};
 	
 	$scope.submitContent = function() {
+
+		// if user clicks in send button without selecting a title
+		$scope.onType(null);
+
 		var content = tinymce.activeEditor.getContent();
 		$scope.message = content; 
 		
@@ -165,7 +174,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.isDisplayElement = false;
 	$scope.storyModel = {};
 	$scope.model = {};
-	
+
+	// attribute for getting conversations after time interval
 	$scope.isFirstRequest = true;
 	
 	var projectId;
@@ -238,52 +248,35 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 	 $scope.onType = function(e) {
 
+		console.log("on type is invoked");
+		
 		if(!$scope.selectedTitle)
 		{
 			utils.alert("Please select a title");
-			//$("#messageId").val($("#messageId").val("").trim());
 			return;
 		}
 		
-		$scope.message = $("#messageId").val();
-		
-		e = e || window.event;
-		var key = e.keyCode ? e.keyCode : e.which;
-		
-		/*
-		if($scope.message)
+		$scope.message = tinymce.activeEditor.getContent();
+	
+		if(e)
 		{
-			if($scope.message.length > 50)
+			e = e || window.event;
+			var key = e.keyCode ? e.keyCode : e.which;
+					
+			// if enter key is pressed
+			if((key == 13) && $scope.message.length > 0)
 			{
-				console.log("$scope.message.length = " + $scope.message.length); 
-				console.log("$(#messageId).width() = " + $("#messageId").width());
-				
-				$("#messageId").css('height', 4 + 'em');
-				$("#sendButtonId").css('height', 4 + 'em');
+				$scope.saveConversationMessage();
 			}
-			else if($scope.message.length < 50)
+			else
 			{
-				reduceHeight();
+				return;
 			}
 		}
-		else
-		{
-			reduceHeight();
-		}
-		*/
 		
-		// if enter key is pressed
-		if((key == 13) && $scope.message)
-		{
-			$scope.saveConversationMessage();
-		}
-		else
-		{
-			return;
-		}
 	 };
 	 
-	 readCallBack = function(readResponse, respConfig){
+	 $scope.readCallBack = function(readResponse, respConfig){
 		 
 		 $scope.conversations = readResponse.model;
 		 
@@ -313,20 +306,20 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.getAllTitle();
 	 };
 	 
-	 getAllConversation = function(){
+	 $scope.getAllConversation = function(){
 		 
-		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, readCallBack, {"hideInProgress" : true});
+		 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, $scope.readCallBack, {"hideInProgress" : true});
 		 
 		 if($scope.isFirstRequest)
 		 {
-			 $scope.intervalValue = setInterval(getAllConversation, (5 * 1000));
+			 $scope.intervalValue = setInterval($scope.getAllConversation, (5 * 1000));
 			 
 			 $scope.isFirstRequest = false;
 		 }
 		 
 	 };
 	 
-	 stopInterval = function(){
+	 $scope.stopInterval = function(){
 		 clearInterval($scope.intervalValue); 
 	 };
 	 
@@ -335,19 +328,17 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 if(respConfig.success)
 		 {
 			 $scope.message = "";
+			 tinymce.activeEditor.getContent("");
 			 $("#messageId").focus();
 			 
 			 $scope.saveSuccess = true;
 			 
-			 getAllConversation();
+			 $scope.getAllConversation();
 		 }
 	 };
 	 
 	 $scope.saveConversationMessage = function(){
-		
-		/*$scope.message = $("#messageId").val();
-		$("#messageId").val(""); */
-		
+		 
 		if($scope.message)
 		{
 			if($scope.message.length > 0)
@@ -360,14 +351,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 	 };
 	 
-	 /*
-	// Reduce height of input field conversation
-	reduceHeight = function(){
-		
-		$("#messageId").css('height', 2.5 + 'em');
-		$("#sendButtonId").css('height', 2.5 + 'em');
-	};
-	*/
 	
 	$scope.initModelDef = function() {
 		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){
@@ -474,11 +457,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		if(!$scope.selectedTitle)
 		{
 			$scope.conversations = {};
-			stopInterval();
+			$scope.stopInterval();
 			return;
 		}
 		
-		getAllConversation();
+		$scope.getAllConversation();
 	};
 	
 	
@@ -496,7 +479,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		 $('#storyAttachmentModelDialog').modal('hide');
 		 
-		 getAllAttachment();
+		 $scope.getAllAttachment();
 	 };
 	 
 	$scope.saveAttachment = function(e){
@@ -534,7 +517,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{}	
 	 };
 	 
-	getAllAttachment = function(){
+	$scope.getAllAttachment = function(){
 		
 		actionHelper.invokeAction("storyAttachment.readAll", null, {"storyId" : $scope.storyId}, readAttachmentCallBack, {"hideInProgress" : true});
 	};
@@ -553,7 +536,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	updateAttachmentCallBack = function(readResponse, respConfig){
 		 $('#storyAttachmentModelDialog').modal('hide');
 		 
-		getAllAttachment();
+		$scope.getAllAttachment();
 	};
 	
 	$scope.updateAttachment = function(e){
@@ -569,7 +552,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	
 	deleteAttachmentCallBack = function(readResponse, respConfig){
 		 
-		getAllAttachment();
+		$scope.getAllAttachment();
 	};
 	
 	$scope.removeAttachment = function(obj){
@@ -618,7 +601,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		});
 		
 	};
-	
 	
 	$scope.saveNote = function(published){
 		
