@@ -76,27 +76,4 @@ public class ProjectTeamService extends BaseCrudService<ProjectTeamEntity, IProj
 
 		return projectTeamModels;
 	}
-
-	/**
-	 * Delete project member.
-	 *
-	 * @param projectTeamId
-	 *            the project team id
-	 */
-	public void deleteProjectMember(Long projectTeamId)
-	{
-		try(ITransaction transaction = repository.newOrExistingTransaction())
-		{
-			List<ProjectMemberEntity> projectMemberEntities = ipMemberRepository.fetchMembers(projectTeamId);
-
-			projectMemberEntities.forEach(entity -> projectMemberService.deleteById(entity.getId()));
-
-			super.deleteById(projectTeamId);
-
-			transaction.commit();
-		} catch(Exception ex)
-		{
-			throw new IllegalStateException("An error occurred  while deleting project team - ", ex);
-		}
-	}
 }

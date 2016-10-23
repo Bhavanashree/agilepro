@@ -1,1 +1,8 @@
 /.metadata/
+
+Webapp/.classpath
+*.project
+Webapp/.project
+*.loaded
+*.classpath
+*.prefs

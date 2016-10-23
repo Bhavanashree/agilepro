@@ -32,6 +32,8 @@ public class StoryReleaseModel
 	private Long storyId;
 
 	private List<Long> storyIds;
+	
+	private List<Long> projectIds;
 
 	/**
 	 * Version used for update.
@@ -130,5 +132,15 @@ public class StoryReleaseModel
 	public void setStoryIds(List<Long> storyIds)
 	{
 		this.storyIds = storyIds;
+	}
+
+	public List<Long> getProjectIds()
+	{
+		return projectIds;
+	}
+
+	public void setProjectIds(List<Long> projectIds)
+	{
+		this.projectIds = projectIds;
 	}
 }

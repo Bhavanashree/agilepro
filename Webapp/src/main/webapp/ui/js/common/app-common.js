@@ -204,4 +204,26 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	return $scope.selectedProject.id;
     };
     
+    /**
+     * Extraction actions from conversation message.
+     */
+    $scope.extractActionUsers = function(mssg) {
+    	var htmlElem = $(mssg);
+    	var spans = htmlElem.find("span[class='userMention']");
+    	
+    	if(!spans || spans.length <= 0)
+    	{
+    		return null;
+    	}
+    	
+    	var actionUsers = [];
+    	
+    	for(var i = 0; i < spans.length; i++)
+    	{
+    		actionUsers.push($(spans[i]).attr('id'));
+    	}
+    	
+    	return actionUsers;
+    };
+    
 }]);

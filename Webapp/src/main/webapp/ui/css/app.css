@@ -52,8 +52,6 @@
 	border-width: 1px;
 	border-color: lightblue;
 	padding: 2em;
-	position:absolute;
-	left:450px;
 }
 
 .newsBox
@@ -406,6 +404,16 @@ body
 .whiteBackGround
 {
 	background-color: white;
+}
+
+.greyBackGround
+{
+	background-color: #778899;
+}
+
+.greenBackGround
+{
+	background-color: lightgreen
 }
 
 /*  aaaaaaaaaaaaaaaaaaa*/

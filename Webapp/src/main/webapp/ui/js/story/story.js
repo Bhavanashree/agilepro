@@ -80,25 +80,47 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.init = function() {
 		 console.log("init is invoked");
 		 
-		tinymce.init({
+		 var mceContext = {
 		    "selector": '#messageId',
 		    "plugins": "autolink link emoticons  textcolor mention",
 		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
 		    "menubar": false,
-		    "mentions": {
-		        "source": [
-		            { name: 'Tyra Porcelli' }, 
-		            { name: 'Brigid Reddish' },
-		            { name: 'Ashely Buckler' },
-		            { name: 'Teddy Whelan' }
-		        ],
-		        "render": function(item) {
-		            return '<li>' +
-		                       '<a href="javascript:;"><span>' + item.name + '</span></a>' +
-		                   '</li>';
-		        }
-		    }
-		});
+		    "content_css" : "/ui/css/conversations.css",
+		 };
+		 
+		 mceContext.mentions = {
+	    	delimiter: ['@'],
+	        
+	    	"insert": $.proxy(function(item) {
+	            return '&nbsp;<span class="userMention" id="' + item.id + '">' + this.currentDelimiter + item.name + '</span>&nbsp;';
+	        }, mceContext),
+	        
+	        source: $.proxy(function (query, process, delimiter) {
+	        	var items = [
+					{ "id" : 1, name: 'Tyra Porcelli' }, 
+					{ "id" : 2, name: 'Brigid Reddish' },
+					{ "id" : 3, name: 'Ashely Buckler' },
+					{ "id" : 4, name: 'Teddy Whelan' }
+				];
+		        
+		        this.currentDelimiter = delimiter;
+		        return items;
+			}, mceContext)
+	    };
+ 	
+		 
+		tinymce.init(mceContext);
+	};
+	
+	$scope.projectMembers = function() {
+    	var items = [
+			{ "id" : 1, name: 'Tyra Porcelli' }, 
+			{ "id" : 2, name: 'Brigid Reddish' },
+			{ "id" : 3, name: 'Ashely Buckler' },
+			{ "id" : 4, name: 'Teddy Whelan' }
+		];
+	    
+	    return items;
 	};
 	
 	$scope.submitContent = function() {
@@ -106,6 +128,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.message = content; 
 		
 		console.log("Got message as ", $scope.message);
+		console.log("Action users are: ", $scope.extractActionUsers($scope.message))
 		
 		$scope.saveConversationMessage();
 	};

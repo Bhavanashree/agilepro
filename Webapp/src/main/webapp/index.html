@@ -13,6 +13,7 @@
 	    
 	    <link href="webutils/css/webutils.css" rel="stylesheet">
 	    <link href="ui/css/app.css" rel="stylesheet">
+	    <link href="ui/css/conversations.css" rel="stylesheet">
 	    
 	    
 	    <link href="webutils/css/bootstrap-colorpicker.min.css" rel="stylesheet">
@@ -24,35 +25,30 @@
 	
 	<body ng-app="application" ng-controller="mainController">
 
-		<div class="container-fluid" ng-controller="commonController" style="padding: 0px; padding-left: 0.2em; padding-right: 0.2em;">
+		<div class="fullPage flexVertical" ng-controller="commonController">
 		
-			<!-- Header row starts here -->
-			<div class="row" style="margin: 0px;z-index: 100;" ng-include="'index-header.html'">
+			<!-- Start of header -->
+			<div style="width: 100%;" ng-include="'index-header.html'">
 			</div>
-			<!-- Header row ends here -->
-
-			<!-- Left menu row starts here -->
-			<div class="row">
-				<!-- Left menu -->
-				<div id="appLeftMenu" class="col-md-2 col-sm-10 col-xs-10 leftNavBox" yk-hide-from="sm" yk-full-height="document" yk-height-margin="60" 
-							style="z-index: 100; background-color: white;">
-					<div class="col-xs-12" ui-view="menuView" 
-							style="overflow-y: auto; padding-top: 0.5em;" yk-full-height="parent" yk-height-margin="10">
-					</div>
-				</div>
+			<!-- End of header -->
+			
+			<!-- Start of mid contents = left Menu + main content -->
+			<div style="width: 100%; flex-grow: 1; align-items: stretch;" class="flexHorizontal">
 				
-				<!-- Tabs + Main content row -->
-				<div id="mainContentContainer" class="col-md-10 col-sm-12" yk-full-height="document" yk-height-margin="60" style="overflow: auto;">
-					<!-- Main content row -->
-					<div id="mainContent" ui-view="mainContent" style="padding-top: 2em; margin-right: 0.5em; padding-right: 1em;">
-					</div>
+				<!-- Start of left menu -->
+				<div id="appLeftMenu" class="leftNavBox" style="background-color: white; overflow-y: auto; padding-top: 0.5em; width: 15em;" yk-hide-from="sm" ui-view="menuView">
+				</div>					
+				<!-- End of left menu -->
+				
+				<!-- start of main container -->
+				<div id="mainContent" ui-view="mainContent" style="padding-top: 2em; padding-right: 1em; padding-left: 1em; overflow: auto; flex-grow: 1;">
 				</div>
+				<!-- end of main container -->
+				
 			</div>
-			<!-- Content row ends here -->
-
+			<!-- End of mid contents = left Menu + main content -->
 		</div>
-		
-		
+
 		<div ng-include="'webutils/webutils-dialogs.html'">
 		</div>
 		
@@ -74,6 +70,9 @@
 		
 		 <!-- @ chat conversation required js file -->
 		<script src="webutils/js/mention.js"></script>
+		
+		<!-- Date format -->
+		<script src="webutils/js/simpleDateFormat.js"></script>
 		
 		<!--Color -->
 		<script src="webutils/js/bootstrap-colorpicker.js"></script>

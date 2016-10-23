@@ -13,53 +13,45 @@
 	</head>
 	
 	<body ng-app="application">
-		<input id="loginPageMarker" type="hidden" value="true"/>
-		
-		<div class="container-fluid" ng-controller="lpageHelper">
-			<div class="row" style="background: black;">
-				<div class="col-md-4">
-					<img alt="AgilePro" src="/ui/images/agilepro-logo.png" style="width: 10em; height: 4em;" yk-hide-from="sm">
-				</div>
+		<div class="fullPage flexVertical" ng-controller="lpageHelper">
+			<input id="loginPageMarker" type="hidden" value="true"/>
+			
+			<!-- Header -->
+			<div style="background: black; width: 100%">
+				<img alt="AgilePro" src="/ui/images/agilepro-logo.png" style="width: 10em; height: 4em;" yk-hide-from="sm">
 			</div>
-
-			<div class="row preProcessHidden">
-				
-				<!-- login form -->
-				<div class="col-md-4">
-					<div class="row" yk-hide-from="sm" style="height: 5em;">
+			<!-- End of header -->
+			
+			<!-- Main Container -->
+			<div class="flexVertical" style="width: 100%; flex-grow: 1; align-items: center;">
+				<div id ="loginForm" class="box1" style="margin-top: 10em; min-width: 30%;">
+					<form class="form-horizontal" action="" method="POST">
+						<br/>
+						<yk-field label="Email" type="email" model="email"></yk-field>
 						
-					</div>
-					
-					<!-- Start of login box row -->
-					<div class="row">
-						<div id ="loginForm" class="col-xs-12 col-md-11 box1">
-							<form class="form-horizontal" action="" method="POST">
-								<br/>
-								<yk-field label="Email" type="email" model="email"></yk-field>
-								
-								<br/>
-								<yk-field label="Password" type="password" model="password"></yk-field>
-								
-								<br/>
-								<div class="row">
-									<div id="loginButton" class="col-xs-12" style="text-align: center;">
-										<input type="submit" value="Login" class="btn btn-primary" 
-											style="width: 100%; font-weight: bold; padding: 0.5em; height: auto;" ng-click="authenticate($event)"/>
-									</div>
-								</div>
-								<div class="row">
-                				   <div class="col-xs-12" style="text-align: right;">
-      								     <a href="#" ng-click="showPopup($event)" style="font-size: 0.8em; font-weight: bold;">Forgotten Password?</a>
- 									</div>
- 								</div> 
-							</form>
+						<br/>
+						<yk-field label="Password" type="password" model="password"></yk-field>
+						
+						<br/>
+						<div class="row">
+							<div id="loginButton" class="col-xs-12" style="text-align: center;">
+								<input type="submit" value="Login" class="btn btn-primary" 
+									style="width: 100%; font-weight: bold; padding: 0.5em; height: auto;" ng-click="authenticate($event)"/>
+							</div>
 						</div>
-					</div>
-					<!-- End of login box row -->
-	
+						<div class="row">
+	             				   <div class="col-xs-12" style="text-align: right;">
+	   								     <a href="#" ng-click="showPopup($event)" style="font-size: 0.8em; font-weight: bold;">Forgotten Password?</a>
+								</div>
+							</div> 
+					</form>
 				</div>
-				
-				<!-- start of forgotten password -->
+	
+			</div>
+			<!-- End of Main Container -->
+		
+			<!-- start of forgotten password -->
+			<div>
 				<yk-dialog id="resetPasswordDlg" title="Reset Password" style="padding: 0px;" size="small">
 					<content>
 						Please enter your mail id: <BR/>
@@ -73,11 +65,8 @@
 						<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal">Cancel</button>
 					</footer>
 				</yk-dialog>
-				<!-- end forgootten password -->
 			</div>
-			
-			
-			
+			<!-- end forgootten password -->
 		</div>
 		
 		

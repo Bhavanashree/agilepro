@@ -4,7 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.agilepro.commons.StoryNoteStatus;
 import com.agilepro.commons.models.project.StoryNoteModel;
+import com.yukthi.persistence.annotations.DataType;
+import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
@@ -14,7 +17,7 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * The Class StoryNoteEntity.
  */
 @Table(name = "STORY_NOTE")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "story", "published", "versionTitle"}) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "story", "versionTitle" }) })
 public class StoryNoteEntity extends WebutilsEntity
 {
 	/**
@@ -32,13 +35,23 @@ public class StoryNoteEntity extends WebutilsEntity
 	private String content;
 
 	/**
-	 * The is published.
+	 * The story note status.
 	 **/
-	@Column(name = "PUBLISHED")
-	private Boolean published;
-	
+	@Column(name = "NOTE_STATUS")
+	@DataTypeMapping(type = DataType.STRING)
+	private StoryNoteStatus storyNoteStatus;
+
+	/**
+	 * The version title.
+	 **/
 	@Column(name = "VERSION_TITLE")
 	private String versionTitle;
+
+	/**
+	 * The owner.
+	 */
+	@Column(name = "OWNER")
+	private String owner;
 
 	/**
 	 * Gets the story.
@@ -83,31 +96,65 @@ public class StoryNoteEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the published.
+	 * Gets the story note status.
 	 *
-	 * @return the published
+	 * @return the story note status
 	 */
-	public Boolean getPublished()
+	public StoryNoteStatus getStoryNoteStatus()
 	{
-		return published;
+		return storyNoteStatus;
 	}
 
 	/**
-	 * Sets the published.
+	 * Sets the story note status.
 	 *
-	 * @param published
-	 *            the new published
+	 * @param storyNoteStatus
+	 *            the new story note status
 	 */
-	public void setPublished(Boolean published)
+	public void setStoryNoteStatus(StoryNoteStatus storyNoteStatus)
 	{
-		this.published = published;
+		this.storyNoteStatus = storyNoteStatus;
 	}
 
-	public String getVersionTitle() {
+	/**
+	 * Gets the version title.
+	 *
+	 * @return the version title
+	 */
+	public String getVersionTitle()
+	{
 		return versionTitle;
 	}
 
-	public void setVersionTitle(String versionTitle) {
+	/**
+	 * Sets the version title.
+	 *
+	 * @param versionTitle
+	 *            the new version title
+	 */
+	public void setVersionTitle(String versionTitle)
+	{
 		this.versionTitle = versionTitle;
+	}
+
+	/**
+	 * Gets the owner.
+	 *
+	 * @return the owner
+	 */
+	public String getOwner()
+	{
+		return owner;
+	}
+
+	/**
+	 * Sets the owner.
+	 *
+	 * @param owner
+	 *            the new owner
+	 */
+	public void setOwner(String owner)
+	{
+		this.owner = owner;
 	}
 }

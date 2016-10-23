@@ -4,6 +4,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY_NOTE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_NOTE_BY_STORY_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_OR_UPDATE;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -55,6 +56,8 @@ public class StoryNoteController extends BaseController
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid StoryNoteModel storyNoteModel)
 	{
+		storyNoteModel.setUpdatedOn(new Date());
+		
 		return new BasicSaveResponse(storyNoteService.saveOrUpdate(storyNoteModel).getId());
 	}
 	
@@ -62,8 +65,8 @@ public class StoryNoteController extends BaseController
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.STORY_NOTE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readAllNoteByStoryId", method = RequestMethod.GET)
 	@ResponseBody
-	public StoryNoteReadResponse fetchEmployees(@RequestParam(value = "storyId") Long storyId)
+	public BasicReadResponse<List<StoryNoteModel>> fetchEmployees(@RequestParam(value = "storyId") Long storyId)
 	{
-		return storyNoteService.fetchAllNoteByStoryId(storyId); 
+		return new BasicReadResponse<List<StoryNoteModel>>(storyNoteService.fetchAllNoteByStoryId(storyId)); 
 	}
 }

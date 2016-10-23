@@ -24,6 +24,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		$scope.fetchNotes();
 	});
 	
+	
+	$scope.errorStoryNote = {"error" : false, "message" : ""};
+	
 	$scope.fetchNotes = function(){
 		
 		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : $scope.storyId}, 
@@ -32,8 +35,10 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			$scope.activeNoteModel = {};
 			
 			$scope.versionTitle = "";
-			$scope.publishedNotes = readResponse.publishedNotes;
-			$scope.draftNote = readResponse.draftNote;
+			
+			$scope.activeVersionTitle = "";
+			
+			$scope.storyNotes = readResponse.model;
 			$scope.activeContent = "";
 			$scope.versionTitlesSet = []; 
 			
@@ -41,42 +46,16 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			
 			var obj;
 			
-			if($scope.draftNote)
+			if($scope.storyNotes.length > 0)
 			{
-				$scope.activeNoteModel = $scope.draftNote;
+				$scope.activeNoteModel = $scope.storyNotes[0];
 				
-			}else if($scope.publishedNotes.length > 0)
-			{
-				$scope.activeNoteModel = $scope.publishedNotes[0];
-			}
-			
-			console.log($scope.activeNoteModel);
-			
-			if($scope.activeNoteModel.id)
-			{
 				$scope.activeContent = $scope.activeNoteModel.content;
-				
-				$scope.versionTitle = $scope.activeNoteModel.versionTitle;
-				
-				console.log("value for tny = " + $scope.activeContent);
-				
+				$scope.activeVersionTitle = $scope.activeNoteModel.versionTitle;
 				tinymce.activeEditor.setContent($scope.activeContent);
 			}
 			
-			console.log("tiny is assinged");
-
-			// get all the titles
-			if($scope.draftNote)
-			{
-				$scope.versionTitlesSet.push($scope.draftNote.versionTitle);
-			}
-			
-			for(index in $scope.publishedNotes)
-			{
-				obj = $scope.publishedNotes[index];
-				
-				$scope.versionTitlesSet.push(obj.versionTitle);
-			}
+			$scope.draftIsSelected = $scope.activeNoteModel.storyNoteStatus == "DRAFT" ? true : false;
 			
 			try
 			{
@@ -84,26 +63,22 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			}catch(ex)
 			{}
 			
+			for(index in $scope.storyNotes)
+			{
+				obj = $scope.storyNotes[index];
+				
+				$scope.versionTitlesSet.push(obj.versionTitle);
+			}
+			
 		}, {"hideInProgress" : true});
 	};
 	
 	//$scope.saveNote = function(published){
-	$scope.$on("saveNewStoryNote", function(event, published) {
+	$scope.$on("saveNewStoryNote", function(event, status) {
 		
-		for(index in $scope.versionTitlesSet)
-		{
-			if($scope.versionTitle == $scope.versionTitlesSet[index])
-			{
-				$scope.titleAlreadyPresent = true;
-				break;
-			}else
-			{
-				$scope.titleAlreadyPresent = false;
-			}
-			
-		}
+		$scope.checkVersionTitle(null);
 		
-		if($scope.titleAlreadyPresent)
+		if($scope.errorStoryNote.error)
 		{
 			return;
 		}
@@ -124,21 +99,56 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			return;
 		}
 		
+		if(status != "DRAFT")
+		{
+			$scope.activeNoteModel = {};
+		}
+		
 		$scope.activeNoteModel["content"] = $scope.editedContent;
 		$scope.activeNoteModel["storyId"] = $scope.storyId;
-		$scope.activeNoteModel["published"] = published;
+		$scope.activeNoteModel["storyNoteStatus"] = status;
 		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
+		$scope.activeNoteModel["owner"] = $scope.activeUser.displayName;
+		$scope.activeNoteModel["draftIsSelected"] = $scope.draftIsSelected;
 		
+		var simpleDateFormatter = new simpleDateFormat('d/MM/yyyy');
+		var date = new Date();
 		
-		//var model = {"content" : $scope.editedContent, "storyId" : $scope.storyId, "published" : published, "versionTitle" : $scope.versionTitle};
+		$scope.activeNoteModel["updatedOn"]  = simpleDateFormatter.format(date);
 		
-		if(published)
+		if(status != "DRAFT")
 		{
-			$scope.publishedNotes.push($scope.activeNoteModel);
+			console.log("published");
+
+			if($scope.draftIsSelected)
+			{
+				$scope.storyNotes[0] = $scope.activeNoteModel;
+			}else
+			{
+				$scope.storyNotes.push($scope.activeNoteModel);
+				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+			}
+		}else 
+		{
+			if($scope.storyNotes.length == 0)
+			{
+				$scope.storyNotes.push($scope.activeNoteModel);
+				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+			}else if($scope.storyNotes[0].storyNoteStatus != "DRAFT")
+			{
+				console.log("unshift");
+				$scope.storyNotes.unshift($scope.activeNoteModel);
+				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+			}else
+			{
+				$scope.storyNotes[0] = $scope.activeNoteModel;
+			}
 		}
 		
 		tinymce.activeEditor.setContent("");
 		$scope.versionTitle = "";
+		
+		console.log($scope.draftIsSelected);
 		
 		actionHelper.invokeAction("storyNote.saveOrUpdate", $scope.activeNoteModel, null, function(saveResponse, respConfig){
 			
@@ -147,9 +157,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 				utils.info(["Successfully saved {} "], $scope.versionTitle);
 			}else
 			{
-				$scope.fetchNotes();
+				//$scope.fetchNotes();
 			}
-
+		
 			try
 			{
 				$scope.$apply();
@@ -164,10 +174,12 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	
 	$scope.activeNote = function(storyNote){
 		
+		$scope.activeNoteModel = storyNote;
+		
+		$scope.draftIsSelected = $scope.activeNoteModel.storyNoteStatus == "DRAFT" ? true : false;
+		
 		tinymce.activeEditor.setContent(storyNote.content);
-		
 		$scope.versionTitle = storyNote.versionTitle;
-		
 		$scope.checkVersionTitle(null);
 	};
 	
@@ -176,15 +188,29 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		
 		console.log($scope.versionTitlesSet);
 		
+		$scope.draftIsSelected = false;
+		
+		if($scope.versionTitle.length > 20)
+		{
+			$scope.errorStoryNote.error = true,
+			$scope.errorStoryNote.message  = "Title length can be maximum 20";
+			return;
+		}else
+		{
+			$scope.errorStoryNote.error = false;
+		}
+		
+		
 		for(index in $scope.versionTitlesSet)
 		{
 			if($scope.versionTitle == $scope.versionTitlesSet[index])
 			{
-				$scope.titleAlreadyPresent = true;
+				$scope.errorStoryNote.error = true,
+				$scope.errorStoryNote.message  = "Please provide different version title, provided version title is already existing";
 				break;
 			}else
 			{
-				$scope.titleAlreadyPresent = false;
+				$scope.errorStoryNote.error = false;
 			}
 			
 		}
