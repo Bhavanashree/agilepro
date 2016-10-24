@@ -27,12 +27,6 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	private ProjectEntity project;
 
 	/**
-	 * The data.
-	 **/
-	@Column(name = "DATA")
-	private String data;
-
-	/**
 	 * The sprint.
 	 **/
 	@Column(name = "SPRINT_ID")
@@ -40,31 +34,43 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	@PropertyMapping(type = ScrumMeetingModel.class, from = "sprintId", subproperty = "id")
 	private SprintEntity sprint;
 
+	/**
+	 * Gets the project.
+	 *
+	 * @return the project
+	 */
 	public ProjectEntity getProject()
 	{
 		return project;
 	}
 
+	/**
+	 * Sets the project.
+	 *
+	 * @param project
+	 *            the new project
+	 */
 	public void setProject(ProjectEntity project)
 	{
 		this.project = project;
 	}
 
-	public String getData()
-	{
-		return data;
-	}
-
-	public void setData(String data)
-	{
-		this.data = data;
-	}
-
+	/**
+	 * Gets the sprint.
+	 *
+	 * @return the sprint
+	 */
 	public SprintEntity getSprint()
 	{
 		return sprint;
 	}
 
+	/**
+	 * Sets the sprint.
+	 *
+	 * @param sprint
+	 *            the new sprint
+	 */
 	public void setSprint(SprintEntity sprint)
 	{
 		this.sprint = sprint;

@@ -1,0 +1,93 @@
+<div class="container-fluid" ng-controller="scrumController" style="paddding: 0px;" ng-init="initScrum()">
+
+	<table>
+		<tr>
+			<td>
+				Scrum Meeting
+			</td>
+			<td>
+				<yk-date-field name="meetingDate" label="Meeting Date" ng-model="meetingDate"></yk-date-field>
+			</td>
+		</tr>
+	</table>
+	
+	<div class="row" style="margin-top: 1em;" >
+		<div class="col-md-9 col-xs-9 col-sm-9">	
+			<div class="panel panel-primary" style="margin-bottom: 0px;">
+				<div id="panelBodyId" class="panel-body" style="overflow-y:auto; height: 230px;">
+					<table style="width:100%;">
+						<tr ng-repeat="conversation in conversations | orderBy : 'conversation.date'">
+							<td>
+								<table style="width:100%;">
+									<tr ng-show="conversation.displayLeft" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+										<td colspan="2">
+											<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden;">
+												<b>{{conversation.displayName}}</b>
+											</div>
+											
+											<div ng-if="conversation.displayName.length == 0">
+												<b>{{conversation.displayName}}</b>
+											</div>
+										</td>
+									</tr>
+									
+									<tr ng-show="conversation.displayRight" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+										<td colspan="3">
+											<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; padding-left: 1.7em;">
+												<b>{{conversation.displayName}}</b>
+											</div>
+											
+											<div ng-if="conversation.displayName.length == 0">
+												<b>{{conversation.displayName}}</b>
+											</div>
+										</td>
+									</tr>
+									<tr ng-show="conversation.displayLeft">
+										<td style="background-color: lightblue; border-radius: 5px; width: 95%; 
+											height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+											padding-right: 0.5em; padding-bottom: 0.3em;" ng-bind-html="conversation.message | unsafe"><br/>
+											<span style="float: right; font-size: 0.8em; color: #008080;">
+												{{conversation.displayDate}}, {{conversation.time}}
+											</span>
+										</td>
+										<td style="width: 5%;">
+											<div class="arrow-right"></div>
+										</td>
+										<td>
+										</td>
+									</tr>
+									
+									<tr ng-show="conversation.displayRight">
+										<td style="width: 5%;">
+										</td>
+										<td style="width: 0%;">
+											<div class="arrow-left"></div>
+										</td>
+										<td style="background-color: #b3ffb3; border-radius: 5px; width: 95%; 
+											height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+											padding-right: 0.5em; padding-bottom: 0.3em;"ng-bind-html="conversation.message | unsafe"><br/>
+										<span style="float: right; font-size: 0.8em; color: #008080;">
+											{{conversation.displayDate}}, {{conversation.time}}
+										</span>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div class="panel-footer">
+					<textarea id="scrumMessageId" ng-model="scrumMessage" ng-keyup="onType($event)" class="form-control" rows="2" cols="2" 
+						placeholder="Type your message here" style="height: 10em; resize: none;"></textarea>
+					<button ng-click="submitContent()">Send</button>						
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-3 col-xs-3 col-sm-3" style="border-style: solid; border-color: #D2B48C; height: 525px;"> 
+			Action Items
+		</div>
+	</div>
+	
+</div>

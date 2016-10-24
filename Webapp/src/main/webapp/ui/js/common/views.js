@@ -83,4 +83,6 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	//bug
 	addState("bug","bug/bug-menu.html", "bug/bug.html", "bugTab");
 	
+	//scrum
+	addState("scrum","scrum/scrum-menu.html", "scrum/scrum-meeting.html", "scrumTab");
 });

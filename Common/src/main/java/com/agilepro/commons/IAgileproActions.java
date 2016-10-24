@@ -348,6 +348,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix conversation title.
 	 **/
 	public String ACTION_PREFIX_CONVERSATION_TITLE = "conversationTitle";
+	
+	/** 
+	 * The action prefix scrum meeting. 
+	 **/
+	public String ACTION_PREFIX_SCRUM_MEETING = "scrumMeeting";
 
 	/**
 	 * Parameter with name "name".
