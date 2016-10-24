@@ -1,6 +1,7 @@
 $.application.controller('holidayController', ["$scope", "crudController", function($scope, crudController) {
 	crudController.extend($scope, {
 		"name": "Holiday",
+		"modelName": "HolidayModel",
 		
 		"nameColumn" : "name",
 		

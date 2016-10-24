@@ -1,7 +1,11 @@
 package com.agilepro.commons.models.admin;
 
+import java.util.List;
+
+import com.agilepro.commons.ListOfdays;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
+import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -13,7 +17,7 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 @Model
 public class HolidayModel extends AbstractExtendableModel
 {
-	
+
 	/**
 	 * The id.
 	 **/
@@ -32,12 +36,19 @@ public class HolidayModel extends AbstractExtendableModel
 	private String title;
 
 	/**
+	 *  The days.
+	 **/
+	@LOV(name = "listOfDaysList")
+	private List<ListOfdays> days;
+	/**
 	 * The description.
 	 **/
 	@MultilineText
 	private String description;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.yukthi.webutils.common.IExtendableModel#getId()
 	 */
 	public Long getId()
@@ -117,5 +128,26 @@ public class HolidayModel extends AbstractExtendableModel
 	public void setDescription(String description)
 	{
 		this.description = description;
+	}
+
+	/**
+	 * Gets the days.
+	 *
+	 * @return the days
+	 */
+	public List<ListOfdays> getDays()
+	{
+		return days;
+	}
+
+	/**
+	 * Sets the days.
+	 *
+	 * @param days
+	 *            the new days
+	 */
+	public void setDays(List<ListOfdays> days)
+	{
+		this.days = days;
 	}
 }

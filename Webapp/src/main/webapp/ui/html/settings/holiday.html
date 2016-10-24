@@ -1,3 +1,28 @@
 <div class="container-fluid" ng-controller="holidayController" style="padding: 0px;">
-	gggggggggggggggggg
+	<div class="col-md-12" style="float:right";>
+		<table>
+			<tr>
+				<td>Days
+				</td>
+				<td>
+					<div style="border:2px solid green; width:75em; " >
+						<yk-lov-field  class="ng-pristine ng-untouched ng-valid ng-scope"   
+						name="days" label ="Days" multi-valued="true" lov= "listOfDaysList"  type="DYNAMIC_TYPE"/>
+						
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Update</button>
+								
+					</div>
+				</td>			
+			</tr>
+		</table>
+		
+		
+	<div class="col-md-8" style="background-color:red">
+	
 	</div>
+	
+	
+	<yk-model-dialog id="holidayDialog" name="HolidayModel" title="Holiday" columns="2" actionMethod="saveChanges($event)">
+	</yk-model-dialog>
+
+</div>

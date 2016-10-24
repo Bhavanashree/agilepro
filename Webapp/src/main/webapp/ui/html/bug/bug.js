@@ -61,6 +61,8 @@ $.application.controller('bugController', ["$scope", "crudController","validator
 	
 	var saveCommentCallBack =function(readResponse, respConfig){
 		
+		$scope.displayComments();
+		
 	}
 	//save comments dropdown
 	$scope.onCommentedBtn =function(){

@@ -1,10 +1,15 @@
 package com.agilepro.persistence.entity.admin;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.agilepro.commons.ListOfdays;
+import com.yukthi.persistence.annotations.DataType;
+import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.conversion.impl.JsonConverter;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
@@ -32,6 +37,13 @@ public class HolidayEntity extends WebutilsExtendableEntity
 	 **/
 	@Column(name = "DATE")
 	private Date date;
+
+	/**
+	 *  The days.
+	 **/
+	@Column(name = "DAYS", length = 1000)
+	@DataTypeMapping(type = DataType.BLOB, converterType = JsonConverter.class)
+	private List<ListOfdays> days;
 
 	/**
 	 * Gets the title.
@@ -94,5 +106,15 @@ public class HolidayEntity extends WebutilsExtendableEntity
 	public void setDate(Date date)
 	{
 		this.date = date;
+	}
+
+	public List<ListOfdays> getDays()
+	{
+		return days;
+	}
+
+	public void setDays(List<ListOfdays> days)
+	{
+		this.days = days;
 	}
 }
