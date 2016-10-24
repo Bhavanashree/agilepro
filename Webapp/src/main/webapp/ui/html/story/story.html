@@ -98,8 +98,7 @@
 											<tr ng-show="conversation.displayLeft">
 												<td style="background-color: lightblue; border-radius: 5px; width: 95%; 
 													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
-													padding-right: 0.5em; padding-bottom: 0.3em;">
-												{{conversation.message}} <br/>
+													padding-right: 0.5em; padding-bottom: 0.3em;" ng-bind-html="conversation.message | unsafe"><br/>
 												<span style="float: right; font-size: 0.8em; color: #008080;">
 													{{conversation.displayDate}}, {{conversation.time}}
 												</span>
@@ -119,8 +118,7 @@
 												</td>
 												<td style="background-color: #b3ffb3; border-radius: 5px; width: 95%; 
 													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
-													padding-right: 0.5em; padding-bottom: 0.3em;">
-												{{conversation.message}} <br/>
+													padding-right: 0.5em; padding-bottom: 0.3em;"ng-bind-html="conversation.message | unsafe"><br/>
 												<span style="float: right; font-size: 0.8em; color: #008080;">
 													{{conversation.displayDate}}, {{conversation.time}}
 												</span>
@@ -132,7 +130,7 @@
 							</table>
 						</div>
 						<div class="panel-footer">
-							<textarea rows="2" cols="2" id="messageId" ng-model="message" ng-keyup="onType($event)" class="form-control" 
+							<textarea id="messageId" ng-model="message" ng-keyup="onType($event)" class="form-control" rows="2" cols="2" 
 								placeholder="Type your message here" style="height: 10em; resize: none;"></textarea>
 							<button ng-click="submitContent()">Send</button>						
 						</div>

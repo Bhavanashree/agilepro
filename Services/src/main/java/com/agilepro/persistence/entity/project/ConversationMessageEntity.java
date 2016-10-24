@@ -1,10 +1,15 @@
 package com.agilepro.persistence.entity.project;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.agilepro.commons.models.project.ConversationMessageModel;
+import com.yukthi.persistence.annotations.DataType;
+import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.conversion.impl.JsonConverter;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.WebutilsEntity;
@@ -32,6 +37,9 @@ public class ConversationMessageEntity extends WebutilsEntity
 	@ManyToOne
 	@PropertyMapping(type = ConversationMessageModel.class, from = "userId", subproperty = "id")
 	private UserEntity userEntity;
+	
+	@DataTypeMapping(type = DataType.STRING)
+	private List<Long> projectMemberIds;
 
 	/**
 	 * The message.
@@ -127,5 +135,13 @@ public class ConversationMessageEntity extends WebutilsEntity
 	public void setUserEntity(UserEntity userEntity)
 	{
 		this.userEntity = userEntity;
+	}
+
+	public List<Long> getProjectMemberIds() {
+		return projectMemberIds;
+	}
+
+	public void setProjectMemberIds(List<Long> projectMemberIds) {
+		this.projectMemberIds = projectMemberIds;
 	}
 }
