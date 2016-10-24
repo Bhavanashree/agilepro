@@ -262,8 +262,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{
 			e = e || window.event;
 			var key = e.keyCode ? e.keyCode : e.which;
-					
-			// if enter key is pressed
+			
+			
+			console.log(key);
+			/*// if enter key is pressed
 			if((key == 13) && $scope.message.length > 0)
 			{
 				$scope.saveConversationMessage();
@@ -271,7 +273,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			else
 			{
 				return;
-			}
+			}*/
 		}
 		
 	 };
@@ -312,7 +314,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		 if($scope.isFirstRequest)
 		 {
-			 $scope.intervalValue = setInterval($scope.getAllConversation, (5 * 1000));
+			 $scope.intervalValue = setInterval($scope.getAllConversation, ($.appConfiguration.conversationRefreshInterval));
 			 
 			 $scope.isFirstRequest = false;
 		 }
@@ -328,12 +330,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 if(respConfig.success)
 		 {
 			 $scope.message = "";
-			 tinymce.activeEditor.getContent("");
+			 tinymce.activeEditor.setContent("");
 			 $("#messageId").focus();
 			 
 			 $scope.saveSuccess = true;
 			 
-			 $scope.getAllConversation();
+			 // after save user can see the message in conversation box
+			 actionHelper.invokeAction("conversationMessage.readAll", null, {"conversationTitleId" : $scope.selectedTitle.id}, $scope.readCallBack, {"hideInProgress" : true});
 		 }
 	 };
 	 
