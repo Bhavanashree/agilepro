@@ -76,19 +76,19 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 
 	/** The action type save or update. */
 	public String ACTION_TYPE_SAVE_OR_UPDATE = "saveOrUpdate";
-			
-	/** 
-	 * The action type read all note by story id. 
+
+	/**
+	 * The action type read all note by story id.
 	 **/
 	public String ACTION_TYPE_READ_ALL_NOTE_BY_STORY_ID = "readAllNoteByStoryId";
-	
+
 	/**
 	 * The action type delete by project id.
 	 **/
 	public String ACTION_TYPE_DELETE_BY_PROJECT_ID = "deleteByProjectId";
-	
-	/** 
-	 * The action type delete by story id. 
+
+	/**
+	 * The action type delete by story id.
 	 **/
 	public String ACTION_TYPE_DELETE_BY_STORY_ID = "deleteByStoryId";
 
@@ -96,14 +96,14 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type delete employee id.
 	 **/
 	public String ACTION_TYPE_DELETE_BY_EMPLOYEE_ID = "deleteByEmployeeId";
-	
-	/** 
-	 * The action type read all story release by release and project. 
+
+	/**
+	 * The action type read all story release by release and project.
 	 **/
 	public String ACTION_TYPE_READ_ALL_STORY_RELEASE_BY_RELEASE_AND_PROJECT = "readAllStoryReleaseByReleaseAndProject";
 
-	/** 
-	 * The action type read admin managers by proejct id. 
+	/**
+	 * The action type read admin managers by proejct id.
 	 **/
 	public String ACTION_TYPE_READ_ADMIN_MANAGERS_BY_PROEJCT_ID = "readAdminManagersByProjectId";
 
@@ -111,6 +111,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read members by proejct id.
 	 **/
 	public String ACTION_TYPE_READ_MEMBERS_BY_PROEJCT_ID = "readMembersByProjectId";
+
+	/**
+	 * The action type read project memebers by project id.
+	 **/
+	public String ACTION_TYPE_READ_PROJECT_MEMEBERS_BY_PROJECT_ID = "readProjectMembersByProjectId";
 
 	/**
 	 * The action prefix story note.
@@ -388,7 +393,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type readSprints.
 	 */
 	public String ACTION_TYPE_READ_STORY_SPRINT = "readStoriesBySprint";
-	
+
 	/**
 	 * The action type readProjectid.
 	 */
@@ -438,18 +443,18 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix bug comments.
 	 **/
 	public String ACTION_PREFIX_BUG_COMMENTS = "bugComment";
-	
-	/** 
-	 *The action type read bug comment by bug id.
+
+	/**
+	 * The action type read bug comment by bug id.
 	 **/
 	public String ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID = "readByBugId";
-	
+
 	/**
-	 *  The action prefix bug attachment message.
+	 * The action prefix bug attachment message.
 	 **/
 	public String ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE = "bugAttachment";
-	
-	/** 
+
+	/**
 	 * The action prefix holiday.
 	 **/
 	public String ACTION_PREFIX_HOLIDAY = "holiday";
@@ -1244,10 +1249,10 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_BUG_COMMENT_READ = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_READ;
 
 	/**
-	 *  The action bug comment read by bug id.
+	 * The action bug comment read by bug id.
 	 **/
 	public String ACTION_BUG_COMMENT_READ_BY_BUG_ID = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID;
-	
+
 	/**
 	 * The action bugComment update.
 	 **/
@@ -1262,24 +1267,24 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action bugComment delete all.
 	 **/
 	public String ACTION_BUG_COMMENT_DELETE_ALL = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_DELETE_ALL;
-	
+
 	/**
-	 *  The action bug attachment save.
+	 * The action bug attachment save.
 	 **/
 	public String ACTION_BUG_ATTACHMENT_SAVE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
 
-	/** 
+	/**
 	 * The action story attachment read.
 	 */
 	public String ACTION_BUG_ATTACHMENT_READ = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ;
-	
-	/**
-	 *  The action bug attachment readall.
-	 **/
-	public String ACTION_BUG_ATTACHMENT_READALL = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE  + DOT + ACTION_TYPE_READ_ALL;
 
 	/**
-	 *  The action story attachment update.
+	 * The action bug attachment readall.
+	 **/
+	public String ACTION_BUG_ATTACHMENT_READALL = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ_ALL;
+
+	/**
+	 * The action story attachment update.
 	 **/
 	public String ACTION_BUG_ATTACHMENT_UPDATE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_UPDATE;
 
@@ -1289,35 +1294,35 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_BUG_ATTACHMENT_DELETE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE;
 
 	/**
-	 * The action story attachment delete all. 
-	 * */
+	 * The action story attachment delete all.
+	 */
 	public String ACTION_BUG_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
-	
+
 	/**
-	 *  The action holiday save.
+	 * The action holiday save.
 	 **/
 	public String ACTION_HOLIDAY_SAVE = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_SAVE;
-	
-	/** 
+
+	/**
 	 * The action holiday read.
 	 **/
 	public String ACTION_HOLIDAY_READ = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_READ;
-	
+
 	/**
-	 *  The action holiday readall.
+	 * The action holiday readall.
 	 **/
-	public String ACTION_HOLIDAY_READALL = ACTION_PREFIX_HOLIDAY  + DOT + ACTION_TYPE_READ_ALL;
-	
-	/** 
+	public String ACTION_HOLIDAY_READALL = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_READ_ALL;
+
+	/**
 	 * The action holiday update.
 	 **/
 	public String ACTION_HOLIDAY_UPDATE = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_UPDATE;
-	
-	/** 
+
+	/**
 	 * The action holiday delete.
 	 **/
 	public String ACTION_HOLIDAY_DELETE = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_DELETE;
-	
+
 	/**
 	 * The action holiday delete all.
 	 **/

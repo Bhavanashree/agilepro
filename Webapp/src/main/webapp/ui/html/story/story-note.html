@@ -6,7 +6,7 @@
 			
 			<div class="form-inline">
 				Version {{activeVersionTitle}}
-				<input id="versionTitleId" type="text" class="form-control" placeholder="20 Version Title" style="border-color: #CD5C5C;" ng-model="versionTitle"
+				<input id="versionTitleId" type="text" class="form-control" placeholder="Version Title" style="border-color: #CD5C5C;" ng-model="versionTitle"
 				ng-keyup="checkVersionTitle($event)"/>
 				<span ng-if="errorStoryNote.error" style="margin-left: 0.5em; color: red; font-size: 15px;">
 					{{errorStoryNote.message}}
