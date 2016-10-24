@@ -19,5 +19,7 @@ $.appConfiguration = {
 	infoTimeOut: 5,
 	
 	loadingIcon: "/ui/images/worker.gif",
+	
+	conversationRefreshInterval : 60 * 1000,
 };
 

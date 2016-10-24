@@ -61,8 +61,8 @@
 									ng-model="selectedTitle" ng-change="titleSelectionChanged(selectedTitle)" style="color: black;">
 									<option value=""> -- Select Title -- </option>
 								</select> 
-							<div class="btn-group pull-right">
-								<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1em; cursor:pointer;"
+							<div class="btn-group">
+								<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1.2em; cursor:pointer;"
 								data-toggle="modal" data-target="#conversationTitleModal" ng-click="addTitle()">
 								</span>
 							</div>
@@ -99,9 +99,9 @@
 												<td style="background-color: lightblue; border-radius: 5px; width: 95%; 
 													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
 													padding-right: 0.5em; padding-bottom: 0.3em;" ng-bind-html="conversation.message | unsafe"><br/>
-												<span style="float: right; font-size: 0.8em; color: #008080;">
-													{{conversation.displayDate}}, {{conversation.time}}
-												</span>
+													<span style="float: right; font-size: 0.8em; color: #008080;">
+														{{conversation.displayDate}}, {{conversation.time}}
+													</span>
 												</td>
 												<td style="width: 5%;">
 													<div class="arrow-right"></div>

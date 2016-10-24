@@ -109,17 +109,29 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	}
 
 	/**
-	 * Fetch project members.
+	 * Fetch members.
 	 *
 	 * @param projectId
 	 *            the project id
 	 * @return the project member read response
 	 */
-	public ProjectMemberReadResponse fetchProjectMembers(Long projectId)
+	public ProjectMemberReadResponse fetchMembers(Long projectId)
 	{
 		List<ProjectMemberModel> projectMemberModels = initPhoto(iprojectMemberRepository.fetchMembers(projectId));
 
 		return new ProjectMemberReadResponse(projectMemberModels);
+	}
+
+	/**
+	 * Fetch project members.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the list
+	 */
+	public List<ProjectMemberModel> fetchProjectMembers(Long projectId)
+	{
+		return  initPhoto(iprojectMemberRepository.fetchProjectMembers(projectId));
 	}
 
 	/**

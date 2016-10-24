@@ -37,8 +37,11 @@ public class ConversationMessageEntity extends WebutilsEntity
 	@ManyToOne
 	@PropertyMapping(type = ConversationMessageModel.class, from = "userId", subproperty = "id")
 	private UserEntity userEntity;
-	
-	@DataTypeMapping(type = DataType.STRING)
+
+	/**
+	 * The project member ids.
+	 **/
+	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
 	private List<Long> projectMemberIds;
 
 	/**
@@ -137,11 +140,24 @@ public class ConversationMessageEntity extends WebutilsEntity
 		this.userEntity = userEntity;
 	}
 
-	public List<Long> getProjectMemberIds() {
+	/**
+	 * Gets the project member ids.
+	 *
+	 * @return the project member ids
+	 */
+	public List<Long> getProjectMemberIds()
+	{
 		return projectMemberIds;
 	}
 
-	public void setProjectMemberIds(List<Long> projectMemberIds) {
+	/**
+	 * Sets the project member ids.
+	 *
+	 * @param projectMemberIds
+	 *            the new project member ids
+	 */
+	public void setProjectMemberIds(List<Long> projectMemberIds)
+	{
 		this.projectMemberIds = projectMemberIds;
 	}
 }

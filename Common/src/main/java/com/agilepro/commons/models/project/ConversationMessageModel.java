@@ -1,6 +1,8 @@
 package com.agilepro.commons.models.project;
 
 import java.util.Date;
+import java.util.List;
+
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.Required;
@@ -36,6 +38,11 @@ public class ConversationMessageModel
 	 **/
 	@Required
 	private Long conversationTitleId;
+
+	/**
+	 * The project member ids.
+	 **/
+	private List<Long> projectMemberIds;
 
 	/**
 	 * The display name.
@@ -308,5 +315,26 @@ public class ConversationMessageModel
 	public void setUserId(Long userId)
 	{
 		this.userId = userId;
+	}
+
+	/**
+	 * Gets the project member ids.
+	 *
+	 * @return the project member ids
+	 */
+	public List<Long> getProjectMemberIds()
+	{
+		return projectMemberIds;
+	}
+
+	/**
+	 * Sets the project member ids.
+	 *
+	 * @param projectMemberIds
+	 *            the new project member ids
+	 */
+	public void setProjectMemberIds(List<Long> projectMemberIds)
+	{
+		this.projectMemberIds = projectMemberIds;
 	}
 }

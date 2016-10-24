@@ -43,6 +43,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				panelBodyElem.css('height', conversationHeight + 'px');
 				
 				$scope.storyId = model.id;
+
+				$scope.getAllProjectMembers();
+				
+				$scope.selectedTitle = {};
+				$scope.titles = [];
 				
 				$scope.getAllTitle();
 				
@@ -57,22 +62,25 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	    		$scope.$apply();
 			}catch(ex)
 			{}	
-		},
-		
-		"deleteOp" : function(confirmed)
-		{
-			
-			if(!confirmed)
-			{
-				return;
-			}
-			else
-			{
-				$scope.deleteEntry(object);
-			}
 		}
 		
 	});
+	 
+	 $scope.getAllProjectMembers = function(){
+		 actionHelper.invokeAction("projectMember.readProjectMembersByProjectId", null, 
+				 {"projectId" : $scope.getActiveProjectId()}, 
+				 function(readResponse, respConfig)
+				 {
+					 if(readResponse.model.length > 0)
+					 {
+						 $scope.projectMembers = readResponse.model;
+					 }else
+					 {
+						 $scope.projectMembers = [];
+					 }
+				 }
+		, {"hideInProgress" : true});
+	 };
 	 
 	 
 	 $scope.dlgModeField = "newStoryMode";
@@ -101,15 +109,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	        }, mceContext),
 	        
 	        source: $.proxy(function (query, process, delimiter) {
-	        	var items = [
-					{ "id" : 1, name: 'Tyra Porcelli' }, 
-					{ "id" : 2, name: 'Brigid Reddish' },
-					{ "id" : 3, name: 'Ashely Buckler' },
-					{ "id" : 4, name: 'Teddy Whelan' }
-				];
-		        
+	        	
 		        this.currentDelimiter = delimiter;
-		        return items;
+		        return $scope.projectMembers;
 			}, mceContext)
 	    };
  	
@@ -117,16 +119,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		tinymce.init(mceContext);
 	};
 	
-	$scope.projectMembers = function() {
-    	var items = [
-			{ "id" : 1, name: 'Tyra Porcelli' }, 
-			{ "id" : 2, name: 'Brigid Reddish' },
-			{ "id" : 3, name: 'Ashely Buckler' },
-			{ "id" : 4, name: 'Teddy Whelan' }
-		];
-	    
-	    return items;
-	};
 	
 	$scope.submitContent = function() {
 
@@ -250,7 +242,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 
 		console.log("on type is invoked");
 		
-		if(!$scope.selectedTitle)
+		if(!$scope.selectedTitle.id)
 		{
 			utils.alert("Please select a title");
 			return;
@@ -263,8 +255,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			e = e || window.event;
 			var key = e.keyCode ? e.keyCode : e.which;
 			
-			
-			console.log(key);
+			console.log(e.ctrlKey);
 			/*// if enter key is pressed
 			if((key == 13) && $scope.message.length > 0)
 			{
@@ -314,7 +305,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		 if($scope.isFirstRequest)
 		 {
-			 $scope.intervalValue = setInterval($scope.getAllConversation, ($.appConfiguration.conversationRefreshInterval));
+			console.log("interval is set");
+			$scope.intervalValue = setInterval($scope.getAllConversation, ($.appConfiguration.conversationRefreshInterval));
 			 
 			 $scope.isFirstRequest = false;
 		 }
@@ -325,7 +317,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 clearInterval($scope.intervalValue); 
 	 };
 	 
-	 saveConverCallBack = function(readResponse, respConfig){
+	 $scope.saveConverCallBack = function(readResponse, respConfig){
 		 
 		 if(respConfig.success)
 		 {
@@ -347,9 +339,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			if($scope.message.length > 0)
 			{
 				var model = {"message" : $scope.message.trim(), "conversationTitleId" : $scope.selectedTitle.id,
-						"userId" : $scope.activeUser.userId};
+						"userId" : $scope.activeUser.userId,"projectMemberIds" : $scope.extractActionUsers($scope.message)};
 				 
-				actionHelper.invokeAction("conversationMessage.save", model, null, saveConverCallBack, {"hideInProgress" : true});
+				actionHelper.invokeAction("conversationMessage.save", model, null, $scope.saveConverCallBack, {"hideInProgress" : true});
 			}
 		}
 	 };
@@ -404,11 +396,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 actionHelper.invokeAction("conversationTitle.readAll", null, {"storyId" : $scope.storyId}, 
 			function(readResponse, respConfig){
 			 
-			 $scope.titles = readResponse.model;
-			 
-			// $scope.selectedTitle = ;
-			 
-			 console.log($scope.titles);
+			 if(readResponse.model.length > 0)
+			{
+				 $scope.titles =  readResponse.model;
+			}else
+			{
+				$scope.titles = [];
+			}
 			 
 			try
 			{
@@ -420,7 +414,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 }, {"hideInProgress" : true});
 	 };
 	 
-	 saveTitleCallBack = function(readResponse, respConfig){
+	 $scope.saveTitleCallBack = function(readResponse, respConfig){
 		 
 		 $('#conversationTitleModal').modal('hide');
 		 
@@ -446,7 +440,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			return;
 		}
 		
-		actionHelper.invokeAction("conversationTitle.save", $scope.converTitleModel, null, saveTitleCallBack, {"hideInProgress" : true});
+		actionHelper.invokeAction("conversationTitle.save", $scope.converTitleModel, null, $scope.saveTitleCallBack, {"hideInProgress" : true});
 	};
 	
 	
