@@ -197,9 +197,11 @@ public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase i
 	 */
 	private List<ProjectMemberModel> getProjectMemberModel(Long projectId)
 	{
-		BasicReadResponse<List<ProjectMemberModel>> basicReadResponse = iprojectMemberController.fetchProjectMembers(projectId);
+		/*BasicReadResponse<List<ProjectMemberModel>> basicReadResponse = iprojectMemberController.fetchProjectMembers(projectId);
 
-		return basicReadResponse.getModel();
+		return basicReadResponse.getModel();*/
+		
+		return null;
 	}
 
 	/**
