@@ -1,5 +1,5 @@
 {
-  "defaultUserName": "yukthi@gmail.com",
+  "defaultUserName": "customer1@gmail.com",
   "entityGroups": [
     {
       "name": "Projects",
@@ -7,17 +7,17 @@
       "modelType": "com.agilepro.commons.models.customer.ProjectModel",
       "identityField": "name",
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.Yukthitech.id}",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
       
       "entities": [
+       <#list 1..2 as x>
         {
-          "name": "AgilePro"
-        },
-        
-        {
-          "name": "Restate"
-        }
-        
+          "name": "AgilePro${x}",
+           "startDate":"2016-10-18",
+          "endDate":"2016-10-28"
+        }<#sep>,</#sep>
+	     
+	    </#list>
       ]
     }
   ]

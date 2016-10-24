@@ -1,5 +1,5 @@
 {
-  "defaultUserName": "yukthi@gmail.com",
+  "defaultUserName": "customer1@gmail.com",
   "entityGroups": [
     {
       "name": "Story",
@@ -7,26 +7,20 @@
       "modelType": "com.agilepro.commons.models.project.StoryModel",
       "identityField": "title",
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.Yukthitech.id}",
+       "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
       
       "entities": [
+        <#list 1..4 as x>
         {
-          "title": "sprint",
-          "projectId": "${entity.Projects.AgilePro.id}"
-        },
-        
-        {
-          "title": "storynotes",
-          "projectId":"${entity.Projects.AgilePro.id}"
-        },
-        
-        {
-          "title": "bugcomments",
-          "projectId":"${entity.Projects.AgilePro.id}"
-        }
-        
-      ]
-      
+          "title": "story${x}",
+          "projectId": "${entity.Projects.AgilePro1.id}",
+          "storyPoints":"5",
+          "sprint":"${entity.Sprint.Sprint1.id}"
+         
+        }<#sep>,</#sep>
+	     
+	    </#list> 
+      ]      
     }
   ]
 }

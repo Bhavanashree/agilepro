@@ -67,7 +67,7 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 	// after broad cast from projectId selection 
 	$scope.listOfStories = function(){
 		
-		projectId = $scope.getActiveProject();
+		projectId = $scope.getActiveProjectId();
 		 
 		 //List of stories
 		var readStoryCallBack = function(read, response){

@@ -28,8 +28,8 @@ public class BugEntity extends WebutilsExtendableEntity
 	/**
 	 * The name.
 	 **/
-	@Column(name = "NAME")
-	private String name;
+	@Column(name = "TITLE")
+	private String title;
 
 	/**
 	 * The description.
@@ -57,33 +57,9 @@ public class BugEntity extends WebutilsExtendableEntity
 	 * The owner.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "ownerId", subproperty = "id")
+	@PropertyMapping(type = BugModel.class, from = "owner", subproperty = "id")
 	@Column(name = "BUG_OWNER_ID")
 	private EmployeeEntity owner;
-
-	/**
-	 * The story entity.
-	 **/
-	@Column(name = "BUG_STORY_ID")
-	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "storyId", subproperty = "id")
-	private StoryEntity story;
-
-	/**
-	 * to set sprint target.
-	 **/
-	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "sprintId", subproperty = "id")
-	@Column(name = "TARGET_SPRINT_ID")
-	private SprintEntity targetSprint;
-
-	/**
-	 * The project.
-	 **/
-	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "ownerId", subproperty = "id")
-	@Column(name = "BUG_PROJECT_ID")
-	private ProjectEntity project;
 
 	/**
 	 * priority status.
@@ -92,24 +68,37 @@ public class BugEntity extends WebutilsExtendableEntity
 	private PriorityStatus priorityStatus;
 
 	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName()
-	{
-		return name;
-	}
+	 * The project.
+	 **/
+	@ManyToOne
+	@PropertyMapping(type = BugModel.class, from = "project", subproperty = "id")
+	@Column(name = "BUG_PROJECT_ID")
+	private ProjectEntity project;
 
 	/**
-	 * Sets the name.
-	 *
-	 * @param name
-	 *            the new name
-	 */
-	public void setName(String name)
+	 * The story entity.
+	 **/
+	@Column(name = "BUG_STORY_ID")
+	@ManyToOne
+	@PropertyMapping(type = BugModel.class, from = "story", subproperty = "id")
+	private StoryEntity story;
+
+	/**
+	 * to set sprint target.
+	 **/
+	@ManyToOne
+	@PropertyMapping(type = BugModel.class, from = "sprint", subproperty = "id")
+	@Column(name = "TARGET_SPRINT_ID")
+	private SprintEntity targetSprint;
+
+	public String getTitle()
 	{
-		this.name = name;
+		return title;
+	}
+
+	public void setTitle(String title)
+	{
+		this.title = title;
 	}
 
 	/**
@@ -251,7 +240,8 @@ public class BugEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the project.
 	 *
-	 * @param project the new project
+	 * @param project
+	 *            the new project
 	 */
 	public void setProject(ProjectEntity project)
 	{
@@ -271,7 +261,8 @@ public class BugEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the reported by.
 	 *
-	 * @param reportedBy the new reported by
+	 * @param reportedBy
+	 *            the new reported by
 	 */
 	public void setReportedBy(EmployeeEntity reportedBy)
 	{

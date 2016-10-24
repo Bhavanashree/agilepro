@@ -48,12 +48,8 @@ public class SprintSearchQuery
 	 * @param startDate
 	 *            the start date
 	 */
-	public SprintSearchQuery(String name, String description, Date endDate, Date startDate)
+	public SprintSearchQuery()
 	{
-		this.name = name;
-		this.description = description;
-		this.endDate = endDate;
-		this.startDate = startDate;
 	}
 
 	/**

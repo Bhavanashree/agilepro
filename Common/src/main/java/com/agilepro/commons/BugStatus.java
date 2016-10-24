@@ -11,24 +11,24 @@ public enum BugStatus
 	/**
 	 *  The open.
 	 */
-	@Label(" open") 
+	@Label("Open") 
 	OPEN,
 	
 	/** 
 	 * The submit.
 	 **/
-	@Label("submit")
+	@Label("Submit")
 	SUBMIT,
 	
 	/** 
 	 * The reported.
 	 **/
-	@Label("reported") 
+	@Label("Reported") 
 	REPORTED,	
 	
 	/**
 	 *  The closed.
 	 **/
-	@Label("closed") 
+	@Label("Closed") 
 	CLOSED
 }

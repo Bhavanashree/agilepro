@@ -45,12 +45,7 @@ public class BugCommentsModel extends AbstractExtendableModel
 	 * The bug id.
 	 **/
 	private Long bugId;
-
-	/**
-	 * The employee id.
-	 **/
-	private Long employeeId;
-
+	
 	/**
 	 * The comment status.
 	 **/
@@ -159,27 +154,6 @@ public class BugCommentsModel extends AbstractExtendableModel
 	public void setBugId(Long bugId)
 	{
 		this.bugId = bugId;
-	}
-
-	/**
-	 * Gets the employee id.
-	 *
-	 * @return the employee id
-	 */
-	public Long getEmployeeId()
-	{
-		return employeeId;
-	}
-
-	/**
-	 * Sets the employee id.
-	 *
-	 * @param employeeId
-	 *            the new employee id
-	 */
-	public void setEmployeeId(Long employeeId)
-	{
-		this.employeeId = employeeId;
 	}
 
 	/**
