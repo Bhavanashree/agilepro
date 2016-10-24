@@ -10,25 +10,11 @@
       "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
      
       "entities": [
+        <#list 1..3 as x>
         {
           "name": "ProjectManger"
-        },
-        
-        {
-          "name": "TeamLead"
-        },
-        
-        {
-          "name": "developers"
-        },
-        
-        {
-          "name": "testers"
-        },
-         
-        {
-          "name": "scrumMaster"
-        }
+        }<#sep>,</#sep>
+        </#list>
       ]
 	}  
   ]

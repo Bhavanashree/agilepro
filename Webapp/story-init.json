@@ -14,9 +14,8 @@
         {
           "title": "story${x}",
           "projectId": "${entity.Projects.AgilePro1.id}",
-          "storyPoints":"5",
-          "sprint":"${entity.Sprint.Sprint1.id}"
-         
+          "storyPoints":"5"
+        
         }<#sep>,</#sep>
 	     
 	    </#list> 

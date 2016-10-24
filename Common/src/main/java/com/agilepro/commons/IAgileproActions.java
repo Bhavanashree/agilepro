@@ -74,6 +74,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID = "readAllProjectAndProjectReleaseByReleaseId";
 
+	/** The action type save or update. */
 	public String ACTION_TYPE_SAVE_OR_UPDATE = "saveOrUpdate";
 			
 	/** 
@@ -443,7 +444,15 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID = "readByBugId";
 	
+	/**
+	 *  The action prefix bug attachment message.
+	 **/
 	public String ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE = "bugAttachment";
+	
+	/** 
+	 * The action prefix holiday.
+	 **/
+	public String ACTION_PREFIX_HOLIDAY = "holiday";
 
 	/**
 	 * The param id.
@@ -1254,20 +1263,63 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 **/
 	public String ACTION_BUG_COMMENT_DELETE_ALL = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_DELETE_ALL;
 	
+	/**
+	 *  The action bug attachment save.
+	 **/
 	public String ACTION_BUG_ATTACHMENT_SAVE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
 
-	/** The action story attachment read. */
+	/** 
+	 * The action story attachment read.
+	 */
 	public String ACTION_BUG_ATTACHMENT_READ = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ;
 	
+	/**
+	 *  The action bug attachment readall.
+	 **/
 	public String ACTION_BUG_ATTACHMENT_READALL = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE  + DOT + ACTION_TYPE_READ_ALL;
 
-	/** The action story attachment update. */
+	/**
+	 *  The action story attachment update.
+	 **/
 	public String ACTION_BUG_ATTACHMENT_UPDATE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_UPDATE;
 
-	/** The action story attachment delete. */
+	/**
+	 * The action story attachment delete.
+	 **/
 	public String ACTION_BUG_ATTACHMENT_DELETE = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE;
 
-	/** The action story attachment delete all. */
+	/**
+	 * The action story attachment delete all. 
+	 * */
 	public String ACTION_BUG_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_BUG_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
-
+	
+	/**
+	 *  The action holiday save.
+	 **/
+	public String ACTION_HOLIDAY_SAVE = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_SAVE;
+	
+	/** 
+	 * The action holiday read.
+	 **/
+	public String ACTION_HOLIDAY_READ = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_READ;
+	
+	/**
+	 *  The action holiday readall.
+	 **/
+	public String ACTION_HOLIDAY_READALL = ACTION_PREFIX_HOLIDAY  + DOT + ACTION_TYPE_READ_ALL;
+	
+	/** 
+	 * The action holiday update.
+	 **/
+	public String ACTION_HOLIDAY_UPDATE = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_UPDATE;
+	
+	/** 
+	 * The action holiday delete.
+	 **/
+	public String ACTION_HOLIDAY_DELETE = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_DELETE;
+	
+	/**
+	 * The action holiday delete all.
+	 **/
+	public String ACTION_HOLIDAY_DELETE_ALL = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_DELETE_ALL;
 }

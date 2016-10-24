@@ -59,7 +59,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("adminUser", "settings/settings-menu.html", "settings/adminuser.html", "settingsTab");
 	addState("mailSettings", "settings/settings-menu.html", "settings/mailSetting.html", "settingsTab");
 	addState("mailTemplateDefinition", "settings/settings-menu.html", "settings/mailTemplateDefinition.html", "settingsTab");
-	
+	addState("holiday", "settings/settings-menu.html", "settings/holiday.html", "settingsTab");
 	
 	//Resources related states
 	addState("employee", "resources/resources-menu.html", "resources/employee.html", "resourcesTab");

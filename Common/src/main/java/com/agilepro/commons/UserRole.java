@@ -540,6 +540,31 @@ public enum UserRole
 	 */
 	@Label("BugComment DeleteAll") BUG_COMMENT_DELETE_ALL(false, BUG_VIEW),
 	
+	/**
+	 * The Holiday view.
+	 */
+	@Label("Holiday view") HOLIDAY_VIEW,
+
+	/**
+	 * The Holiday edit.
+	 */
+	@Label("Holiday Edit") HOLIDAY_EDIT(false, HOLIDAY_VIEW),
+
+	/**
+	 * The Holiday Update.
+	 */
+	@Label("Holiday Update") HOLIDAY_UPDATE(false, HOLIDAY_VIEW),
+
+	/**
+	 * The Holiday delete.
+	 */
+	@Label("Holiday Delete") HOLIDAY_DELETE(false, HOLIDAY_VIEW),
+
+	/**
+	 * The Holiday delete all.
+	 */
+	@Label("Holiday DeleteAll") HOLIDAY_DELETE_ALL(false, HOLIDAY_VIEW),
+	
 ;
 
 	/**
