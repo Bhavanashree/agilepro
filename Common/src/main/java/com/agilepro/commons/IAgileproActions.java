@@ -390,6 +390,10 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PREFIX_USER_SETTING = "userSetting";
 
 	/**
+	 * The action prefix customer seting.
+	 */
+	public String ACTION_PREFIX_CUSTOMER_SETTING = "customerSetting";
+	/**
 	 * The action prefix backlog.
 	 */
 	public String ACTION_PREFIX_STORY = "story";
@@ -1094,6 +1098,31 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action user setting delete all.
 	 **/
 	public String ACTION_USER_SETTING_DELETE_ALL = ACTION_PREFIX_USER_SETTING + DOT + ACTION_TYPE_DELETE_ALL;
+
+	/**
+	 * The action customer setting save.
+	 **/
+	public String ACTION_CUSTOMER_SETTING_SAVE = ACTION_PREFIX_CUSTOMER_SETTING + DOT + ACTION_TYPE_SAVE;
+
+	/**
+	 * The action customer setting read.
+	 **/
+	public String ACTION_CUSTOMER_SETTING_READ = ACTION_PREFIX_CUSTOMER_SETTING + DOT + ACTION_TYPE_READ;
+
+	/**
+	 * The action customer setting delete.
+	 **/
+	public String ACTION_CUSTOMER_SETTING_DELETE = ACTION_PREFIX_CUSTOMER_SETTING + DOT + ACTION_TYPE_DELETE;
+
+	/**
+	 * The action customer setting update.
+	 **/
+	public String ACTION_CUSTOMER_SETTING_UPDATE = ACTION_PREFIX_CUSTOMER_SETTING + DOT + ACTION_TYPE_UPDATE;
+
+	/**
+	 * The action customer setting delete all.
+	 **/
+	public String ACTION_CUSTOMER_SETTING_DELETE_ALL = ACTION_PREFIX_CUSTOMER_SETTING + DOT + ACTION_TYPE_DELETE_ALL;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
