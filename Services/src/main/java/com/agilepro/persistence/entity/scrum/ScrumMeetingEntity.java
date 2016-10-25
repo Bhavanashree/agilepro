@@ -6,7 +6,6 @@ import javax.persistence.Table;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
-import com.agilepro.persistence.entity.project.SprintEntity;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
@@ -27,14 +26,6 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	private ProjectEntity project;
 
 	/**
-	 * The sprint.
-	 **/
-	@Column(name = "SPRINT_ID")
-	@ManyToOne
-	@PropertyMapping(type = ScrumMeetingModel.class, from = "sprintId", subproperty = "id")
-	private SprintEntity sprint;
-
-	/**
 	 * Gets the project.
 	 *
 	 * @return the project
@@ -53,26 +44,5 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	public void setProject(ProjectEntity project)
 	{
 		this.project = project;
-	}
-
-	/**
-	 * Gets the sprint.
-	 *
-	 * @return the sprint
-	 */
-	public SprintEntity getSprint()
-	{
-		return sprint;
-	}
-
-	/**
-	 * Sets the sprint.
-	 *
-	 * @param sprint
-	 *            the new sprint
-	 */
-	public void setSprint(SprintEntity sprint)
-	{
-		this.sprint = sprint;
 	}
 }

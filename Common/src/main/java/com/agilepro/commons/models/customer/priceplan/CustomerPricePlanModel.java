@@ -16,6 +16,8 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * Represents customer price plan model.
+ * 
+ * @author Pritam
  */
 @Model(name = "PricePlanModel")
 public class CustomerPricePlanModel

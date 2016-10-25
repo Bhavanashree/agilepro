@@ -12,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.agilepro.commons.PaymentCycle;
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.IDesignationController;
 import com.agilepro.commons.models.admin.DesignationModel;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.admin.EmployeeSearchQuery;
@@ -40,26 +41,32 @@ public class TFEmployeeSearchQuery extends TFBase
 	 * The password.
 	 */
 	private static final String PASSWORD = "abcde";
+	
 	/**
-	 * DesignationHelper object with default values.
-	 */
-	private DesignationHelper designationHelper = new DesignationHelper();
+	 * The idesignation controller.
+	 **/
+	private IDesignationController idesignationController;
+	
 	/**
 	 * CustomerHelper object with default values.
 	 */
 	private CustomerHelper customerHelper = new CustomerHelper();
+	
 	/**
 	 * CustomerPricePlanHelper object with default values.
 	 */
 	private CustomerPricePlanHelper pricePlanHelper = new CustomerPricePlanHelper();
+	
 	/**
 	 * employeeHelper object with default values.
 	 */
 	private EmployeeHelper employeeHelper = new EmployeeHelper();
+	
 	/**
 	 * customerId.
 	 */
 	private Long customerId;
+	
 	/**
 	 * Phone Number.
 	 */
@@ -74,6 +81,7 @@ public class TFEmployeeSearchQuery extends TFBase
 	 * EmployeeName.
 	 */
 	private String empName = "yukthi";
+	
 	/**
 	 * The Session object.
 	 */
@@ -113,9 +121,11 @@ public class TFEmployeeSearchQuery extends TFBase
 		Assert.assertTrue(customerId > 0);
 		clientCurrentSession = super.newClientContext(EMAIL_ID, PASSWORD, customerId);
 
+		idesignationController = clientControllerFactory.getController(IDesignationController.class);
+		
 		DesignationModel designationModel = new DesignationModel(0L, "Mangaer", null, null);
 		// save entity
-		Long designationId = designationHelper.save(clientCurrentSession, designationModel);
+		Long designationId = idesignationController.save(designationModel).getId();
 		List<UserRole> listExp1 = new ArrayList<UserRole>();
 		listExp1.add(UserRole.DESIGNATION_EDIT);
 		listExp1.add(UserRole.DESIGNATION_DELETE);
@@ -157,7 +167,8 @@ public class TFEmployeeSearchQuery extends TFBase
 	public void cleanup()
 	{
 		employeeHelper.deleteAll(clientCurrentSession);
-		designationHelper.deleteAll(clientCurrentSession);
+		idesignationController.deleteAll();
+		
 		customerHelper.deleteAll(clientContext);
 		pricePlanHelper.deleteAll(clientContext);
 	}

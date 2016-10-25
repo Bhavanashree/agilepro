@@ -11,41 +11,37 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
-import com.agilepro.commons.controllers.admin.IEmployeeController;
 import com.agilepro.commons.controllers.notification.IMailTemplateDefinitionController;
-import com.agilepro.commons.models.admin.DesignationModel;
-import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.CustomerModel;
-import com.agilepro.commons.models.customer.CustomerPaymentModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
 import com.agilepro.commons.models.notification.MailTemplateDefinitionModel;
 import com.yukthi.webutils.client.ClientContext;
 import com.yukthi.webutils.client.ClientControllerFactory;
-import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 
+/**
+ * The Class TFMailTemplateDefinition.
+ * 
+ * @author Pritam
+ */
 public class TFMailTemplateDefinition extends TFBase
 {
-
 	/**
 	 * The logger.
 	 **/
 	private static Logger logger = LogManager.getLogger(TFEmployee.class);
 
 	/**
-	 * DesignationHelper object with default values.
-	 */
-	private DesignationHelper designationHelper = new DesignationHelper();
-
-	/**
 	 * CustomerHelper object with default values.
 	 */
 	private CustomerHelper customerHelper = new CustomerHelper();
+	
 	/**
 	 * CustomerPricePlanHelper object with default values.
 	 */
 	private CustomerPricePlanHelper pricePlanHelper = new CustomerPricePlanHelper();
+	
 	/**
 	 * customerId.
 	 */
@@ -66,15 +62,6 @@ public class TFMailTemplateDefinition extends TFBase
 	 */
 	private String phoneNumber = "1234567891";
 
-	/**
-	 * designationId.
-	 */
-	private Long designationId;
-
-	/**
-	 * designation name.
-	 */
-	private String designationName = "Manager";
 	/**
 	 * The due amount paid by customer.
 	 */
@@ -131,7 +118,6 @@ public class TFMailTemplateDefinition extends TFBase
 		mailController = clientControllerFactory.getController(IMailTemplateDefinitionController.class);
 	}
 
-
 	/**
 	 * Test save.
 	 */
@@ -144,5 +130,4 @@ public class TFMailTemplateDefinition extends TFBase
 		Assert.assertTrue(basicSaveResponse.getId() > 0);
 		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
 	}
-
 }

@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
+import com.agilepro.commons.controllers.admin.IDesignationController;
 import com.agilepro.commons.controllers.admin.IEmployeeController;
 import com.agilepro.commons.models.admin.DesignationModel;
 import com.agilepro.commons.models.admin.EmployeeModel;
@@ -29,25 +30,27 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
  */
 public class TFEmployee extends TFBase
 {
-	
+
 	/**
 	 * The logger.
 	 **/
 	private static Logger logger = LogManager.getLogger(TFEmployee.class);
 
 	/**
-	 * DesignationHelper object with default values.
-	 */
-	private DesignationHelper designationHelper = new DesignationHelper();
-
-	/**
 	 * CustomerHelper object with default values.
 	 */
 	private CustomerHelper customerHelper = new CustomerHelper();
+
 	/**
 	 * CustomerPricePlanHelper object with default values.
 	 */
 	private CustomerPricePlanHelper pricePlanHelper = new CustomerPricePlanHelper();
+
+	/**
+	 * The idesignation controller.
+	 **/
+	private IDesignationController idesignationController;
+
 	/**
 	 * customerId.
 	 */
@@ -77,6 +80,7 @@ public class TFEmployee extends TFBase
 	 * designation name.
 	 */
 	private String designationName = "Manager";
+
 	/**
 	 * The due amount paid by customer.
 	 */
@@ -130,7 +134,7 @@ public class TFEmployee extends TFBase
 
 		// designation
 		DesignationModel designationModel = new DesignationModel(0L, designationName, null, null);
-		designationId = designationHelper.save(clientCurrentSession, designationModel);
+		designationId = idesignationController.save(designationModel).getId();
 		designationModel.setId(designationId);
 		Assert.assertTrue(designationId > 0);
 
@@ -174,9 +178,9 @@ public class TFEmployee extends TFBase
 
 		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
 		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
-		
+
 		EmployeeModel fetchedModel = getEmployee(basicSaveResponse.getId());
-		
+
 		Assert.assertTrue(fetchedModel.getId() > 0);
 		Assert.assertEquals(fetchedModel.getName(), "employee2");
 		Assert.assertEquals(fetchedModel.getMailId(), "emp2@gmail.com");
@@ -186,49 +190,49 @@ public class TFEmployee extends TFBase
 	public void testUpdate()
 	{
 		EmployeeModel model = new EmployeeModel("employee3", "emp3@gmail.com", phoneNumber, password, password, designationId);
-		
+
 		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
 		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
-		
+
 		EmployeeModel fetchedModel = getEmployee(basicSaveResponse.getId());
 		fetchedModel.setName("admin");
 		fetchedModel.setPassword(password);
 		fetchedModel.setConfirmPassword(password);
-		
+
 		iemployeeController.update(fetchedModel);
 
 		fetchedModel = getEmployee(basicSaveResponse.getId());
-		
+
 		Assert.assertEquals(fetchedModel.getName(), "admin");
 		Assert.assertEquals(fetchedModel.getMailId(), "emp3@gmail.com");
 	}
-	
+
 	@Test
 	public void testDelete()
 	{
 		EmployeeModel model = new EmployeeModel("employee4", "emp1@gmail.com", phoneNumber, password, password, designationId);
-		
+
 		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
 		Assert.assertTrue(basicSaveResponse.getId() > 0);
 		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
-		
+
 		iemployeeController.delete(basicSaveResponse.getId());
-		
+
 		EmployeeModel fetchedModel = getEmployee(basicSaveResponse.getId());
-		
+
 		Assert.assertNull(fetchedModel);
 		logger.debug("Deleted employee with id - {}", basicSaveResponse.getId());
 	}
-	
+
 	/**
-	 *cleanup. 
+	 * cleanup.
 	 */
 	@AfterClass
 	public void cleanup()
 	{
 		iemployeeController.deleteAll();
-		designationHelper.deleteAll(clientCurrentSession);
-		
+		idesignationController.deleteAll();
+
 		customerHelper.deleteAll(clientContext);
 		pricePlanHelper.deleteAll(clientContext);
 	}

@@ -71,6 +71,16 @@ public interface ICustomerRepository extends IWebutilsRepository<CustomerEntity>
 	public List<ValueLabel> findCustomerLov();
 
 	/**
+	 * Fetch customer by email.
+	 *
+	 * @param email
+	 *            the email
+	 * @return the customer entity
+	 */
+	@RestrictBySpace
+	public CustomerEntity fetchCustomerByEmail(@Condition(value = "email") String email);
+
+	/**
 	 * Subtract from due amount.
 	 *
 	 * @param amount

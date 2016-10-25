@@ -27,6 +27,11 @@ import com.yukthi.webutils.client.ClientContext;
 import com.yukthi.webutils.client.ClientControllerFactory;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 
+/**
+ * The Class TFConversationTitleHelper.
+ * 
+ * @author Pritam
+ */
 public class TFConversationTitleHelper extends TFBase implements ITestConstants
 {
 	/**

@@ -50,7 +50,7 @@ public class DesignationEntity extends WebutilsExtendableEntity
 	/**
 	 * The project level.
 	 **/
-	@Column(name = "PROJEECT_LEVEL", length = 100)
+	@Column(name = "PROJEECT_LEVEL")
 	private Boolean projectLevel;
 
 	/**

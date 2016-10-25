@@ -36,6 +36,8 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
  	
 		 
 		tinymce.init(mceContext);
+		
+		$scope.fetchAllScrumMeetings();
 	};
 	
 	
@@ -46,5 +48,34 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 			utils.alert("Please select a date");
 		}
 	};
+	
+	
+	$scope.submitScrumContent = function(){
+		
+		var model = {"scrumMeetingId" : 1};
+		
+		actionHelper.invokeAction("scrumMeetingConversation.save", model, null, 
+				function(saveResponse, respConfig)
+				{
+					if(saveResponse.code != 0)
+					{
+						$scope.fetchAllScrumMeetings();
+					}
+				}
+		, {"hideInProgress" : true});
+	};	
+	
+	$scope.fetchAllScrumMeetings = function(){
+		
+		actionHelper.invokeAction("scrumMeetingConversation.readAll", null, null, 
+				function(readResponse, respConfig)
+				{
+					$scope.scrumMeetings = [{"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"},
+					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"},
+					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"}];
+				}
+		, {"hideInProgress" : true});
+	};
+	
 	
 }]);

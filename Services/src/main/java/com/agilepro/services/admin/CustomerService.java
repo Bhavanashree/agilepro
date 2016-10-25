@@ -1,5 +1,7 @@
 package com.agilepro.services.admin;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +47,25 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	private UserRoleService userRoleService;
 
 	/**
+	 * The icustomer repository.
+	 **/
+	private ICustomerRepository icustomerRepository;
+
+	/**
 	 * Instantiates a new customer service.
 	 */
 	public CustomerService()
 	{
 		super(CustomerEntity.class, ICustomerRepository.class);
+	}
+
+	/**
+	 * Inits the icustomerRepository.
+	 */
+	@PostConstruct
+	private void init()
+	{
+		icustomerRepository = repositoryFactory.getRepository(ICustomerRepository.class);
 	}
 
 	/**
@@ -68,10 +84,13 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			/*NotificationMailDetails notificationMailDetails = new NotificationMailDetails(model.getEmail(),
-					model.getPassword(), mailSmtpHost, mailSmtpPort, false);
-
-			model.setNotificationMailDetails(notificationMailDetails);*/
+			/*
+			 * NotificationMailDetails notificationMailDetails = new
+			 * NotificationMailDetails(model.getEmail(), model.getPassword(),
+			 * mailSmtpHost, mailSmtpPort, false);
+			 * 
+			 * model.setNotificationMailDetails(notificationMailDetails);
+			 */
 
 			// saving customer
 			CustomerEntity customerUser = super.save(model);
@@ -219,6 +238,18 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 
 		userService.update(userEntity, null);
 		logger.debug("Updated Customer user with user-name - " + userEntity.getUserName());
+	}
+
+	/**
+	 * Fetch customer by email.
+	 *
+	 * @param emailId
+	 *            the email id
+	 * @return the customer model
+	 */
+	public CustomerModel fetchCustomerByEmail(String emailId)
+	{
+		return super.toModel(icustomerRepository.fetchCustomerByEmail(emailId), CustomerModel.class);
 	}
 
 	/**

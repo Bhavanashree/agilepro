@@ -9,7 +9,7 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
  * 
  * @author Pritam
  */
-@Model
+@Model(name = "ScrumMeeting")
 public class ScrumMeetingModel
 {
 	/**
@@ -23,18 +23,32 @@ public class ScrumMeetingModel
 	 **/
 	@NonDisplayable
 	private Integer version;
-	
-	/** 
-	 * The project id. 
+
+	/**
+	 * The project id.
 	 **/
 	@Required
 	private Long projectId;
-	
-	/** 
-	 * The sprint id. 
-	 **/
-	@Required
-	private Long sprintId;
+
+	/**
+	 * Instantiates a new scrum meeting model.
+	 */
+	public ScrumMeetingModel()
+	{
+		super();
+	}
+
+	/**
+	 * Instantiates a new scrum meeting model.
+	 *
+	 * @param projectId
+	 *            the project id
+	 */
+	public ScrumMeetingModel(Long projectId)
+	{
+		super();
+		this.projectId = projectId;
+	}
 
 	public Long getId()
 	{
@@ -64,15 +78,5 @@ public class ScrumMeetingModel
 	public void setProjectId(Long projectId)
 	{
 		this.projectId = projectId;
-	}
-
-	public Long getSprintId()
-	{
-		return sprintId;
-	}
-
-	public void setSprintId(Long sprintId)
-	{
-		this.sprintId = sprintId;
 	}
 }

@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.IDesignationController;
 import com.agilepro.commons.models.admin.DesignationModel;
 import com.agilepro.commons.models.admin.DesignationSearchQuery;
 import com.agilepro.commons.models.customer.CustomerModel;
@@ -26,10 +27,10 @@ import com.yukthi.webutils.client.helpers.SearchHelper;
  * @author bhavana.
  *
  */
-
 public class TFDesignationSearchQuery extends TFBase
 {
 	private static Logger logger = LogManager.getLogger(TFDesignationHelper.class);
+	
 	/**
 	 * The customer email id.
 	 */
@@ -39,23 +40,27 @@ public class TFDesignationSearchQuery extends TFBase
 	 * The password.
 	 */
 	private static final String PASSWORD = "abcde";
-	/**
-	 * DesignationHelper object with default values.
-	 */
-	private DesignationHelper designationHelper = new DesignationHelper();
+	
 	/**
 	 * CustomerHelper object with default values.
 	 */
 	private CustomerHelper customerHelper = new CustomerHelper();
+	
 	/**
 	 * CustomerPricePlanHelper object with default values.
 	 */
 	private CustomerPricePlanHelper pricePlanHelper = new CustomerPricePlanHelper();
 
 	/**
+	 * The idesignation controller.
+	 **/
+	private IDesignationController idesignationController;
+	
+	/**
 	 * customerId.
 	 */
 	private Long customerId;
+	
 	/**
 	 * Phone Number.
 	 */
@@ -70,6 +75,7 @@ public class TFDesignationSearchQuery extends TFBase
 	 * EmployeeName.
 	 */
 	private String desName = "Manager";
+	
 	/**
 	 * The Session object.
 	 */
@@ -109,9 +115,11 @@ public class TFDesignationSearchQuery extends TFBase
 		Assert.assertTrue(customerId > 0);
 		clientCurrentSession = super.newClientContext(EMAIL_ID, PASSWORD, customerId);
 
+		idesignationController = clientControllerFactory.getController(IDesignationController.class);
+		
 		DesignationModel designationModel = new DesignationModel(0L, desName, null, null);
 		// save entity
-		Long designationId = designationHelper.save(clientCurrentSession, designationModel);
+		Long designationId = idesignationController.save(designationModel).getId();
 		List<UserRole> listExp1 = new ArrayList<UserRole>();
 		listExp1.add(UserRole.DESIGNATION_EDIT);
 		listExp1.add(UserRole.DESIGNATION_DELETE);
@@ -140,7 +148,8 @@ public class TFDesignationSearchQuery extends TFBase
 	@AfterClass
 	public void cleanup()
 	{
-		designationHelper.deleteAll(clientCurrentSession);
+		idesignationController.deleteAll();
+		
 		customerHelper.deleteAll(clientContext);
 		pricePlanHelper.deleteAll(clientContext);
 	}

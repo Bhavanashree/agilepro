@@ -8,7 +8,9 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 
 /**
  * Customer controller interface.
- * @param <RT> Request type.
+ * 
+ * @param <RT>
+ *            Request type.
  */
 @RemoteService
 public interface ICustomerController<RT>
@@ -32,6 +34,15 @@ public interface ICustomerController<RT>
 	 * @return the basic read response
 	 */
 	public BasicReadResponse<CustomerModel> read(Long id);
+
+	/**
+	 * Fetch customer by email.
+	 *
+	 * @param email
+	 *            the email
+	 * @return the basic read response
+	 */
+	public BasicReadResponse<CustomerModel> fetchCustomerByEmail(String email);
 
 	/**
 	 * Update.

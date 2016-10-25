@@ -13,11 +13,13 @@ import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.IDesignationController;
 import com.agilepro.commons.models.admin.DesignationModel;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
 import com.yukthi.webutils.client.ClientContext;
+import com.yukthi.webutils.client.ClientControllerFactory;
 
 /**
  * Designation helper.
@@ -25,48 +27,32 @@ import com.yukthi.webutils.client.ClientContext;
  * @author bhavana
  *
  */
-public class TFDesignationHelper extends TFBase
+public class TFDesignationHelper extends TFBase implements ITestConstants
 {
+	/**
+	 * The logger.
+	 **/
 	private static Logger logger = LogManager.getLogger(TFDesignationHelper.class);
-	/**
-	 * The customer email id.
-	 */
-	private static final String EMAIL_ID = "customer@gmail.com";
 
-	/**
-	 * The password.
-	 */
-	private static final String PASSWORD = "abcde";
-	/**
-	 * DesignationHelper object with default values.
-	 */
-	private DesignationHelper designationHelper = new DesignationHelper();
 	/**
 	 * CustomerHelper object with default values.
 	 */
 	private CustomerHelper customerHelper = new CustomerHelper();
+
 	/**
 	 * CustomerPricePlanHelper object with default values.
 	 */
 	private CustomerPricePlanHelper pricePlanHelper = new CustomerPricePlanHelper();
-	/**
-	 * customerId.
-	 */
-	private Long customerId;
-	/**
-	 * Phone Number.
-	 */
-	private String phoneNumber = "1234567891";
 
 	/**
-	 * The due amount paid by customer.
-	 */
-	private final double dueAmount = 10000.0;
+	 * The idesignation controller.
+	 **/
+	private IDesignationController idesignationController;
 
 	/**
 	 * The Session object.
 	 */
-	private ClientContext clientCurrentSession;
+	private ClientContext customerSession;
 
 	/**
 	 * saving the pricePlan and customer before saving designation.
@@ -76,27 +62,34 @@ public class TFDesignationHelper extends TFBase
 	public void setup()
 	{
 		// customer price plan
-		CustomerPricePlanModel customerPricePlanModel = new CustomerPricePlanModel();
-		customerPricePlanModel.setName("Test");
-		customerPricePlanModel.setPaymentCycle(PaymentCycle.Daily);
 		CustomerPricePlanExpression ex = new CustomerPricePlanExpression();
 		ex.setExpression("3+2");
 		ex.setName("test");
 		ex.setLabel("pay21");
 		List<CustomerPricePlanExpression> listExp = new ArrayList<CustomerPricePlanExpression>();
 		listExp.add(ex);
+
+		CustomerPricePlanModel customerPricePlanModel = new CustomerPricePlanModel();
+		customerPricePlanModel.setName("Plan1");
+		customerPricePlanModel.setPaymentCycle(PaymentCycle.Daily);
 		customerPricePlanModel.setExpressions(listExp);
+
 		long idOfPricePlan = pricePlanHelper.save(clientContext, customerPricePlanModel);
 		logger.debug("Saved price plan with id - {}", idOfPricePlan);
 		Assert.assertTrue(idOfPricePlan > 0);
 
-		CustomerModel model = new CustomerModel("Test1", EMAIL_ID, phoneNumber, null, null, null, null, new Date(), PASSWORD, PASSWORD, "path1", null);
+		CustomerModel model = new CustomerModel("Test1", T_CUS_EMAIL_ID, T_PHONE_NUMBER, null, null, null, null, new Date(), T_PASSWORD, T_PASSWORD, "customer1", null);
 		model.setCustomerPricePlanId(idOfPricePlan);
-		model.setDueAmount(dueAmount);
-		customerId = customerHelper.save(clientContext, model);
+		model.setDueAmount(T_DUE_AMOUNT);
+
+		Long customerId = customerHelper.save(clientContext, model);
 		Assert.assertTrue(idOfPricePlan > 0);
 		Assert.assertTrue(customerId > 0);
-		clientCurrentSession = super.newClientContext(EMAIL_ID, PASSWORD, customerId);
+
+		customerSession = super.newClientContext(T_CUS_EMAIL_ID, T_PASSWORD, customerId);
+		clientControllerFactory = new ClientControllerFactory(customerSession);
+
+		idesignationController = clientControllerFactory.getController(IDesignationController.class);
 	}
 
 	/**
@@ -106,15 +99,16 @@ public class TFDesignationHelper extends TFBase
 	@Test
 	public void testSave()
 	{
-
 		DesignationModel designationModel = new DesignationModel(0L, "Manager1", null, null);
+		List<UserRole> listRoles = new ArrayList<UserRole>();
+		listRoles.add(UserRole.DESIGNATION_EDIT);
+		listRoles.add(UserRole.DESIGNATION_DELETE);
+		listRoles.add(UserRole.TEST);
+		designationModel.setRoles(listRoles);
+
 		// save entity
-		Long designationId = designationHelper.save(clientCurrentSession, designationModel);
-		List<UserRole> listExp1 = new ArrayList<UserRole>();
-		listExp1.add(UserRole.DESIGNATION_EDIT);
-		listExp1.add(UserRole.DESIGNATION_DELETE);
-		listExp1.add(UserRole.TEST);
-		designationModel.setRoles(listExp1);
+		Long designationId = idesignationController.save(designationModel).getId();
+
 		Assert.assertTrue(designationId > 0);
 	}
 
@@ -125,16 +119,20 @@ public class TFDesignationHelper extends TFBase
 	public void testRead()
 	{
 		// save entity
-		DesignationModel designationModel = new DesignationModel(0L, "Manager2", null, null);
-		List<UserRole> listExp1 = new ArrayList<UserRole>();
-		listExp1.add(UserRole.DESIGNATION_VIEW);
-		designationModel.setRoles(listExp1);
-		long id = designationHelper.save(clientCurrentSession, designationModel);
+		String designationName = "Manager2";
+		DesignationModel designationModel = new DesignationModel(0L, designationName, null, null);
+		List<UserRole> listRoles = new ArrayList<UserRole>();
+		listRoles.add(UserRole.DESIGNATION_VIEW);
+		designationModel.setRoles(listRoles);
 
-		logger.debug("Saved new Designation with id - {}", id);
-		Assert.assertTrue(id > 0);
+		Long designationId = idesignationController.save(designationModel).getId();
+		logger.debug("Saved new Designation with id - {}", designationId);
+		Assert.assertTrue(designationId > 0);
+		
 		// read entity
-		designationHelper.read(clientCurrentSession, id);
+		DesignationModel savedDesignationModel =  idesignationController.read(designationId).getModel();
+		
+		Assert.assertEquals(savedDesignationModel.getName(), designationName);
 	}
 
 	/**
@@ -144,17 +142,23 @@ public class TFDesignationHelper extends TFBase
 	public void testUpdate()
 	{
 		// update entity
+		String designationNameForUpdate = "Admin";
+		
 		DesignationModel designationModel = new DesignationModel(0L, "Manager3", null, null);
 		List<UserRole> listExp1 = new ArrayList<UserRole>();
 		listExp1.add(UserRole.DESIGNATION_EDIT);
 		listExp1.add(UserRole.DESIGNATION_VIEW);
 		designationModel.setRoles(listExp1);
-		long id = designationHelper.save(clientCurrentSession, designationModel);
-		designationHelper.read(clientCurrentSession, id);
-		designationModel.setName("admin");
-		designationModel.setId(id);
-		designationHelper.update(clientCurrentSession, designationModel);
-		designationHelper.read(clientCurrentSession, id);
+		Long designationId = idesignationController.save(designationModel).getId();
+		
+		DesignationModel savedDesignationModel =  idesignationController.read(designationId).getModel();
+		savedDesignationModel.setName(designationNameForUpdate);
+		
+		idesignationController.update(savedDesignationModel);
+		
+		DesignationModel designationModelAfterUpdate =  idesignationController.read(designationId).getModel();
+		
+		Assert.assertEquals(designationModelAfterUpdate.getName(), designationNameForUpdate);
 	}
 
 	/**
@@ -164,12 +168,16 @@ public class TFDesignationHelper extends TFBase
 	public void testDelete()
 	{
 		// delete entity
-		DesignationModel model = new DesignationModel(0L, "Manager4", null, null);
+		DesignationModel designationModel = new DesignationModel(0L, "Manager4", null, null);
 
-		long id = designationHelper.save(clientCurrentSession, model);
-		logger.debug("Saved designation with id - {}", id);
+		Long designationId = idesignationController.save(designationModel).getId();
+		logger.debug("Saved designation with id - {}", designationId);
 
-		designationHelper.delete(clientCurrentSession, id);
+		idesignationController.delete(designationId);
+		
+		DesignationModel deletedDesignationModel = idesignationController.read(designationId).getModel();
+		
+		Assert.assertNull(deletedDesignationModel);
 	}
 
 	/**
@@ -178,7 +186,8 @@ public class TFDesignationHelper extends TFBase
 	@AfterClass
 	public void cleanup()
 	{
-		designationHelper.deleteAll(clientCurrentSession);
+		idesignationController.deleteAll();
+		
 		customerHelper.deleteAll(clientContext);
 		pricePlanHelper.deleteAll(clientContext);
 	}

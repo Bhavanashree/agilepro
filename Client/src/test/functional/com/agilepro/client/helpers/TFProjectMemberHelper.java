@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
 import com.agilepro.commons.ProjectMemberRole;
+import com.agilepro.commons.controllers.admin.IDesignationController;
 import com.agilepro.commons.controllers.admin.IEmployeeController;
 import com.agilepro.commons.controllers.admin.IProjectController;
 import com.agilepro.commons.controllers.admin.IProjectMemberController;
@@ -43,9 +44,9 @@ public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase i
 	private static Logger logger = LogManager.getLogger(TFProjectMemberHelper.class);
 
 	/**
-	 * DesignationHelper object with default values.
-	 */
-	private DesignationHelper designationHelper = new DesignationHelper();
+	 * The idesignation controller.
+	 **/
+	private IDesignationController idesignationController;
 
 	/**
 	 * CustomerHelper object with default values.
@@ -144,7 +145,7 @@ public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase i
 
 		// designation
 		DesignationModel designationModel = new DesignationModel(0L, designationName, null, null);
-		designationId = designationHelper.save(clientCurrentSession, designationModel);
+		designationId = idesignationController.save(designationModel).getId();
 		designationModel.setId(designationId);
 		Assert.assertTrue(designationId > 0);
 
@@ -230,7 +231,8 @@ public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase i
 		iemployeeController.deleteAll();
 		iprojectController.deleteAll();
 
-		designationHelper.deleteAll(clientCurrentSession);
+		idesignationController.deleteAll();
+		
 		customerHelper.deleteAll(clientContext);
 		pricePlanHelper.deleteAll(clientContext);
 	}

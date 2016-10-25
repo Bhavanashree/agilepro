@@ -4,6 +4,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_CUSTOMER;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_EMAIL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.CUSTOMER_POC_LIMIT;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -190,7 +192,22 @@ public class CustomerController extends BaseController implements ICustomerContr
 
 		return new BasicReadResponse<CustomerModel>(customerModel);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.agilepro.commons.controllers.admin.ICustomerController#fetchCustomerByEmail(java.lang.String)
+	 */
+	@Override
+	@Authorization(roles = { UserRole.ADMINISTRATOR })
+	@ActionName(ACTION_TYPE_READ_BY_EMAIL)
+	@RequestMapping(value = "/readByEmailId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<CustomerModel> fetchCustomerByEmail(@RequestParam(value = "email", required = true) String email)
+	{
+		CustomerModel customerModel = customerService.fetchCustomerByEmail(email);
 
+		return new BasicReadResponse<CustomerModel>(customerModel);
+	}
+	
 	/**
 	 * Update.
 	 *

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.scrum.IScrumMeetingController;
 import com.agilepro.commons.models.scrum.ScrumMeetingModel;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.scrum.ScrumMeetingService;
@@ -27,7 +28,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_SCRUM_MEETING)
 @RequestMapping("/scrumMeeting")
-public class ScrumMeetingController extends BaseController
+public class ScrumMeetingController extends BaseController implements IScrumMeetingController
 {
 	/**
 	 * The scrum meeting service.
@@ -42,6 +43,7 @@ public class ScrumMeetingController extends BaseController
 	 *            the scrum meeting model
 	 * @return the basic save response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER })

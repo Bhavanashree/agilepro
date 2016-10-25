@@ -30,7 +30,7 @@ public interface ITestConstants
 	/**
 	 * Password.
 	 */
-	String T_PASSWORD = "12345";
+	String T_PASSWORD = "password";
 
 	/**
 	 * The start date will be added from current date.
