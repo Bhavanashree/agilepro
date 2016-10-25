@@ -70,9 +70,9 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		actionHelper.invokeAction("scrumMeetingConversation.readAll", null, null, 
 				function(readResponse, respConfig)
 				{
-					$scope.scrumMeetings = [{"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"},
+					$scope.scrumMeetings = [{"name" : "Employee1", "message" : "hey hello"}, {"message" : "hey"}, {"message" : "hey"},
 					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"},
-					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"}];
+					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey hello how are you"}];
 				}
 		, {"hideInProgress" : true});
 	};

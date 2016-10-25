@@ -18,9 +18,13 @@
 			border-width: 5px;">
 				
 				<div style="height: 15em; overflow-y:auto;">
-					<table  width="100%" ng-repeat="scrum in scrumMeetings" style="margin-top: 0.5em;"> 
+					<table  width="100%" ng-repeat="scrum in scrumMeetings" style="margin-top: 1em;"> 
 						<tr>
 							<td style="width: 20%;">
+								{{scrum.name}}
+							</td>
+							<td style="width: 0%;">
+								<div class="arrow-left-blue"></div>
 							</td>
 							<td style="background-color: lightblue; width: 80%; border-radius: 5px; height: 1em; 
 							padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.5em; padding-bottom: 0.3em;">

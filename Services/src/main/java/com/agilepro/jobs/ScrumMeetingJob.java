@@ -17,7 +17,7 @@ import com.yukthi.webutils.services.job.IJob;
  * 
  * @author Pritam
  */
-@CronJob(name = "ScrumMeetingJob", cronExpression = "0 0/60 * 1/1 * ? *")
+//@CronJob(name = "ScrumMeetingJob", cronExpression = "0 0/60 * 1/1 * ? *")
 public class ScrumMeetingJob implements IJob
 {
 	/**
