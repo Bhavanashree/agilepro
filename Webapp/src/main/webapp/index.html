@@ -36,7 +36,8 @@
 			<div style="width: 100%; flex-grow: 1; align-items: stretch;" class="flexHorizontal">
 				
 				<!-- Start of left menu -->
-				<div id="appLeftMenu" class="leftNavBox" style="background-color: white; overflow-y: auto; padding-top: 0.5em; width: 15em;" yk-hide-from="sm" ui-view="menuView">
+				<div id="appLeftMenu" class="leftNavBox" style="background-color: white; overflow-y: auto; padding-top: 0.5em; 
+						width: 15em;" yk-hide-from="sm" ui-view="menuView" ng-if="currentState.leftMenu">
 				</div>					
 				<!-- End of left menu -->
 				
@@ -127,9 +128,6 @@
 		
 		<!-- dashboard -->
 		<script type="text/javascript" src="/ui/js/common/dashboard.js"></script>
-		
-		<!-- Scrum Meeting -->
-		<script type="text/javascript" src="/ui/js/scrum/scrum-meeting.js"></script>
 		
 	</body>
 </html>
