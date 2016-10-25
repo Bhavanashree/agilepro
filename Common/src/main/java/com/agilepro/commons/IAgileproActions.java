@@ -1,7 +1,5 @@
 package com.agilepro.commons;
 
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID;
-
 import com.yukthi.webutils.common.IWebUtilsActionConstants;
 
 /**
@@ -70,11 +68,18 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_RUNTIME_VARIABLES = "readRuntimeVariables";
 
 	/**
+	 * The action type read by email.
+	 **/
+	public String ACTION_TYPE_READ_BY_EMAIL = "readByEmailId";
+
+	/**
 	 * The action type read all project and project release by release id.
 	 **/
 	public String ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID = "readAllProjectAndProjectReleaseByReleaseId";
 
-	/** The action type save or update. */
+	/**
+	 * The action type save or update.
+	 **/
 	public String ACTION_TYPE_SAVE_OR_UPDATE = "saveOrUpdate";
 
 	/**
@@ -348,11 +353,16 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix conversation title.
 	 **/
 	public String ACTION_PREFIX_CONVERSATION_TITLE = "conversationTitle";
-	
-	/** 
-	 * The action prefix scrum meeting. 
+
+	/**
+	 * The action prefix scrum meeting.
 	 **/
 	public String ACTION_PREFIX_SCRUM_MEETING = "scrumMeeting";
+
+	/**
+	 * The action prefix scrum meeting conversation.
+	 **/
+	public String ACTION_PREFIX_SCRUM_MEETING_CONVERSATION = "scrumMeetingConversation";
 
 	/**
 	 * Parameter with name "name".
