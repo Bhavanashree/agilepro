@@ -5,6 +5,7 @@ import java.util.List;
 import com.agilepro.commons.models.customer.ProjectSearchQuery;
 import com.agilepro.commons.models.customer.ProjectSearchResult;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
+import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.search.SearchQuery;
 import com.yukthi.webutils.annotations.LovQuery;
@@ -42,13 +43,22 @@ public interface IProjectRepository extends IWebutilsRepository<ProjectEntity>
 	public List<ValueLabel> findProjectLov();
 
 	/**
-	 * Fetch projects.
+	 * Fetch project by space identity.
+	 *
+	 * @param spaceIdentity
+	 *            the space identity
+	 * @return the list
+	 */
+	public List<ProjectEntity> fetchProjectBySpaceIdentity(@Condition(value = "spaceIdentity") String spaceIdentity);
+
+	/**
+	 * Fetch all projects.
 	 *
 	 * @return the list
 	 */
 	@RestrictBySpace
 	public List<ProjectEntity> fetchAllProjects();
-
+	
 	/**
 	 * Delete all.
 	 */

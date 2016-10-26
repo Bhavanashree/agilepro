@@ -4,9 +4,11 @@
 	<table>
 		<tr>
 			<td>
-				Scrum Meeting
+				<button type="button" class="btn btn-primary">Scrum Meeting
+				<i class="fa fa-arrow-right" aria-hidden="true"></i>
+				</button>
 			</td>
-			<td>
+			<td style="padding-left: 0.5em;">
 				<yk-date-field name="meetingDate" label="Meeting Date" ng-model="meetingDate"></yk-date-field>
 			</td>
 		</tr>
@@ -14,13 +16,13 @@
 	
 	<div class="row" style="margin-top: 1em;" >
 		<div class="col-md-9 col-xs-9 col-sm-9">	
-			<div class="panel" style="margin-bottom: 0px; border-style: solid; border-color: #D2B48C; 
+			<div class="panel" style="margin-bottom: 0px; border-style: solid; border-color: lightblue; 
 			border-width: 5px;">
 				
 				<div style="height: 15em; overflow-y:auto;">
 					<table  width="100%" ng-repeat="scrum in scrumMeetings" style="margin-top: 1em;"> 
 						<tr>
-							<td style="width: 20%;">
+							<td style="width: 20%; padding-left: 0.5em;">
 								{{scrum.name}}
 							</td>
 							<td style="width: 0%;">
@@ -42,8 +44,7 @@
 			</div>
 		</div>
 		
-		<div class="col-md-3 col-xs-3 col-sm-3" style="border-style: solid; border-color: #D2B48C; border-width: 5px; 
-		height: 37em;"> 
+		<div class="col-md-3 col-xs-3 col-sm-3 flexStretchFull" style="border-style: solid; border-color: lightblue; border-width: 5px;"> 
 			Action Items
 		</div>
 	</div>

@@ -1,5 +1,7 @@
 package com.agilepro.persistence.entity.scrum;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -26,6 +28,35 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	private ProjectEntity project;
 
 	/**
+	 * The date.
+	 **/
+	@Column(name = "DATE")
+	private Date date;
+
+	/**
+	 * Instantiates a new scrum meeting entity.
+	 */
+	public ScrumMeetingEntity()
+	{
+		super();
+	}
+
+	/**
+	 * Instantiates a new scrum meeting entity.
+	 *
+	 * @param project
+	 *            the project
+	 * @param date
+	 *            the date
+	 */
+	public ScrumMeetingEntity(ProjectEntity project, Date date)
+	{
+		super();
+		this.project = project;
+		this.date = date;
+	}
+
+	/**
 	 * Gets the project.
 	 *
 	 * @return the project
@@ -44,5 +75,26 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	public void setProject(ProjectEntity project)
 	{
 		this.project = project;
+	}
+
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
+	public Date getDate()
+	{
+		return date;
+	}
+
+	/**
+	 * Sets the date.
+	 *
+	 * @param date
+	 *            the new date
+	 */
+	public void setDate(Date date)
+	{
+		this.date = date;
 	}
 }

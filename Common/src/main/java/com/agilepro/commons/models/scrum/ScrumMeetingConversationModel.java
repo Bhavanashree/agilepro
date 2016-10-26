@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.scrum;
 
+import java.util.Date;
+
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -29,6 +31,16 @@ public class ScrumMeetingConversationModel
 	 **/
 	@NonDisplayable
 	private Integer version;
+
+	/**
+	 * The message.
+	 **/
+	private String message;
+
+	/**
+	 * The date.
+	 **/
+	private Date date;
 
 	/**
 	 * Gets the id.
@@ -91,5 +103,47 @@ public class ScrumMeetingConversationModel
 	public void setVersion(Integer version)
 	{
 		this.version = version;
+	}
+
+	/**
+	 * Gets the message.
+	 *
+	 * @return the message
+	 */
+	public String getMessage()
+	{
+		return message;
+	}
+
+	/**
+	 * Sets the message.
+	 *
+	 * @param message
+	 *            the new message
+	 */
+	public void setMessage(String message)
+	{
+		this.message = message;
+	}
+
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
+	public Date getDate()
+	{
+		return date;
+	}
+
+	/**
+	 * Sets the date.
+	 *
+	 * @param date
+	 *            the new date
+	 */
+	public void setDate(Date date)
+	{
+		this.date = date;
 	}
 }

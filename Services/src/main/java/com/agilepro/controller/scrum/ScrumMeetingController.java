@@ -45,7 +45,7 @@ public class ScrumMeetingController extends BaseController implements IScrumMeet
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_SAVE)
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
 	public BasicSaveResponse saveScrumMeeting(@RequestBody @Valid ScrumMeetingModel scrumMeetingModel)

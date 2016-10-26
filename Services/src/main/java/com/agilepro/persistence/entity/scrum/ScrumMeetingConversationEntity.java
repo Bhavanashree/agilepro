@@ -1,5 +1,7 @@
 package com.agilepro.persistence.entity.scrum;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,6 +31,12 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	 */
 	@Column(name = "MESSAGE")
 	private String message;
+
+	/**
+	 * The date.
+	 **/
+	@Column(name = "DATE")
+	private Date date;
 
 	/**
 	 * Gets the scrum meeting.
@@ -70,5 +78,26 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	public void setMessage(String message)
 	{
 		this.message = message;
+	}
+
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
+	public Date getDate()
+	{
+		return date;
+	}
+
+	/**
+	 * Sets the date.
+	 *
+	 * @param date
+	 *            the new date
+	 */
+	public void setDate(Date date)
+	{
+		this.date = date;
 	}
 }

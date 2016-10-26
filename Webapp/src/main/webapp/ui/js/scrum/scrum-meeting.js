@@ -3,8 +3,12 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	
 	$scope.meetingDate = null;
 	
+	$scope.initScrum = function() {
+		
+		setTimeout($scope.initScrum1, 3000);
+	};
 	
-	 $scope.initScrum = function() {
+	 $scope.initScrum1 = function() {
 		 console.log("init scrum is invoked");
 		 
 		 var mceContext = {
@@ -43,16 +47,24 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	
 	$scope.onType = function($event){
 		
-		if(!$scope.meetingDate)
-		{
-			utils.alert("Please select a date");
-		}
+		
 	};
 	
 	
 	$scope.submitScrumContent = function(){
 		
-		var model = {"scrumMeetingId" : 1};
+		$scope.message = tinymce.activeEditor.getContent();
+		
+		if($scope.message.length == 0)
+		{
+			utils.alert("Please provide some message");
+			return;
+		}
+		
+		var simpleDateFormatter = new simpleDateFormat('d/MM/yyyy');
+		var date = new Date();
+		
+		var model = {"date" : simpleDateFormatter.format(date), "scrumMeetingId" : 1};
 		
 		actionHelper.invokeAction("scrumMeetingConversation.save", model, null, 
 				function(saveResponse, respConfig)
@@ -70,9 +82,15 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		actionHelper.invokeAction("scrumMeetingConversation.readAll", null, null, 
 				function(readResponse, respConfig)
 				{
-					$scope.scrumMeetings = [{"name" : "Employee1", "message" : "hey hello"}, {"message" : "hey"}, {"message" : "hey"},
+					$scope.scrumMeetings = [{"name" : "Employee1 Employee1", "message" : "hey hello"}, {"message" : "hey"}, {"message" : "hey"},
 					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"},
 					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey hello how are you"}];
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
 				}
 		, {"hideInProgress" : true});
 	};

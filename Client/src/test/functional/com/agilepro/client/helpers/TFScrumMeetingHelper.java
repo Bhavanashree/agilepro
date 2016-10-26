@@ -1,5 +1,8 @@
 package com.agilepro.client.helpers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -62,10 +65,13 @@ public class TFScrumMeetingHelper extends TFBase implements ITestConstants
 	}
 	
 	@Test
-	public void testSaveScrumMeeting()
+	public void testSaveScrumMeeting() throws ParseException
 	{
 		//projects.forEach(project -> iscrumMeetingController.saveScrumMeeting(new ScrumMeetingModel(project.getId())));
 		
-		iscrumMeetingController.saveScrumMeeting(new ScrumMeetingModel(1L));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+		Date today = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+		
+		iscrumMeetingController.saveScrumMeeting(new ScrumMeetingModel(1L, today));
 	}
 }

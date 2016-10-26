@@ -29,7 +29,13 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
  */
 public interface ICustomerRepository extends IWebutilsRepository<CustomerEntity>
 {
-
+	/**
+	 * Fetch all customers.
+	 *
+	 * @return the list
+	 */
+	public List<CustomerEntity> fetchAllCustomers();
+	
 	/**
 	 * Find customer by pay date.
 	 *
