@@ -64,12 +64,12 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		var simpleDateFormatter = new simpleDateFormat('d/MM/yyyy');
 		var date = new Date();
 		
-		var model = {"date" : simpleDateFormatter.format(date), "scrumMeetingId" : 1};
+		var model = {"scrumMeetingId" : 1, "userId" : $scope.activeUser.userId,"date" : simpleDateFormatter.format(date), "message" : $scope.message};
 		
 		actionHelper.invokeAction("scrumMeetingConversation.save", model, null, 
 				function(saveResponse, respConfig)
 				{
-					if(saveResponse.code != 0)
+					if(saveResponse.code == 0)
 					{
 						$scope.fetchAllScrumMeetings();
 					}
@@ -82,9 +82,7 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		actionHelper.invokeAction("scrumMeetingConversation.readAll", null, null, 
 				function(readResponse, respConfig)
 				{
-					$scope.scrumMeetings = [{"name" : "Employee1 Employee1", "message" : "hey hello"}, {"message" : "hey"}, {"message" : "hey"},
-					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey"},
-					                        {"message" : "hey"}, {"message" : "hey"}, {"message" : "hey hello how are you"}];
+					$scope.scrumMeetings = readResponse.model;
 					
 					try
 					{

@@ -22,7 +22,7 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	/**
 	 * The project.
 	 **/
-	@Column(name = "PROJECT_ID")
+	@Column(name = "PROJECT_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = ScrumMeetingModel.class, from = "projectId", subproperty = "id")
 	private ProjectEntity project;

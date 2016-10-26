@@ -25,6 +25,9 @@ public class ScrumMeetingConversationModel
 	 **/
 	@Required
 	private Long scrumMeetingId;
+	
+	@Required
+	private Long userId;
 
 	/**
 	 * Version used for update.
@@ -41,6 +44,21 @@ public class ScrumMeetingConversationModel
 	 * The date.
 	 **/
 	private Date date;
+	
+	/**
+	 * The display name.
+	 **/
+	private String displayName;
+
+	/**
+	 * The time.
+	 **/
+	private String time;
+
+	/**
+	 * The display date.
+	 **/
+	private String displayDate;
 
 	/**
 	 * Gets the id.
@@ -145,5 +163,37 @@ public class ScrumMeetingConversationModel
 	public void setDate(Date date)
 	{
 		this.date = date;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getDisplayDate() {
+		return displayDate;
+	}
+
+	public void setDisplayDate(String displayDate) {
+		this.displayDate = displayDate;
 	}
 }

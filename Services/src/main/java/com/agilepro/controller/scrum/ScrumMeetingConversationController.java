@@ -4,6 +4,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_SCRUM_MEETING_
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,8 +59,9 @@ public class ScrumMeetingConversationController extends BaseController implement
 	@ActionName(ACTION_TYPE_READ_ALL)
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<ScrumMeetingConversationModel>> fetchConversation()
+	public BasicReadResponse<List<ScrumMeetingConversationModel>> fetchConversation(@RequestParam(value = "scrumMeetingId", required = false) Long scrumMeetingId,
+			@RequestParam(value = "date", required = false) Date date)
 	{
-		return new BasicReadResponse<List<ScrumMeetingConversationModel>>();
+		return new BasicReadResponse<List<ScrumMeetingConversationModel>>(scrumMeetingConversationService.fetchScrumMeeting(scrumMeetingId, date));
 	}
 }

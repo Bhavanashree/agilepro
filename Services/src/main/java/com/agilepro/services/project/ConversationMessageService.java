@@ -14,6 +14,7 @@ import com.agilepro.commons.models.project.ConversationMessageModel;
 import com.agilepro.commons.models.project.ConversationTitleModel;
 import com.agilepro.persistence.entity.project.ConversationMessageEntity;
 import com.agilepro.persistence.repository.admin.IConversationMessageRepository;
+import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.UserService;
@@ -97,11 +98,21 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 	 */
 	public ConversationMessageEntity save(ConversationMessageModel conversationMessagemodel)
 	{
-		checkConversation(conversationMessagemodel.getConversationTitleId(), conversationMessagemodel.getUserId());
-
-		conversationMessagemodel.setDate(new Date());
-
-		return super.save(conversationMessagemodel);
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			checkConversation(conversationMessagemodel.getConversationTitleId(), conversationMessagemodel.getUserId());
+	
+			conversationMessagemodel.setDate(new Date());
+	
+			ConversationMessageEntity conversationMessageEntity = super.save(conversationMessagemodel);
+			
+			transaction.commit();
+			
+			return conversationMessageEntity;
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred  while saving  conversation message - ", ex);
+		}
 	}
 
 	/**

@@ -1,13 +1,19 @@
 package com.agilepro.persistence.entity.scrum;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.agilepro.commons.models.project.ConversationMessageModel;
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.yukthi.persistence.annotations.DataType;
+import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.conversion.impl.JsonConverter;
 import com.yukthi.utils.annotations.PropertyMapping;
+import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
@@ -23,9 +29,23 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	 **/
 	@ManyToOne
 	@PropertyMapping(type = ScrumMeetingConversationModel.class, from = "scrumMeetingId", subproperty = "id")
-	@Column(name = "SCRUM_MEETING_ID")
+	@Column(name = "SCRUM_MEETING_ID", nullable = false)
 	private ScrumMeetingEntity scrumMeeting;
 
+	/**
+	 * The user entity.
+	 **/
+	@Column(name = "USER_ID" , nullable = false)
+	@ManyToOne
+	@PropertyMapping(type = ScrumMeetingConversationModel.class, from = "userId", subproperty = "id")
+	private UserEntity userEntity;
+	
+	/**
+	 * The project member ids.
+	 **/
+	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
+	private List<Long> projectMemberIds;
+	
 	/**
 	 * The message.
 	 */

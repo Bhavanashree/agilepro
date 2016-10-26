@@ -45,7 +45,7 @@ public class ConversationTitleService extends BaseCrudService<ConversationTitleE
 	 * Inits the iconversationTitleRepository.
 	 */
 	@PostConstruct
-	public void init()
+	private void init()
 	{
 		iconversationTitleRepository = repositoryFactory.getRepository(IConversationTitleRepository.class);
 	}
