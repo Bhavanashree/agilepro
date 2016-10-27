@@ -1,6 +1,7 @@
 package com.agilepro.commons.models.scrum;
 
 import java.util.Date;
+import java.util.List;
 
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
@@ -25,9 +26,22 @@ public class ScrumMeetingConversationModel
 	 **/
 	@Required
 	private Long scrumMeetingId;
-	
+
+	/** 
+	 * The user id. *
+	 */
 	@Required
 	private Long userId;
+	
+	/** 
+	 * The story id. 
+	 **/
+	private Long storyId;
+	
+	/**
+	 * The project member ids.
+	 **/
+	private List<Long> projectMemberIds;
 
 	/**
 	 * Version used for update.
@@ -44,12 +58,17 @@ public class ScrumMeetingConversationModel
 	 * The date.
 	 **/
 	private Date date;
-	
+
 	/**
 	 * The display name.
 	 **/
 	private String displayName;
 
+	/** 
+	 * The display sprint. 
+	 **/
+	private String displayStory;
+	
 	/**
 	 * The time.
 	 **/
@@ -165,35 +184,73 @@ public class ScrumMeetingConversationModel
 		this.date = date;
 	}
 
-	public Long getUserId() {
+	public Long getUserId()
+	{
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(Long userId)
+	{
 		this.userId = userId;
 	}
 
-	public String getDisplayName() {
+	public String getDisplayName()
+	{
 		return displayName;
 	}
 
-	public void setDisplayName(String displayName) {
+	public void setDisplayName(String displayName)
+	{
 		this.displayName = displayName;
 	}
 
-	public String getTime() {
+	public String getTime()
+	{
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(String time)
+	{
 		this.time = time;
 	}
 
-	public String getDisplayDate() {
+	public String getDisplayDate()
+	{
 		return displayDate;
 	}
 
-	public void setDisplayDate(String displayDate) {
+	public void setDisplayDate(String displayDate)
+	{
 		this.displayDate = displayDate;
+	}
+
+	public String getDisplayStory()
+	{
+		return displayStory;
+	}
+
+	public void setDisplayStory(String displayStory)
+	{
+		this.displayStory = displayStory;
+	}
+
+	public Long getStoryId()
+	{
+		return storyId;
+	}
+
+	public void setStoryId(Long storyId)
+	{
+		this.storyId = storyId;
+	}
+
+	public List<Long> getProjectMemberIds()
+	{
+		return projectMemberIds;
+	}
+
+	public void setProjectMemberIds(List<Long> projectMemberIds)
+	{
+		this.projectMemberIds = projectMemberIds;
 	}
 }

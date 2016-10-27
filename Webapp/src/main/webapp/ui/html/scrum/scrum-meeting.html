@@ -1,50 +1,96 @@
-<div class="container-fluid" ng-controller="scrumController" style="paddding: 0px;" ng-init="initScrum()">
+<div class="flexVertical" ng-controller="scrumController" style="width: 100%; min-height: 100%;" >
 
-
-	<table>
-		<tr>
-			<td>
-				<button type="button" class="btn btn-primary">Scrum Meeting
-				<i class="fa fa-arrow-right" aria-hidden="true"></i>
-				</button>
-			</td>
-			<td style="padding-left: 0.5em;">
-				<yk-date-field name="meetingDate" label="Meeting Date" ng-model="meetingDate"></yk-date-field>
-			</td>
-		</tr>
-	</table>
+	<!-- Header row -->
+	<div style="width: 100%; margin-bottom: 0.5em;" ng-init="initScrum()">
+		<table>
+			<tr>
+				<td style="background-color: #00BFFF; border-radius: 10px; font-size: 1.2em; padding: 0.2em;">
+					<span>Scrum Meeting
+					<i class="fa fa-arrow-right" aria-hidden="true" style="padding-right: 0.2em;"></i>
+					</span>
+				</td>
+				<td style="padding-left: 0.5em;">
+					<yk-date-field name="meetingDate" label="Meeting Date" ng-model="meetingDate"></yk-date-field>
+				</td>
+			</tr>
+		</table>
+	</div>
 	
-	<div class="row" style="margin-top: 1em;" >
-		<div class="col-md-9 col-xs-9 col-sm-9">	
-			<div class="panel" style="margin-bottom: 0px; border-style: solid; border-color: lightblue; 
-			border-width: 5px;">
-				
-				<div style="height: 15em; overflow-y:auto;">
-					<table  width="100%" ng-repeat="scrum in scrumMeetings" style="margin-top: 1em;"> 
-						<tr>
-							<td style="width: 20%; padding-left: 0.5em;">
-								{{scrum.name}}
-							</td>
-							<td style="width: 0%;">
-								<div class="arrow-left-blue"></div>
-							</td>
-							<td style="background-color: lightblue; width: 80%; border-radius: 5px; height: 1em; 
-							padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.5em; padding-bottom: 0.3em;">
-								{{scrum.message}}
-							</td>
-						</tr>
-					</table>
-				</div>
-				
-				<div class="panel-footer">
-					<textarea id="scrumMessageId" ng-model="scrumMessage" ng-keyup="onType($event)" class="form-control" rows="2" cols="2" 
-						placeholder="Type your message here" style="height: 10em; resize: none;"></textarea>
-					<button class="btn btn-success" ng-click="submitScrumContent()">Send</button>						
-				</div>
+	<!-- Coversation layer -->
+	<div style="width: 100%; flex-grow: 1; align-items: stretch;" class="flexHorizontal">
+		<!-- For message -->
+		<div style="flex-grow: 1; align-items: stretch; border-style: solid; border-color: lightblue; 
+			border-width: 5px;" class="flexVertical">
+			<!-- Conversation messages -->
+			<div style="overflow-y:auto; flex-grow: 1; padding-right: 0.5em;">
+				<table  width="100%" ng-repeat="conver in scrumConversations" 
+				class="conver.displayName.length == 0 ? scrum-conversation-margin-less : scrum-conversation-margin-more"> 
+					<tr>
+						<td style="width: 15%; padding-left: 0.5em; color: #CD5C5C; padding-bottom: 1.5em;">
+							{{conver.displayName}}
+						</td>
+						<td style="width: 0%;">
+							<div class="arrow-left-blue"></div>
+						</td>
+						<td style="background-color: lightblue; width: 85%; border-radius: 5px; height: 1em; 
+						padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.5em; padding-bottom: 0.3em;">
+							<span ng-bind-html="conver.message | unsafe"></span>
+							<span ng-if="conver.displayStory.length > 0" style="font-size: 0.8em; color: red;">{{conver.displayStory}}</span> 
+							<span style="float: right; font-size: 0.8em;">{{conver.displayDate}} {{conver.time}}</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Tiny MCE -->
+			<div>
+				<textarea id="scrumMessageId" ng-model="scrumMessage" ng-keyup="onType($event)" class="form-control" rows="2" cols="2" 
+					placeholder="Type your message here" style="height: 10em; resize: none;"></textarea>
+					
+				<table style="width: 100%; margin-top: 0.5em;">
+					<tr>
+						<td>
+							<div style="background: white; border-top-left-radius: 0.5em; margin-bottom: 0.5em; margin-left: 0.5em;">
+								<div class="input-group">
+									<table>
+										<tr>
+											<td>
+												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+												 placeholder="Select a story" value="{{selectedStory.title}}">
+											</td>
+											<td>
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														Story <span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu dropdown-menu-right" ng-if="stories.length > 0">
+													    <li ng-repeat="story in stories">
+													    	<a ng-click="onStoryChange(story.id)" href="">
+													    		{{story.title}}
+													    	</a>
+													    </li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</td>
+						<td>
+							<button class="btn btn-success" ng-click="submitScrumContent()">Send</button>
+						</td>
+						<td>
+							<button class="btn btn-danger" ng-click="closeScrumContent()">Close</button>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 		
-		<div class="col-md-3 col-xs-3 col-sm-3 flexStretchFull" style="border-style: solid; border-color: lightblue; border-width: 5px;"> 
+		<!-- For action Items -->
+		<div style="border-style: solid; border-color: lightblue; border-width: 5px; width: 15em; margin-left: 1em;
+		min-width: 15em;">
 			Action Items
 		</div>
 	</div>

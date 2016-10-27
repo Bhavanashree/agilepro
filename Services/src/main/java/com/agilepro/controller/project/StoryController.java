@@ -7,6 +7,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_BULK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
@@ -134,6 +135,16 @@ public class StoryController extends BaseController implements IStoryController
 	{
 
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
+	}
+	
+	@ActionName(ACTION_TYPE_READ_BY_PROJECT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readByProjectId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<StoryModel>> fetchStoryByProjectId(@RequestParam(value = "projectId", required = true) Long projectId)
+	{
+
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStoriesByProject(projectId));
 	}
 
 	/**

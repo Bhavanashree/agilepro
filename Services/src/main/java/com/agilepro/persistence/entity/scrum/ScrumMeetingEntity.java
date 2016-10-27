@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
+import com.yukthi.persistence.annotations.DataType;
+import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
@@ -31,6 +33,7 @@ public class ScrumMeetingEntity extends WebutilsEntity
 	 * The date.
 	 **/
 	@Column(name = "DATE")
+	@DataTypeMapping(type = DataType.DATE)
 	private Date date;
 
 	/**

@@ -298,20 +298,14 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
+	/**
+	 * Fetch all stories by project.
+	 *
+	 * @param projectId the project id
+	 * @return the list
+	 */
 	public List<StoryModel> fetchAllStoriesByProject(Long projectId)
 	{
-		/*List<StoryReleaseEntity> storyReleaseEntities = istoryReleaseRepository.fetchAllStoryRelease();
-
-		Set<Long> storyIds = storyReleaseEntities.stream().map(entity -> entity.getStory().getId()).collect(Collectors.toSet());
-
-		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
-
-		List<StoryEntity> filterdStories = storyEntities.stream().filter(entity -> !storyIds.contains(entity.getId())).collect(Collectors.toList());
-
-		List<StoryModel> storyModels = new ArrayList<StoryModel>(filterdStories.size());
-
-		filterdStories.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
-*/
 		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
 		
 		List<StoryModel> storyModels = new ArrayList<StoryModel>(storyEntities.size());

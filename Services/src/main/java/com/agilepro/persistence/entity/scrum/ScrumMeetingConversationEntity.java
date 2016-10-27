@@ -7,8 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.agilepro.commons.models.project.ConversationMessageModel;
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.agilepro.persistence.entity.project.StoryEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.persistence.conversion.impl.JsonConverter;
@@ -33,19 +33,27 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	private ScrumMeetingEntity scrumMeeting;
 
 	/**
+	 * The story.
+	 **/
+	@ManyToOne
+	@PropertyMapping(type = ScrumMeetingConversationModel.class, from = "storyId", subproperty = "id")
+	@Column(name = "STORY_ID", nullable = false)
+	private StoryEntity story;
+
+	/**
 	 * The user entity.
 	 **/
-	@Column(name = "USER_ID" , nullable = false)
+	@Column(name = "USER_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = ScrumMeetingConversationModel.class, from = "userId", subproperty = "id")
-	private UserEntity userEntity;
-	
+	private UserEntity user;
+
 	/**
 	 * The project member ids.
 	 **/
 	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
 	private List<Long> projectMemberIds;
-	
+
 	/**
 	 * The message.
 	 */
@@ -119,5 +127,68 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	public void setDate(Date date)
 	{
 		this.date = date;
+	}
+
+	/**
+	 * Gets the user.
+	 *
+	 * @return the user
+	 */
+	public UserEntity getUser()
+	{
+		return user;
+	}
+
+	/**
+	 * Sets the user.
+	 *
+	 * @param user
+	 *            the new user
+	 */
+	public void setUser(UserEntity user)
+	{
+		this.user = user;
+	}
+
+	/**
+	 * Gets the project member ids.
+	 *
+	 * @return the project member ids
+	 */
+	public List<Long> getProjectMemberIds()
+	{
+		return projectMemberIds;
+	}
+
+	/**
+	 * Sets the project member ids.
+	 *
+	 * @param projectMemberIds
+	 *            the new project member ids
+	 */
+	public void setProjectMemberIds(List<Long> projectMemberIds)
+	{
+		this.projectMemberIds = projectMemberIds;
+	}
+
+	/**
+	 * Gets the story.
+	 *
+	 * @return the story
+	 */
+	public StoryEntity getStory()
+	{
+		return story;
+	}
+
+	/**
+	 * Sets the story.
+	 *
+	 * @param story
+	 *            the new story
+	 */
+	public void setStory(StoryEntity story)
+	{
+		this.story = story;
 	}
 }

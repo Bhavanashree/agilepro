@@ -437,14 +437,12 @@ body
      list-style-image: url("/ui/images/toggle-small.png");
 }
 
-.flexStretchFull
+.scrum-conversation-margin-more
 {
-	display: -webkit-flex; /* Safari */
-	display: flex;
-	-webkit-flex-direction: row; /* Safari */
-	flex-direction:         row;
-	flex-wrap: 			 nowrap;
-	justify-content:    flex-start;
-	align-items: 		stretch;
-	align-content:      stretch;
+	margin-top: 1em;
+}
+
+.scrum-conversation-margin-less
+{
+	margin-top: 0.5em;
 }

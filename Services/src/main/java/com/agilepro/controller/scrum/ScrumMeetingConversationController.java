@@ -4,7 +4,6 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_SCRUM_MEETING_
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -59,9 +58,8 @@ public class ScrumMeetingConversationController extends BaseController implement
 	@ActionName(ACTION_TYPE_READ_ALL)
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<ScrumMeetingConversationModel>> fetchConversation(@RequestParam(value = "scrumMeetingId", required = false) Long scrumMeetingId,
-			@RequestParam(value = "date", required = false) Date date)
+	public BasicReadResponse<List<ScrumMeetingConversationModel>> fetchConversation(@RequestParam(value = "scrumMeetingId", required = true) Long scrumMeetingId)
 	{
-		return new BasicReadResponse<List<ScrumMeetingConversationModel>>(scrumMeetingConversationService.fetchScrumMeeting(scrumMeetingId, date));
+		return new BasicReadResponse<List<ScrumMeetingConversationModel>>(scrumMeetingConversationService.fetchScrumMeetingConversation(scrumMeetingId));
 	}
 }
