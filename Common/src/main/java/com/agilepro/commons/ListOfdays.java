@@ -17,7 +17,7 @@ public enum ListOfdays
 	/**
 	 * The monday.
 	 **/
-	@Label("")
+	@Label("Monday")
 	MONDAY,
 	
 	/** 
