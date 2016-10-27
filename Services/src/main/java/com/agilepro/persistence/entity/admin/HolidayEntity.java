@@ -39,7 +39,7 @@ public class HolidayEntity extends WebutilsExtendableEntity
 	private Date date;
 
 	/**
-	 *  The days.
+	 * The days.
 	 **/
 	@Column(name = "DAYS", length = 1000)
 	@DataTypeMapping(type = DataType.BLOB, converterType = JsonConverter.class)

@@ -7,12 +7,9 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.ListOfdays;
-import com.agilepro.commons.UserRole;
+import com.agilepro.commons.models.admin.HolidayModel;
 import com.agilepro.persistence.entity.admin.HolidayEntity;
 import com.agilepro.persistence.repository.admin.IHolidayRepository;
-import com.yukthi.webutils.annotations.LovMethod;
-import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -44,17 +41,16 @@ public class HolidayService extends BaseCrudService<HolidayEntity, IHolidayRepos
 		holidayRepo = repositoryFactory.getRepository(IHolidayRepository.class);
 	}
 
-	@LovMethod(name = "listOfDaysList")
-	public List<ValueLabel> fetchDays()
+	/**
+	 * Fetch holidays.
+	 *
+	 * @return the list
+	 */
+	public List<HolidayModel> fetchHolidays()
 	{
-		List<ValueLabel> valueLabel = new ArrayList<>();
-		ValueLabel value = null;
-		for(ListOfdays day : ListOfdays.values())
-		{
-			value = new ValueLabel(day.name(), day.name());
-			valueLabel.add(value);
-		}
+		List<HolidayModel> holidayModels = new ArrayList<HolidayModel>();
 
-		return valueLabel;
+		holidayRepo.fetchHoliday().forEach(entity -> holidayModels.add(super.toModel(entity, HolidayModel.class)));
+		return holidayModels;
 	}
 }

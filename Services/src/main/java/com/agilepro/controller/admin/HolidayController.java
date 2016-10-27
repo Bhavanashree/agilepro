@@ -3,9 +3,12 @@ package com.agilepro.controller.admin;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_HOLIDAY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
+import com.agilepro.commons.controllers.admin.IHolidayController;
 import com.agilepro.commons.models.admin.HolidayModel;
 import com.agilepro.persistence.entity.admin.HolidayEntity;
 import com.agilepro.services.admin.HolidayService;
@@ -36,7 +40,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_HOLIDAY)
 @RequestMapping("/holiday")
-public class HolidayController extends BaseController
+public class HolidayController extends BaseController implements IHolidayController
 {
 
 	/**
@@ -52,6 +56,7 @@ public class HolidayController extends BaseController
 	 *            the model
 	 * @return the basic save response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = {UserRole.HOLIDAY_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -71,6 +76,7 @@ public class HolidayController extends BaseController
 	 * 
 	 * @return the HolidayModel read response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.HOLIDAY_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
@@ -82,6 +88,16 @@ public class HolidayController extends BaseController
 		return new BasicReadResponse<HolidayModel>(holidayModel);
 	}
 
+	@Override
+	@ActionName(ACTION_TYPE_READ_ALL)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
+	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<HolidayModel>> fetchHoliday()
+	{
+		return new BasicReadResponse<List<HolidayModel>>(holidayService.fetchHolidays());
+	}
+
 	/**
 	 * Update.
 	 *
@@ -89,6 +105,7 @@ public class HolidayController extends BaseController
 	 *            the model
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_UPDATE)
 	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.HOLIDAY_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -112,6 +129,7 @@ public class HolidayController extends BaseController
 	 *            the id
 	 * @return the base response
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_DELETE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.HOLIDAY_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
