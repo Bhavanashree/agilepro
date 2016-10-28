@@ -477,6 +477,16 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix holiday.
 	 **/
 	public String ACTION_PREFIX_HOLIDAY = "holiday";
+	
+	/**
+	 *  The action type to save. 
+	 **/
+	public String ACTION_TYPE_SAVE_LIST_OF_DAYS = "listOfDays";
+	
+	/** 
+	 * The action type read list of days.
+	 **/
+	public String ACTION_TYPE_READ_LIST_OF_DAYS = "readListOfDays";
 
 	/**
 	 * The param id.
@@ -1371,4 +1381,14 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action holiday delete all.
 	 **/
 	public String ACTION_HOLIDAY_DELETE_ALL = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_DELETE_ALL;
+	
+	/**
+	 * The action holiday list of days.
+	 */
+	public String ACTION_LISTOFDAYS_SAVE = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_SAVE_LIST_OF_DAYS;
+	
+	/**
+	 *  The action listofdays read. 
+	 **/
+	public String ACTION_LISTOFDAYS_READ = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_READ_LIST_OF_DAYS;
 }

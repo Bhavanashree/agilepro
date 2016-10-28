@@ -3,6 +3,7 @@ package com.agilepro.commons.controllers.admin;
 import java.util.List;
 
 import com.agilepro.commons.models.admin.HolidayModel;
+import com.agilepro.commons.models.customer.CustomerSettingModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
@@ -57,4 +58,6 @@ public interface IHolidayController
 	 * @return the base response
 	 */
 	public BaseResponse delete(Long id);
+
+	public BasicReadResponse<CustomerSettingModel> fetchWeeklyHolidays(String key);
 }

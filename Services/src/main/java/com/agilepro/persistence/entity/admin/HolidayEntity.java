@@ -108,11 +108,22 @@ public class HolidayEntity extends WebutilsExtendableEntity
 		this.date = date;
 	}
 
+	/**
+	 * Gets the days.
+	 *
+	 * @return the days
+	 */
 	public List<ListOfdays> getDays()
 	{
 		return days;
 	}
 
+	/**
+	 * Sets the days.
+	 *
+	 * @param days
+	 *            the new days
+	 */
 	public void setDays(List<ListOfdays> days)
 	{
 		this.days = days;

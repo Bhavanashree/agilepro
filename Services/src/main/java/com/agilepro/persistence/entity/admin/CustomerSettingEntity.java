@@ -17,7 +17,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  * The Class CustomerSettingEntity.
  */
 @Table(name = "CUSTOMER_SETTING")
-@UniqueConstraints({ @UniqueConstraint(name = "CUSTOMER_ID_KEY", fields = { "customerEntity", "key" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "CUSTOMER_ID_KEY", fields = { "customer", "key" }) })
 public class CustomerSettingEntity extends WebutilsExtendableEntity
 {
 
@@ -27,7 +27,7 @@ public class CustomerSettingEntity extends WebutilsExtendableEntity
 	@ManyToOne
 	@Column(name = "CUSTOMER_ID", nullable = false)
 	@PropertyMapping(type = CustomerSettingModel.class, from = "customerId", subproperty = "id")
-	private CustomerEntity customerEntity;
+	private CustomerEntity customer;
 
 	/**
 	 * The key.
@@ -38,29 +38,29 @@ public class CustomerSettingEntity extends WebutilsExtendableEntity
 	/**
 	 * The value.
 	 **/
-	@Column(name = "VALUE", nullable = false)
+	@Column(name = "VALUE")
 	@DataTypeMapping(type = DataType.CLOB, converterType = JsonConverter.class)
 	private Object value;
 
 	/**
-	 * Gets the customer entity.
+	 * Gets the customer.
 	 *
-	 * @return the customer entity
+	 * @return the customer
 	 */
-	public CustomerEntity getCustomerEntity()
+	public CustomerEntity getCustomer()
 	{
-		return customerEntity;
+		return customer;
 	}
 
 	/**
-	 * Sets the customer entity.
+	 * Sets the customer.
 	 *
-	 * @param customerEntity
-	 *            the new customer entity
+	 * @param customer
+	 *            the new customer
 	 */
-	public void setCustomerEntity(CustomerEntity customerEntity)
+	public void setCustomer(CustomerEntity customer)
 	{
-		this.customerEntity = customerEntity;
+		this.customer = customer;
 	}
 
 	/**
@@ -84,11 +84,22 @@ public class CustomerSettingEntity extends WebutilsExtendableEntity
 		this.key = key;
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	public Object getValue()
 	{
 		return value;
 	}
 
+	/**
+	 * Sets the value.
+	 *
+	 * @param value
+	 *            the new value
+	 */
 	public void setValue(Object value)
 	{
 		this.value = value;

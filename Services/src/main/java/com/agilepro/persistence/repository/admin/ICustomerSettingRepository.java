@@ -21,5 +21,5 @@ public interface ICustomerSettingRepository extends IWebutilsRepository<Customer
 	 * @return the customer setting entity
 	 */
 	@RestrictBySpace
-	public CustomerSettingEntity fetchCustomerSetting(@Condition(value = "customerEntity.id") Long id, @Condition(value = "key") String key);
+	public CustomerSettingEntity fetchCustomerSetting(@Condition(value = "customer.id") Long id, @Condition(value = "key") String key);
 }

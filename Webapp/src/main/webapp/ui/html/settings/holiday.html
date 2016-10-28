@@ -1,4 +1,72 @@
-<div class="container-fluid" ng-controller="holidayController" style="padding: 0px;" ng-init="fetchHolidaySetting()">
+<div class="flexVertical" ng-controller="holidayController" style="width: 100%; min-height: 100%;"  ng-init="fetchHolidaySetting()">
+	<div style="width: 100%; margin-bottom: 0.5em;">
+		<table>
+			<tr>
+				<td style="margin: 0px 4px 0px 0px; padding: 20px 0px 0px; float: left;">
+					<span style="font-family: cursive;">Weekly Holidays </span>
+				</td>
+				
+				<td style=" width: 100%;">
+				<div class="flexHorizontal" style="width: 100%;">
+					<div class="form-control" style="width: 100%; float: left; height: 50px; padding: 10px; margin: 10px;" >
+						<div ng-repeat="day in daysArray" style="margin-left: 40px;display:inline-block;">
+							<input type="checkbox" style="min-width: 1px; display: inline-block; float: left; height: 1em; width:1em;"
+									 ng-model="day.check" />
+								<span style="margin-left:5px; width:100px; vertical-align: middle;">{{day.name}}</span>
+						</div>
+					</div>
+				</div>
+					<div class="footer">
+						<button type="button" ng-click = "test()" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" 
+								style="color: rgb(226, 226, 226); margin-right: 10px; float: right;" aria-haspopup="true" aria-expanded="false"> Update</button>		
+					</div>
+				</td>	
+			</tr>
+		</table>
+		
+		<div style="width: 100%; flex-grow: 1; align-items: stretch;" class="flexHorizontal">
+			<div style="height:3em;">
+				<a role="button" ng-click="changeRowSelection($index, $event); addEntry($event);" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" data-toggle="tooltip" title="Add">
+					<i class="glyphicon glyphicon-plus"/>
+				</a>
+				<a role="button" ng-click="changeRowSelection($index, $event); " style="text-decoration: none; color: red; font-size: 1.3em;" class="yk-icon-link" data-toggle="tooltip" title="Remove">
+					<i class="glyphicon glyphicon-remove"/>
+				</a>
+			</div>
+		
+		</div>
+		<div style="width: 100%;  align-items: stretch;" class="flexVertical">
+			<div class="panel panel-default">
+				<div style=" overflow: auto;"  ng-init="displayHolidays()">
+						<table class="table table-bordered table-striped table-hover" id="customerPocList" style="margin: 0px;">
+							<tr>
+								<th style="text-align: center;width:30em;">Date</th>
+								<th style="text-align: center;width:30em;">Title</th>
+							</tr>
+							<tr style="cursor: pointer;"  ng-repeat =" obj in holidays">
+								<td  style=" text-align: center;width:30em;" align="center">{{obj.date}}</td>
+								<td align="center">
+									{{obj.title}}	
+								</td>
+								<td align="right" style="width:3px;">
+									<a role="button" ng-click="changeRowSelection($index, $event); deleteEntry($event);" style="text-decoration: none; color: red; font-size: 0.9em;" class="yk-icon-link" data-toggle="tooltip" title="Remove">
+											<i class="glyphicon glyphicon-remove"/>
+									</a>
+								</td>
+							</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		<yk-model-dialog id="holidayDialog" name="HolidayModel" title="Holiday" columns="2" actionMethod="saveChanges($event)">
+	</yk-model-dialog>
+	
+</div>
+
+
+<!-- <div class="container-fluid" ng-controller="holidayController" style="padding: 0px;" ng-init="fetchHolidaySetting()">
 	<div class="col-md-12" style="float:right";>
 		<table>
 			<tr>
@@ -57,4 +125,4 @@
 	<yk-model-dialog id="holidayDialog" name="HolidayModel" title="Holiday" columns="2" actionMethod="saveChanges($event)">
 	</yk-model-dialog>
 
-</div>
+</div> -->

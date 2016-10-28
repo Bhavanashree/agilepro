@@ -4,10 +4,12 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_CUSTOMER_SETTI
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
+import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,7 +57,7 @@ public class CustomerSettingController extends BaseController implements ICustom
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid CustomerSettingModel customerSettingModel)
 	{
-		CustomerSettingEntity customerSettingEntity = customerSettingService.saveHoliday(customerSettingModel);
+		CustomerSettingEntity customerSettingEntity = customerSettingService.save(customerSettingModel);
 
 		return new BasicSaveResponse(customerSettingEntity.getId());
 	}
@@ -87,8 +89,10 @@ public class CustomerSettingController extends BaseController implements ICustom
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.USER_SETTING_VIEW, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<CustomerSettingModel> read()
+	public BasicReadResponse<CustomerSettingModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		return new BasicReadResponse<CustomerSettingModel>(customerSettingService.fetchCustomerSetting());
+		CustomerSettingModel holidayModel = customerSettingService.fetchFullModel(id, CustomerSettingModel.class);
+
+		return new BasicReadResponse<CustomerSettingModel>(holidayModel);
 	}
 }

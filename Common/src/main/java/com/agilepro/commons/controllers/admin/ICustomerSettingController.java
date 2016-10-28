@@ -28,7 +28,7 @@ public interface ICustomerSettingController
 	 *            the user id
 	 * @return the basic read response
 	 */
-	public BasicReadResponse<CustomerSettingModel> read();
+	public BasicReadResponse<CustomerSettingModel> read(Long id);
 
 	/**
 	 * Update.
