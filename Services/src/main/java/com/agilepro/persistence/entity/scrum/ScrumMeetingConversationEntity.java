@@ -37,7 +37,7 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	 **/
 	@ManyToOne
 	@PropertyMapping(type = ScrumMeetingConversationModel.class, from = "storyId", subproperty = "id")
-	@Column(name = "STORY_ID", nullable = false)
+	@Column(name = "STORY_ID")
 	private StoryEntity story;
 
 	/**

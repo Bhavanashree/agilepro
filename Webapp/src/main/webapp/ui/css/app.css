@@ -436,13 +436,3 @@ body
 .checkedClass {
      list-style-image: url("/ui/images/toggle-small.png");
 }
-
-.scrum-conversation-margin-more
-{
-	margin-top: 1em;
-}
-
-.scrum-conversation-margin-less
-{
-	margin-top: 0.5em;
-}

@@ -2,7 +2,6 @@ package com.agilepro.services.scrum;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.agilepro.controller.response.ScrumMeetingConversationReadResponse;
 import com.agilepro.persistence.entity.scrum.ScrumMeetingConversationEntity;
 import com.agilepro.persistence.repository.scrum.IScrumMeetingConversationRepository;
 import com.agilepro.services.project.StoryService;
@@ -31,9 +31,9 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 	 **/
 	@Autowired
 	private UserService userService;
-	
-	/** 
-	 * The story service. 
+
+	/**
+	 * The story service.
 	 **/
 	@Autowired
 	private StoryService storyService;
@@ -64,19 +64,19 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 	}
 
 	/**
-	 * Fetch scrum meeting.
+	 * Fetch scrum meeting conversation.
 	 *
 	 * @param scrumMeetingId
 	 *            the scrum meeting id
-	 * @return the list
+	 * @return the scrum meeting conversation read response
 	 */
-	public List<ScrumMeetingConversationModel> fetchScrumMeetingConversation(Long scrumMeetingId)
+	public ScrumMeetingConversationReadResponse fetchScrumMeetingConversation(Long scrumMeetingId)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
 		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 
-		String previousDisplayName = new String(), displayName = null;
-		Date conversationDate;
+		Long previousUserId = -1L;
+		List<ScrumMeetingConversationModel> newUserMessage = new ArrayList<ScrumMeetingConversationModel>();
 
 		List<ScrumMeetingConversationEntity> scrumConversations = iscrumMeetingConversationRepository.fetchConversationByScrumMeeting(scrumMeetingId);
 
@@ -89,28 +89,33 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 
 		for(ScrumMeetingConversationModel model : scrumConversationModel)
 		{
-			conversationDate = model.getDate();
-			displayName = userService.fetch(model.getUserId()).getDisplayName();
-
-			if(previousDisplayName.equals(displayName))
-			{
-				model.setDisplayName(new String());
-			}
-			else
-			{
-				model.setDisplayName(displayName);
-			}
+			model.setDisplayDate(dateFormat.format(model.getDate()));
+			model.setTime(timeFormat.format(model.getDate()));
 
 			if(model.getStoryId() != null)
 			{
 				model.setDisplayStory(storyService.fetch(model.getStoryId()).getTitle());
 			}
-			
-			model.setDisplayDate(dateFormat.format(conversationDate));
-			model.setTime(timeFormat.format(conversationDate));
 
-			previousDisplayName = displayName;
+			if(previousUserId.equals(model.getUserId()))
+			{
+				model.setDisplayName(new String());
+
+				newUserMessage.add(model);
+			}
+			else
+			{
+				model.setDisplayName(userService.fetch(model.getUserId()).getDisplayName());
+
+				newUserMessage = new ArrayList<ScrumMeetingConversationModel>();
+				newUserMessage.add(model);
+
+				model.setNewUserMessage(newUserMessage);
+			}
+
+			previousUserId = model.getUserId();
 		}
-		return scrumConversationModel;
+
+		return new ScrumMeetingConversationReadResponse(scrumConversationModel);
 	}
 }

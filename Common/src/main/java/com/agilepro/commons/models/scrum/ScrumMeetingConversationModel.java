@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.yukthi.validation.annotations.Required;
+import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
@@ -27,17 +28,17 @@ public class ScrumMeetingConversationModel
 	@Required
 	private Long scrumMeetingId;
 
-	/** 
+	/**
 	 * The user id. *
 	 */
 	@Required
 	private Long userId;
-	
-	/** 
-	 * The story id. 
+
+	/**
+	 * The story id.
 	 **/
 	private Long storyId;
-	
+
 	/**
 	 * The project member ids.
 	 **/
@@ -55,6 +56,12 @@ public class ScrumMeetingConversationModel
 	private String message;
 
 	/**
+	 * The conversations.
+	 **/
+	@IgnoreField
+	private List<ScrumMeetingConversationModel> newUserMessage;
+
+	/**
 	 * The date.
 	 **/
 	private Date date;
@@ -64,11 +71,11 @@ public class ScrumMeetingConversationModel
 	 **/
 	private String displayName;
 
-	/** 
-	 * The display sprint. 
+	/**
+	 * The display sprint.
 	 **/
 	private String displayStory;
-	
+
 	/**
 	 * The time.
 	 **/
@@ -184,73 +191,171 @@ public class ScrumMeetingConversationModel
 		this.date = date;
 	}
 
+	/**
+	 * Gets the user id.
+	 *
+	 * @return the user id
+	 */
 	public Long getUserId()
 	{
 		return userId;
 	}
 
+	/**
+	 * Sets the user id.
+	 *
+	 * @param userId
+	 *            the new user id
+	 */
 	public void setUserId(Long userId)
 	{
 		this.userId = userId;
 	}
 
+	/**
+	 * Gets the display name.
+	 *
+	 * @return the display name
+	 */
 	public String getDisplayName()
 	{
 		return displayName;
 	}
 
+	/**
+	 * Sets the display name.
+	 *
+	 * @param displayName
+	 *            the new display name
+	 */
 	public void setDisplayName(String displayName)
 	{
 		this.displayName = displayName;
 	}
 
+	/**
+	 * Gets the time.
+	 *
+	 * @return the time
+	 */
 	public String getTime()
 	{
 		return time;
 	}
 
+	/**
+	 * Sets the time.
+	 *
+	 * @param time
+	 *            the new time
+	 */
 	public void setTime(String time)
 	{
 		this.time = time;
 	}
 
+	/**
+	 * Gets the display date.
+	 *
+	 * @return the display date
+	 */
 	public String getDisplayDate()
 	{
 		return displayDate;
 	}
 
+	/**
+	 * Sets the display date.
+	 *
+	 * @param displayDate
+	 *            the new display date
+	 */
 	public void setDisplayDate(String displayDate)
 	{
 		this.displayDate = displayDate;
 	}
 
+	/**
+	 * Gets the display story.
+	 *
+	 * @return the display story
+	 */
 	public String getDisplayStory()
 	{
 		return displayStory;
 	}
 
+	/**
+	 * Sets the display story.
+	 *
+	 * @param displayStory
+	 *            the new display story
+	 */
 	public void setDisplayStory(String displayStory)
 	{
 		this.displayStory = displayStory;
 	}
 
+	/**
+	 * Gets the story id.
+	 *
+	 * @return the story id
+	 */
 	public Long getStoryId()
 	{
 		return storyId;
 	}
 
+	/**
+	 * Sets the story id.
+	 *
+	 * @param storyId
+	 *            the new story id
+	 */
 	public void setStoryId(Long storyId)
 	{
 		this.storyId = storyId;
 	}
 
+	/**
+	 * Gets the project member ids.
+	 *
+	 * @return the project member ids
+	 */
 	public List<Long> getProjectMemberIds()
 	{
 		return projectMemberIds;
 	}
 
+	/**
+	 * Sets the project member ids.
+	 *
+	 * @param projectMemberIds
+	 *            the new project member ids
+	 */
 	public void setProjectMemberIds(List<Long> projectMemberIds)
 	{
 		this.projectMemberIds = projectMemberIds;
+	}
+
+	/**
+	 * Gets the new user message.
+	 *
+	 * @return the new user message
+	 */
+	public List<ScrumMeetingConversationModel> getNewUserMessage()
+	{
+		return newUserMessage;
+	}
+
+	/**
+	 * Sets the new user message.
+	 *
+	 * @param newUserMessage
+	 *            the new new user message
+	 */
+	public void setNewUserMessage(List<ScrumMeetingConversationModel> newUserMessage)
+	{
+		this.newUserMessage = newUserMessage;
 	}
 }

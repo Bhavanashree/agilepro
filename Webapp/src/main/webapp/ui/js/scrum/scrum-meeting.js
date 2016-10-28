@@ -11,12 +11,7 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	
 	$scope.projectMemberIds = [];
 	
-	$scope.initScrum = function() {
-		
-		setTimeout($scope.initScrum1, 3000);
-	};
-	
-	 $scope.initScrum1 = function() {
+	 $scope.initScrum = function() {
 		 console.log("init scrum is invoked");
 		 
 		 var mceContext = {
@@ -46,8 +41,12 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 			}, mceContext)
 	    };
  	
-		 
-		tinymce.init(mceContext);
+		try
+		{
+			tinymce.remove();
+			tinymce.init(mceContext);
+		}catch(ex)
+		{}
 		 
 		 //tinymce.EditorManager.execCommand('mceRemoveControl',true, mceContext.id);
 		
@@ -104,7 +103,7 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	
 	$scope.fetchAllScrumMeetings = function(){
 		
-		// fetch srum metting
+		// fetch scrum meeting
 		actionHelper.invokeAction("scrumMeeting.readAll", null, {"date" : $scope.meetingDate}, 
 				function(readResponse, respConfig)
 				{

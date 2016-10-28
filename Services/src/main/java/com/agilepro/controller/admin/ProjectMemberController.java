@@ -95,7 +95,7 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_PROJECT_MEMEBERS_BY_PROJECT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_MEMBER_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.EMPLOYEE_VIEW, UserRole.PROJECT_MEMBER_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readProjectMembersByProjectId", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<ProjectMemberModel>> fetchProjectMembers(@RequestParam(value = "projectId") Long projectId)

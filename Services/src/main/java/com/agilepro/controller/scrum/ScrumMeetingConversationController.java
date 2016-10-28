@@ -3,11 +3,7 @@ package com.agilepro.controller.scrum;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_SCRUM_MEETING_CONVERSATION;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
-
-import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.agilepro.commons.controllers.scrum.IScrumMeetingConversationController;
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.agilepro.controller.response.ScrumMeetingConversationReadResponse;
 import com.agilepro.services.scrum.ScrumMeetingConversationService;
 import com.yukthi.webutils.annotations.ActionName;
-import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
@@ -54,12 +49,19 @@ public class ScrumMeetingConversationController extends BaseController implement
 	{
 		return new BasicSaveResponse(scrumMeetingConversationService.save(scrumMeetingConversationModel).getId());
 	}
-	
+
+	/**
+	 * Fetch conversation.
+	 *
+	 * @param scrumMeetingId
+	 *            the scrum meeting id
+	 * @return the scrum meeting conversation read response
+	 */
 	@ActionName(ACTION_TYPE_READ_ALL)
 	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<ScrumMeetingConversationModel>> fetchConversation(@RequestParam(value = "scrumMeetingId", required = true) Long scrumMeetingId)
+	public ScrumMeetingConversationReadResponse fetchConversation(@RequestParam(value = "scrumMeetingId", required = true) Long scrumMeetingId)
 	{
-		return new BasicReadResponse<List<ScrumMeetingConversationModel>>(scrumMeetingConversationService.fetchScrumMeetingConversation(scrumMeetingId));
+		return scrumMeetingConversationService.fetchScrumMeetingConversation(scrumMeetingId);
 	}
 }
