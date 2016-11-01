@@ -57,6 +57,8 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		$scope.meetingDate = $scope.simpleDateFormatter.format(new Date());
 		
 		$scope.fetchAllScrumMeetings();
+		
+		$scope.fetchAllScrumMeetingConversation();
 	};
 	
 	
@@ -95,7 +97,7 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 					{
 						tinymce.activeEditor.setContent("");
 						
-						$scope.fetchAllScrumMeetings();
+						$scope.fetchAllScrumMeetingConversation();
 					}
 				}
 		, {"hideInProgress" : true});
@@ -108,8 +110,6 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 				function(readResponse, respConfig)
 				{
 					$scope.scrumMeetings = readResponse.model;
-					
-					$scope.fetchAllScrumMeetingConversation();
 				}
 		, {"hideInProgress" : true});
 		
@@ -156,6 +156,8 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 				function(readResponse, respConfig)
 				{
 					$scope.scrumConversations = readResponse.model;
+					
+					console.log($scope.scrumConversations[1]);
 					
 					try
 					{

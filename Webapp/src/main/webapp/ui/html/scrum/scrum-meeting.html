@@ -24,10 +24,10 @@
 			border-width: 5px;" class="flexVertical">
 			<!-- Conversation messages -->
 			<div style="overflow-y:auto; flex-grow: 1; padding-right: 0.5em;">
-				<table  width="100%" ng-repeat="conver in scrumConversations"> 
+				<table  width="100%" ng-repeat="conver in scrumConversations" style="margin-top: 1em;"> 
 					<tr>
 						<td>
-							<table ng-repeat="newUser in conver.newUserMessage" style="margin-top: 1em;">
+							<table ng-repeat="newUser in conver" style="margin-top: 0.3em;">
 								<tr>
 									<td style="width: 1em; padding-left: 0.5em; color: #CD5C5C; padding-right: 1.5em; white-space: nowrap; vertical-align: middle;">
 										{{newUser.displayName}}
@@ -94,9 +94,20 @@
 		</div>
 		
 		<!-- For action Items -->
-		<div style="border-style: solid; border-color: lightblue; border-width: 5px; width: 15em; margin-left: 1em;
+		<div style="border-style: solid; border-color: lightblue; border-width: 5px; width: 15em; margin-left: 0.5em;
 		min-width: 15em;">
-			Action Items
+			<table  width="100%" ng-repeat="conver in scrumConversations" style="margin-top: 1em;"> 
+					<tr>
+						<td>
+							<table ng-repeat="newUser in conver" style="margin-top: 0.3em;">
+								<tr>
+									<td style="width: 1em; padding-left: 0.5em; color: #CD5C5C; padding-right: 1.5em; white-space: nowrap; vertical-align: middle;">
+										{{newUser.displayName}}
+									</td>
+								</tr>
+							</table>
+					</tr>
+				</table>
 		</div>
 	</div>
 	

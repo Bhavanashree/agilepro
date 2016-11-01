@@ -48,6 +48,8 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	@PropertyMapping(type = ScrumMeetingConversationModel.class, from = "userId", subproperty = "id")
 	private UserEntity user;
 
+	private String providedBy;
+	
 	/**
 	 * The project member ids.
 	 **/
@@ -190,5 +192,13 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	public void setStory(StoryEntity story)
 	{
 		this.story = story;
+	}
+
+	public String getProvidedBy() {
+		return providedBy;
+	}
+
+	public void setProvidedBy(String providedBy) {
+		this.providedBy = providedBy;
 	}
 }

@@ -1,8 +1,7 @@
 package com.agilepro.controller.response;
 
 import java.util.List;
-
-import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.agilepro.commons.models.scrum.ScrumMeetingConversationReader;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 
 /**
@@ -10,43 +9,20 @@ import com.yukthi.webutils.common.models.BasicReadResponse;
  * 
  * @author Pritam.
  */
-public class ScrumMeetingConversationReadResponse extends BasicReadResponse<List<ScrumMeetingConversationModel>>
+public class ScrumMeetingConversationReadResponse extends BasicReadResponse<List<ScrumMeetingConversationReader>>
 {
-	/**
-	 * The new user message.
-	 **/
-	private List<ScrumMeetingConversationModel> newUserMessage;
+	private List<ScrumMeetingConversationReader> scrumMeetingConversationReaders;
 
-	/**
-	 * Instantiates a new scrum meeting conversation read response.
-	 *
-	 * @param newUserMessage
-	 *            the new user message
-	 */
-	public ScrumMeetingConversationReadResponse(List<ScrumMeetingConversationModel> newUserMessage)
-	{
+	public ScrumMeetingConversationReadResponse(List<ScrumMeetingConversationReader> scrumMeetingConversationReaders) {
 		super();
-		this.newUserMessage = newUserMessage;
+		this.scrumMeetingConversationReaders = scrumMeetingConversationReaders;
 	}
 
-	/**
-	 * Gets the new user message.
-	 *
-	 * @return the new user message
-	 */
-	public List<ScrumMeetingConversationModel> getNewUserMessage()
-	{
-		return newUserMessage;
+	public List<ScrumMeetingConversationReader> getScrumMeetingConversationReaders() {
+		return scrumMeetingConversationReaders;
 	}
 
-	/**
-	 * Sets the new user message.
-	 *
-	 * @param newUserMessage
-	 *            the new new user message
-	 */
-	public void setNewUserMessage(List<ScrumMeetingConversationModel> newUserMessage)
-	{
-		this.newUserMessage = newUserMessage;
+	public void setScrumMeetingConversationReaders(List<ScrumMeetingConversationReader> scrumMeetingConversationReaders) {
+		this.scrumMeetingConversationReaders = scrumMeetingConversationReaders;
 	}
 }

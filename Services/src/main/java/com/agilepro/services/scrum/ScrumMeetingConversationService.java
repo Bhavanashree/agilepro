@@ -2,7 +2,9 @@ package com.agilepro.services.scrum;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.agilepro.commons.models.scrum.ScrumMeetingConversationReader;
 import com.agilepro.controller.response.ScrumMeetingConversationReadResponse;
 import com.agilepro.persistence.entity.scrum.ScrumMeetingConversationEntity;
 import com.agilepro.persistence.repository.scrum.IScrumMeetingConversationRepository;
@@ -63,25 +66,24 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		iscrumMeetingConversationRepository = repositoryFactory.getRepository(IScrumMeetingConversationRepository.class);
 	}
 
-	/**
-	 * Fetch scrum meeting conversation.
-	 *
-	 * @param scrumMeetingId
-	 *            the scrum meeting id
-	 * @return the scrum meeting conversation read response
-	 */
-	public ScrumMeetingConversationReadResponse fetchScrumMeetingConversation(Long scrumMeetingId)
+	
+	public Map<Integer, List<ScrumMeetingConversationModel>> fetchScrumMeetingConversation(Long scrumMeetingId)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
 		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 
 		Long previousUserId = -1L;
-		List<ScrumMeetingConversationModel> newUserMessage = new ArrayList<ScrumMeetingConversationModel>();
-
+		Integer numberOfConversations = 0;
+		Map<Integer, List<ScrumMeetingConversationModel>> conversations = new HashMap<Integer, List<ScrumMeetingConversationModel>>();
+		
 		List<ScrumMeetingConversationEntity> scrumConversations = iscrumMeetingConversationRepository.fetchConversationByScrumMeeting(scrumMeetingId);
 
 		List<ScrumMeetingConversationModel> scrumConversationModel = new ArrayList<ScrumMeetingConversationModel>();
 
+		List<ScrumMeetingConversationReader> scrumMeetingConversationReaders = new ArrayList<ScrumMeetingConversationReader>();
+		
+		List<ScrumMeetingConversationModel> newUser = new ArrayList<ScrumMeetingConversationModel>();
+		
 		if(scrumConversations != null)
 		{
 			scrumConversations.forEach(entity -> scrumConversationModel.add(super.toModel(entity, ScrumMeetingConversationModel.class)));
@@ -97,25 +99,54 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 				model.setDisplayStory(storyService.fetch(model.getStoryId()).getTitle());
 			}
 
-			if(previousUserId.equals(model.getUserId()))
+			if(!previousUserId.equals(model.getUserId()))
+			{
+				model.setDisplayName(userService.fetch(model.getUserId()).getDisplayName());
+				
+				if(newUser.size() > 0)
+				{
+					//scrumMeetingConversationReaders.add(new ScrumMeetingConversationReader(newUser));
+					
+					conversations.put(++ numberOfConversations, newUser);
+				}
+				
+				newUser = new ArrayList<ScrumMeetingConversationModel>();
+			}else
 			{
 				model.setDisplayName(new String());
-
-				newUserMessage.add(model);
+			}
+			
+			newUser.add(model);
+			
+			/*if(previousUserId.equals(model.getUserId()))
+			{
+				model.setDisplayName(new String());
+				
+				newUser.add(model);
 			}
 			else
 			{
+				scrumMeetingConversationReaders.add(new ScrumMeetingConversationReader(newUser));
+				
 				model.setDisplayName(userService.fetch(model.getUserId()).getDisplayName());
-
-				newUserMessage = new ArrayList<ScrumMeetingConversationModel>();
-				newUserMessage.add(model);
-
-				model.setNewUserMessage(newUserMessage);
+				
+				newUser = new ArrayList<ScrumMeetingConversationModel>();
+				
+				newUser.add(model);
 			}
-
+*/			
 			previousUserId = model.getUserId();
 		}
-
-		return new ScrumMeetingConversationReadResponse(scrumConversationModel);
+		
+		if(newUser.size() > 0)
+		{
+			//scrumMeetingConversationReaders.add(new ScrumMeetingConversationReader(newUser));
+			
+			conversations.put(++ numberOfConversations, newUser);
+		}
+		
+		//return new ScrumMeetingConversationReadResponse(scrumMeetingConversationReaders);
+		
+		return conversations;
 	}
 }

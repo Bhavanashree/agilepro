@@ -56,12 +56,6 @@ public class ScrumMeetingConversationModel
 	private String message;
 
 	/**
-	 * The conversations.
-	 **/
-	@IgnoreField
-	private List<ScrumMeetingConversationModel> newUserMessage;
-
-	/**
 	 * The date.
 	 **/
 	private Date date;
@@ -85,6 +79,16 @@ public class ScrumMeetingConversationModel
 	 * The display date.
 	 **/
 	private String displayDate;
+
+	private String providedBy;
+	
+	public String getProvidedBy() {
+		return providedBy;
+	}
+
+	public void setProvidedBy(String providedBy) {
+		this.providedBy = providedBy;
+	}
 
 	/**
 	 * Gets the id.
@@ -336,26 +340,5 @@ public class ScrumMeetingConversationModel
 	public void setProjectMemberIds(List<Long> projectMemberIds)
 	{
 		this.projectMemberIds = projectMemberIds;
-	}
-
-	/**
-	 * Gets the new user message.
-	 *
-	 * @return the new user message
-	 */
-	public List<ScrumMeetingConversationModel> getNewUserMessage()
-	{
-		return newUserMessage;
-	}
-
-	/**
-	 * Sets the new user message.
-	 *
-	 * @param newUserMessage
-	 *            the new new user message
-	 */
-	public void setNewUserMessage(List<ScrumMeetingConversationModel> newUserMessage)
-	{
-		this.newUserMessage = newUserMessage;
 	}
 }

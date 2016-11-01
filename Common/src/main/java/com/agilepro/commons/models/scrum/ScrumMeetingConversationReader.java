@@ -14,10 +14,6 @@ import com.yukthi.webutils.common.annotations.Model;
 @Model(name = "ScrumMeetingConversationReader")
 public class ScrumMeetingConversationReader
 {
-	/**
-	 * The user id.
-	 **/
-	private Long userId;
 
 	/**
 	 * The scrum meeting conversation models.
@@ -25,25 +21,9 @@ public class ScrumMeetingConversationReader
 	@IgnoreField
 	private List<ScrumMeetingConversationModel> scrumMeetingConversationModels;
 
-	/**
-	 * Gets the user id.
-	 *
-	 * @return the user id
-	 */
-	public Long getUserId()
-	{
-		return userId;
-	}
-
-	/**
-	 * Sets the user id.
-	 *
-	 * @param userId
-	 *            the new user id
-	 */
-	public void setUserId(Long userId)
-	{
-		this.userId = userId;
+	public ScrumMeetingConversationReader(List<ScrumMeetingConversationModel> scrumMeetingConversationModels) {
+		super();
+		this.scrumMeetingConversationModels = scrumMeetingConversationModels;
 	}
 
 	/**
