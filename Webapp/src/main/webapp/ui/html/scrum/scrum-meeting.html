@@ -96,16 +96,17 @@
 		<!-- For action Items -->
 		<div style="border-style: solid; border-color: lightblue; border-width: 5px; width: 15em; margin-left: 0.5em;
 		min-width: 15em;">
-			<table  width="100%" ng-repeat="conver in scrumConversations" style="margin-top: 1em;"> 
+			<table  width="100%" ng-repeat="conversations in scrumConversations"> 
 					<tr>
 						<td>
-							<table ng-repeat="newUser in conver" style="margin-top: 0.3em;">
+							<table ng-repeat="conver in conversations">
 								<tr>
-									<td style="width: 1em; padding-left: 0.5em; color: #CD5C5C; padding-right: 1.5em; white-space: nowrap; vertical-align: middle;">
-										{{newUser.displayName}}
+									<td  ng-repeat="member in conver.projectMembers" style="margin-top: 0.5em;">
+										{{member}}
 									</td>
 								</tr>
 							</table>
+						</table>
 					</tr>
 				</table>
 		</div>

@@ -43,6 +43,7 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
  	
 		try
 		{
+			$timeout(init, 0);
 			tinymce.remove();
 			tinymce.init(mceContext);
 		}catch(ex)

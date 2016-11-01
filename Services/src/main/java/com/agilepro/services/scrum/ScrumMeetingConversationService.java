@@ -16,6 +16,7 @@ import com.agilepro.commons.models.scrum.ScrumMeetingConversationReader;
 import com.agilepro.controller.response.ScrumMeetingConversationReadResponse;
 import com.agilepro.persistence.entity.scrum.ScrumMeetingConversationEntity;
 import com.agilepro.persistence.repository.scrum.IScrumMeetingConversationRepository;
+import com.agilepro.services.admin.ProjectMemberService;
 import com.agilepro.services.project.StoryService;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
@@ -41,6 +42,9 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 	@Autowired
 	private StoryService storyService;
 
+	@Autowired
+	private ProjectMemberService memberService;
+	
 	/**
 	 * The iscrum meeting conversation repository.
 	 **/
@@ -76,6 +80,8 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		Integer numberOfConversations = 0;
 		Map<Integer, List<ScrumMeetingConversationModel>> conversations = new HashMap<Integer, List<ScrumMeetingConversationModel>>();
 		
+		Map<Long, String> projectMembers = null;
+		
 		List<ScrumMeetingConversationEntity> scrumConversations = iscrumMeetingConversationRepository.fetchConversationByScrumMeeting(scrumMeetingId);
 
 		List<ScrumMeetingConversationModel> scrumConversationModel = new ArrayList<ScrumMeetingConversationModel>();
@@ -94,6 +100,18 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 			model.setDisplayDate(dateFormat.format(model.getDate()));
 			model.setTime(timeFormat.format(model.getDate()));
 
+			if(model.getProjectMemberIds() != null)
+			{
+				projectMembers = new HashMap<Long, String>();
+				
+				for(Long memberId : model.getProjectMemberIds())
+				{
+					projectMembers.put(memberId, memberService.fetch(memberId).getEmployee().getName());
+				}
+				
+				model.setProjectMembers(projectMembers);
+			}
+			
 			if(model.getStoryId() != null)
 			{
 				model.setDisplayStory(storyService.fetch(model.getStoryId()).getTitle());
@@ -105,8 +123,6 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 				
 				if(newUser.size() > 0)
 				{
-					//scrumMeetingConversationReaders.add(new ScrumMeetingConversationReader(newUser));
-					
 					conversations.put(++ numberOfConversations, newUser);
 				}
 				
@@ -118,34 +134,13 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 			
 			newUser.add(model);
 			
-			/*if(previousUserId.equals(model.getUserId()))
-			{
-				model.setDisplayName(new String());
-				
-				newUser.add(model);
-			}
-			else
-			{
-				scrumMeetingConversationReaders.add(new ScrumMeetingConversationReader(newUser));
-				
-				model.setDisplayName(userService.fetch(model.getUserId()).getDisplayName());
-				
-				newUser = new ArrayList<ScrumMeetingConversationModel>();
-				
-				newUser.add(model);
-			}
-*/			
 			previousUserId = model.getUserId();
 		}
 		
 		if(newUser.size() > 0)
 		{
-			//scrumMeetingConversationReaders.add(new ScrumMeetingConversationReader(newUser));
-			
 			conversations.put(++ numberOfConversations, newUser);
 		}
-		
-		//return new ScrumMeetingConversationReadResponse(scrumMeetingConversationReaders);
 		
 		return conversations;
 	}

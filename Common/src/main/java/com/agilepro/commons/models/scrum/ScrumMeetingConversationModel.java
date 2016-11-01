@@ -2,6 +2,7 @@ package com.agilepro.commons.models.scrum;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.IgnoreField;
@@ -44,6 +45,9 @@ public class ScrumMeetingConversationModel
 	 **/
 	private List<Long> projectMemberIds;
 
+	@IgnoreField
+	private Map<Long, String> projectMembers;
+	
 	/**
 	 * Version used for update.
 	 **/
@@ -340,5 +344,13 @@ public class ScrumMeetingConversationModel
 	public void setProjectMemberIds(List<Long> projectMemberIds)
 	{
 		this.projectMemberIds = projectMemberIds;
+	}
+
+	public Map<Long, String> getProjectMembers() {
+		return projectMembers;
+	}
+
+	public void setProjectMembers(Map<Long, String> projectMembers) {
+		this.projectMembers = projectMembers;
 	}
 }
