@@ -51,6 +51,21 @@
           "customerPricePlanId": <#noparse>"${entity.PricePlan.DefaultPricePlan.id}"</#noparse>
         }
       ]
+    },
+    {
+      "name": "MailTemplates",
+      "entityType": "com.yukthi.webutils.mail.template.MailTemplateEntity",
+      "modelType": "com.agilepro.services.admin.MailTemplateModelForLoad",
+      "identityField": "name",
+
+      "spaceIdentity": "ADMIN",
+      
+      "entities": [
+        {
+          "templateName": "RESET_PASSWORD",
+          "templateFile": "/RESET_PASSWORD.xml"
+        }
+      ]
     }
   ]
 }

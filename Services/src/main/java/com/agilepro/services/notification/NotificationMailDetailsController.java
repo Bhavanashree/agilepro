@@ -1,4 +1,4 @@
-package com.agilepro.controller.notification;
+package com.agilepro.services.notification;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_MAIL_DETAILS;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;

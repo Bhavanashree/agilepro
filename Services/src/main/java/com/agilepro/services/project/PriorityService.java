@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.project.PriorityModel;
-import com.agilepro.controller.CbillerUserDetails;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.project.PriorityEntity;
 import com.agilepro.persistence.repository.project.IPriorityRepository;
 import com.agilepro.services.admin.CustomerService;
@@ -48,7 +48,7 @@ public class PriorityService extends BaseCrudService<PriorityEntity, IPriorityRe
 	 */
 	public PriorityEntity save(PriorityModel model)
 	{
-		CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
 		Long customerId = cbiller.getCustomerId();
 

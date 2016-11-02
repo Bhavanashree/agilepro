@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.customer.CustomerSettingModel;
-import com.agilepro.controller.CbillerUserDetails;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.entity.admin.CustomerSettingEntity;
 import com.agilepro.persistence.repository.admin.ICustomerSettingRepository;
@@ -73,7 +73,7 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 	 */
 	public CustomerSettingModel getSetting(String key)
 	{
-		CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
 		Long customerId = cbiller.getCustomerId();
 
@@ -114,7 +114,7 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 	 */
 	public CustomerSettingEntity setSettings(String key, Object value)
 	{
-		CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
 		Long customerId = cbiller.getCustomerId();
 		CustomerSettingEntity custSettingentity = null;
@@ -144,7 +144,7 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 	 */
 	public CustomerSettingModel fetchCustomerSetting()
 	{
-		CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
 		Long customerId = cbiller.getCustomerId();
 

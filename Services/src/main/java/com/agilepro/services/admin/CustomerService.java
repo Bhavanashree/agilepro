@@ -1,5 +1,7 @@
 package com.agilepro.services.admin;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.apache.logging.log4j.LogManager;
@@ -250,6 +252,15 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	public CustomerModel fetchCustomerByEmail(String emailId)
 	{
 		return super.toModel(icustomerRepository.fetchCustomerByEmail(emailId), CustomerModel.class);
+	}
+	
+	/**
+	 * Fetches all available customers.
+	 * @return All customers.
+	 */
+	public List<CustomerEntity> fetchAllCustomers()
+	{
+		return icustomerRepository.fetchAllCustomers();
 	}
 
 	/**

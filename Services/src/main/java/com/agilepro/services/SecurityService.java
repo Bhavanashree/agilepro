@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.IAgileproCommonConstants;
 import com.agilepro.commons.UserRole;
-import com.agilepro.controller.CbillerUserDetails;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.yukthi.persistence.utils.PasswordEncryptor;
@@ -108,7 +108,7 @@ public class SecurityService implements ISecurityService
 		}
 
 		UserEntity user = userService.getUser(userName, userSpace);
-		return new CbillerUserDetails(user.getId(), customerId);
+		return new AgileProUserDetails(user.getId(), customerId);
 	}
 
 	/* (non-Javadoc)
@@ -125,7 +125,7 @@ public class SecurityService implements ISecurityService
 			customerId = userEntity.getBaseEntityId();
 		}
 		
-		return new CbillerUserDetails(userEntity.getId(), customerId);
+		return new AgileProUserDetails(userEntity.getId(), customerId);
 	}
 
 	/*
@@ -183,7 +183,7 @@ public class SecurityService implements ISecurityService
 	public boolean isAuthorized(FileEntity fileEntity)
 	{
 		// ensure only owner customer is able to access this file
-		CbillerUserDetails userDetails = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails userDetails = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 		return (fileEntity.getCustomAttribute1().equals("" + userDetails.getCustomerId()));
 	}
 
@@ -208,7 +208,7 @@ public class SecurityService implements ISecurityService
 	public void addSecurityCustomization(FileEntity fileEntity)
 	{
 		// set current customer id on file entity
-		CbillerUserDetails userDetails = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails userDetails = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 		fileEntity.setCustomAttribute1("" + userDetails.getCustomerId());
 	}
 
@@ -285,7 +285,7 @@ public class SecurityService implements ISecurityService
 	{
 		UserDetails userDetails = currentUserService.getCurrentUserDetails();
 		
-		CbillerUserDetails user = (CbillerUserDetails) userDetails;
+		AgileProUserDetails user = (AgileProUserDetails) userDetails;
 
 		if(user == null || user.getCustomerId() <= 0)
 		{

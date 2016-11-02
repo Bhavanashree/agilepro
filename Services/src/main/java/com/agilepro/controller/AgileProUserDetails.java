@@ -7,7 +7,7 @@ import com.yukthi.webutils.security.UserDetails;
  * User details that will be maintained across the session in the encrypted format.
  * @author akiran
  */
-public class CbillerUserDetails extends UserDetails
+public class AgileProUserDetails extends UserDetails
 {
 	/**
 	 * Customer id under which current user is registered. For admin user
@@ -18,7 +18,7 @@ public class CbillerUserDetails extends UserDetails
 	/**
 	 * Instantiates a new cbiller user details.
 	 */
-	public CbillerUserDetails()
+	public AgileProUserDetails()
 	{}
 
 	/**
@@ -26,7 +26,7 @@ public class CbillerUserDetails extends UserDetails
 	 *
 	 * @param customerId the customer id
 	 */
-	public CbillerUserDetails(long userId, long customerId)
+	public AgileProUserDetails(long userId, long customerId)
 	{
 		super.setUserId(userId);
 		this.customerId = customerId;

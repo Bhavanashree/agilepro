@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.admin.EmployeeModel;
-import com.agilepro.controller.CbillerUserDetails;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.entity.admin.DesignationEntity;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
@@ -101,7 +101,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+			AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 	
 			Long customerId = cbiller.getCustomerId();
 	

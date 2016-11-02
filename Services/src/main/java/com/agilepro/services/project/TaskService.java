@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.TaskModel;
-import com.agilepro.controller.CbillerUserDetails;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.project.TaskEntity;
 import com.agilepro.persistence.repository.project.ITaskRepository;
 import com.agilepro.services.admin.CustomerService;
@@ -72,7 +72,7 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	 */
 	public TaskEntity save(TaskModel model)
 	{
-		CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
 		Long customerId = cbiller.getCustomerId();
 

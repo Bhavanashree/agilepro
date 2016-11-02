@@ -25,7 +25,7 @@ package com.agilepro.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.agilepro.controller.CbillerUserDetails;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.services.common.AdminExtension;
 import com.yukthi.webutils.controllers.IExtensionContextProvider;
@@ -75,7 +75,7 @@ public class CbillerExtensionContextProvider implements IExtensionContextProvide
 
 		// in other cases (non admin extension) return customer as the extension
 		// owner
-		CbillerUserDetails userDetails = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails userDetails = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 		return new ExtensionDetails(CustomerEntity.class, userDetails.getCustomerId());
 	}
 

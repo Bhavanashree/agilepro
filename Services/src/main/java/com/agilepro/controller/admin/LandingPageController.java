@@ -3,8 +3,7 @@ package com.agilepro.controller.admin;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_LPAGE;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PASSWORD_RESET;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,14 +23,16 @@ import com.agilepro.commons.LandingPageModel;
 import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.services.admin.CustomerService;
+import com.agilepro.services.notification.EmailNotificationService;
+import com.agilepro.services.notification.IMailTemplates;
 import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.WebutilsConfiguration;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.annotations.NoAuthentication;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.controllers.BaseController;
-import com.yukthi.webutils.mail.EmailData;
-import com.yukthi.webutils.mail.EmailService;
+import com.yukthi.webutils.mail.IMailCustomizer;
+import com.yukthi.webutils.mail.MailMessage;
 import com.yukthi.webutils.services.UserService;
 
 /**
@@ -44,7 +45,54 @@ import com.yukthi.webutils.services.UserService;
 @RequestMapping("/landing-page")
 public class LandingPageController extends BaseController
 {
+	/**
+	 * Mail context for reset password template.
+	 * @author akiran
+	 */
+	public static class ResetPasswordContext implements IMailCustomizer
+	{
+		/**
+		 * Mail id for which password being reset.
+		 */
+		private String mailId;
+		
+		/**
+		 * New password to set.
+		 */
+		private String newPassword;
+		
+		/**
+		 * Instantiates a new reset password context.
+		 *
+		 * @param mailId the mail id
+		 * @param password the password
+		 */
+		public ResetPasswordContext(String mailId, String password)
+		{
+			this.mailId = mailId;
+			this.newPassword = password;
+		}
+		
+		/**
+		 * Gets the new password to set.
+		 *
+		 * @return the new password to set
+		 */
+		public String getNewPassword()
+		{
+			return newPassword;
+		}
 
+		/* (non-Javadoc)
+		 * @see com.yukthi.webutils.mail.IMailCustomizer#customize(com.yukthi.webutils.mail.MailMessage)
+		 */
+		@Override
+		public void customize(MailMessage mailMessage)
+		{
+			mailMessage.setToList(Arrays.asList(mailId));
+		}
+	}
+	
 	/** 
 	 * The logger.
 	 */
@@ -70,7 +118,7 @@ public class LandingPageController extends BaseController
 	 * Service to sent emails.
 	 */
 	@Autowired
-	private EmailService emailService;
+	private EmailNotificationService emailNotificationService;
 
 	/**
 	 * Service to build mails from templates.
@@ -200,13 +248,8 @@ public class LandingPageController extends BaseController
 		logger.debug("Sending reset password to mail id - {}", mailId);
 
 		// send mail with new password
-		Map<String, String> paramMap = new HashMap<>();
-		paramMap.put("password", newPwd);
-
-		/*EmailData email = emailTemplateService.getEmailTemplate("resetPassword").toEmailData(paramMap);
-		email.setToList(new String[] { mailId });
-		emailService.sendEmail(email);*/
-
+		emailNotificationService.sendMail(IMailTemplates.RESET_PASSWORD, new ResetPasswordContext(mailId, newPwd));
+		
 		// return success message
 		return new BaseResponse();
 	}

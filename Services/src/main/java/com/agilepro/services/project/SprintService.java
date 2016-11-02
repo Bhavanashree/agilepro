@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.project.SprintModel;
-import com.agilepro.controller.CbillerUserDetails;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.repository.project.ISprintRepository;
 import com.agilepro.services.admin.CustomerService;
@@ -68,7 +68,7 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	 */
 	public SprintEntity save(SprintModel model)
 	{
-		CbillerUserDetails cbiller = (CbillerUserDetails) currentUserService.getCurrentUserDetails();
+		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
 		Long customerId = cbiller.getCustomerId();
 

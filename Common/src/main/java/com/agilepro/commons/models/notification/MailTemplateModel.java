@@ -1,216 +1,266 @@
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2016 "Yukthi Techsoft Pvt. Ltd." (http://yukthi-tech.co.in)
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.agilepro.commons.models.notification;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class MailTemplateModel.
+ * Represents data of the mail to be sent.
  * 
- * @author Pritam
+ * @author akiran
  */
-@Model
 public class MailTemplateModel
 {
 	/**
-	 * The to.
-	 **/
-	private List<String> recipient;
-
-	/**
-	 * The subject.
-	 **/
-	private String subject;
-
-	/**
-	 * The body.
-	 **/
-	private String body;
-
-	/**
-	 *  The to admin. 
-	 **/
-	private Boolean toAdmin;
-
-	/** 
-	 * The to project manager.
+	 * Id of the mail template.
 	 */
-	private Boolean toProjectManager;
-
+	@NonDisplayable
+	private Long id;
+	
 	/**
-	 *  The cc admin.
-	 **/
-	private Boolean ccAdmin;
-
-	/** 
-	 * The cc project manager. 
-	 **/
-	private Boolean ccProjectManager;
-
-	/**
-	 * Instantiates a new mail template model.
+	 * Version of mail tample entity.
 	 */
-	public MailTemplateModel()
-	{}
+	@NonDisplayable
+	private Integer version;
+	
+	/**
+	 * Name of template used for building this data object.
+	 */
+	@NotNull
+	@Size(min = 1, max = 100)
+	private String templateName;
 
 	/**
-	 * Instantiates a new mail template model.
+	 * To list template of the mail.
+	 */
+	@Size(max = 1000)
+	private String toListTemplate;
+
+	/**
+	 * CC list template of the mail.
+	 */
+	@Size(max = 1000)
+	private String ccListTemplate;
+
+	/**
+	 * BCC list template of the mail.
+	 */
+	@Size(max = 1000)
+	private String bccListTemplate;
+
+	/**
+	 * Subject template of the mail.
+	 */
+	@NotNull
+	@Size(min = 1, max = 1000)
+	private String subjectTemplate;
+
+	/**
+	 * Content template of the mail.
+	 */
+	@NotNull
+	@Size(min = 1)
+	private String contentTemplate;
+
+	/**
+	 * Customization object that can be use by application to set customization
+	 * parameters that will be used for template processing.
+	 */
+	private Object customization;
+
+	/**
+	 * Gets the name of template used for building this data object.
 	 *
-	 * @param recipient
-	 *            the recipient
-	 * @param subject
-	 *            the subject
-	 * @param body
-	 *            the body
+	 * @return the name of template used for building this data object
 	 */
-	public MailTemplateModel(List<String> recipient, String subject, String body)
+	public String getTemplateName()
 	{
-		super();
-		this.recipient = recipient;
-		this.subject = subject;
-		this.body = body;
+		return templateName;
 	}
 
 	/**
-	 * Gets the recipient.
+	 * Sets the name of template used for building this data object.
 	 *
-	 * @return the recipient
+	 * @param templateName the new name of template used for building this data object
 	 */
-	public List<String> getRecipient()
+	public void setTemplateName(String templateName)
 	{
-		return recipient;
+		this.templateName = templateName;
 	}
 
 	/**
-	 * Sets the recipient.
+	 * Gets the to list template of the mail.
 	 *
-	 * @param recipient
-	 *            the new recipient
+	 * @return the to list template of the mail
 	 */
-	public void setRecipient(List<String> recipient)
+	public String getToListTemplate()
 	{
-		this.recipient = recipient;
+		return toListTemplate;
 	}
 
 	/**
-	 * Gets the subject.
+	 * Sets the to list template of the mail.
 	 *
-	 * @return the subject
+	 * @param toListTemplate the new to list template of the mail
 	 */
-	public String getSubject()
+	public void setToListTemplate(String toListTemplate)
 	{
-		return subject;
+		this.toListTemplate = toListTemplate;
 	}
 
 	/**
-	 * Sets the subject.
+	 * Gets the cC list template of the mail.
 	 *
-	 * @param subject
-	 *            the new subject
+	 * @return the cC list template of the mail
 	 */
-	public void setSubject(String subject)
+	public String getCcListTemplate()
 	{
-		this.subject = subject;
+		return ccListTemplate;
 	}
 
 	/**
-	 * Gets the body.
+	 * Sets the cC list template of the mail.
 	 *
-	 * @return the body
+	 * @param ccListTemplate the new cC list template of the mail
 	 */
-	public String getBody()
+	public void setCcListTemplate(String ccListTemplate)
 	{
-		return body;
+		this.ccListTemplate = ccListTemplate;
 	}
 
 	/**
-	 * Sets the body.
+	 * Gets the bCC list template of the mail.
 	 *
-	 * @param body
-	 *            the new body
+	 * @return the bCC list template of the mail
 	 */
-	public void setBody(String body)
+	public String getBccListTemplate()
 	{
-		this.body = body;
+		return bccListTemplate;
 	}
 
 	/**
-	 * Gets the to admin.
+	 * Sets the bCC list template of the mail.
 	 *
-	 * @return the to admin
+	 * @param bccListTemplate the new bCC list template of the mail
 	 */
-	public Boolean getToAdmin()
+	public void setBccListTemplate(String bccListTemplate)
 	{
-		return toAdmin;
+		this.bccListTemplate = bccListTemplate;
 	}
 
 	/**
-	 * Sets the to admin.
+	 * Gets the subject template of the mail.
 	 *
-	 * @param toAdmin the new to admin
+	 * @return the subject template of the mail
 	 */
-	public void setToAdmin(Boolean toAdmin)
+	public String getSubjectTemplate()
 	{
-		this.toAdmin = toAdmin;
+		return subjectTemplate;
 	}
 
 	/**
-	 * Gets the to project manager.
+	 * Sets the subject template of the mail.
 	 *
-	 * @return the to project manager
+	 * @param subjectTemplate the new subject template of the mail
 	 */
-	public Boolean getToProjectManager()
+	public void setSubjectTemplate(String subjectTemplate)
 	{
-		return toProjectManager;
+		this.subjectTemplate = subjectTemplate;
 	}
 
 	/**
-	 * Sets the to project manager.
+	 * Gets the content template of the mail.
 	 *
-	 * @param toProjectManager the new to project manager
+	 * @return the content template of the mail
 	 */
-	public void setToProjectManager(Boolean toProjectManager)
+	public String getContentTemplate()
 	{
-		this.toProjectManager = toProjectManager;
+		return contentTemplate;
 	}
 
 	/**
-	 * Gets the cc admin.
+	 * Sets the content template of the mail.
 	 *
-	 * @return the cc admin
+	 * @param contentTemplate the new content template of the mail
 	 */
-	public Boolean getCcAdmin()
+	public void setContentTemplate(String contentTemplate)
 	{
-		return ccAdmin;
+		this.contentTemplate = contentTemplate;
 	}
 
 	/**
-	 * Sets the cc admin.
+	 * Gets the customization object that can be use by application to set customization parameters that will be used for template processing.
 	 *
-	 * @param ccAdmin the new cc admin
+	 * @return the customization object that can be use by application to set customization parameters that will be used for template processing
 	 */
-	public void setCcAdmin(Boolean ccAdmin)
+	public Object getCustomization()
 	{
-		this.ccAdmin = ccAdmin;
+		return customization;
 	}
 
 	/**
-	 * Gets the cc project manager.
+	 * Sets the customization object that can be use by application to set customization parameters that will be used for template processing.
 	 *
-	 * @return the cc project manager
+	 * @param customization the new customization object that can be use by application to set customization parameters that will be used for template processing
 	 */
-	public Boolean getCcProjectManager()
+	public void setCustomization(Object customization)
 	{
-		return ccProjectManager;
+		this.customization = customization;
 	}
 
-	/**
-	 * Sets the cc project manager.
-	 *
-	 * @param ccProjectManager the new cc project manager
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
 	 */
-	public void setCcProjectManager(Boolean ccProjectManager)
+	@Override
+	public String toString()
 	{
-		this.ccProjectManager = ccProjectManager;
+		StringBuilder builder = new StringBuilder(super.toString());
+		builder.append("[");
+
+		builder.append("Subject: ").append(subjectTemplate);
+
+		if(toListTemplate != null)
+		{
+			builder.append(",").append("To: ").append(toListTemplate);
+		}
+
+		if(ccListTemplate != null)
+		{
+			builder.append(",").append("CC: ").append(ccListTemplate);
+		}
+
+		if(bccListTemplate != null)
+		{
+			builder.append(",").append("BCC: ").append(bccListTemplate);
+		}
+
+		builder.append("]");
+		return builder.toString();
 	}
 }

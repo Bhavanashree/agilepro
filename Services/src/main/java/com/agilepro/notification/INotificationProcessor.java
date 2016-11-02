@@ -1,7 +1,6 @@
 package com.agilepro.notification;
 
-import java.util.Map;
-
+import com.yukthi.webutils.mail.ReceivedMailMessage;
 import com.yukthi.webutils.repository.UserEntity;
 
 /**
@@ -12,13 +11,11 @@ import com.yukthi.webutils.repository.UserEntity;
 public interface INotificationProcessor
 {
 	/**
-	 * Process.
+	 * Expected to process specified mail from specified user.
 	 *
 	 * @param userEntity the user entity
-	 * @param title the title
-	 * @param body the body
-	 * @param attributes the attributes
-	 * @return true, if successful
+	 * @param mailMessage Mail message to process.
+	 * @return true if successfully processed.
 	 */
-	public boolean process(UserEntity userEntity, String title, String body, Map<String, String> attributes);
+	public boolean process(UserEntity userEntity, ReceivedMailMessage mailMessage);
 }
