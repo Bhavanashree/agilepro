@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.CustomerPocModel;
 import com.agilepro.commons.models.customer.CustomerType;
-import com.agilepro.commons.models.customer.NotificationMailDetail;
 import com.agilepro.services.common.AdminExtension;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -20,6 +19,7 @@ import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.persistence.conversion.impl.JsonConverter;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
+import com.yukthi.webutils.common.models.mails.EmailServerSettings;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
@@ -129,11 +129,11 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	private Date nextPayEvalDate;
 
 	/**
-	 * The mail settings.
+	 * The mail server settings.
 	 **/
-	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
+	@DataTypeMapping(type = DataType.CLOB, converterType = JsonConverter.class)
 	@Column(name = "MAIL_SETTINGS")
-	private NotificationMailDetail notificationMailDetails;
+	private EmailServerSettings emailServerSettings;
 
 	/**
 	 * Instantiates a new customer entity.
@@ -494,23 +494,22 @@ public class CustomerEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the notification mail details.
+	 * Gets the mail server settings.
 	 *
-	 * @return the notification mail details
+	 * @return the mail server settings
 	 */
-	public NotificationMailDetail getNotificationMailDetails()
+	public EmailServerSettings getEmailServerSettings()
 	{
-		return notificationMailDetails;
+		return emailServerSettings;
 	}
 
 	/**
-	 * Sets the notification mail details.
+	 * Sets the mail server settings.
 	 *
-	 * @param notificationMailDetails
-	 *            the new notification mail details
+	 * @param emailServerSettings the new mail server settings
 	 */
-	public void setNotificationMailDetails(NotificationMailDetail notificationMailDetails)
+	public void setEmailServerSettings(EmailServerSettings emailServerSettings)
 	{
-		this.notificationMailDetails = notificationMailDetails;
+		this.emailServerSettings = emailServerSettings;
 	}
 }

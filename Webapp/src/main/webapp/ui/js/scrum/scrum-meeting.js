@@ -1,7 +1,9 @@
 $.application.controller("scrumController", ["$scope", "crudController", "utils", "actionHelper",
                                      function($scope, crudController, utils, actionHelper) {
 	
-	$scope.meetingDate = null;
+	$scope.simpleDateFormatter = new simpleDateFormat('MM/dd/yyyy');
+	
+	$scope.meetingDate = $scope.simpleDateFormatter.format(new Date());
 	
 	$scope.isFirstRequest = true;
 	
@@ -11,6 +13,9 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	
 	$scope.projectMemberIds = [];
 	
+	/**
+	 * Init method to load the tinymce and fetch all the conversations 
+	 */
 	 $scope.initScrum = function() {
 		 console.log("init scrum is invoked");
 		 
@@ -19,6 +24,7 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		    "plugins": "autolink link emoticons  textcolor mention",
 		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
 		    "menubar": false,
+		    "statusbar": false,
 		    "content_css" : "/ui/css/conversations.css",
 		    "setup" : function(ed) {
 		    	ed.on('keyup', function (e) {  
@@ -37,38 +43,38 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	        source: $.proxy(function (query, process, delimiter) {
 	        	
 		        this.currentDelimiter = delimiter;
-		        return $scope.projectMembers;
+		        
+		        return $scope.getProjectMembers();
 			}, mceContext)
 	    };
- 	
+
 		try
 		{
-			$timeout(init, 0);
 			tinymce.remove();
-			tinymce.init(mceContext);
 		}catch(ex)
-		{}
+		{
+			//ignoring this error, which can happen before tinymce is not initialize
+			//on target id
+		}
+		
+		tinymce.init(mceContext);
 		 
-		 //tinymce.EditorManager.execCommand('mceRemoveControl',true, mceContext.id);
-		
-		 //tinymce.EditorManager.execCommand('mceAddControl',true, mceContext.id);
-		 
-		$scope.simpleDateFormatter = new simpleDateFormat('d/MM/yyyy');
-		
-		$scope.meetingDate = $scope.simpleDateFormatter.format(new Date());
-		
 		$scope.fetchAllScrumMeetings();
 		
-		$scope.fetchAllScrumMeetingConversation();
+		//$scope.fetchAllScrumMeetingConversation();
 	};
 	
-	
+	/**
+	 * This method gets invoked while typing in the text area. 
+	 */
 	$scope.onType = function($event){
 		
 		
 	};
 	
-	
+	/**
+	 * Gets invoked on click of send button.
+	 */
 	$scope.submitScrumContent = function(){
 		
 		$scope.message = tinymce.activeEditor.getContent();
@@ -83,7 +89,7 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		
 		var date = new Date();
 		
-		var model = {"scrumMeetingId" : 1, "userId" : $scope.activeUser.userId,"date" : $scope.simpleDateFormatter.format(date), "message" : $scope.message,
+		var model = {"scrumMeetingId" : $scope.scrumMeeting.id, "userId" : $scope.activeUser.userId, "message" : $scope.message,
 				"projectMemberIds" : $scope.projectMemberIds};
 		
 		if($scope.selectedStory.id)
@@ -104,61 +110,56 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		, {"hideInProgress" : true});
 	};	
 	
+	/**
+	 * This method reads meeting as per the date.
+	 */
 	$scope.fetchAllScrumMeetings = function(){
 		
-		// fetch scrum meeting
-		actionHelper.invokeAction("scrumMeeting.readAll", null, {"date" : $scope.meetingDate}, 
-				function(readResponse, respConfig)
-				{
-					$scope.scrumMeetings = readResponse.model;
-				}
-		, {"hideInProgress" : true});
+		console.log(new Date($scope.meetingDate));
 		
-		// fetch stories
-		actionHelper.invokeAction("story.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
-				function(readResponse, respConfig)
-				{
-					if(readResponse.model.length > 0)
+		if($scope.getActiveProjectId() != -1)
+		{
+			// fetch scrum meeting
+			actionHelper.invokeAction("scrumMeeting.readByDateAndProjectId", null, {"date" : $scope.meetingDate, "projectId" : $scope.getActiveProjectId()}, 
+					function(readResponse, respConfig)
 					{
-						$scope.stories = readResponse.model;
-						
-						for(index in $scope.stories)
+						$scope.scrumMeeting = readResponse.model;
+					}
+			, {"hideInProgress" : true});
+			
+			// fetch stories
+			actionHelper.invokeAction("story.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
+					function(readResponse, respConfig)
+					{
+						if(readResponse.model.length > 0)
 						{
-							$scope.storyIdObjMap[$scope.stories[index].id] = $scope.stories[index]; 
+							$scope.stories = readResponse.model;
+							
+							for(index in $scope.stories)
+							{
+								$scope.storyIdObjMap[$scope.stories[index].id] = $scope.stories[index]; 
+							}
+						}else
+						{
+							$scope.stories = [];
 						}
-					}else
-					{
-						$scope.stories = [];
+						
 					}
-					
-				}
-		, {"hideInProgress" : true});
-		
-		// fetch project members
-		actionHelper.invokeAction("projectMember.readProjectMembersByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
-				function(readResponse, respConfig)
-				{
-					if(readResponse.model.length > 0)
-					{
-						$scope.projectMembers = readResponse.model;
-					}else
-					{
-						$scope.projectMembers = [];
-					}
-				}
-		, {"hideInProgress" : true});
+			, {"hideInProgress" : true});
+		}
 		
 	};
 	
 	
+	/**
+	 * Recursion method for fetching the conversation.
+	 */
 	$scope.fetchAllScrumMeetingConversation = function(){
 		
-		actionHelper.invokeAction("scrumMeetingConversation.readAll", null, {"scrumMeetingId" : 1}, 
+		actionHelper.invokeAction("scrumMeetingConversation.readAll", null, {"scrumMeetingId" : $scope.scrumMeeting.id}, 
 				function(readResponse, respConfig)
 				{
 					$scope.scrumConversations = readResponse.model;
-					
-					console.log($scope.scrumConversations[1]);
 					
 					try
 					{
@@ -177,10 +178,19 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		 }
 	};
 	
+	/**
+	 * Method to get the active selected story.
+	 */
 	$scope.onStoryChange = function(storyId){
 		
 		$scope.selectedStory = $scope.storyIdObjMap[storyId]; 
 	};
 	
+	// Listener for broadcast
+	$scope.$on("activeProjectSelectionChanged", function(event, args) {
+
+		$scope.fetchAllScrumMeetings();
+	   
+	});
 	
 }]);

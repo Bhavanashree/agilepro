@@ -19,7 +19,7 @@
 	<bean id="webutilsConfiguration" class="com.yukthi.webutils.WebutilsConfiguration">
 		<property name="authEnabled" value="true"/>
 		<property name="secretKey" value="${cbiller.auth.secretKey}"/>
-		<property name="userDetailsType" value="com.agilepro.controller.CbillerUserDetails"/>
+		<property name="userDetailsType" value="com.agilepro.controller.AgileProUserDetails"/>
 		<property name="sessionTimeOutInMin" value="${cbiller.auth.sessionTimeOutInMin}"/>
 		
 		<property name="dateFormat" value="${cbiller.general.dateFormat}"/>

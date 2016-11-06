@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.customer.CustomerModel;
-import com.agilepro.commons.models.customer.NotificationMailDetail;
 import com.agilepro.services.admin.CustomerService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
+import com.yukthi.webutils.common.models.mails.EmailServerSettings;
 import com.yukthi.webutils.controllers.BaseController;
 import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.security.UserDetails;
@@ -33,7 +33,7 @@ import com.yukthi.webutils.services.UserService;
 @RestController
 @ActionName(ACTION_PREFIX_MAIL_DETAILS)
 @RequestMapping("/mailDetails")
-public class NotificationMailDetailsController extends BaseController
+public class MailServerSettingsController extends BaseController
 {
 	/**
 	 * The customer service.
@@ -56,7 +56,7 @@ public class NotificationMailDetailsController extends BaseController
 	/**
 	 * Save.
 	 *
-	 * @param notificationMailDetails
+	 * @param mailServerDetails
 	 *            the notification mail details
 	 * @return the basic save response
 	 */
@@ -64,7 +64,7 @@ public class NotificationMailDetailsController extends BaseController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid NotificationMailDetail notificationMailDetails)
+	public BasicSaveResponse save(@RequestBody @Valid EmailServerSettings mailServerDetails)
 	{
 		UserDetails userDetails = currentUserService.getCurrentUserDetails();
 
@@ -72,7 +72,7 @@ public class NotificationMailDetailsController extends BaseController
 
 		CustomerModel customerModel = customerService.fetchFullModel(userEntity.getBaseEntityId(), CustomerModel.class);
 
-		customerModel.setNotificationMailDetails(notificationMailDetails);
+		customerModel.setEmailServerSettings(mailServerDetails);
 		
 		customerService.update(customerModel);
 

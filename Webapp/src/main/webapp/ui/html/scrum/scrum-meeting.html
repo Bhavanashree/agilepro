@@ -21,16 +21,17 @@
 	<div style="width: 100%; flex-grow: 1; align-items: stretch;" class="flexHorizontal">
 		<!-- For message -->
 		<div style="flex-grow: 1; align-items: stretch; border-style: solid; border-color: lightblue; 
-			border-width: 5px;" class="flexVertical">
+			border-width: 5px;  border-radius: 5px;" class="flexVertical">
+			
 			<!-- Conversation messages -->
-			<div style="overflow-y:auto; flex-grow: 1; padding-right: 0.5em;">
+			<div style="overflow-y:auto; flex-grow: 1; padding-right: 0.5em; max-height: 50%;">
 				<table  width="100%" ng-repeat="conver in scrumConversations" style="margin-top: 1em;"> 
 					<tr>
 						<td>
-							<table ng-repeat="newUser in conver" style="margin-top: 0.3em;">
-								<tr>
+							<table style="margin-top: 0.3em;" class="conversation-message">
+								<tr ng-repeat-start="newUser in conver">
 									<td style="width: 1em; padding-left: 0.5em; color: #CD5C5C; padding-right: 1.5em; white-space: nowrap; vertical-align: middle;">
-										{{newUser.displayName}}
+										<span ng-if="$first">{{newUser.displayName}}</span>
 									</td>
 									<td style="width: 0%;">
 										<div class="arrow-left-blue"></div>
@@ -42,20 +43,25 @@
 										<span style="float: right; font-size: 0.8em;">{{newUser.displayDate}} {{newUser.time}}</span>
 									</td>
 								</tr>
+								
+								<tr ng-repeat-end>
+									<td colspan="3" style="height: 0.1em;">
+									</td>
+								</tr>
 							</table>
 					</tr>
 				</table>
 			</div>
 			
 			<!-- Tiny MCE -->
-			<div>
+			<div style="max-height: 10%;">
 				<textarea id="scrumMessageId" ng-model="scrumMessage" ng-keyup="onType($event)" class="form-control" rows="2" cols="2" 
-					placeholder="Type your message here" style="height: 10em; resize: none;"></textarea>
+					placeholder="Type your message here" style="resize: none; height: 10em;"></textarea>
 					
-				<table style="width: 100%; margin-top: 0.5em;">
+				<table style="width: 100%;">
 					<tr>
 						<td>
-							<div style="background: white; border-top-left-radius: 0.5em; margin-bottom: 0.5em; margin-left: 0.5em;">
+							<div style="background: white; border-top-left-radius: 0.5em; margin-left: 0.5em;">
 								<div class="input-group">
 									<table>
 										<tr>
@@ -94,21 +100,22 @@
 		</div>
 		
 		<!-- For action Items -->
-		<div style="border-style: solid; border-color: lightblue; border-width: 5px; width: 15em; margin-left: 0.5em;
+		<div style="border-style: solid; border-color: lightblue; border-width: 5px; border-radius: 5px; margin-left: 0.5em;
 		min-width: 15em;">
 			<table  width="100%" ng-repeat="conversations in scrumConversations"> 
-					<tr>
-						<td>
-							<table ng-repeat="conver in conversations">
-								<tr>
-									<td  ng-repeat="member in conver.projectMembers" style="margin-top: 0.5em;">
-										{{member}}
-									</td>
-								</tr>
-							</table>
-						</table>
+					<tr ng-repeat="conver in conversations">
+					
+						<td style="margin: 1em; background-color: yellow;">
+							<span ng-show="conver.projectMembers[1]" style="float: right; padding-right: 0.5em;">
+								<a href="" ng-click="showAction()"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+							</span>
+							<span ng-repeat="member in conver.projectMembers" style="font-size: 10px; padding-left: 0.5em;">
+								{{member}}
+							</span>
+						</td>
+						
 					</tr>
-				</table>
+			</table>
 		</div>
 	</div>
 	

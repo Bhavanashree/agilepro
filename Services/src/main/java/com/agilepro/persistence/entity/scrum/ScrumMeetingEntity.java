@@ -14,7 +14,8 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ScrumMeetingEntity.
+ * The Class ScrumMeetingEntity. This table holds the record for meeting per
+ * project.
  * 
  * @author Pritam
  */

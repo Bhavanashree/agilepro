@@ -1,0 +1,21 @@
+Hello ${userName ! ""},
+<BR/><BR/>
+
+&nbsp;&nbsp;
+	<#if errorCode == "ERR_CODE_NO_USER">
+		Failed to process your mail. Your mail-id <B>${mailId}</B> is not found under <B>${customerName}</B> list. 
+		<BR/>
+		Please contact your administator in case your mail-id is valid.  
+	<#elseif errorCode == "ERR_CODE_PROCESSING_FAILED">
+		Unable to process your mail content. Please ensure you have followed the instrucation in actual mail.
+	<#elseif errorCode = "ERR_CODE_PROCESSING_ERRORED">
+		An error occurred while processing your mail. Please correct and reply original mail again.
+		<BR/>
+		<B>Processing Error: <I>errorMessage</I></B>
+	<#else>
+		An unexpected error occurred while processing your mail. Please try after some time and contact administrator if error persist.
+	</#if>
+
+<BR/><BR/>
+
+Regards.

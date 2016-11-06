@@ -1,11 +1,11 @@
 package com.agilepro.controller.scrum;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_SCRUM_MEETING;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_DATE_AND_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -28,7 +28,8 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
 
 /**
- * The Class ScrumMeetingController.
+ * The Class ScrumMeetingController. Controller class receiving the request and
+ * sending back the response.
  * 
  * @author Pritam
  */
@@ -59,12 +60,21 @@ public class ScrumMeetingController extends BaseController implements IScrumMeet
 	{
 		return new BasicSaveResponse(scrumMeetingService.save(scrumMeetingModel).getId());
 	}
-	
-	@ActionName(ACTION_TYPE_READ_ALL)
-	@RequestMapping(value = "/readAll", method = RequestMethod.GET)
+
+	/**
+	 * Fetch meetings.
+	 *
+	 * @param date
+	 *            the date
+	 * @param projectId
+	 *            the project id
+	 * @return the basic read response
+	 */
+	@ActionName(ACTION_TYPE_READ_BY_DATE_AND_PROJECT_ID)
+	@RequestMapping(value = "/readByDateAndProjectId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<ScrumMeetingModel>> fetchMeetings(@RequestParam(value = "date", required = true) Date date)
+	public BasicReadResponse<ScrumMeetingModel> fetchMeetings(@RequestParam(value = "date", required = true) Date date, @RequestParam(value = "projectId", required = true) Long projectId)
 	{
-		return new BasicReadResponse<List<ScrumMeetingModel>>(scrumMeetingService.fetchAllMeetings(date));
+		return new BasicReadResponse<ScrumMeetingModel>(scrumMeetingService.fetchMeetingByDateAndProject(date, projectId));
 	}
 }

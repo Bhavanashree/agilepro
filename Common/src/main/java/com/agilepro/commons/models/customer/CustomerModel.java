@@ -22,6 +22,7 @@ import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 import com.yukthi.webutils.common.annotations.Password;
+import com.yukthi.webutils.common.models.mails.EmailServerSettings;
 
 /**
  * The Class CustomerModel.
@@ -158,11 +159,11 @@ public class CustomerModel extends AbstractExtendableModel
 	private List<FileInfo> attachments;
 	
 	/** 
-	 * The notification mail details. 
+	 * The notification mail server details. 
 	 **/
 	@NonDisplayable
 	@IgnoreField
-	private NotificationMailDetail notificationMailDetails;
+	private EmailServerSettings emailServerSettings;
 
 	/**
 	 * Instantiates a new customer model.
@@ -569,15 +570,25 @@ public class CustomerModel extends AbstractExtendableModel
 	{
 		this.attachments = attachments;
 	}
-
-	public NotificationMailDetail getNotificationMailDetails()
+	
+	/**
+	 * Gets the  The notification mail server details.
+	 *
+	 * @return the  The notification mail server details
+	 */
+	public EmailServerSettings getEmailServerSettings()
 	{
-		return notificationMailDetails;
+		return emailServerSettings;
 	}
 
-	public void setNotificationMailDetails(NotificationMailDetail notificationMailDetails)
+	/**
+	 * Sets the  The notification mail server details.
+	 *
+	 * @param emailServerSettings the new  The notification mail server details
+	 */
+	public void setEmailServerSettings(EmailServerSettings emailServerSettings)
 	{
-		this.notificationMailDetails = notificationMailDetails;
+		this.emailServerSettings = emailServerSettings;
 	}
 
 	/*

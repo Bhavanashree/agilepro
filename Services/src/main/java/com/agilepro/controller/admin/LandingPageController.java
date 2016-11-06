@@ -3,7 +3,6 @@ package com.agilepro.controller.admin;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_LPAGE;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_PASSWORD_RESET;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,8 +30,7 @@ import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.annotations.NoAuthentication;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.controllers.BaseController;
-import com.yukthi.webutils.mail.IMailCustomizer;
-import com.yukthi.webutils.mail.MailMessage;
+import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.services.UserService;
 
 /**
@@ -45,54 +43,6 @@ import com.yukthi.webutils.services.UserService;
 @RequestMapping("/landing-page")
 public class LandingPageController extends BaseController
 {
-	/**
-	 * Mail context for reset password template.
-	 * @author akiran
-	 */
-	public static class ResetPasswordContext implements IMailCustomizer
-	{
-		/**
-		 * Mail id for which password being reset.
-		 */
-		private String mailId;
-		
-		/**
-		 * New password to set.
-		 */
-		private String newPassword;
-		
-		/**
-		 * Instantiates a new reset password context.
-		 *
-		 * @param mailId the mail id
-		 * @param password the password
-		 */
-		public ResetPasswordContext(String mailId, String password)
-		{
-			this.mailId = mailId;
-			this.newPassword = password;
-		}
-		
-		/**
-		 * Gets the new password to set.
-		 *
-		 * @return the new password to set
-		 */
-		public String getNewPassword()
-		{
-			return newPassword;
-		}
-
-		/* (non-Javadoc)
-		 * @see com.yukthi.webutils.mail.IMailCustomizer#customize(com.yukthi.webutils.mail.MailMessage)
-		 */
-		@Override
-		public void customize(MailMessage mailMessage)
-		{
-			mailMessage.setToList(Arrays.asList(mailId));
-		}
-	}
-	
 	/** 
 	 * The logger.
 	 */
@@ -227,17 +177,22 @@ public class LandingPageController extends BaseController
 		// generate new password
 		String newPwd = generatePassword();
 		boolean updateRes = false;
+		String userSpace = null;
 
 		// validate if provided email id is right
 		if(customerId >= 0)
 		{
 			logger.debug("Updating password for user under customer with mail id - {}", mailId);
-			updateRes = userService.updatePassword(IAgileProConstants.customerSpace(customerId), mailId, newPwd);
+			
+			userSpace = IAgileProConstants.customerSpace(customerId);
+			updateRes = userService.updatePassword(userSpace, mailId, newPwd);
 		}
 		else
 		{
 			logger.debug("Updating password for admin user with mail id - {}", mailId);
-			updateRes = userService.updatePassword(IAgileProConstants.ADMIN_USER_SPACE, mailId, newPwd);
+			
+			userSpace = IAgileProConstants.ADMIN_USER_SPACE;
+			updateRes = userService.updatePassword(userSpace, mailId, newPwd);
 		}
 
 		if(!updateRes)
@@ -246,9 +201,12 @@ public class LandingPageController extends BaseController
 		}
 
 		logger.debug("Sending reset password to mail id - {}", mailId);
+		
+		//fetch the user details
+		UserEntity userEntity = userService.getUser(mailId, userSpace);
 
 		// send mail with new password
-		emailNotificationService.sendMail(IMailTemplates.RESET_PASSWORD, new ResetPasswordContext(mailId, newPwd));
+		emailNotificationService.sendMail(customerId, IMailTemplates.RESET_PASSWORD, new ResetPasswordContext(mailId, newPwd, userEntity.getDisplayName()));
 		
 		// return success message
 		return new BaseResponse();

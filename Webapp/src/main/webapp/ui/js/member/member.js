@@ -128,7 +128,7 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 		}
 		
 		// Broad cast 
-		console.log("broadcast");
+		console.log("broadcast adminAndMembersAreFetched");
     	$scope.$broadcast("adminAndMembersAreFetched");
     	
     	/*	try

@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
-import com.agilepro.commons.models.scrum.ScrumMeetingConversationReader;
-import com.agilepro.controller.response.ScrumMeetingConversationReadResponse;
 import com.agilepro.persistence.entity.scrum.ScrumMeetingConversationEntity;
 import com.agilepro.persistence.repository.scrum.IScrumMeetingConversationRepository;
 import com.agilepro.services.admin.ProjectMemberService;
@@ -42,9 +40,12 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 	@Autowired
 	private StoryService storyService;
 
+	/**
+	 * The member service.
+	 **/
 	@Autowired
 	private ProjectMemberService memberService;
-	
+
 	/**
 	 * The iscrum meeting conversation repository.
 	 **/
@@ -70,7 +71,13 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		iscrumMeetingConversationRepository = repositoryFactory.getRepository(IScrumMeetingConversationRepository.class);
 	}
 
-	
+	/**
+	 * Fetch scrum meeting conversation.
+	 *
+	 * @param scrumMeetingId
+	 *            the scrum meeting id
+	 * @return the map
+	 */
 	public Map<Integer, List<ScrumMeetingConversationModel>> fetchScrumMeetingConversation(Long scrumMeetingId)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
@@ -79,17 +86,15 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		Long previousUserId = -1L;
 		Integer numberOfConversations = 0;
 		Map<Integer, List<ScrumMeetingConversationModel>> conversations = new HashMap<Integer, List<ScrumMeetingConversationModel>>();
-		
+
 		Map<Long, String> projectMembers = null;
-		
+
 		List<ScrumMeetingConversationEntity> scrumConversations = iscrumMeetingConversationRepository.fetchConversationByScrumMeeting(scrumMeetingId);
 
 		List<ScrumMeetingConversationModel> scrumConversationModel = new ArrayList<ScrumMeetingConversationModel>();
 
-		List<ScrumMeetingConversationReader> scrumMeetingConversationReaders = new ArrayList<ScrumMeetingConversationReader>();
-		
 		List<ScrumMeetingConversationModel> newUser = new ArrayList<ScrumMeetingConversationModel>();
-		
+
 		if(scrumConversations != null)
 		{
 			scrumConversations.forEach(entity -> scrumConversationModel.add(super.toModel(entity, ScrumMeetingConversationModel.class)));
@@ -97,21 +102,21 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 
 		for(ScrumMeetingConversationModel model : scrumConversationModel)
 		{
-			model.setDisplayDate(dateFormat.format(model.getDate()));
-			model.setTime(timeFormat.format(model.getDate()));
+			model.setDisplayDate(dateFormat.format(model.getUpdatedOn()));
+			model.setTime(timeFormat.format(model.getUpdatedOn()));
 
 			if(model.getProjectMemberIds() != null)
 			{
 				projectMembers = new HashMap<Long, String>();
-				
+
 				for(Long memberId : model.getProjectMemberIds())
 				{
 					projectMembers.put(memberId, memberService.fetch(memberId).getEmployee().getName());
 				}
-				
+
 				model.setProjectMembers(projectMembers);
 			}
-			
+
 			if(model.getStoryId() != null)
 			{
 				model.setDisplayStory(storyService.fetch(model.getStoryId()).getTitle());
@@ -120,28 +125,29 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 			if(!previousUserId.equals(model.getUserId()))
 			{
 				model.setDisplayName(userService.fetch(model.getUserId()).getDisplayName());
-				
+
 				if(newUser.size() > 0)
 				{
-					conversations.put(++ numberOfConversations, newUser);
+					conversations.put(++numberOfConversations, newUser);
 				}
-				
+
 				newUser = new ArrayList<ScrumMeetingConversationModel>();
-			}else
+			}
+			else
 			{
 				model.setDisplayName(new String());
 			}
-			
+
 			newUser.add(model);
-			
+
 			previousUserId = model.getUserId();
 		}
-		
+
 		if(newUser.size() > 0)
 		{
-			conversations.put(++ numberOfConversations, newUser);
+			conversations.put(++numberOfConversations, newUser);
 		}
-		
+
 		return conversations;
 	}
 }

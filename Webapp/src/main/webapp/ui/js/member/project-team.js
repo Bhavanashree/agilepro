@@ -54,7 +54,7 @@ $.application.controller('projectTeamController',
 	// Listener for broadcast
 	$scope.$on("adminAndMembersAreFetched", function(event, args) {
 
-		console.log("listener");
+		console.log("listener adminAndMembersAreFetched");
 		
 		actionHelper.invokeAction("projectTeam.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
 				readAllProjectTeamCallBack, {"hideInProgress" : true});

@@ -121,6 +121,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read project memebers by project id.
 	 **/
 	public String ACTION_TYPE_READ_PROJECT_MEMEBERS_BY_PROJECT_ID = "readProjectMembersByProjectId";
+	
+	/** 
+	 * The action type read by date and project id. 
+	 **/
+	public String ACTION_TYPE_READ_BY_DATE_AND_PROJECT_ID = "readByDateAndProjectId";
 
 	/**
 	 * The action prefix story note.

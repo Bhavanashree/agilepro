@@ -11,8 +11,6 @@ import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
-import freemarker.core._RegexBuiltins.replace_reBI;
-
 /**
  * The Class StoryReleaseEntity.
  * 

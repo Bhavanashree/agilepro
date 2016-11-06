@@ -1,7 +1,6 @@
 package com.agilepro.persistence.repository.scrum;
 
 import java.util.Date;
-import java.util.List;
 
 import com.agilepro.persistence.entity.scrum.ScrumMeetingEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
@@ -16,5 +15,5 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 public interface IScrumMeetingRepository extends IWebutilsRepository<ScrumMeetingEntity> 
 {
 	@RestrictBySpace
-	public List<ScrumMeetingEntity> fetchMeetingsByDate(@Condition(value = "date") Date date);
+	public ScrumMeetingEntity fetchMeetingByDate(@Condition(value = "date") Date date, @Condition(value = "project.id") Long projectId);
 }

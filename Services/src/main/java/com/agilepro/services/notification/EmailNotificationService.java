@@ -9,9 +9,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.agilepro.controller.AgileProUserDetails;
-import com.agilepro.exception.NotificationException;
+import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.notification.INotificationProcessor;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.services.admin.CustomerService;
@@ -19,7 +20,9 @@ import com.yukthi.utils.exceptions.InvalidArgumentException;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.common.models.mails.EmailServerSettings;
 import com.yukthi.webutils.mail.EmailService;
+import com.yukthi.webutils.mail.IMailProcessingContext;
 import com.yukthi.webutils.mail.IMailProcessor;
+import com.yukthi.webutils.mail.MailProcessingException;
 import com.yukthi.webutils.mail.ReceivedMailMessage;
 import com.yukthi.webutils.mail.template.MailTemplateEntity;
 import com.yukthi.webutils.mail.template.MailTemplateService;
@@ -31,6 +34,7 @@ import com.yukthi.webutils.services.UserService;
  * Mail service to send and receive mails.
  * @author akiran
  */
+@Service
 public class EmailNotificationService
 {
 	private static Logger logger = LogManager.getLogger(EmailNotificationService.class);
@@ -57,6 +61,9 @@ public class EmailNotificationService
 				} catch(InterruptedException ex)
 				{
 					throw new IllegalStateException("Mail read thread was interrupted", ex);
+				} catch(Exception ex)
+				{
+					logger.error("An error occurred while reading mails", ex);
 				}
 			}
 		}
@@ -124,7 +131,37 @@ public class EmailNotificationService
 	 */
 	private EmailServerSettings getSettings(long customerId)
 	{
-		return null;
+		//TODO: modify this code to fetch mail settings directly instead of fetching full entity
+		// 	And also take care of caching.
+		CustomerEntity customerEntity = customerService.fetch(customerId);
+		return customerEntity.getEmailServerSettings();
+	}
+	
+	/**
+	 * Fetches mail template with specified name. If customization is present for specified customer
+	 * the same will be fetched, if not default mail template from admin will be fetched.
+	 * @param customerId Customer id for whom mail template needs to be fetched.
+	 * @param templateName Template to be fetched.
+	 * @return Matching mail template entity.
+	 */
+	private MailTemplateEntity getMailTemplate(long customerId, String templateName)
+	{
+		//fetch customized mail template for customer
+		MailTemplateEntity mailTemplate = mailTemplateService.fetchByOwner(templateName, CustomerEntity.class.getName(), customerId);
+		
+		if(mailTemplate == null)
+		{
+			//if not found, try to get default one
+			mailTemplate = mailTemplateService.fetchByOwner(templateName, IMailTemplates.DEFAULT_OWNER_TYPE, null);
+			
+			//if defalt one is also not found
+			if(mailTemplate == null)
+			{
+				throw new InvalidArgumentException("No mail template found with specified name - {}", templateName);
+			}
+		}
+		
+		return mailTemplate;
 	}
 
 	/**
@@ -154,17 +191,7 @@ public class EmailNotificationService
 	 */
 	public void sendMail(long customerId, String templateName, Object context)
 	{
-		MailTemplateEntity mailTemplate = mailTemplateService.fetchByOwner(templateName, CustomerEntity.class.getName(), customerId);
-		
-		if(mailTemplate == null)
-		{
-			mailTemplate = mailTemplateService.fetchByOwner(templateName, IMailTemplates.DEFAULT_OWNER_TYPE, 0L);
-			
-			if(mailTemplate == null)
-			{
-				throw new InvalidArgumentException("No mail template found with specified name - {}", templateName);
-			}
-		}
+		MailTemplateEntity mailTemplate = getMailTemplate(customerId, templateName);
 		
 		EmailServerSettings emailServerSettings = getSettings(customerId);
 		
@@ -179,40 +206,97 @@ public class EmailNotificationService
 	{
 		notificationProcessors.add(inotificationProcessor);
 	}
-
+	
 	/**
 	 * Invokes notification processors to process incoming mail.
+	 * @param context Processing context that can be used to reply mails.
+	 * @param customerId Customer under which this mail is received
+	 * @param customerName Name of the customer
 	 * @param mail Mail to process.
 	 * @return True if processed and mail to be deleted.
 	 */
-	private boolean notifyMail(ReceivedMailMessage mail)
+	private boolean processReceivedMail(IMailProcessingContext context, long customerId, String customerName, ReceivedMailMessage mail)
 	{
-		boolean isProcessed = false;
-		
-		Long customerId = 1L;
-
-		UserEntity userEntity = userService.fetchUserByUserName(customerId, mail.getFromMailId());
+		UserEntity userEntity = userService.getUser(mail.getFromMailId(), IAgileProConstants.customerSpace(customerId));
 
 		if(userEntity == null)
 		{
-			throw new IllegalStateException("No user found with mail id: " + mail.getFromMailId());
+			logger.debug("While processing mail with subject '{}', no user found with mail id '{}' under customer - {} [{}]. Sending a reply mail indicating no user found.", 
+					mail.getSubject(), mail.getFromMailId(), customerName, customerId);
+			
+			MailProcessingErrorContext mailProcessingErrorContext = new MailProcessingErrorContext(mail.getFromMailId(), customerName, MailProcessingErrorContext.ERR_CODE_NO_USER, null, null);
+			MailTemplateEntity mailTemplate = getMailTemplate(customerId, IMailTemplates.MAIL_PROCESSING_ERROR); 
+			
+			try
+			{
+				context.replyToAll(mailTemplate, mailProcessingErrorContext);
+			}catch(Exception ex)
+			{
+				throw new InvalidStateException(ex, "An error occurred while sending no-user-found processing error mail for mail with subject - " + mail.getSubject());
+			}
+			
+			return true;
 		}
+		
+		String errorMssg = null, errorCode = null;
 
 		for(INotificationProcessor processor : this.notificationProcessors)
 		{
-			if(processor.process(userEntity, mail))
+			try
 			{
-				logger.trace("Successfully processed mail with subject: ", mail.getSubject());
-				return true;
+				if(processor.process(userEntity, mail))
+				{
+					logger.trace("Successfully processed mail with subject: {}", mail.getSubject());
+					return true;
+				}
+			}catch(Exception ex)
+			{
+				logger.error("An error occurred while processing mail with subject - {}", mail.getSubject(), ex);
+				
+				if(ex instanceof EmailProcessingException)
+				{
+					errorMssg = ex.getMessage();
+					errorCode = MailProcessingErrorContext.ERR_CODE_PROCESSING_ERRORED;
+				}
+				else
+				{
+					errorCode = MailProcessingErrorContext.ERR_CODE_SERVER_ERROR;
+				}
+				
+				break;
 			}
 		}
+		
+		MailProcessingErrorContext mailProcessingErrorContext = null;
 
-		if(!isProcessed)
+		if(errorCode != null)
 		{
-			throw new NotificationException("Failed to proccess with mail: " + mail.getFromMailId() + ", title: " + mail.getSubject());
+			logger.debug("An error occurred while processing mail with subject '{}'. Sending a reply mail indicating process failed.", 
+					mail.getSubject(), mail.getFromMailId(), customerName, customerId);
+	
+			mailProcessingErrorContext = new MailProcessingErrorContext(mail.getFromMailId(), customerName, 
+					errorCode, errorMssg, userEntity.getDisplayName());
+		}
+		else
+		{
+			logger.debug("Failed to process mail with subject '{}'. Sending a reply mail indicating process failed.", 
+					mail.getSubject(), mail.getFromMailId(), customerName, customerId);
+	
+			mailProcessingErrorContext = new MailProcessingErrorContext(mail.getFromMailId(), customerName, 
+					MailProcessingErrorContext.ERR_CODE_PROCESSING_FAILED, null, userEntity.getDisplayName());
 		}
 		
-		return false;
+		try
+		{
+			MailTemplateEntity mailTemplate = getMailTemplate(customerId, IMailTemplates.MAIL_PROCESSING_ERROR);
+			
+			context.replyToAll(mailTemplate, mailProcessingErrorContext);
+			return true;
+		}catch(MailProcessingException ex)
+		{
+			logger.error("An error occurred while replying to mail whose processing failed", ex);
+			return false;
+		}
 	}
 	
 	/**
@@ -224,23 +308,28 @@ public class EmailNotificationService
 		
 		for(CustomerEntity customer : customers)
 		{
-			readMails(customer.getId(), null);
+			readMails(customer.getId(), customer.getName(), customer.getEmailServerSettings());
 		}
 	}
 
 	/**
 	 * Reads mail for specified customer with specified settings.
 	 * @param customerId Customer id for which mails needs to be fetched.
+	 * @param customerName Name of the customer
 	 * @param emailServerSettings Server settings to fetch.
 	 */
-	private void readMails(long customerId, EmailServerSettings emailServerSettings)
+	private void readMails(long customerId, String customerName, EmailServerSettings emailServerSettings)
 	{
 		emailService.readMails(emailServerSettings, new IMailProcessor()
 		{
 			@Override
-			public boolean processAndDelete(ReceivedMailMessage mailMessage)
+			public void process(IMailProcessingContext context, ReceivedMailMessage mailMessage)
 			{
-				return notifyMail(mailMessage);
+				if( processReceivedMail(context, customerId, customerName, mailMessage) )
+				{
+					//if processing is done delete the mail.
+					context.delete();
+				}
 			}
 		});
 	}

@@ -48,22 +48,41 @@
           "address": "Some dummy address",
           "subDomainPath": "customer1",
           "password": "password",
-          "customerPricePlanId": <#noparse>"${entity.PricePlan.DefaultPricePlan.id}"</#noparse>
+          "customerPricePlanId": <#noparse>"${entity.PricePlan.DefaultPricePlan.id}"</#noparse>,
+          
+          "emailServerSettings": {
+          	"smtpHost": "smtp.gmail.com",
+          	"smtpPort": "587",
+          	"useAuthentication": "true",
+          	"userName": "yukthitestmail@gmail.com",
+          	"password": "yukthi@home",
+          	"enableTtls": "true",
+          	
+          	"readProtocol": "IMAPS",
+          	"readHost": "imap.gmail.com"
+          }
+          
         }
       ]
     },
     {
       "name": "MailTemplates",
       "entityType": "com.yukthi.webutils.mail.template.MailTemplateEntity",
-      "modelType": "com.agilepro.services.admin.MailTemplateModelForLoad",
-      "identityField": "name",
+      "modelType": "com.agilepro.services.notification.MailTemplateModelForLoad",
+      "identityField": "templateName",
 
       "spaceIdentity": "ADMIN",
       
       "entities": [
         {
           "templateName": "RESET_PASSWORD",
-          "templateFile": "/RESET_PASSWORD.xml"
+          "subjectTemplate": "New Password - AgilePro",
+          "templateFile": "/data/mails/RESET_PASSWORD.html"
+        },
+        {
+          "templateName": "MAIL_PROCESSING_ERROR",
+          "subjectTemplate": "RE:",
+          "templateFile": "/data/mails/MAIL_PROCESSING_ERROR.html"
         }
       ]
     }

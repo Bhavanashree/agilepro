@@ -45,9 +45,12 @@ public class ScrumMeetingConversationModel
 	 **/
 	private List<Long> projectMemberIds;
 
+	/**
+	 * The project members.
+	 **/
 	@IgnoreField
 	private Map<Long, String> projectMembers;
-	
+
 	/**
 	 * Version used for update.
 	 **/
@@ -58,11 +61,6 @@ public class ScrumMeetingConversationModel
 	 * The message.
 	 **/
 	private String message;
-
-	/**
-	 * The date.
-	 **/
-	private Date date;
 
 	/**
 	 * The display name.
@@ -84,13 +82,34 @@ public class ScrumMeetingConversationModel
 	 **/
 	private String displayDate;
 
+	/**
+	 * The provided by.
+	 **/
 	private String providedBy;
-	
-	public String getProvidedBy() {
+
+	/**
+	 * The updated on.
+	 **/
+	private Date updatedOn;
+
+	/**
+	 * Gets the provided by.
+	 *
+	 * @return the provided by
+	 */
+	public String getProvidedBy()
+	{
 		return providedBy;
 	}
 
-	public void setProvidedBy(String providedBy) {
+	/**
+	 * Sets the provided by.
+	 *
+	 * @param providedBy
+	 *            the new provided by
+	 */
+	public void setProvidedBy(String providedBy)
+	{
 		this.providedBy = providedBy;
 	}
 
@@ -176,27 +195,6 @@ public class ScrumMeetingConversationModel
 	public void setMessage(String message)
 	{
 		this.message = message;
-	}
-
-	/**
-	 * Gets the date.
-	 *
-	 * @return the date
-	 */
-	public Date getDate()
-	{
-		return date;
-	}
-
-	/**
-	 * Sets the date.
-	 *
-	 * @param date
-	 *            the new date
-	 */
-	public void setDate(Date date)
-	{
-		this.date = date;
 	}
 
 	/**
@@ -346,11 +344,45 @@ public class ScrumMeetingConversationModel
 		this.projectMemberIds = projectMemberIds;
 	}
 
-	public Map<Long, String> getProjectMembers() {
+	/**
+	 * Gets the project members.
+	 *
+	 * @return the project members
+	 */
+	public Map<Long, String> getProjectMembers()
+	{
 		return projectMembers;
 	}
 
-	public void setProjectMembers(Map<Long, String> projectMembers) {
+	/**
+	 * Sets the project members.
+	 *
+	 * @param projectMembers
+	 *            the project members
+	 */
+	public void setProjectMembers(Map<Long, String> projectMembers)
+	{
 		this.projectMembers = projectMembers;
+	}
+
+	/**
+	 * Gets the updated on.
+	 *
+	 * @return the updated on
+	 */
+	public Date getUpdatedOn()
+	{
+		return updatedOn;
+	}
+
+	/**
+	 * Sets the updated on.
+	 *
+	 * @param updatedOn
+	 *            the new updated on
+	 */
+	public void setUpdatedOn(Date updatedOn)
+	{
+		this.updatedOn = updatedOn;
 	}
 }

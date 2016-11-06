@@ -1,49 +1,36 @@
 package com.agilepro.exception;
 
+import com.yukthi.utils.exceptions.UtilsException;
+
 /**
- * The Class NotificationException.
+ * Notification exception to be thrown when an error occurs while sending notifications.
  * 
  * @author Pritam
  */
-@SuppressWarnings("serial")
-public class NotificationException extends RuntimeException
+public class NotificationException extends UtilsException
 {
-	/**
-	 * Instantiates a new notification exception.
-	 */
-	public NotificationException()
-	{
-		super();
-	}
-	
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Instantiates a new notification exception.
 	 *
 	 * @param message the message
+	 * @param args the args
 	 */
-	public NotificationException(String message)
+	public NotificationException(String message, Object... args)
 	{
-		super(message);
+		super(message, args);
 	}
-	
+
 	/**
 	 * Instantiates a new notification exception.
 	 *
-	 * @param throwable the throwable
-	 */
-	public NotificationException(Throwable throwable)
-	{
-		super(throwable);
-	}
-	
-	/**
-	 * Instantiates a new notification exception.
-	 *
+	 * @param cause the cause
 	 * @param message the message
-	 * @param throwable the throwable
+	 * @param args the args
 	 */
-	public NotificationException(String message, Throwable throwable)
+	public NotificationException(Throwable cause, String message, Object... args)
 	{
-		super(message, throwable);
+		super(cause, message, args);
 	}
 }

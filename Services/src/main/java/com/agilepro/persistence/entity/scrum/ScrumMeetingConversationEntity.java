@@ -1,6 +1,5 @@
 package com.agilepro.persistence.entity.scrum;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -48,8 +47,11 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	@PropertyMapping(type = ScrumMeetingConversationModel.class, from = "userId", subproperty = "id")
 	private UserEntity user;
 
+	/**
+	 * The provided by.
+	 **/
 	private String providedBy;
-	
+
 	/**
 	 * The project member ids.
 	 **/
@@ -61,12 +63,6 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	 */
 	@Column(name = "MESSAGE")
 	private String message;
-
-	/**
-	 * The date.
-	 **/
-	@Column(name = "DATE")
-	private Date date;
 
 	/**
 	 * Gets the scrum meeting.
@@ -108,27 +104,6 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	public void setMessage(String message)
 	{
 		this.message = message;
-	}
-
-	/**
-	 * Gets the date.
-	 *
-	 * @return the date
-	 */
-	public Date getDate()
-	{
-		return date;
-	}
-
-	/**
-	 * Sets the date.
-	 *
-	 * @param date
-	 *            the new date
-	 */
-	public void setDate(Date date)
-	{
-		this.date = date;
 	}
 
 	/**
@@ -194,11 +169,24 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 		this.story = story;
 	}
 
-	public String getProvidedBy() {
+	/**
+	 * Gets the provided by.
+	 *
+	 * @return the provided by
+	 */
+	public String getProvidedBy()
+	{
 		return providedBy;
 	}
 
-	public void setProvidedBy(String providedBy) {
+	/**
+	 * Sets the provided by.
+	 *
+	 * @param providedBy
+	 *            the new provided by
+	 */
+	public void setProvidedBy(String providedBy)
+	{
 		this.providedBy = providedBy;
 	}
 }

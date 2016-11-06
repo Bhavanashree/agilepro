@@ -1,8 +1,6 @@
 package com.agilepro.services.scrum;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -41,23 +39,22 @@ public class ScrumMeetingService extends BaseCrudService<ScrumMeetingEntity, ISc
 	}
 
 	/**
-	 * Fetch all meetings.
+	 * Fetch meeting by date and project.
 	 *
 	 * @param date
 	 *            the date
-	 * @return the list
+	 * @param projectId
+	 *            the project id
+	 * @return the scrum meeting model
 	 */
-	public List<ScrumMeetingModel> fetchAllMeetings(Date date)
+	public ScrumMeetingModel fetchMeetingByDateAndProject(Date date, Long projectId)
 	{
-		List<ScrumMeetingEntity> scrumMeetingEntities = iscrumMeetingRepository.fetchMeetingsByDate(date);
+		/*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		
+		String s = simpleDateFormat.format(date);*/
+		
+		ScrumMeetingEntity scrumMeeting = iscrumMeetingRepository.fetchMeetingByDate(date, projectId);
 
-		List<ScrumMeetingModel> scrumMeetingModels = new ArrayList<ScrumMeetingModel>();
-
-		if(scrumMeetingEntities != null)
-		{
-			scrumMeetingEntities.forEach(entity -> scrumMeetingModels.add(super.toModel(entity, ScrumMeetingModel.class)));
-		}
-
-		return scrumMeetingModels;
+		return super.toModel(scrumMeeting, ScrumMeetingModel.class);
 	}
 }

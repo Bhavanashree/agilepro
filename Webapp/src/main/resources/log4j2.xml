@@ -7,8 +7,8 @@
 	</Appenders>
 	<Loggers>
 		<Logger name="com.yukthi" level="all" />
-		<Logger name="com.restate" level="all" />
-		<Logger name="org.springframework" level="debug" />
+		<Logger name="com.agilepro" level="all" />
+		<Logger name="org.springframework" level="error" />
 		
 		<Root level="error">
 			<AppenderRef ref="STDOUT" />

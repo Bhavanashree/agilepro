@@ -47,9 +47,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>loaded-files</name>
+			<type>2</type>
+			<location>C:/agilepro</location>
+		</link>
+		<link>
 			<name>src/main/webapp/webutils</name>
 			<type>2</type>
-			<location>C:/Users/KBN/git/webutils/Services/src/main/resources/webutils</location>
+			<location>C:/Users/akiran/git/webutils/Services/src/main/resources/webutils</location>
 		</link>
 	</linkedResources>
 </projectDescription>

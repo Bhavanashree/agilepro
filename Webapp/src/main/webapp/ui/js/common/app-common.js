@@ -53,12 +53,26 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	document.getElementById("message").value = " ";
     }
     
-    var projArr;
-    
-    var userSettingId;
-    
-    var version;
-    
+	$scope.fetchProjectMembers = function(){
+		
+		console.log($scope.getActiveProjectId());
+		
+		// fetch project members
+		actionHelper.invokeAction("projectMember.readProjectMembersByProjectId", null, {"projectId" : $scope.getActiveProjectId()}, 
+				function(readResponse, respConfig)
+				{
+					if(readResponse.model.length > 0)
+					{
+						$scope.projectMembers = readResponse.model;
+					}else
+					{
+						$scope.projectMembers = [];
+					}
+				}
+		, {"hideInProgress" : true});
+		
+	};
+	
     // Read all the projects call back
     var readProCallBack = function(readResponse, respConfig){
     	
@@ -83,7 +97,12 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     		{
     			var project = $scope.idToProject["" + $scope.userDefaultProjectId];
     			
-    			$scope.selectedProject = project; 
+    			$scope.selectedProject = project;
+    			
+    			// broad cast for (project member) , (sprint display stories according to project)
+        		$scope.$broadcast("activeProjectSelectionChanged");
+        		
+        		$scope.fetchProjectMembers();
     		}
     	}
     	
@@ -101,14 +120,11 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	
     	if(userSettingModel)
     	{
-    		userSettingId = userSettingModel.id;
-    		version = userSettingModel.version;
+    		$scope.userSettingId = userSettingModel.id;
+    		$scope.userSettingVersion = userSettingModel.version;
     		
     		$scope.selectedProject = $scope.idToProject["" + userSettingModel.value];
    			$scope.userDefaultProjectId = userSettingModel.value;
-    		
-    		// broad cast for (project member) , (sprint display stories according to project)
-    		$scope.$broadcast("activeProjectSelectionChanged");
     	}
     	
     	actionHelper.invokeAction("project.readAll", null, null, readProCallBack);
@@ -146,7 +162,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	
 		var presentProjectId = proObj.id;
 		
-		if(!userSettingId)
+		if(!$scope.userSettingId)
     	{
     		saveUserSetting(presentProjectId);
     	}
@@ -157,6 +173,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	
     	// Broad cast 
     	$scope.$broadcast("activeProjectSelectionChanged");
+    	console.log("Broad cast in app common");
     };
     
     // Save user call back
@@ -177,7 +194,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     // Call back function for every read user setting
     var versionCallBack  = function(readResponse, respConfig){
     	
-    	version = readResponse.model.version;
+    	$scope.userSettingVersion = readResponse.model.version;
     };
     
     // Call back function for every update user setting
@@ -189,7 +206,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     // Method for update setting
     editUserSetting = function(currentProjectId){
     	
-    	var model = {"id" : userSettingId, "userId" : $scope.activeUser.userId, "key" : "activeProjectId", "value" : currentProjectId, "version" : version};
+    	var model = {"id" : $scope.userSettingId, "userId" : $scope.activeUser.userId, "key" : "activeProjectId", "value" : currentProjectId, "version" : $scope.userSettingVersion};
     	
     	actionHelper.invokeAction("userSetting.update", model, null, editCallBack);
     };
@@ -202,6 +219,11 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     	}
     	
     	return $scope.selectedProject.id;
+    };
+    
+    $scope.getProjectMembers = function() {
+    	
+    	return $scope.projectMembers;
     };
     
     /**
