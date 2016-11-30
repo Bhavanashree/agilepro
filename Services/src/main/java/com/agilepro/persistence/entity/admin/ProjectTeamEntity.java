@@ -11,7 +11,8 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ProjectTeam.
+ * ProjectTeam where a project will have teams with different name and members.
+ * Create Read Update Delete.
  * 
  * @author Pritam
  */

@@ -107,7 +107,7 @@ public class TaskController extends BaseController implements ITaskController
 	 * @see com.agilepro.commons.controllers.project.ITaskController#update(com.agilepro.commons.models.project.TaskModel)
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_UPDATE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicVersionResponse update(@RequestBody @Valid TaskModel model)
@@ -141,7 +141,7 @@ public class TaskController extends BaseController implements ITaskController
 	 * 
 	 * @see com.agilepro.commons.controllers.project.ITaskController#deleteAll()
 	 */
-	@Authorization(roles = { UserRole.TASK_DELETE_ALL, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

@@ -17,7 +17,6 @@ import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StoryModel.
  * 
@@ -42,7 +41,7 @@ public class StoryModel extends AbstractExtendableModel
 	private Integer version;
 
 	/**
-	 * The name.
+	 * The Story title.
 	 **/
 	@NotEmpty
 	@MinLen(3)
@@ -64,14 +63,20 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * The parent story id.
 	 **/
-	@LOV(name = "parentStoryId")
+	@LOV(name = "parentStory")
 	private Long parentStoryId;
 
 	/**
 	 * The owner id.
 	 **/
 	@LOV(name = "projectMembers")
-	private Long ownerId;
+	private Long owner;
+
+	/**
+	 * The tag.
+	 **/
+	@LOV(name = "tagLov")
+	private Long tag;
 
 	/**
 	 * The status.
@@ -81,8 +86,8 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * The priority.
 	 */
-	@LOV(name = "priorityLov")
-	private Long priority;
+	@NonDisplayable
+	private Integer priorityOrder;
 
 	/**
 	 * The sprint id.
@@ -113,7 +118,14 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * The time taken for story.
 	 **/
+	@NonDisplayable
 	private Date timeTakenForStory;
+
+	/**
+	 * To assign the stories to a team.
+	 **/
+	@LOV(name = "teamLov")
+	private Long team;
 
 	/**
 	 * Instantiates a new back log model.
@@ -131,24 +143,23 @@ public class StoryModel extends AbstractExtendableModel
 	 * @param description
 	 *            the description
 	 * @param parentStoryId
-	 *            the parent story id
-	 * @param priority
-	 *            the priority
+	 *            the parent story
+	 * @param priorityOrder
+	 *            the priority order
 	 */
-	public StoryModel(String title, Integer storyPoints, String description, Long parentStoryId, Long priority)
+	public StoryModel(String title, Integer storyPoints, String description, Long parentStoryId, Integer priorityOrder)
 	{
 		this.title = title;
 		this.storyPoints = storyPoints;
 		this.description = description;
 		this.parentStoryId = parentStoryId;
-		this.priority = priority;
+		this.priorityOrder = priorityOrder;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see com.yukthi.webutils.common.IExtendableModel#getId()
 	 */
+	@Override
 	public Long getId()
 	{
 		return id;
@@ -262,8 +273,7 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the parent story id.
 	 *
-	 * @param parentStoryId
-	 *            the new parent story id
+	 * @param parentStoryId the new parent story id
 	 */
 	public void setParentStoryId(Long parentStoryId)
 	{
@@ -277,7 +287,7 @@ public class StoryModel extends AbstractExtendableModel
 	 */
 	public Long getOwnerId()
 	{
-		return ownerId;
+		return owner;
 	}
 
 	/**
@@ -288,7 +298,7 @@ public class StoryModel extends AbstractExtendableModel
 	 */
 	public void setOwnerId(Long ownerId)
 	{
-		this.ownerId = ownerId;
+		this.owner = ownerId;
 	}
 
 	/**
@@ -313,24 +323,24 @@ public class StoryModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the priority.
+	 * Gets the priority order.
 	 *
-	 * @return the priority
+	 * @return the priority order
 	 */
-	public Long getPriority()
+	public Integer getPriorityOrder()
 	{
-		return priority;
+		return priorityOrder;
 	}
 
 	/**
-	 * Sets the priority.
+	 * Sets the priority order.
 	 *
-	 * @param priority
-	 *            the new priority
+	 * @param priorityOrder
+	 *            the new priority order
 	 */
-	public void setPriority(Long priority)
+	public void setPriorityOrder(Integer priorityOrder)
 	{
-		this.priority = priority;
+		this.priorityOrder = priorityOrder;
 	}
 
 	/**
@@ -430,10 +440,74 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the time taken for story.
 	 *
-	 * @param timeTakenForStory the new time taken for story
+	 * @param timeTakenForStory
+	 *            the new time taken for story
 	 */
 	public void setTimeTakenForStory(Date timeTakenForStory)
 	{
 		this.timeTakenForStory = timeTakenForStory;
+	}
+
+	/**
+	 * Gets the owner.
+	 *
+	 * @return the owner
+	 */
+	public Long getOwner()
+	{
+		return owner;
+	}
+
+	/**
+	 * Sets the owner.
+	 *
+	 * @param owner
+	 *            the new owner
+	 */
+	public void setOwner(Long owner)
+	{
+		this.owner = owner;
+	}
+
+	/**
+	 * Gets the tag.
+	 *
+	 * @return the tag
+	 */
+	public Long getTag()
+	{
+		return tag;
+	}
+
+	/**
+	 * Sets the tag.
+	 *
+	 * @param tag
+	 *            the new tag
+	 */
+	public void setTag(Long tag)
+	{
+		this.tag = tag;
+	}
+
+	/**
+	 * Gets the team.
+	 *
+	 * @return the team
+	 */
+	public Long getTeam()
+	{
+		return team;
+	}
+
+	/**
+	 * Sets the team.
+	 *
+	 * @param team
+	 *            the new team
+	 */
+	public void setTeam(Long team)
+	{
+		this.team = team;
 	}
 }

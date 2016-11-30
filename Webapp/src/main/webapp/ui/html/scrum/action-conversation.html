@@ -1,0 +1,115 @@
+<div ng-controller="scrumActionConversationController" style="width: 100%; min-height: 100%;" >
+
+	<div class="modal fade" id="actionConversationModelId" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	      
+	        <div class="modal-header">
+	          	<a href="" ng-click="hideAction()">
+	          		<i type="button"  data-dismiss="modal"  class="fa fa-times-circle-o" aria-hidden="true" style="font-size: 2em; color: black; float: right;">
+	          		</i>
+	          	</a>
+	          	
+	          <div class="modal-title">
+	          	<div class="btn-group">
+				      <button type="button" class="btn btn-primary" style="cursor: text;">Action Details</button>
+				      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    						<span class="caret"></span>
+  					 </button>
+				      <table class="dropdown-menu" role="menu" style="padding-left: 1em; min-width: 20em; background-color: lightgrey;">
+				      	 <tr>
+				      	 	<td>
+				      	 		By
+				      	 	</td>
+				      	 	<td style="padding: 0.3em;">
+				      	 		 : 
+				      	 	</td>
+				      	 	<td>
+				      	 		{{scrumActionItemIdObjMap[selectedActionItemId].providedBy}}
+				      	 	</td>
+				      	 </tr>
+				         <tr>
+				         	<td>On </td> 
+				         	<td style="padding: 0.3em;">:</td> 
+			         		<td ng-repeat="employeeName in scrumActionItemIdObjMap[selectedActionItemId].employeeNames">
+			         		{{employeeName}}
+			         		</td>
+				         </tr>
+				         <tr>
+				         	<td>Created On</td>
+				         	<td style="padding: 0.3em;">:</td>
+				         	<td>{{scrumActionItemIdObjMap[selectedActionItemId].displayDate}}</td>
+				         </tr>
+				        </table>
+			    </div>
+			  </div>
+			  
+	        </div>
+	        
+	        <div class="modal-body">
+	        	
+	        <!-- Action Conversation messages -->
+			<div id="actionConversationId" style="overflow-y:auto; flex-grow: 1; padding-right: 0.5em; height: 15em;">
+				<table  width="100%" ng-repeat="conver in actionConversations"> 
+					<tr>
+						<td>
+							<table style="margin-top: 0.3em;" class="conversation-message">
+								<tr ng-repeat-start="newUser in conver">
+									<td style="width: 1em; padding-left: 0.5em; color: #CD5C5C; padding-right: 1.5em; white-space: nowrap; vertical-align: middle;">
+										<span ng-if="$first">{{newUser.displayName}}</span>
+									</td>
+									<td style="width: 0%;">
+										<div class="arrow-left-blue"></div>
+									</td>
+									<td style="background-color: lightblue; width: 100%; border-radius: 5px; height: 1em; 
+									padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.5em; padding-bottom: 0.3em;">
+										<div ng-bind-html="newUser.message | unsafe"></div>
+										<span ng-if="newUser.actionConversationStatus.length > 0" style="font-size: 0.8em; color: red;">{{newUser.actionConversationStatus}}</span>
+										<span style="float: right; font-size: 0.8em;">{{newUser.displayDate}}, {{newUser.time}}</span>
+									</td>
+								</tr>
+								
+								<tr ng-repeat-end>
+									<td colspan="3" style="height: 0.1em;">
+									</td>
+								</tr>
+							</table>
+					</tr>
+				</table>
+			</div>
+	        
+        
+         	<textarea id="actionMessageId" ng-model="actionMessage" class="form-control" rows="2" cols="2" 
+				placeholder="Type your message here" style="resize: none; height: 10em;"></textarea>
+
+	        </div>
+	        
+	        <div class="modal-footer">
+	          	<table style="width: 100%;">
+					<tr>
+						<td style="float: left;">
+						    <button type="button" class="btn btn-success" ng-click="submitActionContent(scrumActionStatus.status1.value)">
+						    	{{scrumActionStatus.status1.type}}
+						    </button>
+						 </td>
+						   
+					   <td style="float: left; margin-left: 1em;">
+						    <button type="button" class="btn btn-warning" ng-click="submitActionContent(scrumActionStatus.status2.value)">
+						    	{{scrumActionStatus.status2.type}}
+						    </button>
+					    </td>
+					    
+						<td>
+							<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="hideAction()">
+								Cancel
+							</button>
+						</td>
+					</tr>
+				</table>
+	        </div>
+	        
+	      </div>
+	    </div>
+  </div>
+	
+</div>

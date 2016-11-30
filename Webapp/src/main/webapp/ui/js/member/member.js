@@ -302,6 +302,9 @@ $.application.controller('memberTestController', ["$scope", "crudController", "a
 	
 	var callBack = function(readResponse, respConfig){
 		
+		// This method is in app common for getting the latest members after save for other tabs.
+		$scope.fetchProjectMembers();
+		
 		if(readResponse.code != 0)
 		{
 			$scope.initProMem();

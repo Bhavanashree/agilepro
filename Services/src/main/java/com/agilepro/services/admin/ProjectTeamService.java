@@ -2,18 +2,12 @@ package com.agilepro.services.admin;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.agilepro.commons.models.customer.ProjectTeamModel;
-import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.entity.admin.ProjectTeamEntity;
-import com.agilepro.persistence.repository.admin.IProjectMemberRepository;
 import com.agilepro.persistence.repository.admin.IProjectTeamRepository;
-import com.yukthi.persistence.ITransaction;
+import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -25,20 +19,9 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class ProjectTeamService extends BaseCrudService<ProjectTeamEntity, IProjectTeamRepository>
 {
 	/**
-	 * The project member service.
-	 **/
-	@Autowired
-	private ProjectMemberService projectMemberService;
-
-	/**
 	 * The iproject team repository.
 	 **/
 	private IProjectTeamRepository iprojectTeamRepository;
-
-	/**
-	 * The ip member repository.
-	 **/
-	private IProjectMemberRepository ipMemberRepository;
 
 	/**
 	 * Instantiates a new project team service.
@@ -55,8 +38,6 @@ public class ProjectTeamService extends BaseCrudService<ProjectTeamEntity, IProj
 	private void init()
 	{
 		iprojectTeamRepository = repositoryFactory.getRepository(IProjectTeamRepository.class);
-
-		ipMemberRepository = repositoryFactory.getRepository(IProjectMemberRepository.class);
 	}
 
 	/**
@@ -75,5 +56,16 @@ public class ProjectTeamService extends BaseCrudService<ProjectTeamEntity, IProj
 		projectTeamEntities.forEach(entity -> projectTeamModels.add(super.toModel(entity, ProjectTeamModel.class)));
 
 		return projectTeamModels;
+	}
+	
+	/**
+	 * Project team drop down.
+	 *
+	 * @param projectId the project id
+	 * @return the map
+	 */
+	public List<ValueLabel> fetchTeamsDropDown(Long projectId)
+	{
+		return iprojectTeamRepository.fetchTeamsDropDown(projectId);
 	}
 }

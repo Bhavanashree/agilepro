@@ -3,6 +3,7 @@ package com.agilepro.commons.models.customer;
 import java.util.Date;
 
 import com.yukthi.persistence.repository.annotations.Field;
+import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
@@ -12,7 +13,7 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
  * @author Pritam
  */
 @Model
-public class ProjectSearchResult
+public class ProjectSearchResult extends AbstractExtendedSearchResult
 {
 	/**
 	 * Id.

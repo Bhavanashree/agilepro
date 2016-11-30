@@ -144,16 +144,25 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		{
 			$scope.selectedStoryId = event.target.id;
 		}
+		
+		$scope.allowedInStoryRelease = true;
 	};
 	
 	$scope.dropStories = function(event){
+
+		event.preventDefault();
+		
+		if(!$scope.allowedInStoryRelease)
+		{
+			utils.alert("Drop in this area is not allowed");
+			return;
+		}
+		$scope.allowedInStoryRelease = false;
 		
 		console.log("drop story" + $scope.selectedStoryId);
 		var storyObj;
 		var storyId;
 		var index;
-		
-		event.preventDefault();
 		
 		if($scope.multipleUnreleasedSelectedStoryIds.length == 0)
 		{
@@ -322,6 +331,8 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 		{
 			$scope.selectedStoryId = event.target.id;
 		}
+		
+		$scope.allowedInStoryBack = true;
 	};
 	
 	/*
@@ -329,9 +340,16 @@ $.application.controller('storyReleaseController', ["$scope", "crudController", 
 	 */
 	$scope.dropBackStories = function(event){
 		
+		event.preventDefault();
 		console.log("drop back story" + $scope.selectedStoryId);
 		
-		event.preventDefault();
+		if(!$scope.allowedInStoryBack)
+		{
+			utils.alert("Drop in this area is not allowed");
+			return;
+		}
+		$scope.allowedInStoryBack = false;
+		
 		
 		var storyObj;
 		var storyId;

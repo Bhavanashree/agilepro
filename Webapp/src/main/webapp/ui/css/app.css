@@ -54,6 +54,16 @@
 	padding: 2em;
 }
 
+#mainContent > div
+{
+	width: 100%;
+}
+
+.zeroHeight
+{
+	height: 0px;
+}
+
 .newsBox
 {
 	border: 1px solid rgb(220, 220, 220);
@@ -214,16 +224,16 @@
 }
 			
 .backgroundImage
-		{
-		 position: absolute;
-		left: 0px;
-		top: 0px;
-		z-index:-1;
-		-webkit-filter: blur(0px); /* Chrome, Safari, Opera */
-		filter: blur(0px);
-		height:890px;
-		width:100%;
-		}
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index:-1;
+	-webkit-filter: blur(0px); /* Chrome, Safari, Opera */
+	filter: blur(0px);
+	height:890px;
+	width:100%;
+}
 
 .triangle-right
 {
@@ -368,6 +378,7 @@ body
 	cursor: move; 
 }
 
+/* Kanban board */
 .storyBoards .col 
 {
    width: 22%; 
@@ -375,7 +386,14 @@ body
    padding: 2%;
   
 }
-        
+.banbanItems
+{
+	width: 50%;
+	height: 100%;
+}
+
+
+/* conversation display */        
 .arrow-right
 {
   width: 0; 
@@ -404,8 +422,9 @@ body
   border-bottom: 10px solid transparent; 
   
   border-right: 5px solid lightblue; 
-}     
-
+} 
+    
+/* Project Release */
 .blueBackGround
 {
 	background-color: lightblue;
@@ -423,8 +442,30 @@ body
 
 .greenBackGround
 {
-	background-color: lightgreen
+	background-color: lightgreen;
 }
+
+/* Scrum Action */
+.lightGreyBackground
+{
+	background-color: lightgrey;
+}
+
+.lightGoldenYellowBackGround
+{
+	background-color: #FAFAD2;
+}
+
+.lightGreyBackground:hover
+{
+	box-shadow: 2px 2px 5px #888888;
+}
+
+.lightGoldenYellowBackGround:hover
+{
+	box-shadow: 2px 2px 5px #888888;
+}
+
 
 /*  aaaaaaaaaaaaaaaaaaa*/
 
@@ -436,3 +477,11 @@ body
 .checkedClass {
      list-style-image: url("/ui/images/toggle-small.png");
 }
+
+.simpleParagraph p
+{
+	margin: 0px;
+	padding: 0px;
+	line-height: normal;
+}
+

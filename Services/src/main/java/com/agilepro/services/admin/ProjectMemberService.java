@@ -16,6 +16,7 @@ import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.repository.admin.IProjectMemberRepository;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
+import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -71,7 +72,11 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 		{
 			projectMemberModel = super.toModel(pentity, ProjectMemberModel.class);
 
-			employeeModel = employeeService.fetchEmployee(projectMemberModel.getEmployeeId());
+			employeeModel = employeeService.fetchFullModel(projectMemberModel.getEmployeeId(), EmployeeModel.class);
+			if(employeeModel == null)
+			{
+				throw new IllegalArgumentException("No employee found with id - {} " + projectMemberModel.getEmployeeId());
+			}
 
 			projectMemberModel.setPhoto(employeeModel.getPhoto());
 			projectMemberModel.setName(employeeModel.getName());
@@ -83,7 +88,7 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	}
 
 	/**
-	 * Fetch project admin members.
+	 * Fetch project admin members returns only the admin and manager.
 	 *
 	 * @param projectId
 	 *            the project id
@@ -91,39 +96,39 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public ProjectMemberReadResponse fetchProjectAdminManagers(Long projectId)
 	{
-		List<ProjectMemberModel> projectMemberModels = initPhoto(iprojectMemberRepository.fetchAdminManagers(projectId));
+		List<ProjectMemberModel> projectAdminManagers = initPhoto(iprojectMemberRepository.fetchAdminManagers(projectId));
 
 		ProjectMemberModel manager = null;
 
-		for(int i = 0; i < projectMemberModels.size(); i++)
+		for(int i = 0; i < projectAdminManagers.size(); i++)
 		{
-			if(projectMemberModels.get(i).getProjectMemberRole().equals(ProjectMemberRole.PROJECT_MANAGER))
+			if(projectAdminManagers.get(i).getProjectMemberRole().equals(ProjectMemberRole.PROJECT_MANAGER))
 			{
-				manager = projectMemberModels.get(i);
-				projectMemberModels.remove(i);
+				manager = projectAdminManagers.get(i);
+				projectAdminManagers.remove(i);
 				break;
 			}
 		}
 
-		return new ProjectMemberReadResponse(manager, projectMemberModels);
+		return new ProjectMemberReadResponse(manager, projectAdminManagers);
 	}
 
 	/**
-	 * Fetch members.
+	 * Fetch project members by team id.
 	 *
-	 * @param projectId
-	 *            the project id
+	 * @param projectTeamId the project team id
 	 * @return the project member read response
 	 */
-	public ProjectMemberReadResponse fetchMembers(Long projectId)
+	public ProjectMemberReadResponse fetchMembersByTeam(Long projectTeamId)
 	{
-		List<ProjectMemberModel> projectMemberModels = initPhoto(iprojectMemberRepository.fetchMembers(projectId));
+		List<ProjectMemberModel> projectMemberModels = initPhoto(iprojectMemberRepository.fetchMembers(projectTeamId));
 
 		return new ProjectMemberReadResponse(projectMemberModels);
 	}
 
 	/**
-	 * Fetch project members.
+	 * Fetch project members returns all the project members of the provided
+	 * project id.
 	 *
 	 * @param projectId
 	 *            the project id
@@ -131,9 +136,14 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public List<ProjectMemberModel> fetchProjectMembers(Long projectId)
 	{
-		return  initPhoto(iprojectMemberRepository.fetchProjectMembers(projectId));
+		return initPhoto(iprojectMemberRepository.fetchProjectMembers(projectId));
 	}
 
+	public List<ValueLabel> fetchMembersDropDown(Long projectId)
+	{
+		return iprojectMemberRepository.fetchMembersDropDown(projectId);
+	}
+	
 	/**
 	 * Delete by employee.
 	 *
@@ -159,5 +169,22 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	public void deleteAll()
 	{
 		repository.deleteAll();
+	}
+
+	/**
+	 * Fetch project members with no space.
+	 *
+	 * @param id
+	 *            the id
+	 * @return the list
+	 */
+	public List<ProjectMemberEntity> fetchProjectMembersWithNoSpace(Long id)
+	{
+		return iprojectMemberRepository.fetchProjectMembersWithNoSpace(id);
+	}
+	
+	public boolean isProjectMember(Long projectId, Long employeeId)
+	{
+		return iprojectMemberRepository.isProjectMember(projectId, employeeId) > 0;
 	}
 }

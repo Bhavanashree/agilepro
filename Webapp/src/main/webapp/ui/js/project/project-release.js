@@ -1,6 +1,12 @@
 $.application.controller('projectReleaseController', ["$scope", "crudController", "utils", "actionHelper", 
                          function($scope, crudController, utils, actionHelper) {
 	
+	$scope.allowedInProjectRelease = false;
+	$scope.allowedInProjectBack = false;
+	
+	$scope.allowedInStoryRelease = false;
+	$scope.allowedInStoryBack = false;
+	
 	$scope.projectFilter = function(){
 		
 		return function( item ) {
@@ -152,11 +158,21 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		{
 			$scope.selectedPrjctId = event.target.id;
 		}
+		
+		$scope.allowedInProjectRelease = true;
 	};
 	
 	// for release
 	$scope.dropProjects = function(event){
 		event.preventDefault();
+		
+		
+		if(!$scope.allowedInProjectRelease)
+		{
+			utils.alert("Drop in this area is not allowed");
+			return;
+		}
+		$scope.allowedInProjectRelease = false;
 		
 		console.log("project drop " + $scope.slectedReleaseId);
 		var projectObj;
@@ -247,6 +263,8 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 		{
 			$scope.selectedPrjctId = event.target.id;
 		}
+		
+		$scope.allowedInProjectBack = true;
 	};
 	
 	
@@ -265,6 +283,14 @@ $.application.controller('projectReleaseController', ["$scope", "crudController"
 	// for unrelease
 	$scope.dropBackProjects = function(event){
 		event.preventDefault();
+		
+		if(!$scope.allowedInProjectBack)
+		{
+			utils.alert("Drop in this area is not allowed");
+			return;
+		}
+		$scope.allowedInProjectBack = false;
+		
 		
 		console.log("drop back project");
 		var projectObj;

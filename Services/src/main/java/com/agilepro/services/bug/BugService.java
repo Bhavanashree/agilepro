@@ -1,5 +1,8 @@
 package com.agilepro.services.bug;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,12 +63,10 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			
 			super.update(model);
 			transaction.commit();
 
 			BugEntity updateEntity = super.fetch(model.getId());
-
 			
 			return updateEntity.getVersion();
 		} catch(RuntimeException ex)
@@ -75,5 +76,30 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 		{
 			throw new InvalidStateException(ex, "An error occurred while updating model - {}", model);
 		}
+	}
+	
+	public List<BugModel> fetchBugsBySprint(Long projectId, Long sprintId)
+	{
+		List<BugEntity> unAssignedBugs = bugRepo.fetchUnAssignedBugs(projectId);
+		List<BugEntity> sprintBugs = bugRepo.fetchBugsBySprintId(projectId, sprintId);
+		
+		List<BugModel> bugs = new ArrayList<BugModel>();
+		
+		if(sprintBugs == null)
+		{
+			sprintBugs = new ArrayList<BugEntity>();
+		}
+		
+		if(unAssignedBugs != null)
+		{
+			sprintBugs.addAll(unAssignedBugs);
+		}
+		
+		if(sprintBugs != null)
+		{
+			sprintBugs.forEach(entity -> bugs.add(super.toModel(entity, BugModel.class)));
+		}
+		
+		return bugs;
 	}
 }

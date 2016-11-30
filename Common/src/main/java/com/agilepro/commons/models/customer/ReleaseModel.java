@@ -5,6 +5,7 @@ import java.util.Date;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.Required;
+import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -15,6 +16,7 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
  * @author Pritam
  */
 @Model(name = "Release")
+@ExtendableModel(name = "Release")
 public class ReleaseModel
 {
 	/**

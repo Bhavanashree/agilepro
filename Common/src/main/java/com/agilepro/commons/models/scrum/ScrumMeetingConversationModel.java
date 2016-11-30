@@ -1,11 +1,9 @@
 package com.agilepro.commons.models.scrum;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import com.yukthi.validation.annotations.Required;
-import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
@@ -43,13 +41,7 @@ public class ScrumMeetingConversationModel
 	/**
 	 * The project member ids.
 	 **/
-	private List<Long> projectMemberIds;
-
-	/**
-	 * The project members.
-	 **/
-	@IgnoreField
-	private Map<Long, String> projectMembers;
+	private Set<Long> projectMemberIds;
 
 	/**
 	 * Version used for update.
@@ -60,6 +52,7 @@ public class ScrumMeetingConversationModel
 	/**
 	 * The message.
 	 **/
+	@Required
 	private String message;
 
 	/**
@@ -91,6 +84,28 @@ public class ScrumMeetingConversationModel
 	 * The updated on.
 	 **/
 	private Date updatedOn;
+	
+	/** 
+	 * The customer id. 
+	 **/
+	private Long customerId;
+
+	/**
+	 * Instantiates a new scrum meeting conversation model.
+	 */
+	public ScrumMeetingConversationModel()
+	{
+		super();
+	}
+	
+	public ScrumMeetingConversationModel(Long scrumMeetingId, Long userId, String message, Long customerId)
+	{
+		super();
+		this.scrumMeetingId = scrumMeetingId;
+		this.userId = userId;
+		this.message = message;
+		this.customerId = customerId;
+	}
 
 	/**
 	 * Gets the provided by.
@@ -323,46 +338,14 @@ public class ScrumMeetingConversationModel
 		this.storyId = storyId;
 	}
 
-	/**
-	 * Gets the project member ids.
-	 *
-	 * @return the project member ids
-	 */
-	public List<Long> getProjectMemberIds()
+	public Set<Long> getProjectMemberIds()
 	{
 		return projectMemberIds;
 	}
 
-	/**
-	 * Sets the project member ids.
-	 *
-	 * @param projectMemberIds
-	 *            the new project member ids
-	 */
-	public void setProjectMemberIds(List<Long> projectMemberIds)
+	public void setProjectMemberIds(Set<Long> projectMemberIds)
 	{
 		this.projectMemberIds = projectMemberIds;
-	}
-
-	/**
-	 * Gets the project members.
-	 *
-	 * @return the project members
-	 */
-	public Map<Long, String> getProjectMembers()
-	{
-		return projectMembers;
-	}
-
-	/**
-	 * Sets the project members.
-	 *
-	 * @param projectMembers
-	 *            the project members
-	 */
-	public void setProjectMembers(Map<Long, String> projectMembers)
-	{
-		this.projectMembers = projectMembers;
 	}
 
 	/**
@@ -384,5 +367,15 @@ public class ScrumMeetingConversationModel
 	public void setUpdatedOn(Date updatedOn)
 	{
 		this.updatedOn = updatedOn;
+	}
+
+	public Long getCustomerId()
+	{
+		return customerId;
+	}
+
+	public void setCustomerId(Long customerId)
+	{
+		this.customerId = customerId;
 	}
 }

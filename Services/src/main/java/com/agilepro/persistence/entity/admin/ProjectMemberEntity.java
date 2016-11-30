@@ -16,7 +16,8 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ProjectMember.
+ * ProjectMember holds the employee details which are member of the project.
+ * Members get added to the project by 'Drag' and 'Drop' from ui. 
  * 
  * @author Pritam
  */

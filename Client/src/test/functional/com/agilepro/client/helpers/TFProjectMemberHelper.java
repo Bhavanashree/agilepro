@@ -31,10 +31,9 @@ import com.yukthi.webutils.common.models.BasicReadResponse;
 /**
  * The Class TFProjectMemberHelper.
  *
+ * @author Pritam
  * @param <MultipartHttpServletRequest>
  *            the generic type
- *            
- * @author Pritam
  */
 public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase implements ITestConstants
 {
@@ -164,13 +163,13 @@ public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase i
 	 */
 	private void saveEmployees()
 	{
-		EmployeeModel employeeModel = new EmployeeModel("employee1", "emp1@gmail.com", T_PHONE_NUMBER, T_PASSWORD, T_PASSWORD, designationId);
+		EmployeeModel employeeModel = new EmployeeModel("employee1", "emp1@gmail.com", T_PHONE_NUMBER, T_PASSWORD, T_PASSWORD);
 		employeeIds.add(iemployeeController.save(employeeModel).getId());
 
-		employeeModel = new EmployeeModel("employee2", "emp2@gmail.com", T_PHONE_NUMBER, T_PASSWORD, T_PASSWORD, designationId);
+		employeeModel = new EmployeeModel("employee2", "emp2@gmail.com", T_PHONE_NUMBER, T_PASSWORD, T_PASSWORD);
 		employeeIds.add(iemployeeController.save(employeeModel).getId());
 
-		employeeModel = new EmployeeModel("employee3", "emp3@gmail.com", T_PHONE_NUMBER, T_PASSWORD, T_PASSWORD, designationId);
+		employeeModel = new EmployeeModel("employee3", "emp3@gmail.com", T_PHONE_NUMBER, T_PASSWORD, T_PASSWORD);
 		employeeIds.add(iemployeeController.save(employeeModel).getId());
 	}
 
@@ -198,11 +197,13 @@ public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase i
 	 */
 	private List<ProjectMemberModel> getProjectMemberModel(Long projectId)
 	{
-		/*BasicReadResponse<List<ProjectMemberModel>> basicReadResponse = iprojectMemberController.fetchProjectMembers(projectId);
+		/*
+		 * BasicReadResponse<List<ProjectMemberModel>> basicReadResponse =
+		 * iprojectMemberController.fetchProjectMembers(projectId);
+		 * 
+		 * return basicReadResponse.getModel();
+		 */
 
-		return basicReadResponse.getModel();*/
-		
-		
 		return null;
 	}
 
@@ -232,7 +233,7 @@ public class TFProjectMemberHelper<MultipartHttpServletRequest> extends TFBase i
 		iprojectController.deleteAll();
 
 		idesignationController.deleteAll();
-		
+
 		customerHelper.deleteAll(clientContext);
 		pricePlanHelper.deleteAll(clientContext);
 	}

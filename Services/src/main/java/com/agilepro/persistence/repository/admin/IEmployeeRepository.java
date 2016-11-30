@@ -3,6 +3,7 @@ package com.agilepro.persistence.repository.admin;
 import java.util.List;
 import com.agilepro.commons.models.admin.EmployeeSearchQuery;
 import com.agilepro.commons.models.admin.EmployeeSearchResult;
+import com.agilepro.persistence.entity.admin.DesignationEntity;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Field;
@@ -36,6 +37,15 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	public List<EmployeeSearchResult> findEmployee(SearchQuery searchQuery);
 
 	/**
+	 * Fetch with no space.
+	 *
+	 * @param employeeId
+	 *            the employee id
+	 * @return the employee entity
+	 */
+	public EmployeeEntity fetchWithNoSpace(@Condition(value = "id") Long employeeId);
+
+	/**
 	 * Fetch employees.
 	 *
 	 * @param employeeName
@@ -45,9 +55,6 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	@RestrictBySpace
 	public List<EmployeeEntity> fetchEmployees(@Condition(value = "name", op = Operator.LIKE, ignoreCase = true) String employeeName);
 
-	@RestrictBySpace
-	public EmployeeEntity fetchEmployee(@Condition(value = "id") Long id);
-
 	/**
 	 * Finds the designation for specified employee id.
 	 * 
@@ -55,8 +62,8 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	 *            Employee for designation to be fetched
 	 * @return Matching designation
 	 */
-	@Field("designation.id")
-	public Long fetchDesignationId(@Condition("id") long empId);
+	@Field("designations")
+	public List<DesignationEntity> fetchDesignations(@Condition("id") long empId);
 
 	/**
 	 * Find employee lov.
@@ -65,7 +72,7 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	 */
 	@LovQuery(name = "employeeLov", valueField = "id", labelField = "name")
 	public List<ValueLabel> findEmployeeLov();
-	
+
 	/**
 	 * Find project members.
 	 *

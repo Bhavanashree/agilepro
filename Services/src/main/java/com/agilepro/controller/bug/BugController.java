@@ -5,7 +5,11 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BUG_BY_SPRINT_ID;
+
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -14,13 +18,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.bug.IBugController;
-import com.agilepro.commons.models.bug.BugCommentsModel;
 import com.agilepro.commons.models.bug.BugModel;
 import com.agilepro.services.bug.BugService;
 import com.agilepro.services.common.Authorization;
@@ -93,7 +97,7 @@ public class BugController extends BaseController implements IBugController
 	 * @return the BugModel response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_UPDATE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicVersionResponse update(@RequestBody @Valid BugModel model)
@@ -126,5 +130,14 @@ public class BugController extends BaseController implements IBugController
 		bugService.deleteById(id);
 
 		return new BaseResponse();
+	}
+	
+	@ActionName(ACTION_TYPE_READ_BUG_BY_SPRINT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/fetchBugBySprintId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<BugModel>> fetchBugs(@RequestParam(value = "projectId", required = true) Long projectId, @RequestParam(value = "sprintId", required = true)Long sprintId)
+	{
+		return new BasicReadResponse<List<BugModel>>(bugService.fetchBugsBySprint(projectId, sprintId));
 	}
 }

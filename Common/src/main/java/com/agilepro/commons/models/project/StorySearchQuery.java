@@ -38,7 +38,7 @@ public class StorySearchQuery
 	/** 
 	 * The owner id. 
 	 * */
-	@Condition(value = "ownerId.name", op = Operator.EQ)
+	@Condition(value = "owner.name", op = Operator.EQ)
 	private Long ownerId;
 	
 	/**
@@ -82,6 +82,7 @@ public class StorySearchQuery
 	{
 		this.title = title;
 	}
+	
 	/**
 	 * Gets the status.
 	 *

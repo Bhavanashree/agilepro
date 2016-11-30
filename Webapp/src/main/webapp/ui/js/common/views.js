@@ -58,6 +58,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("pricePlans", "settings/settings-menu.html", "settings/price-plans.html", "settingsTab");
 	addState("adminUser", "settings/settings-menu.html", "settings/adminuser.html", "settingsTab");
 	addState("mailSettings", "settings/settings-menu.html", "settings/mailSetting.html", "settingsTab");
+	addState("notificationSettings", "settings/settings-menu.html", "settings/notificationSettings.html", "settingsTab");
 	addState("mailTemplateDefinition", "settings/settings-menu.html", "settings/mailTemplateDefinition.html", "settingsTab");
 	addState("holiday", "settings/settings-menu.html", "settings/holiday.html", "settingsTab");
 	
@@ -67,7 +68,6 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	
 	// Project related states
 	addState("project","project/project-menu.html", "project/project.html", "projectsTab");
-	addState("tag","project/project-menu.html", "project/tag.html", "projectsTab");
 	addState("release","project/project-menu.html", "project/release.html", "projectsTab", false, false);
 	addState("sprint","project/project-menu.html", "project/sprint.html", "projectTab");
 	
@@ -75,14 +75,20 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("member", "member/member-menu.html", "member/member.html", "membersTab");
 	
 	//backlog
-	addState("kanbanBoard","story/story-menu.html", "story/kanbanBoard.html", "kanbanTab", true);
+	addState("kanbanBoard","story/story-menu.html", "kanban-board/kanban-board.html", "kanbanTab", true);
 	addState("story","story/story-menu.html", "story/story.html", "storyTab");
+	addState("tag","story/story-menu.html", "story/tag.html", "storyTab");
 	addState("priority","story/story-menu.html", "story/priority.html", "storyTab");
 	addState("task","story/story-menu.html", "story/task.html", "storyTab");
+	addState("storyPriority","story/story-priority.html", "story/story-priority.html", "storyTab");
 	
 	//bug
 	addState("bug","bug/bug-menu.html", "bug/bug.html", "bugTab");
 	
 	//scrum
 	addState("scrum","scrum/scrum-menu.html", "scrum/scrum-meeting.html", "scrumTab", true);
+	
+	//pokerGame
+	addState("pokerGame","poker-game/pokerGame-menu.html", "poker-game/poker-game.html", "pokerGameTab" ,true);
+	
 });

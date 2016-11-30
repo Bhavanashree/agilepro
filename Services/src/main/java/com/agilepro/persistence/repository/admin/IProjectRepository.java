@@ -15,46 +15,46 @@ import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
 /**
- * The Interface IProjectRepository.
+ * IProjectRepository for fetching project related data's with different queries.
  * 
  * @author Pritam
  */
 public interface IProjectRepository extends IWebutilsRepository<ProjectEntity>
 {
 	/**
-	 * Find projects.
+	 * Find projects from search button in Ui.
 	 *
 	 * @param searchQuery
 	 *            the search query
-	 * @return the list
+	 * @return all the project as list project search result.
 	 */
 	@RestrictBySpace
 	@SearchQueryMethod(name = "projectSearch", queryModel = ProjectSearchQuery.class)
 	@OrderBy("name")
 	public List<ProjectSearchResult> findProjects(SearchQuery searchQuery);
-
+ 
 	/**
-	 * Find project lov.
+	 * List of values to be displayed in the ui drop down.
 	 *
-	 * @return the list
+	 * @return the list containing project details.
 	 */
 	@LovQuery(name = "projectsLov", valueField = "id", labelField = "name")
 	@RestrictBySpace
 	public List<ValueLabel> findProjectLov();
 
 	/**
-	 * Fetch project by space identity.
+	 * Fetch project by space identity used in scrum meeting cron job.
 	 *
 	 * @param spaceIdentity
 	 *            the space identity
-	 * @return the list
+	 * @return the matching result.
 	 */
 	public List<ProjectEntity> fetchProjectBySpaceIdentity(@Condition(value = "spaceIdentity") String spaceIdentity);
 
 	/**
-	 * Fetch all projects.
+	 * Fetch all projects for the drop down in header.
 	 *
-	 * @return the list
+	 * @return the list having all the projects.
 	 */
 	@RestrictBySpace
 	public List<ProjectEntity> fetchAllProjects();

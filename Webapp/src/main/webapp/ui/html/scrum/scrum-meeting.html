@@ -1,8 +1,8 @@
-<div class="flexVertical" ng-controller="scrumController" style="width: 100%; min-height: 100%;" >
+<div class="flexVertical" ng-controller="scrumController" style="width: 100%; flex-grow: 1;" >
 
 
 	<!-- Header row -->
-	<div style="width: 100%; margin-bottom: 0.5em;" ng-init="initScrum()">
+	<div style="margin-bottom: 0.5em;" ng-init="initScrum()">
 		<table>
 			<tr>
 				<td style="background-color: #00BFFF; border-radius: 10px; font-size: 1.2em; padding: 0.2em;">
@@ -11,7 +11,7 @@
 					</span>
 				</td>
 				<td style="padding-left: 0.5em;">
-					<yk-date-field name="meetingDate" label="Meeting Date" ng-model="meetingDate"></yk-date-field>
+					<yk-date-field name="meetingDate" label="Meeting Date" ng-model="meetingDate" ng-change="onDateChange()"></yk-date-field>
 				</td>
 			</tr>
 		</table>
@@ -20,12 +20,14 @@
 	<!-- Coversation layer -->
 	<div style="width: 100%; flex-grow: 1; align-items: stretch;" class="flexHorizontal">
 		<!-- For message -->
-		<div style="flex-grow: 1; align-items: stretch; border-style: solid; border-color: lightblue; 
+		<div style="flex-grow: 1; align-items: stretch; border-style: solid; border-color: #708090; 
 			border-width: 5px;  border-radius: 5px;" class="flexVertical">
 			
 			<!-- Conversation messages -->
-			<div style="overflow-y:auto; flex-grow: 1; padding-right: 0.5em; max-height: 50%;">
-				<table  width="100%" ng-repeat="conver in scrumConversations" style="margin-top: 1em;"> 
+			<div id="scrumConversationId" style="overflow-y:auto; flex-grow: 1; padding-right: 0.5em;" 
+				yk-max-height="98vh - ${$this.offset().top}px - 10rem - 10rem" class="simpleParagraph">
+				
+				<table  width="100%" ng-repeat="conver in scrumConversations | orderBy : 'conver.updatedOn'" style="margin-top: 1em;"> 
 					<tr>
 						<td>
 							<table style="margin-top: 0.3em;" class="conversation-message">
@@ -37,10 +39,10 @@
 										<div class="arrow-left-blue"></div>
 									</td>
 									<td style="background-color: lightblue; width: 100%; border-radius: 5px; height: 1em; 
-									padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.5em; padding-bottom: 0.3em;">
+									padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.5em; padding-bottom: 0px;">
 										<div ng-bind-html="newUser.message | unsafe"></div>
 										<span ng-if="conver.displayStory.length > 0" style="font-size: 0.8em; color: red;">{{newUser.displayStory}}</span> 
-										<span style="float: right; font-size: 0.8em;">{{newUser.displayDate}} {{newUser.time}}</span>
+										<span style="float: right; font-size: 0.8em;">{{newUser.displayDate}}, {{newUser.time}}</span>
 									</td>
 								</tr>
 								
@@ -54,13 +56,15 @@
 			</div>
 			
 			<!-- Tiny MCE -->
-			<div style="max-height: 10%;">
+			<div>
 				<textarea id="scrumMessageId" ng-model="scrumMessage" ng-keyup="onType($event)" class="form-control" rows="2" cols="2" 
-					placeholder="Type your message here" style="resize: none; height: 10em;"></textarea>
-					
-				<table style="width: 100%;">
+					placeholder="Type your message here" style="resize: none; height: 10rem;"></textarea>
+			</div>
+			
+			<!-- Story drop up and send button -->
+			<table style="width: 100%; margin: 0.5em;">
 					<tr>
-						<td>
+						<td style="width: 90%;">
 							<div style="background: white; border-top-left-radius: 0.5em; margin-left: 0.5em;">
 								<div class="input-group">
 									<table>
@@ -70,9 +74,9 @@
 												 placeholder="Select a story" value="{{selectedStory.title}}">
 											</td>
 											<td>
-												<div class="input-group-btn">
+												<div class="input-group-btn dropup">
 													<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-														Story <span class="caret"></span>
+														Story clear the story<span class="caret"></span>
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right" ng-if="stories.length > 0">
 													    <li ng-repeat="story in stories">
@@ -88,35 +92,62 @@
 								</div>
 							</div>
 						</td>
-						<td>
+						<td style="width: 10%;">
 							<button class="btn btn-success" ng-click="submitScrumContent()">Send</button>
-						</td>
-						<td>
-							<button class="btn btn-danger" ng-click="closeScrumContent()">Close</button>
 						</td>
 					</tr>
 				</table>
-			</div>
 		</div>
 		
 		<!-- For action Items -->
-		<div style="border-style: solid; border-color: lightblue; border-width: 5px; border-radius: 5px; margin-left: 0.5em;
-		min-width: 15em;">
-			<table  width="100%" ng-repeat="conversations in scrumConversations"> 
-					<tr ng-repeat="conver in conversations">
-					
-						<td style="margin: 1em; background-color: yellow;">
-							<span ng-show="conver.projectMembers[1]" style="float: right; padding-right: 0.5em;">
-								<a href="" ng-click="showAction()"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+		<div style="overflow-y:auto; border-style: solid; border-color: #708090; border-width: 5px; border-radius: 5px; margin-left: 0.5em;
+		min-width: 25em;">
+			<table ng-dblclick="showAction(actionItem.id)" width="100%" ng-repeat="actionItem in scrumActionItems" 
+				style="max-width: 23.2em; margin: 0.5em; height: 1em; overflow-y: auto;"  
+				ng-class="actionItem.scrumActionStatus == 'CLOSE' ? 'lightGoldenYellowBackGround' : 'lightGreyBackground'"> 
+					<tr>
+						<td colspan="3">
+							<span style="float: left; margin: 0.2em;">
+								<a href="" ng-click="showAction(actionItem.id)">
+									<i class="fa fa-pencil-square-o" aria-hidden="true">
+									</i>
+								</a>
 							</span>
-							<span ng-repeat="member in conver.projectMembers" style="font-size: 10px; padding-left: 0.5em;">
-								{{member}}
+							<span style="font-size: 10px; float: right; margin: 0.2em;">
+								{{actionItem.displayDate}}, {{actionItem.time}}
 							</span>
 						</td>
-						
+					</tr>
+					<tr>
+						<td colspan="3" style="overflow-x: hidden;">
+							{{getText(actionItem.message)}}
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="padding-left: 0.3em; font-size: 12px;">
+							<span>By</span>
+							<span style="padding-left: 0.1em;">:</span>
+							<span style="font-weight: bold;">{{actionItem.providedBy}},</span>
+							<span>Status</span>
+							<span>:</span>
+							<span style="text-transform: lowercase;">{{actionItem.scrumActionStatus}}</span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="padding-left: 0.3em; font-size: 12px;">
+							<span>On</span>
+							<span>:</span>
+							<span ng-repeat="employee in actionItem.employeeNames">
+								<span ng-if="$index > 0">,</span>{{employee}}
+							</span>
+						</td>
 					</tr>
 			</table>
 		</div>
+	</div>
+	
+	
+	<div ng-include="'/ui/html/scrum/action-conversation.html'">
 	</div>
 	
 </div>

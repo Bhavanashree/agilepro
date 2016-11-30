@@ -42,11 +42,11 @@
       
       "entities": [
         {
-          "name": "customer1",
-          "email": "customer1@gmail.com",
+          "name": "yukthi",
+          "email": "yukthi@gmail.com",
           "phoneNumber": "1233434354564",
           "address": "Some dummy address",
-          "subDomainPath": "customer1",
+          "subDomainPath": "yukthi",
           "password": "password",
           "customerPricePlanId": <#noparse>"${entity.PricePlan.DefaultPricePlan.id}"</#noparse>,
           
@@ -69,7 +69,6 @@
       "name": "MailTemplates",
       "entityType": "com.yukthi.webutils.mail.template.MailTemplateEntity",
       "modelType": "com.agilepro.services.notification.MailTemplateModelForLoad",
-      "identityField": "templateName",
 
       "spaceIdentity": "ADMIN",
       
@@ -83,6 +82,11 @@
           "templateName": "MAIL_PROCESSING_ERROR",
           "subjectTemplate": "RE:",
           "templateFile": "/data/mails/MAIL_PROCESSING_ERROR.html"
+        },
+        {
+          "templateName": "SCRUM_MEETING_UPDATE",
+          "subjectTemplate": "RE:",
+          "templateFile": "/data/mails/SCRUM_MEETING_UPDATE.html"
         }
       ]
     }

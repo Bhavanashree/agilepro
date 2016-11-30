@@ -163,7 +163,7 @@ public class TFEmployee extends TFBase
 	@Test
 	public void testSave()
 	{
-		EmployeeModel model = new EmployeeModel("employee1", "emp7@gmail.com", phoneNumber, password, password, designationId);
+		EmployeeModel model = new EmployeeModel("employee1", "emp7@gmail.com", phoneNumber, password, password);
 
 		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
 
@@ -174,7 +174,7 @@ public class TFEmployee extends TFBase
 	@Test
 	public void testRead()
 	{
-		EmployeeModel model = new EmployeeModel("employee2", "emp2@gmail.com", phoneNumber, password, password, designationId);
+		EmployeeModel model = new EmployeeModel("employee2", "emp2@gmail.com", phoneNumber, password, password);
 
 		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
 		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
@@ -189,7 +189,7 @@ public class TFEmployee extends TFBase
 	@Test
 	public void testUpdate()
 	{
-		EmployeeModel model = new EmployeeModel("employee3", "emp3@gmail.com", phoneNumber, password, password, designationId);
+		EmployeeModel model = new EmployeeModel("employee3", "emp3@gmail.com", phoneNumber, password, password);
 
 		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
 		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
@@ -210,7 +210,7 @@ public class TFEmployee extends TFBase
 	@Test
 	public void testDelete()
 	{
-		EmployeeModel model = new EmployeeModel("employee4", "emp1@gmail.com", phoneNumber, password, password, designationId);
+		EmployeeModel model = new EmployeeModel("employee4", "emp1@gmail.com", phoneNumber, password, password);
 
 		BasicSaveResponse basicSaveResponse = iemployeeController.save(model);
 		Assert.assertTrue(basicSaveResponse.getId() > 0);

@@ -1,9 +1,14 @@
 <yk-nav-tree>
 
-	<tree-item id="lftMenuStory" icon="glyphicon-book" icon-color="black" state="story" label="Story" yk-for-role=" CUSTOMER_SUPER_USER ,EMPLOYEE_VIEW,EMPLOYEE_EDIT">
+	<tree-item id="lftMenuStory" icon="glyphicon-book" icon-color="black" state="story" label="BackLog" yk-for-role="STORY_ADD">
+	</tree-item>
+	<tree-item id="lftMenuStoryPriority" icon="glyphicon-book" icon-color="black" state="storyPriority" label="Priority" yk-for-role="STORY_ADD">
+	</tree-item>
+	story-priority
+   <tree-item id="lftMenuTagId" icon="fa fa-tags" icon-color="brown" state="tag" label="Tags" yk-for-role="PROJECT_VIEW, CUSTOMER_SUPER_USER">
 	</tree-item>
 		
-	<tree-item id="lftMenuTask" icon="glyphicon-equalizer" icon-color="black" state="task" label="Task" yk-for-role=" CUSTOMER_SUPER_USER ,EMPLOYEE_VIEW,EMPLOYEE_EDIT">
+	<tree-item id="lftMenuTask" icon="glyphicon-equalizer" icon-color="black" state="task" label="Task" yk-for-role="STORY_ADD,EMPLOYEE_VIEW,EMPLOYEE_EDIT">
 	</tree-item>
 
 </yk-nav-tree>

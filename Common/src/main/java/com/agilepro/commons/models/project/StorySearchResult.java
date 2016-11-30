@@ -39,8 +39,8 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	/**
 	 * The parent story id.
 	 */
-	@Field(value = "parentStoryId")
-	private Long parentStoryId;
+	@Field(value = "parentStory.id")
+	private Long parentStory;
 
 	/**
 	 * The story owner.
@@ -52,8 +52,8 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	/**
 	 * The priority id.
 	 */
-	@Field(value = "priorityId.name")
-	private String priorityId;
+	@Field(value = "priorityOrder")
+	private Integer priorityOrder;
 
 	/**
 	 * The indent.
@@ -65,13 +65,13 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	 **/
 	@Field(value = "project.id")
 	private Long projectId;
-	
+
 	/**
 	 * The status.
 	 */
 	@Field(value = "status")
 	private String status;
-	
+
 	/**
 	 * Gets the story owner.
 	 *
@@ -169,7 +169,8 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	/**
 	 * Sets the story points.
 	 *
-	 * @param storyPoints the new story points
+	 * @param storyPoints
+	 *            the new story points
 	 */
 	public void setStoryPoints(Integer storyPoints)
 	{
@@ -181,20 +182,20 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	 *
 	 * @return the parent story id
 	 */
-	public Long getParentStoryId()
+	public Long getParentStory()
 	{
-		return parentStoryId;
+		return parentStory;
 	}
 
 	/**
 	 * Sets the parent story id.
 	 *
-	 * @param parentStoryId
-	 *            the new parent story id
+	 * @param parentStory
+	 *            the new parent story
 	 */
-	public void setParentStoryId(Long parentStoryId)
+	public void setParentStory(Long parentStory)
 	{
-		this.parentStoryId = parentStoryId;
+		this.parentStory = parentStory;
 	}
 
 	/**
@@ -240,24 +241,24 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	}
 
 	/**
-	 * Gets the priority id.
+	 * Gets the priority order.
 	 *
-	 * @return the priority id
+	 * @return the priority order
 	 */
-	public String getPriorityId()
+	public Integer getPriorityOrder()
 	{
-		return priorityId;
+		return priorityOrder;
 	}
 
 	/**
-	 * Sets the priority id.
+	 * Sets the priority order.
 	 *
-	 * @param priorityId
-	 *            the new priority id
+	 * @param priorityOrder
+	 *            the new priority order
 	 */
-	public void setPriorityId(String priorityId)
+	public void setPriorityOrder(Integer priorityOrder)
 	{
-		this.priorityId = priorityId;
+		this.priorityOrder = priorityOrder;
 	}
 
 	/**
@@ -280,5 +281,4 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	{
 		this.projectId = projectId;
 	}
-
 }

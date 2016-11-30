@@ -129,17 +129,17 @@ public class TFEmployeeSearchQuery extends TFBase
 		List<UserRole> listExp1 = new ArrayList<UserRole>();
 		listExp1.add(UserRole.DESIGNATION_EDIT);
 		listExp1.add(UserRole.DESIGNATION_DELETE);
-		listExp1.add(UserRole.TEST);
+		listExp1.add(UserRole.TEST_DELETE_ALL);
 		listExp1.add(UserRole.EMPLOYEE_DELETE);
-		listExp1.add(UserRole.TEST);
+		listExp1.add(UserRole.TEST_DELETE_ALL);
 		listExp1.add(UserRole.EMPLOYEE_VIEW);
 		designationModel.setRoles(listExp1);
 		Assert.assertTrue(designationId > 0);
 
-		EmployeeModel model1 = new EmployeeModel(empName, "emp7@gmail.com", phoneNumber, null, null, 2L);
+		EmployeeModel model1 = new EmployeeModel(empName, "emp7@gmail.com", phoneNumber, null, null);
 		model1.setPassword(PASSWORD);
 		model1.setConfirmPassword(PASSWORD);
-		model1.setDesignationId(designationId);
+		
 		Long employeeId = employeeHelper.save(clientCurrentSession, model1);
 		model.setId(employeeId);
 		model.setName("abce");
@@ -152,7 +152,7 @@ public class TFEmployeeSearchQuery extends TFBase
 	@Test
 	public void testSearchResults()
 	{
-		EmployeeSearchQuery query = new EmployeeSearchQuery("%u%", null, null, null, null);
+		EmployeeSearchQuery query = new EmployeeSearchQuery("%u%", null, null, null);
 		//List<EmployeeSearchResult> results = searchHelper.executeSearchQuery(clientCurrentSession, "employeeSearch", query, -1, EmployeeSearchResult.class);
 
 		//Assert.assertEquals(results.size(), 1);

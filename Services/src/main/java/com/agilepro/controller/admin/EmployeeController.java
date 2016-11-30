@@ -66,7 +66,7 @@ public class EmployeeController extends BaseController implements IEmployeeContr
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid EmployeeModel model)
 	{
-		EmployeeEntity entity = employeeService.save(model);
+		EmployeeEntity entity = employeeService.saveEmp(model);
 
 		return new BasicSaveResponse(entity.getId());
 	}
@@ -151,7 +151,7 @@ public class EmployeeController extends BaseController implements IEmployeeContr
 	 * @return the base response
 	 */
 	@Override
-	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

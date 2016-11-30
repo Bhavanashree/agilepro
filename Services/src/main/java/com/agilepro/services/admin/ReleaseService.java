@@ -16,9 +16,8 @@ import com.yukthi.webutils.services.BaseCrudService;
 @Service
 public class ReleaseService extends BaseCrudService<ReleaseEntity, IReleaseRepository>
 {
-
 	/**
-	 * The irelease repository.
+	 * The i release repository.
 	 **/
 	private IReleaseRepository ireleaseRepository;
 
@@ -31,7 +30,7 @@ public class ReleaseService extends BaseCrudService<ReleaseEntity, IReleaseRepos
 	}
 
 	/**
-	 * Inits the.
+	 * Initialize ireleaseRepository.
 	 */
 	@PostConstruct
 	private void init()
@@ -56,7 +55,7 @@ public class ReleaseService extends BaseCrudService<ReleaseEntity, IReleaseRepos
 	}
 
 	/**
-	 * Deletes all entities.
+	 * Deletes all release.
 	 */
 	public void deleteAll()
 	{

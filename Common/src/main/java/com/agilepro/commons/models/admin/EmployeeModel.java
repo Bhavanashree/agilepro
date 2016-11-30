@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.admin;
 
+import java.util.List;
+
 import javax.validation.constraints.Pattern;
 
 import com.agilepro.commons.EmployeeGender;
@@ -95,7 +97,7 @@ public class EmployeeModel extends AbstractExtendableModel
 	 **/
 	@LOV(name = "designationList")
 	@Required
-	private Long designationId;
+	private List<Long> designationId;
 
 	/**
 	 * The photo.
@@ -127,17 +129,14 @@ public class EmployeeModel extends AbstractExtendableModel
 	 *            the password
 	 * @param confirmPassword
 	 *            the confirm password
-	 * @param designationId
-	 *            the designation id
 	 */
-	public EmployeeModel(String name, String mailId, String phoneNumber, String password, String confirmPassword, Long designationId)
+	public EmployeeModel(String name, String mailId, String phoneNumber, String password, String confirmPassword)
 	{
 		this.name = name;
 		this.mailId = mailId;
 		this.phoneNumber = phoneNumber;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
-		this.designationId = designationId;
 	}
 
 	/**
@@ -313,7 +312,7 @@ public class EmployeeModel extends AbstractExtendableModel
 	 *
 	 * @return the designation id
 	 */
-	public Long getDesignationId()
+	public List<Long> getDesignationId()
 	{
 		return designationId;
 	}
@@ -324,7 +323,7 @@ public class EmployeeModel extends AbstractExtendableModel
 	 * @param designationId
 	 *            the new designation id
 	 */
-	public void setDesignationId(Long designationId)
+	public void setDesignationId(List<Long> designationId)
 	{
 		this.designationId = designationId;
 	}

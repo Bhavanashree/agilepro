@@ -185,7 +185,7 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		
 		$scope.fetchTasksByProjectId = function(){
 			
-			projectId = $scope.getActiveProject();
+			projectId = $scope.getActiveProjectId();
 
 			console.log("PROJECT ID = " + projectId);
 			if(!projectId) return;

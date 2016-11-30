@@ -1,13 +1,13 @@
 {
-  "defaultUserName": "customer1@gmail.com",
+  "defaultUserName": "yukthi@gmail.com",
   "entityGroups": [
     {
       "name": "Sprint",
       "entityType": "com.agilepro.persistence.entity.project.SprintEntity",
-      "modelType": "com.agilepro.commons.models.project.SprintModel",
+      "modelType": "com.agilepro.commons.models.sprint.SprintModel",
       "identityField": "name",
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.yukthi.id}",
       
       "entities": [
       <#list 1..3 as x>

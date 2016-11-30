@@ -1,24 +1,6 @@
 $.application.controller('kanbanController', ["$scope", "crudController", "utils","modelDefService","actionHelper",
                                                function($scope, crudController,utils, modelDefService, actionHelper) {
-	 crudController.extend($scope, {
-		"name": "Sprint",
-		"modelName": "SprintModel",
-		
-		"nameColumn" : "name",
-		
-		"modelDailogId": "sprintDialog",
-		
-		"saveAction": "sprint.save",
-		"readAction": "sprint.read",
-		"updateAction": "sprint.update",
-		"deleteAction": "sprint.delete",
-		
 
-		"postSaveOp": function(model, $scope) {
-			$scope.listOfSprint();
-		}
-
-		});
 	 $scope.childStrsToUpdtInDb = [];
 	
 	 $scope.noSprintIsSelected = true;
@@ -27,6 +9,23 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 	 
 	 $scope.sprintVerId = {};
 	 $scope.sprints={};
+	 
+	 /* attribute for flip */
+	 $scope.isBacklogActive = true;
+	 
+	 $scope.flipStatus = function(){
+		 
+		 $scope.isBacklogActive = !$scope.isBacklogActive;
+	 };
+	 
+	 
+	 $scope.onSprintChange = function(sprintId){
+		 
+		 $scope.selectedSprintObj = $scope.sprintIdObjMap[sprintId];
+		 $scope.listOfStories();
+		 
+		 $scope.$broadcast("onSelectedSprintChange");
+	 };
 	 
 	 $scope.clean = function() {
 		 $scope.story = [];
@@ -37,22 +36,31 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 	 };
 	 
 	// after sprint save get it by project id and display in dropdown
-	$scope.listOfSprint = function(){	
-		console.log("listofsprint");
+	$scope.initKanbanBoard = function(){
+		
+		console.log("initKanbanBoard");
+		
+		$('#toggleButtonId').bootstrapToggle();
 		
 		projectId = $scope.getActiveProjectId();
 		$scope.isSprintIsSelected = false;
 		$scope.selectedSprintObj = null;
 		
-		actionHelper.invokeAction("sprint.sprintProjectId", null, {"projectId" : projectId}, function(read, response){
-			$scope.sprints = read.model;
+		actionHelper.invokeAction("kanbanBoard.readSprintTeamUserByProjectId", null, {"projectId" : projectId}, function(read, response){
+			$scope.sprints = read.sprints;
+			$scope.teams = read.teams;
+			$scope.employees = read.employees;
+			
 			$scope.clean();
+			
 			
 			try
 			{
 	    		$scope.$apply();
 			}catch(ex)
-			{}	
+			{}
+			
+			console.log("After apply...");
 			
 			if($scope.sprints && $scope.sprints.length > 0)
 			{
@@ -61,7 +69,17 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 				// get list of stories by projectId because stories are not yet assigned
 				$scope.listOfStories(); 
 			}
-		});
+			
+			// maps for getting the values easily from ids
+			$scope.sprintIdObjMap = {};
+			for(index in $scope.sprints)
+			{
+				var sprintObj = $scope.sprints[index];
+				
+				$scope.sprintIdObjMap[sprintObj.id] = sprintObj;
+			}
+			
+		}, {"hideInProgress" : true});
 	 };	 
 	 
 	// after broad cast from projectId selection 
@@ -83,7 +101,7 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 				if(storyArrForIterat[index].photo)
 				{
 					fileId =  storyArrForIterat[index].photo.fileId;	
-					storyArrForIterat[index]["$photoUrl"] = actionHelper.actionUrl("files.fetch", {"id": fileId});
+					storyArrForIterat[index]["photoUrl"] = actionHelper.actionUrl("files.fetch", {"id": fileId});
 				}
 				
 				$scope.idToStory["" + storyArrForIterat[index].id] = storyArrForIterat[index];
@@ -111,35 +129,21 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 			{}				
 		};
 			
+		if($scope.selectedSprintObj)
+		{
+			actionHelper.invokeAction("story.fetchBacklogBysprintAndProjectId", null, 
+					 {"projectId" : projectId ,"sprint" : $scope.selectedSprintObj.id}, readStoryCallBack, {"hideInProgress" : true});
+		}
 		 
-		 actionHelper.invokeAction("story.fetchStoryBysprintAndProjectId", null, 
-				 {"projectId" : projectId ,"sprint" : $scope.selectedSprintObj.id}, readStoryCallBack);
 	}; 
-	 
-	 // save new sprint
-	 $scope.saveSprint = function() {
-		projectId = $scope.getActiveProject();
-		
-		$scope.model.projectId =  projectId;
-		
-		$scope.saveChanges();
-	};
-	 
-	// editSprint 
-	$scope.editSprint = function(obj){	
-		
-		obj = $scope.selectedSprintObj;
-		
-		$scope.selectedId = obj.id;
-		$scope.editEntry(obj);
-	};
-	
+
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {	
 		console.log("Kanban Board: Project change event recieved");
-		$scope.listOfSprint();
+		$scope.initKanbanBoard();
 	});
+	
 	
 	// DRAG AND DROP METHODS
 	
@@ -150,6 +154,11 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 		$scope.selectedStoryForDragId = event.target.id;
 	};
 	
+	$scope.onDropBacklog = function(event){
+		event.preventDefault();
+		console.log("onDropBacklog");
+		$scope.handleOnDropEvent(null);
+	};
 	
 	$scope.onDropofNotStarted = function(event){
 		event.preventDefault();
@@ -198,7 +207,12 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 		 dropedStory.sprint = $scope.selectedSprintObj.id;
 		 dropedStory.status = status;
 
-		 $scope.$apply();
+		 try
+		 {
+			 $scope.$apply();
+		 }catch(ex)
+		 {}
+		 
 		 
 		 if(skipServer)
 		 {
@@ -216,7 +230,33 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 			
 			this.story.version = updateResponse.version;
 			
-		}, {"$scope": $scope, "story": dropedStory, "oldStatus" : oldStatus}));
+		}, {"$scope": $scope, "story": dropedStory, "oldStatus" : oldStatus}), {"hideInProgress" : true});
 	}
+	
+	// broad cast method for drag drop of bugs
+	$scope.onDropBugBack = function(event){
+		event.preventDefault();
+		$scope.$broadcast("onDropBugBack");
+	};
+	
+	$scope.onBugDropForOpen = function(event){
+		event.preventDefault();
+		$scope.$broadcast("onBugDropForOpen");
+	};
+	
+	$scope.onBugDropForSubmit = function(event){
+		event.preventDefault();
+		$scope.$broadcast("onBugDropForSubmit");
+	};
+	
+	$scope.onBugDropForReported = function(event){
+		event.preventDefault();
+		$scope.$broadcast("onBugDropForReported");
+	};
+	
+	$scope.onBugDropForClose = function(event){
+		event.preventDefault();
+		$scope.$broadcast("onBugDropForClose");
+	};
 	
 }]);		

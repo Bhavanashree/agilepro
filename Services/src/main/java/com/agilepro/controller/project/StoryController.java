@@ -5,7 +5,8 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_BULK;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID_AND_STATUS;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
@@ -109,15 +110,17 @@ public class StoryController extends BaseController implements IStoryController
 	 *
 	 * @param projectId
 	 *            the project id
+	 * @param sprint
+	 *            the sprint
 	 * @return the basic read response
 	 */
-	@ActionName(ACTION_TYPE_READ_STORY_BY_SPRINT_PROJECT_ID)
+	@ActionName(ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/fetchStoryBysprintAndProjectId", method = RequestMethod.GET)
+	@RequestMapping(value = "/fetchBacklogBysprintAndProjectId", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<List<StoryModel>> fetchAllStoryByPrjAndSprint(@RequestParam(value = "projectId", required = true) Long projectId, @RequestParam(value = "sprint", required = true) Long sprint)
 	{
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStoryByPrjAndSprint(projectId, sprint));
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchBacklogs(projectId, sprint));
 	}
 
 	/*
@@ -136,7 +139,14 @@ public class StoryController extends BaseController implements IStoryController
 
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
 	}
-	
+
+	/**
+	 * Fetch story by project id.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the basic read response
+	 */
 	@ActionName(ACTION_TYPE_READ_BY_PROJECT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readByProjectId", method = RequestMethod.GET)
@@ -191,6 +201,23 @@ public class StoryController extends BaseController implements IStoryController
 	}
 
 	/**
+	 * Fetch story by project id and status.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the basic read response
+	 */
+	@ActionName(ACTION_TYPE_READ_BY_PROJECT_ID_AND_STATUS)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readByProjectIdAndStatus", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<StoryModel>> fetchStoryByProjectIdAndStatus(@RequestParam(value = "projectId", required = true) Long projectId)
+	{
+
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesByStatus(projectId));
+	}
+
+	/**
 	 * Delete the story.
 	 *
 	 * @param id
@@ -215,7 +242,7 @@ public class StoryController extends BaseController implements IStoryController
 	 *
 	 * @return the base response
 	 */
-	@Authorization(roles = { UserRole.BACKLOG_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

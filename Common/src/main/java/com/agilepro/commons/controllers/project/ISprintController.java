@@ -1,6 +1,6 @@
 package com.agilepro.commons.controllers.project;
 
-import com.agilepro.commons.models.project.SprintModel;
+import com.agilepro.commons.models.sprint.SprintModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;

@@ -13,6 +13,8 @@ import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
+import com.agilepro.persistence.entity.admin.ProjectTeamEntity;
+import com.agilepro.persistence.entity.admin.TagEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.utils.annotations.PropertyMapping;
@@ -50,14 +52,16 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * The parent story id.
 	 **/
+	@ManyToOne
+	@PropertyMapping(type = StoryModel.class, from = "parentStoryId", subproperty = "id")
 	@Column(name = "PARENT_STORY_ID")
-	private Long parentStoryId;
+	private StoryEntity parentStory;
 
 	/**
 	 * The owner.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "ownerId", subproperty = "id")
+	@PropertyMapping(type = StoryModel.class, from = "owner", subproperty = "id")
 	@Column(name = "STORY_OWNER_ID")
 	private EmployeeEntity owner;
 
@@ -71,10 +75,8 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * The priority id.
 	 */
-	@Column(name = "STORY_PRIORITY_ID")
-	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "priority", subproperty = "id")
-	private PriorityEntity priorityId;
+	@Column(name = "STORY_PRIORITY_ORDER", nullable = false)
+	private Integer priorityOrder;
 
 	/**
 	 * sprintId of the story.
@@ -103,6 +105,22 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 */
 	@Column(name = "TIME_TAKEN_FOR_A_STORY")
 	private Date timeTakenForStory;
+
+	/**
+	 * The tags.
+	 **/
+	@ManyToOne
+	@PropertyMapping(type = StoryModel.class, from = "tag", subproperty = "id")
+	@Column(name = "STORY_TAGS")
+	private TagEntity tags;
+
+	/**
+	 * To assign the stories to a team.
+	 */
+	@ManyToOne
+	@PropertyMapping(type = StoryModel.class, from = "team", subproperty = "id")
+	@Column(name = "STORY_TEAMS")
+	private ProjectTeamEntity team;
 
 	/**
 	 * Instantiates a new back log entity.
@@ -194,24 +212,24 @@ public class StoryEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the parent story id.
+	 * Gets the parent story.
 	 *
-	 * @return the parent story id
+	 * @return the parent story
 	 */
-	public Long getParentStoryId()
+	public StoryEntity getParentStory()
 	{
-		return parentStoryId;
+		return parentStory;
 	}
 
 	/**
-	 * Sets the parent story id.
+	 * Sets the parent story.
 	 *
-	 * @param parentStoryId
-	 *            the new parent story id
+	 * @param parentStory
+	 *            the new parent story
 	 */
-	public void setParentStoryId(Long parentStoryId)
+	public void setParentStory(StoryEntity parentStory)
 	{
-		this.parentStoryId = parentStoryId;
+		this.parentStory = parentStory;
 	}
 
 	/**
@@ -257,24 +275,24 @@ public class StoryEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the priority id.
+	 * Gets the priority order.
 	 *
-	 * @return the priority id
+	 * @return the priority order
 	 */
-	public PriorityEntity getPriorityId()
+	public Integer getPriorityOrder()
 	{
-		return priorityId;
+		return priorityOrder;
 	}
 
 	/**
-	 * Sets the priority id.
+	 * Sets the priority order.
 	 *
-	 * @param priorityId
-	 *            the new priority id
+	 * @param priorityOrder
+	 *            the new priority order
 	 */
-	public void setPriorityId(PriorityEntity priorityId)
+	public void setPriorityOrder(Integer priorityOrder)
 	{
-		this.priorityId = priorityId;
+		this.priorityOrder = priorityOrder;
 	}
 
 	/**
@@ -298,11 +316,22 @@ public class StoryEntity extends WebutilsExtendableEntity
 		this.sprint = sprint;
 	}
 
+	/**
+	 * Gets the project.
+	 *
+	 * @return the project
+	 */
 	public ProjectEntity getProject()
 	{
 		return project;
 	}
 
+	/**
+	 * Sets the project.
+	 *
+	 * @param project
+	 *            the new project
+	 */
 	public void setProject(ProjectEntity project)
 	{
 		this.project = project;
@@ -342,10 +371,53 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the time taken for story.
 	 *
-	 * @param timeTakenForStory the new time taken for story
+	 * @param timeTakenForStory
+	 *            the new time taken for story
 	 */
 	public void setTimeTakenForStory(Date timeTakenForStory)
 	{
 		this.timeTakenForStory = timeTakenForStory;
+	}
+
+	/**
+	 * Gets the tags.
+	 *
+	 * @return the tags
+	 */
+	public TagEntity getTags()
+	{
+		return tags;
+	}
+
+	/**
+	 * Sets the tags.
+	 *
+	 * @param tags
+	 *            the new tags
+	 */
+	public void setTags(TagEntity tags)
+	{
+		this.tags = tags;
+	}
+
+	/**
+	 * Gets the team.
+	 *
+	 * @return the team
+	 */
+	public ProjectTeamEntity getTeam()
+	{
+		return team;
+	}
+
+	/**
+	 * Sets the team.
+	 *
+	 * @param team
+	 *            the new team
+	 */
+	public void setTeam(ProjectTeamEntity team)
+	{
+		this.team = team;
 	}
 }

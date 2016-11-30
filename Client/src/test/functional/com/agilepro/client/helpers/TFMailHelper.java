@@ -1,7 +1,6 @@
 package com.agilepro.client.helpers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -15,13 +14,11 @@ import org.testng.annotations.Test;
 import com.agilepro.commons.PaymentCycle;
 import com.agilepro.commons.controllers.admin.IDesignationController;
 import com.agilepro.commons.controllers.admin.IEmployeeController;
-import com.agilepro.commons.controllers.notification.IMailTemplateController;
 import com.agilepro.commons.models.admin.DesignationModel;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
-import com.agilepro.commons.models.notification.MailTemplateModel;
 import com.yukthi.webutils.client.ClientContext;
 import com.yukthi.webutils.client.ClientControllerFactory;
 
@@ -76,11 +73,6 @@ public class TFMailHelper extends TFBase implements ITestConstants
 	 * The employee id.
 	 **/
 	private Long employeeId;
-	
-	/** 
-	 * The imail template controller. 
-	 **/
-	private IMailTemplateController imailTemplateController;
 	
 	/**
 	 * The idesignation controller.
@@ -145,8 +137,6 @@ public class TFMailHelper extends TFBase implements ITestConstants
 		employeeSesssion = super.newClientContext("employee1@gmail.com", "12345", employeeId);
 		
 		clientControllerFactory = new ClientControllerFactory(employeeSesssion);
-		
-		imailTemplateController = clientControllerFactory.getController(IMailTemplateController.class);
 	}
 	
 	/**
@@ -168,7 +158,7 @@ public class TFMailHelper extends TFBase implements ITestConstants
 	{
 		iemployeeController = clientControllerFactory.getController(IEmployeeController.class);
 
-		EmployeeModel employeeModel = new EmployeeModel("Employee1", "employee1@gmail.com", "1234567891", "12345", "12345", designationId);
+		EmployeeModel employeeModel = new EmployeeModel("Employee1", "employee1@gmail.com", "1234567891", "12345", "12345");
 
 		employeeId = iemployeeController.save(employeeModel).getId();
 	}
@@ -181,10 +171,6 @@ public class TFMailHelper extends TFBase implements ITestConstants
 	{
 		activeUserId = employeeSesssion.getUserId();
 		
-		MailTemplateModel mailTemplateModel = new MailTemplateModel(Arrays.asList("pritamjosephjojo@gmail.com", 
-				"pritamjosephjojo@yahoo.com"), "Test java mail", "Hey its working");
-		
-		imailTemplateController.save(mailTemplateModel);
 	}
 	
 	/**

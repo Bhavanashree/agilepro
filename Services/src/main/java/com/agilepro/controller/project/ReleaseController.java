@@ -46,6 +46,12 @@ public class ReleaseController extends BaseController
 	@Autowired
 	private ReleaseService realseService;
 
+	/**
+	 * Checks date where end date should be before start date.
+	 *
+	 * @param releaseModel
+	 *            object.
+	 */
 	private void checkDates(ReleaseModel releaseModel)
 	{
 		Date startDate = releaseModel.getStartDate();
@@ -58,11 +64,11 @@ public class ReleaseController extends BaseController
 	}
 
 	/**
-	 * Save.
+	 * Save new release.
 	 *
 	 * @param realseModel
-	 *            the realse model
-	 * @return the basic save response
+	 *            object for save.
+	 * @return the basic save response wrapped with save release id.
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
@@ -148,7 +154,7 @@ public class ReleaseController extends BaseController
 	 * @return the base response
 	 */
 	@ActionName(ACTION_TYPE_DELETE_ALL)
-	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse deleteAll()

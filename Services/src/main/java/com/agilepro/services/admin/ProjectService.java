@@ -15,7 +15,7 @@ import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
- * The Class ProjectsService.
+ * ProjectsService for interaction with database project table.
  * 
  * @author Pritam
  */
@@ -51,7 +51,7 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 	}
 	
 	/**
-	 * Fetch projects.
+	 * Fetch all projects for drop down.
 	 *
 	 * @return the list
 	 */
@@ -64,6 +64,17 @@ public class ProjectService extends BaseCrudService<ProjectEntity, IProjectRepos
 		projectEntities.forEach(entity -> projectModels.add(super.toModel(entity, ProjectModel.class)));
 		
 		return projectModels;
+	}
+	
+	/**
+	 * Fetch project by space identity for scrum meeting cron job.
+	 *
+	 * @param spaceIdentity the space identity
+	 * @return the list
+	 */
+	public List<ProjectEntity> fetchProjectBySpaceIdentity(String spaceIdentity)
+	{
+		return iprojectRepository.fetchProjectBySpaceIdentity(spaceIdentity);
 	}
 	
 	/**

@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.agilepro.commons.models.project.SprintModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.agilepro.persistence.entity.project.SprintEntity;
 import com.yukthi.utils.annotations.PropertyMapping;

@@ -3,19 +3,17 @@ package com.agilepro.services;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.IAgileproCommonConstants;
 import com.agilepro.commons.UserRole;
 import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
-import com.yukthi.persistence.utils.PasswordEncryptor;
-import com.yukthi.webutils.InvalidRequestParameterException;
+import com.agilepro.persistence.entity.admin.EmployeeEntity;
+import com.agilepro.services.admin.EmployeeService;
 import com.yukthi.webutils.WebutilsConfiguration;
 import com.yukthi.webutils.common.models.ActiveUserModel;
 import com.yukthi.webutils.extensions.ExtensionEntityDetails;
@@ -38,12 +36,6 @@ import com.yukthi.webutils.services.UserService;
 public class SecurityService implements ISecurityService
 {
 	/**
-	 * Roles to be used for APIs which don't have @{@link Secured} annotation.
-	 */
-	// private static final Set<UserRole> DEFAULT_API_ROLES =
-	// CommonUtils.toSet(UserRole.ADMINISTRATOR);
-
-	/**
 	 * The user service.
 	 **/
 	@Autowired
@@ -60,56 +52,18 @@ public class SecurityService implements ISecurityService
 	 */
 	@Autowired
 	private CurrentUserService currentUserService;
+	
+	/**
+	 * Used to fetch employee designation based roles.
+	 */
+	@Autowired
+	private EmployeeService employeeService;
 
 	/**
 	 * The configuration.
 	 */
 	@Autowired
 	private WebutilsConfiguration configuration;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.yukthi.webutils.security.ISecurityService#authenticate(java.lang.
-	 * String, java.lang.String, java.util.Map)
-	 */
-	@Override
-	public UserDetails authenticate(String userName, String password, Map<String, String> attributes)
-	{
-		String ownerIdStr = (attributes != null) ? attributes.get(IAgileproCommonConstants.REQ_PARAM_CUSTOMER_ID) : null;
-		String userSpace = IAgileProConstants.ADMIN_USER_SPACE;
-		long customerId = -1;
-
-		// if customer id is specified use the customer space for authentication
-		if(ownerIdStr != null)
-		{
-			try
-			{
-				long reqOwnerId = Long.parseLong(ownerIdStr);
-
-				if(reqOwnerId > 0)
-				{
-					userSpace = IAgileProConstants.customerSpace(reqOwnerId);
-					customerId = reqOwnerId;
-				}
-			} catch(Exception ex)
-			{
-				throw new InvalidRequestParameterException("Invalid customer id specified - {}", ownerIdStr);
-			}
-		}
-
-		String dbPassword = userService.getPassword(userName, userSpace);
-
-		// if user is not found or if password does not match
-		if(dbPassword == null || !PasswordEncryptor.isSamePassword(dbPassword, password))
-		{
-			return null;
-		}
-
-		UserEntity user = userService.getUser(userName, userSpace);
-		return new AgileProUserDetails(user.getId(), customerId);
-	}
 
 	/* (non-Javadoc)
 	 * @see com.yukthi.webutils.security.ISecurityService#getUserDetailsFor(com.yukthi.webutils.repository.UserEntity)
@@ -248,12 +202,14 @@ public class SecurityService implements ISecurityService
 		UserDetails currentUser = currentUserService.getCurrentUserDetails();
 		// UserEntity userEntity = userService.fetch(currentUser.getUserId());
 		UserEntity userEntity = userService.fetch(currentUser.getUserId());
-
+		
 		// build active user information
 		ActiveUserModel activeUser = new ActiveUserModel();
 		activeUser.setDisplayName(userEntity.getDisplayName());
 		activeUser.setJsDateFormat(configuration.getJsDateFormat());
 		activeUser.setUserId(userEntity.getId());
+		//activeUser.setCustomerName(customerService.fetchCustomerName(userEntity.getBaseEntityId()));
+		//activeUser.setCustomerSubDomian(customerService.fetchCustomerSubDomainPath(userEntity.getBaseEntityId()));
 
 		// Add basic role names (without ownership consideration) of active user
 		List<UserRoleEntity> userRoles = userRoleService.getUserRoles(currentUser.getUserId());
@@ -275,6 +231,11 @@ public class SecurityService implements ISecurityService
 		}
 
 		// TODO: Adds roles from designation
+		if(EmployeeEntity.class.getName().equals( userEntity.getBaseEntityType()) )
+		{
+			
+			roles.addAll( employeeService.fetchEmployeeRoles(userEntity.getBaseEntityId()) );
+		}
 
 		activeUser.setRoles(roles);
 		return activeUser;

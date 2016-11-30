@@ -2,6 +2,7 @@ package com.agilepro.services.notification;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.controller.AgileProUserDetails;
@@ -57,13 +59,17 @@ public class EmailNotificationService
 				try
 				{
 					readMails();
+				} catch(Exception ex)
+				{
+					logger.error("An error occurred while reading mails", ex);
+				}
+
+				try
+				{
 					Thread.sleep(mailThreadSleepTime);
 				} catch(InterruptedException ex)
 				{
 					throw new IllegalStateException("Mail read thread was interrupted", ex);
-				} catch(Exception ex)
-				{
-					logger.error("An error occurred while reading mails", ex);
 				}
 			}
 		}
@@ -116,12 +122,26 @@ public class EmailNotificationService
 	private UserService userService;
 	
 	/**
+	 * Application context to fetch registered notification processors.
+	 */
+	@Autowired
+	private ApplicationContext applicationContext;
+	
+	/**
 	 * Post construct method to start background read thread.
 	 */
 	@PostConstruct
 	private void init()
 	{
 		new Thread(readMailThread, "Mail Processor").start();
+		
+		//register processors from application context
+		Map<String, INotificationProcessor> processors = applicationContext.getBeansOfType(INotificationProcessor.class);
+		
+		for(INotificationProcessor processor : processors.values())
+		{
+			register(processor);
+		}
 	}
 
 	/**
@@ -129,14 +149,24 @@ public class EmailNotificationService
 	 * @param customerId Customer for which settings needs to be fetched.
 	 * @return Matching settings.
 	 */
-	private EmailServerSettings getSettings(long customerId)
+	public EmailServerSettings getSettings(long customerId)
 	{
 		//TODO: modify this code to fetch mail settings directly instead of fetching full entity
 		// 	And also take care of caching.
-		CustomerEntity customerEntity = customerService.fetch(customerId);
+		CustomerEntity customerEntity = customerService.fetchByNoSpace(customerId);
 		return customerEntity.getEmailServerSettings();
 	}
 	
+	/**
+	 * Fetches the mail server settings for current user.
+	 * @return Current user's customer mail settings.
+	 */
+	public EmailServerSettings getSettings()
+	{
+		AgileProUserDetails userDetails = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
+		return getSettings(userDetails.getCustomerId());
+	}
+
 	/**
 	 * Fetches mail template with specified name. If customization is present for specified customer
 	 * the same will be fetched, if not default mail template from admin will be fetched.
@@ -144,7 +174,7 @@ public class EmailNotificationService
 	 * @param templateName Template to be fetched.
 	 * @return Matching mail template entity.
 	 */
-	private MailTemplateEntity getMailTemplate(long customerId, String templateName)
+	public MailTemplateEntity getMailTemplate(long customerId, String templateName)
 	{
 		//fetch customized mail template for customer
 		MailTemplateEntity mailTemplate = mailTemplateService.fetchByOwner(templateName, CustomerEntity.class.getName(), customerId);
@@ -152,7 +182,7 @@ public class EmailNotificationService
 		if(mailTemplate == null)
 		{
 			//if not found, try to get default one
-			mailTemplate = mailTemplateService.fetchByOwner(templateName, IMailTemplates.DEFAULT_OWNER_TYPE, null);
+			mailTemplate = mailTemplateService.fetchByOwner(templateName, IMailTemplates.DEFAULT_OWNER_TYPE, 0L);
 			
 			//if defalt one is also not found
 			if(mailTemplate == null)
@@ -162,6 +192,17 @@ public class EmailNotificationService
 		}
 		
 		return mailTemplate;
+	}
+	
+	/**
+	 * Fetches the specified mail template for current user.
+	 * @param templateName Mail template name to be fetched.
+	 * @return Matching mail template
+	 */
+	public MailTemplateEntity getMailTemplate(String templateName)
+	{
+		AgileProUserDetails userDetails = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
+		return getMailTemplate(userDetails.getCustomerId(), templateName);
 	}
 
 	/**
@@ -233,6 +274,24 @@ public class EmailNotificationService
 			}catch(Exception ex)
 			{
 				throw new InvalidStateException(ex, "An error occurred while sending no-user-found processing error mail for mail with subject - " + mail.getSubject());
+			}
+			
+			return true;
+		}
+		
+		if(!mail.hasContent())
+		{
+			MailProcessingErrorContext mailProcessingErrorContext = new MailProcessingErrorContext(mail.getFromMailId(), customerName, 
+					MailProcessingErrorContext.ERR_CODE_NON_HTML, null, null);
+			MailTemplateEntity mailTemplate = getMailTemplate(customerId, IMailTemplates.MAIL_PROCESSING_ERROR); 
+			
+			try
+			{
+				context.replyToAll(mailTemplate, mailProcessingErrorContext);
+			}catch(Exception ex)
+			{
+				logger.error("An error occurred while sending non-html-content processing error mail for mail with subject - " + mail.getSubject(), ex);
+				//throw new InvalidStateException(ex, "An error occurred while sending non-html-content processing error mail for mail with subject - " + mail.getSubject());
 			}
 			
 			return true;

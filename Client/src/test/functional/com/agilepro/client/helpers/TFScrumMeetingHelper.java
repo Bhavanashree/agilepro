@@ -72,6 +72,6 @@ public class TFScrumMeetingHelper extends TFBase implements ITestConstants
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
 		Date today = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
 		
-		iscrumMeetingController.saveScrumMeeting(new ScrumMeetingModel(1L, today));
+		//iscrumMeetingController.saveScrumMeeting(new ScrumMeetingModel(1L, today));
 	}
 }

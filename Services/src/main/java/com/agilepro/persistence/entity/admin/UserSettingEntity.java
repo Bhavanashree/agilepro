@@ -11,7 +11,8 @@ import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class UserSettingEntity.
+ * UserSettingEntity user specific setting its holds the active project for a user.
+ * Record gets update from the drop down.
  * 
  * @author Pritam
  */

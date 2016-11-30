@@ -3,20 +3,28 @@ package com.agilepro.services.scrum;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agilepro.commons.IAgileproActions;
+import com.agilepro.commons.IAgileproCommonConstants;
+import com.agilepro.commons.models.scrum.ScrumActionItemModel;
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.agilepro.controller.IAgileProConstants;
 import com.agilepro.persistence.entity.scrum.ScrumMeetingConversationEntity;
 import com.agilepro.persistence.repository.scrum.IScrumMeetingConversationRepository;
 import com.agilepro.services.admin.ProjectMemberService;
 import com.agilepro.services.project.StoryService;
+import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
+import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.UserService;
 
@@ -47,6 +55,12 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 	private ProjectMemberService memberService;
 
 	/**
+	 * The scrum action item service.
+	 **/
+	@Autowired
+	private ScrumActionItemService scrumActionItemService;
+
+	/**
 	 * The iscrum meeting conversation repository.
 	 **/
 	private IScrumMeetingConversationRepository iscrumMeetingConversationRepository;
@@ -72,11 +86,47 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 	}
 
 	/**
+	 * Save scrum conversation.
+	 *
+	 * @param scrumMeetingConversationModel
+	 *            the scrum meeting conversation model
+	 * @return the scrum meeting conversation entity
+	 */
+	public ScrumMeetingConversationEntity saveScrumConversation(ScrumMeetingConversationModel scrumMeetingConversationModel)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			if(scrumMeetingConversationModel.getProjectMemberIds() != null)
+			{
+				Set<Long> projectMemberIds = scrumMeetingConversationModel.getProjectMemberIds();
+				Set<Long> employeeIds = new HashSet<Long>(projectMemberIds.size());
+
+				projectMemberIds.forEach(memberId -> employeeIds.add(memberService.fetch(memberId).getEmployee().getId()));
+
+				scrumActionItemService.saveAndSendMail(new ScrumActionItemModel(scrumMeetingConversationModel.getScrumMeetingId(), employeeIds, scrumMeetingConversationModel.getMessage(), scrumMeetingConversationModel.getUserId()));
+			}
+
+			ScrumMeetingConversationEntity entity = super.save(scrumMeetingConversationModel);
+
+			transaction.commit();
+
+			return entity;
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while saving model - {}", scrumMeetingConversationModel);
+		}
+	}
+	
+	/**
 	 * Fetch scrum meeting conversation.
 	 *
 	 * @param scrumMeetingId
 	 *            the scrum meeting id
-	 * @return the map
+	 * @return the map where key is always unique as number of messages, value
+	 *         is list of conversation per user.
 	 */
 	public Map<Integer, List<ScrumMeetingConversationModel>> fetchScrumMeetingConversation(Long scrumMeetingId)
 	{
@@ -86,8 +136,6 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		Long previousUserId = -1L;
 		Integer numberOfConversations = 0;
 		Map<Integer, List<ScrumMeetingConversationModel>> conversations = new HashMap<Integer, List<ScrumMeetingConversationModel>>();
-
-		Map<Long, String> projectMembers = null;
 
 		List<ScrumMeetingConversationEntity> scrumConversations = iscrumMeetingConversationRepository.fetchConversationByScrumMeeting(scrumMeetingId);
 
@@ -104,18 +152,6 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		{
 			model.setDisplayDate(dateFormat.format(model.getUpdatedOn()));
 			model.setTime(timeFormat.format(model.getUpdatedOn()));
-
-			if(model.getProjectMemberIds() != null)
-			{
-				projectMembers = new HashMap<Long, String>();
-
-				for(Long memberId : model.getProjectMemberIds())
-				{
-					projectMembers.put(memberId, memberService.fetch(memberId).getEmployee().getName());
-				}
-
-				model.setProjectMembers(projectMembers);
-			}
 
 			if(model.getStoryId() != null)
 			{
@@ -149,5 +185,21 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		}
 
 		return conversations;
+	}
+	
+	@Override
+	public String getUserSpace(ScrumMeetingConversationEntity entity, Object model)
+	{
+		if(model instanceof ScrumMeetingConversationModel)
+		{
+			ScrumMeetingConversationModel conversationModel = (ScrumMeetingConversationModel) model;
+			
+			if(conversationModel.getCustomerId() != null)
+			{
+				return IAgileProConstants.customerSpace(conversationModel.getCustomerId());
+			}
+		}
+		
+		return super.getUserSpace(entity, model);
 	}
 }

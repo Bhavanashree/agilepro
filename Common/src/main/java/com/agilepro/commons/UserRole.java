@@ -3,13 +3,12 @@ package com.agilepro.commons;
 import com.yukthi.webutils.common.annotations.Label;
 
 /**
- * Cloud biller user roles.
+ * Agile Pro user roles.
  * 
  * @author akiran
  */
 public enum UserRole
 {
-
 	/**
 	 * Represents settings group under which settings related roles should be
 	 * defined.
@@ -34,9 +33,9 @@ public enum UserRole
 	PROJECT_GROUP(true),
 
 	/**
-	 * The common test delete all for test cases.
+	 * The common test role which can be used only by test cases.
 	 **/
-	TEST,
+	TEST_DELETE_ALL(true),
 
 	/**
 	 * Indicates user is administrator.
@@ -90,61 +89,6 @@ public enum UserRole
 	@Label("Employee Delete") EMPLOYEE_DELETE(false, EMPLOYEE_VIEW),
 
 	/**
-	 * The Client Price Plan view.
-	 */
-	@Label("Client Price Plan View") CLIENT_PRICE_PLAN_VIEW,
-
-	/**
-	 * The Client Price Plan edit.
-	 */
-	@Label("Client Price Plan Edit") CLIENT_PRICE_PLAN_EDIT(false, CLIENT_PRICE_PLAN_VIEW, SETTINGS_GROUP),
-
-	/**
-	 * The Client Price Plan delete.
-	 */
-	@Label("Client Price Plan Delete") CLIENT_PRICE_PLAN_DELETE(false, CLIENT_PRICE_PLAN_VIEW),
-
-	/**
-	 * The Client Group add.
-	 */
-	@Label("Client Group Add") CLIENT_GROUP_VIEW,
-
-	/**
-	 * The Client Group edit.
-	 */
-	@Label("Client Group Edit") CLIENT_GROUP_EDIT(false, CLIENT_GROUP_VIEW, RESOURCES_GROUP),
-
-	/**
-	 * The client group delete.
-	 */
-	@Label("Client Group Delete") CLIENT_GROUP_DELETE(false, CLIENT_GROUP_VIEW),
-
-	/**
-	 * The Client group delete all.
-	 */
-	@Label("Client Group Delete all") CLIENT_GROUP_DELETE_ALL(false, CLIENT_GROUP_VIEW),
-
-	/**
-	 * The Client add.
-	 */
-	@Label("Client Add") CLIENT_VIEW,
-
-	/**
-	 * The Client edit.
-	 */
-	@Label("Client Edit") CLIENT_EDIT(false, CLIENT_VIEW, RESOURCES_GROUP),
-
-	/**
-	 * The Client delete.
-	 */
-	@Label("Client Delete") CLIENT_DELETE(false, CLIENT_VIEW),
-
-	/**
-	 * The Client delete all.
-	 */
-	@Label("Client Delete all") CLIENT_DELETE_ALL(false, CLIENT_VIEW),
-
-	/**
 	 * The Customer add.
 	 */
 	@Label("Customer Add") CUSTOMER_VIEW,
@@ -165,65 +109,6 @@ public enum UserRole
 	@Label("Customer Delete all") CUSTOMER_DELETE_ALL(false, CUSTOMER_VIEW),
 
 	/**
-	 * The Expenses view.
-	 */
-	@Label("Expenses view") EXPENSES_VIEW,
-
-	/**
-	 * The Expenses edit.
-	 */
-	@Label("Expenses Edit") EXPENSES_EDIT(false, EXPENSES_VIEW, SALES_GROUP),
-
-	/**
-	 * The Expenses delete.
-	 */
-	@Label("Expenses Delete") EXPENSES_DELETE(false, EXPENSES_VIEW),
-
-	/**
-	 * The Expenses delete.
-	 */
-	@Label("Expenses DeleteAll") EXPENSES_DELETE_ALL(false, EXPENSES_VIEW),
-
-	/**
-	 * The Campaign view.
-	 */
-	@Label("Campaign view") CAMPAIGN_VIEW,
-
-	/**
-	 * The Campaign edit.
-	 */
-	@Label("Campaign Edit") CAMPAIGN_EDIT(false, CAMPAIGN_VIEW, SALES_GROUP),
-
-	/**
-	 * The Campaign delete.
-	 */
-	@Label("Campaign Delete") CAMPAIGN_DELETE(false, CAMPAIGN_VIEW),
-
-	/**
-	 * The Campaign delete.
-	 */
-	@Label("Campaign DeleteAll") CAMPAIGN_DELETE_ALL(false, CAMPAIGN_VIEW),
-	/**
-	 * The CampaignType view.
-	 */
-	@Label("CampaignType view") CAMPAIGNTYPE_VIEW,
-
-	/**
-	 * The CampaignType edit.
-	 */
-	@Label("CampaignType Edit") CAMPAIGNTYPE_EDIT(false, CAMPAIGN_VIEW, SALES_GROUP),
-
-	/**
-	 * The CampaignType delete.
-	 */
-	@Label("CampaignType Delete") CAMPAIGNTYPE_DELETE(false, CAMPAIGN_VIEW),
-
-	/**
-	 * The CampaignType deleteAll.
-	 */
-	@Label("CampaignType DeleteAll") CAMPAIGNTYPE_DELETE_ALL(false, CAMPAIGN_VIEW),
-
-	/**
 	 * The project view.
 	 **/
 	@Label("Projects view") PROJECT_VIEW,
@@ -239,15 +124,15 @@ public enum UserRole
 	@Label("Project Delete") PROJECT_DELETE(false, PROJECT_VIEW),
 
 	/**
-	 * The project members view.
-	 **/
-	@Label("Project Members view") PROJECT_MEMBER_VIEW,
-
-	/**
 	 * Represents Members group under which project members related roles should
 	 * be defined.
 	 **/
 	PROJECT_MEMBER_GROUP(true),
+	
+	/**
+	 * The project members view.
+	 **/
+	@Label("Project Members view") PROJECT_MEMBER_VIEW,
 
 	/**
 	 * The project members edit.
@@ -259,11 +144,72 @@ public enum UserRole
 	 **/
 	@Label("Project Members Delete") PROJECT_MEMBER_DELETE(false, PROJECT_MEMBER_VIEW),
 	
+	/** 
+	 * The project team view.
+	 **/
 	@Label("Project Team view") PROJECT_TEAM_VIEW,
 	
+	/**
+	 * The project team edit.
+	 **/
 	@Label("Project Team Edit") PROJECT_TEAM_EDIT(false, PROJECT_TEAM_VIEW, PROJECT_MEMBER_GROUP),
 	
+	/** 
+	 * The project team delete.
+	 **/
 	@Label("Project Team Delete") PROJECT_TEAM_DELETE(false, PROJECT_TEAM_VIEW),
+	
+	/**
+	 * Represents scrum meeting group under which scrum meeting related roles should
+	 * be defined.
+	 **/
+	SCRUM_MEETING_GROUP(true),
+	
+	/**
+	 * The scrum meeting view.
+	 **/
+	@Label("Scrum Meeting view") SCRUM_MEETING_VIEW,
+
+	/**
+	 * The scrum meeting edit.
+	 **/
+	@Label("Scrum Meeting Edit") SCRUM_MEETING_EDIT(false, SCRUM_MEETING_VIEW, SCRUM_MEETING_GROUP),
+
+	/**
+	 * The scrum meeting delete.
+	 **/
+	@Label("Scrum Meeting Delete") SCRUM_MEETING_DELETE(false, SCRUM_MEETING_VIEW),
+	
+	/**
+	 * The scrum meeting conversation view.
+	 **/
+	@Label("Scrum Meeting Conversation view") SCRUM_MEETING_CONVERSATION_VIEW,
+
+	/**
+	 * The scrum meeting conversation edit.
+	 **/
+	@Label("Scrum Meeting Conversation Edit") SCRUM_MEETING_CONVERSATION_EDIT(false, SCRUM_MEETING_CONVERSATION_VIEW, SCRUM_MEETING_GROUP),
+
+	/**
+	 * The scrum meeting conversation delete.
+	 **/
+	@Label("Scrum Meeting Conversation Delete") SCRUM_MEETING_CONVERSATION_DELETE(false, SCRUM_MEETING_CONVERSATION_VIEW),
+	
+	/**
+	 * Represents kanban board group under which kanban board related roles should
+	 * be defined.
+	 **/
+	KANBAN_BOARD_GROUP(true),
+	
+	/**
+	 * The kanban board view.
+	 **/
+	@Label("Kanban board view") KANBAN_BOARD_VIEW,
+
+	/**
+	 * The kanban board edit.
+	 **/
+	@Label("Kanban board Edit") KANBAN_BOARD_EDIT(false, KANBAN_BOARD_VIEW, KANBAN_BOARD_GROUP),
 	
 	/**
 	 * The tags view.
@@ -310,71 +256,20 @@ public enum UserRole
 	 **/
 	@Label("Project Release Delete") PROJECT_RELEASE_DELETE(false, PROJECT_RELEASE_VIEW),
 
+	/** 
+	 *The story release view.
+	 **/
 	@Label("Story Release View") STORY_RELEASE_VIEW,
 
+	/** 
+	 * The story release edit.
+	 **/
 	@Label("Story Release Edit") STORY_RELEASE_EDIT(false, STORY_RELEASE_VIEW, PROJECT_GROUP),
 
+	/**
+	 *  The story release delete.
+	 **/
 	@Label("Story Release Delete") STORY_RELEASE_DELETE(false, STORY_RELEASE_VIEW),
-
-	/**
-	 * The project property view.
-	 **/
-	@Label("Project Property view") PROJECT_PROPERTY_VIEW,
-
-	/**
-	 * The project property edit.
-	 **/
-	@Label("Project Property Edit") PROJECT_PROPERTY_EDIT(false, PROJECT_PROPERTY_VIEW, PROJECT_GROUP),
-
-	/**
-	 * The project property delete.
-	 **/
-	@Label("Project Property Delete") PROJECT_PROPERTY_DELETE(false, PROJECT_PROPERTY_VIEW),
-
-	/**
-	 * The project property delete all.
-	 **/
-	@Label("Project Property DeleteAll") PROJECT_PROPERTY_DELETE_ALL(false, PROJECT_PROPERTY_VIEW),
-
-	/**
-	 * The project price plan view.
-	 **/
-	@Label("Project PricePlan view") PROJECT_PRICEPLAN_VIEW,
-
-	/**
-	 * The project price plan edit.
-	 **/
-	@Label("Project PricePlan Edit") PROJECT_PRICEPLAN_EDIT(false, PROJECT_PRICEPLAN_VIEW, PROJECT_GROUP),
-
-	/**
-	 * The project price plan delete.
-	 **/
-	@Label("Project PricePlan Delete") PROJECT_PRICEPLAN_DELETE(false, PROJECT_PRICEPLAN_VIEW),
-
-	/**
-	 * The project price plan delete all.
-	 **/
-	@Label("Project PricePlan DeleteAll") PROJECT_PRICEPLAN_DELETE_ALL(false, PROJECT_PRICEPLAN_VIEW),
-
-	/**
-	 * The Lead view.
-	 */
-	@Label("Lead view") LEAD_VIEW,
-
-	/**
-	 * The Lead edit.
-	 */
-	@Label("Lead Edit") LEAD_EDIT(false, LEAD_VIEW, SALES_GROUP),
-
-	/**
-	 * The Lead delete.
-	 */
-	@Label("Lead Delete") LEAD_DELETE(false, LEAD_VIEW),
-
-	/**
-	 * The Lead delete.
-	 */
-	@Label("Lead DeleteAll") LEAD_DELETE_ALL(false, LEAD_VIEW),
 
 	/**
 	 * The user setting.
@@ -405,12 +300,22 @@ public enum UserRole
 	 * The Story delete.
 	 */
 	@Label("Story Delete") BACKLOG_DELETE(false, BACKLOG_VIEW),
-
+	
+	/** 
+	 * The role to add story.
+	 **/
+	@Label("Story Add") STORY_ADD,
+	
 	/**
-	 * The Story delete.
+	 * The story delete.
 	 */
-	@Label("Story DeleteAll") BACKLOG_DELETE_ALL(false, BACKLOG_VIEW),
-
+	@Label("Story Delete") STORY_DELETE,
+	
+	/**
+	 * The role for scrum Master.
+	 */
+	@Label("Scrum Master") SCRUM_MASTER,
+	
 	/**
 	 * The story note view.
 	 **/
@@ -442,10 +347,6 @@ public enum UserRole
 	@Label("Sprint Delete") SPRINT_DELETE(false, SPRINT_VIEW),
 
 	/**
-	 * The sprint delete all.
-	 */
-	@Label("Sprint DeleteAll") SPRINT_DELETE_ALL(false, SPRINT_VIEW),
-	/**
 	 * The Priority view.
 	 */
 	@Label("Priority view") PRIORITY_VIEW,
@@ -461,11 +362,6 @@ public enum UserRole
 	@Label("Priority Delete") PRIORITY_DELETE(false, PRIORITY_VIEW),
 
 	/**
-	 * The Priority delete all.
-	 */
-	@Label("Priority DeleteAll") PRIORITY_DELETE_ALL(false, PRIORITY_VIEW),
-
-	/**
 	 * The Task view.
 	 */
 	@Label("Task view") TASK_VIEW,
@@ -476,19 +372,9 @@ public enum UserRole
 	@Label("Task Edit") TASK_EDIT(false, TASK_VIEW),
 
 	/**
-	 * The Task Update.
-	 */
-	@Label("Task Update") TASK_UPDATE(false, TASK_VIEW),
-
-	/**
 	 * The Task delete.
 	 */
 	@Label("Task Delete") TASK_DELETE(false, TASK_VIEW),
-
-	/**
-	 * The Task delete all.
-	 */
-	@Label("Task DeleteAll") TASK_DELETE_ALL(false, TASK_VIEW),
 	
 	/**
 	 * The Bug view.
@@ -501,19 +387,9 @@ public enum UserRole
 	@Label("Bug Edit") BUG_EDIT(false, BUG_VIEW),
 
 	/**
-	 * The Bug Update.
-	 */
-	@Label("Bug Update") BUG_UPDATE(false, BUG_VIEW),
-
-	/**
 	 * The Bug delete.
 	 */
 	@Label("Bug Delete") BUG_DELETE(false, BUG_VIEW),
-
-	/**
-	 * The Bug delete all.
-	 */
-	@Label("Bug DeleteAll") BUG_DELETE_ALL(false, BUG_VIEW),
 	
 	/**
 	 * The BugComment view.
@@ -526,20 +402,10 @@ public enum UserRole
 	@Label("BugComment Edit") BUG_COMMENT_EDIT(false, BUG_VIEW),
 
 	/**
-	 * The BugComment Update.
-	 */
-	@Label("BugComment Update") BUG_COMMENT_UPDATE(false, BUG_VIEW),
-
-	/**
 	 * The BugComment delete.
 	 */
 	@Label("BugComment Delete") BUG_COMMENT_DELETE(false, BUG_VIEW),
 
-	/**
-	 * The BugComment delete all.
-	 */
-	@Label("BugComment DeleteAll") BUG_COMMENT_DELETE_ALL(false, BUG_VIEW),
-	
 	/**
 	 * The Holiday view.
 	 */
@@ -551,20 +417,24 @@ public enum UserRole
 	@Label("Holiday Edit") HOLIDAY_EDIT(false, HOLIDAY_VIEW),
 
 	/**
-	 * The Holiday Update.
-	 */
-	@Label("Holiday Update") HOLIDAY_UPDATE(false, HOLIDAY_VIEW),
-
-	/**
 	 * The Holiday delete.
 	 */
-	@Label("Holiday Delete") HOLIDAY_DELETE(false, HOLIDAY_VIEW),
+	@Label("Holiday Delete") HOLIDAY_DELETE(false, HOLIDAY_VIEW),	
+	
+	/**
+	 * The PokerGame view.
+	 */
+	@Label("PokerGame view") POKERGAME_VIEW,
 
 	/**
-	 * The Holiday delete all.
+	 * The PokerGame edit.
 	 */
-	@Label("Holiday DeleteAll") HOLIDAY_DELETE_ALL(false, HOLIDAY_VIEW),
-	
+	@Label("PokerGame Edit") POKERGAME_EDIT(false, POKERGAME_VIEW),
+
+	/**
+	 * The PokerGame delete.
+	 */
+	@Label("PokerGame Delete") POKERGAME_DELETE(false, POKERGAME_VIEW),	
 ;
 
 	/**
@@ -578,11 +448,20 @@ public enum UserRole
 	 */
 	private UserRole implicitRoles[];
 
+	/**
+	 * Instantiates a new user role.
+	 */
 	private UserRole()
 	{
 		this(false);
 	}
 
+	/**
+	 * Instantiates a new user role.
+	 *
+	 * @param internal the internal
+	 * @param implicitRoles the implicit roles
+	 */
 	private UserRole(boolean internal, UserRole... implicitRoles)
 	{
 		this.internal = internal;

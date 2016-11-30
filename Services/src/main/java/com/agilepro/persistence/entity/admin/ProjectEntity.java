@@ -1,22 +1,23 @@
 package com.agilepro.persistence.entity.admin;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
-
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.annotations.UniqueConstraints;
-import com.yukthi.webutils.repository.WebutilsEntity;
+import com.yukthi.webutils.annotations.ExtendableEntity;
+import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * The Class ProjectEntity.
+ * Project is the core of Agilepro, this table holds project data (name, stratDate, endDate).
+ * Create Read Update Delete 
  * 
  * @author Pritam
  */
 @Table(name = "PROJECT")
+@ExtendableEntity(name = "Project")
 @UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
-public class ProjectEntity extends WebutilsEntity
+public class ProjectEntity extends WebutilsExtendableEntity
 {
 	/**
 	 * The name.

@@ -1,5 +1,5 @@
 {
-  "defaultUserName": "customer1@gmail.com",
+  "defaultUserName": "yukthi@gmail.com",
   "entityGroups": [
     {
       "name": "Bug",
@@ -7,7 +7,7 @@
       "modelType": "com.agilepro.commons.models.bug.BugModel",
       "identityField": "title",
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.yukthi.id}",
       
       "entities": [
       <#list 1..3 as x>

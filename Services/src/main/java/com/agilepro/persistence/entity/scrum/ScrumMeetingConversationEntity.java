@@ -1,22 +1,18 @@
 package com.agilepro.persistence.entity.scrum;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
 import com.agilepro.persistence.entity.project.StoryEntity;
-import com.yukthi.persistence.annotations.DataType;
-import com.yukthi.persistence.annotations.DataTypeMapping;
-import com.yukthi.persistence.conversion.impl.JsonConverter;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ScrumMeetingConversationEntity.
+ * ScrumMeetingConversationEntity holds the conversation message of scrum.
+ * Records are inserted from the conversation message. 
  * 
  * @author Pritam
  */
@@ -51,12 +47,6 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	 * The provided by.
 	 **/
 	private String providedBy;
-
-	/**
-	 * The project member ids.
-	 **/
-	@DataTypeMapping(type = DataType.STRING, converterType = JsonConverter.class)
-	private List<Long> projectMemberIds;
 
 	/**
 	 * The message.
@@ -125,27 +115,6 @@ public class ScrumMeetingConversationEntity extends WebutilsEntity
 	public void setUser(UserEntity user)
 	{
 		this.user = user;
-	}
-
-	/**
-	 * Gets the project member ids.
-	 *
-	 * @return the project member ids
-	 */
-	public List<Long> getProjectMemberIds()
-	{
-		return projectMemberIds;
-	}
-
-	/**
-	 * Sets the project member ids.
-	 *
-	 * @param projectMemberIds
-	 *            the new project member ids
-	 */
-	public void setProjectMemberIds(List<Long> projectMemberIds)
-	{
-		this.projectMemberIds = projectMemberIds;
 	}
 
 	/**

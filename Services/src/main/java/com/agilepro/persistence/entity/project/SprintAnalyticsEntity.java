@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.models.customer.ReleaseModel;
-import com.agilepro.commons.models.project.SprintModel;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.persistence.entity.admin.ReleaseEntity;
 import com.yukthi.persistence.annotations.DataType;

@@ -37,13 +37,6 @@ public class EmployeeSearchQuery
 	private String address;
 
 	/**
-	 * The designation id.
-	 **/
-	@LOV(name = "designationList")
-	@Condition(value = "designation.id", op = Operator.EQ)
-	private Long designations;
-
-	/**
 	 * Instantiates a new employee entity.
 	 */
 	public EmployeeSearchQuery()
@@ -64,14 +57,13 @@ public class EmployeeSearchQuery
 	 *            the designations
 	 */
 
-	public EmployeeSearchQuery(String name, String mailId, String phoneNumber, String address, Long designations)
+	public EmployeeSearchQuery(String name, String mailId, String phoneNumber, String address)
 	{
 
 		this.name = name;
 		this.mailId = mailId;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		this.designations = designations;
 	}
 
 	/**
@@ -156,26 +148,5 @@ public class EmployeeSearchQuery
 	public void setAddress(String address)
 	{
 		this.address = address;
-	}
-
-	/**
-	 * Gets the designations.
-	 *
-	 * @return the designations
-	 */
-	public Long getDesignations()
-	{
-		return designations;
-	}
-
-	/**
-	 * Sets the designations.
-	 *
-	 * @param designations
-	 *            the new designations
-	 */
-	public void setDesignations(Long designations)
-	{
-		this.designations = designations;
 	}
 }

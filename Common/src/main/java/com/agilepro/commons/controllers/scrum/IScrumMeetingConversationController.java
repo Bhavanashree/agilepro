@@ -1,6 +1,7 @@
 package com.agilepro.commons.controllers.scrum;
 
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
+import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 
 /**
@@ -8,6 +9,7 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
  * 
  * @author Pritam
  */
+@RemoteService
 public interface IScrumMeetingConversationController
 {
 	public BasicSaveResponse save(ScrumMeetingConversationModel scrumMeetingConversationModel);

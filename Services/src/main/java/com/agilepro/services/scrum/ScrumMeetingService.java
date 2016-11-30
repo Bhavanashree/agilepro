@@ -1,6 +1,9 @@
 package com.agilepro.services.scrum;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -56,5 +59,10 @@ public class ScrumMeetingService extends BaseCrudService<ScrumMeetingEntity, ISc
 		ScrumMeetingEntity scrumMeeting = iscrumMeetingRepository.fetchMeetingByDate(date, projectId);
 
 		return super.toModel(scrumMeeting, ScrumMeetingModel.class);
+	}
+	
+	public Long fetchProjectIdByScrumMeeting(Long projectId)
+	{
+		return iscrumMeetingRepository.fetchProjectId(projectId);
 	}
 }

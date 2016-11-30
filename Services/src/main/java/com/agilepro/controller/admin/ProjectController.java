@@ -36,7 +36,7 @@ import com.yukthi.webutils.controllers.BaseController;
 import com.yukthi.webutils.common.IWebUtilsCommonConstants;
 
 /**
- * The Class ProjectController.
+ * ProjectController receives request from the ui and return backs the response.
  * 
  * @author Pritam
  */
@@ -52,7 +52,7 @@ public class ProjectController extends BaseController implements IProjectControl
 	private ProjectService projectService;
 
 	/**
-	 * Check dates.
+	 * Check dates where startDate is mandatory if end date is provided and end date should be after start date.
 	 *
 	 * @param projectModel
 	 *            the projects model
@@ -75,7 +75,7 @@ public class ProjectController extends BaseController implements IProjectControl
 			}
 		}
 	}
-
+	
 	/**
 	 * Save.
 	 *
@@ -157,12 +157,12 @@ public class ProjectController extends BaseController implements IProjectControl
 	}
 
 	/**
-	 * Delete all.
+	 * Delete all for test.
 	 *
 	 * @return the base response
 	 */
 	@Override
-	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody
@@ -173,9 +173,9 @@ public class ProjectController extends BaseController implements IProjectControl
 	}
 
 	/**
-	 * Fetch projects.
+	 * Fetch all the projects for drop down.
 	 *
-	 * @return the basic read response
+	 * @return list of project wrapping it up with basic read response.
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_READ_ALL)

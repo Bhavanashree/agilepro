@@ -1,28 +1,60 @@
 {
-  "defaultUserName": "customer1@gmail.com",
+  "defaultUserName": "yukthi@gmail.com",
   "entityGroups": [
     {
       "name": "Employees",
       "entityType": "com.agilepro.persistence.entity.admin.EmployeeEntity",
       "modelType": "com.agilepro.commons.models.admin.EmployeeModel",
       "identityField": "name",
+      "serviceMethod": "com.agilepro.services.admin.EmployeeService.saveEmp(com.agilepro.commons.models.admin.EmployeeModel)",
+      
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.yukthi.id}",
     
       "entities": [
-      	<#list 1..3 as x>
-	        {
-		        "name": "employee${x}",
-		        "mailId":"employee4@gmail.com",
-		        "phoneNumber":"9000000000",
-		        "address":"  kr puram bangalore",
-		        "password":"password",
-		        "confirmPassword":"password",
-		        "gender":"FEMALE",
-		        "designationId": "${entity.Designation.ProjectManger.id}"
-	        }<#sep>,</#sep>
-	     
-	    </#list>
+      	   {
+         "name": "employee5",
+         "mailId":"employee5@gmail.com",
+         "phoneNumber":"9000000000",
+         "address":"  kr puram bangalore",
+         "password":"password",
+         "confirmPassword":"password",
+         "gender":"FEMALE",
+         "designationId":["${entity.Designation.ScrumMaster.id}"]
+        },
+      
+        {
+         "name": "kranti",
+         "mailId":"akranthi@yukthi-tech.co.in",
+         "phoneNumber":"9000099000",
+         "address":"  kr puram bangalore",
+         "password":"password",
+         "confirmPassword":"password",
+         "gender":"MALE",
+         "designationId":["${entity.Designation.ProjectAdministration.id}"]
+        },
+        
+        {
+         "name": "pritam",
+         "mailId":"pritamjosephjojo@gmail.com",
+         "phoneNumber":"90011111000",
+         "address":" marathalli bangalore",
+         "password":"password",
+         "confirmPassword":"password",
+         "gender":"MALE",
+         "designationId": ["${entity.Designation.ProjectMember.id}"]
+        },
+        
+       {
+         "name": "bhavana",
+         "mailId":"bhavana.shree75@gmail.com",
+         "phoneNumber":"90222211000",
+         "address":"shanthi layout bangalore",
+         "password":"password",
+         "confirmPassword":"password",
+         "gender":"FEMALE",
+         "designationId":["${entity.Designation.ProjectMember.id}"]
+        }
         
       ]
     }

@@ -103,7 +103,7 @@ public class TFDesignationHelper extends TFBase implements ITestConstants
 		List<UserRole> listRoles = new ArrayList<UserRole>();
 		listRoles.add(UserRole.DESIGNATION_EDIT);
 		listRoles.add(UserRole.DESIGNATION_DELETE);
-		listRoles.add(UserRole.TEST);
+		listRoles.add(UserRole.TEST_DELETE_ALL);
 		designationModel.setRoles(listRoles);
 
 		// save entity

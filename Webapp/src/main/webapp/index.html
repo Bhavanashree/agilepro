@@ -7,6 +7,8 @@
 	
 	    <title>AgilePro</title>
 	    
+	    <link href="ui/css/bootstrap-toggle.css" rel="stylesheet">
+	    
 	    <link href="webutils/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="webutils/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 	    <link href="webutils/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -37,12 +39,14 @@
 				
 				<!-- Start of left menu -->
 				<div id="appLeftMenu" class="leftNavBox" style="background-color: white; overflow-y: auto; padding-top: 0.5em; 
-						width: 15em;" yk-hide-from="sm" ui-view="menuView" ng-if="currentState.leftMenu">
+						width: 15rem;" yk-hide-from="sm" ui-view="menuView" ng-if="currentState.leftMenu">
 				</div>					
 				<!-- End of left menu -->
 				
 				<!-- start of main container -->
-				<div id="mainContent" ui-view="mainContent" style="padding-top: 2em; padding-right: 1em; padding-left: 1em; overflow: auto; flex-grow: 1;">
+				<div id="mainContent" ui-view="mainContent" class="flexHorizontal" 
+					style="padding-top: 2em; padding-right: 1em; padding-left: 1em; overflow: auto; flex-grow: 1;" 
+					yk-max-height="98vh - ${$this.offset().top}px">
 				</div>
 				<!-- end of main container -->
 				
@@ -58,6 +62,7 @@
 	    <!-- Include all compiled plugins (below), or include individual files as needed -->
 	    <script src="webutils/js/bootstrap.min.js"></script>
 		<script src="webutils/js/angular.js"></script>
+		<script src="webutils/js/angular-cookies.js"></script>
 		<script src="webutils/js/angular-sanitize.min.js"></script>
 		<script src="webutils/js/angular-ui-router.min.js"></script>
 		<script src="webutils/js/moment.js"></script>
@@ -66,17 +71,19 @@
 		
 		<script src="webutils/js/tinymce/tinymce.min.js"></script>
 
+		<!-- Date format -->
+		<script src="webutils/js/simpleDateFormat.js"></script>
+		
 	    <!-- Graph required js files -->
 	   <script src="webutils/js/highcharts.src.js"></script>
 		
 		 <!-- @ chat conversation required js file -->
 		<script src="webutils/js/mention.js"></script>
 		
-		<!-- Date format -->
-		<script src="webutils/js/simpleDateFormat.js"></script>
-		
 		<!--Color -->
 		<script src="webutils/js/bootstrap-colorpicker.js"></script>
+		
+		<script type="text/javascript" src="ui/js/bootstrap-toggle.js"></script>
 		
 		<script type="text/javascript" src="ui/js/app.js"></script>
 
@@ -103,13 +110,13 @@
 		<script type="text/javascript" src="/ui/js/settings/designation.js"></script>
 	    <script type="text/javascript" src="/ui/js/settings/adminuser.js"></script>
 	    <script type="text/javascript" src="/ui/js/settings/mailSettings.js"></script>
+	    <script type="text/javascript" src="/ui/js/settings/notificationSettings.js"></script>
 	    <script type="text/javascript" src="/ui/js/settings/holiday.js"></script>
 	    <script type="text/javascript" src="/ui/html/settings/mailTemplateDefinition.js"></script>
 	    
 		<script type="text/javascript" src="/ui/js/resources/employee.js"></script>
 		
 		<script type="text/javascript" src="/ui/js/project/project.js"></script>
-		<script type="text/javascript" src="/ui/js/project/tag.js"></script>
 		<script type="text/javascript" src="/ui/js/project/release.js"></script>
 		<script type="text/javascript" src="/ui/js/project/project-release.js"></script>
 		<script type="text/javascript" src="/ui/js/project/story-release.js"></script>
@@ -119,18 +126,24 @@
 		<script type="text/javascript" src="/ui/js/member/project-team.js"></script>
 		
 		<script type="text/javascript" src="/ui/js/story/story.js"></script>
+		<script type="text/javascript" src="/ui/js/story/tag.js"></script>
 		<script type="text/javascript" src="/ui/js/story/story-note.js"></script>
 		<script type="text/javascript" src="/ui/html/story/bulk-story-controller.js"></script>
 		<script type="text/javascript" src="/ui/js/story/kanbanBoard.js"></script>
+		<script type="text/javascript" src="/ui/js/story/bug-status.js"></script>
+		<script type="text/javascript" src="/ui/js/story/story-priority.js"></script>
 		<script type="text/javascript" src="/ui/js/story/priority.js"></script>
 		<script type="text/javascript" src="/ui/js/story/task.js"></script>
 		<script type="text/javascript" src="/ui/html/bug/bug.js"></script>
+		<script type="text/javascript" src="/ui/js/pokergame/pokergame.js"></script>
 		
 		<!-- dashboard -->
 		<script type="text/javascript" src="/ui/js/common/dashboard.js"></script>
 		
 		<!-- Scrum -->
 		<script type="text/javascript" src="/ui/js/scrum/scrum-meeting.js"></script>
+		<script type="text/javascript" src="/ui/js/scrum/action-conversation.js"></script>
 		
 	</body>
 </html>
+

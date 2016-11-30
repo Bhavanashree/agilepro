@@ -1,4 +1,4 @@
-package com.agilepro.commons.models.project;
+package com.agilepro.commons.models.sprint;
 
 import java.util.Date;
 import java.util.List;

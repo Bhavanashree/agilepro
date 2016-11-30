@@ -1,7 +1,7 @@
 $.application.controller("scrumController", ["$scope", "crudController", "utils", "actionHelper",
                                      function($scope, crudController, utils, actionHelper) {
 	
-	$scope.simpleDateFormatter = new simpleDateFormat('MM/dd/yyyy');
+	$scope.simpleDateFormatter = new simpleDateFormat('dd/MM/yyyy');
 	
 	$scope.meetingDate = $scope.simpleDateFormatter.format(new Date());
 	
@@ -12,6 +12,14 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	$scope.selectedStory = {};
 	
 	$scope.projectMemberIds = [];
+	
+	
+	$scope.onDateChange = function(){
+		
+		$scope.onDateChangeValue = true;
+		$scope.fetchAllScrumMeetings();
+	};
+	
 	
 	/**
 	 * Init method to load the tinymce and fetch all the conversations 
@@ -58,10 +66,9 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		}
 		
 		tinymce.init(mceContext);
-		 
-		$scope.fetchAllScrumMeetings();
 		
-		//$scope.fetchAllScrumMeetingConversation();
+		$scope.onDateChangeValue = true;
+		$scope.fetchAllScrumMeetings();
 	};
 	
 	/**
@@ -77,9 +84,20 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	 */
 	$scope.submitScrumContent = function(){
 		
-		$scope.message = tinymce.activeEditor.getContent();
+		$scope.message = tinymce.get('scrumMessageId').getContent();
 		
-		if($scope.message.length == 0)
+		var strMessage = $($scope.message).text();
+		
+		var employees = $($scope.message).find(".userMention");
+		
+		for(var i=0;i<employees.length;i++)
+		{
+			strMessage = strMessage.replace($(employees[i]).text(), "");
+			console.log(strMessage.replace($(employees[i]).text(), ""));
+		}
+		
+		
+		if((strMessage.trim()).length == 0)
 		{
 			utils.alert("Please provide some message");
 			return;
@@ -102,9 +120,11 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 				{
 					if(saveResponse.code == 0)
 					{
-						tinymce.activeEditor.setContent("");
+						tinymce.get('scrumMessageId').setContent("");
+						$scope.saveSuccess = true;
 						
 						$scope.fetchAllScrumMeetingConversation();
+						$scope.fetchScrumAction();
 					}
 				}
 		, {"hideInProgress" : true});
@@ -115,7 +135,13 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	 */
 	$scope.fetchAllScrumMeetings = function(){
 		
-		console.log(new Date($scope.meetingDate));
+		$scope.scrumMeeting = {};
+		$scope.stories = {};
+		$scope.scrumConversations = {};
+		$scope.scrumActionItems = {};
+		$scope.scrumActionItemIdObjMap = {};
+		
+		console.log($scope.meetingDate);
 		
 		if($scope.getActiveProjectId() != -1)
 		{
@@ -123,7 +149,13 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 			actionHelper.invokeAction("scrumMeeting.readByDateAndProjectId", null, {"date" : $scope.meetingDate, "projectId" : $scope.getActiveProjectId()}, 
 					function(readResponse, respConfig)
 					{
-						$scope.scrumMeeting = readResponse.model;
+						//$scope.scrumMeeting = readResponse.model;
+						
+						// for test to get the values latter
+						$scope.scrumMeeting = {"id" : 1};
+						
+						$scope.fetchAllScrumMeetingConversation();
+						$scope.fetchScrumAction();
 					}
 			, {"hideInProgress" : true});
 			
@@ -156,10 +188,28 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 	 */
 	$scope.fetchAllScrumMeetingConversation = function(){
 		
+		if($scope.getCurrentState().tab != "scrumTab")
+		{
+			clearInterval($scope.intervalValue);	
+		}
+		
 		actionHelper.invokeAction("scrumMeetingConversation.readAll", null, {"scrumMeetingId" : $scope.scrumMeeting.id}, 
 				function(readResponse, respConfig)
 				{
 					$scope.scrumConversations = readResponse.model;
+					
+					var scrumConversationId = $("#scrumConversationId");
+					
+					if($scope.saveSuccess || $scope.onDateChangeValue || ($scope.prvsScrlHeight <=  scrumConversationId.scrollTop()))
+					{
+						$scope.saveSuccess = false;
+						$scope.onDateChangeValue = false;
+						$scope.prvsScrlHeight =  scrumConversationId.scrollTop();
+						
+						scrumConversationId.animate({ scrollTop: scrumConversationId[0].scrollHeight });
+						
+						$scope.prvsScrlHeight =  scrumConversationId.scrollTop();
+					}
 					
 					try
 					{
@@ -171,11 +221,38 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		
 		 if($scope.isFirstRequest)
 		 {
-			console.log("interval is set");
 			$scope.intervalValue = setInterval($scope.fetchAllScrumMeetingConversation, ($.appConfiguration.conversationRefreshInterval));
 				 
 			$scope.isFirstRequest = false;
 		 }
+	};
+	
+	$scope.fetchScrumAction  = function(){
+		
+		actionHelper.invokeAction("scrumMeetingConversation.readActionByScrumId", null, {"scrumMeetingId" : $scope.scrumMeeting.id}, 
+				function(readResponse, respConfig)
+				{
+					$scope.scrumActionItems = readResponse.model;
+					
+					$scope.scrumActionItemIdObjMap = {};
+					
+					if($scope.scrumActionItems)
+					{
+						for(index in $scope.scrumActionItems)
+						{
+							var actionItemObj = $scope.scrumActionItems[index];
+							
+							$scope.scrumActionItemIdObjMap[actionItemObj.id] = actionItemObj; 
+						}
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+				}
+		, {"hideInProgress" : true});
 	};
 	
 	/**
@@ -192,5 +269,35 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
 		$scope.fetchAllScrumMeetings();
 	   
 	});
+	
+	/**
+	 * GetText removes user mention class from message returns only the text. 
+	 */
+	$scope.getText = function(data){
+		
+		return $(data).text();
+	};
+	
+	$scope.showAction = function(actionItemId){
+		
+		$scope.selectedActionItemId = actionItemId
+		$scope.$broadcast("displayActionItemsConversation");
+	};
+	
+	
+	$scope.getSelectedActionItemId = function(){
+		
+		if(!$scope.selectedActionItemId)
+		{
+			return -1;
+		}
+		
+		return $scope.selectedActionItemId;
+	};
+
+	$scope.getSelectedActionObj = function(){
+		
+		return $scope.scrumActionItemIdObjMap[$scope.selectedActionItemId];
+	};
 	
 }]);

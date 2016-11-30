@@ -84,7 +84,7 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	@ResponseBody
 	public ProjectMemberReadResponse fetchMembers(@RequestParam(value = "projectTeamId") Long projectTeamId)
 	{
-		return projectMemberService.fetchMembers(projectTeamId);
+		return projectMemberService.fetchMembersByTeam(projectTeamId);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class ProjectMemberController extends BaseController implements IProjectM
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_DELETE_ALL)
-	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse deleteAll()

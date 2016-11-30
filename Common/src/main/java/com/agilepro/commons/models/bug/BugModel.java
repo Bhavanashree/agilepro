@@ -53,7 +53,7 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * The bug status.
 	 **/
-	private BugStatus bugStatus;
+	private BugStatus status;
 
 	/**
 	 * The owner.
@@ -175,25 +175,14 @@ public class BugModel extends AbstractExtendableModel
 		this.reportedBy = reportedBy;
 	}
 
-	/**
-	 * Gets the bug status.
-	 *
-	 * @return the bug status
-	 */
-	public BugStatus getBugStatus()
+	public BugStatus getStatus()
 	{
-		return bugStatus;
+		return status;
 	}
 
-	/**
-	 * Sets the bug status.
-	 *
-	 * @param bugStatus
-	 *            the new bug status
-	 */
-	public void setBugStatus(BugStatus bugStatus)
+	public void setStatus(BugStatus status)
 	{
-		this.bugStatus = bugStatus;
+		this.status = status;
 	}
 
 	/**

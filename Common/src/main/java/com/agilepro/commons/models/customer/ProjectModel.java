@@ -8,15 +8,18 @@ import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.NotEmpty;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.FileInfo;
+import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
- * The Class ProjectModel.
+ * ProjectModel for ui.
+ * Create Read Update Delete.
  * 
  * @author Pritam
  */
 @Model(name = "Project")
+@ExtendableModel(name = "Project")
 public class ProjectModel
 {
 	/**

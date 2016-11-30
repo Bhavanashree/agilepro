@@ -1,5 +1,5 @@
 {
-  "defaultUserName": "customer1@gmail.com",
+  "defaultUserName": "yukthi@gmail.com",
   "entityGroups": [
     {
       "name": "Story",
@@ -7,14 +7,15 @@
       "modelType": "com.agilepro.commons.models.project.StoryModel",
       "identityField": "title",
     
-       "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
+       "spaceIdentity": "CUSTOMER-${entity.Customers.yukthi.id}",
       
       "entities": [
         <#list 1..4 as x>
         {
           "title": "story${x}",
           "projectId": "${entity.Projects.AgilePro1.id}",
-          "storyPoints":"5"
+          "storyPoints":"5",
+          "priorityOrder" : "1"
         
         }<#sep>,</#sep>
 	     

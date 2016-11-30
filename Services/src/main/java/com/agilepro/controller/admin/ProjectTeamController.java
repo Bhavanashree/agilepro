@@ -78,7 +78,7 @@ public class ProjectTeamController extends BaseController
 	{
 		return new BasicReadResponse<List<ProjectTeamModel>>(projectTeamService.fetchAllTeamByProjectId(projectId));
 	}
-
+	
 	/**
 	 * Read.
 	 *

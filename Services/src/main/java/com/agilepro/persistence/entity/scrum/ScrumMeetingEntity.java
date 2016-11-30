@@ -10,16 +10,20 @@ import com.agilepro.commons.models.scrum.ScrumMeetingModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ScrumMeetingEntity. This table holds the record for meeting per
+ * ScrumMeetingEntity. This table holds the record for meeting per
  * project.
+ * Records are inserted from the back ground job.
  * 
  * @author Pritam
  */
 @Table(name = "SCRUM_MEETING")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "project", "date" }) })
 public class ScrumMeetingEntity extends WebutilsEntity
 {
 	/**

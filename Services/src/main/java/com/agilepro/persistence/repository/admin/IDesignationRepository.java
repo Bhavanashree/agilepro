@@ -59,7 +59,7 @@ public interface IDesignationRepository extends IWebutilsRepository<DesignationE
 	 * @return the list
 	 */
 	public List<DesignationEntity> fetchExternalRoles();
-
+	
 	/**
 	 * Delete all.
 	 */

@@ -1,16 +1,18 @@
 package com.agilepro.persistence.entity.admin;
 
+import java.util.List;
+
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.agilepro.commons.EmployeeGender;
-import com.agilepro.commons.models.admin.EmployeeModel;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.conversion.impl.JsonConverter;
-import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
@@ -24,7 +26,6 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 @Table(name = "EMPLOYEE")
 public class EmployeeEntity extends WebutilsExtendableEntity
 {
-
 	/**
 	 * setting message for duplicate employee.
 	 */
@@ -65,10 +66,9 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	/**
 	 * Employees designation.
 	 */
-	@ManyToOne
-	@PropertyMapping(type = EmployeeModel.class, from = "designationId", subproperty = "id")
-	@Column(name = "DESIGNATION_ID", nullable = false)
-	private DesignationEntity designation;
+	@ManyToMany
+	@JoinTable(name = "EMP_DESIGNATION_MAP", joinColumns = { @JoinColumn(name = "EMPLOYEE_ID") }, inverseJoinColumns = { @JoinColumn(name = "DESIGNATION_ID") })
+	private List<DesignationEntity> designations;
 
 	/**
 	 * Instantiates a new employee entity.
@@ -181,27 +181,6 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the designation.
-	 *
-	 * @return the designation
-	 */
-	public DesignationEntity getDesignation()
-	{
-		return designation;
-	}
-
-	/**
-	 * Sets the designation.
-	 *
-	 * @param designation
-	 *            the new designation
-	 */
-	public void setDesignation(DesignationEntity designation)
-	{
-		this.designation = designation;
-	}
-
-	/**
 	 * Gets the gender.
 	 *
 	 * @return the gender
@@ -220,5 +199,15 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	public void setGender(EmployeeGender gender)
 	{
 		this.gender = gender;
+	}
+
+	public List<DesignationEntity> getDesignations()
+	{
+		return designations;
+	}
+
+	public void setDesignations(List<DesignationEntity> designations)
+	{
+		this.designations = designations;
 	}
 }

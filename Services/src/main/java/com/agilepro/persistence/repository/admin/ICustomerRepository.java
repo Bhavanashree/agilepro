@@ -3,6 +3,8 @@ package com.agilepro.persistence.repository.admin;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.context.annotation.Conditional;
+
 import com.agilepro.commons.models.customer.CustomerSearchQuery;
 import com.agilepro.commons.models.customer.CustomerSearchResult;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
@@ -20,8 +22,10 @@ import com.yukthi.webutils.annotations.LovQuery;
 import com.yukthi.webutils.annotations.RestrictBySpace;
 import com.yukthi.webutils.annotations.SearchQueryMethod;
 import com.yukthi.webutils.common.models.ValueLabel;
+import com.yukthi.webutils.common.models.mails.EmailServerSettings;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ICustomerRepository for Customer Entity table.
  *
@@ -30,12 +34,49 @@ import com.yukthi.webutils.repository.IWebutilsRepository;
 public interface ICustomerRepository extends IWebutilsRepository<CustomerEntity>
 {
 	/**
-	 * Fetch all customers.
+	 * Fetch all customers no space identity.
 	 *
 	 * @return the list
 	 */
 	public List<CustomerEntity> fetchAllCustomers();
+
+	/**
+	 * Fetch customer with no space.
+	 *
+	 * @param customerId
+	 *            the customer id
+	 * @return the customer entity
+	 */
+	public CustomerEntity fetchCustomerWithNoSpace(@Condition(value = "id") Long customerId);
 	
+	/**
+	 * Fetch customer name.
+	 *
+	 * @param customerId the customer id
+	 * @return the string
+	 */
+	@Field("name")
+	public String fetchCustomerName(@Condition(value = "id" , nullable = true) Long customerId);
+
+	/**
+	 * Fetch customer sub domain.
+	 *
+	 * @param customerId
+	 *            the customer id
+	 * @return the string
+	 */
+	@Field("subDomainPath")
+	public String fetchCustomerSubDomain(@Condition(value = "id" , nullable = true) Long customerId);
+	
+	/**
+	 * Update mail server setting.
+	 *
+	 * @param settings the settings
+	 * @param customerId the customer id
+	 * @return true, if successful
+	 */
+	public boolean updateMailServerSetting(@Field("emailServerSettings") EmailServerSettings settings, @Condition(value = "id") Long customerId);
+
 	/**
 	 * Find customer by pay date.
 	 *

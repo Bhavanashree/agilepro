@@ -33,6 +33,11 @@ public class MailProcessingErrorContext implements IMailCustomizer
 	 * Indicates processing of input mail resulted in unknown error.
 	 */
 	public static final String ERR_CODE_SERVER_ERROR = "ERR_CODE_SERVER_ERROR";
+	
+	/**
+	 * Indicates non html content mail is received.
+	 */
+	public static final String ERR_CODE_NON_HTML = "ERR_CODE_NON_HTML";
 
 	/**
 	 * Mail id from which mail is received.

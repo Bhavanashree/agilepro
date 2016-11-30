@@ -12,6 +12,7 @@ import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -25,9 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.controllers.project.ISprintController;
-import com.agilepro.commons.models.project.SprintModel;
+import com.agilepro.commons.models.sprint.SprintDropDown;
+import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.commons.UserRole;
-import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.SprintService;
 import com.yukthi.webutils.InvalidRequestParameterException;
@@ -35,6 +36,7 @@ import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
+import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.controllers.BaseController;
 
 /**
@@ -67,9 +69,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid SprintModel model)
 	{
-		SprintEntity entity = sprintService.save(model);
-
-		return new BasicSaveResponse(entity.getId());
+		return new BasicSaveResponse(sprintService.save(model).getId());
 	}
 
 	/**
@@ -85,18 +85,16 @@ public class SprintController extends BaseController implements ISprintControlle
 	@ResponseBody
 	public BasicReadResponse<SprintModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		SprintModel sprintModel = sprintService.fetchFullModel(id, SprintModel.class);
-
-		return new BasicReadResponse<SprintModel>(sprintModel);
+		return new BasicReadResponse<SprintModel>(sprintService.fetchFullModel(id, SprintModel.class));
 	}
 
 	@ActionName(ACTION_TYPE_READ_SPRINT_PROJECT_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.SPRINT_VIEW, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/sprintProjectId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<SprintModel>> fetchSprintbyProjectId(@RequestParam(value = "projectId", required = false) Long projectId)
+	public BasicReadResponse<List<SprintDropDown>> fetchSprintbyProjectId(@RequestParam(value = "projectId", required = false) Long projectId)
 	{
-		return new BasicReadResponse<List<SprintModel>>(sprintService.fetchSprintByProjectId(projectId, new Date()));
+		return new BasicReadResponse<List<SprintDropDown>>(sprintService.fetchSprintDropDown(projectId));
 	}
 
 	/**
@@ -145,7 +143,7 @@ public class SprintController extends BaseController implements ISprintControlle
 	 *
 	 * @return the base response
 	 */
-	@Authorization(roles = { UserRole.SPRINT_DELETE_ALL, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

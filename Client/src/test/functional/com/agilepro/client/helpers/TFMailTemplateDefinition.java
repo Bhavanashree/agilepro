@@ -11,11 +11,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.agilepro.commons.PaymentCycle;
-import com.agilepro.commons.controllers.notification.IMailTemplateDefinitionController;
 import com.agilepro.commons.models.customer.CustomerModel;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanExpression;
 import com.agilepro.commons.models.customer.priceplan.CustomerPricePlanModel;
-import com.agilepro.commons.models.notification.MailTemplateDefinitionModel;
 import com.yukthi.webutils.client.ClientContext;
 import com.yukthi.webutils.client.ClientControllerFactory;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
@@ -73,11 +71,6 @@ public class TFMailTemplateDefinition extends TFBase
 	private ClientContext clientCurrentSession;
 
 	/**
-	 * The I employee controller.
-	 **/
-	private IMailTemplateDefinitionController mailController;
-
-	/**
 	 * saving the pricePlan and customer before saving employee.
 	 */
 	@BeforeClass
@@ -114,8 +107,6 @@ public class TFMailTemplateDefinition extends TFBase
 		clientCurrentSession = super.newClientContext(emailId, password, customerId);
 
 		clientControllerFactory = new ClientControllerFactory(clientCurrentSession);
-
-		mailController = clientControllerFactory.getController(IMailTemplateDefinitionController.class);
 	}
 
 	/**
@@ -124,10 +115,6 @@ public class TFMailTemplateDefinition extends TFBase
 	@Test
 	public void testSave()
 	{
-		MailTemplateDefinitionModel model = new MailTemplateDefinitionModel("test1", null, customerId);
-		BasicSaveResponse basicSaveResponse = mailController.save(model);
-
-		Assert.assertTrue(basicSaveResponse.getId() > 0);
-		logger.debug("Saved new employee with id - {}", basicSaveResponse.getId());
+		
 	}
 }

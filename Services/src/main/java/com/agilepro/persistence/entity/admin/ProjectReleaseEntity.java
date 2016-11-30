@@ -11,7 +11,8 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class ProjectReleaseEntity.
+ * ProjectReleaseEntity holds the  project record which are to be released.
+ * Project are added to release by drag and drop.
  * 
  * @author Pritam
  */

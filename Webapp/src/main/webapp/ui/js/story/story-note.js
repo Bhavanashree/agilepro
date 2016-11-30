@@ -1,6 +1,7 @@
 $.application.controller('storyNoteController', ["$scope", "crudController", "utils", "actionHelper",
        function($scope, crudController, utils, actionHelper) {
 	
+	
 	// Listener for broadcast
 	$scope.$on("fetchAllStoryNotes", function(event, args) {
 
@@ -22,10 +23,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		});
 		
 		$scope.fetchNotes();
+		$scope.errorStoryNote = {"error" : false, "message" : ""};
 	});
 	
-	
-	$scope.errorStoryNote = {"error" : false, "message" : ""};
 	
 	$scope.fetchNotes = function(){
 		
@@ -183,7 +183,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		$scope.checkVersionTitle(null);
 	};
 	
-	
+	/**
+	 * Gets invoked on type version title.
+	 */
 	$scope.checkVersionTitle = function(event){
 		
 		console.log($scope.versionTitlesSet);
@@ -199,7 +201,6 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		{
 			$scope.errorStoryNote.error = false;
 		}
-		
 		
 		for(index in $scope.versionTitlesSet)
 		{

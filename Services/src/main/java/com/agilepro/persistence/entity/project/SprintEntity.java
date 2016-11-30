@@ -8,13 +8,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.agilepro.commons.models.project.SprintModel;
+import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
-// TODO: Auto-generated Javadoc
 /**
  * SprintEntity class maintains Sprints of project.
  */
@@ -204,7 +203,8 @@ public class SprintEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets the project.
 	 *
-	 * @param project the new project
+	 * @param project
+	 *            the new project
 	 */
 	public void setProject(ProjectEntity project)
 	{

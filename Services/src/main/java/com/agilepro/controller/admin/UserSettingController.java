@@ -104,7 +104,7 @@ public class UserSettingController extends BaseController implements IUserSettin
 	 * @return the base response
 	 */
 	@Override
-	@Authorization(roles = { UserRole.TEST, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
+	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.CUSTOMER_SUPER_USER, UserRole.EMPLOYEE_VIEW })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
 	@ResponseBody

@@ -82,7 +82,7 @@ public class BugCommentService extends BaseCrudService<BugCommentsEntity, IBugCo
 	}
 
 	/**
-	 * Fetchcomments by bug id.
+	 * Fetch comments by bug id.
 	 *
 	 * @param bug
 	 *            the bug

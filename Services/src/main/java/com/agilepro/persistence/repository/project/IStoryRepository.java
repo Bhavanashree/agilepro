@@ -7,11 +7,15 @@ import com.agilepro.commons.models.project.StorySearchQuery;
 import com.agilepro.commons.models.project.StorySearchResult;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.services.common.StorySearchCustomizer;
+import com.yukthi.persistence.repository.annotations.AggregateFunction;
+import com.yukthi.persistence.repository.annotations.AggregateFunctionType;
 import com.yukthi.persistence.repository.annotations.Condition;
-import com.yukthi.persistence.repository.annotations.JoinOperator;
+import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.NullCheck;
 import com.yukthi.persistence.repository.annotations.OrderBy;
+import com.yukthi.persistence.repository.annotations.UpdateFunction;
+import com.yukthi.persistence.repository.annotations.UpdateOperator;
 import com.yukthi.persistence.repository.search.SearchQuery;
 import com.yukthi.webutils.annotations.LovQuery;
 import com.yukthi.webutils.annotations.RestrictBySpace;
@@ -46,7 +50,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@RestrictBySpace
 	public List<StoryEntity> findByTitle(@Condition(value = "title") String title);
 	
-	@LovQuery(name = "parentStoryId", valueField = "id", labelField = "title")
+	@LovQuery(name = "parentStory", valueField = "id", labelField = "title")
 	@RestrictBySpace
 	public List<ValueLabel> findParentStoryIdLov();
 
@@ -64,10 +68,10 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@MethodConditions(
 		nullChecks = @NullCheck(field = "sprint.id")
 	)
-	public List<StoryEntity> fetchUnassingedStories(@Condition(value = "project.id") Long projectId);
+	public List<StoryEntity> fetchBacklogs(@Condition(value = "project.id") Long projectId);
 
 	@RestrictBySpace
-	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStoryId") Long parentStoryId);
+	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStory.id") Long parentStoryId);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchStoriesByProject(@Condition(value = "project.id") Long projectId);
@@ -76,4 +80,44 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 * Delete all.
 	 */
 	public void deleteAll();
+	
+	/**
+	 * Fetches maximum order number under specified project and parent story. Parent story is optional.
+	 * @param projectId Project to search
+	 * @return Max order currently configured
+	 */
+	@RestrictBySpace
+	@AggregateFunction(type = AggregateFunctionType.MAX, field = "priorityOrder")
+	public int getMaxOrder(@Condition(value = "project.id") Long projectId);
+
+	/**
+	 * Fetches minimum order number under specified project and parent story. Parent story is optional.
+	 * @param projectId Project to search
+	 * @return Max order currently configured
+	 */
+	@RestrictBySpace
+	@AggregateFunction(type = AggregateFunctionType.MIN, field = "priorityOrder")
+	public int getMinOrder(@Condition(value = "project.id") Long projectId);
+	
+	/**
+	 * Fetches the order of specified story.
+	 * @param storyId Story to fetch
+	 * @return Specified story order
+	 */
+	@RestrictBySpace
+	@Field("priorityOrder")
+	public int fetchOrderOfStory(@Condition(value = "id") Long storyId);
+	
+	/**
+	 * Moves the stories back from specified order under specified project and parent story. In other words increases the order of matching stories
+	 * by 1.
+	 * @param projectId Parent project
+	 * @param fromOrder From order where stories needs to move down
+	 * @return Number of stories affected
+	 */
+	@RestrictBySpace
+	@UpdateFunction
+	public int moveStoriesDown(@Condition(value = "project.id") Long projectId, 
+		@Condition(value = "priorityOrder") int fromOrder, 
+		@Field(value = "priorityOrder", updateOp = UpdateOperator.ADD) int incrementValue);
 }

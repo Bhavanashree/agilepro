@@ -60,7 +60,7 @@ $.application.controller('holidayController', ["$scope", "crudController","utils
 	
 		actionHelper.invokeAction("holiday.readListOfDays", null, null, 
 			function(readResponse, respConfig){
-			
+		
 				var daysModel = readResponse.model;
 				
 				if(daysModel)

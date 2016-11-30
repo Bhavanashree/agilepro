@@ -1,0 +1,92 @@
+
+
+<table style="width: 100%; height: 100%;" ng-init="listOfStories()">
+	<tr>
+		<td style="padding: 0.5em;">
+				<div><span style="color: brown; font-size: 0.7em;">Backlog</span></div>
+			
+				<div style="border: 0.2em solid lightblue; height: 100%;" yk-on-drop="onDropBacklog(event)">
+						
+						<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+							<input type="text" ng-model="searchStories" class="form-control" placeholder="Title" style="width: 100%; border: none;">
+							<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+						</div>
+						
+						<div style="overflow-y: auto; padding-left: 3.5em;" yk-max-height="96vh - ${$this.offset().top}px">
+							<div id="{{backlog.id}}" draggable="true" yk-on-drag ="onDragStories(event)" ng-repeat="backlog in story  | filter: searchStories" 
+					               style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px; border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;">
+					                 <b style="color: royalblue; text-align: left; font-size: 0.8em; padding: 3px;">{{backlog.title}}</b> 
+					               <img class="img-circle" ng-if="backlog.photoUrl" src="{{backlog.photoUrl}}" style ="height: 50px; width: 55px; margin: 0.1em; float: right;"/>
+					       </div>
+				       </div>
+				</div>
+		</td>
+		<td style="padding: 0.5em; height: 100%;">
+				<div><span style="color: brown; font-size: 0.7em;">Not Started</span></div>
+				
+				<div style="border: 0.2em solid lightblue; height: 100%;" yk-on-drop="onDropofNotStarted(event)">
+						
+						<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+							<input type="text" ng-model="searchNotstartedStories" class="form-control" placeholder="Title" style="width: 100%; border: none;">
+							<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+						</div>
+						
+						<div style="overflow-y: auto; padding-left: 3.5em;" yk-max-height="96vh - ${$this.offset().top}px">
+							 <div  align="center"  id = "{{objNotstarted.id}}"  draggable="true" ng-repeat="objNotstarted in notStarted | filter: searchNotstartedStories" 
+					               style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
+					               		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;"  yk-on-drag ="onDragStories(event)">
+					                 <b style="color: royalblue; color: royalblue; text-align: left; font-size: 0.8em; padding: 3px;">{{objNotstarted.title}} {{objNotstarted.storyPoints}}</b> 
+					              
+					               <img ng-if="backlog.photoUrl" src="{{objNotstarted.photoUrl}}"  style ="height: 50px; width: 55px; float: right; margin: 6px; border-radius: 4px;"/>		
+					         </div>
+					    </div>
+				</div>
+		</td>
+		
+		<td div style="padding: 0.5em;">
+			
+				<div><span style="color: brown; font-size: 0.7em;">In Progress</span></div>
+				 
+				<div style="border: 0.2em solid lightblue;  height: 100%;" yk-on-drop="onDropofInProgress(event)">
+						
+						<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+							<input type="text" ng-model="searchInprogressStories" class="form-control" placeholder="Title" style="width: 100%; border: none;">
+							<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+						</div>
+						
+						<div style="overflow-y: auto; padding-left: 3.5em;" yk-max-height="96vh - ${$this.offset().top}px">
+					        <div id = "{{obj.id}}"  draggable="true" ng-repeat="obj in inProgress  | filter: searchInprogressStories" style = "background-color : #e3f6f9; 
+					          		border-radius:20px; margin:10px; width :150px; height : 100px; border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;"  yk-on-drag ="onDragStories(event)">
+					             <b style="color: royalblue; color: royalblue; text-align: left; font-size: 0.8em; padding: 3px;">
+					            {{obj.title}} {{obj.storyPoints}}</b>
+					             <img src="{{obj.photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
+					        </div>
+					     </div>       
+				</div>
+		</td>
+		
+		<td div style="padding: 0.5em;">
+			
+				<div><span style="color: brown; font-size: 0.7em;">Completed</span></div>
+				
+				<div style="border: 0.2em solid lightblue; height: 100%;" yk-on-drop="onDropofCompleted(event)">
+					
+						<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+							<input type="text" ng-model="searchCompletedStories" class="form-control" placeholder="Title" style="width: 100%; border: none;">
+							<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+						</div>
+						
+						<div style="overflow-y: auto; padding-left: 3.5em;" yk-max-height="96vh - ${$this.offset().top}px">
+							<div id = "{{objCompleted.id}}"  draggable="true" ng-repeat=" objCompleted in completed | filter: searchCompletedStories"  style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
+						           		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;" yk-on-drag ="onDragStories(event)" >
+						          <b style="color: royalblue; color: royalblue; text-align: left; font-size: 0.8em; padding: 3px;">
+						         		{{objCompleted.title}}  {{objCompleted.storyPoints}} </b>
+						           <img ng-if="backlog.photoUrl" src="{{objCompleted.photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
+						    </div>
+					 	</div>
+				</div>
+		</td>
+		
+		
+	</tr>
+</table>

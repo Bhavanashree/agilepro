@@ -16,7 +16,7 @@ import com.yukthi.webutils.repository.search.ISearchResultCustomizer;
 public class StorySearchCustomizer implements ISearchResultCustomizer<StorySearchResult>
 {
 	/**
-	 * The Constant titleComparator.
+	 * The Constant titleComparator. 
 	 **/
 	private static final Comparator<StorySearchResult> TITLE_COMPARATOR = new Comparator<StorySearchResult>()
 	{
@@ -39,12 +39,12 @@ public class StorySearchCustomizer implements ISearchResultCustomizer<StorySearc
 
 		for(StorySearchResult story : results)
 		{
-			childStories = idToChildren.get(story.getParentStoryId());
+			childStories = idToChildren.get(story.getParentStory());
 
 			if(childStories == null)
 			{
 				childStories = new ArrayList<>();
-				idToChildren.put(story.getParentStoryId(), childStories);
+				idToChildren.put(story.getParentStory(), childStories);
 			}
 
 			childStories.add(story);

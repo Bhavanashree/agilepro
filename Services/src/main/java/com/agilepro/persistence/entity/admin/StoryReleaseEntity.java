@@ -12,7 +12,8 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class StoryReleaseEntity.
+ * StoryReleaseEntity holds the stories which are to be released.
+ * Stroies are added to release by drag and drop.
  * 
  * @author Pritam
  */

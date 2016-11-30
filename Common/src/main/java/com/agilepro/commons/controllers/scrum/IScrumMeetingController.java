@@ -1,8 +1,9 @@
 package com.agilepro.commons.controllers.scrum;
 
+import java.util.Date;
 import com.agilepro.commons.models.scrum.ScrumMeetingModel;
 import com.yukthi.webutils.common.RemoteService;
-import com.yukthi.webutils.common.models.BasicSaveResponse;
+import com.yukthi.webutils.common.models.BasicReadResponse;
 
 /**
  * The Interface IScrumMeetingController.
@@ -12,5 +13,5 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 @RemoteService
 public interface IScrumMeetingController
 {
-	public BasicSaveResponse saveScrumMeeting(ScrumMeetingModel scrumMeetingModel);
+	public BasicReadResponse<ScrumMeetingModel> fetchMeetings(Date date, Long projectId);
 }

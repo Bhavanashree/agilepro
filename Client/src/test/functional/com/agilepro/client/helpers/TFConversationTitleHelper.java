@@ -182,7 +182,7 @@ public class TFConversationTitleHelper extends TFBase implements ITestConstants
 	{
 		iemployeeController = clientControllerFactory.getController(IEmployeeController.class);
 
-		EmployeeModel employeeModel = new EmployeeModel("Employee1", "employee1@gmail.com", "1234567891", "12345", "12345", designationId);
+		EmployeeModel employeeModel = new EmployeeModel("Employee1", "employee1@gmail.com", "1234567891", "12345", "12345");
 
 		employeeId = iemployeeController.save(employeeModel).getId();
 	}

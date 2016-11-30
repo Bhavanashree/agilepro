@@ -1,6 +1,6 @@
 package com.agilepro.notification;
 
-import com.agilepro.commons.models.notification.MailTemplateModel;
+import com.yukthi.webutils.common.models.mails.MailTemplateModel;
 
 /**
  * The Interface INotificationService.

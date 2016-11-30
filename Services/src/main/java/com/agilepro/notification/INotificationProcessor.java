@@ -1,5 +1,7 @@
 package com.agilepro.notification;
 
+import com.agilepro.services.notification.EmailProcessingException;
+import com.yukthi.webutils.mail.MailProcessingException;
 import com.yukthi.webutils.mail.ReceivedMailMessage;
 import com.yukthi.webutils.repository.UserEntity;
 
@@ -17,5 +19,5 @@ public interface INotificationProcessor
 	 * @param mailMessage Mail message to process.
 	 * @return true if successfully processed.
 	 */
-	public boolean process(UserEntity userEntity, ReceivedMailMessage mailMessage);
+	public boolean process(UserEntity userEntity, ReceivedMailMessage mailMessage) throws MailProcessingException, EmailProcessingException;
 }

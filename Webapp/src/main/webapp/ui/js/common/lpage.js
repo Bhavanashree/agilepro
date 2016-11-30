@@ -17,21 +17,8 @@ $.application.controller('lpageHelper', ["$scope", "clientContext", "utils", "ac
 
 		clientContext.addAuthAttribute("customerId", lpageConfig.customerId);
 	    this.$scope.customerName = lpageConfig.customerName;
-//	    this.$scope.slideImages = lpageConfig.slideImages;
-//	    this.$scope.contentLinks = lpageConfig.contentLinks;
-//	    this.$scope.newsLst = lpageConfig.news;
 	    this.$scope.customerId = lpageConfig.customerId;
 	   
-//	    
-//	    for(var i = 0; i < this.$scope.slideImages.length; i++)
-//	    {
-//	    	//if image path is not found and file is present.. set dynamic path
-//	    	if(!this.$scope.slideImages[i].imagePath && this.$scope.slideImages[i].imageFile)
-//	    	{
-//	    		this.$scope.slideImages[i].imagePath = actionHelper.actionUrl("files.fetch.insecure", {"id": this.$scope.slideImages[i].imageFile.id});
-//	    	}
-//	    }
-	    
 	    try
 	    {
 	    	this.$scope.$digest();
@@ -60,6 +47,7 @@ $.application.controller('lpageHelper', ["$scope", "clientContext", "utils", "ac
     		return false;
     	}
     };
+    
     $scope.showPopup = function(e){
     	console.log("Show popul method...");
     	utils.openModal("resetPasswordDlg", {

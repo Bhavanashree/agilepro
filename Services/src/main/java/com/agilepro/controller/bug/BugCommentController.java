@@ -103,7 +103,7 @@ public class BugCommentController extends BaseController implements IBugCommentC
 	 * @return the BugCommentModel response
 	 */
 	@ActionName(ACTION_TYPE_UPDATE)
-	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_COMMENT_UPDATE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_COMMENT_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid BugCommentsModel model)

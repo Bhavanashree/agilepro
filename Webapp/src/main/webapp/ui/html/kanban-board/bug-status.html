@@ -1,0 +1,105 @@
+
+<table style="width: 100%; height: 100%;" ng-init="fetchBugs()">
+
+	<tr>
+		<td style="padding: 0.5em;">
+				<div><span style="color: brown; font-size: 0.7em;">Bugs</span></div>
+			
+				<div style="border: 0.2em solid lightblue; height: 100%;" yk-on-drop="onDropBugBack(event)">
+						
+						<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+							<input type="text" ng-model="searchBugs" class="form-control" placeholder="Title" style="min-width: 15em; max-width: 15em; border: none;">
+							 <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+						</div>
+						
+						<div style="overflow-y: auto; padding-left: 3.5em;" yk-max-height="96vh - ${$this.offset().top}px">
+							<div id="{{bug.id}}" draggable="true" yk-on-drag ="onDragBugs(event)" ng-repeat="bug in bugs  | filter: searchBugs" 
+					               style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px; border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;">
+					                 <b style="color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">{{bug.title}}</b> 
+					               <img ng-if="bug.photoUrl" src="{{bug.photoUrl}}" style ="height: 50px; width: 55px; float: right; margin: 6px; border-radius: 4px;"/>
+					       </div>
+				       </div>
+				</div>
+		</td>
+
+	<td style="padding: 0.5em;">
+			<div><span style="color: brown; font-size: 0.7em;">Assigned Bugs</span></div>
+			
+			<div style="border: 0.2em solid lightblue;" yk-on-drop="onBugDropForOpen(event)">
+				<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+					<input type="text" ng-model="searchOpenedBugs" class="form-control" placeholder="Title" style="min-width: 15em; max-width: 15em; border: none;">
+					<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+				</div>
+					
+				 <div  align="center"  id = "{{bug.id}}"  draggable="true" ng-repeat="bug in openedBug | filter: searchOpenedBugs" 
+		               style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
+		               		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;"  yk-on-drag ="onDragBugs(event)">
+		                 <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">{{bug.title}}</b> 
+		              
+		               <img ng-if="bug.photoUrl" src="{{bug.photoUrl}}"  style ="height: 50px; width: 55px; float: right; margin: 6px; border-radius: 4px;"/>		
+		         </div>
+		</div>
+	</td>
+	
+	<td style="padding: 0.5em;">
+			<div><span style="color: brown; font-size: 0.7em;">Submited</span></div>
+			 
+			<div style="border: 0.2em solid lightblue;" yk-on-drop="onBugDropForSubmit(event)">
+					
+					<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+						<input type="text" ng-model="searchSubmitedBugs" class="form-control" placeholder="Title" style="min-width: 15em; max-width: 15em; border: none;">
+						<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+					</div>
+					
+			        <div id = "{{bug.id}}"  draggable="true" ng-repeat="bug in submitedBug  | filter: searchSubmitedBugs" style = "background-color : #e3f6f9; 
+			          					border-radius:20px; margin:10px; width :150px; height : 100px;
+			             		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;"  yk-on-drag ="onDragBugs(event)">
+			             <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">
+			            {{bug.title}}</b>
+			             <img ng-if="bug.photoUrl" src="{{obj.photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
+			        </div>
+			</div>
+	</td>
+
+	<td>
+		<div><span style="color: brown; font-size: 0.7em;">Reported</span></div>
+		
+		<div style="border: 0.2em solid lightblue;" yk-on-drop="onBugDropForReported(event)">
+			
+				<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+					<input type="text" ng-model="searchCompletedStories" class="form-control" placeholder="Title" style="min-width: 15em; max-width: 15em; border: none;">
+					<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+				</div>
+				
+				<div id = "{{bug.id}}"  draggable="true" ng-repeat="bug in reportedBug | filter: searchCompletedStories"  style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
+			           		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;" yk-on-drag ="onDragBugs(event)" >
+			          <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">
+			         		{{bug.title}}</b>
+			           <img ng-if="bug.photoUrl" src="{{bug.photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
+			    </div>
+			 
+		</div>
+	</td>         
+
+
+	<td>
+		<div><span style="color: brown; font-size: 0.7em;">Closed</span></div>
+		
+		<div style="border: 0.2em solid lightblue;" yk-on-drop="onBugDropForClose(event)">
+			
+				<div class="has-success has-feedback" style="border-bottom: 2px solid #87CEEB;">
+					<input type="text" ng-model="searchClosedBugs" class="form-control" placeholder="Title" style="min-width: 15em; max-width: 15em; border: none;">
+					<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+				</div>
+				
+				<div id = "{{objCompleted.id}}"  draggable="true" ng-repeat="bug in closedBug | filter: searchClosedBugs"  style = "background-color : #e3f6f9; border-radius:20px; margin:10px; width :150px; height : 100px;
+			           		 border: 3px solid ghostwhite;  cursor:-moz-grabbing; cursor: pointer;" yk-on-drag ="onDragBugs(event)" >
+			          <b style="color: royalblue; color: royalblue; text-align: left; text-transform: uppercase; font-size: 0.8em; padding: 3px;">
+			         		{{bug.title}}</b>
+			           <img ng-if="bug.photoUrl" src="{{bug.photoUrl}}" style ="height: 50px; float: right;"  draggable="false" width="50" height="65"/>
+			    </div>
+		</div>
+	</td>
+
+	</tr>
+</table>

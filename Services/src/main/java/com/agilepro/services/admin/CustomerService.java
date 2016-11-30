@@ -17,6 +17,7 @@ import com.agilepro.persistence.repository.admin.ICustomerRepository;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.utils.exceptions.NullValueException;
+import com.yukthi.webutils.common.models.mails.EmailServerSettings;
 import com.yukthi.webutils.repository.UserEntity;
 import com.yukthi.webutils.repository.UserRoleEntity;
 import com.yukthi.webutils.services.BaseCrudService;
@@ -51,7 +52,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	/**
 	 * The icustomer repository.
 	 **/
-	private ICustomerRepository icustomerRepository;
+	private ICustomerRepository customerRepository;
 
 	/**
 	 * Instantiates a new customer service.
@@ -67,7 +68,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	@PostConstruct
 	private void init()
 	{
-		icustomerRepository = repositoryFactory.getRepository(ICustomerRepository.class);
+		customerRepository = repositoryFactory.getRepository(ICustomerRepository.class);
 	}
 
 	/**
@@ -251,16 +252,66 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	 */
 	public CustomerModel fetchCustomerByEmail(String emailId)
 	{
-		return super.toModel(icustomerRepository.fetchCustomerByEmail(emailId), CustomerModel.class);
+		return super.toModel(customerRepository.fetchCustomerByEmail(emailId), CustomerModel.class);
 	}
-	
+
 	/**
 	 * Fetches all available customers.
+	 * 
 	 * @return All customers.
 	 */
 	public List<CustomerEntity> fetchAllCustomers()
 	{
-		return icustomerRepository.fetchAllCustomers();
+		return customerRepository.fetchAllCustomers();
+	}
+
+	/**
+	 * Fetch by no space.
+	 *
+	 * @param customerId
+	 *            the customer id
+	 * @return the customer entity
+	 */
+	public CustomerEntity fetchByNoSpace(Long customerId)
+	{
+		return customerRepository.fetchCustomerWithNoSpace(customerId);
+	}
+	
+	/**
+	 * Update mail server setting.
+	 *
+	 * @param settings the settings
+	 * @param customerId the customer id
+	 * @return true, if successful
+	 */
+	public boolean updateMailServerSetting(EmailServerSettings settings, Long customerId)
+	{
+		return customerRepository.updateMailServerSetting(settings, customerId);
+	}
+
+	/**
+	 * Fetch customer name.
+	 *
+	 * @param customerId
+	 *            the customer id
+	 * @return the string
+	 */
+	public String fetchCustomerName(Long customerId)
+	{
+		return customerRepository.fetchCustomerName(customerId);
+	}
+
+	/**
+	 * Fetch customer sub domain path.
+	 *
+	 * @param customerId
+	 *            the customer id
+	 * @return the string
+	 */
+	public String fetchCustomerSubDomainPath(Long customerId)
+	{
+		String str = customerRepository.fetchCustomerSubDomain(customerId);
+		return str;
 	}
 
 	/**

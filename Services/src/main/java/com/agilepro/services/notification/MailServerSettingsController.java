@@ -2,6 +2,7 @@ package com.agilepro.services.notification;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_MAIL_DETAILS;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
+import static com.yukthi.webutils.common.IWebUtilsActionConstants.ACTION_TYPE_FETCH;
 
 import javax.validation.Valid;
 
@@ -13,22 +14,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
-import com.agilepro.commons.models.customer.CustomerModel;
+import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.services.admin.CustomerService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
-import com.yukthi.webutils.common.models.BasicSaveResponse;
+import com.yukthi.webutils.common.models.BaseResponse;
+import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.mails.EmailServerSettings;
 import com.yukthi.webutils.controllers.BaseController;
-import com.yukthi.webutils.repository.UserEntity;
-import com.yukthi.webutils.security.UserDetails;
 import com.yukthi.webutils.services.CurrentUserService;
-import com.yukthi.webutils.services.UserService;
 
 /**
  * The Class NotificationMailDetailsController.
  * 
- * @author Pritam
+ * @author Bhavana
  */
 @RestController
 @ActionName(ACTION_PREFIX_MAIL_DETAILS)
@@ -42,16 +41,16 @@ public class MailServerSettingsController extends BaseController
 	private CustomerService customerService;
 
 	/**
-	 * The current user service.
+	 * The email service.
 	 **/
 	@Autowired
-	private CurrentUserService currentUserService;
+	private EmailNotificationService emailService;
 
 	/**
-	 * The user service.
-	 **/
+	 * The User service.
+	 */
 	@Autowired
-	private UserService userService;
+	private CurrentUserService currentUserService;
 
 	/**
 	 * Save.
@@ -64,18 +63,27 @@ public class MailServerSettingsController extends BaseController
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Authorization(roles = { UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid EmailServerSettings mailServerDetails)
+	public BaseResponse save(@RequestBody @Valid EmailServerSettings mailServerDetails)
 	{
-		UserDetails userDetails = currentUserService.getCurrentUserDetails();
+		AgileProUserDetails userDetails = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
-		UserEntity userEntity = userService.fetch(userDetails.getUserId());
+		customerService.updateMailServerSetting(mailServerDetails, userDetails.getCustomerId());
 
-		CustomerModel customerModel = customerService.fetchFullModel(userEntity.getBaseEntityId(), CustomerModel.class);
+		return new BaseResponse();
+	}
 
-		customerModel.setEmailServerSettings(mailServerDetails);
-		
-		customerService.update(customerModel);
+	/**
+	 * Fetch server settings.
+	 *
+	 * @return the basic read response
+	 */
+	@ActionName(ACTION_TYPE_FETCH)
+	@ResponseBody
+	@RequestMapping(value = "/fetch", method = RequestMethod.GET)
+	public BasicReadResponse<EmailServerSettings> fetchServerSettings()
+	{
+		AgileProUserDetails userDetailss = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 
-		return new BasicSaveResponse();
+		return new BasicReadResponse<EmailServerSettings>(emailService.getSettings(userDetailss.getCustomerId()));
 	}
 }

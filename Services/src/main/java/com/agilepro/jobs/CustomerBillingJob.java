@@ -38,7 +38,7 @@ import com.yukthi.webutils.services.job.IJob;
  * 24 hours.
  */
 // @CronJob(name = "CustomerBilling", cronExpression = "0 59 23 1/1 * ? *")
-@CronJob(name = "CustomerBilling", cronExpression = "0 0/60 * 1/1 * ? *")
+//@CronJob(name = "CustomerBilling", cronExpression = "0 0/60 * 1/1 * ? *")
 public class CustomerBillingJob implements IJob
 {
 	/**

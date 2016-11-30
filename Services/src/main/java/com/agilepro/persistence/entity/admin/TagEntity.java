@@ -8,7 +8,8 @@ import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class TagEntity.
+ * TagEntity has the color code for tagging the project members.
+ * Create Read Update Delete.
  * 
  * @author Pritam
  */

@@ -3,15 +3,19 @@ package com.agilepro.commons;
 import com.yukthi.webutils.common.annotations.Label;
 
 /**
- * The Enum EmployeeGender.
+ * EmployeeGender signifies gender of the employee.
  * 
  * @author Pritam
  */
 public enum EmployeeGender
 {
-	@Label(value = "Male")
-	MALE,
-	
-	@Label(value = "Female")
-	FEMALE
+	/**
+	 * The male.
+	 **/
+	@Label(value = "Male") MALE,
+
+	/**
+	 * The female.
+	 **/
+	@Label(value = "Female") FEMALE
 }

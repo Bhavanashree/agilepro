@@ -1,7 +1,9 @@
 package com.agilepro.services.admin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -27,6 +29,7 @@ import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.CurrentUserService;
 import com.yukthi.webutils.services.UserRoleService;
 import com.yukthi.webutils.services.UserService;
+import com.yukthi.webutils.utils.WebUtils;
 
 /**
  * employee.
@@ -68,11 +71,11 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	@Autowired
 	private RepositoryFactory repositoryFactory;
 
-	/** 
-	 * The iemployee repository. 
+	/**
+	 * The iemployee repository.
 	 **/
 	private IEmployeeRepository iemployeeRepository;
-	
+
 	/**
 	 * Instantiates a new employee service.
 	 */
@@ -80,7 +83,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	{
 		super(EmployeeEntity.class, IEmployeeRepository.class);
 	}
-	
+
 	/**
 	 * Initialize the iemployeeRepository.
 	 */
@@ -89,7 +92,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	{
 		iemployeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
 	}
-	
+
 	/**
 	 * Save.
 	 *
@@ -97,22 +100,22 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 *            the model
 	 * @return the employee entity
 	 */
-	public EmployeeEntity save(EmployeeModel model)
+	public EmployeeEntity saveEmployee(EmployeeModel model)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
-	
+
 			Long customerId = cbiller.getCustomerId();
-	
+
 			// saving employee
 			EmployeeEntity employeeEntity = super.save(model);
-	
+
 			// saving user
 			saveUser(model, customerId, employeeEntity);
-			
+
 			transaction.commit();
-			
+
 			return employeeEntity;
 		} catch(RuntimeException ex)
 		{
@@ -123,6 +126,46 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 		}
 	}
 
+	@Override
+	public EmployeeEntity save(Object model) 
+	{
+		// use transaction
+	
+		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
+		Long customerId = cbiller.getCustomerId();
+		
+		//convert to entity
+		EmployeeEntity entity = WebUtils.convertBean(model, EmployeeEntity.class);
+		EmployeeModel empModel = null;
+		
+		List<DesignationEntity> designations = new ArrayList<DesignationEntity>();
+		
+		if(model instanceof EmployeeModel)
+		{
+			empModel = (EmployeeModel) model;
+		}
+		
+		for(Long desigNationId : empModel.getDesignationId())
+		{
+			designations.add(designationService.fetch(desigNationId));
+		}
+		
+		entity.setDesignations(designations);
+		
+		super.save(entity, model);
+
+		
+		// saving user
+		saveUser(empModel, customerId, entity);
+					
+		return entity;
+	}
+	
+	public EmployeeEntity saveEmp(EmployeeModel model)
+	{
+		return this.save(model);
+	}
+	
 	/**
 	 * Update.
 	 *
@@ -219,14 +262,14 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 * @param empId
 	 *            Employee id whose designation roles needs to be fetched
 	 * @return Designation roles of the employee
-	 */
+	 *
 	public List<UserRole> getEmployeeDesignationRoles(long empId)
 	{
 		Long designationId = super.repository.fetchDesignationId(empId);
 		DesignationEntity designation = designationService.fetch(designationId);
 		return designation.getRoles();
 	}
-
+*/
 	/**
 	 * deleteById.
 	 * 
@@ -267,7 +310,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 		{
 			employeeName = employeeName.replace('*', '%');
 		}
-		
+
 		List<EmployeeEntity> employeeEntities = iemployeeRepository.fetchEmployees(employeeName);
 
 		if(employeeEntities != null)
@@ -282,20 +325,17 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 
 		return employeeModels;
 	}
-	
+
 	/**
-	 * Read employee.
+	 * Fetch with no space.
 	 *
-	 * @param id the id
+	 * @param employeeId
+	 *            the employee id
 	 * @return the employee entity
 	 */
-	public EmployeeModel fetchEmployee(Long id)
+	public EmployeeEntity fetchWithNoSpace(Long employeeId)
 	{
-		IEmployeeRepository employeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
-		
-		EmployeeEntity employeeEntity = employeeRepository.fetchEmployee(id);
-		
-		return super.toModel(employeeEntity, EmployeeModel.class);
+		return iemployeeRepository.fetchWithNoSpace(employeeId);
 	}
 
 	/**
@@ -304,5 +344,30 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	public void deleteAll()
 	{
 		repository.deleteAll();
+	}
+	
+	/**
+	 * Fetches specified employee roles based on emp designations.
+	 * @param employeeId Emp id for whom roles needs to be fetched
+	 * @return Matching roles
+	 */
+	public Set<UserRole> fetchEmployeeRoles(Long employeeId)
+	{
+		//List<DesignationEntity> designations = iemployeeRepository.fetchDesignations(employeeId);
+		List<DesignationEntity> designations = super.fetch(employeeId).getDesignations();
+		Set<UserRole> roles = new HashSet<UserRole>();
+		
+		if(designations != null)
+		{
+			for(DesignationEntity designation : designations)
+			{
+				for(UserRole role : designation.getRoles())
+				{
+					roles.add(role);
+				}
+			}
+		}
+		
+		return roles;
 	}
 }

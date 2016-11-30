@@ -45,11 +45,11 @@ public class EmployeeSearchResult extends AbstractExtendedSearchResult
 	@Field(value = "address")
 	private String address;
 
-	/** 
-	 * The designation name.
-	 **/
-	@Field(value = "designation.name")
-	private String designationName;
+//	/** 
+//	 * The designation name.
+//	 **/
+//	@Field(value = "designations.name")
+//	private String designationName;
 
 	/** 
 	 * Created by user.
@@ -255,23 +255,23 @@ public class EmployeeSearchResult extends AbstractExtendedSearchResult
 		this.updatedOn = updatedOn;
 	}
 
-	/**
-	 * Gets the designation name.
-	 *
-	 * @return the designation name
-	 */
-	public String getDesignationName()
-	{
-		return designationName;
-	}
-
-	/**
-	 * Sets the designation name.
-	 *
-	 * @param designationName the new designation name
-	 */
-	public void setDesignationName(String designationName)
-	{
-		this.designationName = designationName;
-	}
+//	/**
+//	 * Gets the designation name.
+//	 *
+//	 * @return the designation name
+//	 */
+//	public String getDesignationName()
+//	{
+//		return designationName;
+//	}
+//
+//	/**
+//	 * Sets the designation name.
+//	 *
+//	 * @param designationName the new designation name
+//	 */
+//	public void setDesignationName(String designationName)
+//	{
+//		this.designationName = designationName;
+//	}
 }

@@ -21,5 +21,14 @@ $.appConfiguration = {
 	loadingIcon: "/ui/images/worker.gif",
 	
 	conversationRefreshInterval : 60 * 1000,
+	
+	
+	getLoginPageFor : function(customer){
+	
+			var getSubDomainUrl ="/?customer=";
+	
+			return getSubDomainUrl + customer;
+		
+	}
 };
 

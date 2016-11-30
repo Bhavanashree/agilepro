@@ -5,16 +5,19 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.annotations.UniqueConstraints;
-import com.yukthi.webutils.repository.WebutilsEntity;
+import com.yukthi.webutils.annotations.ExtendableEntity;
+import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * The Class ReleaseEntity.
+ * ReleaseEntity holds the release data.
+ * Create Read Update Delete. 
  * 
  * @author Pritam
  */
 @Table(name = "REALSE")
+@ExtendableEntity(name = "Release")
 @UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "name" }) })
-public class ReleaseEntity extends WebutilsEntity
+public class ReleaseEntity extends WebutilsExtendableEntity
 {
 	/**
 	 * The name.

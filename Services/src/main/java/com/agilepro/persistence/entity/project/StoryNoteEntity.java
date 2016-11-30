@@ -14,7 +14,10 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * The Class StoryNoteEntity.
+ * StoryNoteEntity holds the note for the story.
+ * One draft per story and n number of published notes with unique version title.
+ * 
+ * @author Pritam.
  */
 @Table(name = "STORY_NOTE")
 @UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "story", "versionTitle" }) })

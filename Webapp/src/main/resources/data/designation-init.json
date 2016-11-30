@@ -1,5 +1,5 @@
 {
-  "defaultUserName": "customer1@gmail.com",
+  "defaultUserName": "yukthi@gmail.com",
   "entityGroups": [
     {
       "name": "Designation",
@@ -7,14 +7,77 @@
       "modelType": "com.agilepro.commons.models.admin.DesignationModel",
       "identityField": "name",
     
-      "spaceIdentity": "CUSTOMER-${entity.Customers.customer1.id}",
+      "spaceIdentity": "CUSTOMER-${entity.Customers.yukthi.id}",
      
       "entities": [
-        <#list 1..3 as x>
-        {
-          "name": "ProjectManger" 
-        }<#sep>,</#sep>
-        </#list>
+      	{
+      		"name": "ProjectManager",
+      		"description": "Manages the project",
+      		"roles": [
+      			"BACKLOG_EDIT", "BACKLOG_DELETE", 
+      			"KANBAN_BOARD_EDIT",
+      			"SPRINT_EDIT", "SPRINT_DELETE",  
+      			"TASK_EDIT" , "TASK_DELETE",
+      			"STORY_NOTE_EDIT", "STORY_NOTE_DELETE",
+      			"TAG_EDIT", "TAG_DELETE",
+      			"BUG_EDIT", "BUG_DELETE"
+      		]
+      	},
+      	
+      	{
+      		"name": "ProjectMember",
+      		"description": "Manages the project",
+      		"roles": [
+      			"PROJECT_VIEW",
+      			"PROJECT_TEAM_VIEW", 
+      			"TAG_VIEW",
+      			"RELEASE_VIEW", 
+      			"PROJECT_RELEASE_VIEW",
+      			"STORY_RELEASE_VIEW",
+      			"BACKLOG_VIEW",
+      			"STORY_ADD",
+      			"BACKLOG_EDIT",
+      			"STORY_NOTE_VIEW",
+      			"SPRINT_VIEW",
+      			"TASK_EDIT", "TASK_DELETE",
+      			"BUG_EDIT"
+       		]
+      	},
+
+      	{
+      		"name": "Release Manager",
+      		"description": "Manages the releases",
+      		"roles": [
+      			"RELEASE_EDIT", "RELEASE_DELETE",
+      			"PROJECT_RELEASE_EDIT", "PROJECT_RELEASE_DELETE",
+      			"STORY_RELEASE_EDIT", "STORY_RELEASE_DELETE"
+      		]
+      	},
+      	
+      	{ 
+      		"name": "ProjectAdministration",
+      		"description": "Manages the project,releases,manages releases",
+      		"roles": [
+      		
+      			"RELEASE_EDIT", "RELEASE_DELETE",
+      			"PROJECT_RELEASE_EDIT", "PROJECT_RELEASE_DELETE",
+      			"PROJECT_EDIT" , "PROJECT_VIEW" ,"PROJECT_DELETE"
+      		]
+      	},
+      	
+      	  	{ 
+      		"name": "ScrumMaster",
+      		"description": "Manages the pokerGame ,add stories",
+      		"roles": [
+ 					"POKERGAME_EDIT" , 	
+ 					"POKERGAME_VIEW",
+ 					"STORY_ADD",
+      				"BACKLOG_EDIT",
+      				"STORY_NOTE_VIEW",
+      				"SCRUM_MASTER"
+      		]
+      	}
+      	  	
       ]
 	}  
   ]

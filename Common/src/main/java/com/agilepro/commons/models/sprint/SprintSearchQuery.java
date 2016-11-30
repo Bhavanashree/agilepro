@@ -1,66 +1,76 @@
-package com.agilepro.commons.models.project;
+package com.agilepro.commons.models.sprint;
 
 import java.util.Date;
 
-import com.yukthi.persistence.repository.annotations.Field;
-import com.yukthi.webutils.common.AbstractExtendedSearchResult;
+import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.Operator;
 import com.yukthi.webutils.common.annotations.Model;
 
 /**
- * The Class SprintSearchResult.
+ * The Class SprintSearchQuery.
  */
 @Model
-public class SprintSearchResult extends AbstractExtendedSearchResult
+public class SprintSearchQuery
 {
 	/**
-	 * Id.
-	 */
-	@Field(value = "id")
-	private long id;
-
-	/**
-	 * Name of the Sprint.
-	 */
-	@Field(value = "name")
+	 * The name.
+	 **/
+	@Condition(value = "name", op = Operator.LIKE, ignoreCase = true)
 	private String name;
 
 	/**
-	 * Sprint description.
-	 */
-	@Field(value = "description")
+	 * The description.
+	 **/
+	@Condition(value = "description", op = Operator.LIKE, ignoreCase = true)
 	private String description;
 
 	/**
 	 * The start date.
 	 **/
-	@Field(value = "startDate")
+	@Condition(value = "startDate", op = Operator.GE)
 	private Date startDate;
 
 	/**
 	 * The end date.
 	 **/
-	@Field(value = "endDate")
+	@Condition(value = "endDate", op = Operator.LE)
 	private Date endDate;
-	
+
 	/**
-	 * Gets the id.
+	 * Instantiates a new sprint search query.
 	 *
-	 * @return the id
+	 * @param name
+	 *            the name
+	 * @param description
+	 *            the description
+	 * @param endDate
+	 *            the end date
+	 * @param startDate
+	 *            the start date
 	 */
-	public long getId()
+	public SprintSearchQuery()
 	{
-		return id;
 	}
 
 	/**
-	 * Sets the id.
+	 * Gets the name.
 	 *
-	 * @param id
-	 *            the new id
+	 * @return the name
 	 */
-	public void setId(long id)
+	public String getName()
 	{
-		this.id = id;
+		return name;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param name
+	 *            the new name
+	 */
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 	/**
@@ -124,26 +134,5 @@ public class SprintSearchResult extends AbstractExtendedSearchResult
 	public void setEndDate(Date endDate)
 	{
 		this.endDate = endDate;
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
-	/**
-	 * Sets the name.
-	 *
-	 * @param name
-	 *            the new name
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 }

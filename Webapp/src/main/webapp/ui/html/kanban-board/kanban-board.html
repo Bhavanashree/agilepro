@@ -1,0 +1,125 @@
+<div class="flexVertical" ng-controller="kanbanController"  style="padding: 0px; width: 100%;" ng-init="initKanbanBoard()">
+	
+		<!-- Header -->
+		<table>
+			<tr>
+				<td>
+					<!-- Sprint drop down -->
+					<div style="background: white;">
+						<div class="input-group">
+							<table>
+								<tr>
+									<td colspan="2" style="padding-bottom: 0.2em; font-size: 0.7em; color: brown;">
+										Sprint
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+										 placeholder="Please select sprint" value="{{selectedSprintObj.name}}">
+									</td>
+									<td>
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu dropdown-menu-right" ng-if="sprints.length > 0">
+											    <li ng-repeat="sprint in sprints"><a ng-click="onSprintChange(sprint.id)" href="">{{sprint.name}}</a></li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+			</td>
+			
+			<td>
+				<!-- Team drop down -->
+				<div style="background: white; margin-left: 0.5em;">
+					<div class="input-group">
+						<table>
+							<tr>
+								<td colspan="2" style="padding-bottom: 0.2em; font-size: 0.7em; color: brown;">
+									Team
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+									 placeholder="Please select team" value="{{selectedRelease.name}}">
+								</td>
+								<td>
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right" ng-if="teams.length > 0">
+										    <li ng-repeat="team in teams"><a ng-click="onTeamChange(team.value)" href="">{{team.label}}</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</td>
+			
+			<td>
+				<!-- Toggle button -->
+				<div style="margin-left: 0.5em; padding-top: 1.1em;" ng-click="flipStatus()">
+					<!-- <input  data-toggle="toggle"  type="checkbox"/> -->
+					<input id="toggleButtonId" checked data-toggle="toggle" data-on="Stories" data-off="Bugs" 
+					data-onstyle="info" data-offstyle="info" type="checkbox" data-width="100" data-height="35">
+				</div>
+			</td>
+			
+			<td>
+				<!-- Users drop down -->
+				<div style="background: white; margin-left: 0.5em;">
+					<div class="input-group">
+						<table>
+							<tr>
+								<td colspan="2" style="padding-bottom: 0.2em; color: brown; font-size: 0.7em">
+									User
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+									 placeholder="Please select user" value="{{selectedRelease.name}}">
+								</td>
+								<td>
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right" ng-if="selectedRelease.name">
+										    <li ng-repeat="release in releases"><a ng-click="onReleaseChange(release.id)" href="">{{release.name}}</a></li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</td>
+			
+			<td>
+				<div style="background: red; width: 25em; height: 5em; margin-left: 0.5em;">
+					graph
+				</div>
+			</td>			
+		</tr>
+	</table>
+		
+		
+	<div ng-if="isBacklogActive" ng-include="'/ui/html/kanban-board/story-status.html'" 
+		style="width: 100%; height: 100%;">
+	</div>
+	
+	<div ng-controller="bugStatusController" ng-if="!isBacklogActive" ng-include="'/ui/html/kanban-board/bug-status.html'" 
+		style="width: 100%; height: 100%;">
+	</div>
+		
+</div>

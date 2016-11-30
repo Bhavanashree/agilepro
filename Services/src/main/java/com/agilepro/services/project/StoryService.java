@@ -2,8 +2,6 @@ package com.agilepro.services.project;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -14,12 +12,9 @@ import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
-import com.agilepro.persistence.entity.admin.StoryReleaseEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
-import com.agilepro.persistence.repository.admin.IStoryReleaseRepository;
 import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.agilepro.services.admin.EmployeeService;
-import com.agilepro.services.admin.StoryReleaseService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
@@ -133,16 +128,16 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 *            the sprint id
 	 * @return the list
 	 */
-	public List<StoryModel> fetchAllStoryByPrjAndSprint(Long projectId, Long sprintId)
+	public List<StoryModel> fetchBacklogs(Long projectId, Long sprintId)
 	{
 		List<StoryModel> storymodels = null;
 
 		List<StoryEntity> stories = storyRepo.fetchStoryByProjIdAndSprint(projectId, sprintId);
-		List<StoryEntity> unassignedStories = storyRepo.fetchUnassingedStories(projectId);
+		List<StoryEntity> unassignedStories = storyRepo.fetchBacklogs(projectId);
 
 		if(stories == null)
 		{
-			stories = new ArrayList<>();
+			stories = new ArrayList<StoryEntity>();
 		}
 
 		if(unassignedStories != null)
@@ -164,7 +159,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 				// storyModel.setPhoto(getEmployee(storyModel.getOwnerId()).getPhoto());
 				if(storyModel.getOwnerId() != null)
 				{
-					employeeModel = employeeService.fetchEmployee(storyModel.getOwnerId());
+					employeeModel = employeeService.fetchFullModel(storyModel.getOwnerId(), EmployeeModel.class);
+					if(employeeModel == null)
+					{
+						throw new IllegalArgumentException(" No employee found with id - {} " + storyModel.getOwnerId());
+					}
 
 					storyModel.setPhoto(employeeModel.getPhoto());
 				}
@@ -202,7 +201,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 				if(storyModel.getOwnerId() != null)
 				{
-					employeeModel = employeeService.fetchEmployee(storyModel.getOwnerId());
+					employeeModel = employeeService.fetchFullModel(storyModel.getOwnerId(), EmployeeModel.class);
+					if(employeeModel == null)
+					{
+						throw new IllegalArgumentException("No employee found with id - {} " + storyModel.getOwnerId());
+					}
 
 					storyModel.setPhoto(employeeModel.getPhoto());
 				}
@@ -252,7 +255,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			for(StoryBulkModel stryBulkModel : storieBulkModels)
 			{
 				stryBulkModel.setProjectId(projectId);
-				System.out.println(parentId);
 				stryBulkModel.setParentStoryId(parentId);
 				storyEntity = super.save(stryBulkModel);
 
@@ -301,18 +303,51 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Fetch all stories by project.
 	 *
-	 * @param projectId the project id
+	 * @param projectId
+	 *            the project id
 	 * @return the list
 	 */
 	public List<StoryModel> fetchAllStoriesByProject(Long projectId)
 	{
 		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
-		
+
 		List<StoryModel> storyModels = new ArrayList<StoryModel>(storyEntities.size());
-		
+
 		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
-		
+
 		return storyModels;
+	}
+
+	/**
+	 * Fetch stories by status.
+	 *
+	 * @param projectId
+	 *            the project id
+	 * @return the list
+	 */
+	public List<StoryModel> fetchStoriesByStatus(Long projectId)
+	{
+		List<StoryEntity> stories = storyRepo.fetchStoriesByProject(projectId);
+		List<StoryModel> storiesModel = null;
+
+		StoryModel storyModel = null;
+
+		if(stories.size() > 0)
+		{
+			storiesModel = new ArrayList<StoryModel>(stories.size());
+
+			for(StoryEntity entity : stories)
+			{
+				storyModel = super.toModel(entity, StoryModel.class);
+
+				if(storyModel.getStatus() == null)
+				{
+					storiesModel.add(storyModel);
+				}
+			}
+		}
+
+		return storiesModel;
 	}
 
 	/**
