@@ -2,6 +2,7 @@ package com.agilepro.persistence.repository.project;
 
 import java.util.List;
 
+import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StorySearchQuery;
 import com.agilepro.commons.models.project.StorySearchResult;
@@ -14,6 +15,7 @@ import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.NullCheck;
 import com.yukthi.persistence.repository.annotations.OrderBy;
+import com.yukthi.persistence.repository.annotations.SearchResult;
 import com.yukthi.persistence.repository.annotations.UpdateFunction;
 import com.yukthi.persistence.repository.annotations.UpdateOperator;
 import com.yukthi.persistence.repository.search.SearchQuery;
@@ -68,7 +70,14 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@MethodConditions(
 		nullChecks = @NullCheck(field = "sprint.id")
 	)
-	public List<StoryEntity> fetchBacklogs(@Condition(value = "project.id") Long projectId);
+	public List<StoryEntity> fetchBacklogsForkanaban(@Condition(value = "project.id") Long projectId);
+	
+	@RestrictBySpace
+	@SearchResult
+	@MethodConditions(
+		nullChecks = @NullCheck(field = "sprint.id")
+	)
+	public List<BackLogModel> fetchBacklogs(@Condition(value = "project.id") Long projectId);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStory.id") Long parentStoryId);
@@ -76,6 +85,12 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@RestrictBySpace
 	public List<StoryEntity> fetchStoriesByProject(@Condition(value = "project.id") Long projectId);
 	
+	/**
+	 * Fetch stories for the given project id in priority order. 
+	 *  
+	 * @param pojectId provided project id for which stories are to be fetched.
+	 * @return matching records.
+	 */
 	@RestrictBySpace
 	@OrderBy("priority")
 	public List<StoryEntity> fetchStoriesByProjectOrderByPriority(@Condition(value = "project.id") Long pojectId);

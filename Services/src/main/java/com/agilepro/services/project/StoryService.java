@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.admin.EmployeeModel;
+import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
@@ -117,20 +118,18 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Fetch all story.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @param sprintId
-	 *            the sprint id
-	 * @return the list
+	 * Fetch all stories where (projectId + sprintId) + (projectId + sprintId(null)) matches.
+	 * 
+	 * @param projectId provided project id.
+	 * @param sprintId provided sprint id.
+	 * @return matching records.
 	 */
-	public List<StoryModel> fetchBacklogs(Long projectId, Long sprintId)
+	public List<StoryModel> fetchStoriesForKanban(Long projectId, Long sprintId)
 	{
 		List<StoryModel> storymodels = null;
 
 		List<StoryEntity> stories = storyRepo.fetchStoryByProjIdAndSprint(projectId, sprintId);
-		List<StoryEntity> unassignedStories = storyRepo.fetchBacklogs(projectId);
+		List<StoryEntity> unassignedStories = storyRepo.fetchBacklogsForkanaban(projectId);
 
 		if(stories == null)
 		{
@@ -213,6 +212,17 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		return storymodels;
 	}
 
+	/**
+	 * Fetch back log where sprint id is null.
+	 * 
+	 * @param projectId provided project id.
+	 * @return matching records.
+	 */
+	public List<BackLogModel> fetchBackLogs(Long projectId)
+	{
+		return storyRepo.fetchBacklogs(projectId);
+	}
+	
 	/**
 	 * Search by title.
 	 *
@@ -314,6 +324,24 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		return storyModels;
 	}
 
+	/**
+	 * Fetch story by priority order for poker game.
+	 * 
+	 * @param projectId provided project id.
+	 * @return matching record in priority order (ascending).
+	 */
+	public List<StoryModel> fetchStoriesByProjectOrderByPriority(Long projectId)
+	{
+		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProjectOrderByPriority(projectId);
+		List<StoryModel> storyModels = new ArrayList<StoryModel>();
+
+		if(storyEntities != null)
+		{
+			storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
+		}
+		return storyModels;
+	}
+	
 	/**
 	 * Deletes all entities.
 	 */

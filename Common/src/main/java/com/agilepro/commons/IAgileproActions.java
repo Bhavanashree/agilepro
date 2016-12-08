@@ -466,6 +466,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type readProjectid.
 	 */
 	public String ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID = "fetchBacklogBysprintAndProjectId";
+	
+	/**
+	 * Action type to read stories by project id and sprint id will be null.
+	 */
+	public String ACTION_TYPE_READ_BACK_LOGS_BY_PROJECT_ID = "fetchBacklogsByProjectId";
 
 	/**
 	 * The action type read bug by sprint id.

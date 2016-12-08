@@ -7,6 +7,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_BULK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_PROJECT_IN_PRIORITY_ORDER;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACK_LOGS_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
+import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.StoriesInBulk;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.services.common.Authorization;
@@ -58,11 +60,9 @@ public class StoryController extends BaseController implements IStoryController
 	private StoryService storyService;
 
 	/**
-	 * Save the StoryModel.
-	 *
-	 * @param model
-	 *            StoryModel
-	 * @return the StoryModel save response
+	 * Save new story.
+	 * 
+	 * @return save response wrapped with newly saved story id.
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_SAVE)
@@ -95,6 +95,21 @@ public class StoryController extends BaseController implements IStoryController
 	}
 
 	/**
+	 * Fetch back logs for the provided project id.
+	 * 
+	 * @param projectId provided project id.
+	 * @return the matching records.
+	 */
+	@ActionName(ACTION_TYPE_READ_BACK_LOGS_BY_PROJECT_ID)
+	@RequestMapping(value = "/fetchBacklogsByProjectId", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BasicReadResponse<List<BackLogModel>> fetchBacklogs(@RequestParam(value = "projectId") Long projectId)
+	{
+		return  new BasicReadResponse<List<BackLogModel>>(storyService.fetchBackLogs(projectId));
+	}
+	
+	/**
 	 * Fetch story by project id.
 	 *
 	 * @param projectId
@@ -109,7 +124,7 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BasicReadResponse<List<StoryModel>> fetchAllStoryByPrjAndSprint(@RequestParam(value = "projectId", required = true) Long projectId, @RequestParam(value = "sprint", required = true) Long sprint)
 	{
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchBacklogs(projectId, sprint));
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesForKanban(projectId, sprint));
 	}
 
 	/*
@@ -144,13 +159,19 @@ public class StoryController extends BaseController implements IStoryController
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesByProject(projectId));
 	}
 
+	/**
+	 * Fetch story by priority order for poker game.
+	 * 
+	 * @param projectId active project id from the drop down.
+	 * @return response wrapped with matching results. 
+	 */
 	@ActionName(ACTION_TYPE_READ_STORY_BY_PROJECT_IN_PRIORITY_ORDER)
 	@RequestMapping(value = "/readStoriesByProjectIdInPriorityOrder", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
 	public BasicReadResponse<List<StoryModel>> fetchStoriesInPropertyOrder(@RequestParam(value = "projectId") Long projectId)
 	{
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesByProject(projectId));
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesByProjectOrderByPriority(projectId));
 	}
 	
 	/**

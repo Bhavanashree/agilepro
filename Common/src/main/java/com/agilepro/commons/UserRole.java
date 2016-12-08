@@ -312,6 +312,11 @@ public enum UserRole
 	@Label("Story Delete") STORY_DELETE,
 	
 	/**
+	 * Story manager for managing the story with proper priority order.
+	 */
+	@Label("Story Manager") STORY_MANAGER,
+	
+	/**
 	 * The role for scrum Master.
 	 */
 	@Label("Scrum Master") SCRUM_MASTER,

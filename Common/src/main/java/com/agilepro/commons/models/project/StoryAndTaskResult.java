@@ -5,7 +5,6 @@ import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StoryAndTaskResult.
  */
