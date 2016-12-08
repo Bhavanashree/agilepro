@@ -60,6 +60,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 		
 	});
+	
+	 $scope.storyViewTab = {active: true, color: "blueBackGround"};
+	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
+	 $scope.priorityViewTab = {active: false, color: "greyBackGround"};
+	
 	 
 	 /**
 	  * Fetch back logs according to the project id. 
