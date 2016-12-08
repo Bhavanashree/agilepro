@@ -16,9 +16,20 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 	 $scope.flipStatus = function(){
 		 
 		 $scope.isBacklogActive = !$scope.isBacklogActive;
+		 
+		if(!$scope.isBacklogActive && $scope.selectedTeam)
+		{
+			$scope.clonedSelectedTeam = $scope.selectedTeam;
+			$scope.selectedTeam = null; 
+		}else
+		{
+			$scope.selectedTeam = $scope.clonedSelectedTeam;
+		}
 	 };
 	 
-	 
+	 /**
+	  * On sprint change drop down.
+	  */
 	 $scope.onSprintChange = function(sprintId){
 		 
 		 $scope.selectedSprintObj = $scope.sprintIdObjMap[sprintId];
@@ -27,6 +38,43 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 		 $scope.$broadcast("onSelectedSprintChange");
 	 };
 	 
+	 /**
+	  * On team change drop down.
+	  */
+	 $scope.onTeamChange = function(teamId){
+		 
+		 $scope.selectedTeam = $scope.teamIdObMap[teamId];
+		 
+		 console.log("called " + teamId);
+		 
+		 var newStories = [];
+		 
+		 var index;
+		 for(index in $scope.clonedStories)
+		 {
+			var storyObj = $scope.clonedStories[index];
+			if((storyObj.teamId == teamId) || (!storyObj.sprintId))
+			{
+				newStories.push(storyObj);
+			}
+		 }
+		 
+		 $scope.arrangeStories(newStories);
+	 };
+	 
+	 /**
+	  * On user change drop down.
+	  */
+	 $scope.onUserChange = function(userId){
+		 
+		 $scope.selectedUser = $scope.employeeIdObjMap[userId];
+		 
+	 };
+	 
+	 
+	 /**
+	  * Empty all the array for new records to be fetched. 
+	  */
 	 $scope.clean = function() {
 		 $scope.story = [];
 		 $scope.inProgress = [];
@@ -70,7 +118,7 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 				$scope.listOfStories(); 
 			}
 			
-			// maps for getting the values easily from ids
+			// map for getting the values easily from ids
 			$scope.sprintIdObjMap = {};
 			for(index in $scope.sprints)
 			{
@@ -79,64 +127,90 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 				$scope.sprintIdObjMap[sprintObj.id] = sprintObj;
 			}
 			
+			// map for getting the values easily from ids
+			$scope.teamIdObMap = {};
+			for(index in $scope.teams)
+			{
+				var teamObj = $scope.teams[index];
+				
+				$scope.teamIdObMap[teamObj.value] = teamObj;
+			}
+			
+			// map for getting the values easily from ids
+			$scope.employeeIdObjMap = {};
+			for(index in $scope.employees)
+			{
+				var empObj = $scope.employees[index];
+				
+				$scope.employeeIdObjMap[empObj.value] = empObj; 
+			}
+			
+			
 		}, {"hideInProgress" : true});
 	 };	 
 	 
-	// after broad cast from projectId selection 
+	// Get invoked after broad cast on  selection projectId from the drop down. 
 	$scope.listOfStories = function(){
 		
 		projectId = $scope.getActiveProjectId();
 		 
-		 //List of stories
-		var readStoryCallBack = function(read, response){
-			
-			var storyArrForIterat = read.model;
-			
-			$scope.clean();
-			
-			var index;
-
-			for(index in storyArrForIterat)
-			{
-				if(storyArrForIterat[index].photo)
-				{
-					fileId =  storyArrForIterat[index].photo.fileId;	
-					storyArrForIterat[index]["photoUrl"] = actionHelper.actionUrl("files.fetch", {"id": fileId});
-				}
-				
-				$scope.idToStory["" + storyArrForIterat[index].id] = storyArrForIterat[index];
-				
-				switch(storyArrForIterat[index].status)
-				{
-					case 'IN_PROGRESS':
-						$scope.inProgress.push(storyArrForIterat[index]);
-						break;
-					case 'NOT_STARTED':
-						 $scope.notStarted.push(storyArrForIterat[index]);
-						break;
-					case 'COMPLETED':
-						$scope.completed.push(storyArrForIterat[index]);
-						break;
-					default:
-						$scope.story.push( storyArrForIterat[index] );
-				}
-			}
-			
-			try
-			{
-				$scope.$apply();
-			}catch(ex)
-			{}				
-		};
-			
 		if($scope.selectedSprintObj)
 		{
 			actionHelper.invokeAction("story.fetchBacklogBysprintAndProjectId", null, 
-					 {"projectId" : projectId ,"sprint" : $scope.selectedSprintObj.id}, readStoryCallBack, {"hideInProgress" : true});
+					 {"projectId" : projectId ,"sprint" : $scope.selectedSprintObj.id}, 
+			
+				 function(read, response){
+					
+					$scope.clonedStories = read.model; 
+					
+					$scope.arrangeStories($scope.clonedStories);
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}	
+				}
+			, {"hideInProgress" : true});
 		}
 		 
 	}; 
 
+	
+	$scope.arrangeStories = function(storyArrForIterat){
+		
+		$scope.clean();
+		
+		var index;
+
+		for(index in storyArrForIterat)
+		{
+			if(storyArrForIterat[index].photo)
+			{
+				fileId =  storyArrForIterat[index].photo.fileId;	
+				storyArrForIterat[index]["photoUrl"] = actionHelper.actionUrl("files.fetch", {"id": fileId});
+			}
+			
+			$scope.idToStory["" + storyArrForIterat[index].id] = storyArrForIterat[index];
+			
+			switch(storyArrForIterat[index].status)
+			{
+				case 'IN_PROGRESS':
+					$scope.inProgress.push(storyArrForIterat[index]);
+					break;
+				case 'NOT_STARTED':
+					 $scope.notStarted.push(storyArrForIterat[index]);
+					break;
+				case 'COMPLETED':
+					$scope.completed.push(storyArrForIterat[index]);
+					break;
+				default:
+					$scope.story.push( storyArrForIterat[index] );
+			}
+		}
+		
+	};
+	
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {	

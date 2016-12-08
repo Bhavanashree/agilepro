@@ -52,8 +52,8 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 	/**
 	 * The priority id.
 	 */
-	@Field(value = "priorityOrder")
-	private Integer priorityOrder;
+	@Field(value = "priority")
+	private Integer priority;
 
 	/**
 	 * The indent.
@@ -240,25 +240,14 @@ public class StorySearchResult extends AbstractExtendedSearchResult
 		this.status = status;
 	}
 
-	/**
-	 * Gets the priority order.
-	 *
-	 * @return the priority order
-	 */
-	public Integer getPriorityOrder()
+	public Integer getPriority()
 	{
-		return priorityOrder;
+		return priority;
 	}
 
-	/**
-	 * Sets the priority order.
-	 *
-	 * @param priorityOrder
-	 *            the new priority order
-	 */
-	public void setPriorityOrder(Integer priorityOrder)
+	public void setPriority(Integer priority)
 	{
-		this.priorityOrder = priorityOrder;
+		this.priority = priority;
 	}
 
 	/**

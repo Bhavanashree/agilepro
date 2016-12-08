@@ -71,23 +71,23 @@ public class BugEntity extends WebutilsExtendableEntity
 	 * The project.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "project", subproperty = "id")
-	@Column(name = "BUG_PROJECT_ID")
+	@PropertyMapping(type = BugModel.class, from = "projectId", subproperty = "id")
+	@Column(name = "PROJECT_ID")
 	private ProjectEntity project;
 
 	/**
 	 * The story entity.
 	 **/
-	@Column(name = "BUG_STORY_ID")
+	@Column(name = "STORY_ID")
 	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "story", subproperty = "id")
+	@PropertyMapping(type = BugModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;
 
 	/**
 	 * to set sprint target.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = BugModel.class, from = "sprint", subproperty = "id")
+	@PropertyMapping(type = BugModel.class, from = "sprintId", subproperty = "id")
 	@Column(name = "TARGET_SPRINT_ID")
 	private SprintEntity targetSprint;
 

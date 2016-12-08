@@ -1,23 +1,20 @@
 package com.agilepro.services.pokergame;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agilepro.commons.models.pokergame.PokerGameStatusModel;
 import com.agilepro.commons.models.pokergame.PokerGameUserModel;
-import com.agilepro.controller.AgileProUserDetails;
-import com.agilepro.persistence.entity.pokergame.PokerGameEntity;
 import com.agilepro.persistence.entity.pokergame.PokerGameUserEntity;
 import com.agilepro.persistence.repository.pokergame.IPokerGameUserRepository;
 import com.agilepro.services.admin.ProjectMemberService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
+import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
-import com.yukthi.webutils.services.CurrentUserService;
 import com.yukthi.webutils.services.UserService;
 
 /**
@@ -33,33 +30,21 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 	private RepositoryFactory repositoryFactory;
 
 	/**
+	 * Poker game user repo.
+	 */
+	private IPokerGameUserRepository pokerUserRepo;
+
+	/**
+	 * User service for user entity.
+	 */
+	@Autowired
+	private UserService userService;
+
+	/**
 	 * The ProjectMembers service.
 	 **/
 	@Autowired
 	private ProjectMemberService projectMembers;
-
-	/**
-	 * Used to fetch current user info.
-	 */
-	@Autowired
-	private CurrentUserService currentUserService;
-
-	/**
-	 * The IPokerGameRepository repo.
-	 **/
-	private IPokerGameUserRepository pokerUserRepo;
-
-	/**
-	 * The user service.
-	 **/
-	@Autowired
-	private CurrentUserService useCurrentService;
-
-	/**
-	 * The user service.
-	 **/
-	@Autowired
-	private UserService userService;
 
 	/**
 	 * Instantiates a new ProjectService.
@@ -79,100 +64,44 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 	}
 
 	/**
-	 * Savepokeruser.
-	 *
-	 * @param pokerModel
-	 *            the poker model
-	 * @return the poker game user entity
+	 * Save new poker game user with project member id.
+	 * 
+	 * @param pokerGameUserModel
+	 *            provided model object for save.
+	 * @return newly saved poker game entity object.
 	 */
-	public PokerGameUserEntity savepokeruser(PokerGameUserModel pokerModel)
+	public PokerGameUserEntity savePokerGameUser(PokerGameUserModel pokerGameUserModel)
 	{
-		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
-
-		Long userId = cbiller.getCustomerId();
-
-		pokerModel.setMembers(userId);
-
-		PokerGameEntity pokerGame = new PokerGameEntity();
-
-		// pokerModel.setPokerGame(pokerGame);
-
-		return super.save(pokerModel);
-	}
-
-	/**
-	 * Sets the card series.
-	 *
-	 * @param userId
-	 *            the user id
-	 * @param cardValue
-	 *            the card value
-	 * @return the poker game user model
-	 */
-	public PokerGameUserModel setCardSeries(Long userId, Integer cardValue)
-	{
-
-		return null;
-	}
-
-	/**
-	 * Save poker game u ser.
-	 *
-	 * @param pokerUserModel
-	 *            the poker user model
-	 * @param gameId
-	 *            the game id
-	 * @param memberId
-	 *            the member id
-	 */
-	public void savePokerGameUSer(PokerGameUserModel pokerUserModel, Long gameId, Long memberId)
-	{
-		PokerGameUserEntity pokerUserEntity = null;
-
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			AgileProUserDetails userDetails = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
+			Long employeeId = userService.fetch(pokerGameUserModel.getUserId()).getBaseEntityId();
 
-			pokerUserModel.setMembers(userDetails.getCustomerId());
-			pokerUserModel.setPokerGame(gameId);
+			Long projectMemberId = projectMembers.getProjectMemberId(pokerGameUserModel.getProjectId(), employeeId);
 
-			pokerUserEntity = super.save(pokerUserModel);
+			pokerGameUserModel.setProjectMemberId(projectMemberId);
+			PokerGameUserEntity userGameEntity = super.save(pokerGameUserModel);
+
 			transaction.commit();
+
+			return userGameEntity;
+		} catch(RuntimeException ex)
+		{
+			throw ex;
 		} catch(Exception ex)
 		{
-			throw new IllegalStateException("An error occurred while saving  story - ", ex);
+			throw new InvalidStateException(ex, "An error occurred while saving model - {}", pokerGameUserModel);
 		}
 	}
 
 	/**
-	 * Fetchcomments by bug id.
-	 *
-	 * @param gameId
-	 *            the game id
-	 * @param memberId
-	 *            the member id
-	 * @return the list
+	 * Read poker game status which will be called every interval of time.
+	 * 
+	 * @param pokerGameId
+	 *            poker game id for which poker game status is to fetched.
+	 * @return list of poker game status.
 	 */
-	public List<PokerGameUserModel> fetchGameIdUserId(Long gameId, Long memberId)
+	public List<PokerGameStatusModel> readPokerGameStatus(Long pokerGameId)
 	{
-		List<PokerGameUserModel> pokerGameUserModel = null;
-
-		pokerUserRepo = repositoryFactory.getRepository(IPokerGameUserRepository.class);
-		List<PokerGameUserEntity> pokerUserentities = pokerUserRepo.fetchGameDetailsByGameId(gameId, memberId);
-
-		PokerGameUserModel PokerGameUser = null;
-
-		if(pokerUserentities != null)
-		{
-			pokerGameUserModel = new ArrayList<PokerGameUserModel>(pokerUserentities.size());
-
-			for(PokerGameUserEntity entity : pokerUserentities)
-			{
-				PokerGameUser = super.toModel(entity, PokerGameUserModel.class);
-				pokerGameUserModel.add(PokerGameUser);
-			}
-		}
-
-		return pokerGameUserModel;
+		return pokerUserRepo.fetchGameStatus(pokerGameId);
 	}
 }

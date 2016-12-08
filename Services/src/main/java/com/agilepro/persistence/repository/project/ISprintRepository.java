@@ -42,6 +42,14 @@ public interface ISprintRepository extends IWebutilsRepository<SprintEntity>
 	@RestrictBySpace
 	public List<SprintEntity> fetchAllSprint(@Condition(value = "name", op = Operator.LIKE, ignoreCase = true) String sprintName);
 	
+	/**
+	 * Fetch the sprints for drop down where project id should match with the provided id and end date should be greater then current date.
+	 * SprintDropDown class for ordering the record according to the start date.
+	 * 
+	 * @param projectId to fetch sprint of provided project id.
+	 * @param date should be greater than current date.
+	 * @return matching sprints for the given condition.
+	 */
 	@RestrictBySpace
 	@SearchResult
 	@OrderBy("startDate")

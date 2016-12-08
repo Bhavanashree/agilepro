@@ -13,8 +13,8 @@
     
       "entities": [
       	   {
-         "name": "employee5",
-         "mailId":"employee5@gmail.com",
+         "name": "Employee1",
+         "mailId":"employee1@gmail.com",
          "phoneNumber":"9000000000",
          "address":"  kr puram bangalore",
          "password":"password",
@@ -35,8 +35,8 @@
         },
         
         {
-         "name": "pritam",
-         "mailId":"pritamjosephjojo@gmail.com",
+         "name": "Pritam",
+         "mailId":"edwardshalu@gmail.com",
          "phoneNumber":"90011111000",
          "address":" marathalli bangalore",
          "password":"password",
@@ -46,8 +46,8 @@
         },
         
        {
-         "name": "bhavana",
-         "mailId":"bhavana.shree75@gmail.com",
+         "name": "Employee2",
+         "mailId":"employee2@gmail.com",
          "phoneNumber":"90222211000",
          "address":"shanthi layout bangalore",
          "password":"password",

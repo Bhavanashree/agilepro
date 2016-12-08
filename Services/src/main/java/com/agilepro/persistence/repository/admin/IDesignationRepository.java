@@ -2,10 +2,12 @@ package com.agilepro.persistence.repository.admin;
 
 import java.util.List;
 
+import com.agilepro.commons.UserRole;
 import com.agilepro.commons.models.admin.DesignationSearchQuery;
 import com.agilepro.commons.models.admin.DesignationSearchResult;
 import com.agilepro.persistence.entity.admin.DesignationEntity;
 import com.yukthi.persistence.repository.annotations.DefaultCondition;
+import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.search.SearchQuery;
@@ -52,7 +54,7 @@ public interface IDesignationRepository extends IWebutilsRepository<DesignationE
 	@MethodConditions(conditions = { @DefaultCondition(field = "projectLevel", value = "true") })
 	@LovQuery(name = "designationLovProjectLevel", valueField = "id", labelField = "name")
 	public List<ValueLabel> fetchProjectDesignations();
-
+	
 	/**
 	 * fetch the roles.
 	 *

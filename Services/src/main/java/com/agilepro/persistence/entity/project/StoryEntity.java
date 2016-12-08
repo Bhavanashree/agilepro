@@ -61,7 +61,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * The owner.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "owner", subproperty = "id")
+	@PropertyMapping(type = StoryModel.class, from = "ownerId", subproperty = "id")
 	@Column(name = "STORY_OWNER_ID")
 	private EmployeeEntity owner;
 
@@ -73,17 +73,17 @@ public class StoryEntity extends WebutilsExtendableEntity
 	private StoryStatus status;
 
 	/**
-	 * The priority id.
+	 * The priority.
 	 */
-	@Column(name = "STORY_PRIORITY_ORDER", nullable = false)
-	private Integer priorityOrder;
+	@Column(name = "PRIORITY", nullable = false)
+	private Integer priority;
 
 	/**
 	 * sprintId of the story.
 	 */
 	@Column(name = "SPRINT_ID")
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "sprint", subproperty = "id")
+	@PropertyMapping(type = StoryModel.class, from = "sprintId", subproperty = "id")
 	private SprintEntity sprint;
 
 	/**
@@ -110,16 +110,16 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * The tags.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "tag", subproperty = "id")
-	@Column(name = "STORY_TAGS")
-	private TagEntity tags;
+	@PropertyMapping(type = StoryModel.class, from = "tagId", subproperty = "id")
+	@Column(name = "TAG_ID")
+	private TagEntity tag;
 
 	/**
 	 * To assign the stories to a team.
 	 */
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "team", subproperty = "id")
-	@Column(name = "STORY_TEAMS")
+	@PropertyMapping(type = StoryModel.class, from = "teamId", subproperty = "id")
+	@Column(name = "TEAM_ID")
 	private ProjectTeamEntity team;
 
 	/**
@@ -274,25 +274,14 @@ public class StoryEntity extends WebutilsExtendableEntity
 		this.status = status;
 	}
 
-	/**
-	 * Gets the priority order.
-	 *
-	 * @return the priority order
-	 */
-	public Integer getPriorityOrder()
+	public Integer getPriority()
 	{
-		return priorityOrder;
+		return priority;
 	}
 
-	/**
-	 * Sets the priority order.
-	 *
-	 * @param priorityOrder
-	 *            the new priority order
-	 */
-	public void setPriorityOrder(Integer priorityOrder)
+	public void setPriority(Integer priority)
 	{
-		this.priorityOrder = priorityOrder;
+		this.priority = priority;
 	}
 
 	/**
@@ -380,24 +369,24 @@ public class StoryEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the tags.
+	 * Gets the tag.
 	 *
-	 * @return the tags
+	 * @return the tag
 	 */
-	public TagEntity getTags()
+	public TagEntity getTag()
 	{
-		return tags;
+		return tag;
 	}
 
 	/**
-	 * Sets the tags.
+	 * Sets the tag.
 	 *
-	 * @param tags
-	 *            the new tags
+	 * @param tag
+	 *            the new tag
 	 */
-	public void setTags(TagEntity tags)
+	public void setTag(TagEntity tag)
 	{
-		this.tags = tags;
+		this.tag = tag;
 	}
 
 	/**

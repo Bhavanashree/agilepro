@@ -27,7 +27,6 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 @Model
 public class StoryModel extends AbstractExtendableModel
 {
-
 	/**
 	 * The id.
 	 **/
@@ -70,13 +69,13 @@ public class StoryModel extends AbstractExtendableModel
 	 * The owner id.
 	 **/
 	@LOV(name = "projectMembers")
-	private Long owner;
+	private Long ownerId;
 
 	/**
 	 * The tag.
 	 **/
 	@LOV(name = "tagLov")
-	private Long tag;
+	private Long tagId;
 
 	/**
 	 * The status.
@@ -87,13 +86,13 @@ public class StoryModel extends AbstractExtendableModel
 	 * The priority.
 	 */
 	@NonDisplayable
-	private Integer priorityOrder;
+	private Integer priority;
 
 	/**
 	 * The sprint id.
 	 **/
 	@NonDisplayable
-	private Long sprint;
+	private Long sprintId;
 
 	/**
 	 * the project id.
@@ -125,7 +124,7 @@ public class StoryModel extends AbstractExtendableModel
 	 * To assign the stories to a team.
 	 **/
 	@LOV(name = "teamLov")
-	private Long team;
+	private Long teamId;
 
 	/**
 	 * Instantiates a new back log model.
@@ -144,19 +143,21 @@ public class StoryModel extends AbstractExtendableModel
 	 *            the description
 	 * @param parentStoryId
 	 *            the parent story
-	 * @param priorityOrder
+	 * @param priority
 	 *            the priority order
 	 */
-	public StoryModel(String title, Integer storyPoints, String description, Long parentStoryId, Integer priorityOrder)
+	public StoryModel(String title, Integer storyPoints, String description, Long parentStoryId, Integer priority)
 	{
 		this.title = title;
 		this.storyPoints = storyPoints;
 		this.description = description;
 		this.parentStoryId = parentStoryId;
-		this.priorityOrder = priorityOrder;
+		this.priority = priority;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.yukthi.webutils.common.IExtendableModel#getId()
 	 */
 	@Override
@@ -273,32 +274,12 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the parent story id.
 	 *
-	 * @param parentStoryId the new parent story id
+	 * @param parentStoryId
+	 *            the new parent story id
 	 */
 	public void setParentStoryId(Long parentStoryId)
 	{
 		this.parentStoryId = parentStoryId;
-	}
-
-	/**
-	 * Gets the owner id.
-	 *
-	 * @return the owner id
-	 */
-	public Long getOwnerId()
-	{
-		return owner;
-	}
-
-	/**
-	 * Sets the owner id.
-	 *
-	 * @param ownerId
-	 *            the new owner id
-	 */
-	public void setOwnerId(Long ownerId)
-	{
-		this.owner = ownerId;
 	}
 
 	/**
@@ -322,46 +303,24 @@ public class StoryModel extends AbstractExtendableModel
 		this.status = status;
 	}
 
-	/**
-	 * Gets the priority order.
-	 *
-	 * @return the priority order
-	 */
-	public Integer getPriorityOrder()
+	public Integer getPriority()
 	{
-		return priorityOrder;
+		return priority;
 	}
 
-	/**
-	 * Sets the priority order.
-	 *
-	 * @param priorityOrder
-	 *            the new priority order
-	 */
-	public void setPriorityOrder(Integer priorityOrder)
+	public void setPriority(Integer priority)
 	{
-		this.priorityOrder = priorityOrder;
+		this.priority = priority;
 	}
 
-	/**
-	 * Gets the sprint.
-	 *
-	 * @return the sprint
-	 */
-	public Long getSprint()
+	public Long getSprintId()
 	{
-		return sprint;
+		return sprintId;
 	}
 
-	/**
-	 * Sets the sprint.
-	 *
-	 * @param sprint
-	 *            the new sprint
-	 */
-	public void setSprint(Long sprint)
+	public void setSprintId(Long sprintId)
 	{
-		this.sprint = sprint;
+		this.sprintId = sprintId;
 	}
 
 	/**
@@ -449,65 +408,62 @@ public class StoryModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the owner.
+	 * Gets the tag id.
 	 *
-	 * @return the owner
+	 * @return the tag id
 	 */
-	public Long getOwner()
+	public Long getTagId()
 	{
-		return owner;
+		return tagId;
 	}
 
 	/**
-	 * Sets the owner.
+	 * Sets the tag id.
 	 *
-	 * @param owner
-	 *            the new owner
+	 * @param tagId the new tag id
 	 */
-	public void setOwner(Long owner)
+	public void setTagId(Long tagId)
 	{
-		this.owner = owner;
+		this.tagId = tagId;
 	}
 
 	/**
-	 * Gets the tag.
+	 * Gets the team id.
 	 *
-	 * @return the tag
+	 * @return the team id
 	 */
-	public Long getTag()
+	public Long getTeamId()
 	{
-		return tag;
+		return teamId;
 	}
 
 	/**
-	 * Sets the tag.
+	 * Sets the team id.
 	 *
-	 * @param tag
-	 *            the new tag
+	 * @param teamId the new team id
 	 */
-	public void setTag(Long tag)
+	public void setTeamId(Long teamId)
 	{
-		this.tag = tag;
+		this.teamId = teamId;
 	}
 
 	/**
-	 * Gets the team.
+	 * Gets the owner id.
 	 *
-	 * @return the team
+	 * @return the owner id
 	 */
-	public Long getTeam()
+	public Long getOwnerId()
 	{
-		return team;
+		return ownerId;
 	}
 
 	/**
-	 * Sets the team.
+	 * Sets the owner id.
 	 *
-	 * @param team
-	 *            the new team
+	 * @param ownerId the new owner id
 	 */
-	public void setTeam(Long team)
+	public void setOwnerId(Long ownerId)
 	{
-		this.team = team;
+		this.ownerId = ownerId;
 	}
 }

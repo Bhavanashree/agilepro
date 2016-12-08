@@ -1,7 +1,5 @@
 package com.agilepro.commons.controllers.pokergame;
 
-import java.util.List;
-
 import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
@@ -12,7 +10,7 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
  * The Interface IpokerGameController.
  */
 @RemoteService
-public interface IpokerGameController
+public interface IPokerGameController
 {
 
 	/**
@@ -23,15 +21,6 @@ public interface IpokerGameController
 	 * @return the basic save response
 	 */
 	public BasicSaveResponse save(PokerGameModel model);
-
-	/**
-	 * Read.
-	 *
-	 * @param id
-	 *            the id
-	 * @return the basic read response
-	 */
-	public BasicReadResponse<PokerGameModel> read(Long id);
 
 	/**
 	 * Update.
@@ -52,11 +41,10 @@ public interface IpokerGameController
 	public BaseResponse delete(Long id);
 
 	/**
-	 * Fetch all games by project.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the basic read response
+	 * Controller method to check whether the poker game is started or not for the provided project id.
+	 * 
+	 * @param projectId provided project id.
+	 * @return matching poker game model.
 	 */
-	BasicReadResponse<List<PokerGameModel>> fetchAllGamesByProject(Long projectId);
+	public BasicReadResponse<PokerGameModel> isGameStartedForProject(Long projectId);
 }

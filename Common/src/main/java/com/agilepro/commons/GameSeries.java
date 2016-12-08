@@ -3,15 +3,16 @@ package com.agilepro.commons;
 import com.yukthi.webutils.common.annotations.Label;
 
 /**
- * The Enum GameSeries.
+ * GameSeries for displaying the cards according to the selected series.
+ * 
+ * @author Pritam
  */
 public enum GameSeries
 {
-	
 	/**
 	 *  The fibonacci series. 
 	 **/
-	@Label("Fibonacci_Series") FIBONACCI_SERIES,
+	@Label("Fibonacci_Series") FIBONACCI,
 
 	/**
 	 * The Sequential.
@@ -19,7 +20,7 @@ public enum GameSeries
 	@Label("Sequential") SEQUENTIAL,
 
 	/**
-	 *  The even numbers. 
+	 *  The even. 
 	 **/
-	@Label("Even") EVEN_NUMBERS,
+	@Label("Even") EVEN,
 }

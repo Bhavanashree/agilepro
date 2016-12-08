@@ -1,17 +1,23 @@
 package com.agilepro.persistence.repository.pokergame;
 
-import java.util.List;
-
 import com.agilepro.persistence.entity.pokergame.PokerGameEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.webutils.annotations.RestrictBySpace;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
 /**
- * The Interface IPokerGameRepository.
+ * IPokerGameRepository for queries related to PokerGame table.
+ * 
+ * @author Pritam.
  */
 public interface IPokerGameRepository extends IWebutilsRepository<PokerGameEntity>
 {
+	/**
+	 * Fetch the poker game for provided project id.
+	 * 
+	 * @param projectId for which poker game is to be fetched.
+	 * @return the matching poker game.
+	 */
 	@RestrictBySpace
-	public List<PokerGameEntity> fetchGamesByProjectId(@Condition(value = "project.id") Long projectId);
+	public PokerGameEntity fetchPokerGame(@Condition(value = "project.id") Long projectId);
 }

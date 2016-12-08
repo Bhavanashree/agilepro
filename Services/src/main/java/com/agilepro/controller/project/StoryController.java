@@ -6,7 +6,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_BULK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID_AND_STATUS;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_PROJECT_IN_PRIORITY_ORDER;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
@@ -17,8 +17,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +31,6 @@ import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.StoriesInBulk;
 import com.agilepro.commons.models.project.StoryModel;
-import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.StoryService;
 import com.yukthi.webutils.InvalidRequestParameterException;
@@ -55,11 +52,6 @@ import com.yukthi.webutils.controllers.BaseController;
 public class StoryController extends BaseController implements IStoryController
 {
 	/**
-	 * The logger.
-	 **/
-	private static Logger logger = LogManager.getLogger(StoryController.class);
-
-	/**
 	 * The story service.
 	 **/
 	@Autowired
@@ -79,10 +71,7 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid StoryModel model)
 	{
-
-		StoryEntity entity = storyService.saveStory(model);
-
-		return new BasicSaveResponse(entity.getId());
+		return new BasicSaveResponse(storyService.saveStory(model).getId());
 	}
 
 	/**
@@ -136,7 +125,6 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BasicReadResponse<List<StoryModel>> fetchStoryBySprintId(@RequestParam(value = "sprintId", required = true) Long sprintId)
 	{
-
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
 	}
 
@@ -153,10 +141,18 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BasicReadResponse<List<StoryModel>> fetchStoryByProjectId(@RequestParam(value = "projectId", required = true) Long projectId)
 	{
-
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchAllStoriesByProject(projectId));
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesByProject(projectId));
 	}
 
+	@ActionName(ACTION_TYPE_READ_STORY_BY_PROJECT_IN_PRIORITY_ORDER)
+	@RequestMapping(value = "/readStoriesByProjectIdInPriorityOrder", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BasicReadResponse<List<StoryModel>> fetchStoriesInPropertyOrder(@RequestParam(value = "projectId") Long projectId)
+	{
+		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesByProject(projectId));
+	}
+	
 	/**
 	 * Update the stories.
 	 *
@@ -171,7 +167,6 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BasicVersionResponse update(@RequestBody @Valid StoryModel model)
 	{
-		logger.trace("Recieved request to update ", model.getId());
 		if(model.getId() == null || model.getId() <= 0)
 		{
 			throw new InvalidRequestParameterException("Invalid id specified for update: " + model.getId());
@@ -198,23 +193,6 @@ public class StoryController extends BaseController implements IStoryController
 		storyService.saveListOfStories(model.getStories(), model.getProjectId(), null);
 
 		return new BasicSaveResponse();
-	}
-
-	/**
-	 * Fetch story by project id and status.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the basic read response
-	 */
-	@ActionName(ACTION_TYPE_READ_BY_PROJECT_ID_AND_STATUS)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readByProjectIdAndStatus", method = RequestMethod.GET)
-	@ResponseBody
-	public BasicReadResponse<List<StoryModel>> fetchStoryByProjectIdAndStatus(@RequestParam(value = "projectId", required = true) Long projectId)
-	{
-
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesByStatus(projectId));
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.List;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.yukthi.persistence.repository.annotations.AggregateFunction;
 import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.NullCheck;
 import com.yukthi.webutils.annotations.LovQuery;
@@ -64,6 +65,9 @@ public interface IProjectMemberRepository extends IWebutilsRepository<ProjectMem
 	@AggregateFunction
 	public int isProjectMember(@Condition(value = "project.id") Long projectId, @Condition("employee.id") Long employeeId);
 
+	@Field("id")
+	public Long fetchProjectMemberId(@Condition(value = "project.id") Long projectId, @Condition(value = "employee.id") Long employeeId);
+	
 	/**
 	 * Delete all.
 	 */

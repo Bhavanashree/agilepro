@@ -76,6 +76,10 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@RestrictBySpace
 	public List<StoryEntity> fetchStoriesByProject(@Condition(value = "project.id") Long projectId);
 	
+	@RestrictBySpace
+	@OrderBy("priority")
+	public List<StoryEntity> fetchStoriesByProjectOrderByPriority(@Condition(value = "project.id") Long pojectId);
+	
 	/**
 	 * Delete all.
 	 */
@@ -87,7 +91,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 * @return Max order currently configured
 	 */
 	@RestrictBySpace
-	@AggregateFunction(type = AggregateFunctionType.MAX, field = "priorityOrder")
+	@AggregateFunction(type = AggregateFunctionType.MAX, field = "priority")
 	public int getMaxOrder(@Condition(value = "project.id") Long projectId);
 
 	/**
@@ -96,7 +100,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 * @return Max order currently configured
 	 */
 	@RestrictBySpace
-	@AggregateFunction(type = AggregateFunctionType.MIN, field = "priorityOrder")
+	@AggregateFunction(type = AggregateFunctionType.MIN, field = "priority")
 	public int getMinOrder(@Condition(value = "project.id") Long projectId);
 	
 	/**
@@ -105,7 +109,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 * @return Specified story order
 	 */
 	@RestrictBySpace
-	@Field("priorityOrder")
+	@Field("priority")
 	public int fetchOrderOfStory(@Condition(value = "id") Long storyId);
 	
 	/**
@@ -118,6 +122,6 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@RestrictBySpace
 	@UpdateFunction
 	public int moveStoriesDown(@Condition(value = "project.id") Long projectId, 
-		@Condition(value = "priorityOrder") int fromOrder, 
-		@Field(value = "priorityOrder", updateOp = UpdateOperator.ADD) int incrementValue);
+		@Condition(value = "priority") int fromOrder, 
+		@Field(value = "priority", updateOp = UpdateOperator.ADD) int incrementValue);
 }

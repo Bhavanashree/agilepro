@@ -187,4 +187,16 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	{
 		return iprojectMemberRepository.isProjectMember(projectId, employeeId) > 0;
 	}
+	
+	/**
+	 * Fetchs the project member id.
+	 * 
+	 * @param projectId provided project id.
+	 * @param employeeId provided employee id.
+	 * @return the matching project member id.
+	 */
+	public Long getProjectMemberId(Long projectId, Long employeeId)
+	{
+		return iprojectMemberRepository.fetchProjectMemberId(projectId, employeeId);
+	}
 }

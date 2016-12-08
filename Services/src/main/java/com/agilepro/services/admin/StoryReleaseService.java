@@ -103,7 +103,7 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 
 		Set<Long> storyIds = basicStoryInfos.stream().map(basicInfo -> basicInfo.getId()).collect(Collectors.toSet());
 
-		List<StoryModel> storyModels = storyService.fetchAllStoriesByProject(projectId);
+		List<StoryModel> storyModels = storyService.fetchStoriesByProject(projectId);
 
 		List<StoryModel> filterdModels = storyModels.stream().filter(model -> !storyIds.contains(model.getId())).collect(Collectors.toList());
 

@@ -10,12 +10,12 @@
        "spaceIdentity": "CUSTOMER-${entity.Customers.yukthi.id}",
       
       "entities": [
-        <#list 1..4 as x>
+        <#list 1..10 as x>
         {
           "title": "story${x}",
           "projectId": "${entity.Projects.AgilePro1.id}",
           "storyPoints":"5",
-          "priorityOrder" : "1"
+          "priority" : "1"
         
         }<#sep>,</#sep>
 	     

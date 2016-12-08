@@ -122,8 +122,8 @@ $.application.controller('bugStatusController', ["$scope", "utils", "actionHelpe
 	
 	
 	//common method for update status and sprintId to stories
-	$scope.handleBugOnDropEvent = function(status, skipServer)
-	{	
+	$scope.handleBugOnDropEvent = function(status, skipServer){	
+		
 		 var dropedBug = $scope.idToBug[$scope.selectedBugIdForDrag];
 		 var oldStatus = dropedBug.status;
 		 
@@ -162,6 +162,6 @@ $.application.controller('bugStatusController', ["$scope", "utils", "actionHelpe
 			this.bug.version = updateResponse.version;
 			
 		}, {"$scope": $scope, "bug": dropedBug, "oldStatus" : oldStatus}), {"hideInProgress" : true});
-	}
+	};
 	
 }]);

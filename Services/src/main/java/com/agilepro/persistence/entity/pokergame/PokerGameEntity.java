@@ -6,58 +6,81 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.GameSeries;
-import com.agilepro.commons.PokerGameStatus;
+import com.agilepro.commons.PokerGameStoryStatus;
 import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
+import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * The Class PokerGameEntity.
+ * PokerGameEntity this table holds the data of poker game per story. Here
+ * project member will provide there respective story points and finally average
+ * of points will be calculated and persisted in story. Create when game starts,
+ * Update after average is calculated.
+ * 
+ * @author Pritam.
  */
 @ExtendableEntity(name = "PokerGame")
-@Table(name = "POKERGAME")
+@Table(name = "POKER_GAME")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_PROJECT", fields = { "spaceIdentity", "project"}) })
 public class PokerGameEntity extends WebutilsExtendableEntity
 {
 	/**
-	 * The game series.
+	 * The game series .
 	 */
-	@Column(name = "POKERGAME_GAME_SERIES")
+	@Column(name = "GAME_SERIES", nullable = false)
 	@DataTypeMapping(type = DataType.STRING)
 	private GameSeries gameSeries;
 
 	/**
-	 * The project id.
-	 **/
-	@Column(name = "POKERGAME_PROJECTID")
-	@ManyToOne
-	@PropertyMapping(type = PokerGameModel.class, from = "projectId", subproperty = "id")
-	private ProjectEntity project;
+	 * Poker game story status.
+	 */
+	@Column(name = "POKER_GAME_STORY_STATUS")
+	@DataTypeMapping(type = DataType.STRING)
+	private PokerGameStoryStatus pokerGameStoryStatus;
 
 	/**
-	 * The count.
+	 * Average of points provided for a story.
 	 **/
-	@Column(name = "POKERGAME_GAME_COUNT")
-	private Integer count;
+	@Column(name = "AVERAGE_STORY_POINT")
+	private Integer averageStoryPoint;
 
 	/**
-	 * The story points.
+	 * Number of cards.
+	 */
+	@Column(name = "NUMBER_OF_CARDS")
+	private Integer numberOfCards;
+
+	/**
+	 * Story for which game will be played and points will be calculated.
 	 **/
-	@Column(name = "POKERGAME_STORYPOINTS")
+	@Column(name = "STORY_ID")
 	@OneToOne
 	@PropertyMapping(type = PokerGameModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;
 
 	/**
-	 * The poker status.
-	 **/
-	@Column(name = "POKERGAME_STATUS")
-	@DataTypeMapping(type = DataType.STRING)
-	private PokerGameStatus pokerStatus;
+	 * Project under which stories will be assigned points.
+	 */
+	@Column(name = "PROJECT_ID", nullable = false)
+	@OneToOne
+	@PropertyMapping(type = PokerGameModel.class, from = "projectId", subproperty = "id")
+	private ProjectEntity project;
+
+	/**
+	 * Project member as scrum master.
+	 */
+	@ManyToOne
+	@Column(name = "SCRUM_MASTER_ID")
+	@PropertyMapping(type = PokerGameModel.class, from = "memberId", subproperty = "id")
+	private ProjectMemberEntity projectMember;
 
 	/**
 	 * Gets the game series.
@@ -81,9 +104,30 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	}
 
 	/**
+	 * Gets the average story points.
+	 * 
+	 * @return average story point.
+	 */
+	public Integer getAverageStoryPoint()
+	{
+		return averageStoryPoint;
+	}
+
+	/**
+	 * Set the average story points.
+	 * 
+	 * @param averageStoryPoint
+	 *            for setting the averageStoryPoint.
+	 */
+	public void setAverageStoryPoint(Integer averageStoryPoint)
+	{
+		this.averageStoryPoint = averageStoryPoint;
+	}
+
+	/**
 	 * Gets the story.
-	 *
-	 * @return the story
+	 * 
+	 * @return the story.
 	 */
 	public StoryEntity getStory()
 	{
@@ -92,9 +136,9 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 
 	/**
 	 * Sets the story.
-	 *
+	 * 
 	 * @param story
-	 *            the new story
+	 *            set the new story.
 	 */
 	public void setStory(StoryEntity story)
 	{
@@ -102,9 +146,30 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	}
 
 	/**
+	 * Gets the poker game story status.
+	 * 
+	 * @return poker game story status.
+	 */
+	public PokerGameStoryStatus getPokerGameStoryStatus()
+	{
+		return pokerGameStoryStatus;
+	}
+
+	/**
+	 * Sets the poker game story status.
+	 * 
+	 * @param pokerGameStoryStatus
+	 *            the new poker game story status.
+	 */
+	public void setPokerGameStoryStatus(PokerGameStoryStatus pokerGameStoryStatus)
+	{
+		this.pokerGameStoryStatus = pokerGameStoryStatus;
+	}
+
+	/**
 	 * Gets the project.
-	 *
-	 * @return the project
+	 * 
+	 * @return the project.
 	 */
 	public ProjectEntity getProject()
 	{
@@ -112,10 +177,10 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Sets the project.
-	 *
+	 * Gets the project.
+	 * 
 	 * @param project
-	 *            the new project
+	 *            the new project.
 	 */
 	public void setProject(ProjectEntity project)
 	{
@@ -123,44 +188,44 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the count.
-	 *
-	 * @return the count
+	 * Gets number of cards.
+	 * 
+	 * @return the number of cards.
 	 */
-	public Integer getCount()
+	public Integer getNumberOfCards()
 	{
-		return count;
+		return numberOfCards;
 	}
 
 	/**
-	 * Sets the count.
-	 *
-	 * @param count
-	 *            the new count
+	 * Set number of cards.
+	 * 
+	 * @param numberOfCards
+	 *            the new number of cards.
 	 */
-	public void setCount(Integer count)
+	public void setNumberOfCards(Integer numberOfCards)
 	{
-		this.count = count;
+		this.numberOfCards = numberOfCards;
 	}
 
 	/**
-	 * Gets the poker status.
-	 *
-	 * @return the poker status
+	 * Gets project member.
+	 * 
+	 * @return the project member.
 	 */
-	public PokerGameStatus getPokerStatus()
+	public ProjectMemberEntity getProjectMember()
 	{
-		return pokerStatus;
+		return projectMember;
 	}
 
 	/**
-	 * Sets the poker status.
-	 *
-	 * @param pokerStatus
-	 *            the new poker status
+	 * Set project member.
+	 * 
+	 * @param projectMember
+	 *            the new project member.
 	 */
-	public void setPokerStatus(PokerGameStatus pokerStatus)
+	public void setProjectMember(ProjectMemberEntity projectMember)
 	{
-		this.pokerStatus = pokerStatus;
+		this.projectMember = projectMember;
 	}
 }

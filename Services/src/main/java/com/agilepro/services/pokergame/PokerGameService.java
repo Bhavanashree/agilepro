@@ -1,23 +1,19 @@
 package com.agilepro.services.pokergame;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.pokergame.PokerGameModel;
-import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.pokergame.PokerGameEntity;
 import com.agilepro.persistence.repository.pokergame.IPokerGameRepository;
 import com.agilepro.services.admin.ProjectMemberService;
-import com.agilepro.services.project.StoryService;
+import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
+import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
-import com.yukthi.webutils.services.CurrentUserService;
-import com.yukthi.webutils.utils.WebUtils;
+import com.yukthi.webutils.services.UserService;
 
 /**
  * The Class PokerGameService.
@@ -30,6 +26,12 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	 */
 	@Autowired
 	private RepositoryFactory repositoryFactory;
+	
+	/**
+	 * User service for user entity.
+	 */
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * The ProjectMembers service.
@@ -38,26 +40,9 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	private ProjectMemberService projectMembers;
 
 	/**
-	 * The game repo.
-	 */
-	private IPokerGameRepository gameRepo;
-
-	/**
-	 * The story service.
-	 */
-	@Autowired
-	private StoryService storyService;
-
-	/**
-	 * Used to fetch current user info.
-	 */
-	@Autowired
-	private CurrentUserService currentUserService;
-
-	/**
 	 * The IPokerGameRepository repo.
 	 **/
-	private IPokerGameRepository pokerRepo;
+	private IPokerGameRepository pokerGameRepo;
 
 	/**
 	 * Instantiates a new ProjectService.
@@ -73,59 +58,46 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	@PostConstruct
 	private void init()
 	{
-		pokerRepo = repositoryFactory.getRepository(IPokerGameRepository.class);
+		pokerGameRepo = repositoryFactory.getRepository(IPokerGameRepository.class);
 	}
 
 	/**
-	 * Save.
-	 *
-	 * @param model
-	 *            the model
-	 * @return the poker game entity
+	 * Save new poker game.
+	 * 
+	 * @param pokerGameModel model object from the controller.
+	 * @return newly saved poker game object.
 	 */
-	public PokerGameEntity save(PokerGameModel model)
+	public PokerGameEntity saveNewGame(PokerGameModel pokerGameModel)
 	{
-		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
-
-		Long customerId = cbiller.getCustomerId();
-
-		PokerGameEntity pokerEntity = WebUtils.convertBean(model, PokerGameEntity.class);
-
-		super.save(pokerEntity, model);
-		// TODO:
-		return pokerEntity;
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			Long employeeId = userService.fetch(pokerGameModel.getUserId()).getBaseEntityId();
+			
+			Long projectMemberId = projectMembers.getProjectMemberId(pokerGameModel.getProjectId(), employeeId);
+			
+			pokerGameModel.setMemberId(projectMemberId);
+			PokerGameEntity gameEntity = super.save(pokerGameModel);
+			
+			transaction.commit();
+			
+			return gameEntity;
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while saving model - {}", pokerGameModel);
+		}
 	}
-
+	
 	/**
-	 * Sets the card series.
-	 *
-	 * @param userId
-	 *            the user id
-	 * @param cardValue
-	 *            the card value
-	 * @return the poker game entity
+	 * Fetch poker game model object for the provided project id.
+	 * 
+	 * @param projectId provided project id.
+	 * @return matching poker game object.
 	 */
-	public PokerGameEntity setCardSeries(Long userId, Integer cardValue)
+	public PokerGameModel isGameStarted(Long projectId)
 	{
-		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
-
-		userId = cbiller.getCustomerId();
-
-		return null;
-	}
-
-	/**
-	 * Fetchgames.
-	 *
-	 * @param project
-	 *            the project
-	 * @return the list
-	 */
-	public List<PokerGameModel> fetchgames(Long project)
-	{
-		List<PokerGameModel> pokerGameModel = new ArrayList<PokerGameModel>();
-
-		gameRepo.fetchGamesByProjectId(project).forEach(entity -> pokerGameModel.add(super.toModel(entity, PokerGameModel.class)));
-		return pokerGameModel;
+		return super.toModel(pokerGameRepo.fetchPokerGame(projectId), PokerGameModel.class);
 	}
 }

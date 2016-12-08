@@ -18,6 +18,7 @@ import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.entity.admin.DesignationEntity;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
+import com.agilepro.persistence.repository.admin.IDesignationRepository;
 import com.agilepro.persistence.repository.admin.IEmployeeRepository;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
@@ -72,9 +73,9 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	private RepositoryFactory repositoryFactory;
 
 	/**
-	 * The iemployee repository.
-	 **/
-	private IEmployeeRepository iemployeeRepository;
+	 * Designation repository to fetch roles.
+	 */
+	private IDesignationRepository designationRepository;
 
 	/**
 	 * Instantiates a new employee service.
@@ -90,7 +91,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	@PostConstruct
 	private void init()
 	{
-		iemployeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
+		designationRepository = repositoryFactory.getRepository(IDesignationRepository.class);
 	}
 
 	/**
@@ -126,6 +127,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 		}
 	}
 
+	// This method is for testing purpose which will be removed latter
 	@Override
 	public EmployeeEntity save(Object model) 
 	{
@@ -153,7 +155,6 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 		entity.setDesignations(designations);
 		
 		super.save(entity, model);
-
 		
 		// saving user
 		saveUser(empModel, customerId, entity);
@@ -161,6 +162,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 		return entity;
 	}
 	
+	//This method is for testing which will be removed latter 
 	public EmployeeEntity saveEmp(EmployeeModel model)
 	{
 		return this.save(model);
@@ -311,7 +313,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 			employeeName = employeeName.replace('*', '%');
 		}
 
-		List<EmployeeEntity> employeeEntities = iemployeeRepository.fetchEmployees(employeeName);
+		List<EmployeeEntity> employeeEntities = repository.fetchEmployees(employeeName);
 
 		if(employeeEntities != null)
 		{
@@ -335,7 +337,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public EmployeeEntity fetchWithNoSpace(Long employeeId)
 	{
-		return iemployeeRepository.fetchWithNoSpace(employeeId);
+		return repository.fetchWithNoSpace(employeeId);
 	}
 
 	/**
@@ -353,21 +355,22 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public Set<UserRole> fetchEmployeeRoles(Long employeeId)
 	{
-		//List<DesignationEntity> designations = iemployeeRepository.fetchDesignations(employeeId);
-		List<DesignationEntity> designations = super.fetch(employeeId).getDesignations();
+		List<Long> designationIds = repository.fetchDesignationIds(employeeId);
 		Set<UserRole> roles = new HashSet<UserRole>();
+		DesignationEntity designation = null;
 		
-		if(designations != null)
+		if(designationIds != null)
 		{
-			for(DesignationEntity designation : designations)
+			for(Long designationId : designationIds)
 			{
+				designation = designationRepository.findById(designationId);
+				
 				for(UserRole role : designation.getRoles())
 				{
 					roles.add(role);
 				}
 			}
 		}
-		
 		return roles;
 	}
 }

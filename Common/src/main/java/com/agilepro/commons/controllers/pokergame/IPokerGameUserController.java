@@ -8,7 +8,7 @@ import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 
 @RemoteService
-public interface IpokerGameUserController
+public interface IPokerGameUserController
 {
 
 	/**

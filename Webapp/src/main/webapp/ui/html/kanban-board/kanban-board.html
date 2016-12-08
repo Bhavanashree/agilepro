@@ -1,7 +1,7 @@
 <div class="flexVertical" ng-controller="kanbanController"  style="padding: 0px; width: 100%;" ng-init="initKanbanBoard()">
 	
 		<!-- Header -->
-		<table>
+		<table style="width: 100%;">
 			<tr>
 				<td>
 					<!-- Sprint drop down -->
@@ -46,12 +46,12 @@
 							</tr>
 							<tr>
 								<td>
-									<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-									 placeholder="Please select team" value="{{selectedRelease.name}}">
+									<input type="text" ng-disabled="!isBacklogActive" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+									 placeholder="Please select team" value="{{selectedTeam.label}}">
 								</td>
 								<td>
 									<div class="input-group-btn">
-										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<button  ng-disabled="!isBacklogActive" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="caret"></span>
 										</button>
 										<ul class="dropdown-menu dropdown-menu-right" ng-if="teams.length > 0">
@@ -87,15 +87,15 @@
 							<tr>
 								<td>
 									<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-									 placeholder="Please select user" value="{{selectedRelease.name}}">
+									 placeholder="Please select user" value="{{selectedUser.label}}">
 								</td>
 								<td>
 									<div class="input-group-btn">
 										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="caret"></span>
 										</button>
-										<ul class="dropdown-menu dropdown-menu-right" ng-if="selectedRelease.name">
-										    <li ng-repeat="release in releases"><a ng-click="onReleaseChange(release.id)" href="">{{release.name}}</a></li>
+										<ul class="dropdown-menu dropdown-menu-right" ng-if="employees.length > 0">
+										    <li ng-repeat="employee in employees"><a ng-click="onUserChange(employee.value)" href="">{{employee.label}}</a></li>
 										</ul>
 									</div>
 								</td>

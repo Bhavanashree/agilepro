@@ -51,11 +51,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * Action to be used for delete all.
 	 */
 	public String ACTION_TYPE_DELETE_ALL = "deleteAll";
-	
-	/** 
-	 * Action to be used for executing job. 
-	 * */
-	public String ACTION_TYPE_EXECUTE  = "execute";
+
+	/**
+	 * Action to be used for executing job.
+	 */
+	public String ACTION_TYPE_EXECUTE = "execute";
 
 	/**
 	 * Action to be used for reading variable names.
@@ -377,15 +377,15 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix scrum meeting conversation.
 	 **/
 	public String ACTION_PREFIX_SCRUM_MEETING_CONVERSATION = "scrumMeetingConversation";
-	
+
 	/**
 	 * Scrum meeting action prefix.
 	 */
 	public String ACTION_PREFIX_SCRUM_MEETING = "scrumMeeting";
-	
-	/** 
-	 * Action to be used for kanban board. 
-	 * */
+
+	/**
+	 * Action to be used for kanban board.
+	 */
 	public String ACTION_PREFIX_KANBAN_BOARD = "kanbanBoard";
 
 	/**
@@ -438,36 +438,40 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_READ_STORY_SPRINT = "readStoriesBySprint";
 
 	/**
+	 * The action type to fetch stories by project id and in priority order.
+	 */
+	public String ACTION_TYPE_READ_STORY_BY_PROJECT_IN_PRIORITY_ORDER = "readStoriesByProjectIdInPriorityOrder";
+
+	/**
 	 * The action type read action by scrum id.
 	 **/
 	public String ACTION_TYPE_READ_ACTION_BY_SCRUM_ID = "readActionByScrumId";
-	
-	/** 
-	 * The action type read action conversation by scrum action id. 
+
+	/**
+	 * The action type read action conversation by scrum action id.
 	 **/
 	public String ACTION_TYPE_READ_ACTION_CONVERSATION_BY_SCRUM_ACTION_ID = "readActionConversationByScrumActionId";
-	
-	/** 
-	 * Action type read sprint team user by project id. 
+
+	/**
+	 * Action type read sprint team user by project id.
 	 **/
 	public String ACTION_TYPE_READ_SPRINT_TEAM_USER_BY_PROJECT_ID = "readSprintTeamUserByProjectId";
 
-	/** 
-	 * The action type save action conversation. 
+	/**
+	 * The action type save action conversation.
 	 **/
 	public String ACTION_TYPE_SAVE_ACTION_CONVERSATION = "saveActionConversation";
-	
+
 	/**
 	 * The action type readProjectid.
 	 */
-
 	public String ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID = "fetchBacklogBysprintAndProjectId";
 
-	/** 
-	 * The action type read bug by sprint id. 
+	/**
+	 * The action type read bug by sprint id.
 	 **/
 	public String ACTION_TYPE_READ_BUG_BY_SPRINT_ID = "fetchBugBySprintId";
-	
+
 	/**
 	 * The action type read sprint project id.
 	 **/
@@ -482,11 +486,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read by project id.
 	 **/
 	public String ACTION_TYPE_READ_BY_PROJECT_ID = "readByProjectId";
-	
-	/**
-	 *  The action type read by project id and storyid. 
-	 **/
-	public String ACTION_TYPE_READ_BY_PROJECT_ID_AND_STATUS = "readByProjectIdAndStatus";
 
 	/**
 	 * The action type save stories in bulk.
@@ -537,14 +536,25 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PREFIX_HOLIDAY = "holiday";
 
 	/**
-	 *  The action prefix poker game. 
+	 * The action prefix poker game.
 	 **/
 	public String ACTION_PREFIX_POKER_GAME = "pokerGame";
 
 	/**
-	 *  The action prefix poker game user.
-	 **/
+	 * Action for checking whether the poker game is started or not.
+	 */
+	public String ACTION_TYPE_IS_POKER_GAME_STARTED = "isPokerGameStarted";
+
+	/**
+	 * Action prefix poker game user.
+	 */
 	public String ACTION_PREFIX_POKER_GAME_USER = "pokerGameUser";
+
+	/**
+	 * Action type read poker game status.
+	 */
+	public String ACTION_TYPE_READ_GAME_STATUS = "readPokerGameStatus";
+
 	/**
 	 * The action type to save.
 	 **/
@@ -559,9 +569,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The param id.
 	 **/
 	public String PARAM_ID = "id";
-	
-	/** 
-	 * The job name. 
+
+	/**
+	 * The job name.
 	 **/
 	public String JOB_NAME = "jobName";
 
@@ -1442,7 +1452,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action listofdays read.
 	 **/
 	public String ACTION_LISTOFDAYS_READ = ACTION_PREFIX_HOLIDAY + DOT + ACTION_TYPE_READ_LIST_OF_DAYS;
-	
+
 	/**
 	 * The action poker save.
 	 **/
@@ -1467,29 +1477,4 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action poker delete.
 	 **/
 	public String ACTION_POKER_GAME_DELETE = ACTION_PREFIX_POKER_GAME + DOT + ACTION_TYPE_DELETE;
-	
-	/**
-	 * The action poker save.
-	 **/
-	public String ACTION_POKER_GAME_USER_SAVE = ACTION_PREFIX_POKER_GAME_USER + DOT + ACTION_TYPE_SAVE;
-
-	/**
-	 * The action poker read.
-	 **/
-	public String ACTION_POKER_GAME_USER_READ = ACTION_PREFIX_POKER_GAME_USER + DOT + ACTION_TYPE_READ;
-
-	/**
-	 * The action poker readall.
-	 **/
-	public String ACTION_POKER_GAME_USER_READALL = ACTION_PREFIX_POKER_GAME_USER + DOT + ACTION_TYPE_READ_ALL;
-
-	/**
-	 * The action poker update.
-	 **/
-	public String ACTION_POKER_GAME_USER_UPDATE = ACTION_PREFIX_POKER_GAME_USER + DOT + ACTION_TYPE_UPDATE;
-
-	/**
-	 * The action poker user delete.
-	 **/
-	public String ACTION_POKER_GAME_USER_DELETE = ACTION_PREFIX_POKER_GAME_USER + DOT + ACTION_TYPE_DELETE;
 }

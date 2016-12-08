@@ -74,15 +74,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-
 			StoryEntity entity = super.save(model);
 
 			transaction.commit();
-
 			return entity;
 		} catch(Exception ex)
 		{
-
 			throw new IllegalStateException("An error occurred  while saving  story - " + model, ex);
 		}
 	}
@@ -156,7 +153,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			{
 				storyModel = super.toModel(entity, StoryModel.class);
 
-				// storyModel.setPhoto(getEmployee(storyModel.getOwnerId()).getPhoto());
 				if(storyModel.getOwnerId() != null)
 				{
 					employeeModel = employeeService.fetchFullModel(storyModel.getOwnerId(), EmployeeModel.class);
@@ -301,53 +297,21 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Fetch all stories by project.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the list
+	 * Fetch stories according to the provided projectId.
+	 * 
+	 * @param projectId for fetching the stories.
+	 * @return matching stories with the project id.
 	 */
-	public List<StoryModel> fetchAllStoriesByProject(Long projectId)
+	public List<StoryModel> fetchStoriesByProject(Long projectId)
 	{
 		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
+		List<StoryModel> storyModels = new ArrayList<StoryModel>();
 
-		List<StoryModel> storyModels = new ArrayList<StoryModel>(storyEntities.size());
-
-		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
-
-		return storyModels;
-	}
-
-	/**
-	 * Fetch stories by status.
-	 *
-	 * @param projectId
-	 *            the project id
-	 * @return the list
-	 */
-	public List<StoryModel> fetchStoriesByStatus(Long projectId)
-	{
-		List<StoryEntity> stories = storyRepo.fetchStoriesByProject(projectId);
-		List<StoryModel> storiesModel = null;
-
-		StoryModel storyModel = null;
-
-		if(stories.size() > 0)
+		if(storyEntities != null)
 		{
-			storiesModel = new ArrayList<StoryModel>(stories.size());
-
-			for(StoryEntity entity : stories)
-			{
-				storyModel = super.toModel(entity, StoryModel.class);
-
-				if(storyModel.getStatus() == null)
-				{
-					storiesModel.add(storyModel);
-				}
-			}
+			storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
 		}
-
-		return storiesModel;
+		return storyModels;
 	}
 
 	/**

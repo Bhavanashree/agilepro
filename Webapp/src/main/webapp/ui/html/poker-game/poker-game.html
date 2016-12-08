@@ -1,81 +1,78 @@
-<div class="flexHorizontal" style=" border:2px solid black;" ng-controller="pokerGameController" ng-init = "readListOfUnassignedStories()">
-	<div class="flexVertical" style=" align-items: stretch; flex-grow:2;background-color: rgba(244, 67, 54, 0.55);">
-		<div class="input-group">
-			<table>
-				<tr>
-					<td>
-						<input type="text" class="form-control" aria-label="..." style="border-top-left-radius: 5px;
-							 border-bottom-left-radius: 5px; width: 15em;" readonly="readonly" value="{{selectedStoryName}}"  >
-					</td>
-					<td>
-						<div class="input-group-btn">
-									Selected Story
+
+<div class="flexHorizontal" style="justify-content: space-around;" ng-controller="pokerGameController" ng-init = "initPokerGame()">
+	
+	<!-- Game not started -->
+	<div ng-show="(gameNotStarted && isUserScrumMaster) || (isUserNonScrumMaster && !nonScrumMasterJoined)" 
+		style="width: 50%; height: 40%; margin-top: 6em; padding-top: 2em; padding-bottom: 2em; padding-left: 4em; 
+		padding-right: 4em; border:1px solid lightblue; box-shadow: 5px 5px 10px #888888">
+			
+		<!-- Scrum Master will start the game -->
+		<table ng-show="isUserScrumMaster" cellspacing="10" style="width: 100%; height: 100%;">
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<span style="font-weight: bold;">PLEASE START THE GAME</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Poker Game Series
+				</td>
+				<td>
+					<div style="background: white; float: right;">
+						<div class="input-group">
+							<table>
+								<tr>
+									<td>
+										<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+										 placeholder="Please select series" value="{{selectedSeries}}">
+									</td>
+									<td>
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu dropdown-menu-right">
+											    <li ng-repeat="seriesName in listOfGameSeries"><a ng-click="onGameSeriesChange(seriesName)" href="">{{seriesName}}</a></li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+							</table>
 						</div>
-					</td>
-				</tr>
-			</table>	
-		</div>
-
-		<div style="border:2px solid #eee; margin:3px;">
-			<div style = "background-color : #e3f6f9; border-radius:3px; margin:10px; width :100px; height : 150px; border: 3px solid ghostwhite; ">
-			1
-			</div> 
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Number of cards
+				</td>
+				<td>
+					<input ng-model="noOfCards" class="form-control" placeholder="Number of cards" style="width: 17.3em; float: right;"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span ng-if="pokerGameError.error" style="color: red;">{{pokerGameError.message}}</span>
+					<button ng-click="startTheGame()" class="btn btn-success" style="float: right;">Start the game</button>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- Project Members will see the notification -->
+		<div ng-show="isUserNonScrumMaster">
+		
+			<div ng-show="gameNotStarted">no game has started</div>
 			
-			<div style="float : left; margin : 0.2em;">
-				<button class="btn btn-primary action-button ng-binding" type="button"> Flip</button>
+			<div ng-show="gameStarted">
+				game has started would you like to join 
+				<button class="btn btn-success" ng-click="nonScrumUserJoinsTheGame()">Join</button>
 			</div>
-			<div style="float :right; margin : 0.2em;">
-				<button ng-click ="resetToDefault()" data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Confirm</button>
-			</div>
+			
 		</div>
 		
-		<!-- series drop down -->
-		<div class = "flexHorizontal" style = "background-color:blue; margin:1em;">
-			<div class="input-group">
-				<table>
-					<tr>
-						<td>
-							<input type="text" class="form-control" aria-label="..." style="border-top-left-radius: 5px;
-							 border-bottom-left-radius: 5px; width: 15em;" readonly="readonly" value="{{selectedSeries}}" >
-						</td>
-						<td>
-							<div class="input-group-btn">
-								<button type="button" class="btn btn-danger dropdown-toggle"  style="border-bottom-right-radius:5px;border-top-right-radius:5px;" data-toggle="dropdown"
-								 aria-haspopup="true" aria-expanded="false"  >
-										series <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu dropdown-menu-right">
-								   <li ng-repeat ="series in listOfSeriesArr"><a ng-click=" onSelectOfSeries(series.name)">{{series.name}}</a> </li>
-								</ul>
-							</div>
-						</td>
-					</tr>
-				</table>	
-			</div>
-			
-			<div class="input-group">
-				<input id ="count"  style = " margin:3px 3px 3px 20px; max-width: 8em; min-width: 1em;" name="count" type="text" 
-					 placeholder="count"  ng-model="countno">  					
-			</div>
-		</div>
-		
-		<div  class ="flexHorizontal" style = "background-color:pink;flex-grow:1;">
-			
-			<div ng-repeat="item in listOfBox track by $index" style ="background-color : #e3f6f9; border-radius:3px; margin:10px; width :100px; height : 150px; border: 3px solid ghostwhite;">
-				{{item}}
-			</div>
-			 
-		</div>
 	</div>
-
-	<!-- list of stories -->	
-	<div style="flex-grow:0.4; background-color: rgba(49, 112, 143, 0.43);margin :3px;">
-		<div style="margin :1em; border:4px solid #00bcd4;">
-		unassigned stories
-		</div>
-		
-		<div ng-repeat = "storiesObj in stories"  style="text-align: center; margin :1em;border:2px solid #009688;background-color: hsla(174, 100%, 29%, 0.65); border-radius : 1px;">
-		<div ng-click="selectedStory(storiesObj.id , storiesObj.title)"  ng-class="getActiveIndex()==$index ? 'borderhover' : 'hoverDiv' " ng-mouseover="changeRowSelection($index, $event);">{{storiesObj.title}}</div>
-		</div>
-	</div>
+	
+	<!-- Game started for scrum matser-->
+	<div ng-show="(gameStarted && isUserScrumMaster) || (gameStarted && nonScrumMasterJoined)" class="flexHorizontal" ng-show="isGameStarted && userHasJoined" ng-include="'/ui/html/poker-game/poker-new-game.html'" style="width: 100%; height: 100%;"></div>
+	
 </div>

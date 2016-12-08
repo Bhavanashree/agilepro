@@ -1,5 +1,6 @@
 package com.agilepro.commons.models.pokergame;
 
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.Model;
@@ -8,11 +9,10 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 /**
  * The Class PokerGameUserModel.
  */
-@ExtendableModel(name = "PokerGameUser")
+@ExtendableModel(name = "PokerGame")
 @Model
 public class PokerGameUserModel extends AbstractExtendableModel
 {
-
 	/**
 	 * The id.
 	 **/
@@ -28,15 +28,28 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	/**
 	 * The members.
 	 **/
-	private Long members;
+	private Long projectMemberId;
 
 	/**
 	 * The poker game.
 	 **/
-	private Long pokerGame;
+	@Required
+	private Long pokerGameId;
 
 	/**
-	 * The card value.
+	 * The Project id for fetching the member id.
+	 */
+	@Required
+	private Long projectId;
+
+	/**
+	 * The user id for fetching the member id.
+	 */
+	@Required
+	private Long userId;
+
+	/**
+	 * Card value selected by the user.
 	 */
 	private Integer cardValue;
 
@@ -83,51 +96,51 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the members.
-	 *
-	 * @return the members
+	 * Gets the project member id.
+	 * 
+	 * @return project member id.
 	 */
-	public Long getMembers()
+	public Long getProjectMemberId()
 	{
-		return members;
+		return projectMemberId;
 	}
 
 	/**
-	 * Sets the members.
-	 *
-	 * @param members
-	 *            the new members
+	 * Sets the project member id.
+	 * 
+	 * @param projectMemberId
+	 *            the new project member id.
 	 */
-	public void setMembers(Long members)
+	public void setProjectMemberId(Long projectMemberId)
 	{
-		this.members = members;
+		this.projectMemberId = projectMemberId;
 	}
 
 	/**
-	 * Gets the poker game.
-	 *
-	 * @return the poker game
+	 * Gets the poker game id.
+	 * 
+	 * @return the poker game id.
 	 */
-	public Long getPokerGame()
+	public Long getPokerGameId()
 	{
-		return pokerGame;
+		return pokerGameId;
 	}
 
 	/**
-	 * Sets the poker game.
-	 *
-	 * @param pokerGame
-	 *            the new poker game
+	 * Sets the poker game id.
+	 * 
+	 * @param pokerGameId
+	 *            the new poker game id.
 	 */
-	public void setPokerGame(Long pokerGame)
+	public void setPokerGameId(Long pokerGameId)
 	{
-		this.pokerGame = pokerGame;
+		this.pokerGameId = pokerGameId;
 	}
 
 	/**
 	 * Gets the card value.
-	 *
-	 * @return the card value
+	 * 
+	 * @return the card value.
 	 */
 	public Integer getCardValue()
 	{
@@ -136,12 +149,53 @@ public class PokerGameUserModel extends AbstractExtendableModel
 
 	/**
 	 * Sets the card value.
-	 *
+	 * 
 	 * @param cardValue
-	 *            the new card value
+	 *            the new card value.
 	 */
 	public void setCardValue(Integer cardValue)
 	{
 		this.cardValue = cardValue;
+	}
+
+	/**
+	 * Gets the project id.
+	 * 
+	 * @return the project id for fetching the project member id..
+	 */
+	public Long getProjectId()
+	{
+		return projectId;
+	}
+
+	/**
+	 * Set the project id.
+	 * 
+	 * @param projectId the new project id for fetching the project member id..
+	 */
+	public void setProjectId(Long projectId)
+	{
+		this.projectId = projectId;
+	}
+
+	/**
+	 * Gets the user id.
+	 * 
+	 * @return the user id for fetching the project member id.
+	 */
+	public Long getUserId()
+	{
+		return userId;
+	}
+
+	/**
+	 * Set the user id.
+	 * 
+	 * @param userId
+	 *            the new user id for fetching the project member id.
+	 */
+	public void setUserId(Long userId)
+	{
+		this.userId = userId;
 	}
 }

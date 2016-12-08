@@ -17,54 +17,52 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 @Table(name = "POKER_GAME_USER")
 public class PokerGameUserEntity extends WebutilsExtendableEntity
 {
-
 	/**
 	 * The members.
 	 **/
 	@OneToOne
-	@Column(name = "POKER_MEMBERS")
-	@PropertyMapping(type = PokerGameUserModel.class, from = "members", subproperty = "id")
-	private ProjectMemberEntity members;
+	@Column(name = "PROJECT_MEMBER_ID", nullable = false)
+	@PropertyMapping(type = PokerGameUserModel.class, from = "projectMemberId", subproperty = "id")
+	private ProjectMemberEntity projectMember;
 
 	/**
 	 * The poker game.
 	 **/
 	@OneToOne
-	@PropertyMapping(type = PokerGameUserModel.class, from = "pokerGame", subproperty = "id")
-	@Column(name = "POKER_POKERGAME")
+	@PropertyMapping(type = PokerGameUserModel.class, from = "pokerGameId", subproperty = "id")
+	@Column(name = "POKER_GAME_ID", nullable = false)
 	private PokerGameEntity pokerGame;
 
 	/**
-	 * The card value.
-	 **/
-	@Column(name = "POKERGAME_CARD_VALUE")
-	private Integer cardValue;
-	
-	/**
-	 * Gets the members.
-	 *
-	 * @return the members
+	 * Card value is the story point selected by user for a story.
 	 */
-	public ProjectMemberEntity getMembers()
+	@Column(name = "CARD_VALUE")
+	private Integer cardValue;
+
+	/**
+	 * Gets the project member.
+	 * 
+	 * @return the project members.
+	 */
+	public ProjectMemberEntity getProjectMember()
 	{
-		return members;
+		return projectMember;
 	}
 
 	/**
-	 * Sets the members.
-	 *
-	 * @param members
-	 *            the new members
+	 * Sets the project member for mapping with project member id.
+	 * 
+	 * @param projectMember the new project member.
 	 */
-	public void setMembers(ProjectMemberEntity members)
+	public void setProjectMember(ProjectMemberEntity projectMember)
 	{
-		this.members = members;
+		this.projectMember = projectMember;
 	}
 
 	/**
 	 * Gets the poker game.
-	 *
-	 * @return the poker game
+	 * 
+	 * @return the poker game.
 	 */
 	public PokerGameEntity getPokerGame()
 	{
@@ -72,10 +70,9 @@ public class PokerGameUserEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Sets the poker game.
-	 *
-	 * @param pokerGame
-	 *            the new poker game
+	 * Sets the poker game for mapping with poker game id.
+	 * 
+	 * @param pokerGame the new poker game.
 	 */
 	public void setPokerGame(PokerGameEntity pokerGame)
 	{
@@ -84,8 +81,8 @@ public class PokerGameUserEntity extends WebutilsExtendableEntity
 
 	/**
 	 * Gets the card value.
-	 *
-	 * @return the card value
+	 * 
+	 * @return the card value.
 	 */
 	public Integer getCardValue()
 	{
@@ -93,10 +90,9 @@ public class PokerGameUserEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Sets the card value.
-	 *
-	 * @param cardValue
-	 *            the new card value
+	 * Sets the card value which is the story point of selected story.
+	 * 
+	 * @param cardValue the new card value.
 	 */
 	public void setCardValue(Integer cardValue)
 	{

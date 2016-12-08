@@ -72,19 +72,19 @@ public class BugModel extends AbstractExtendableModel
 	 * The project id.
 	 **/
 	@LOV(name = "projectsLov")
-	private Long project;
+	private Long projectId;
 
 	/**
 	 * The sprint.
 	 **/
 	@LOV(name = "sprintLov")
-	private Long sprint;
+	private Long sprintId;
 
 	/**
 	 * The story.
 	 **/
 	@LOV(name = "storiesLov")
-	private Long story;
+	private Long storyId;
 
 	/**
 	 * The file.
@@ -249,66 +249,63 @@ public class BugModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the project.
+	 * Gets the project id.
 	 *
-	 * @return the project
+	 * @return the project id
 	 */
-	public Long getProject()
+	public Long getProjectId()
 	{
-		return project;
+		return projectId;
 	}
 
 	/**
-	 * Sets the project.
+	 * Sets the project id.
 	 *
-	 * @param project
-	 *            the new project
+	 * @param projectId the new project id
 	 */
-	public void setProject(Long project)
+	public void setProjectId(Long projectId)
 	{
-		this.project = project;
+		this.projectId = projectId;
 	}
 
 	/**
-	 * Gets the sprint.
+	 * Gets the sprint id.
 	 *
-	 * @return the sprint
+	 * @return the sprint id
 	 */
-	public Long getSprint()
+	public Long getSprintId()
 	{
-		return sprint;
+		return sprintId;
 	}
 
 	/**
-	 * Sets the sprint.
+	 * Sets the sprint id.
 	 *
-	 * @param sprint
-	 *            the new sprint
+	 * @param sprintId the new sprint id
 	 */
-	public void setSprint(Long sprint)
+	public void setSprintId(Long sprintId)
 	{
-		this.sprint = sprint;
+		this.sprintId = sprintId;
 	}
 
 	/**
-	 * Gets the story.
+	 * Gets the story id.
 	 *
-	 * @return the story
+	 * @return the story id
 	 */
-	public Long getStory()
+	public Long getStoryId()
 	{
-		return story;
+		return storyId;
 	}
 
 	/**
-	 * Sets the story.
+	 * Sets the story id.
 	 *
-	 * @param story
-	 *            the new story
+	 * @param storyId the new story id
 	 */
-	public void setStory(Long story)
+	public void setStoryId(Long storyId)
 	{
-		this.story = story;
+		this.storyId = storyId;
 	}
 
 	/**
@@ -324,8 +321,7 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the file.
 	 *
-	 * @param file
-	 *            the new file
+	 * @param file the new file
 	 */
 	public void setFile(List<FileInfo> file)
 	{
