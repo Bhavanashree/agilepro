@@ -1,0 +1,74 @@
+<!-- Dependency View -->
+<div style="overflow-y: auto; border: 3px solid grey; padding: 0.5em; margin-top: 0.5em; width: 100%; height: 100%;">
+	
+		<div ng-repeat="backlog in backLogs" style="height: 5em; max-height: 100%; padding: 0.5em; margin: 0.5em; border: 3px solid lightblue;">
+			<a href="" ng-click="count = count + 1" ng-init="count=1"><i class="fa fa-plus" aria-hidden="true"></i></a>
+			<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
+			
+			<!-- On plus button -->
+			<div ng-show="count%2 == 0">
+				<table>
+					<tr>
+						<td>
+							<!-- Drop down -->						
+							<div style="background: white;">
+								<div class="input-group">
+									<table>
+										<tr>
+											<td>
+												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+												 placeholder="Please select series" value="{{selectedSeries}}">
+											</td>
+											<td>
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu dropdown-menu-right">
+													    <li ng-repeat="seriesName in listOfGameSeries"><a ng-click="onGameSeriesChange(seriesName)" href="">{{seriesName}}</a></li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</td>
+						
+						<td>
+							<!-- Drop down -->
+							<div style="background: white;">
+								<div class="input-group">
+									<table>
+										<tr>
+											<td>
+												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+												 placeholder="Please select series" value="{{selectedSeries}}">
+											</td>
+											<td>
+												<div class="input-group-btn">
+													<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<span class="caret"></span>
+													</button>
+													<ul class="dropdown-menu dropdown-menu-right">
+													    <li ng-repeat="seriesName in listOfGameSeries"><a ng-click="onGameSeriesChange(seriesName)" href="">{{seriesName}}</a></li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</td>
+						
+						<td>
+							<button class="btn btn-primary">Add</button>
+						</td>
+					</tr>
+					
+				</table>
+				
+			</div>
+		</div>
+	</div>
+</div>

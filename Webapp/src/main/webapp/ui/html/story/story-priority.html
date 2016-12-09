@@ -1,3 +1,8 @@
-<div>hi
-	
-</div>
+<!-- Priority View -->
+<div style="height: 100%; padding: 0.5em; overflow-y: auto; border: 3px solid grey; padding: 0.5em; margin-top: 0.5em;">
+	<div ng-repeat="backlog in backLogs | orderBy : 'backlog.priority'" 
+	style="height: 3em; padding: 0.5em; margin: 0.5em; border: 3px solid lightblue;">
+		<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
+	</div>
+</div>					
+		

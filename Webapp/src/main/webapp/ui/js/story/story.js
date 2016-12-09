@@ -1,6 +1,6 @@
 $.application.controller('storyController', ["$scope", "crudController", "utils","modelDefService", 
                                              "validator","$state","actionHelper",
-       function($scope, crudController,utils, modelDefService, validator,$state,actionHelper) {
+       function($scope, crudController,utils, modelDefService, validator, $state, actionHelper) {
 	
 	 crudController.extend($scope, {
 		"name": "Story",
@@ -61,10 +61,33 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 	});
 	
+	 $scope.testMy = function(){
+		 console.log("test my");
+	 };
+	 
+	 
 	 $scope.storyViewTab = {active: true, color: "blueBackGround"};
 	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
 	 $scope.priorityViewTab = {active: false, color: "greyBackGround"};
-	
+	 
+
+	 	/**
+		 * Set the active tab.
+		 */
+		$scope.setActiveTab = function(){
+			
+			console.log("active tab is called");
+			
+			/*switch(tabName)
+			{
+				case STORY_VIEW:
+					{
+						console.log("stry");
+					}
+			}*/
+			
+		};
+		
 	 
 	 /**
 	  * Fetch back logs according to the project id. 
@@ -84,7 +107,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				 		{
 				 			$scope.loadBacklogItems($scope.backLogs);
 				 		}
-				 		
+				 			
+				 		try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
 				 
 					 },{"hideInProgress" : true}
 			 );
@@ -143,14 +171,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		  $scope.addBackLogsAccordingToChild($scope.epicStoryList, 0);
 		  
 		  console.log($scope.finalResult);
-		try
-		{
-			$scope.$apply();
-		}catch(ex)
-		{}
-		
 	};
 	 
+	/**
+	 * Recursion wise adding the stories.
+	 */
 	$scope.addBackLogsAccordingToChild = function(backLogArr, indentValue){
 		
 		 var backLog;
@@ -168,6 +193,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				}
 		  }
 	};
+	
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {

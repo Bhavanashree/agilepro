@@ -1,8 +1,8 @@
 <div class="container-fluid" ng-controller="storyController" style="padding: 0px; width: 100%;" ng-init="initStory()">
-
-	<table style="width: 100%; height: 100%;">
-		<tr style="height: 6%;">
-			<td ng-class="storyViewTab.color" style="width: 33%; border-right: 1px solid black; text-align: center; cursor:pointer;">
+	
+	<table style="width: 100%; height: 7%;">
+		<tr>
+			<td ng-class="storyViewTab.color" ng-click="setActiveTab()" style="width: 33%; border-right: 1px solid black; text-align: center; cursor:pointer;">
 				<div>Story View</div>
 			</td>
 			<td ng-class="dependencyViewTab.color" style="width: 33%; border-right: 1px solid black; text-align: center; cursor:pointer;">
@@ -12,33 +12,16 @@
 				<div>Priority View</div>
 			</td>
 		</tr>
-		<tr style="height: 7%;">
-			<td colspan="3" style="padding: 0.5em;">
-				<div class="has-success has-feedback" style="max-width: 20em;">
-					<input class="form-control" type="text" placeholder="Search story" style="border-color: lightgrey;"/>
-					<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
-				</div>
-			</td>
-		</tr>
-		<tr style="height: 80%;">
-			<td colspan="3">
-				<div style="overflow-y: auto; border: 2px solid red;" yk-max-height="90vh - ${$this.offset().top}px">
-					<div ng-repeat="backlog in finalResult"
-					style="margin: 0.5em; border: 2px solid lightblue; margin-left: {{backlog.indent * 15}}px;">
-						{{backlog.title}}, parent id - {{backlog.parentStoryId}}
-					</div>
-				</div>		
-			</td>
-		</tr>
-		<tr style="height: 7%;">
-			<td colspan="3" style="padding: 0.5em;">
-				<div> 
-					<input class="form-control" id="parentStorytextarea" type="text" name="textarea1" placeholder="Add New story" ng-model="inlineTitle" ng-keyup="handleKeyPress($event);" ng-bind="model.title"/>
-				</div>
-			</td>
-		</tr>
 	</table>
 
+	<div ng-show="storyViewTab.active" ng-include="'/ui/html/story/story-hierarchy.html'">
+	</div>
+	
+	<div ng-show="dependencyViewTab.active"  ng-include="'/ui/html/story/story-dependency.html'">
+	</div>
+	
+	<div ng-show="priorityViewTab.active" ng-include="'/ui/html/story/story-priority.html'">
+	</div>
 	
 	<div ng-include="'/ui/html/story/bulk-story.html'" ng-controller="bulkStoryController">
 	</div>
