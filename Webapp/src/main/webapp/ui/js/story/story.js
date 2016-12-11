@@ -1,6 +1,6 @@
 $.application.controller('storyController', ["$scope", "crudController", "utils","modelDefService", 
                                              "validator","$state","actionHelper",
-       function($scope, crudController,utils, modelDefService, validator, $state, actionHelper) {
+       function($scope, crudController, utils, modelDefService, validator, $state, actionHelper) {
 	
 	 crudController.extend($scope, {
 		"name": "Story",
@@ -61,10 +61,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 	});
 	
-	 $scope.testMy = function(){
-		 console.log("test my");
-	 };
-	 
 	 
 	 $scope.storyViewTab = {active: true, color: "blueBackGround"};
 	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
@@ -74,17 +70,31 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 	/**
 		 * Set the active tab.
 		 */
-		$scope.setActiveTab = function(){
+		$scope.setActiveTab = function(tabName){
 			
-			console.log("active tab is called");
-			
-			/*switch(tabName)
+			switch(tabName)
 			{
-				case STORY_VIEW:
-					{
-						console.log("stry");
-					}
-			}*/
+				case "STORY_VIEW":
+				{
+					$scope.storyViewTab = {active: true, color: "blueBackGround"};
+					$scope.dependencyViewTab = {active: false, color: "greyBackGround"};
+					$scope.priorityViewTab = {active: false, color: "greyBackGround"};
+					break;
+				}
+				case "DEPENDENCY_VIEW":
+				{
+					$scope.storyViewTab = {active: false, color: "greyBackGround"};
+					$scope.dependencyViewTab = {active: true, color: "blueBackGround"};
+					$scope.priorityViewTab = {active: false, color: "greyBackGround"};
+					break;
+				}
+				case "PRIORITY_VIEW":
+				{
+					$scope.storyViewTab = {active: false, color: "greyBackGround"};
+					$scope.dependencyViewTab = {active: false, color: "greyBackGround"};
+					$scope.priorityViewTab = {active: true, color: "blueBackGround"};
+				}
+			}
 			
 		};
 		
@@ -94,6 +104,17 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	  */
 	 $scope.initStory = function(){
 		 
+		console.log("init story is called");
+		
+		$scope.idToBaclokgItem = {};
+		$scope.hierarchyList = [];
+		$scope.epicStoryList = [];
+		$scope.childStories = [];
+		$scope.parentIdChildListMap = {};
+		$scope.indentPosition = 0;
+		  
+		$scope.finalResult = [];
+		
 		var activeProjectId = $scope.getActiveProjectId()
 		 
 		if(activeProjectId != -1)
@@ -102,6 +123,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 					 function(readResponse, respConfig)
 					 {
 				 		$scope.backLogs = readResponse.model;
+				 		console.log("working");
 				 		
 				 		if($scope.backLogs)
 				 		{
@@ -120,15 +142,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 };
 	 
 	 $scope.loadBacklogItems = function(backlogItems) {
-		  
-		  $scope.idToBaclokgItem = {};
-		  $scope.hierarchyList = [];
-		  $scope.epicStoryList = [];
-		  $scope.childStories = [];
-		  $scope.parentIdChildListMap = {};
-		  $scope.indentPosition = 0;
-		  
-		  $scope.finalResult = [];
 		  
 		  var backlog;
 		  for(var index = 0; index < backlogItems.length; index++)
@@ -156,15 +169,17 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		  var childBackLog;
 		  for(var index = 0; index < $scope.childStories.length; index++)
 			{
-			  childBackLog = $scope.childStories[index];
-			  
-			  	if($scope.parentIdChildListMap[childBackLog.parentStoryId])
+			  	childBackLog = $scope.childStories[index];
+			  	
+			  	var childArr = $scope.parentIdChildListMap[childBackLog.parentStoryId];
+			  	
+			  	if(childArr && (childArr.indexOf(childBackLog) == -1))
 				  	{
-				  		$scope.parentIdChildListMap[childBackLog.parentStoryId].push(childBackLog);
+			  			childArr.push(childBackLog);
 			  		
 				  	}else
 				  	{
-				  		$scope.parentIdChildListMap[childBackLog.parentStoryId] = [childBackLog];
+				  		childArr = [childBackLog];
 				  	}
 			}
 		  
@@ -188,12 +203,29 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			  
 			  if($scope.parentIdChildListMap[backLog.id])
 				{
-				  console.log("recursion called " + backLog.title);
 				  $scope.addBackLogsAccordingToChild($scope.parentIdChildListMap[backLog.id], indentValue + 1);
 				}
 		  }
 	};
 	
+	
+	/**
+	 * Added new backlog after save. 
+	 */
+	$scope.addBacklog = function(backlogModel){
+		
+		$scope.finalResult.push(backlogModel);
+		
+		$scope.epicStoryList.push(backlogModel);
+	};
+	
+	/**
+	 * Displays bulk story dialog.
+	 */
+	$scope.openBulkStories = function() {
+		utils.openModal("bulkStoryDialog", {});
+		
+	};
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {

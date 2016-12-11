@@ -65,23 +65,24 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Save story.
-	 *
-	 * @param model
-	 *            the model
-	 * @return the story entity
+	 * Save new story with increment by one with max priority.
+	 * 
+	 * @param storyModel new model for save.
+	 * @return newly saved story object.
 	 */
-	public StoryEntity saveStory(StoryModel model)
+	public StoryEntity saveStory(StoryModel storyModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			StoryEntity entity = super.save(model);
+			storyModel.setPriority(storyRepo.getMaxOrder(storyModel.getProjectId()) + 1);
+			
+			StoryEntity entity = super.save(storyModel);
 
 			transaction.commit();
 			return entity;
 		} catch(Exception ex)
 		{
-			throw new IllegalStateException("An error occurred  while saving  story - " + model, ex);
+			throw new IllegalStateException("An error occurred  while saving  story - " + storyModel, ex);
 		}
 	}
 

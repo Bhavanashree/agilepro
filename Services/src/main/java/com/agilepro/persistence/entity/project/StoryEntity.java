@@ -23,7 +23,7 @@ import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * Maintains the Stories created by Teams.
+ * Maintains the Stories.
  * 
  * @author Bhavana.
  */

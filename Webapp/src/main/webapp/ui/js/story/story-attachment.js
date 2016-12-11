@@ -103,30 +103,6 @@ $scope.getAllProjectMembers = function(){
 	
 	var projectId;
 		
-	//set title to model
-	$scope.saveBacklog= function(e){
-			
-		console.log("inlinetext:     " + $scope.inlineTitle );
-		
-		projectId = $scope.getActiveProjectId();
-		
-		if(!projectId)
-		{
-			utils.alert("Please Select Project");
-			return;
-		}
-		
-		$scope.model = {"title" : $scope.inlineTitle.trim(),"projectId" : projectId};
-		
-		$scope.initErrors("model", true);
-			
-		$scope.newStoryMode= 'true';
-			
-		$scope.saveChanges();
-		$("#parentStorytextarea").val(null);
-		$scope.refreshSearch();
-	};
-
 	//autorefresh
 	$scope.refreshSearch = function(){
 		$scope.$broadcast("invokeSearch", {});
@@ -521,14 +497,6 @@ $scope.getAllProjectMembers = function(){
 		
 	};
 	
-	/**
-	 * Displays bulk story dialog.
-	 */
-	$scope.openBulkStories = function() {
-		utils.openModal("bulkStoryDialog", {
-		});
-		
-	};
 	
 	$scope.saveNote = function(published){
 		
