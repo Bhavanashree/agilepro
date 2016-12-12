@@ -5,7 +5,8 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper",
 	 */
 	$scope.onTypeNewBacklog = function(e) {
 		 
-		console.log($scope.newBacklogTitle);
+		/*var storyHierarchyId  = $("storyHierarchyId");
+		console.log(storyHierarchyId);*/
 		
 		 e = e || window.event;
 		 var key = e.keyCode ? e.keyCode : e.which;
@@ -35,7 +36,14 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper",
 					if(saveResponse.code == 0)
 					{
 						$scope.newBacklogTitle = "";
+						
+						backlogModel["indent"] = 0;
+						backlogModel["id"] = saveResponse.id
+						
 						$scope.addBacklog(backlogModel);
+						
+						var storyHierarchyId  = $("storyHierarchyId");
+						storyHierarchyId.animate({ scrollTop: storyHierarchyId[0].scrollHeight });
 					}
 					
 					try
