@@ -38,8 +38,9 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		 //enter key   
 		 if (key == 13) 
 		 {
-			 if( $scope.newBacklogTitle.trim().length == 0 )
+			 if( $scope.newBacklogTitle.trim().length <= 3 )
 				{
+				 	utils.alert("Title must be at least 4 characters");
 					return;
 				}
 			
@@ -62,8 +63,9 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		 //enter key   
 		 if (key == 13) 
 		 {
-			 if( childTitle.trim().length == 0 )
+			 if( childTitle.trim().length <= 3 )
 				{
+				    utils.alert("Title must be at least 4 characters");
 					return;
 				}
 			 
@@ -99,6 +101,9 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 						{
 							$scope.addBacklog(backlogModel);
 						}
+					}else
+					{
+						// response error
 					}
 					
 					try
