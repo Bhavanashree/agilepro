@@ -1,43 +1,209 @@
 <!-- Story view -->
 <div ng-controller="storyHierarchyController" style="border: 3px solid grey; width: 100%; height: 100%;">
 
-		<div class="has-success has-feedback" style="border-bottom: 3px solid grey;">
-			<input ng-model="searchStory" class="form-control" type="text" placeholder="Search story" style="border: none;"/>
-			<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+		<div style="border-bottom: 3px solid grey;">
+			<table style="width: 100%;">
+				<tr>
+					<td class="has-success has-feedback" style="width: 95%;">
+						<input ng-model="searchStory" class="form-control" type="text" placeholder="Search story" style="border: none;"/>
+						<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+					</td>
+					<td style="width: 95%;">
+						<a href="" ng-click="openBulkStories()" style="border-radius: 0px;" 
+							class="btn btn-info">
+				          <span class="glyphicon glyphicon-plus"></span> 
+				          <span class="glyphicon glyphicon-plus"></span> 
+				          <span class="glyphicon glyphicon-plus"></span> 
+				        </a>
+					</td>
+				</tr>
+			</table>
 		</div>
 		
 		<div id="storyHierarchyId" style="overflow-y: auto; padding: 0.5em; height: 100%;" 
-			yk-max-height="98vh - ${$this.offset().top}px - 5em">
+			yk-max-height="98vh - ${$this.offset().top}px - 3.8em">
 			
-			<div ng-repeat="backlog in finalResult | filter:searchStory" 
+			<div ng-repeat="backlog in finalResult | filter:storyFilter()" 
 			style="height: 5em; padding: 0.5em; margin: 0.5em; border: 3px solid #66c2ff; 
 			margin-left: {{backlog.indent * 20}}px;">
 				<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 				
 				<span style="float: right;">
-					<a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+					<a href="" ng-click="editBacklog()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 					<a href=""><i class="fa fa-times" aria-hidden="true" style="color: red;"></i></a>
 				</span>
-				
-				<input class="form-control" placeholder="Add Child story" ng-keyup="handleKeyPress($event);" ng-bind="model.title" 
-				style="border: 2px solid lightblue; max-width: 20em;"/>
+				{{childTitle}}
+				<input class="form-control" placeholder="Add child story" 
+					ng-keyup="onTypeNewBacklogChild($event, backlog.id, backlog.indent)" 
+					style="border: 2px solid lightblue; max-width: 20em;"/>
 			</div>
 		</div>
 				
 		<!-- Add new story -->
-		<div style="border-top: 3px solid grey;"> 
-			<table style="width: 100%;">
-				<tr>
-					<td style="width: 95%;">
-						<input class="form-control" id="addNewBacklogId" type="text" 
-							placeholder="Add New story" ng-model="newBacklogTitle" 
-							ng-keyup="onTypeNewBacklog($event);" ng-model="newBacklogTitle" style="border: none;"/>
-					</td>
-					<td style="width: 5%; padding: 0.2em;">
-						<button ng-click="openBulkStories()" class="btn btn-success btn-xs">Add Bulk Stories</button>
-					</td>
-				</tr>
-			</table>
+		<div class="has-success has-feedback" style="border-top: 3px solid grey;"> 
+				<input class="form-control" id="addNewBacklogId" type="text" 
+					placeholder="Add new story" ng-model="newBacklogTitle" 
+					ng-keyup="onTypeNewBacklog($event)" ng-model="newBacklogTitle" style="border: none;"/>
+					
+				<span class="glyphicon glyphicon-plus form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
 		</div>
+
+	<!-- Story dialog -->
+	<yk-dialog id="storyDialogId" title="Story" width="95%">
+		<content>
+			<yk-tabs ng-model="selectedTab">
+				<tab id="modelFormId" label="Basic">
+					<yk-model-form name="StoryModel" columns="2"/>
+				</tab>
+				
+				<tab id="conversationId" label="Conversation" ng-show="conversationTab">
+					
+					<!-- Conversation -->
+					<div class="panel panel-primary" style="margin-bottom: 0px;">
+						<div class="panel-heading">
+							<i class="fa fa-users" aria-hidden="true"></i>
+								<select ng-options="title as title.name for title in titles track by title.id" 
+									ng-model="selectedTitle" ng-change="titleSelectionChanged(selectedTitle)" style="color: black;">
+									<option value=""> -- Select Title -- </option>
+								</select> 
+							<div class="btn-group">
+								<span class="fa fa-plus-square" aria-hidden="true" style="font-size:1.2em; cursor:pointer;"
+								data-toggle="modal" data-target="#conversationTitleModal" ng-click="addTitle()">
+								</span>
+							</div>
+						</div>
+						<div id="panelBodyId" class="panel-body" style="overflow-y:auto; height: 230px;">
+							<table style="width:100%;">
+								<tr ng-repeat="conversation in conversations | orderBy : 'conversation.date'">
+									<td>
+										<table style="width:100%;">
+											<tr ng-show="conversation.displayLeft" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+												<td colspan="2">
+													<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden;">
+														<b>{{conversation.displayName}}</b>
+													</div>
+													
+													<div ng-if="conversation.displayName.length == 0">
+														<b>{{conversation.displayName}}</b>
+													</div>
+												</td>
+											</tr>
+											
+											<tr ng-show="conversation.displayRight" style="height: 1em; color: #CD5C5C; font-size: 0.8em;">
+												<td colspan="3">
+													<div ng-if="conversation.displayName.length > 0" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; padding-left: 1.7em;">
+														<b>{{conversation.displayName}}</b>
+													</div>
+													
+													<div ng-if="conversation.displayName.length == 0">
+														<b>{{conversation.displayName}}</b>
+													</div>
+												</td>
+											</tr>
+											<tr ng-show="conversation.displayLeft">
+												<td style="background-color: lightblue; border-radius: 5px; width: 95%; 
+													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+													padding-right: 0.5em; padding-bottom: 0.3em;" ng-bind-html="conversation.message | unsafe"><br/>
+													<span style="float: right; font-size: 0.8em; color: #008080;">
+														{{conversation.displayDate}}, {{conversation.time}}
+													</span>
+												</td>
+												<td style="width: 5%;">
+													<div class="arrow-right"></div>
+												</td>
+												<td>
+												</td>
+											</tr>
+											
+											<tr ng-show="conversation.displayRight">
+												<td style="width: 5%;">
+												</td>
+												<td style="width: 0%;">
+													<div class="arrow-left"></div>
+												</td>
+												<td style="background-color: #b3ffb3; border-radius: 5px; width: 95%; 
+													height: 1em; padding-top: 0.3em; padding-left: 0.5em; 
+													padding-right: 0.5em; padding-bottom: 0.3em;"ng-bind-html="conversation.message | unsafe"><br/>
+												<span style="float: right; font-size: 0.8em; color: #008080;">
+													{{conversation.displayDate}}, {{conversation.time}}
+												</span>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="panel-footer">
+							<textarea id="messageId" ng-model="message" ng-keyup="onType($event)" class="form-control" rows="2" cols="2" 
+								placeholder="Type your message here" style="height: 10em; resize: none;"></textarea>
+							<button ng-click="submitContent()">Send</button>						
+						</div>
+					</div>
+				</tab>
+				
+				<!-- Attachment -->
+				<tab id="storyFormId" label="Attachment" ng-show="attachmentTab">
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<div class="panel panel-default">
+							
+								<div class="panel-heading" style="padding: 0.1em 0.5em; width: 100%; text-align: right;">
+									<a role="button" ng-click="addAttachment()" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" 
+												data-toggle="tooltip" title="Add Attachment">
+										<i class="glyphicon glyphicon-plus"></i>
+									</a>
+								</div>
+								<div style="width: 100%; overflow: auto;">
+									<table class="table table-bordered table-striped table-hover" id="customerPocList" style="margin: 0px;">
+										<tr>
+											<th style="text-align: center;">Title</th>
+											<th style="text-align: center;">File</th>
+											<th style="text-align: center;">Link</th>
+											<th style="text-align: center; width: 1em;">&nbsp;</th>
+										</tr>
+										<tr class="ng-scope" style="cursor: pointer;" poc-row-id="{{$index}}" ng-repeat="attach in attachments">
+											<td align="center">{{attach.title}}</td>
+											<td align="center">
+												<a class="ng-binding" style="font-weight: bold;" yk-file-link="{{attach.file.id}}" href="#" data-toggle="tooltip" title="Click to download the file">
+												{{attach.file.fileName}}
+												</a>
+											</td>
+											<td align="center">
+												<a target="_blank" href="{{attach.link}}" data-toggle="tooltip" title="{{attach.link}}">
+												{{attach.linkForDisplay}}
+												</a>
+											</td>
+											<td style=" width: 1em; white-space: nowrap;">
+												<a role="button" ng-click="editAttachment(attach)" style="text-decoration: none; color: blue; font-size: 1.3em;" class="yk-icon-link" 
+															data-toggle="tooltip" title="Edit Attachment">
+													<i class="glyphicon glyphicon-edit"></i>
+												</a>
+												<a role="button" ng-click="removeAttachment(attach)" style="text-decoration: none; color: red; font-size: 1.3em;" class="yk-icon-link" 
+															data-toggle="tooltip" title="Remove Attachment">
+													<i class="glyphicon glyphicon-remove"></i>
+												</a>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</tab>
+				
+				<tab id="storyNoteId" label="Notes" ng-show="conversationTab">
+					<div ng-include="'/ui/html/story/story-note.html'"></div>
+				</tab>
+				
+			</yk-tabs>
+		</content>
+		<footer>
+			<button type="button" class="btn btn-info" ng-click="saveNote('DRAFT')" ng-if="selectedTab == 'storyNoteId'">Save Draft</button>
+			<button type="button" class="btn btn-success" ng-click="saveNote('PUBLISHED')" ng-if="selectedTab == 'storyNoteId'">Publish</button>
+			<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)" ng-if="selectedTab == 'modelFormId'">{{newStoryMode ? 'Save' : 'Update'}}</button>
+			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal" ng-if="selectedTab == 'modelFormId'">Cancel</button>
+		</footer>
+	</yk-dialog>
 	
-</table>
+</div>

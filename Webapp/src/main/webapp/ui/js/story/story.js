@@ -65,8 +65,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.storyViewTab = {active: true, color: "blueBackGround"};
 	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
 	 $scope.priorityViewTab = {active: false, color: "greyBackGround"};
+	 $scope.finalResult = [];
+	 $scope.scrollForFirstTime = true; 
 	 
-
 	 	/**
 		 * Set the active tab.
 		 */
@@ -98,7 +99,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 		};
 		
-	 
+		
 	 /**
 	  * Fetch back logs according to the project id. 
 	  */
@@ -113,7 +114,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.parentIdChildListMap = {};
 		$scope.indentPosition = 0;
 		  
-		$scope.finalResult = [];
+		// This array will be assigned to final result after recursion so that the scroll 
+		// bar will be not affected for child save.  
+		$scope.backlogsForRecursion = [];
 		
 		var activeProjectId = $scope.getActiveProjectId()
 		 
@@ -141,6 +144,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 	 };
 	 
+	 /**
+	  * Sorting the list of epic stories and calling the recursion method.
+	  */
 	 $scope.loadBacklogItems = function(backlogItems) {
 		  
 		  var backlog;
@@ -150,12 +156,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			  
 			  $scope.idToBaclokgItem[backlog.id] = backlog;
 			  
-			  if(!backlog.parentStoryId)
-			  {
-				  $scope.epicStoryList.push(backlog);
-			  }else
+			  if(backlog.parentStoryId)
 			  {
 				  $scope.childStories.push(backlog);
+			  }else
+			  {
+				  $scope.epicStoryList.push(backlog);
 			  }
 			}
 		  
@@ -173,19 +179,27 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			  	
 			  	var childArr = $scope.parentIdChildListMap[childBackLog.parentStoryId];
 			  	
-			  	if(childArr && (childArr.indexOf(childBackLog) == -1))
+			  	if(childArr)
 				  	{
 			  			childArr.push(childBackLog);
 			  		
 				  	}else
 				  	{
-				  		childArr = [childBackLog];
+				  		$scope.parentIdChildListMap[childBackLog.parentStoryId] = [childBackLog];
 				  	}
 			}
 		  
 		  $scope.addBackLogsAccordingToChild($scope.epicStoryList, 0);
 		  
-		  console.log($scope.finalResult);
+		 if($scope.scrollForFirstTime)
+		 {
+			var storyHierarchyElem  = $("#storyHierarchyId");
+			storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight + 10000 });
+			
+			$scope.scrollForFirstTime = false;
+		 }
+		
+		$scope.finalResult = $scope.backlogsForRecursion;
 	};
 	 
 	/**
@@ -199,10 +213,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			  backLog = backLogArr[i];
 			  backLog["indent"] = indentValue;
 			  
-			  $scope.finalResult.push(backLog);
+			  $scope.backlogsForRecursion.push(backLog);
 			  
 			  if($scope.parentIdChildListMap[backLog.id])
 				{
+				  console.log("recursion");
 				  $scope.addBackLogsAccordingToChild($scope.parentIdChildListMap[backLog.id], indentValue + 1);
 				}
 		  }
@@ -217,7 +232,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.finalResult.push(backlogModel);
 		
 		$scope.epicStoryList.push(backlogModel);
+		
+		$scope.backLogs.push(backlogModel);
+		
+		var storyHierarchyElem  = $("#storyHierarchyId");
+		storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight });
 	};
+	
 	
 	/**
 	 * Displays bulk story dialog.
@@ -230,9 +251,44 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
 		
+		$scope.scrollForFirstTime = true;
 		$scope.initStory();
-		//$scope.$broadcast("rowsModified");
 	});
+	
+	
+	$scope.initModelDef = function() {
+		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){
+			this.$scope.modelDef = modelDefResp.modelDef;
+			
+			console.log("Story Model");
+		}, {"$scope": $scope}));
+		
+		modelDefService.getModelDef("ConversationTitleModel", $.proxy(function(modelDefResp){
+			this.$scope.titleModelDef = modelDefResp.modelDef;
+			
+			console.log("Title model");
+		}, {"$scope": $scope}));
+		
+		modelDefService.getModelDef("StoryAttachmentModel", $.proxy(function(modelDefResp){
+			this.$scope.attachmentModelDef = modelDefResp.modelDef;
+			
+			console.log("Attachment model");
+		}, {"$scope": $scope}));
+	};
+	
+	$scope.getModelDef = function(prefix) {
+		if(prefix == 'converTitleModel')
+		{
+			return $scope.titleModelDef;
+		}
+		else if(prefix == 'storyAttachmentModel')
+		{
+			return $scope.attachmentModelDef;
+		}
+		
+		return $scope.modelDef;
+	};
+	
 	
 }]);
 

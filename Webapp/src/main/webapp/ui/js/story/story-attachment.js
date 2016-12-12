@@ -254,38 +254,7 @@ $scope.getAllProjectMembers = function(){
 	 };
 	 
 	
-	$scope.initModelDef = function() {
-		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){
-			this.$scope.modelDef = modelDefResp.modelDef;
-			
-			console.log("Story Model");
-		}, {"$scope": $scope}));
-		
-		modelDefService.getModelDef("ConversationTitleModel", $.proxy(function(modelDefResp){
-			this.$scope.titleModelDef = modelDefResp.modelDef;
-			
-			console.log("Title model");
-		}, {"$scope": $scope}));
-		
-		modelDefService.getModelDef("StoryAttachmentModel", $.proxy(function(modelDefResp){
-			this.$scope.attachmentModelDef = modelDefResp.modelDef;
-			
-			console.log("Attachment model");
-		}, {"$scope": $scope}));
-	};
 	
-	$scope.getModelDef = function(prefix) {
-		if(prefix == 'converTitleModel')
-		{
-			return $scope.titleModelDef;
-		}
-		else if(prefix == 'storyAttachmentModel')
-		{
-			return $scope.attachmentModelDef;
-		}
-		
-		return $scope.modelDef;
-	};
 	
 	$scope.addTitle = function(){
 		 
