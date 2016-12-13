@@ -213,6 +213,18 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			  backLog = backLogArr[i];
 			  backLog["indent"] = indentValue;
 			  
+			  
+			  if(!backLog.parentStoryId)
+			  {
+				  backLog.symbol = "E";
+			  }else if(i == 0)
+			  {
+				  backLog.symbol = "F";
+			  }else
+			  {
+				  backLog.symbol = "S";
+			  }
+			  
 			  $scope.backlogsForRecursion.push(backLog);
 			  
 			  if($scope.parentIdChildListMap[backLog.id])
