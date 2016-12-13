@@ -26,6 +26,9 @@
 			<div ng-repeat="backlog in finalResult | filter:storyFilter()" 
 			style="height: 5em; padding: 0.5em; margin: 0.5em; border: 3px solid #66c2ff; 
 			margin-left: {{backlog.indent * 20}}px;">
+				
+				<span style="border-radius: 10px; background-color: grey;">E</span>
+				
 				<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 				
 				<span style="float: right;">

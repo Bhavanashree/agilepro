@@ -68,38 +68,38 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.finalResult = [];
 	 $scope.scrollForFirstTime = true; 
 	 
-	 	/**
-		 * Set the active tab.
-		 */
-		$scope.setActiveTab = function(tabName){
-			
-			switch(tabName)
+ 	/**
+	 * Set the active tab.
+	 */
+	$scope.setActiveTab = function(tabName){
+		
+		switch(tabName)
+		{
+			case "STORY_VIEW":
 			{
-				case "STORY_VIEW":
-				{
-					$scope.storyViewTab = {active: true, color: "blueBackGround"};
-					$scope.dependencyViewTab = {active: false, color: "greyBackGround"};
-					$scope.priorityViewTab = {active: false, color: "greyBackGround"};
-					break;
-				}
-				case "DEPENDENCY_VIEW":
-				{
-					$scope.storyViewTab = {active: false, color: "greyBackGround"};
-					$scope.dependencyViewTab = {active: true, color: "blueBackGround"};
-					$scope.priorityViewTab = {active: false, color: "greyBackGround"};
-					break;
-				}
-				case "PRIORITY_VIEW":
-				{
-					$scope.storyViewTab = {active: false, color: "greyBackGround"};
-					$scope.dependencyViewTab = {active: false, color: "greyBackGround"};
-					$scope.priorityViewTab = {active: true, color: "blueBackGround"};
-				}
+				$scope.storyViewTab = {active: true, color: "blueBackGround"};
+				$scope.dependencyViewTab = {active: false, color: "greyBackGround"};
+				$scope.priorityViewTab = {active: false, color: "greyBackGround"};
+				break;
 			}
-			
-		};
+			case "DEPENDENCY_VIEW":
+			{
+				$scope.storyViewTab = {active: false, color: "greyBackGround"};
+				$scope.dependencyViewTab = {active: true, color: "blueBackGround"};
+				$scope.priorityViewTab = {active: false, color: "greyBackGround"};
+				break;
+			}
+			case "PRIORITY_VIEW":
+			{
+				$scope.storyViewTab = {active: false, color: "greyBackGround"};
+				$scope.dependencyViewTab = {active: false, color: "greyBackGround"};
+				$scope.priorityViewTab = {active: true, color: "blueBackGround"};
+			}
+		}
 		
-		
+	};
+	
+	
 	 /**
 	  * Fetch back logs according to the project id. 
 	  */
@@ -237,6 +237,14 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		var storyHierarchyElem  = $("#storyHierarchyId");
 		storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight });
+	};
+	
+	/**
+	 * Return child list.
+	 */
+	$scope.getChildList = function(parentId){
+		
+		return $scope.parentIdChildListMap[parentId];
 	};
 	
 	

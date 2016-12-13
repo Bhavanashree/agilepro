@@ -3,27 +3,54 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	
 	$scope.storyFilter = function(){
 		
+		if($scope.oldSearchStory == $scope.searchStory)
+		{
+			return;
+		}
+		
+		$scope.oldSearchStory = $scope.searchStory;
+		
+		//Set the flag based on search string
+		$scope.checkForFilter($scope.finalResult);
+		console.log("called");
+		
+		
 		return function(item){
 			
-			if($scope.searchStory)
+			if(!$scope.searchStory)
 			{
-				if(item.title.toLowerCase().includes($scope.searchStory.toLowerCase()))
-				{
-					if(item.parentStoryId)
-					{
-						
-					}
-					
-					return false;
-				}else
-				{
-					return false;
-				}
-				
+				return true;
 			}
 			
-			return true;
+			return item.filtered;
 		};
+	};
+	
+	$scope.checkForFilter = function(stories) {
+		
+		var result = false;
+		
+		if($scope.searchStory)
+		{
+			var searchString = $scope.searchStory.toLowerCase();
+			
+			for(var story in stories)
+			{
+				if(story.title.toLowerCase().includes(searchString))
+				{
+					story.filtered = true;
+					result = true;
+				}
+				
+				if($scope.getChildList(story.id) && checkForFilter($scope.getChildList(story.id)))
+				{
+					story.filtered = true;
+					result = true;
+				}
+			}
+		}
+		
+		return result;
 	};
 	
 	
