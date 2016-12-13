@@ -2,6 +2,7 @@ package com.agilepro.commons.controllers.project;
 
 import java.util.List;
 
+import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.models.project.StoryModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
@@ -22,7 +23,7 @@ public interface IStoryController
 	 *            the model
 	 * @return the basic save response
 	 */
-	public BasicSaveResponse save(StoryModel model);
+	public StoryResponse save(StoryModel model);
 
 	/**
 	 * Read.

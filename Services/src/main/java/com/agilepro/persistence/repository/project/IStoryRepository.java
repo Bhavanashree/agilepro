@@ -3,6 +3,7 @@ package com.agilepro.persistence.repository.project;
 import java.util.List;
 
 import com.agilepro.commons.models.project.BackLogModel;
+import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StorySearchQuery;
 import com.agilepro.commons.models.project.StorySearchResult;
@@ -14,6 +15,7 @@ import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.NullCheck;
+import com.yukthi.persistence.repository.annotations.Operator;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.annotations.SearchResult;
 import com.yukthi.persistence.repository.annotations.UpdateFunction;
@@ -86,7 +88,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	public List<StoryEntity> fetchStoriesByProject(@Condition(value = "project.id") Long projectId);
 	
 	/**
-	 * Fetch stories for the given project id in priority order. 
+	 * Fetch stories for the given project id in priority order for poker game. 
 	 *  
 	 * @param pojectId provided project id for which stories are to be fetched.
 	 * @return matching records.
@@ -94,6 +96,17 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@RestrictBySpace
 	@OrderBy("priority")
 	public List<StoryEntity> fetchStoriesByProjectOrderByPriority(@Condition(value = "project.id") Long pojectId);
+	
+	@RestrictBySpace
+	@SearchResult
+	@OrderBy("priority")
+	@MethodConditions(
+			nullChecks = @NullCheck(field = "sprint.id")
+		)
+	public List<BackLogPriorityModel> fetchStoriesWherePriorityGreaterThan(@Condition(value = "project.id") Long pojectId, 
+			@Condition(value = "priority", op = Operator.GE) Integer priority);
+	
+	public boolean updatePriorityForChildAdd(@Condition(value = "id") Long id, @Field("priority") Integer priority);
 	
 	/**
 	 * Delete all.

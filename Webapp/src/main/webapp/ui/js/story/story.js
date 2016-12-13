@@ -251,6 +251,49 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight });
 	};
 	
+	$scope.addChildBacklog = function(backlogModel, storyIdPriority){
+		
+		$scope.backLogs.push(backlogModel);
+		$scope.childStories.push(backlogModel);
+		
+		var alreadyHasChild = false;
+		var tempChildList = $scope.parentIdChildListMap[backlogModel.parentStoryId];
+		
+		if(tempChildList)
+		{
+			tempChildList.push(backlogModel);
+			$scope.parentIdChildListMap[backlogModel.parentStoryId] = tempChildList; 
+		}else
+		{
+			flag = true;
+			$scope.parentIdChildListMap[backlogModel.parentStoryId] = [backlogModel];
+		}
+		
+		for(var index = 0; index < $scope.finalResult.length ; i++)
+		{
+			var backlogObj = $scope.finalResult[index];
+
+			if(backlogObj.id == backlogModel.parentStoryId)
+			{
+				 $scope.gotParent = true; 
+				 continue;
+			}
+
+			if($scope.gotParent)
+			{
+				if(backlogObj.parentStoryId == backlogModel.parentStoryId)
+				{
+					continue;
+				}else
+				{
+					$scope.finalResult.splice(index + 1, 0, backlogModel);
+					break;
+				}
+			}
+		}
+	};
+	
+	
 	/**
 	 * Return child list.
 	 */

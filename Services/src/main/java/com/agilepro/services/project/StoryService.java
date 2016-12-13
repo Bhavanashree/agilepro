@@ -1,15 +1,19 @@
 package com.agilepro.services.project;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.project.BackLogModel;
+import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
@@ -70,16 +74,38 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * @param storyModel new model for save.
 	 * @return newly saved story object.
 	 */
-	public StoryEntity saveStory(StoryModel storyModel)
+	public StoryResponse saveStory(StoryModel storyModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			storyModel.setPriority(storyRepo.getMaxOrder(storyModel.getProjectId()) + 1);
+			Map<Long, Integer> storyIdPriority = new HashMap<Long, Integer>();
+			
+			if(storyModel.getParentStoryId() != null)
+			{
+				StoryModel parentStory = super.fetchFullModel(storyModel.getParentStoryId(), StoryModel.class);
+				
+				List<BackLogPriorityModel> storiesForUpdate = storyRepo.fetchStoriesWherePriorityGreaterThan(storyModel.getProjectId(), parentStory.getPriority());
+				
+				for(int i = storiesForUpdate.size() - 1 ; i >= 0 ; i--)
+				{
+					BackLogPriorityModel modelForUpdate = storiesForUpdate.get(i);
+					
+					storyIdPriority.put(modelForUpdate.getId(),  modelForUpdate.getPriority() + 1);
+					storyRepo.updatePriorityForChildAdd(modelForUpdate.getId(),  modelForUpdate.getPriority() + 1);
+				}
+				
+				storyModel.setPriority(parentStory.getPriority());
+			}else
+			{
+				storyModel.setPriority(storyRepo.getMaxOrder(storyModel.getProjectId()) + 1);
+			}
 			
 			StoryEntity entity = super.save(storyModel);
-
+			storyIdPriority.put(entity.getId(),  entity.getPriority());
+			
 			transaction.commit();
-			return entity;
+			
+			return new StoryResponse(entity.getId(), storyIdPriority);
 		} catch(Exception ex)
 		{
 			throw new IllegalStateException("An error occurred  while saving  story - " + storyModel, ex);

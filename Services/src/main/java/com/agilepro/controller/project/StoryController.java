@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.BasicVersionResponse;
+import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.BackLogModel;
@@ -69,9 +70,9 @@ public class StoryController extends BaseController implements IStoryController
 	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid StoryModel model)
+	public StoryResponse save(@RequestBody @Valid StoryModel model)
 	{
-		return new BasicSaveResponse(storyService.saveStory(model).getId());
+		return storyService.saveStory(model);
 	}
 
 	/**
