@@ -24,32 +24,40 @@
 			yk-max-height="98vh - ${$this.offset().top}px - 3.8em">
 			
 			<div ng-repeat="backlog in finalResult | filter:storyFilter()" 
-			style="height: 6em; padding: 0.5em; margin: 0.5em; border: 3px solid #66c2ff; 
+			style="height: 6em; margin: 0.5em; border: 3px solid #66c2ff; 
 			margin-left: {{backlog.indent * 20}}px;">
 				
-				<table style="width: 100%; height: 100%;">
-					<tr>
-						<td style="width: 1.5%; text-align: center; color: white;">
-							<div class="circle">{{backlog.symbol}}</div>
-						</td>
-						<td style="width: 90%; padding-left: 0.5em;">
-							<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
-						</td>
-						<td style="width: 5%;">
-							<span style="float: right;">
-								<a href="" ng-click="editBacklog()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-								<a href=""><i class="fa fa-times" aria-hidden="true" style="color: red;"></i></a>
-							</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3" style="padding-top: 0.5em;">
-							<input class="form-control" placeholder="Add child story" 
-								ng-keyup="onTypeNewBacklogChild($event, backlog.id, backlog.indent)" 
-								style="border: 2px solid lightblue; max-width: 20em;"/>
-						</td>
-					</tr>
-				</table>
+				<div style="width: 100%; height: 2.5em; border-bottom: 3px solid #66c2ff;">
+					<table style="width: 100%; height: 100%;">
+						<tr>
+							<td style="width: 4%; text-align: center; background-color: grey; 
+								border-right: 1px solid #66c2ff;">
+									{{getSymbolFor(backlog)}}
+							</td>
+							<td style="width: 4%; text-align: center; background-color: grey;
+								border-right: 1px solid #66c2ff;">
+									{{backlog.priority}}
+							</td>
+							<td style="width: 84%; padding-left: 0.5em;">
+								<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
+							</td>
+							<td ng-click="editBacklog()" style="width: 4%; text-align: center; background-color: #cce6ff;
+								border-left: 1px solid #66c2ff; cursor:pointer;">
+									<i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
+							</td>
+							<td style="width: 4%; text-align: center; background-color: #cce6ff;
+								border-left: 1px solid #66c2ff; cursor:pointer;">
+								<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div style="width: 100%; height: 3.5em; padding: 0.3em;">
+					<input class="form-control" placeholder="Add child story" 
+					ng-keyup="onTypeNewBacklogChild($event, backlog.id, backlog.indent)" 
+					style="border: 2px solid lightblue; max-width: 20em;"/>
+				</div>
 			</div>
 		</div>
 				

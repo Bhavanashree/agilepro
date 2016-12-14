@@ -106,8 +106,6 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	public List<BackLogPriorityModel> fetchStoriesWherePriorityGreaterThan(@Condition(value = "project.id") Long pojectId, 
 			@Condition(value = "priority", op = Operator.GE) Integer priority);
 	
-	public boolean updatePriorityForChildAdd(@Condition(value = "id") Long id, @Field("priority") Integer priority);
-	
 	/**
 	 * Delete all.
 	 */

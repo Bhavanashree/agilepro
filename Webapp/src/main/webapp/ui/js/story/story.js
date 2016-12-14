@@ -201,37 +201,59 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.finalResult = $scope.backlogsForRecursion;
 	};
+	
+	$scope.getSymbolFor = function(backlogItem) {
+		if(backlogItem.type == "EPIC")
+		{
+			return "E";
+		}
+		else if(backlogItem.type == "FEATURE")
+		{
+			return "F";
+		}
+		else
+		{
+			return "S";
+		}
+	};
 	 
 	/**
 	 * Recursion wise adding the stories.
 	 */
 	$scope.addBackLogsAccordingToChild = function(backLogArr, indentValue){
 		
-		 var backLog;
+		 var backLog, parent;
+		 
 		 for(var i = 0; i < backLogArr.length; i++)
 		  {
 			  backLog = backLogArr[i];
 			  backLog["indent"] = indentValue;
 			  
-			  
 			  if(!backLog.parentStoryId)
 			  {
-				  backLog.symbol = "E";
-			  }else if(i == 0)
+				  backLog.type = "EPIC";
+			  }
+			  else 
 			  {
-				  backLog.symbol = "F";
-			  }else
-			  {
-				  backLog.symbol = "S";
+				  parent = $scope.idToBaclokgItem[backLog.parentStoryId];
+				  
+				  if(parent.type == 'EPIC')
+				  {
+					  backLog.type = "FEATURE";
+				  }
+				  else
+				  {
+					  backLog.type = "STORY";
+				  }
 			  }
 			  
 			  $scope.backlogsForRecursion.push(backLog);
 			  
 			  if($scope.parentIdChildListMap[backLog.id])
-				{
+			  {
 				  console.log("recursion");
 				  $scope.addBackLogsAccordingToChild($scope.parentIdChildListMap[backLog.id], indentValue + 1);
-				}
+			  }
 		  }
 	};
 	
@@ -239,7 +261,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	/**
 	 * Added new backlog after save. 
 	 */
-	$scope.addBacklog = function(backlogModel){
+	$scope.addSavedBacklog = function(backlogModel){
 		
 		$scope.finalResult.push(backlogModel);
 		
@@ -251,7 +273,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight });
 	};
 	
-	$scope.addChildBacklog = function(backlogModel, storyIdPriority){
+	/**
+	 * After child save.
+	 */
+	$scope.addSavedChildBacklog = function(backlogModel, storyIdPriority){
+		
+		$scope.gotParent = false;
 		
 		$scope.backLogs.push(backlogModel);
 		$scope.childStories.push(backlogModel);
@@ -269,7 +296,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			$scope.parentIdChildListMap[backlogModel.parentStoryId] = [backlogModel];
 		}
 		
-		for(var index = 0; index < $scope.finalResult.length ; i++)
+		for(var index = 0; index < $scope.finalResult.length ; index++)
 		{
 			var backlogObj = $scope.finalResult[index];
 
@@ -286,11 +313,18 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 					continue;
 				}else
 				{
-					$scope.finalResult.splice(index + 1, 0, backlogModel);
+					$scope.finalResult.splice(index, 0, backlogModel);
 					break;
 				}
 			}
 		}
+		
+		// if the parent is not having any child or if there are no more parent stories
+		if($scope.finalResult.indexOf(backlogModel) == -1)
+		{
+			$scope.finalResult.push(backlogModel);
+		}
+		
 	};
 	
 	

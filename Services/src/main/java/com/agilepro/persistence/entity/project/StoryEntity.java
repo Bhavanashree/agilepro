@@ -17,6 +17,8 @@ import com.agilepro.persistence.entity.admin.ProjectTeamEntity;
 import com.agilepro.persistence.entity.admin.TagEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.utils.annotations.PropertyMappings;
 import com.yukthi.webutils.annotations.ExtendableEntity;
@@ -29,6 +31,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "Story")
 @Table(name = "STORY")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" }) })
 public class StoryEntity extends WebutilsExtendableEntity
 {
 	/**

@@ -3,21 +3,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	
 	$scope.storyFilter = function(){
 		
-		/*if($scope.oldSearchStory == $scope.searchStory)
-		{
-			return;
-		}
-		
-		$scope.oldSearchStory = $scope.searchStory;*/
-		
-		//Set the flag based on search string
-		if($scope.finalResult.length > 0)
-		{
-			$scope.checkForFilter($scope.finalResult);
-		}
-		
-		
-		return function(item){
+		var retFunc = function(item){
 			
 			if(!$scope.searchStory)
 			{
@@ -27,6 +13,21 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 			console.log(item.title + "" + item.filtered);
 			return item.filtered;
 		};
+		
+		if($scope.oldSearchStory == $scope.searchStory)
+		{
+			return retFunc;
+		}
+		
+		$scope.oldSearchStory = $scope.searchStory;
+		
+		//Set the flag based on search string
+		if($scope.finalResult.length > 0)
+		{
+			$scope.checkForFilter($scope.finalResult);
+		}
+
+		return retFunc;
 	};
 	
 	$scope.checkForFilter = function(stories) {
@@ -69,6 +70,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		 
 		 e = e || window.event;
 		 var key = e.keyCode ? e.keyCode : e.which;
+		 
 			  
 		 //enter key   
 		 if (key == 13) 
@@ -90,27 +92,29 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	 */
 	$scope.onTypeNewBacklogChild = function(e, parentId, indentValue){
 		
-		 var childTitle = $(e.target).val();
+		$scope.targetType = $(e.target);
 		 
-		 e = e || window.event;
-		 var key = e.keyCode ? e.keyCode : e.which;
+		var childTitle = $scope.targetType.val();
+		 
+		e = e || window.event;
+		var key = e.keyCode ? e.keyCode : e.which;
 			  
-		 //enter key   
-		 if (key == 13) 
-		 {
-			 if( childTitle.trim().length <= 3 )
-				{
-				    utils.alert("Title must be at least 4 characters");
-					return;
-				}
+		//enter key   
+		if (key == 13) 
+		{
+			if( childTitle.trim().length <= 3 )
+			{
+				utils.alert("Title must be at least 4 characters");	
+				return;
+			}
 			 
-			 var backlogChildModel = {"title" : childTitle.trim(),
-					 			 "projectId" : $scope.getActiveProjectId(),
-					 			 "parentStoryId" : parentId
-					 			 };
+			var backlogChildModel = {"title" : childTitle.trim(),
+					"projectId" : $scope.getActiveProjectId(),
+					"parentStoryId" : parentId
+			};
 			 
-			 $scope.saveBacklog(backlogChildModel, indentValue);
-		 }
+		 	$scope.saveBacklog(backlogChildModel, indentValue + 1);
+		}
 	};
 			
 	/**
@@ -121,7 +125,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		actionHelper.invokeAction("story.save", backlogModel, null, 
 				function(storyResponse, respConfig)
 				{
-					if(saveResponse.code == 0)
+					if(storyResponse.code == 0)
 					{
 						$scope.newBacklogTitle = "";
 						
@@ -132,15 +136,17 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 						{
 							backlogModel["priority"] = storyResponse.storyIdPriority[backlogModel.id].priority;
 							
-							$scope.addChildBacklog(backlogModel, storyResponse.storyIdPriority);
+							$scope.addSavedChildBacklog(backlogModel, storyResponse.storyIdPriority);
+							
+							$scope.targetType.val("");
 							
 						}else
 						{
-							$scope.addBacklog(backlogModel);
+							$scope.addSavedBacklog(backlogModel);
 						}
 					}else
 					{
-						// response error
+						utils.alert("error in save");
 					}
 					
 					try

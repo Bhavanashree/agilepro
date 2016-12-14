@@ -1,9 +1,9 @@
 package com.agilepro.services.project;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -33,6 +33,10 @@ import com.yukthi.webutils.services.BaseCrudService;
 @Service
 public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 {
+	/**
+	 * Priority increment value.
+	 */
+	private static final Integer PRIORITY_INCREMENT_VALUE = 1; 
 
 	/**
 	 * The repository factory.
@@ -70,41 +74,38 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 	/**
 	 * Save new story with increment by one with max priority.
+	 * For sub story save set the priority from parent and for rest stories increment priority by one.
 	 * 
-	 * @param storyModel new model for save.
-	 * @return newly saved story object.
+	 * @param storyModel
+	 *            new model for save.
+	 * @return newly saved story object and map having id and priority.
 	 */
 	public StoryResponse saveStory(StoryModel storyModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			Map<Long, Integer> storyIdPriority = new HashMap<Long, Integer>();
-			
+			List<BackLogPriorityModel> updatedPriorites = new ArrayList<BackLogPriorityModel>();
+
 			if(storyModel.getParentStoryId() != null)
 			{
-				StoryModel parentStory = super.fetchFullModel(storyModel.getParentStoryId(), StoryModel.class);
-				
-				List<BackLogPriorityModel> storiesForUpdate = storyRepo.fetchStoriesWherePriorityGreaterThan(storyModel.getProjectId(), parentStory.getPriority());
-				
-				for(int i = storiesForUpdate.size() - 1 ; i >= 0 ; i--)
-				{
-					BackLogPriorityModel modelForUpdate = storiesForUpdate.get(i);
-					
-					storyIdPriority.put(modelForUpdate.getId(),  modelForUpdate.getPriority() + 1);
-					storyRepo.updatePriorityForChildAdd(modelForUpdate.getId(),  modelForUpdate.getPriority() + 1);
-				}
-				
-				storyModel.setPriority(parentStory.getPriority());
-			}else
-			{
-				storyModel.setPriority(storyRepo.getMaxOrder(storyModel.getProjectId()) + 1);
+				Integer parentPriority = storyRepo.fetchOrderOfStory(storyModel.getParentStoryId());
+
+				storyRepo.moveStoriesDown(storyModel.getProjectId(), parentPriority, PRIORITY_INCREMENT_VALUE);
+
+				storyModel.setPriority(parentPriority);
 			}
-			
+			else
+			{
+				storyModel.setPriority(storyRepo.getMaxOrder(storyModel.getProjectId()) + PRIORITY_INCREMENT_VALUE);
+			}
+
 			StoryEntity entity = super.save(storyModel);
-			storyIdPriority.put(entity.getId(),  entity.getPriority());
+			updatedPriorites.add(new BackLogPriorityModel(entity.getId(), entity.getPriority()));
 			
+			Map<Long , Integer> storyIdPriority = updatedPriorites.stream().collect(Collectors.toMap(BackLogPriorityModel::getId, BackLogPriorityModel::getPriority)); 
+					
 			transaction.commit();
-			
+
 			return new StoryResponse(entity.getId(), storyIdPriority);
 		} catch(Exception ex)
 		{
@@ -145,10 +146,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Fetch all stories where (projectId + sprintId) + (projectId + sprintId(null)) matches.
+	 * Fetch all stories where (projectId + sprintId) + (projectId +
+	 * sprintId(null)) matches.
 	 * 
-	 * @param projectId provided project id.
-	 * @param sprintId provided sprint id.
+	 * @param projectId
+	 *            provided project id.
+	 * @param sprintId
+	 *            provided sprint id.
 	 * @return matching records.
 	 */
 	public List<StoryModel> fetchStoriesForKanban(Long projectId, Long sprintId)
@@ -242,14 +246,15 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Fetch back log where sprint id is null.
 	 * 
-	 * @param projectId provided project id.
+	 * @param projectId
+	 *            provided project id.
 	 * @return matching records.
 	 */
 	public List<BackLogModel> fetchBackLogs(Long projectId)
 	{
 		return storyRepo.fetchBacklogs(projectId);
 	}
-	
+
 	/**
 	 * Search by title.
 	 *
@@ -336,7 +341,8 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Fetch stories according to the provided projectId.
 	 * 
-	 * @param projectId for fetching the stories.
+	 * @param projectId
+	 *            for fetching the stories.
 	 * @return matching stories with the project id.
 	 */
 	public List<StoryModel> fetchStoriesByProject(Long projectId)
@@ -354,7 +360,8 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Fetch story by priority order for poker game.
 	 * 
-	 * @param projectId provided project id.
+	 * @param projectId
+	 *            provided project id.
 	 * @return matching record in priority order (ascending).
 	 */
 	public List<StoryModel> fetchStoriesByProjectOrderByPriority(Long projectId)
@@ -368,7 +375,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 		return storyModels;
 	}
-	
+
 	/**
 	 * Deletes all entities.
 	 */

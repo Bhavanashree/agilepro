@@ -3,7 +3,8 @@ package com.agilepro.commons.models.project;
 import com.yukthi.persistence.repository.annotations.Field;
 
 /**
- * BackLogPriorityModel is used for fetching the stories for updating the id and priority after child save.
+ * BackLogPriorityModel is used for fetching the stories for updating the id and
+ * priority after child save.
  * 
  * @author Pritam.
  */
@@ -14,7 +15,7 @@ public class BackLogPriorityModel
 	 */
 	@Field("id")
 	private Long id;
-	
+
 	/**
 	 * Priority of the story.
 	 */
@@ -22,7 +23,30 @@ public class BackLogPriorityModel
 	private Integer priority;
 
 	/**
-	 * Gets the id
+	 * New BackLogPriorityModel with null default.
+	 */
+	public BackLogPriorityModel()
+	{
+		super();
+	}
+
+	/**
+	 * New BacLogPriorityModel with new values.
+	 * 
+	 * @param id
+	 *            new id.
+	 * @param priority
+	 *            new priority.
+	 */
+	public BackLogPriorityModel(Long id, Integer priority)
+	{
+		super();
+		this.id = id;
+		this.priority = priority;
+	}
+
+	/**
+	 * Gets the id.
 	 * 
 	 * @return the id.
 	 */
@@ -30,11 +54,12 @@ public class BackLogPriorityModel
 	{
 		return id;
 	}
-	
+
 	/**
 	 * Sets the id.
 	 * 
-	 * @param id the id.
+	 * @param id
+	 *            the id.
 	 */
 	public void setId(Long id)
 	{
@@ -54,7 +79,8 @@ public class BackLogPriorityModel
 	/**
 	 * Sets the priority.
 	 * 
-	 * @param priority the new priority.
+	 * @param priority
+	 *            the new priority.
 	 */
 	public void setPriority(Integer priority)
 	{
