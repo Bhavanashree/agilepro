@@ -25,7 +25,7 @@ public class DesignationEntity extends WebutilsExtendableEntity
 	/**
 	 * setting error message for duplicate designation.
 	 */
-	public static final String ERROR_MESSAGE_DUPLICATE_DESIGNATION = "Specified  designation already  exists:";
+	private static final String ERROR_MESSAGE_DUPLICATE_DESIGNATION = "Specified  designation already  exists:";
 
 	/**
 	 * The Name of the Designation.

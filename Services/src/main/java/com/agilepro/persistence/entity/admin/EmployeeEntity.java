@@ -29,7 +29,7 @@ public class EmployeeEntity extends WebutilsExtendableEntity
 	/**
 	 * setting message for duplicate employee.
 	 */
-	public static final String ERROR_MESSAGE_DUPLICATE_EMPLOYEE = "Specified  employee already  exists:";
+	private static final String ERROR_MESSAGE_DUPLICATE_EMPLOYEE = "Specified  employee already  exists:";
 
 	/**
 	 * Employee name.

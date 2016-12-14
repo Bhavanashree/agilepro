@@ -11,7 +11,7 @@ $.application.controller('commonController', ["$scope", "clientContext", "utils"
     /**
      * Current active project (selected by user on top)
      */
-    $scope.selectedProject = null;
+    $scope.selectedProject = false;
     
     /**
      * default project id for current user from settings.

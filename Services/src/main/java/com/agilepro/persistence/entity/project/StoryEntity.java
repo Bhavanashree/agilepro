@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -124,6 +127,13 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@PropertyMapping(type = StoryModel.class, from = "teamId", subproperty = "id")
 	@Column(name = "TEAM_ID")
 	private ProjectTeamEntity team;
+
+	/**
+	 * StoryDependency intermediate table between story and dependency.
+	 */
+	@ManyToMany
+	@JoinTable(name = "STORY_DEPENDENCY_MAP", joinColumns = { @JoinColumn(name = "STORY_ID") }, inverseJoinColumns = { @JoinColumn(name = "DEPENDENCY_ID") })
+	private List<StoryDependencyEntity> dependencies;
 
 	/**
 	 * Instantiates a new back log entity.
@@ -411,5 +421,26 @@ public class StoryEntity extends WebutilsExtendableEntity
 	public void setTeam(ProjectTeamEntity team)
 	{
 		this.team = team;
+	}
+
+	/**
+	 * Gets the dependencies.
+	 * 
+	 * @return the dependencies.
+	 */
+	public List<StoryDependencyEntity> getDependencies()
+	{
+		return dependencies;
+	}
+
+	/**
+	 * Set the dependencies.
+	 * 
+	 * @param dependencies
+	 *            the new dependencies.
+	 */
+	public void setDependencies(List<StoryDependencyEntity> dependencies)
+	{
+		this.dependencies = dependencies;
 	}
 }

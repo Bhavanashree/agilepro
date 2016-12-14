@@ -16,7 +16,7 @@
 				</yk-tab-button>
 				<yk-tab-button id="membersTabId" label="Members" state="member" icon="glyphicon glyphicon-flash" color="white" yk-for-role="CUSTOMER_SUPER_USER" ng-if="selectedProject">
 				</yk-tab-button>
-				<yk-tab-button id="storyTab" label="Story" state="story" icon="glyphicon glyphicon-th" color="white" yk-for-role="EMPLOYEE_VIEW,EMPLOYEE_EDIT,BACKLOG_VIEW ,BACKLOG_EDIT">
+				<yk-tab-button id="storyTab" label="Story" state="story" icon="glyphicon glyphicon-th" color="white" yk-for-role="EMPLOYEE_VIEW,EMPLOYEE_EDIT,BACKLOG_VIEW ,BACKLOG_EDIT" ng-if="selectedProject">
 				</yk-tab-button>
 				<yk-tab-button id="kanbanTab" label="KanbanBoard" state="kanbanBoard" icon="glyphicon glyphicon-duplicate" color="white" yk-for-role="EMPLOYEE_VIEW,EMPLOYEE_EDIT" ng-if="selectedProject">
 				</yk-tab-button>

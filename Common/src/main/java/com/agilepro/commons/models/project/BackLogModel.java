@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.project;
 
+import java.util.List;
+
 import com.yukthi.persistence.repository.annotations.Field;
 
 /**
@@ -33,6 +35,12 @@ public class BackLogModel
 	 */
 	@Field("priority")
 	private Integer priority;
+	
+	/**
+	 * Dependencies of the story.
+	 */
+	@Field("dependencies.id")
+	private List<Long> dependencies;
 
 	/**
 	 * Gets the story id.
@@ -112,5 +120,25 @@ public class BackLogModel
 	public void setPriority(Integer priority)
 	{
 		this.priority = priority;
+	}
+
+	/**
+	 * Gets the dependencies.
+	 * 
+	 * @return the dependencies.
+	 */
+	public List<Long> getDependencies()
+	{
+		return dependencies;
+	}
+
+	/**
+	 * Sets the dependencies.
+	 * 
+	 * @param dependencies the new dependencies.
+	 */
+	public void setDependencies(List<Long> dependencies)
+	{
+		this.dependencies = dependencies;
 	}
 }
