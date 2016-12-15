@@ -14,14 +14,18 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		var selectedBacklogObj = $scope.getBacklog(backlogId);
 		selectedBacklogObj.show = true;
 		
-		if($scope.selectedBackLogIdForDropDown)
+		if($scope.selectedBackLogId == backlogId)
 		{
-			var previousBacklogObj = $scope.getBacklog($scope.selectedBackLogIdForDropDown);
+			var previousBacklogObj = $scope.getBacklog($scope.selectedBackLogId);
+			previousBacklogObj.show = !previousBacklogObj.show;
+		}
+		else if($scope.selectedBackLogId && $scope.selectedBackLogId != backlogId)
+		{
+			var previousBacklogObj = $scope.getBacklog($scope.selectedBackLogId);
 			previousBacklogObj.show = false;
 		}
 		
-		$scope.selectedBackLogIdForDropDown = backlogId;
-		
+		$scope.selectedBackLogId = backlogId;
 	};
 	
 	/**
