@@ -107,7 +107,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		console.log("init story is called");
 		
-		$scope.idToBaclokgItem = {};
+		$scope.idToBacklogItem = {};
 		$scope.hierarchyList = [];
 		$scope.epicStoryList = [];
 		$scope.childStories = [];
@@ -123,23 +123,25 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		if(activeProjectId != -1)
 		{
 			 actionHelper.invokeAction("story.fetchBacklogsByProjectId", null, {"projectId" : activeProjectId},
-					 function(readResponse, respConfig)
-					 {
-				 		$scope.backLogs = readResponse.model;
-				 		console.log("working");
-				 		
-				 		if($scope.backLogs)
-				 		{
-				 			$scope.loadBacklogItems($scope.backLogs);
-				 		}
-				 			
-				 		try
-						{
-							$scope.$apply();
-						}catch(ex)
-						{}
-				 
-					 },{"hideInProgress" : true}
+				 function(readResponse, respConfig)
+				 {
+			 		$scope.backLogs = readResponse.model;
+			 		console.log("working");
+			 		
+			 		if($scope.backLogs)
+			 		{
+			 			$scope.loadBacklogItems($scope.backLogs);
+			 		}
+			 			
+			 		try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
+					$scope.$broadcast("storiesPopulated");
+			 
+				 },{"hideInProgress" : true}
 			 );
 		}
 	 };
@@ -154,7 +156,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			{
 			  backlog = backlogItems[index];
 			  
-			  $scope.idToBaclokgItem[backlog.id] = backlog;
+			  $scope.idToBacklogItem[backlog.id] = backlog;
 			  
 			  if(backlog.parentStoryId)
 			  {
@@ -194,7 +196,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 if($scope.scrollForFirstTime)
 		 {
 			var storyHierarchyElem  = $("#storyHierarchyId");
-			storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight + 10000 });
+			
+			try
+			{
+				storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight + 10000 });
+			}catch(ex)
+			{}
+			
 			
 			$scope.scrollForFirstTime = false;
 		 }
@@ -216,6 +224,26 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			return "S";
 		}
 	};
+	
+	$scope.setStoryType = function(backLog) {
+		if(!backLog.parentStoryId)
+		{
+			backLog.type = "EPIC";
+		}
+		else 
+		{
+			parent = $scope.idToBacklogItem[backLog.parentStoryId];
+		  
+			if(parent.type == 'EPIC')
+			{
+				backLog.type = "FEATURE";
+			}
+			else
+			{
+				backLog.type = "STORY";
+			}
+		}
+	};
 	 
 	/**
 	 * Recursion wise adding the stories.
@@ -229,23 +257,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			  backLog = backLogArr[i];
 			  backLog["indent"] = indentValue;
 			  
-			  if(!backLog.parentStoryId)
-			  {
-				  backLog.type = "EPIC";
-			  }
-			  else 
-			  {
-				  parent = $scope.idToBaclokgItem[backLog.parentStoryId];
-				  
-				  if(parent.type == 'EPIC')
-				  {
-					  backLog.type = "FEATURE";
-				  }
-				  else
-				  {
-					  backLog.type = "STORY";
-				  }
-			  }
+			  $scope.setStoryType(backLog);
 			  
 			  $scope.backlogsForRecursion.push(backLog);
 			  
@@ -264,10 +276,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.addSavedBacklog = function(backlogModel){
 		
 		$scope.finalResult.push(backlogModel);
-		
 		$scope.epicStoryList.push(backlogModel);
-		
 		$scope.backLogs.push(backlogModel);
+		
+		$scope.idToBacklogItem[backlogModel.id] = backlogModel;
 		
 		var storyHierarchyElem  = $("#storyHierarchyId");
 		storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight });
@@ -282,8 +294,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.backLogs.push(backlogModel);
 		$scope.childStories.push(backlogModel);
+		$scope.idToBacklogItem[backlogModel.id] = backlogModel;
 		
-		var alreadyHasChild = false;
 		var tempChildList = $scope.parentIdChildListMap[backlogModel.parentStoryId];
 		
 		if(tempChildList)
@@ -292,14 +304,19 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			$scope.parentIdChildListMap[backlogModel.parentStoryId] = tempChildList; 
 		}else
 		{
-			flag = true;
 			$scope.parentIdChildListMap[backlogModel.parentStoryId] = [backlogModel];
 		}
 		
 		for(var index = 0; index < $scope.finalResult.length ; index++)
 		{
 			var backlogObj = $scope.finalResult[index];
-
+			
+			// adding updated priorty.
+			if(storyIdPriority[backlogObj.id])
+			{
+				backlogObj.priority = storyIdPriority[backlogObj.id]; 
+			}
+			
 			if(backlogObj.id == backlogModel.parentStoryId)
 			{
 				 $scope.gotParent = true; 
@@ -314,7 +331,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				}else
 				{
 					$scope.finalResult.splice(index, 0, backlogModel);
-					break;
 				}
 			}
 		}
@@ -343,6 +359,22 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.openBulkStories = function() {
 		utils.openModal("bulkStoryDialog", {});
 		
+	};
+	
+	/**
+	 * Get backlog.
+	 */
+	$scope.getBacklog = function(backlogId){
+		
+		return $scope.idToBacklogItem[backlogId];
+	};
+	
+	/**
+	 * Get the list of back log items.
+	 */
+	$scope.getBackLogs = function(){
+		
+		return $scope.backLogs;
 	};
 	
 	// Listener for broadcast

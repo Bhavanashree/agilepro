@@ -39,7 +39,6 @@ public class BackLogModel
 	/**
 	 * Dependencies of the story.
 	 */
-	@Field("dependencies.id")
 	private List<Long> dependencies;
 
 	/**

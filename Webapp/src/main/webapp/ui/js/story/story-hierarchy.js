@@ -133,6 +133,8 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 						backlogModel["id"] = storyResponse.newStoryId;
 						backlogModel["priority"] = storyResponse.storyIdPriority[backlogModel.id];
 						
+						$scope.setStoryType(backlogModel);
+						
 						if(backlogModel.parentStoryId)
 						{
 							$scope.addSavedChildBacklog(backlogModel, storyResponse.storyIdPriority);

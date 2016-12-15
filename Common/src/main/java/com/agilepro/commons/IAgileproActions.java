@@ -421,6 +421,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix backlog.
 	 */
 	public String ACTION_PREFIX_STORY = "story";
+	
+	/**
+	 * Action for story dependency.
+	 */
+	public String ACTION_PREFIX_STORY_DEPENDENCY = "storyDependency";
 
 	/**
 	 * The action prefix priority.

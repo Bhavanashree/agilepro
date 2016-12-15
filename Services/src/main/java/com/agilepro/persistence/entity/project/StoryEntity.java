@@ -129,13 +129,6 @@ public class StoryEntity extends WebutilsExtendableEntity
 	private ProjectTeamEntity team;
 
 	/**
-	 * StoryDependency intermediate table between story and dependency.
-	 */
-	@ManyToMany
-	@JoinTable(name = "STORY_DEPENDENCY_MAP", joinColumns = { @JoinColumn(name = "STORY_ID") }, inverseJoinColumns = { @JoinColumn(name = "DEPENDENCY_ID") })
-	private List<StoryDependencyEntity> dependencies;
-
-	/**
 	 * Instantiates a new back log entity.
 	 */
 	public StoryEntity()
@@ -421,26 +414,5 @@ public class StoryEntity extends WebutilsExtendableEntity
 	public void setTeam(ProjectTeamEntity team)
 	{
 		this.team = team;
-	}
-
-	/**
-	 * Gets the dependencies.
-	 * 
-	 * @return the dependencies.
-	 */
-	public List<StoryDependencyEntity> getDependencies()
-	{
-		return dependencies;
-	}
-
-	/**
-	 * Set the dependencies.
-	 * 
-	 * @param dependencies
-	 *            the new dependencies.
-	 */
-	public void setDependencies(List<StoryDependencyEntity> dependencies)
-	{
-		this.dependencies = dependencies;
 	}
 }

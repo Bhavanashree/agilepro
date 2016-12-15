@@ -91,7 +91,9 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 				Integer parentPriority = storyRepo.fetchOrderOfStory(storyModel.getParentStoryId());
 
 				storyRepo.moveStoriesDown(storyModel.getProjectId(), parentPriority, PRIORITY_INCREMENT_VALUE);
-
+				
+				//updatedPriorites = storyRepo.fetchStoriesWherePriorityGreaterThan(storyModel.getProjectId(), parentPriority);
+				
 				storyModel.setPriority(parentPriority);
 			}
 			else
@@ -252,7 +254,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<BackLogModel> fetchBackLogs(Long projectId)
 	{
-		return storyRepo.fetchBacklogs(projectId);
+		List<BackLogModel> backlogModels = storyRepo.fetchBacklogs(projectId);
+		
+		//backlogModels.forEach(model -> model.setDependencies(storyRepo.fetchDependenciesIds(model.getId())));
+		
+		return backlogModels; 
 	}
 
 	/**

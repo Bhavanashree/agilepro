@@ -20,12 +20,12 @@
 	</div>
 	
 	<!-- Dependency view -->
-	<div ng-show="dependencyViewTab.active"  ng-include="'/ui/html/story/story-dependency.html'"
+	<div ng-if="dependencyViewTab.active"  ng-include="'/ui/html/story/story-dependency.html'"
 		style="width: 100%; height: 93%; padding-top: 1.5em; padding-bottom: 1em;">
 	</div>
 	
 	<!-- Priority view -->
-	<div ng-show="priorityViewTab.active" ng-include="'/ui/html/story/story-priority.html'"
+	<div ng-if="priorityViewTab.active" ng-include="'/ui/html/story/story-priority.html'"
 		style="width: 100%; height: 93%; padding-top: 1.5em; padding-bottom: 1em;">
 	</div>
 	

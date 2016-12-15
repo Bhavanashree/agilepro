@@ -1,15 +1,29 @@
 <!-- Dependency View -->
-<div id="storyDependencyId" style="overflow-y: auto; border: 3px solid grey; padding: 0.5em; width: 100%; height: 100%;">
+<div id="storyDependencyId" ng-controller="storyDependencyController" style="border: 3px solid grey; width: 100%; height: 100%;"
+	ng-init="initStoryDependency()">
 
-		<div ng-repeat="backlog in backLogs" style="margin: 0.5em;">
+	<div style="border-bottom: 3px solid grey;">
+		<table style="width: 100%;">
+			<tr>
+				<td class="has-success has-feedback">
+					<input ng-model="searchStory" class="form-control" type="text" placeholder="Search story" style="border: none;"/>
+					<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+				</td>
+			</tr>
+		</table>
+	</div>
+		
+	<div style="overflow-y: auto; padding: 0.5em; height: 100%;">
+	
+		<div ng-repeat="backlog in storyDependencies" style="margin: 0.5em;">
 				
 				<div style="width: 100%; height: 2.5em; border: 3px solid #66c2ff;">
 					<table style="width: 100%; height: 100%;">
 						<tr>
-							<td ng-click="count = count + 1" ng-init="count=1" 
+							<td ng-click="onClickPlus(backlog.id)" 
 								style="width: 4%; text-align: center; background-color: #cce6ff; 
 								border-right: 1px solid #66c2ff; cursor:pointer;">
-									<i ng-class="count%2 == 0 ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
+									<i ng-class="backlog.show ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 									</i>
 							</td>
 							<td style="width: 4%; text-align: center; background-color: grey; 
@@ -28,7 +42,7 @@
 				</div>
 				
 			<!-- On plus button -->
-			<div ng-show="count%2 == 0">
+			<div ng-show="backlog.show">
 			
 				<table>
 					<tr>
@@ -39,15 +53,19 @@
 										<tr>
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-												 placeholder="Please select pattern" value="{{selectedSeries}}">
+												 placeholder="Please select pattern" value="{{selectedDependencyType}}">
 											</td>
 											<td>
-												<div class="input-group-btn">
+												<div class="input-group-btn" name="depStoryDropDown">
 													<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<span class="caret"></span>
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right">
-													    <li ng-repeat="seriesName in listOfGameSeries"><a ng-click="onGameSeriesChange(seriesName)" href="">{{seriesName}}</a></li>
+													    <li ng-repeat="type in dependencyTypes">
+													    	<a ng-click="onDependencyTypeChange(type)" href="">
+													    		{{type}}
+													    	</a>
+													    </li>
 													</ul>
 												</div>
 											</td>
@@ -64,15 +82,19 @@
 										<tr>
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-												 placeholder="Please select story" value="{{selectedSeries}}">
+												 placeholder="Please select story" value="{{selectedBacklog.title}}">
 											</td>
 											<td>
 												<div class="input-group-btn">
-													<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<button type="button" ng-click="onClickDropDown(backlog.id)" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<span class="caret"></span>
 													</button>
-													<ul class="dropdown-menu dropdown-menu-right">
-													    <li ng-repeat="seriesName in listOfGameSeries"><a ng-click="onGameSeriesChange(seriesName)" href="">{{seriesName}}</a></li>
+													<ul class="dropdown-menu dropdown-menu-right" ng-show="dropdown.length > 0">
+													    <li ng-repeat="story in dropdown">
+													    	<a ng-click="onStoryChange(story)" href="">
+													    		{{story.title}}
+													    	</a>
+													    </li>
 													</ul>
 												</div>
 											</td>
@@ -83,7 +105,7 @@
 						</td>
 						
 						<td style="padding: 0.2em;">
-							<button class="btn btn-primary">Add</button>
+							<button class="btn btn-primary" ng-click="addDependency()">Add</button>
 						</td>
 					</tr>
 					
@@ -93,4 +115,6 @@
 				
 		</div>
 		
+	</div>
+	
 </div>
