@@ -21,7 +21,7 @@ public class BackLogModel
 	/**
 	 * Title of the story.
 	 */
-	@Field("")
+	@Field("title")
 	private String title;
 	
 	/**
@@ -39,7 +39,7 @@ public class BackLogModel
 	/**
 	 * Dependencies of the story.
 	 */
-	private List<Long> dependencies;
+	private List<StoryDependencyModel> dependencies;
 
 	/**
 	 * Gets the story id.
@@ -121,22 +121,12 @@ public class BackLogModel
 		this.priority = priority;
 	}
 
-	/**
-	 * Gets the dependencies.
-	 * 
-	 * @return the dependencies.
-	 */
-	public List<Long> getDependencies()
+	public List<StoryDependencyModel> getDependencies()
 	{
 		return dependencies;
 	}
 
-	/**
-	 * Sets the dependencies.
-	 * 
-	 * @param dependencies the new dependencies.
-	 */
-	public void setDependencies(List<Long> dependencies)
+	public void setDependencies(List<StoryDependencyModel> dependencies)
 	{
 		this.dependencies = dependencies;
 	}

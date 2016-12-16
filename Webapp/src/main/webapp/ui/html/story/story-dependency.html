@@ -15,7 +15,7 @@
 		
 	<div style="overflow-y: auto; padding: 0.5em; height: 100%;">
 	
-		<div ng-repeat="backlog in storyDependencies" style="margin: 0.5em;">
+		<div ng-repeat="backlog in storyDependencies track by $index" style="margin: 0.5em;" ng-show="!backlog.isDependencyStory">
 				
 				<div style="width: 100%; height: 2.5em; border: 3px solid #66c2ff;">
 					<table style="width: 100%; height: 100%;">
@@ -23,7 +23,7 @@
 							<td ng-click="onClickPlus(backlog.id)" 
 								style="width: 4%; text-align: center; background-color: #cce6ff; 
 								border-right: 1px solid #66c2ff; cursor:pointer;">
-									<i ng-class="backlog.show ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
+									<i ng-class="backlog.showDependency ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 									</i>
 							</td>
 							<td style="width: 4%; text-align: center; background-color: grey; 
@@ -42,7 +42,7 @@
 				</div>
 				
 			<!-- On plus button -->
-			<div ng-show="backlog.show">
+			<div ng-show="backlog.showDependency">
 			
 				<table>
 					<tr>
@@ -82,7 +82,7 @@
 										<tr>
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-												 placeholder="Please select story" value="{{selectedBacklog.title}}">
+												 placeholder="Please select story" value="{{selectedBacklogFromDropDown.title}}">
 											</td>
 											<td>
 												<div class="input-group-btn">
@@ -108,6 +108,18 @@
 							<button class="btn btn-primary" ng-click="addDependency()">Add</button>
 						</td>
 					</tr>
+					
+					<!-- <tr ng-repeat="storyDependency in backlog.dependencies">
+						<td>
+							cross icon
+						</td>
+						<td>
+							{{getBacklog(storyDependency.dependencyStoryId).title}}
+						</td>
+						<td>
+							{{storyDependency.storyDependencyType}}
+						</td>
+					</tr> -->
 					
 				</table>
 				

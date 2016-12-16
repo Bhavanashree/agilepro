@@ -12,17 +12,17 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		$scope.selectedBacklogFromDropDown = null;
 		
 		var selectedBacklogObj = $scope.getBacklog(backlogId);
-		selectedBacklogObj.show = true;
+		selectedBacklogObj.showDependency = true;
 		
 		if($scope.selectedBackLogId == backlogId)
 		{
 			var previousBacklogObj = $scope.getBacklog($scope.selectedBackLogId);
-			previousBacklogObj.show = !previousBacklogObj.show;
+			previousBacklogObj.showDependency = !previousBacklogObj.showDependency;
 		}
 		else if($scope.selectedBackLogId && $scope.selectedBackLogId != backlogId)
 		{
 			var previousBacklogObj = $scope.getBacklog($scope.selectedBackLogId);
-			previousBacklogObj.show = false;
+			previousBacklogObj.showDependency = false;
 		}
 		
 		$scope.selectedBackLogId = backlogId;
@@ -55,16 +55,43 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	
 		console.log("initStoryDependency is called");
 		
-		$scope.storyDependencies = $scope.getBackLogs();
+		$scope.storyDependencies = [];
 		
-		for(index in $scope.storyDependencies)
+		$scope.addIndent($scope.getBackLogs(), 0);
+		
+		/*for(index in $scope.storyDependencies)
 		{
 			var storyObj = $scope.storyDependencies[index];
 			
 			storyObj.show = false;
-		}
+		}*/
 	};
 
+	
+	$scope.addIndent = function(backlogArr, indentValue){
+		
+		for(index in backlogArr)
+		{
+			var backlogObj = backlogArr[index];
+			
+			backlogObj["indent"] = indentValue;
+			backlogObj["showDependency"] = false;
+			
+			if(backlogObj.storyDependencyType)
+			{
+				backlogObj["isDependencyStory"] = true;
+			}
+			
+			$scope.storyDependencies.push(backlogObj);
+			
+			if(backlogObj.dependencies)
+			{
+				$scope.addIndent(backlogObj.dependencies, indentValue + 1);
+			}
+		}
+		
+	};
+	
 	/**
 	 * On change of pattern.
 	 */
@@ -91,7 +118,9 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			utils.alert("error");
 		}
 		
-		var model = {"dependencyStoryId" : $scope.selectedBacklogFromDropDown.id, "storyDependencyType" : $scope.selectedDependencyType};
+		var model = {"mainStoryId" : $scope.selectedBackLogId,
+					"dependencyStoryId" : $scope.selectedBacklogFromDropDown.id, 
+					"storyDependencyType" : $scope.selectedDependencyType};
 		
 		actionHelper.invokeAction("storyDependency.save", model, null, 
 				function(saveResposne, respConfig)

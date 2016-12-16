@@ -1,11 +1,6 @@
 package com.agilepro.persistence.entity.project;
 
-import java.util.List;
-
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,7 +22,15 @@ public class StoryDependencyEntity extends WebutilsEntity
 	/**
 	 * Dependency story id.
 	 */
-	@Column(name = "DEPENDENCY_STORY_ID")
+	@Column(name = "MAIN_STORY_ID", nullable = false)
+	@ManyToOne
+	@PropertyMapping(type = StoryDependencyModel.class, from = "mainStoryId", subproperty = "id")
+	private StoryEntity mainStory;
+	
+	/**
+	 * Dependency story id.
+	 */
+	@Column(name = "DEPENDENCY_STORY_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = StoryDependencyModel.class, from = "dependencyStoryId", subproperty = "id")
 	private StoryEntity dependencyStory;
@@ -35,16 +38,9 @@ public class StoryDependencyEntity extends WebutilsEntity
 	/**
 	 * Story Dependency type the type of dependency.
 	 */
-	@Column(name = "DEPENEDENCY_TYPE")
+	@Column(name = "DEPENEDENCY_TYPE", nullable = false)
 	@DataTypeMapping(type = DataType.STRING)
 	private StoryDependencyType storyDependencyType;
-
-	/**
-	 * StoryDependency intermediate table between story and dependency.
-	 */
-	@ManyToMany
-	@JoinTable(name = "STORY_DEPENDENCY_MAP", joinColumns = { @JoinColumn(name = "STORY_ID") }, inverseJoinColumns = { @JoinColumn(name = "DEPENDENCY_ID") })
-	private List<StoryEntity> mainStory;
 
 	/**
 	 * Gets the dependency story.
@@ -66,28 +62,7 @@ public class StoryDependencyEntity extends WebutilsEntity
 	{
 		this.dependencyStory = dependencyStory;
 	}
-
-	/**
-	 * Gets the main story.
-	 * 
-	 * @return the main story.
-	 */
-	public List<StoryEntity> getMainStory()
-	{
-		return mainStory;
-	}
-
-	/**
-	 * Sets the main story.
-	 * 
-	 * @param mainStory
-	 *            the new story.
-	 */
-	public void setMainStory(List<StoryEntity> mainStory)
-	{
-		this.mainStory = mainStory;
-	}
-
+	
 	/**
 	 * Gets the dependency type.
 	 * 
@@ -108,4 +83,15 @@ public class StoryDependencyEntity extends WebutilsEntity
 	{
 		this.storyDependencyType = storyDependencyType;
 	}
+	
+	public StoryEntity getMainStory()
+	{
+		return mainStory;
+	}
+
+	public void setMainStory(StoryEntity mainStory)
+	{
+		this.mainStory = mainStory;
+	}
+
 }

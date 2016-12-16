@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.project;
 
+import java.util.List;
+
 import com.agilepro.commons.StoryDependencyType;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
@@ -24,6 +26,9 @@ public class StoryDependencyModel
 	@Required
 	private StoryDependencyType storyDependencyType;
 
+	@Required
+	private Long mainStoryId;
+	
 	/**
 	 * Gets the dependency story id.
 	 * 
@@ -64,5 +69,15 @@ public class StoryDependencyModel
 	public void setStoryDependencyType(StoryDependencyType storyDependencyType)
 	{
 		this.storyDependencyType = storyDependencyType;
+	}
+
+	public Long getMainStoryId()
+	{
+		return mainStoryId;
+	}
+
+	public void setMainStoryId(Long mainStoryId)
+	{
+		this.mainStoryId = mainStoryId;
 	}
 }

@@ -127,7 +127,10 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@PropertyMapping(type = StoryModel.class, from = "teamId", subproperty = "id")
 	@Column(name = "TEAM_ID")
 	private ProjectTeamEntity team;
-
+	
+	@OneToMany(mappedBy = "dependencyStory")
+	private List<StoryDependencyEntity> storyDependencies;
+	
 	/**
 	 * Instantiates a new back log entity.
 	 */
@@ -414,5 +417,15 @@ public class StoryEntity extends WebutilsExtendableEntity
 	public void setTeam(ProjectTeamEntity team)
 	{
 		this.team = team;
+	}
+
+	public List<StoryDependencyEntity> getStoryDependencies()
+	{
+		return storyDependencies;
+	}
+
+	public void setStoryDependencies(List<StoryDependencyEntity> storyDependencies)
+	{
+		this.storyDependencies = storyDependencies;
 	}
 }

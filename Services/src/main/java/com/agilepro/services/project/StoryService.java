@@ -17,6 +17,7 @@ import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.persistence.entity.project.StoryDependencyEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.agilepro.services.admin.EmployeeService;
@@ -50,6 +51,9 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	@Autowired
 	private EmployeeService employeeService;
 
+	@Autowired
+	private StoryDependencyService storyDependencyService;
+	
 	/**
 	 * The story repo.
 	 **/
@@ -256,7 +260,10 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		List<BackLogModel> backlogModels = storyRepo.fetchBacklogs(projectId);
 		
-		//backlogModels.forEach(model -> model.setDependencies(storyRepo.fetchDependenciesIds(model.getId())));
+		for(BackLogModel backlog : backlogModels)
+		{
+			backlog.setDependencies(storyDependencyService.fetchDependencyIds(backlog.getId()));
+		}
 		
 		return backlogModels; 
 	}

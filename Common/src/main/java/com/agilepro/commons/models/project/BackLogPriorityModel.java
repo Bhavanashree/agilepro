@@ -3,7 +3,7 @@ package com.agilepro.commons.models.project;
 import com.yukthi.persistence.repository.annotations.Field;
 
 /**
- * BackLogPriorityModel is used for fetching the stories for updating the id and
+ * BackLogPriorityModel is used for fetching the updated stories id and
  * priority after child save.
  * 
  * @author Pritam.
