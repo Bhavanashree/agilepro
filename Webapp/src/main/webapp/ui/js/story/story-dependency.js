@@ -2,30 +2,41 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
                                                        function($scope, actionHelper, utils) {
 	
 	$scope.dependencyTypes = ["STARTS_WITH", "ENDS_WITH"];
+	$scope.previousIndex = -1;
 	
 	/**
 	 * Called on click of plus button
 	 */
-	$scope.onClickPlus = function(backlogId){
+	$scope.onClickPlus = function(index, backlogId){
 		
 		$scope.selectedDependencyType = null;
 		$scope.selectedBacklogFromDropDown = null;
 		
-		var selectedBacklogObj = $scope.getBacklog(backlogId);
-		selectedBacklogObj.showDependency = true;
+		$scope.indexDisplayObj[index].showDependency = !$scope.indexDisplayObj[index].showDependency;
 		
-		if($scope.selectedBackLogId == backlogId)
-		{
-			var previousBacklogObj = $scope.getBacklog($scope.selectedBackLogId);
-			previousBacklogObj.showDependency = !previousBacklogObj.showDependency;
-		}
-		else if($scope.selectedBackLogId && $scope.selectedBackLogId != backlogId)
-		{
-			var previousBacklogObj = $scope.getBacklog($scope.selectedBackLogId);
-			previousBacklogObj.showDependency = false;
+		if(($scope.previousIndex != -1) && ($scope.previousIndex != index))
+		{	
+			$scope.indexDisplayObj[$scope.previousIndex].showDependency = false;
 		}
 		
+		// logic for dependency stories.
+		if($scope.indexDisplayObj[index].showDependency)
+		{
+			$scope.displayAllDependencies(backlogId);
+		}else
+		{
+			$scope.hideAllDependencies(backlogId);
+		}
+		
+		if(($scope.previousIndex != -1) &&  ($scope.selectedBackLogId) && (!$scope.indexDisplayObj[$scope.previousIndex].showDependency))
+		{
+			$scope.hideAllDependencies($scope.selectedBackLogId);
+		}
+		
+		
+		$scope.previousIndex = index;
 		$scope.selectedBackLogId = backlogId;
+		
 	};
 	
 	/**
@@ -65,9 +76,23 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			
 			storyObj.show = false;
 		}*/
+		
+		$scope.indexDisplayObj = {};
+		$scope.backlogIdDependencyObj = {};
+		
+		for(index in $scope.storyDependencies)
+		{
+			var backlogObj = $scope.storyDependencies[index];
+			
+			$scope.indexDisplayObj[index] = {"showDependency" : false};
+			
+			$scope.backlogIdDependencyObj[backlogObj.id] = backlogObj;
+		}
 	};
 
-	
+	/**
+	 * Recursion wise adding the dependencies.
+	 */
 	$scope.addIndent = function(backlogArr, indentValue){
 		
 		for(index in backlogArr)
@@ -79,7 +104,10 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			
 			if(backlogObj.storyDependencyType)
 			{
-				backlogObj["isDependencyStory"] = true;
+				backlogObj["showBackLog"] = false;
+			}else
+			{
+				backlogObj["showBackLog"] = true;
 			}
 			
 			$scope.storyDependencies.push(backlogObj);
@@ -90,6 +118,42 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			}
 		}
 		
+	};
+	
+	/**
+	 * Display all depenencies.
+	 */
+	$scope.displayAllDependencies = function(backLogId){
+		
+		console.log("displayAllDependencies");
+		
+		var backLogObj = $scope.backlogIdDependencyObj[backLogId];
+		
+		if(backLogObj.dependencies)
+		{
+			for(index in backLogObj.dependencies)
+			{
+				backLogObj.dependencies[index].showBackLog = true;
+			}
+		}
+	};
+	
+	/**
+	 * Hide all dependencies.
+	 */
+	$scope.hideAllDependencies = function(backLogId){
+		
+		console.log("hideAllDependencies");
+		
+		var backLogObj = $scope.backlogIdDependencyObj[backLogId];
+		
+		if(backLogObj.dependencies)
+		{
+			for(index in backLogObj.dependencies)
+			{
+				backLogObj.dependencies[index].showBackLog = false;
+			}
+		}
 	};
 	
 	/**
