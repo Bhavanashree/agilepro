@@ -107,12 +107,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 
 		console.log("init story is called");
 		
-		$scope.idToBacklogItem = {};
-		$scope.hierarchyList = [];
+		$scope.idToStory = {};
 		$scope.epicStoryList = [];
-		$scope.childStories = [];
 		$scope.parentIdChildListMap = {};
-		$scope.indentPosition = 0;
+		$scope.storyIdDependencyListMap = {};
 		  
 		// This array will be assigned to final result after recursion so that the scroll 
 		// bar will be not affected for child save.  
@@ -126,11 +124,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				 function(readResponse, respConfig)
 				 {
 			 		$scope.backLogs = readResponse.model;
-			 		console.log("working");
 			 		
 			 		if($scope.backLogs)
 			 		{
-			 			$scope.loadBacklogItems($scope.backLogs);
+			 			$scope.addChildAndDependencies();
 			 		}
 			 			
 			 		try
@@ -139,60 +136,83 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 					}catch(ex)
 					{}
 					
-					$scope.$broadcast("storiesPopulated");
-			 
 				 },{"hideInProgress" : true}
 			 );
 		}
 	 };
 	 
-	 /**
-	  * Sorting the list of epic stories and calling the recursion method.
-	  */
-	 $scope.loadBacklogItems = function(backlogItems) {
-		  
-		  var backlog;
-		  for(var index = 0; index < backlogItems.length; index++)
+	 
+	 $scope.addChildAndDependencies = function(){
+		 
+		 for(index in $scope.backLogs)
+		 {
+			var backlogObj  = $scope.backLogs[index];
+			 
+			$scope.idToStory[backlogObj.id] = backlogObj;
+			
+			if(!backlogObj.parentStoryId)
 			{
-			  backlog = backlogItems[index];
-			  
-			  $scope.idToBacklogItem[backlog.id] = backlog;
-			  
-			  if(backlog.parentStoryId)
-			  {
-				  $scope.childStories.push(backlog);
-			  }else
-			  {
-				  $scope.epicStoryList.push(backlog);
-			  }
-			}
-		  
-		  // sorting
-		  if($scope.epicStoryList.length > 0)
+				$scope.setStoryType(backlogObj);
+				backlogObj["indentHierarchy"] = 0;
+				
+				$scope.epicStoryList.push(backlogObj);
+			}else
 			{
-			  $scope.epicStoryList.sort(function(a, b){return a.id-b.id});
-			}
-		  
-		  // get the map of child stories
-		  var childBackLog;
-		  for(var index = 0; index < $scope.childStories.length; index++)
-			{
-			  	childBackLog = $scope.childStories[index];
+				backlogObj["indentHierarchy"] = $scope.idToStory[backlogObj.parentStoryId].indent + 1;
+				
+				var childArr = $scope.parentIdChildListMap[backlogObj.parentStoryId];
 			  	
-			  	var childArr = $scope.parentIdChildListMap[childBackLog.parentStoryId];
-			  	
-			  	if(childArr)
+			  	if((childArr) && (childArr.length > 0))
+			  	{
+		  			childArr.push(backlogObj);
+		  		
+			  	}else
+			  	{
+			  		$scope.parentIdChildListMap[backlogObj.parentStoryId] = [backlogObj];
+			  	}
+
+			}
+			
+			
+			if(backlogObj.dependencies)
+			{
+				for(i in backlogObj.dependencies)
+				{
+					var dependencyObj = backlogObj.dependencies[i];
+					
+					var mainStory = $scope.getBacklog(dependencyObj.mainStoryId);
+					
+					dependencyObj.parentStoryId = mainStory.parentStoryId;
+					dependencyObj.title = mainStory.title;
+					
+					$scope.setStoryType(dependencyObj);
+					
+					var dependencyArr = $scope.storyIdDependencyListMap[backlogObj.parentStoryId];
+				  	
+				  	if((dependencyArr) && (dependencyArr.length > 0))
 				  	{
-			  			childArr.push(childBackLog);
+				  		dependencyArr.push(dependencyObj);
 			  		
 				  	}else
 				  	{
-				  		$scope.parentIdChildListMap[childBackLog.parentStoryId] = [childBackLog];
+				  		$scope.storyIdDependencyListMap[backlogObj.id] = [dependencyObj];
 				  	}
+				}
 			}
-		  
-		  $scope.addBackLogsAccordingToChild($scope.epicStoryList, 0);
-		  
+			
+			
+		}
+		 
+		 for(key in $scope.parentIdChildListMap)
+		 {
+			 ($scope.idToStory[key])["childrens"] = $scope.parentIdChildListMap[key];
+		 }
+		 
+		 for(key in $scope.storyIdDependencyListMap)
+		 {
+			 ($scope.idToStory[key])["dependencyArr"] = $scope.storyIdDependencyListMap[key];
+		 }	
+		 
 		 if($scope.scrollForFirstTime)
 		 {
 			var storyHierarchyElem  = $("#storyHierarchyId");
@@ -203,13 +223,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			}catch(ex)
 			{}
 			
-			
 			$scope.scrollForFirstTime = false;
 		 }
-		
-		$scope.finalResult = $scope.backlogsForRecursion;
-	};
-	
+	 };
+	 
+	 	
 	$scope.getSymbolFor = function(backlogItem) {
 		if(backlogItem.type == "EPIC")
 		{
@@ -232,7 +250,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 		else 
 		{
-			parent = $scope.idToBacklogItem[backLog.parentStoryId];
+			parent = $scope.idToStory[backLog.parentStoryId];
 		  
 			if(parent.type == 'EPIC')
 			{
@@ -245,41 +263,16 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 	};
 	 
-	/**
-	 * Recursion wise adding the stories.
-	 */
-	$scope.addBackLogsAccordingToChild = function(backLogArr, indentValue){
-		
-		 var backLog, parent;
-		 
-		 for(var i = 0; i < backLogArr.length; i++)
-		  {
-			  backLog = backLogArr[i];
-			  backLog["indent"] = indentValue;
-			  
-			  $scope.setStoryType(backLog);
-			  
-			  $scope.backlogsForRecursion.push(backLog);
-			  
-			  if($scope.parentIdChildListMap[backLog.id])
-			  {
-				  console.log("recursion");
-				  $scope.addBackLogsAccordingToChild($scope.parentIdChildListMap[backLog.id], indentValue + 1);
-			  }
-		  }
-	};
-	
 	
 	/**
 	 * Added new backlog after save. 
 	 */
 	$scope.addSavedBacklog = function(backlogModel){
 		
-		$scope.finalResult.push(backlogModel);
 		$scope.epicStoryList.push(backlogModel);
 		$scope.backLogs.push(backlogModel);
 		
-		$scope.idToBacklogItem[backlogModel.id] = backlogModel;
+		$scope.idToStory[backlogModel.id] = backlogModel;
 		
 		var storyHierarchyElem  = $("#storyHierarchyId");
 		storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight });
@@ -293,54 +286,19 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.gotParent = false;
 		
 		$scope.backLogs.push(backlogModel);
-		$scope.childStories.push(backlogModel);
-		$scope.idToBacklogItem[backlogModel.id] = backlogModel;
+		$scope.idToStory[backlogModel.id] = backlogModel;
 		
 		var tempChildList = $scope.parentIdChildListMap[backlogModel.parentStoryId];
 		
 		if(tempChildList)
 		{
 			tempChildList.push(backlogModel);
+			
 			$scope.parentIdChildListMap[backlogModel.parentStoryId] = tempChildList; 
 		}else
 		{
 			$scope.parentIdChildListMap[backlogModel.parentStoryId] = [backlogModel];
 		}
-		
-		for(var index = 0; index < $scope.finalResult.length ; index++)
-		{
-			var backlogObj = $scope.finalResult[index];
-			
-			// adding updated priorty.
-			if(storyIdPriority[backlogObj.id])
-			{
-				backlogObj.priority = storyIdPriority[backlogObj.id]; 
-			}
-			
-			if(backlogObj.id == backlogModel.parentStoryId)
-			{
-				 $scope.gotParent = true; 
-				 continue;
-			}
-
-			if($scope.gotParent)
-			{
-				if(backlogObj.parentStoryId == backlogModel.parentStoryId)
-				{
-					continue;
-				}else
-				{
-					$scope.finalResult.splice(index, 0, backlogModel);
-				}
-			}
-		}
-		
-		// if the parent is not having any child or if there are no more parent stories
-		if($scope.finalResult.indexOf(backlogModel) == -1)
-		{
-			$scope.finalResult.push(backlogModel);
-		}
-		
 	};
 	
 	

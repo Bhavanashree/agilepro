@@ -23,11 +23,9 @@
 		<div id="storyHierarchyId" style="overflow-y: auto; padding: 0.5em; height: 100%;" 
 			yk-max-height="98vh - ${$this.offset().top}px - 3.8em">
 			
-			<div ng-repeat="backlog in finalResult | filter:storyFilter()" 
-			style="height: 6em; margin: 0.5em; border: 3px solid #66c2ff; 
-			margin-left: {{backlog.indent * 20}}px;">
-				
-				<div style="width: 100%; height: 2.5em; border-bottom: 3px solid #66c2ff;">
+			
+			<script type="text/ng-template" id="hierarchyTree">
+    			<div style="width: 100%; height: 2.5em; border-bottom: 3px solid #66c2ff;">
 					<table style="width: 100%; height: 100%;">
 						<tr>
 							<td style="width: 4%; text-align: center; background-color: #383838; 
@@ -58,7 +56,22 @@
 					ng-keyup="onTypeNewBacklogChild($event, backlog.id, backlog.indent)" 
 					style="border: 2px solid lightblue; max-width: 20em;"/>
 				</div>
+				
+				
+				<div ng-repeat="backlog in backlog.childrens | filter:storyFilter()" 
+					style="height: 6em; margin: 0.5em; border: 3px solid #66c2ff; 
+					margin-left: {{backlog.indentHierarchy * 20}}px;" ng-include="'hierarchyTree'">
+					
+				</div>
+				
+			</script>
+			
+			<div ng-repeat="backlog in epicStoryList | filter:storyFilter()" 
+			style="height: 6em; margin: 0.5em; border: 3px solid #66c2ff; 
+			margin-left: {{backlog.indentHierarchy * 20}}px;" ng-include="'hierarchyTree'">
+				
 			</div>
+
 		</div>
 				
 		<!-- Add new story -->

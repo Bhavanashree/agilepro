@@ -25,11 +25,13 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			$scope.displayAllDependencies(backlogId);
 		}else
 		{
+			console.log("hideAllDependencies else");
 			$scope.hideAllDependencies(backlogId);
 		}
 		
-		if(($scope.previousIndex != -1) &&  ($scope.selectedBackLogId) && (!$scope.indexDisplayObj[$scope.previousIndex].showDependency))
+		if(($scope.previousIndex != -1) &&  ($scope.previousIndex != index) && ($scope.selectedBackLogId) && (!$scope.indexDisplayObj[$scope.previousIndex].showDependency))
 		{
+			console.log("hideAllDependencies if");
 			$scope.hideAllDependencies($scope.selectedBackLogId);
 		}
 		
@@ -67,26 +69,25 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		console.log("initStoryDependency is called");
 		
 		$scope.storyDependencies = [];
-		
-		$scope.addIndent($scope.getBackLogs(), 0);
-		
-		/*for(index in $scope.storyDependencies)
-		{
-			var storyObj = $scope.storyDependencies[index];
-			
-			storyObj.show = false;
-		}*/
-		
 		$scope.indexDisplayObj = {};
 		$scope.backlogIdDependencyObj = {};
 		
-		for(index in $scope.storyDependencies)
+		var backlogArr = $scope.getBackLogs();
+		
+		for(index in backlogArr)
 		{
-			var backlogObj = $scope.storyDependencies[index];
+			var backlogObj = backlogArr[index];
+			
+			backlogObj.showBackLog = true;
+			
+			backlogObj["indentDependency"] = 0;
+			
+			$scope.storyDependencies.push(backlogObj);
 			
 			$scope.indexDisplayObj[index] = {"showDependency" : false};
 			
 			$scope.backlogIdDependencyObj[backlogObj.id] = backlogObj;
+			
 		}
 	};
 
@@ -95,33 +96,12 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	 */
 	$scope.addIndent = function(backlogArr, indentValue){
 		
-		for(index in backlogArr)
-		{
-			var backlogObj = backlogArr[index];
-			
-			backlogObj["indent"] = indentValue;
-			backlogObj["showDependency"] = false;
-			
-			if(backlogObj.storyDependencyType)
-			{
-				backlogObj["showBackLog"] = false;
-			}else
-			{
-				backlogObj["showBackLog"] = true;
-			}
-			
-			$scope.storyDependencies.push(backlogObj);
-			
-			if(backlogObj.dependencies)
-			{
-				$scope.addIndent(backlogObj.dependencies, indentValue + 1);
-			}
-		}
+		
 		
 	};
 	
 	/**
-	 * Display all depenencies.
+	 * Display all dependencies.
 	 */
 	$scope.displayAllDependencies = function(backLogId){
 		
@@ -142,8 +122,6 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	 * Hide all dependencies.
 	 */
 	$scope.hideAllDependencies = function(backLogId){
-		
-		console.log("hideAllDependencies");
 		
 		var backLogObj = $scope.backlogIdDependencyObj[backLogId];
 		

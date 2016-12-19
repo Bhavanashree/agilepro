@@ -22,9 +22,9 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		$scope.oldSearchStory = $scope.searchStory;
 		
 		//Set the flag based on search string
-		if($scope.finalResult.length > 0)
+		if($scope.backLogs.length > 0)
 		{
-			$scope.checkForFilter($scope.finalResult);
+			$scope.checkForFilter($scope.backLogs);
 		}
 
 		return retFunc;
