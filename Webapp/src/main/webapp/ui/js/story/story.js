@@ -22,7 +22,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		"onDisplay" : function(model){
 			
-			$scope.initTinyMce();
+			//$scope.initTinyMce();
 			
 			if(!(model.id))
 			{
@@ -311,6 +311,17 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	});
 	
 	
+	// Listener for broadcast
+	$scope.$on("editStory", function(event, id) {
+		
+		//$scope.crudConfig.modelDailogId = "storyDialogId";
+		
+		$scope.selectedId = id;
+		
+		$scope.editEntry();
+	});
+	
+	
 	$scope.initModelDef = function() {
 		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){
 			this.$scope.modelDef = modelDefResp.modelDef;
@@ -343,6 +354,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		return $scope.modelDef;
 	};
+	
+	
 	
 	
 }]);

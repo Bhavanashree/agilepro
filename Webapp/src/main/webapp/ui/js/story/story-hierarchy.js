@@ -156,10 +156,12 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		);
 	};
 
-	
+	/**
+	 * Get invoked on click of edit button.
+	 */
 	$scope.editBacklog = function(backlogId){
 		
-		$('#storyDialogId').modal('show');
+		$scope.$emit("editStory",backlogId); 
 	};
 	
 }]);
