@@ -96,7 +96,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 				storyRepo.moveStoriesDown(storyModel.getProjectId(), parentPriority, PRIORITY_INCREMENT_VALUE);
 				
-				//updatedPriorites = storyRepo.fetchStoriesWherePriorityGreaterThan(storyModel.getProjectId(), parentPriority);
+				updatedPriorites = storyRepo.fetchStoriesWherePriorityGreaterThan(storyModel.getProjectId(), parentPriority);
 				
 				storyModel.setPriority(parentPriority);
 			}

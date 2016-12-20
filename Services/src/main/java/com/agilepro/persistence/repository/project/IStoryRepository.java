@@ -147,6 +147,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 */
 	@RestrictBySpace
 	@UpdateFunction
+	@OrderBy("priority")
 	public int moveStoriesDown(@Condition(value = "project.id") Long projectId, 
 		@Condition(value = "priority") int fromOrder, 
 		@Field(value = "priority", updateOp = UpdateOperator.ADD) int incrementValue);

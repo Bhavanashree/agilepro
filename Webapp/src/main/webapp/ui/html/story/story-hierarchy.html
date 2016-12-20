@@ -25,53 +25,51 @@
 			
 			
 			<script type="text/ng-template" id="hierarchyTree">
-    			<div style="width: 100%; height: 2.5em; border-bottom: 3px solid #66c2ff;">
-					<table style="width: 100%; height: 100%;">
-						<tr>
-							<td style="width: 4%; text-align: center; background-color: #383838; 
-								border-right: 1px solid #101010; color: white;">
-									{{getSymbolFor(backlog)}}
-							</td>
-							<td style="width: 4%; text-align: center; background-color: #383838;
-								border-right: 1px solid #101010; color: white;">
-									{{backlog.priority}}
-							</td>
-							<td style="width: 84%; padding-left: 0.5em;">
-								<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
-							</td>
-							<td ng-click="editBacklog()" style="width: 4%; text-align: center; background-color: #cce6ff;
-								border-left: 1px solid #66c2ff; cursor:pointer;">
-									<i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
-							</td>
-							<td style="width: 4%; text-align: center; background-color: #cce6ff;
-								border-left: 1px solid #66c2ff; cursor:pointer;">
-								<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
-							</td>
-						</tr>
-					</table>
-				</div>
-				
-				<div style="width: 100%; height: 3.5em; padding: 0.3em;">
-					<input class="form-control" placeholder="Add child story" 
-					ng-keyup="onTypeNewBacklogChild($event, backlog.id, backlog.indent)" 
-					style="border: 2px solid lightblue; max-width: 20em;"/>
-				</div>
-				
+				<div style="height: 6em; margin: 0.5em; border: 3px solid #66c2ff; 
+					margin-left: {{backlog.indentHierarchy * 20}}px;">
+
+					<div style="width: 100%; height: 2.5em; border-bottom: 3px solid #66c2ff;">
+						<table style="width: 100%; height: 100%;">
+							<tr>
+								<td style="width: 4%; text-align: center; background-color: #383838; 
+									border-right: 1px solid #101010; color: white;">
+										{{getSymbolFor(backlog)}}
+								</td>
+								<td style="width: 4%; text-align: center; background-color: #383838;
+									border-right: 1px solid #101010; color: white;">
+										{{backlog.priority}}
+								</td>
+								<td style="width: 84%; padding-left: 0.5em;">
+									<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
+								</td>
+								<td ng-click="editBacklog()" style="width: 4%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff; cursor:pointer;">
+										<i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
+								</td>
+								<td style="width: 4%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff; cursor:pointer;">
+									<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div style="width: 100%; height: 3.5em; padding: 0.3em;">
+						<input class="form-control" placeholder="Add child story" 
+						ng-keyup="onTypeNewBacklogChild($event, backlog.id, backlog.indentHierarchy)" 
+						style="border: 2px solid lightblue; max-width: 20em;"/>
+					</div>
+				</div>				
 				
 				<div ng-repeat="backlog in backlog.childrens | filter:storyFilter()" 
-					style="height: 6em; margin: 0.5em; border: 3px solid #66c2ff; 
-					margin-left: {{backlog.indentHierarchy * 20}}px;" ng-include="'hierarchyTree'">
-					
+					style="width: 100%;" ng-include="'hierarchyTree'">
 				</div>
 				
 			</script>
 			
 			<div ng-repeat="backlog in epicStoryList | filter:storyFilter()" 
-			style="height: 6em; margin: 0.5em; border: 3px solid #66c2ff; 
-			margin-left: {{backlog.indentHierarchy * 20}}px;" ng-include="'hierarchyTree'">
-				
+				style="width: 100%;" ng-include="'hierarchyTree'">
 			</div>
-
 		</div>
 				
 		<!-- Add new story -->

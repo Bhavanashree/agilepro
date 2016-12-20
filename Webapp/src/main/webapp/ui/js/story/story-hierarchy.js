@@ -129,7 +129,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 					{
 						$scope.newBacklogTitle = "";
 						
-						backlogModel["indent"] = indentValue;
+						backlogModel["indentHierarchy"] = indentValue;
 						backlogModel["id"] = storyResponse.newStoryId;
 						backlogModel["priority"] = storyResponse.storyIdPriority[backlogModel.id];
 						
@@ -137,14 +137,10 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 						
 						if(backlogModel.parentStoryId)
 						{
-							$scope.addSavedChildBacklog(backlogModel, storyResponse.storyIdPriority);
-							
 							$scope.targetType.val("");
-							
-						}else
-						{
-							$scope.addSavedBacklog(backlogModel);
 						}
+						
+						$scope.addSavedBacklog(backlogModel, storyResponse.storyIdPriority);
 					}else
 					{
 						utils.alert("error in save");

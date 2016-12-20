@@ -19,29 +19,39 @@
 				<div style="width: 100%; height: 2.5em; border: 3px solid #66c2ff;">
 					<table style="width: 100%; height: 100%;">
 						<tr>
-							<td ng-click="onClickPlus($index, backlog.id)" 
+							<td ng-click="onClickPlus(dependency, dependency.dependencyStory.id)" 
 								style="width: 4%; text-align: center; background-color: #cce6ff; 
 								border-right: 1px solid #66c2ff; cursor:pointer;">
-									<i ng-class="backlog.showDependency ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
+									<i ng-class="dependency.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 									</i>
 							</td>
 							<td style="width: 4%; text-align: center; background-color: grey; 
 								border-right: 1px solid #66c2ff;">
-									{{getSymbolFor(backlog)}}
+									{{getSymbolFor(dependency.dependencyStory)}}
 							</td>
 							<td style="width: 4%; text-align: center; background-color: grey;
 								border-right: 1px solid #66c2ff;">
-									{{backlog.priority}}
+									{{dependency.dependencyStory.priority}}
 							</td>
-							<td style="width: 84%; padding-left: 0.5em;">
-								<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
+							<td style="width: 75%; padding-left: 0.5em;">
+								<strong style="text-transform: capitalize;">{{dependency.dependencyStory.title}}</strong>
+							</td>
+							<td ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
+									style="width: 9%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff;">
+									<span>{{displayStoryDependencyType(dependency.storyDependencyType)}}</span>
+							</td>
+							<td ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
+									style="width: 4%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff; cursor:pointer;">
+									<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
 							</td>
 						</tr>
 					</table>
 				</div>
 				
 			<!-- On plus button -->
-			<div ng-show="indexDisplayObj[$index].showDependency">
+			<div ng-show="dependency.expanded">
 			
 				<table>
 					<tr>
@@ -110,20 +120,18 @@
 					
 				</table>
 				
+				<div ng-repeat="dependency in dependency.dependencyStory.dependencies" 
+					style="margin-top: 0.5em; margin-bottom: 0.5em; margin-left: 20px;" 
+					ng-include="'dependencyTree'">
+
+				</div>
+
 			</div>
-
-			<div ng-repeat="backlog in backlog.dependencyArr" 
-				style="margin: 0.5em; margin-left: {{backlog.indent * 20}}px;" 
-				ng-show="backlog.showBackLog" ng-include="'dependencyTree'">
-
-			</div>
-
-			
 
 		</script>
 			
-		<div ng-repeat="backlog in storyDependencies" style="margin: 0.5em; margin-left: {{backlog.indent * 20}}px;" 
-			ng-show="backlog.showBackLog" ng-include="'dependencyTree'">
+		<div ng-repeat="dependency in dependencyTree" style="margin: 0.5em; " 
+			ng-include="'dependencyTree'">
 
 		</div>
 		

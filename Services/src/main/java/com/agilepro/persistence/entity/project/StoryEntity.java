@@ -34,7 +34,8 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "Story")
 @Table(name = "STORY")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" }),
+					 @UniqueConstraint(name = "SPACE_PROJECT_PRIORITY", fields = { "spaceIdentity", "project", "priority" })})
 public class StoryEntity extends WebutilsExtendableEntity
 {
 	/**

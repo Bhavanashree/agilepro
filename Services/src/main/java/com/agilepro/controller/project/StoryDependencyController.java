@@ -18,6 +18,7 @@ import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.StoryDependencyService;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
+import com.yukthi.webutils.controllers.BaseController;
 
 /**
  * Story dependency controller is responsible for receiving the request from the client and sending back the response.
@@ -27,7 +28,7 @@ import com.yukthi.webutils.common.models.BasicSaveResponse;
 @RestController
 @ActionName(ACTION_PREFIX_STORY_DEPENDENCY)
 @RequestMapping("/storyDependency")
-public class StoryDependencyController
+public class StoryDependencyController extends BaseController
 {
 	/**
 	 * StoryDependencyService. 

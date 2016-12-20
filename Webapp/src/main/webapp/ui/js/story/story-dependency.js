@@ -7,20 +7,22 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	/**
 	 * Called on click of plus button
 	 */
-	$scope.onClickPlus = function(index, backlogId){
+	$scope.onClickPlus = function(dependencyTreeObj, backlogId){
 		
 		$scope.selectedDependencyType = null;
 		$scope.selectedBacklogFromDropDown = null;
 		
-		$scope.indexDisplayObj[index].showDependency = !$scope.indexDisplayObj[index].showDependency;
+		dependencyTreeObj.expanded = !dependencyTreeObj.expanded; 
+		
+		/*$scope.indexDisplayObj[index].showDependency = !$scope.indexDisplayObj[index].showDependency;
 		
 		if(($scope.previousIndex != -1) && ($scope.previousIndex != index))
 		{	
 			$scope.indexDisplayObj[$scope.previousIndex].showDependency = false;
-		}
+		}*/
 		
 		// logic for dependency stories.
-		if($scope.indexDisplayObj[index].showDependency)
+		/*if($scope.indexDisplayObj[index].showDependency)
 		{
 			$scope.displayAllDependencies(backlogId);
 		}else
@@ -33,10 +35,10 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		{
 			console.log("hideAllDependencies if");
 			$scope.hideAllDependencies($scope.selectedBackLogId);
-		}
+		}*/
 		
 		
-		$scope.previousIndex = index;
+		//$scope.previousIndex = index;
 		$scope.selectedBackLogId = backlogId;
 		
 	};
@@ -68,37 +70,8 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	
 		console.log("initStoryDependency is called");
 		
-		$scope.storyDependencies = [];
-		$scope.indexDisplayObj = {};
-		$scope.backlogIdDependencyObj = {};
-		
-		var backlogArr = $scope.getBackLogs();
-		
-		for(index in backlogArr)
-		{
-			var backlogObj = backlogArr[index];
-			
-			backlogObj.showBackLog = true;
-			
-			backlogObj["indentDependency"] = 0;
-			
-			$scope.storyDependencies.push(backlogObj);
-			
-			$scope.indexDisplayObj[index] = {"showDependency" : false};
-			
-			$scope.backlogIdDependencyObj[backlogObj.id] = backlogObj;
-			
-		}
 	};
 
-	/**
-	 * Recursion wise adding the dependencies.
-	 */
-	$scope.addIndent = function(backlogArr, indentValue){
-		
-		
-		
-	};
 	
 	/**
 	 * Display all dependencies.
@@ -150,6 +123,28 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		$scope.selectedBacklogFromDropDown = storyObj;
 	};
 	
+	$scope.displayForDependencyOnly = function(storyDependencyType){
+		
+		if(storyDependencyType)
+		{
+			return true;
+		}
+		
+		return false;
+	};
+	
+	$scope.displayStoryDependencyType = function(storyDependencyType){
+		
+		if(storyDependencyType == "STARTS_WITH")
+		{
+			return "Starts with";
+		}else
+		{
+			return "Ends with";
+		}
+	};
+	
+	
 	/**
 	 * Add new dependency
 	 */
@@ -159,6 +154,8 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		{
 			utils.alert("error");
 		}
+		
+		console.log($scope.selectedBackLogId);
 		
 		var model = {"mainStoryId" : $scope.selectedBackLogId,
 					"dependencyStoryId" : $scope.selectedBacklogFromDropDown.id, 
