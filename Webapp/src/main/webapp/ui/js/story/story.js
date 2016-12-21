@@ -8,7 +8,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		"nameColumn" : "title",
 		
-		"modelDailogId": "storyDialog",
+		"modelDailogId": "storyDialogId",
 		
 		"saveAction": "story.save",
 		"readAction": "story.read",
@@ -244,6 +244,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.backLogs.push(backlogModel);
 		$scope.idToStory[backlogModel.id] = backlogModel;
+		$scope.dependencyTree.push({"dependencyStory": backlogModel, "expanded": false});
 		
 		if(!backlogModel.parentStoryId)
 		{
@@ -268,6 +269,27 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			}
 		}
 		
+	};
+	
+	/**
+	 * Add dependency story after save.
+	 */
+	$scope.addDependencyStoryAfterSave = function(depdendencyObj){
+		
+		var mainStory = $scope.idToStory[depdendencyObj.mainStoryId];
+		
+		depdendencyObj.mainStory = $scope.idToStory[depdendencyObj.mainStoryId];
+		depdendencyObj.dependencyStory = $scope.idToStory[depdendencyObj.dependencyStoryId];
+		
+		var dpendencyArr = mainStory.dependencies;
+		
+		if(dpendencyArr)
+		{
+			dpendencyArr.push(depdendencyObj);
+		}else
+		{
+			mainStory.dependencies = [depdendencyObj];
+		}
 	};
 	
 	/**

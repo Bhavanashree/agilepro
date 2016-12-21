@@ -154,6 +154,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		if(!$scope.selectedDependencyType || !$scope.selectedBacklogFromDropDown)
 		{
 			utils.alert("error");
+			return;
 		}
 		
 		console.log($scope.selectedBackLogId);
@@ -165,7 +166,10 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		actionHelper.invokeAction("storyDependency.save", model, null, 
 				function(saveResposne, respConfig)
 				{
-			
+					if(saveResposne.code == 0)
+					{
+						$scope.addDependencyStoryAfterSave(model);
+					}
 				
 				},{"hideInProgress" : true});
 		

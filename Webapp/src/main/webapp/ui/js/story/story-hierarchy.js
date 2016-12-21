@@ -10,7 +10,6 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 				return true;
 			}
 			
-			console.log(item.title + "" + item.filtered);
 			return item.filtered;
 		};
 		
@@ -19,43 +18,44 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 			return retFunc;
 		}
 		
-		$scope.oldSearchStory = $scope.searchStory;
-		
 		//Set the flag based on search string
 		if($scope.backLogs.length > 0)
 		{
 			$scope.checkForFilter($scope.backLogs);
 		}
+		
+		$scope.oldSearchStory = $scope.searchStory;
 
 		return retFunc;
 	};
 	
 	$scope.checkForFilter = function(stories) {
 		
-		var result = false;
-		
-		if($scope.searchStory)
+		if(!stories)
 		{
-			var searchString = $scope.searchStory.toLowerCase();
+			return;
+		}
+		
+		var result = false;
+		var searchString = $scope.searchStory.toLowerCase();
+		
+		for(index in stories)
+		{
+			var story = stories[index];
 			
-			for(index in stories)
+			if(story.title.toLowerCase().includes(searchString))
 			{
-				var story = stories[index];
-				
-				if(story.title.toLowerCase().includes(searchString))
-				{
-					story.filtered = true;
-					result = true;
-				}else
-				{
-					story.filtered = false;
-				}
-				
-				if($scope.checkForFilter($scope.getChildList(story.id)))
-				{
-					story.filtered = true;
-					result = true;
-				}
+				story.filtered = true;
+				result = true;
+			}else
+			{
+				story.filtered = false;
+			}
+			
+			if($scope.checkForFilter(story.childrens))
+			{
+				story.filtered = true;
+				result = true;
 			}
 		}
 		

@@ -17,6 +17,8 @@ import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.NullCheck;
 import com.yukthi.persistence.repository.annotations.Operator;
 import com.yukthi.persistence.repository.annotations.OrderBy;
+import com.yukthi.persistence.repository.annotations.OrderByField;
+import com.yukthi.persistence.repository.annotations.OrderByType;
 import com.yukthi.persistence.repository.annotations.SearchResult;
 import com.yukthi.persistence.repository.annotations.UpdateFunction;
 import com.yukthi.persistence.repository.annotations.UpdateOperator;
@@ -147,8 +149,8 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 */
 	@RestrictBySpace
 	@UpdateFunction
-	@OrderBy("priority")
+	@OrderBy(fields = { @OrderByField(name = "priority", type = OrderByType.DESC) })
 	public int moveStoriesDown(@Condition(value = "project.id") Long projectId, 
-		@Condition(value = "priority") int fromOrder, 
+		@Condition(value = "priority", op = Operator.GE) int fromOrder, 
 		@Field(value = "priority", updateOp = UpdateOperator.ADD) int incrementValue);
 }
