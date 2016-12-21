@@ -111,17 +111,17 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	/**
 	 * On change of pattern.
 	 */
-	$scope.onDependencyTypeChange = function(type){
+	$scope.onDependencyTypeChange = function(dependencyObj, type){
 		
-		$scope.selectedDependencyType = type;
+		dependencyObj.storyDependencyType = type; 
 	};
 
 	/**
 	 * On selection of story from drop down.
 	 */
-	$scope.onStoryChange = function(storyObj){
+	$scope.onStoryChange = function(dependencyObj, storyObj){
 	
-		$scope.selectedBacklogFromDropDown = storyObj;
+		dependencyObj.dependencyStoryId = storyObj.id;
 	};
 	
 	$scope.displayForDependencyOnly = function(storyDependencyType){
@@ -149,9 +149,9 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	/**
 	 * Add new dependency
 	 */
-	$scope.addDependency = function(){
+	$scope.addDependency = function(dependencyObj){
 		
-		if(!$scope.selectedDependencyType || !$scope.selectedBacklogFromDropDown)
+		if(!dependencyObj.storyDependencyType || !dependencyObj.dependencyStoryId)
 		{
 			utils.alert("error");
 			return;
@@ -160,14 +160,17 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		console.log($scope.selectedBackLogId);
 		
 		var model = {"mainStoryId" : $scope.selectedBackLogId,
-					"dependencyStoryId" : $scope.selectedBacklogFromDropDown.id, 
-					"storyDependencyType" : $scope.selectedDependencyType};
+					"dependencyStoryId" : dependencyObj.dependencyStoryId, 
+					"storyDependencyType" : dependencyObj.storyDependencyType};
 		
 		actionHelper.invokeAction("storyDependency.save", model, null, 
 				function(saveResposne, respConfig)
 				{
 					if(saveResposne.code == 0)
 					{
+						dependencyObj.storyDependencyType = null;
+						dependencyObj.dependencyStoryId = null;
+						
 						$scope.addDependencyStoryAfterSave(model);
 					}
 				

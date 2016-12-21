@@ -157,7 +157,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 //load children and dependencies
 		 for(var backlog of $scope.backLogs)
 		 {
-			 //set the heirarchy
+			 //set the hierarchy
 			 if(!backlog.parentStoryId)
 			 {
 				 backlog["indentHierarchy"] = 0;
@@ -290,6 +290,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{
 			mainStory.dependencies = [depdendencyObj];
 		}
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
 	};
 	
 	/**

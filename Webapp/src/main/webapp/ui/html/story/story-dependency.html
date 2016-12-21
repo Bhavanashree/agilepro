@@ -62,7 +62,7 @@
 										<tr>
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-												 placeholder="Please select pattern" value="{{selectedDependencyType}}">
+												 placeholder="Please select pattern" value="{{dependency.storyDependencyType}}">
 											</td>
 											<td>
 												<div class="input-group-btn" name="depStoryDropDown">
@@ -71,7 +71,7 @@
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right">
 													    <li ng-repeat="type in dependencyTypes">
-													    	<a ng-click="onDependencyTypeChange(type)" href="">
+													    	<a ng-click="onDependencyTypeChange(dependency, type)" href="">
 													    		{{type}}
 													    	</a>
 													    </li>
@@ -91,16 +91,17 @@
 										<tr>
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-												 placeholder="Please select story" value="{{selectedBacklogFromDropDown.title}}">
+												 placeholder="Please select story" 
+												 value="{{getBacklog(dependency.dependencyStoryId).title}}">
 											</td>
 											<td>
 												<div class="input-group-btn">
-													<button type="button" ng-click="onClickDropDown(backlog.id)" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<button type="button" ng-click="onClickDropDown(dependency.dependencyStory.id)" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<span class="caret"></span>
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right" ng-show="dropdown.length > 0">
 													    <li ng-repeat="story in dropdown">
-													    	<a ng-click="onStoryChange(story)" href="">
+													    	<a ng-click="onStoryChange(dependency, story)" href="">
 													    		{{story.title}}
 													    	</a>
 													    </li>
@@ -114,7 +115,7 @@
 						</td>
 						
 						<td style="padding: 0.2em;">
-							<button class="btn btn-primary" ng-click="addDependency()">Add</button>
+							<button class="btn btn-primary" ng-click="addDependency(dependency)">Add</button>
 						</td>
 					</tr>
 					
