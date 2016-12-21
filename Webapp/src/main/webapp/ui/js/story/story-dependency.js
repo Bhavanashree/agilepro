@@ -4,6 +4,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	$scope.dependencyTypes = ["STARTS_WITH", "ENDS_WITH"];
 	$scope.previousIndex = -1;
 	
+	
 	/**
 	 * Called on click of plus button
 	 */
