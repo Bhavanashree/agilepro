@@ -13,6 +13,7 @@ import com.yukthi.webutils.common.ImageInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.LOV;
+import com.yukthi.webutils.common.annotations.Label;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -63,18 +64,21 @@ public class StoryModel extends AbstractExtendableModel
 	 * The parent story id.
 	 **/
 	@LOV(name = "parentStory")
+	@Label("Parent Story")
 	private Long parentStoryId;
 
 	/**
 	 * The owner id.
 	 **/
 	@LOV(name = "projectMembers")
+	@Label("Owner")
 	private Long ownerId;
 
 	/**
 	 * The tag.
 	 **/
 	@LOV(name = "tagLov")
+	@Label("Tag")
 	private Long tagId;
 
 	/**
@@ -124,6 +128,7 @@ public class StoryModel extends AbstractExtendableModel
 	 * To assign the stories to a team.
 	 **/
 	@LOV(name = "teamLov")
+	@Label("Team")
 	private Long teamId;
 
 	/**

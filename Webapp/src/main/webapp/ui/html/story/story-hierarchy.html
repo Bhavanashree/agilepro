@@ -46,7 +46,7 @@
 									border-left: 1px solid #66c2ff; cursor:pointer;">
 										<i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
 								</td>
-								<td style="width: 4%; text-align: center; background-color: #cce6ff;
+								<td ng-click="deleteBacklog(backlog.id)" style="width: 4%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff; cursor:pointer;">
 									<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
 								</td>
@@ -234,7 +234,7 @@
 		<footer>
 			<button type="button" class="btn btn-info" ng-click="saveNote('DRAFT')" ng-if="selectedTab == 'storyNoteId'">Save Draft</button>
 			<button type="button" class="btn btn-success" ng-click="saveNote('PUBLISHED')" ng-if="selectedTab == 'storyNoteId'">Publish</button>
-			<button type="button" class="btn btn-primary save-button" ng-click="saveChanges($event)" ng-if="selectedTab == 'modelFormId'">{{newStoryMode ? 'Save' : 'Update'}}</button>
+			<button type="button" class="btn btn-primary save-button" ng-click="updateBacklog()" ng-if="selectedTab == 'modelFormId'">{{newStoryMode ? 'Save' : 'Update'}}</button>
 			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal" ng-if="selectedTab == 'modelFormId'">Cancel</button>
 		</footer>
 	</yk-dialog>

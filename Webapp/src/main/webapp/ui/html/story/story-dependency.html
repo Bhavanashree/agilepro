@@ -6,7 +6,7 @@
 		<table style="width: 100%;">
 			<tr>
 				<td class="has-success has-feedback">
-					<input ng-model="searchStory" class="form-control" type="text" placeholder="Search story" style="border: none;"/>
+					<input ng-model="dependencySearchStory" class="form-control" type="text" placeholder="Search story" style="border: none;"/>
 					<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
 				</td>
 			</tr>
@@ -20,17 +20,17 @@
 					<table style="width: 100%; height: 100%;">
 						<tr>
 							<td ng-click="onClickPlus(dependency, dependency.dependencyStory.id)" 
-								style="width: 4%; text-align: center; background-color: #cce6ff; 
-								border-right: 1px solid #66c2ff; cursor:pointer;">
+								style="width: 4%; text-align: center; background-color: #383838; 
+								border-right: 1px solid #101010; cursor:pointer; color: white;">
 									<i ng-class="dependency.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 									</i>
 							</td>
-							<td style="width: 4%; text-align: center; background-color: grey; 
-								border-right: 1px solid #66c2ff;">
+							<td style="width: 4%; text-align: center; background-color: #383838; 
+								border-right: 1px solid #101010; color: white;">
 									{{getSymbolFor(dependency.dependencyStory)}}
 							</td>
-							<td style="width: 4%; text-align: center; background-color: grey;
-								border-right: 1px solid #66c2ff;">
+							<td style="width: 4%; text-align: center; background-color: #383838;
+								border-right: 1px solid #101010; color: white;">
 									{{dependency.dependencyStory.priority}}
 							</td>
 							<td style="width: 75%; padding-left: 0.5em;">
@@ -40,6 +40,19 @@
 									style="width: 9%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff;">
 									<span>{{displayStoryDependencyType(dependency.storyDependencyType)}}</span>
+
+									<div class="input-group-btn" name="depStoryDropDown">
+										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right">
+											<li ng-repeat="type in dependencyTypes">
+										    	<a ng-click="onDependencyTypeChange(dependency, type)" href="">
+										    		{{displayStoryDependencyType(type)}}
+										    	</a>
+										    </li>
+										</ul>
+									</div>
 							</td>
 							<td ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
 									style="width: 4%; text-align: center; background-color: #cce6ff;
@@ -62,7 +75,7 @@
 										<tr>
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-												 placeholder="Please select pattern" value="{{dependency.storyDependencyType}}">
+												 placeholder="Please select pattern" value="{{displayStoryDependencyType(dependency.storyDependencyType)}}">
 											</td>
 											<td>
 												<div class="input-group-btn" name="depStoryDropDown">
@@ -72,7 +85,7 @@
 													<ul class="dropdown-menu dropdown-menu-right">
 													    <li ng-repeat="type in dependencyTypes">
 													    	<a ng-click="onDependencyTypeChange(dependency, type)" href="">
-													    		{{type}}
+													    		{{displayStoryDependencyType(type)}}
 													    	</a>
 													    </li>
 													</ul>
@@ -131,7 +144,7 @@
 
 		</script>
 			
-		<div ng-repeat="dependency in dependencyTree" style="margin: 0.5em; " 
+		<div ng-repeat="dependency in dependencyTree | filter:dependencyStoryFilter()" style="margin: 0.5em; " 
 			ng-include="'dependencyTree'">
 
 		</div>

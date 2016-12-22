@@ -17,7 +17,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		"onHide" : function(){
 		
-			$scope.stopInterval();
+			//$scope.stopInterval();
 		},
 		
 		"onDisplay" : function(model){
@@ -45,18 +45,20 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				
 				$scope.storyId = model.id;
 
-				$scope.getAllProjectMembers();
+				$scope.storyForUpdate = model;
+				
+				//$scope.getAllProjectMembers();
 				
 				$scope.selectedTitle = {};
 				$scope.titles = [];
 				
-				$scope.getAllTitle();
+				//$scope.getAllTitle();
 				
-				$scope.getAllAttachment();
+				//$scope.getAllAttachment();
 			}
 			
 			// Broad cast 
-	    	$scope.$broadcast("fetchAllStoryNotes");
+	    	//$scope.$broadcast("fetchAllStoryNotes");
 		}
 		
 	});
@@ -68,6 +70,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.finalResult = [];
 	 $scope.scrollForFirstTime = true; 
 	 $scope.dependencyTree = [];
+	 $scope.dependencyIds = [];
 	 
  	/**
 	 * Set the active tab.
@@ -144,6 +147,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 
 	 
 	 $scope.addChildAndDependencies = function(){
+		 
 		 //load id to story map
 		 for(backlog of $scope.backLogs)
 		 {
@@ -180,6 +184,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				 {
 					 dependency.mainStory = $scope.idToStory[dependency.mainStoryId];
 					 dependency.dependencyStory = $scope.idToStory[dependency.dependencyStoryId];
+					 
+					 $scope.dependencyIds.push(dependency.dependencyStoryId);
 				 }
 			 }
 				 
@@ -242,6 +248,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 */
 	$scope.addSavedBacklog = function(backlogModel, storyIdPriority){
 		
+		backlogModel.childrens = [];
+		
 		$scope.backLogs.push(backlogModel);
 		$scope.idToStory[backlogModel.id] = backlogModel;
 		$scope.dependencyTree.push({"dependencyStory": backlogModel, "expanded": false});
@@ -275,6 +283,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 * Add dependency story after save.
 	 */
 	$scope.addDependencyStoryAfterSave = function(depdendencyObj){
+		
+		$scope.dependencyIds.push(depdendencyObj.id);
 		
 		var mainStory = $scope.idToStory[depdendencyObj.mainStoryId];
 		
@@ -342,12 +352,114 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	// Listener for broadcast
 	$scope.$on("editStory", function(event, id) {
 		
-		//$scope.crudConfig.modelDailogId = "storyDialogId";
-		
 		$scope.selectedId = id;
 		
 		$scope.editEntry();
 	});
+	
+	/**
+	 * 
+	 */
+	$scope.isEligibleForDelete = function(backlogId){
+		
+		var backlogObj = $scope.idToStory[backlogId];
+
+		if(backlogObj.childrens.length > 0)
+		{
+			utils.alert("This story has childs");
+			return false;
+		}
+		
+		if($scope.dependencyIds.indexOf(backlogObj.id) != -1)
+		{
+			utils.alert("This story is a dependency story");
+			return false;
+		}
+		
+		return true;
+	};
+	
+	/**
+	 * Update backlogs after updating in database.
+	 */
+	$scope.updateStoryChanges = function(updatedBacklog){
+		
+		var oldBacklogObj = $scope.idToStory[updatedBacklog.id];
+		
+		oldBacklogObj.title = updatedBacklog.title;
+		
+		if(oldBacklogObj.parentStoryId != updatedBacklog.parentStoryId)
+		{
+			if(oldBacklogObj.parentStoryId)
+			{
+				var parent = $scope.idToStory[oldBacklogObj.parentStoryId];
+				
+				parent.childrens.splice(parent.childrens.indexOf(oldBacklogObj), 1);
+			}
+			
+			if(updatedBacklog.parentStoryId)
+			{
+				oldBacklogObj.parentStoryId = updatedBacklog.parentStoryId;
+				
+				var parent = $scope.idToStory[oldBacklogObj.parentStoryId];
+				
+				if(parent.childrens)
+				{
+					parent.childrens.push(oldBacklogObj);
+				}else
+				{
+					parent.childrens = [oldBacklogObj];
+				}
+				
+			}else
+			{
+				oldBacklogObj.parentStoryId = null;
+			}
+		}
+		
+		try
+		{
+			$scope.$digest();
+		}catch(ex)
+		{}
+	};
+	
+	/**
+	 * Remove backlog after delete.
+	 */
+	$scope.removeBacklog = function(backlogId){
+		
+		var objToBeRemoved = $scope.idToStory[backlogId];
+		
+		$scope.backLogs.splice($scope.backLogs.indexOf(objToBeRemoved), 1);
+
+		if(!objToBeRemoved.parentStoryId)
+		{
+			$scope.epicStoryList.splice($scope.epicStoryList.indexOf(objToBeRemoved), 1);
+		}else
+		{
+			var childrens = ($scope.idToStory[objToBeRemoved.parentStoryId]).childrens;
+			
+			childrens.splice(childrens.indexOf(objToBeRemoved), 1);
+		}
+		
+		for(index in $scope.dependencyTree)
+		{
+			var dependency =  $scope.dependencyTree[index];
+			
+			if(dependency.dependencyStory.id == backlogId)
+			{
+				$scope.dependencyTree.splice(index, 1);
+				break;
+			}
+		}
+		
+		try
+		{
+			$scope.$digest();
+		}catch(ex)
+		{}
+	};
 	
 	
 	$scope.initModelDef = function() {

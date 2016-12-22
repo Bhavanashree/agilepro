@@ -164,4 +164,61 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		$scope.$emit("editStory",backlogId); 
 	};
 	
+	/**
+	 * Get invoked on click of update button.
+	 * It uses action helper to call the controller for updating the story.
+	 */
+	$scope.updateBacklog = function(){
+		
+		actionHelper.invokeAction("story.update", $scope.storyForUpdate, null, 
+				
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						$('#storyDialogId').modal('hide');
+						
+						$scope.updateStoryChanges($scope.storyForUpdate);
+					}
+			
+				},{"hideInProgress" : true});
+		
+	};
+	
+	
+	$scope.deleteBacklog = function(backlogId){
+
+		console.log("delete ");
+		
+		if($scope.isEligibleForDelete(backlogId))
+		{
+			var backlogObj = $scope.getBacklog(backlogId);
+			
+			var deleteOp = $.proxy(function(confirmed) {
+				
+				if(!confirmed)
+				{
+					this.logger.trace("Delete operation is cancelled by user.");
+					return;
+				}
+				else
+				{
+					actionHelper.invokeAction("story.delete", null, {"id" : backlogId}, 
+							function(deleteResponse, respConfig)
+							{
+								if(deleteResponse.code == 0)
+								{
+									$scope.removeBacklog(backlogId);
+								}
+							}, {"hideInProgress" : true});
+				}
+				
+			}, {"$scope": $scope, "backlogId": backlogId});
+			
+			
+			utils.confirm(["Are you sure you want to delete '{}'?", backlogObj.title], deleteOp);
+		}
+	};
+	
+	
 }]);

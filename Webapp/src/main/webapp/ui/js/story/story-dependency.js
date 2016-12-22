@@ -4,6 +4,32 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	$scope.dependencyTypes = ["STARTS_WITH", "ENDS_WITH"];
 	$scope.previousIndex = -1;
 	
+	/**
+	 * Gets invoked on type of search title in the search input box.
+	 */
+	$scope.dependencyStoryFilter = function(){
+		
+		var retFunc = function(item){
+				
+			if(!$scope.dependencySearchStory)
+			{
+				return true;
+			}
+			
+			var searchString = $scope.dependencySearchStory.toLowerCase();
+
+			return item.dependencyStory.title.toLowerCase().includes(searchString);
+		};
+		
+		if($scope.oldSearchDependencyStory == $scope.dependencySearchStory)
+		{
+			return retFunc;
+		}
+				
+		$scope.oldSearchDependencyStory = $scope.dependencySearchStory;
+
+		return retFunc;
+	};
 	
 	/**
 	 * Called on click of plus button
@@ -15,31 +41,6 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		
 		dependencyTreeObj.expanded = !dependencyTreeObj.expanded; 
 		
-		/*$scope.indexDisplayObj[index].showDependency = !$scope.indexDisplayObj[index].showDependency;
-		
-		if(($scope.previousIndex != -1) && ($scope.previousIndex != index))
-		{	
-			$scope.indexDisplayObj[$scope.previousIndex].showDependency = false;
-		}*/
-		
-		// logic for dependency stories.
-		/*if($scope.indexDisplayObj[index].showDependency)
-		{
-			$scope.displayAllDependencies(backlogId);
-		}else
-		{
-			console.log("hideAllDependencies else");
-			$scope.hideAllDependencies(backlogId);
-		}
-		
-		if(($scope.previousIndex != -1) &&  ($scope.previousIndex != index) && ($scope.selectedBackLogId) && (!$scope.indexDisplayObj[$scope.previousIndex].showDependency))
-		{
-			console.log("hideAllDependencies if");
-			$scope.hideAllDependencies($scope.selectedBackLogId);
-		}*/
-		
-		
-		//$scope.previousIndex = index;
 		$scope.selectedBackLogId = backlogId;
 		
 	};
@@ -71,25 +72,6 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	
 		console.log("initStoryDependency is called");
 		
-	};
-
-	
-	/**
-	 * Display all dependencies.
-	 */
-	$scope.displayAllDependencies = function(backLogId){
-		
-		console.log("displayAllDependencies");
-		
-		var backLogObj = $scope.backlogIdDependencyObj[backLogId];
-		
-		if(backLogObj.dependencies)
-		{
-			for(index in backLogObj.dependencies)
-			{
-				backLogObj.dependencies[index].showBackLog = true;
-			}
-		}
 	};
 	
 	/**
@@ -123,7 +105,10 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	
 		dependencyObj.dependencyStoryId = storyObj.id;
 	};
-	
+
+	/**
+	 * By default dependency story are not displayed until the main story is expanded.
+	 */
 	$scope.displayForDependencyOnly = function(storyDependencyType){
 		
 		if(storyDependencyType)
@@ -134,12 +119,16 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		return false;
 	};
 	
+	/**
+	 * Display the type of dependency.
+	 */
 	$scope.displayStoryDependencyType = function(storyDependencyType){
 		
 		if(storyDependencyType == "STARTS_WITH")
 		{
 			return "Starts with";
-		}else
+		}
+		else if(storyDependencyType == "ENDS_WITH")
 		{
 			return "Ends with";
 		}
@@ -156,8 +145,6 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			utils.alert("error");
 			return;
 		}
-		
-		console.log($scope.selectedBackLogId);
 		
 		var model = {"mainStoryId" : $scope.selectedBackLogId,
 					"dependencyStoryId" : dependencyObj.dependencyStoryId, 

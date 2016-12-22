@@ -496,6 +496,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read by project id.
 	 **/
 	public String ACTION_TYPE_READ_BY_PROJECT_ID = "readByProjectId";
+	
+	/**
+	 * The action type for Update dependency type.
+	 */
+	public String UPDATE_DEPENDENCY_TYPE = "updateDependencyType";
 
 	/**
 	 * The action type save stories in bulk.

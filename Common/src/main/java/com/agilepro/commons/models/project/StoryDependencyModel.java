@@ -5,6 +5,7 @@ import java.util.List;
 import com.agilepro.commons.StoryDependencyType;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * Story Dependency model for dependency.
@@ -14,6 +15,12 @@ import com.yukthi.webutils.common.annotations.Model;
 @Model(name = "StoryDependency")
 public class StoryDependencyModel
 {
+	/**
+	 * Primary key id.
+	 */
+	@NonDisplayable
+	private Long id;
+
 	/**
 	 * Dependency story id for mapping.
 	 */
@@ -26,9 +33,18 @@ public class StoryDependencyModel
 	@Required
 	private StoryDependencyType storyDependencyType;
 
+	/**
+	 * Main story id.
+	 */
 	@Required
 	private Long mainStoryId;
 	
+	/**
+	 * Version used for update.
+	 **/
+	@NonDisplayable
+	private Integer version;
+
 	/**
 	 * Gets the dependency story id.
 	 * 
@@ -79,5 +95,25 @@ public class StoryDependencyModel
 	public void setMainStoryId(Long mainStoryId)
 	{
 		this.mainStoryId = mainStoryId;
+	}
+
+	public Long getId()
+	{
+		return id;
+	}
+
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
+
+	public Integer getVersion()
+	{
+		return version;
+	}
+
+	public void setVersion(Integer version)
+	{
+		this.version = version;
 	}
 }
