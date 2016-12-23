@@ -461,6 +461,15 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{}
 	};
 	
+	/**
+	 * Remove Dependency story after delete. 
+	 */
+	$scope.removeDependencyAfterDelete = function(mainStoryObj, dependencyObj){
+		
+		mainStoryObj.dependencies.splice(mainStoryObj.dependencies.indexOf(dependencyObj), 1);
+		
+	};
+	
 	
 	$scope.initModelDef = function() {
 		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){

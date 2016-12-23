@@ -191,7 +191,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 						{
 							if(deleteResponse.code == 0)
 							{
-								console.log("succes in delte");
+								$scope.removeDependencyAfterDelete(mainStoryObj, dependencyObj);
 							}
 						}, {"hideInProgress" : true});
 			}

@@ -15,7 +15,7 @@
           "title": "story${x}",
           "projectId": "${entity.Projects.AgilePro1.id}",
           "storyPoints":"5",
-          "priority" : "1"
+          "priority" : "${x}"
         
         }<#sep>,</#sep>
 	     
