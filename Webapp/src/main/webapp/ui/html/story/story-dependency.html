@@ -40,21 +40,8 @@
 									style="width: 9%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff;">
 									<span>{{displayStoryDependencyType(dependency.storyDependencyType)}}</span>
-
-									<div class="input-group-btn" name="depStoryDropDown">
-										<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu dropdown-menu-right">
-											<li ng-repeat="type in dependencyTypes">
-										    	<a ng-click="onDependencyTypeChange(dependency, type)" href="">
-										    		{{displayStoryDependencyType(type)}}
-										    	</a>
-										    </li>
-										</ul>
-									</div>
 							</td>
-							<td ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
+							<td ng-click="removeDependencyObj(dependency)" ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
 									style="width: 4%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff; cursor:pointer;">
 									<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
@@ -75,7 +62,7 @@
 										<tr>
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-												 placeholder="Please select pattern" value="{{displayStoryDependencyType(dependency.storyDependencyType)}}">
+												 placeholder="Please select pattern" value="{{displayStoryDependencyType(dependency.selectedDependencyType)}}">
 											</td>
 											<td>
 												<div class="input-group-btn" name="depStoryDropDown">
@@ -105,7 +92,7 @@
 											<td>
 												<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
 												 placeholder="Please select story" 
-												 value="{{getBacklog(dependency.dependencyStoryId).title}}">
+												 value="{{getBacklog(dependency.selectedDependencyStoryId).title}}">
 											</td>
 											<td>
 												<div class="input-group-btn">

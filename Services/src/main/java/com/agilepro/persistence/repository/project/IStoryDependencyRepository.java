@@ -33,7 +33,7 @@ public interface IStoryDependencyRepository extends IWebutilsRepository<StoryDep
 	 * @param storyDependencyType the new dependency type.
 	 * @return true on success update or else false.
 	 */
-	//@RestrictBySpace
-	//public boolean updateDependencyType(@Condition(value = "id") @RequestParam(value = "id") Long id, 
-		//								@Condition(value = "storyDependencyType") @RequestParam(value = "storyDependencyType") StoryDependencyType storyDependencyType);
+	/*@RestrictBySpace
+	public boolean updateDependencyType(@Condition(value = "id") @RequestParam(value = "id") Long id, 
+										@Condition(value = "storyDependencyType") @RequestParam(value = "storyDependencyType") String storyDependencyType);*/
 }

@@ -216,7 +216,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 			}, {"$scope": $scope, "backlogId": backlogId});
 			
 			
-			utils.confirm(["Are you sure you want to delete '{}'?", backlogObj.title], deleteOp);
+			utils.confirm(["Are you sure you want to delete story with title - '{}'?", backlogObj.title], deleteOp);
 		}
 	};
 	

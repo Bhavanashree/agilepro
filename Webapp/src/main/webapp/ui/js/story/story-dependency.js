@@ -95,7 +95,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	 */
 	$scope.onDependencyTypeChange = function(dependencyObj, type){
 		
-		dependencyObj.storyDependencyType = type; 
+		dependencyObj.selectedDependencyType = type; 
 	};
 
 	/**
@@ -103,7 +103,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	 */
 	$scope.onStoryChange = function(dependencyObj, storyObj){
 	
-		dependencyObj.dependencyStoryId = storyObj.id;
+		dependencyObj.selectedDependencyStoryId = storyObj.id;
 	};
 
 	/**
@@ -140,28 +140,67 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	 */
 	$scope.addDependency = function(dependencyObj){
 		
-		if(!dependencyObj.storyDependencyType || !dependencyObj.dependencyStoryId)
+		if(!dependencyObj.selectedDependencyType || !dependencyObj.selectedDependencyStoryId)
 		{
 			utils.alert("error");
 			return;
 		}
 		
 		var model = {"mainStoryId" : $scope.selectedBackLogId,
-					"dependencyStoryId" : dependencyObj.dependencyStoryId, 
-					"storyDependencyType" : dependencyObj.storyDependencyType};
+					"dependencyStoryId" : dependencyObj.selectedDependencyStoryId, 
+					"storyDependencyType" : dependencyObj.selectedDependencyType};
 		
 		actionHelper.invokeAction("storyDependency.save", model, null, 
 				function(saveResposne, respConfig)
 				{
 					if(saveResposne.code == 0)
 					{
-						dependencyObj.storyDependencyType = null;
-						dependencyObj.dependencyStoryId = null;
+						dependencyObj.selectedDependencyType = null;
+						dependencyObj.selectedDependencyStoryId = null;
 						
 						$scope.addDependencyStoryAfterSave(model);
 					}
 				
 				},{"hideInProgress" : true});
+		
+	};
+	
+	
+	$scope.removeDependencyObj = function(dependencyArrObj){
+		
+		var dependencyObj = dependencyArrObj.dependencyStory;
+		var mainStoryObj = dependencyArrObj.mainStory;
+		var dependencyId = dependencyArrObj.id;
+		
+		if(dependencyObj.dependencies.length > 0)
+		{
+			utils.alert("This story has dependencies");
+			return;
+		}
+		
+		var deleteOp = $.proxy(function(confirmed) {
+			
+			if(!confirmed)
+			{
+				return;
+			}
+			else
+			{
+				actionHelper.invokeAction("storyDependency.delete", null, {"id" : dependencyId}, 
+						function(deleteResponse, respConfig)
+						{
+							if(deleteResponse.code == 0)
+							{
+								console.log("succes in delte");
+							}
+						}, {"hideInProgress" : true});
+			}
+			
+		}, {"$scope": $scope, "dependencyId": dependencyId});
+		
+		
+		utils.confirm(["Are you sure you want to remove '{}' dependency from '{}'?", dependencyObj.title, mainStoryObj.title], deleteOp);
+		
 		
 	};
 	
