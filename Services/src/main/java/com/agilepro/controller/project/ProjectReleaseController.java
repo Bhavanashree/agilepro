@@ -48,7 +48,7 @@ public class ProjectReleaseController extends BaseController
 	 * @return the basic save response
 	 */
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.PROJECT_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.PROJECT_RELEASE_EDIT, UserRole.EMPLOYEE_EDIT })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid ProjectReleaseModel projectReleasedModel)
@@ -64,7 +64,7 @@ public class ProjectReleaseController extends BaseController
 	 * @return the basic read response
 	 */
 	@ActionName(ACTION_TYPE_READ_ALL_PROJECT_AND_PROJECT_RELEASE_BY_RELEASE_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_RELEASE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_RELEASE_VIEW, UserRole.EMPLOYEE_VIEW })
 	@RequestMapping(value = "/readAllProjectAndProjectReleaseByReleaseId", method = RequestMethod.GET)
 	@ResponseBody
 	public ProjectReleaseReadResponse fetchEmployees(@RequestParam(value = "releaseId", required = false) Long releaseId)
@@ -80,7 +80,7 @@ public class ProjectReleaseController extends BaseController
 	 * @return the base response
 	 */
 	@ActionName(ACTION_TYPE_DELETE_BY_PROJECT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_RELEASE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.PROJECT_RELEASE_EDIT, UserRole.EMPLOYEE_DELETE })
 	@RequestMapping(value = "/deleteByProjectId", method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResponse delete(@RequestBody @Valid ProjectReleaseModel projectReleasedModel)

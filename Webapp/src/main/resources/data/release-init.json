@@ -1,0 +1,24 @@
+{
+  "defaultUserName": "yukthi@gmail.com",
+  "entityGroups": [
+    {
+      "name": "Release",
+      "entityType": "com.agilepro.persistence.entity.admin.ReleaseEntity",
+      "modelType": "com.agilepro.commons.models.customer.ReleaseModel",
+      "identityField": "name",
+    
+      "spaceIdentity": "CUSTOMER-${entity.Customers.yukthi.id}",
+      
+      "entities": [
+      <#list 1..3 as x>
+        {
+          "name": "Sprint${x}",
+          "startDate":"${date(-2, 'yyyy-MM-dd')}",
+          "endDate":"2016-12-28"
+        }<#sep>,</#sep>
+	     
+	    </#list>
+      ]
+    }
+  ]
+}
