@@ -8,6 +8,7 @@ import com.agilepro.commons.StoryDependencyType;
 import com.agilepro.commons.models.project.StoryDependencyModel;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.DeleteWithParent;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
@@ -24,6 +25,7 @@ public class StoryDependencyEntity extends WebutilsEntity
 	 */
 	@Column(name = "MAIN_STORY_ID", nullable = false)
 	@ManyToOne
+	@DeleteWithParent
 	@PropertyMapping(type = StoryDependencyModel.class, from = "mainStoryId", subproperty = "id")
 	private StoryEntity mainStory;
 	
@@ -32,6 +34,7 @@ public class StoryDependencyEntity extends WebutilsEntity
 	 */
 	@Column(name = "DEPENDENCY_STORY_ID", nullable = false)
 	@ManyToOne
+	@DeleteWithParent
 	@PropertyMapping(type = StoryDependencyModel.class, from = "dependencyStoryId", subproperty = "id")
 	private StoryEntity dependencyStory;
 

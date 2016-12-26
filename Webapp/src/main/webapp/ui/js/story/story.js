@@ -357,26 +357,24 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.editEntry();
 	});
 	
-	/**
-	 * 
-	 */
-	$scope.isEligibleForDelete = function(backlogId){
+
+	$scope.getAlertMessage = function(backlogId){
 		
 		var backlogObj = $scope.idToStory[backlogId];
+		var alertMessage = "Are you sure you want to delete story with title - '{}'?";
 
-		if(backlogObj.childrens.length > 0)
+		if((backlogObj.childrens.length > 0) && ($scope.dependencyIds.indexOf(backlogObj.id) != -1))
 		{
-			utils.alert("This story has childs");
-			return false;
+			alertMessage = "Are you sure you want to delete all the child and dependency stories of - '{}'?";
+		}else if(backlogObj.childrens.length > 0)
+		{
+			alertMessage = "Are you sure you want to delete all the child stories of - '{}'?";
+		}else if($scope.dependencyIds.indexOf(backlogObj.id) != -1)
+		{
+			alertMessage = "Are you sure you want to delete the dependency story - '{}'?";
 		}
 		
-		if($scope.dependencyIds.indexOf(backlogObj.id) != -1)
-		{
-			utils.alert("This story is a dependency story");
-			return false;
-		}
-		
-		return true;
+		return alertMessage;
 	};
 	
 	/**
@@ -468,6 +466,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		mainStoryObj.dependencies.splice(mainStoryObj.dependencies.indexOf(dependencyObj), 1);
 		
+		try
+		{
+			$scope.$digest();
+		}catch(ex)
+		{}
 	};
 	
 	

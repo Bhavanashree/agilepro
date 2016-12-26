@@ -189,35 +189,31 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	$scope.deleteBacklog = function(backlogId){
 
 		console.log("delete ");
+			
+		var backlogObj = $scope.getBacklog(backlogId);
 		
-		if($scope.isEligibleForDelete(backlogId))
-		{
-			var backlogObj = $scope.getBacklog(backlogId);
-			
-			var deleteOp = $.proxy(function(confirmed) {
+		var deleteOp = $.proxy(function(confirmed) {
 				
-				if(!confirmed)
-				{
-					this.logger.trace("Delete operation is cancelled by user.");
-					return;
-				}
-				else
-				{
-					actionHelper.invokeAction("story.delete", null, {"id" : backlogId}, 
-							function(deleteResponse, respConfig)
+			if(!confirmed)
+			{
+				this.logger.trace("Delete operation is cancelled by user.");
+				return;
+			}
+			else
+			{
+				actionHelper.invokeAction("story.delete", null, {"id" : backlogId}, 
+						function(deleteResponse, respConfig)
+						{
+							if(deleteResponse.code == 0)
 							{
-								if(deleteResponse.code == 0)
-								{
-									$scope.removeBacklog(backlogId);
-								}
-							}, {"hideInProgress" : true});
-				}
-				
-			}, {"$scope": $scope, "backlogId": backlogId});
+								$scope.removeBacklog(backlogId);
+							}
+						}, {"hideInProgress" : true});
+			}
 			
-			
-			utils.confirm(["Are you sure you want to delete story with title - '{}'?", backlogObj.title], deleteOp);
-		}
+		}, {"$scope": $scope, "backlogId": backlogId});
+		
+		utils.confirm([$scope.getAlertMessage(backlogId), backlogObj.title], deleteOp);
 	};
 	
 	

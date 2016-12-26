@@ -155,6 +155,8 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 				{
 					if(saveResposne.code == 0)
 					{
+						model.id = saveResposne.id; 
+						
 						dependencyObj.selectedDependencyType = null;
 						dependencyObj.selectedDependencyStoryId = null;
 						
@@ -163,6 +165,28 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 				
 				},{"hideInProgress" : true});
 		
+	};
+	
+	
+	$scope.updateDependencyObj = function(dependencyObj, type){
+		
+		if(dependencyObj.storyDependencyType != type)
+		{
+			actionHelper.invokeAction("storyDependency.updateDependencyType", null, {"id" : dependencyObj.id, "storyDependencyType" : type}, 
+					function(deleteResponse, respConfig)
+					{
+						if(deleteResponse.code == 0)
+						{
+							dependencyObj.storyDependencyType = type;
+							
+							try
+							{
+								$scope.$digest();
+							}catch(ex)
+							{}
+						}
+					}, {"hideInProgress" : true});
+		}
 	};
 	
 	

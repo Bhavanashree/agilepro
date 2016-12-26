@@ -72,8 +72,7 @@ public class StoryDependencyService extends BaseCrudService<StoryDependencyEntit
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			boolean result = false;
-			//storyDependecyRepo.updateDependencyType(id, storyDependencyType);
+			boolean result = storyDependecyRepo.updateDependencyType(id, storyDependencyType);;
 			
 			transaction.commit();
 			return result;
