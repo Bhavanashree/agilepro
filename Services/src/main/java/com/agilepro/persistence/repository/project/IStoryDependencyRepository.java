@@ -27,6 +27,7 @@ public interface IStoryDependencyRepository extends IWebutilsRepository<StoryDep
 	@RestrictBySpace
 	public List<StoryDependencyEntity> fetchDependenciesIds(@Condition(value = "mainStory.id") Long mainStoryId);
 	
+	
 	/**
 	 * Update the dependency type for the matching record.
 	 * 
