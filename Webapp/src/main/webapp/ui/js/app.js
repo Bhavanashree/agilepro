@@ -1,6 +1,7 @@
 $.appConfiguration = {
 	templates : [
 		"/webutils/templates/webutils-templates.html",
+		"/webutils/templates/form-templates.html"
 	],
 	
 	lpageApiUrl : "/api/landing-page/customization",
