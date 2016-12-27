@@ -156,7 +156,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			storyRepo.moveStoriesDown(projectId, newPriority, PRIORITY_INCREMENT_VALUE);
-			
+
 			storyRepo.updatePriority(id, newPriority);
 			
 			transaction.commit();

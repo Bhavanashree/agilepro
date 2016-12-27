@@ -1,18 +1,19 @@
 <!-- Priority View -->
 <div ng-controller="storyPriorityController" style="border: 3px solid grey; width: 100%; height: 100%;">
 
-	<div id="storyPriorityId" style="overflow-y: auto; height: 100%;" 
-			yk-max-height="98vh - ${$this.offset().top}px - 3.8em">
+	<div id="storyPriorityId" style="overflow-y: auto; height: 100%;">
 			
-			<div ng-repeat="backlog in backLogs | orderBy : 'backlog.priority'">
+			<div ng-repeat="backlog in sortedBacklogs">
 			
-				<div id="{{backlog.id}}" yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
-				yk-on-drop="onDropBacklog(event)" style="background-color: red;">
-					drop area
+				<div id="{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+				 yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
+				 yk-on-drop="onDropBacklog(event)" style="border: 1px solid white; height: 15px;">
+					
 				</div>		
 				
-				<div style="height: 2.5em; margin: 1em; border: 3px solid lightblue;"
-				draggable="true" yk-on-drag="dragBacklog(event)">
+				<div id="{{backlog.id}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
+					border: 3px solid lightblue;"
+					draggable="true" yk-on-drag="dragBacklog(event)">
 				
 					<table style="width: 100%; height: 100%;">
 						<tr>

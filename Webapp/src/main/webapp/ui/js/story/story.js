@@ -132,8 +132,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			 		if($scope.backLogs)
 			 		{
 			 			$scope.addChildAndDependencies();
-			 		}
 			 			
+			 			$scope.$broadcast("sortBacklogsByPriority");
+			 		}
+			 		
 			 		try
 					{
 						$scope.$apply();

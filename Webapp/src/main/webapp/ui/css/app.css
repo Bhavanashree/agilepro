@@ -466,7 +466,15 @@ body
 	box-shadow: 2px 2px 5px #888888;
 }
 
-
+.heightTransition
+{
+	-webkit-transition-property: height; /* Safari */
+    -webkit-transition-duration: 2s; /* Safari */
+    transition-property: height;
+    transition-duration: 1s;	
+}
+    
+    
 /*  aaaaaaaaaaaaaaaaaaa*/
 
 .uncheckedClass {
