@@ -153,4 +153,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	public int moveStoriesDown(@Condition(value = "project.id") Long projectId, 
 		@Condition(value = "priority", op = Operator.GE) int fromOrder, 
 		@Field(value = "priority", updateOp = UpdateOperator.ADD) int incrementValue);
+	
+	public int updatePriority(@Condition(value = "id") Long id, @Field(value = "priority") Integer newPriority);
+	
 }

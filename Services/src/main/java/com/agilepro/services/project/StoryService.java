@@ -151,6 +151,25 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
+	public void updatePriority(Long id, Integer  newPriority, Long projectId)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			storyRepo.moveStoriesDown(projectId, newPriority, PRIORITY_INCREMENT_VALUE);
+			
+			storyRepo.updatePriority(id, newPriority);
+			
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating priority - {}");
+		}
+	}
+
+	
 	/**
 	 * Fetch all stories where (projectId + sprintId) + (projectId +
 	 * sprintId(null)) matches.

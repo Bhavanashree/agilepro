@@ -506,6 +506,12 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type save stories in bulk.
 	 **/
 	public String ACTION_TYPE_SAVE_STORIES_IN_BULK = "storiesInbulk";
+	
+	/**
+	 * The action type update priority of stories.
+	 */
+	public String ACTION_TYPE_UPDATE_PRIORITY = "updatePriority";
+	
 	/**
 	 * The action prefix sprint.
 	 **/
