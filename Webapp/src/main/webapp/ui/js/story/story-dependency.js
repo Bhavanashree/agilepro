@@ -225,7 +225,6 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		
 		utils.confirm(["Are you sure you want to remove '{}' dependency from '{}'?", dependencyObj.title, mainStoryObj.title], deleteOp);
 		
-		
 	};
 	
 }]);
