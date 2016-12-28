@@ -71,6 +71,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.scrollForFirstTime = true; 
 	 $scope.dependencyTree = [];
 	 $scope.dependencyIds = [];
+	 $scope.deletedIds = [];
 	 
  	/**
 	 * Set the active tab.
@@ -425,14 +426,15 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	};
 	
 	/**
-	 * Remove backlog after delete.
+	 * Remove backlog and childs by recursion  after delete.
 	 */
 	$scope.removeBacklog = function(backlogId){
 		
-		var objToBeRemoved = $scope.idToStory[backlogId];
+		$scope.deletedIds.push(backlogId);
 		
+		var objToBeRemoved = $scope.idToStory[backlogId];
 		$scope.backLogs.splice($scope.backLogs.indexOf(objToBeRemoved), 1);
-
+		
 		if(!objToBeRemoved.parentStoryId)
 		{
 			$scope.epicStoryList.splice($scope.epicStoryList.indexOf(objToBeRemoved), 1);
@@ -443,14 +445,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			childrens.splice(childrens.indexOf(objToBeRemoved), 1);
 		}
 		
-		for(index in $scope.dependencyTree)
+		if(objToBeRemoved.childrens)
 		{
-			var dependency =  $scope.dependencyTree[index];
-			
-			if(dependency.dependencyStory.id == backlogId)
+			for(var childObj of objToBeRemoved.childrens)
 			{
-				$scope.dependencyTree.splice(index, 1);
-				break;
+				$scope.removeBacklog(childObj.id);
 			}
 		}
 		
@@ -459,6 +458,43 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			$scope.$digest();
 		}catch(ex)
 		{}
+		
+	};
+	
+	/**
+	 * Update the dependency tree list.
+	 */
+	$scope.refreshDependencyTree = function(dpendencyArr){
+		
+		if(!dpendencyArr)
+		{
+			dpendencyArr = $scope.dependencyTree;
+		}
+		
+		for(index in dpendencyArr)
+		{
+			var obj = dpendencyArr[index].dependencyStory;
+			
+			if($scope.deletedIds.indexOf(obj.id) != -1)
+			{
+				dpendencyArr.splice(index, 1);
+			}
+			
+			if(obj.dependencies)
+			{
+				$scope.refreshDependencyTree(obj.dependencies);
+			}
+		}
+		
+	};
+	
+	/**
+	 * Update priority.
+	 */
+	$scope.refreshPriority = function(){
+		
+		console.log("sortBacklogsByPriority");
+		$scope.$broadcast("sortBacklogsByPriority");
 	};
 	
 	/**

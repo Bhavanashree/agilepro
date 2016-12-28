@@ -141,6 +141,8 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 						}
 						
 						$scope.addSavedBacklog(backlogModel, storyResponse.storyIdPriority);
+						
+						$scope.refreshPriority();
 					}else
 					{
 						utils.alert("error in save");
@@ -179,6 +181,8 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 						$('#storyDialogId').modal('hide');
 						
 						$scope.updateStoryChanges($scope.storyForUpdate);
+						
+						$scope.refreshPriority();
 					}
 			
 				},{"hideInProgress" : true});
@@ -207,6 +211,11 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 							if(deleteResponse.code == 0)
 							{
 								$scope.removeBacklog(backlogId);
+								
+								$scope.refreshDependencyTree(null);
+								
+								$scope.refreshPriority();
+								
 							}
 						}, {"hideInProgress" : true});
 			}

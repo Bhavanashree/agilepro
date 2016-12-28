@@ -109,4 +109,5 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 				}, {"hideInProgress" : true});
 	};
 
+	
 }]);
