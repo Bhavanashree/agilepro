@@ -36,14 +36,52 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	 */
 	$scope.onClickPlus = function(dependencyTreeObj, backlogId){
 		
+		console.log(dependencyTreeObj);
+		
+		if(!$scope.previousObj)
+		{
+			$scope.previousObj = dependencyTreeObj;
+		}
+		
 		$scope.selectedDependencyType = null;
 		$scope.selectedBacklogFromDropDown = null;
 		
 		dependencyTreeObj.expanded = !dependencyTreeObj.expanded; 
 		
-		$scope.selectedBackLogId = backlogId;
+		dependencyTreeObj.mainStoryId = backlogId;
+		
+		
+		if(!dependencyTreeObj.expanded && dependencyTreeObj.dependencyStory.dependencies)
+		{
+			$scope.minimizeDependencies(dependencyTreeObj.dependencyStory.dependencies);
+		}
+		
+		if((!dependencyTreeObj.storyDependencyType) && ($scope.previousObj != dependencyTreeObj) && (dependencyTreeObj.expanded))
+		{
+			$scope.previousObj.expanded = false;
+			
+			$scope.minimizeDependencies($scope.previousObj.dependencyStory.dependencies);
+		}
 		
 	};
+	
+	/**
+	 * Minimize Dependency 
+	 */
+	$scope.minimizeDependencies = function(dependencyArr){
+		
+		for(obj of dependencyArr)
+		{
+			obj.expanded = false;
+			
+			if(obj.dependencyStory.dependencies)
+			{
+				$scope.minimizeDependencies(obj.dependencyStory.dependencies);
+			}
+		}
+		
+	};
+	
 	
 	/**
 	 * Invoked for displaying the drop down.
@@ -146,7 +184,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			return;
 		}
 		
-		var model = {"mainStoryId" : $scope.selectedBackLogId,
+		var model = {"mainStoryId" : dependencyObj.mainStoryId,
 					"dependencyStoryId" : dependencyObj.selectedDependencyStoryId, 
 					"storyDependencyType" : dependencyObj.selectedDependencyType};
 		
