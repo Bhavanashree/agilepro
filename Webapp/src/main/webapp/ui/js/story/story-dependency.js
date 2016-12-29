@@ -56,11 +56,18 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 			$scope.minimizeDependencies(dependencyTreeObj.dependencyStory.dependencies);
 		}
 		
+		debugger;
+		
 		if((!dependencyTreeObj.storyDependencyType) && ($scope.previousObj != dependencyTreeObj) && (dependencyTreeObj.expanded))
 		{
 			$scope.previousObj.expanded = false;
 			
 			$scope.minimizeDependencies($scope.previousObj.dependencyStory.dependencies);
+		}
+		
+		if(!dependencyTreeObj.storyDependencyType)
+		{
+			$scope.previousObj = dependencyTreeObj;
 		}
 		
 	};

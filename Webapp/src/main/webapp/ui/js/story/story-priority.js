@@ -35,11 +35,40 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	// Dragging methods
 	$scope.dragBacklog = function(event){
 	
-		$scope.draggingId = event.target.id;
+		if($scope.draggingId == event.target.id)
+		{
+			return;
+		}
 		
+		$scope.draggingId = event.target.id;
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
+		
+		var backlogObj = $scope.getBacklog($scope.draggingId); 
+		$scope.childIds = [];
+		
+		if(backlogObj.childrens)
+		{
+			$scope.fetchTheChildIds(backlogObj.childrens);
+		}
 	};
-
+	
+	/**
+	 * Fetch the child ids.
+	 */
+	$scope.fetchTheChildIds = function(childrens){
+		
+		for(childObj of childrens)
+		{
+			$scope.childIds.push(childObj.id);
+			
+			if(childObj.childrens)
+			{
+				$scope.fetchTheChildIds(childObj.childrens);
+			}
+		}
+		
+	};
+	
 	
 	$scope.onDropAreaEnter = function(event){
 		
@@ -47,9 +76,16 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		$scope.areaId = event.target.id;
 		
-		$("#" + $scope.areaId).height(40);
+		console.log($scope.childIds[0]);
+		console.log($scope.areaId);
+		console.log($scope.childIds.indexOf($scope.areaId));
 		
-		console.log("onDropAreaEnter");
+		if(($scope.draggingId == $scope.areaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
+		{
+			return;
+		}
+		
+		$("#" + $scope.areaId).height(40);
 	};
 	
 	$scope.onDropAreaLeave = function(event){
@@ -67,6 +103,12 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		event.preventDefault();
 		
 		var droppingAreaId = event.target.id;
+		
+		if(($scope.draggingId == droppingAreaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
+		{
+			return;
+		}
+		
 		var newPriority = $scope.getBacklog(droppingAreaId).priority;
 		
 		var indexFrom = $(event.target).attr("name");
