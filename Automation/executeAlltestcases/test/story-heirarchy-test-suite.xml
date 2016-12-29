@@ -1,0 +1,17 @@
+<testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyHeirarchy">
+
+		<testCase name="storyAdd">
+		
+			<description>Add new story</description>
+			
+			<wrap:steps>
+				<ccg:gotoState state="story" />
+			</wrap:steps>
+	
+			<wrap:validations>
+				<ccg:validateVisibility locator="id: pricePlansSearchQuery_search_results" />
+			</wrap:validations>
+			
+	</testCase>
+
+</testSuite>

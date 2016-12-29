@@ -17,7 +17,7 @@
 			</ccg:fillForm>
 
 			<ccg:click locator="id: loginButton" />
-			<ccg:waitFor locator="xpath: //*[@id='homeTab_tab']" />
+			<ccg:waitFor locator="xpath: //*[@id='homeTab']" />
 			
 		</flow>
 
@@ -84,8 +84,8 @@
 	
 	<state name="extensionsPage" urlPattern="http://${app.host}/index.html{.*}">
 		<flow fromState="indexPage">
-			<ccg:waitFor locator="id: settingsTab_tab" />
-			<ccg:click locator="id: settingsTab_tab" />
+			<ccg:waitFor locator="id: settingsTab" />
+			<ccg:click locator="id: settingsTab" />
 			<ccg:waitFor locator="xpath://div[@id='extensionsSearchQuery']//select[@name='extensionType']" />
 		</flow>
 
@@ -96,8 +96,8 @@
 
 	<state name="pricePlans" urlPattern="http://${app.host}/index.html#/pricePlans">
 		<flow fromState="indexPage">
-			<ccg:waitFor locator="id: settingsTab_tab" />
-			<ccg:click locator="id: settingsTab_tab" />
+			<ccg:waitFor locator="id: settingsTab" />
+			<ccg:click locator="id: settingsTab" />
 			<ccg:waitFor locator="id: lftMenuSettingsPricePlan" />
 			<ccg:click locator="id: lftMenuSettingsPricePlan" />
 			<ccg:waitFor locator="xpath://div[@id='pricePlansSearchQuery']//input[@name='name']" />
@@ -110,8 +110,8 @@
    
    	<state name="customers" urlPattern="http://${app.host}/index.html#/customers">
 		<flow fromState="indexPage">
-			<ccg:waitFor locator="id: customersTab_tab" />
-			<ccg:click locator="id: customersTab_tab" />
+			<ccg:waitFor locator="id: customersTab" />
+			<ccg:click locator="id: customersTab" />
 			<ccg:waitFor locator="id: lftMenuCustomerCustomers" />
 			<ccg:click locator="id: lftMenuCustomerCustomers" />
 			<ccg:waitFor locator="xpath: //div[@id='customerSearchQuery']" />
@@ -125,8 +125,8 @@
 	
 	<state name="projects" urlPattern="http://${app.host}/index.html#/projects">
 		<flow fromState="cust1IndexPage">
-			<ccg:waitFor locator="id: projectsTab_tab" />
-			<ccg:click locator="id: projectsTab_tab" />
+			<ccg:waitFor locator="id: projectsTab" />
+			<ccg:click locator="id: projectsTab" />
 			<ccg:waitFor locator="id: lftMenuProjectsId" />
 			<ccg:click locator="id: lftMenuProjectsId" />
 			<ccg:waitFor locator="xpath: //div[@id='projectsSearchQueryId']" />
@@ -140,8 +140,8 @@
 
 	<state name="tags" urlPattern="http://${app.host}/index.html#/tags">
 		<flow fromState="cust1IndexPage">
-			<ccg:waitFor locator="id: projectsTab_tab" />
-			<ccg:click locator="id: projectsTab_tab" />
+			<ccg:waitFor locator="id: projectsTab" />
+			<ccg:click locator="id: projectsTab" />
 			<ccg:waitFor locator="id: lftMenuTagsId" />
 			<ccg:click locator="id: lftMenuTagsId" />
 			<ccg:waitFor locator="xpath: //div[@id='tagsSearchQueryId']" />
@@ -151,6 +151,24 @@
 			<ccg:executeFlow flow="cust1IndexPage" />
 			
 		</flow>
+	</state>
+	
+	<state name="story" urlPattern="http://${app.host}/index.html{.*}">
+		
+		<flow fromState="">
+			<ccg:gotoPage url="http://${app.host}/?customer=yukthi" />
+			<ccg:waitFor locator="xpath: //*[@id='loginForm']//input[@name='email']" />
+			
+			<ccg:fillForm locator="id: loginForm">
+				<data ccg:beanType="com.agilepro.automation.Credentials">
+					<email>employee1@gmail.com</email>
+					<password>password</password>
+				</data>
+			</ccg:fillForm>
+
+			<ccg:click locator="id: loginButton" />
+		</flow>
+
 	</state>
 	
 </states>
