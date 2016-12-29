@@ -35,15 +35,18 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	// Dragging methods
 	$scope.dragBacklog = function(event){
 	
-		if($scope.draggingId == event.target.id)
+		if($scope.draggingId == Number(event.target.id))
 		{
 			return;
 		}
 		
-		$scope.draggingId = event.target.id;
+		$scope.draggingId = Number(event.target.id);
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		var backlogObj = $scope.getBacklog($scope.draggingId); 
+		
+		console.log("dragging title = " + backlogObj.title);
+		
 		$scope.childIds = [];
 		
 		if(backlogObj.childrens)
@@ -74,11 +77,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		event.preventDefault();
 		
-		$scope.areaId = event.target.id;
-		
-		console.log($scope.childIds[0]);
-		console.log($scope.areaId);
-		console.log($scope.childIds.indexOf($scope.areaId));
+		$scope.areaId = Number(event.target.id);
 		
 		if(($scope.draggingId == $scope.areaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
 		{
@@ -102,7 +101,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		event.preventDefault();
 		
-		var droppingAreaId = event.target.id;
+		var droppingAreaId = Number(event.target.id);
 		
 		if(($scope.draggingId == droppingAreaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
 		{
