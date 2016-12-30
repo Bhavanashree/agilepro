@@ -14,11 +14,11 @@
 				<ccg:click locator="id: addNewBacklogId" />
 			</wrap:steps>
 			
-			<ccg:fillForm locator="id: addNewBacklogForm">
+			<ccg:fillFormWithAction locator="id: addNewBacklogId" pressEnterAtEnd="true">
 				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
 					<newBacklogTitle>Story1</newBacklogTitle>
 				</data>
-			</ccg:fillForm>
+			</ccg:fillFormWithAction>
 			
 	
 			<wrap:validations>

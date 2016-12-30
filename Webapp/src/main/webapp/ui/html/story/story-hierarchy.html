@@ -73,8 +73,8 @@
 		</div>
 				
 		<!-- Add new story -->
-		<div class="has-success has-feedback" style="border-top: 3px solid grey;"> 
-				<input class="form-control" id="addNewBacklogId" type="text" 
+		<div id="addNewBacklogForm" class="has-success has-feedback" style="border-top: 3px solid grey;"> 
+				<input name="newBacklogTitle" class="form-control" id="addNewBacklogId" type="text" 
 					placeholder="Add new story" ng-model="newBacklogTitle" 
 					ng-keyup="onTypeNewBacklog($event)" ng-model="newBacklogTitle" style="border: none;"/>
 					
