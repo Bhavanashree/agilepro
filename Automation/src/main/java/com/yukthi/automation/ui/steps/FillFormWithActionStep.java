@@ -74,9 +74,6 @@ public class FillFormWithActionStep implements IStep
 	{
 		WebElement webElement = AutomationUtils.findElement(context, null, locator);
 		webElement.sendKeys(Keys.ENTER);
-		
-		Selenium s = (Selenium) webElement;
-		s.keyPressNative("13");
 	}
 	
 	@Override

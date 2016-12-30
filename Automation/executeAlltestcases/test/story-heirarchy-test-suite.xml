@@ -16,7 +16,7 @@
 			
 			<ccg:fillFormWithAction locator="id: addNewBacklogId" pressEnterAtEnd="true">
 				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
-					<newBacklogTitle>Story1</newBacklogTitle>
+					<newBacklogTitle>Story3</newBacklogTitle>
 				</data>
 			</ccg:fillFormWithAction>
 			
