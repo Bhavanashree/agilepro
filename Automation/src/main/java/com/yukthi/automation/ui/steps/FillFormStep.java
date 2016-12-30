@@ -37,7 +37,7 @@ public class FillFormStep implements IStep
 	/** 
 	 * The error message. 
 	 **/
-	private static String ERROR_MESSAGE = "Failed to fill element '{}' with value - {}";
+	private static String ERROR_MESSAGE = "Failed to fill element '{}' under parent '{}' with value - {}";
 	
 	/**
 	 * Html locator of the form or container (like DIV) enclosing the input
@@ -129,7 +129,7 @@ public class FillFormStep implements IStep
 			if(!AutomationUtils.populateField(context, parentElement, name, "" + value))
 			{
 				exeLogger.error(ERROR_MESSAGE, name, value);
-				throw new InvalidStateException(ERROR_MESSAGE, name, value);
+				throw new InvalidStateException(ERROR_MESSAGE, name, locator, value);
 			}
 		}
 	}

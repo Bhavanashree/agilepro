@@ -6,7 +6,20 @@
 			
 			<wrap:steps>
 				<ccg:gotoState state="story" />
+				
+				<ccg:waitFor locator="id: storyTab" />
+				<ccg:click locator="id: storyTab" />
+				
+				<ccg:waitFor locator="id: addNewBacklogId" />
+				<ccg:click locator="id: addNewBacklogId" />
 			</wrap:steps>
+			
+			<ccg:fillForm locator="id: addNewBacklogForm">
+				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+					<newBacklogTitle>Story1</newBacklogTitle>
+				</data>
+			</ccg:fillForm>
+			
 	
 			<wrap:validations>
 				<ccg:validateVisibility locator="id: pricePlansSearchQuery_search_results" />
