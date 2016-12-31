@@ -2,6 +2,8 @@ package com.yukthi.automation;
 
 import java.util.Set;
 
+import javax.sql.DataSource;
+
 /**
  * Application configuration providing all required configuration for test automation. 
  * @author akiran
@@ -37,4 +39,11 @@ public interface IApplicationConfiguration
 	 * @return Test suites to limit to.
 	 */
 	public Set<String> getLimitedTestSuites();
+	
+	/**
+	 * Fetches data source with specified name.
+	 * @param name Name of the data source.
+	 * @return Matching data source name.
+	 */
+	public DataSource getDataSource(String name);
 }

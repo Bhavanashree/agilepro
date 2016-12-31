@@ -1,20 +1,15 @@
 package com.agilepro.automation;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.sql.DataSource;
-
 import com.yukthi.automation.AbstractApplicationConfiguration;
-import com.yukthi.automation.validations.ISqlConfiguration;
 
 /**
  * Configuration for cloud biller.
  * @author akiran
  */
-public class AgileproConfiguration extends AbstractApplicationConfiguration implements ISqlConfiguration
+public class AgileproConfiguration extends AbstractApplicationConfiguration
 {
 	/**
 	 * Host where app is deployed.
@@ -31,11 +26,6 @@ public class AgileproConfiguration extends AbstractApplicationConfiguration impl
 	 */
 	private String password;
 	
-	/**
-	 * Application data source.
-	 */
-	private DataSource dataSource;
-
 	/**
 	 * Test suites the execution should limit to.
 	 */
@@ -101,25 +91,6 @@ public class AgileproConfiguration extends AbstractApplicationConfiguration impl
 		this.password = password;
 	}
 
-	/**
-	 * Sets the application data source.
-	 *
-	 * @param dataSource the new application data source
-	 */
-	public void setDataSource(DataSource dataSource)
-	{
-		this.dataSource = dataSource;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.yukthi.automation.validations.ISqlConfiguration#getConnection()
-	 */
-	@Override
-	public Connection getConnection() throws SQLException
-	{
-		return dataSource.getConnection();
-	}
-	
 	/**
 	 * Adds the test suite to limit to.
 	 * @param name Test suite name to execute.

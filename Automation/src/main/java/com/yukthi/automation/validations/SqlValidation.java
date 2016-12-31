@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,6 +64,11 @@ public class SqlValidation extends AbstractValidation
 			columnToValue.put(name, value);
 		}
 	}
+	
+	/**
+	 * Name of the data source to use.
+	 */
+	private String dataSourceName;
 
 	/**
 	 * Query to execute.
@@ -72,6 +79,16 @@ public class SqlValidation extends AbstractValidation
 	 * Rows and expected values.
 	 */
 	private List<ExpectedRow> expectedRows = new ArrayList<>();
+	
+	/**
+	 * Sets the name of the data source to use.
+	 *
+	 * @param dataSourceName the new name of the data source to use
+	 */
+	public void setDataSourceName(String dataSourceName)
+	{
+		this.dataSourceName = dataSourceName;
+	}
 
 	/**
 	 * Adds row expectation.
@@ -106,10 +123,12 @@ public class SqlValidation extends AbstractValidation
 	public boolean validate(AutomationContext context, IExecutionLogger exeLogger)
 	{
 		IApplicationConfiguration appConfig = context.getAppConfiguration();
+		
+		DataSource dataSource = appConfig.getDataSource(dataSourceName);
 
-		if(!(appConfig instanceof ISqlConfiguration))
+		if(dataSource == null)
 		{
-			throw new InvalidStateException("Specified application configuration does not hold Sql configuration - {}", appConfig.getClass().getName());
+			throw new InvalidStateException("No data source found with specified name - {}", dataSourceName);
 		}
 
 		Connection connection = null;
@@ -118,7 +137,7 @@ public class SqlValidation extends AbstractValidation
 
 		try
 		{
-			connection = ((ISqlConfiguration) appConfig).getConnection();
+			connection = dataSource.getConnection();
 			statement = connection.createStatement();
 
 			rs = statement.executeQuery(query);

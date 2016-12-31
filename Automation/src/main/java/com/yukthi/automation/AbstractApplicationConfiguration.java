@@ -1,7 +1,10 @@
 package com.yukthi.automation;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import javax.sql.DataSource;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -31,6 +34,11 @@ public abstract class AbstractApplicationConfiguration implements IApplicationCo
 	 */
 	private Set<String> basePackages = new HashSet<>();
 	
+	/**
+	 * Application data sources.
+	 */
+	private Map<String, DataSource> dataSourceMap;
+
 	/**
 	 * Gets the state configuration file which provides configuration about different states of the application.
 	 *
@@ -108,5 +116,24 @@ public abstract class AbstractApplicationConfiguration implements IApplicationCo
 	public Set<String> getBasePackages()
 	{
 		return basePackages;
+	}
+
+	/**
+	 * Adds specified data source with specified name.
+	 * @param name Name of the data source.
+	 * @param dataSource Data source to add.
+	 */
+	public void addDataSource(String name, DataSource dataSource)
+	{
+		this.dataSourceMap.put(name, dataSource);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.yukthi.automation.IApplicationConfiguration#getDataSource(java.lang.String)
+	 */
+	@Override
+	public DataSource getDataSource(String name)
+	{
+		return dataSourceMap.get(name);
 	}
 }

@@ -32,13 +32,21 @@
 		<description>Delete story</description>
 		
 		<wrap:steps>
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId">
+				<query>
+					SELECT ID, TITLE
+					FROM STORY
+					WHERE TITLE IN ('STORY1', 'SUB_STORY1')
+				</query>
+			</ccg:loadQueryMap>
+		
 			<ccg:gotoState state="story" />
 			
 			<ccg:waitFor locator="id: storyTab" />
 			<ccg:click locator="id: storyTab" />
 			
 			<ccg:waitFor locator="xpath: //*[@id='backlogTitle']/strong[normalize-space(text())='Story2']"/>
-			<ccg:click locator="xpath: //*[@id='backlogTitle']/strong[normalize-space(text())='Story2']//td[contains(@id, 'deleteBackLogId')]"/>
+			<ccg:click locator="id: delete_#{storyTitleToId.STORY1}"/>
 			
 		</wrap:steps>
 		
