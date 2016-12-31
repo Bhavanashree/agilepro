@@ -5,7 +5,6 @@ import java.util.Map;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-import com.thoughtworks.selenium.Selenium;
 import com.yukthi.automation.AutomationContext;
 import com.yukthi.automation.Executable;
 import com.yukthi.automation.IExecutionLogger;
@@ -26,18 +25,18 @@ public class FillFormWithActionStep implements IStep
 	 * Html locator of the form or container (like DIV) enclosing the input
 	 * elements.
 	 */
-	String locator;
+	private String locator;
 
 	/**
 	 * Data to be filled. All the fields matching with the property names of
 	 * specified bean will be searched and populated with corresponding data.
 	 */
-	Object data;
+	private Object data;
 
 	/**
 	 * PressEnterAtEnd if true then for the provided action or else ignore.
 	 */
-	Boolean pressEnterAtEnd;
+	private boolean pressEnterAtEnd;
 
 	/**
 	 * Fills the form using dynamic bean.
@@ -70,12 +69,25 @@ public class FillFormWithActionStep implements IStep
 		}
 	}
 
+	/**
+	 * Press Enter sets the key value as enter for the web element. 
+	 * 
+	 * @param context current Automation context.
+	 * @param exeLogger logger.
+	 */
 	private void pressEnter(AutomationContext context, IExecutionLogger exeLogger)
 	{
 		WebElement webElement = AutomationUtils.findElement(context, null, locator);
 		webElement.sendKeys(Keys.ENTER);
 	}
-	
+
+	/**
+	 * Loops throw the properties specified data bean and populates the fields
+	 * with matching names.
+	 * 
+	 * @param context
+	 *            Current automation context
+	 */
 	@Override
 	public void execute(AutomationContext context, IExecutionLogger logger)
 	{
@@ -83,8 +95,8 @@ public class FillFormWithActionStep implements IStep
 		{
 			fillWithDynamicBean(context, logger);
 		}
-		
-		if((pressEnterAtEnd != null) && (pressEnterAtEnd))
+
+		if(pressEnterAtEnd)
 		{
 			pressEnter(context, logger);
 		}
@@ -140,12 +152,23 @@ public class FillFormWithActionStep implements IStep
 		this.data = data;
 	}
 
-	public Boolean getPressEnterAtEnd()
+	/**
+	 * Gets press enter at end.
+	 * 
+	 * @return boolean value of pressEnterAtTheEnd.
+	 */
+	public boolean getPressEnterAtEnd()
 	{
 		return pressEnterAtEnd;
 	}
 
-	public void setPressEnterAtEnd(Boolean pressEnterAtEnd)
+	/**
+	 * Sets value for press enter at the end.
+	 * 
+	 * @param pressEnterAtEnd
+	 *            the new press enter at the end.
+	 */
+	public void setPressEnterAtEnd(boolean pressEnterAtEnd)
 	{
 		this.pressEnterAtEnd = pressEnterAtEnd;
 	}
