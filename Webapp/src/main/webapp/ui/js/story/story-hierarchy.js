@@ -1,6 +1,8 @@
 $.application.controller('storyHierarchyController', ["$scope", "actionHelper", "utils", 
                                               function($scope, actionHelper, utils) {
-	
+	/**
+	 * Story Filter gets invoked on type in search box.
+	 */
 	$scope.storyFilter = function(){
 		
 		var retFunc = function(item){
@@ -29,6 +31,9 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		return retFunc;
 	};
 	
+	/**
+	 * Assign filter value for filter parent and respective child stories.
+	 */
 	$scope.checkForFilter = function(stories) {
 		
 		if(!stories)
@@ -64,7 +69,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	
 	
 	/**
-	 * Listener method for key press for new back log.
+	 * Listener method for key press for adding new back log.
 	 */
 	$scope.onTypeNewBacklog = function(e) {
 		 
@@ -88,7 +93,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	};
 
 	/**
-	 * Listener method for key press for new child back log.
+	 * Listener method for key press for adding new child back log.
 	 */
 	$scope.onTypeNewBacklogChild = function(e, parentId, indentValue){
 		
@@ -118,7 +123,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	};
 			
 	/**
-	 * Save new backlog(parent story)
+	 * Common method for saving new backlog.
 	 */
 	$scope.saveBacklog = function(backlogModel, indentValue){
 			
@@ -159,7 +164,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	};
 
 	/**
-	 * Get invoked on click of edit button.
+	 * Gets invoked on click of edit button on search result.
 	 */
 	$scope.editBacklog = function(backlogId){
 		
@@ -167,7 +172,8 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	};
 	
 	/**
-	 * Get invoked on click of update button.
+	 * Gets invoked on click of update button on dailoge.
+	 * 
 	 * It uses action helper to call the controller for updating the story.
 	 */
 	$scope.updateBacklog = function(){
@@ -189,11 +195,11 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		
 	};
 	
-	
+	/**
+	 * Gets invoked on click of delete button.
+	 */
 	$scope.deleteBacklog = function(backlogId){
 
-		console.log("delete ");
-			
 		var backlogObj = $scope.getBacklog(backlogId);
 		
 		var deleteOp = $.proxy(function(confirmed) {
@@ -224,6 +230,5 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		
 		utils.confirm([$scope.getAlertMessage(backlogId), backlogObj.title], deleteOp);
 	};
-	
 	
 }]);

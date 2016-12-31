@@ -33,6 +33,10 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	
 	
 	// Dragging methods
+	
+	/**
+	 * Gets invoked on dragging a backlog.
+	 */
 	$scope.dragBacklog = function(event){
 	
 		if($scope.draggingId == Number(event.target.id))
@@ -72,7 +76,9 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 	};
 	
-	
+	/**
+	 * Gets invoked on drop area enter.
+	 */
 	$scope.onDropAreaEnter = function(event){
 		
 		event.preventDefault();
@@ -87,6 +93,9 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		$("#" + $scope.areaId).height(40);
 	};
 	
+	/**
+	 * Gets invoked on drop area leave.
+	 */
 	$scope.onDropAreaLeave = function(event){
 		
 		event.preventDefault();
@@ -96,7 +105,9 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		console.log("onDropAreaLeave");
 	};
 	
-	
+	/**
+	 * Gets invoked on drop of backlog.
+	 */
 	$scope.onDropBacklog = function(event){
 		
 		event.preventDefault();

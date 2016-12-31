@@ -67,6 +67,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.storyViewTab = {active: true, color: "blueBackGround"};
 	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
 	 $scope.priorityViewTab = {active: false, color: "greyBackGround"};
+	 
 	 $scope.finalResult = [];
 	 $scope.scrollForFirstTime = true; 
 	 $scope.dependencyTree = [];
@@ -148,7 +149,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 	 };
 	 
-	 
+	 /**
+	  * Adding child and child dependencies
+	  */
 	 $scope.addChildAndDependencies = function(){
 		 
 		 //load id to story map
@@ -194,7 +197,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				 
 		 }
 	
-
+		 // scroll down the scrollbar.
 		 if($scope.scrollForFirstTime)
 		 {
 			var storyHierarchyElem  = $("#storyHierarchyId");
@@ -209,7 +212,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		 }
 	 };
 	 
-	 	
+	/**
+	 * Get the symbol for display according to the type of a story.
+	 */ 	
 	$scope.getSymbolFor = function(backlogItem) {
 		if(backlogItem.type == "EPIC")
 		{
@@ -225,6 +230,13 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}
 	};
 	
+	/**
+	 * Set the story type.
+	 * 
+	 * Parent - EPIC
+	 * Immediate child - FEATURE
+	 * Rest Story - STORY
+	 */
 	$scope.setStoryType = function(backLog) {
 		if(!backLog.parentStoryId)
 		{
@@ -311,15 +323,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		{}
 	};
 	
-	/**
-	 * Return child list.
-	 */
-	$scope.getChildList = function(parentId){
 		
-		return $scope.parentIdChildListMap[parentId];
-	};
-	
-	
 	/**
 	 * Displays bulk story dialog.
 	 */
@@ -361,6 +365,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	});
 	
 
+	/**
+	 * Returns the alert message for deleting a story.
+	 */
 	$scope.getAlertMessage = function(backlogId){
 		
 		var backlogObj = $scope.idToStory[backlogId];
@@ -544,8 +551,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		return $scope.modelDef;
 	};
-	
-	
 	
 	
 }]);

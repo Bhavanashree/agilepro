@@ -1,11 +1,14 @@
 $.application.controller('storyDependencyController', ["$scope", "actionHelper", "utils",
                                                        function($scope, actionHelper, utils) {
-	
+	/**
+	 * Dependency type.
+	 */
 	$scope.dependencyTypes = ["STARTS_WITH", "ENDS_WITH"];
-	$scope.previousIndex = -1;
 	
 	/**
 	 * Gets invoked on type of search title in the search input box.
+	 * 
+	 * Only backlogs are filtered.
 	 */
 	$scope.dependencyStoryFilter = function(){
 		
@@ -32,7 +35,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	};
 	
 	/**
-	 * Called on click of plus button
+	 * Called on click of plus button.
 	 */
 	$scope.onClickPlus = function(dependencyTreeObj, backlogId){
 		
@@ -73,7 +76,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	};
 	
 	/**
-	 * Minimize Dependency 
+	 * Minimize Dependency and there dependencies.
 	 */
 	$scope.minimizeDependencies = function(dependencyArr){
 		
@@ -111,32 +114,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	};
 	
 	/**
-	 * Initialize story dependencies.
-	 */
-	$scope.initStoryDependency = function(){
-	
-		console.log("initStoryDependency is called");
-		
-	};
-	
-	/**
-	 * Hide all dependencies.
-	 */
-	$scope.hideAllDependencies = function(backLogId){
-		
-		var backLogObj = $scope.backlogIdDependencyObj[backLogId];
-		
-		if(backLogObj.dependencies)
-		{
-			for(index in backLogObj.dependencies)
-			{
-				backLogObj.dependencies[index].showBackLog = false;
-			}
-		}
-	};
-	
-	/**
-	 * On change of pattern.
+	 * On change of pattern from drop down.
 	 */
 	$scope.onDependencyTypeChange = function(dependencyObj, type){
 		
@@ -152,7 +130,7 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	};
 
 	/**
-	 * By default dependency story are not displayed until the main story is expanded.
+	 * Used for displaying only for dependency story.
 	 */
 	$scope.displayForDependencyOnly = function(storyDependencyType){
 		
@@ -209,10 +187,11 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 					}
 				
 				},{"hideInProgress" : true});
-		
 	};
 	
-	
+	/**
+	 * Updates the dependency type on selection of type from already added dependency drop down.
+	 */
 	$scope.updateDependencyObj = function(dependencyObj, type){
 		
 		if(dependencyObj.storyDependencyType != type)
@@ -234,7 +213,9 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 		}
 	};
 	
-	
+	/**
+	 * Gets invoked on click of delete button for removing a dependency from main story.
+	 */
 	$scope.removeDependencyObj = function(dependencyArrObj){
 		
 		var dependencyObj = dependencyArrObj.dependencyStory;
