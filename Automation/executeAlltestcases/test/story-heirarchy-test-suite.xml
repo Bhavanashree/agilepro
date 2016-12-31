@@ -1,30 +1,52 @@
 <testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyHeirarchy">
 
-		<testCase name="storyAdd">
-		
-			<description>Add new story</description>
-			
-			<wrap:steps>
-				<ccg:gotoState state="story" />
-				
-				<ccg:waitFor locator="id: storyTab" />
-				<ccg:click locator="id: storyTab" />
-				
-				<ccg:waitFor locator="id: addNewBacklogId" />
-				<ccg:click locator="id: addNewBacklogId" />
-			</wrap:steps>
-			
-			<ccg:fillFormWithAction locator="id: addNewBacklogId" pressEnterAtEnd="true">
-				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
-					<newBacklogTitle>Story3</newBacklogTitle>
-				</data>
-			</ccg:fillFormWithAction>
-			
+<!-- 	<testCase name="storyAdd">
 	
-			<wrap:validations>
-				<ccg:validateVisibility locator="id: pricePlansSearchQuery_search_results" />
-			</wrap:validations>
+		<description>Add new story</description>
+		
+		<wrap:steps>
+			<ccg:gotoState state="story" />
 			
-	</testCase>
+			<ccg:waitFor locator="id: storyTab" />
+			<ccg:click locator="id: storyTab" />
+			
+			<ccg:waitFor locator="id: addNewBacklogId" />
+			<ccg:click locator="id: addNewBacklogId" />
+		</wrap:steps>
+		
+		<ccg:fillFormWithAction locator="id: addNewBacklogId" pressEnterAtEnd="true">
+			<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
+				<newBacklogTitle>Story1</newBacklogTitle>
+			</data>
+		</ccg:fillFormWithAction>
+		
 
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		</wrap:validations>
+		
+	</testCase> -->
+		
+	<testCase name="storyDelete">
+		
+		<description>Delete story</description>
+		
+		<wrap:steps>
+			<ccg:gotoState state="story" />
+			
+			<ccg:waitFor locator="id: storyTab" />
+			<ccg:click locator="id: storyTab" />
+			
+			<ccg:waitFor locator="xpath: //*[@id='backlogTitle']/strong[normalize-space(text())='Story2']"/>
+			<ccg:click locator="xpath: //*[@id='backlogTitle']/strong[normalize-space(text())='Story2']//td[contains(@id, 'deleteBackLogId')]"/>
+			
+		</wrap:steps>
+		
+		
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		</wrap:validations>
+		
+	</testCase>
+		
 </testSuite>
