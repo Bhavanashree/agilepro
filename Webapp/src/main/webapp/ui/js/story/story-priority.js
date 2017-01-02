@@ -134,8 +134,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 				{
 					if(updateResposne.code == 0)
 					{
-						console.log("success update");
-						
 						for(var i = indexFrom; i<$scope.sortedBacklogs.length; i++)
 						{
 							var obj = $scope.sortedBacklogs[i];
