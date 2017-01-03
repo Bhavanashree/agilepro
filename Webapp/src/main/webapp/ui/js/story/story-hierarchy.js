@@ -86,7 +86,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 					return;
 				}
 			
-			var backlogModel = {"title" : $scope.newBacklogTitle.trim(),"projectId" : $scope.getActiveProjectId()};
+			var backlogModel = {"title" : $scope.newBacklogTitle.trim(), "projectId" : $scope.getActiveProjectId()};
 			 
 			$scope.saveBacklog(backlogModel, 0);
 		 }
