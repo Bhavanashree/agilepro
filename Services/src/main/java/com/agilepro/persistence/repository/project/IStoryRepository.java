@@ -154,6 +154,12 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 		@Condition(value = "priority", op = Operator.GE) int fromOrder, 
 		@Field(value = "priority", updateOp = UpdateOperator.ADD) int incrementValue);
 	
+	/**
+	 * Update priority for the given id. 
+	 * 
+	 * @param id new priority is to be set for the provided id.
+	 * @param newPriority priority of the story where this story is dropped.
+	 * @return 1 on successful update of priority.
+	 */
 	public int updatePriority(@Condition(value = "id") Long id, @Field(value = "priority") Integer newPriority);
-	
 }

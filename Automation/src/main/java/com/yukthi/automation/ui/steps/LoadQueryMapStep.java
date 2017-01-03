@@ -12,11 +12,11 @@ import javax.sql.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.yukthi.automation.AbstractValidation;
 import com.yukthi.automation.AutomationContext;
 import com.yukthi.automation.Executable;
 import com.yukthi.automation.IApplicationConfiguration;
 import com.yukthi.automation.IExecutionLogger;
+import com.yukthi.automation.IStep;
 import com.yukthi.utils.exceptions.InvalidStateException;
 
 /**
@@ -24,7 +24,7 @@ import com.yukthi.utils.exceptions.InvalidStateException;
  * the context.
  */
 @Executable("loadQueryMap")
-public class LoadQueryMapStep extends AbstractValidation
+public class LoadQueryMapStep implements IStep
 {
 	private static Logger logger = LogManager.getLogger(LoadQueryMapStep.class);
 
@@ -112,7 +112,7 @@ public class LoadQueryMapStep extends AbstractValidation
 	 * AutomationContext, com.yukthi.ui.automation.IExecutionLogger)
 	 */
 	@Override
-	public boolean validate(AutomationContext context, IExecutionLogger exeLogger)
+	public void execute(AutomationContext context, IExecutionLogger exeLogger)
 	{
 		IApplicationConfiguration appConfig = context.getAppConfiguration();
 
@@ -142,8 +142,6 @@ public class LoadQueryMapStep extends AbstractValidation
 			}
 			
 			context.setAttribute(contextAttribute, resMap);
-
-			return true;
 		} catch(SQLException ex)
 		{
 			throw new InvalidStateException(ex, "An erorr occurred while executing sql validation with query - {}", query);

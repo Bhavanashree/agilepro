@@ -1,12 +1,15 @@
 package com.yukthi.automation.test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.yukthi.automation.AutomationContext;
 import com.yukthi.automation.IStep;
@@ -15,6 +18,7 @@ import com.yukthi.automation.IValidation;
 import com.yukthi.automation.IValidationContainer;
 import com.yukthi.ccg.core.ValidateException;
 import com.yukthi.ccg.core.Validateable;
+import com.yukthi.utils.exceptions.InvalidStateException;
 
 /**
  * Test case with validations to be executed.
@@ -22,9 +26,9 @@ import com.yukthi.ccg.core.Validateable;
 public class TestCase implements IStepContainer, IValidationContainer, Validateable
 {
 	/**
-	 * The logger.
+	 * Pattern used to replace expressions in step properties.
 	 */
-	private static Logger logger = LogManager.getLogger(TestCase.class);
+	private static Pattern CONTEXT_EXPR_PATTERN = Pattern.compile("\\{\\{(.+)\\}\\}");
 
 	/**
 	 * Name of the test case.
@@ -123,6 +127,65 @@ public class TestCase implements IStepContainer, IValidationContainer, Validatea
 
 		validations.add(validation);
 	}
+	
+	/**
+	 * Replaces expressions in specified step properties.
+	 * @param context Context to fetch values for expressions.
+	 * @param step Step in which expression has to be replaced
+	 */
+	private void replaceExpressions(AutomationContext context, IStep step)
+	{
+		Field fields[] = step.getClass().getDeclaredFields();
+		String value = null;
+		String propertyExpr = null;
+		
+		Matcher matcher = null;
+		StringBuffer buffer = new StringBuffer();
+		
+		Map<String, Object> contextAttr = context.getAttributeMap();
+		
+		for(Field field : fields)
+		{
+			//ignore non string fields
+			if(!String.class.equals(field.getType()))
+			{
+				continue;
+			}
+
+			try
+			{
+				field.setAccessible(true);
+				
+				value = (String) field.get(step);
+				
+				//ignore null field values
+				if(value == null)
+				{
+					continue;
+				}
+				
+				matcher = CONTEXT_EXPR_PATTERN.matcher(value);
+				buffer.setLength(0);
+	
+				//replace the expressions in the field value
+				while(matcher.find())
+				{
+					propertyExpr = matcher.group(1);
+					
+					matcher.appendReplacement(buffer, BeanUtils.getProperty(contextAttr, propertyExpr));
+				}
+				
+				matcher.appendTail(buffer);
+				
+				//set the result string back to field
+				field.set(step, buffer.toString());
+			} catch(Exception ex)
+			{
+				throw new InvalidStateException(ex, "An error occurred while parsing expressions in field '{}' in class - {}", 
+					field.getName(), step.getClass().getName());
+			}
+		}
+	}
 
 	/**
 	 * Execute.
@@ -142,6 +205,7 @@ public class TestCase implements IStepContainer, IValidationContainer, Validatea
 
 			try
 			{
+				replaceExpressions(context, step);
 				step.execute(context, exeLogger.getSubLogger());
 			} catch(Exception ex)
 			{

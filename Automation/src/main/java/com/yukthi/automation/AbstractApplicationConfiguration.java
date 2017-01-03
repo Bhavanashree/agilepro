@@ -1,5 +1,6 @@
 package com.yukthi.automation;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +38,7 @@ public abstract class AbstractApplicationConfiguration implements IApplicationCo
 	/**
 	 * Application data sources.
 	 */
-	private Map<String, DataSource> dataSourceMap;
+	private Map<String, DataSource> dataSourceMap = new HashMap<>();
 
 	/**
 	 * Gets the state configuration file which provides configuration about different states of the application.

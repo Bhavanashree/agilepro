@@ -131,6 +131,9 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@Column(name = "TEAM_ID")
 	private ProjectTeamEntity team;
 	
+	/**
+	 * Story dependencies.
+	 */
 	@OneToMany(mappedBy = "dependencyStory")
 	private List<StoryDependencyEntity> storyDependencies;
 	
@@ -422,11 +425,21 @@ public class StoryEntity extends WebutilsExtendableEntity
 		this.team = team;
 	}
 
+	/**
+	 * Gets story dependencies.
+	 * 
+	 * @return story dependencies.
+	 */
 	public List<StoryDependencyEntity> getStoryDependencies()
 	{
 		return storyDependencies;
 	}
 
+	/**
+	 * Sets story dependencies.
+	 * 
+	 * @param storyDependencies the new dependencies.
+	 */
 	public void setStoryDependencies(List<StoryDependencyEntity> storyDependencies)
 	{
 		this.storyDependencies = storyDependencies;

@@ -15,6 +15,8 @@ public class BasicVersionResponse extends BaseResponse
 
 	/**
 	 * Instantiates a new basic version response.
+	 * 
+	 * @param version new version.
 	 */
 	public BasicVersionResponse(Integer version)
 	{

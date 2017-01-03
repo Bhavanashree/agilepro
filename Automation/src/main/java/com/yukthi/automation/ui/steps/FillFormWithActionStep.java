@@ -2,6 +2,8 @@ package com.yukthi.automation.ui.steps;
 
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
@@ -21,6 +23,21 @@ import com.yukthi.utils.exceptions.InvalidStateException;
 @Executable("fillFormWithAction")
 public class FillFormWithActionStep implements IStep
 {
+	/**
+	 * The logger.
+	 */
+	private static Logger logger = LogManager.getLogger(FillFormWithActionStep.class);
+
+	/**
+	 * The error message.
+	 **/
+	private static String DEBUG_MESSAGE = "Populating field {} with value - {}";
+
+	/**
+	 * The error message.
+	 **/
+	private static String ERROR_MESSAGE = "Failed to fill element '{}' under parent '{}' with value - {}";
+
 	/**
 	 * Html locator of the form or container (like DIV) enclosing the input
 	 * elements.
@@ -62,23 +79,30 @@ public class FillFormWithActionStep implements IStep
 				continue;
 			}
 
+			exeLogger.debug(DEBUG_MESSAGE, name, value);
+
 			if(!AutomationUtils.populateField(context, null, name, "" + value))
 			{
-				throw new InvalidStateException("pritam error");
+				exeLogger.error(ERROR_MESSAGE, name, value);
+				throw new InvalidStateException(ERROR_MESSAGE, name, locator, value);
 			}
 		}
 	}
 
 	/**
-	 * Press Enter sets the key value as enter for the web element. 
+	 * Press Enter sets the key value as enter for the web element.
 	 * 
-	 * @param context current Automation context.
-	 * @param exeLogger logger.
+	 * @param context
+	 *            current Automation context.
+	 * @param exeLogger
+	 *            logger.
 	 */
 	private void pressEnter(AutomationContext context, IExecutionLogger exeLogger)
 	{
 		WebElement webElement = AutomationUtils.findElement(context, null, locator);
 		webElement.sendKeys(Keys.ENTER);
+
+		logger.debug("Successfully enter key is pressed");
 	}
 
 	/**
@@ -98,6 +122,8 @@ public class FillFormWithActionStep implements IStep
 
 		if(pressEnterAtEnd)
 		{
+			logger.debug("User has provided enter key to be pressed");
+
 			pressEnter(context, logger);
 		}
 	}

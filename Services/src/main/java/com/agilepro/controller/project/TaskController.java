@@ -44,7 +44,6 @@ import com.yukthi.webutils.controllers.BaseController;
 @RequestMapping("/task")
 public class TaskController extends BaseController implements ITaskController
 {
-
 	/**
 	 * The task service.
 	 **/

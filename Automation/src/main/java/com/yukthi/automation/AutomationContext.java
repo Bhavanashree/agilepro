@@ -1,5 +1,6 @@
 package com.yukthi.automation;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -111,6 +112,15 @@ public class AutomationContext
 	public Object removeAttribute(String name)
 	{
 		return nameToAttr.remove(name);
+	}
+	
+	/**
+	 * Fetches the attributes on the context as map.
+	 * @return Context attributes.
+	 */
+	public Map<String, Object> getAttributeMap()
+	{
+		return Collections.unmodifiableMap(nameToAttr);
 	}
 	
 	/**

@@ -199,18 +199,12 @@ public class StoryController extends BaseController implements IStoryController
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public BasicVersionResponse update(@RequestBody @Valid StoryModel model)
+	public BaseResponse update(@RequestBody @Valid StoryModel model)
 	{
-		if(model.getId() == null || model.getId() <= 0)
-		{
-			throw new InvalidRequestParameterException("Invalid id specified for update: " + model.getId());
-		}
-
-		Integer updatedVersion = storyService.updateStories(model);
-
-		return new BasicVersionResponse(updatedVersion);
+		storyService.update(model);
+		
+		return new BaseResponse();
 	}
-
 	
 	/**
 	 * Save stories in bulk.
@@ -245,7 +239,7 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
 	{
-		storyService.deleteParentId(id);
+		storyService.deleteById(id);
 
 		return new BaseResponse();
 	}

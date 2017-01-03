@@ -1,6 +1,7 @@
 <testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyHeirarchy">
 
-<!-- 	<testCase name="storyAdd">
+<!--  
+ 	<testCase name="storyAdd">
 	
 		<description>Add new story</description>
 		
@@ -25,18 +26,18 @@
 			<ccg:validateVisibility locator="id: addNewBacklogId" />
 		</wrap:validations>
 		
-	</testCase> -->
-		
+	</testCase>
+-->		
 	<testCase name="storyDelete">
 		
 		<description>Delete story</description>
 		
 		<wrap:steps>
-			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId">
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" dataSourceName="dataSource">
 				<query>
-					SELECT ID, TITLE
+					SELECT TITLE, ID
 					FROM STORY
-					WHERE TITLE IN ('STORY1', 'SUB_STORY1')
+					WHERE TITLE IN ('Story1')
 				</query>
 			</ccg:loadQueryMap>
 		
@@ -45,8 +46,8 @@
 			<ccg:waitFor locator="id: storyTab" />
 			<ccg:click locator="id: storyTab" />
 			
-			<ccg:waitFor locator="xpath: //*[@id='backlogTitle']/strong[normalize-space(text())='Story2']"/>
-			<ccg:click locator="id: delete_#{storyTitleToId.STORY1}"/>
+			<ccg:waitFor locator="id: delete_{{storyTitleToId.Story1}}"/>
+			<ccg:click locator="id: delete_{{storyTitleToId.Story1}}"/>
 			
 		</wrap:steps>
 		

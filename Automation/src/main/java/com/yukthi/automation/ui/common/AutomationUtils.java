@@ -38,7 +38,7 @@ public class AutomationUtils
 	/**
 	 * Min wait duration.
 	 */
-	private static final long DURATION_FIVE_MILLIS = 5;
+	private static final long DURATION_HUNDRED_MILLIS = 100;
 
 	/**
 	 * Millis per second.
@@ -367,7 +367,7 @@ public class AutomationUtils
 	 */
 	public static void validateWithWait(Supplier<Boolean> checkFunction, int waitTime, String waitMessage, RuntimeException ex)
 	{
-		long iterationCount = (waitTime * MILLIS_PER_SEC) / DURATION_FIVE_MILLIS;
+		long iterationCount = (waitTime * MILLIS_PER_SEC) / DURATION_HUNDRED_MILLIS;
 
 		for(int i = 0; i < iterationCount; i++)
 		{
@@ -377,7 +377,7 @@ public class AutomationUtils
 			}
 
 			logger.trace(waitMessage);
-			waitFor(DURATION_FIVE_MILLIS);
+			waitFor(DURATION_HUNDRED_MILLIS);
 		}
 
 		throw ex;
