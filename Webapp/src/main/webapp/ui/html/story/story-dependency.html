@@ -19,7 +19,8 @@
 				<div style="width: 100%; height: 2.5em; border: 3px solid #66c2ff;">
 					<table style="width: 100%; height: 100%;">
 						<tr>
-							<td ng-click="onClickPlus(dependency, dependency.dependencyStory.id)" 
+							<td id="expandStory_{{dependency.dependencyStory.id}}" 
+								ng-click="onClickPlus(dependency, dependency.dependencyStory.id)" 
 								style="width: 4%; text-align: center; background-color: #383838; 
 								border-right: 1px solid #101010; cursor:pointer; color: white;">
 									<i ng-class="dependency.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
@@ -41,12 +42,12 @@
 								style="width: 9%; text-align: center; background-color: #cce6ff;
 								border-left: 1px solid #66c2ff; cursor:pointer;">
 
-    							<div class="dropdown-toggle" data-toggle="dropdown">
+    							<div id="updateDependencyType_{{dependency.dependencyStory.title}}" class="dropdown-toggle" data-toggle="dropdown">
 								
 									<span>{{displayStoryDependencyType(dependency.storyDependencyType)}}</span>
     								<span class="caret"></span></div>
     								<ul class="dropdown-menu">
-      									<li ng-repeat="type in dependencyTypes">
+      									<li id="{{type}}" ng-repeat="type in dependencyTypes">
 											<a ng-click="updateDependencyObj(dependency, type)" href="">
 												{{displayStoryDependencyType(type)}}
 											</a>
@@ -55,10 +56,12 @@
 								</div>
 			
 							</td>
-							<td ng-click="removeDependencyObj(dependency)" ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
-									style="width: 4%; text-align: center; background-color: #cce6ff;
-									border-left: 1px solid #66c2ff; cursor:pointer;">
-									<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
+							<td id="removeDependency_{{dependency.dependencyStory.title}}" 
+								ng-click="removeDependencyObj(dependency)" ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
+								style="width: 4%; text-align: center; background-color: #cce6ff;
+								border-left: 1px solid red; cursor:pointer;">
+									
+								<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
 							</td>
 						</tr>
 					</table>
@@ -80,12 +83,12 @@
 											</td>
 											<td>
 												<div class="input-group-btn" name="depStoryDropDown">
-													<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<button id="typeDropDown_{{dependency.dependencyStory.id}}" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<span class="caret"></span>
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right">
 													    <li ng-repeat="type in dependencyTypes">
-													    	<a ng-click="onDependencyTypeChange(dependency, type)" href="">
+													    	<a id="{{type}}" ng-click="onDependencyTypeChange(dependency, type)" href="">
 													    		{{displayStoryDependencyType(type)}}
 													    	</a>
 													    </li>
@@ -110,11 +113,11 @@
 											</td>
 											<td>
 												<div class="input-group-btn">
-													<button type="button" ng-click="onClickDropDown(dependency.dependencyStory.id)" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<button id="storyDropDown_{{dependency.dependencyStory.id}}" type="button" ng-click="onClickDropDown(dependency.dependencyStory.id)" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														<span class="caret"></span>
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right" ng-show="dropdown.length > 0">
-													    <li ng-repeat="story in dropdown">
+													    <li id="{{story.title}}" ng-repeat="story in dropdown">
 													    	<a ng-click="onStoryChange(dependency, story)" href="">
 													    		{{story.title}}
 													    	</a>
@@ -129,7 +132,7 @@
 						</td>
 						
 						<td style="padding: 0.2em;">
-							<button class="btn btn-primary" ng-click="addDependency(dependency)">Add</button>
+							<button id="addDependency_{{dependency.dependencyStory.id}}" class="btn btn-primary" ng-click="addDependency(dependency)">Add</button>
 						</td>
 					</tr>
 					

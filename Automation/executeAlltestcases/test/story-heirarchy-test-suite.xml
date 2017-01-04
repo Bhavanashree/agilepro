@@ -120,7 +120,7 @@
 				</query>
 			</ccg:loadQueryMap>
 			
-			<ccg:gotoState state="story" />
+			<ccg:gotoState state="story"/>
 			
 			<ccg:waitFor locator="id: storyTab" />
 			<ccg:click locator="id: storyTab" />

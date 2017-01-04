@@ -2,13 +2,13 @@
 	
 	<table style="width: 100%; height: 7%;">
 		<tr>
-			<td ng-class="storyViewTab.color" ng-click="setActiveTab('STORY_VIEW')" style="width: 33%; border-right: 1px solid black; text-align: center; cursor:pointer;">
+			<td id="storyHeirarchyTab" ng-class="storyViewTab.color" ng-click="setActiveTab('STORY_VIEW')" style="width: 33%; border-right: 1px solid black; text-align: center; cursor:pointer;">
 				<div>Story View</div>
 			</td>
-			<td ng-class="dependencyViewTab.color" ng-click="setActiveTab('DEPENDENCY_VIEW')" style="width: 33%; border-right: 1px solid black; text-align: center; cursor:pointer;">
+			<td id="storyDependencyTab" ng-class="dependencyViewTab.color" ng-click="setActiveTab('DEPENDENCY_VIEW')" style="width: 33%; border-right: 1px solid black; text-align: center; cursor:pointer;">
 				<div>Dependency View</div>
 			</td>
-			<td ng-class="priorityViewTab.color" ng-click="setActiveTab('PRIORITY_VIEW')" style="width: 33%; text-align: center; cursor:pointer">
+			<td id="storyPriorityTab" ng-class="priorityViewTab.color" ng-click="setActiveTab('PRIORITY_VIEW')" style="width: 33%; text-align: center; cursor:pointer">
 				<div>Priority View</div>
 			</td>
 		</tr>

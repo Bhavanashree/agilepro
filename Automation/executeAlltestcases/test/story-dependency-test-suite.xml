@@ -1,0 +1,129 @@
+<testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyDependency">
+
+<!-- 	<testCase name="storyDependencyAdd">
+	
+		<description>Add new story</description>
+		
+		<wrap:steps>
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Story1')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:gotoState state="story" />
+			
+			<ccg:waitFor locator="id: storyTab" />
+			<ccg:click locator="id: storyTab" />
+			
+			<ccg:waitFor locator="id: storyDependencyTab" />
+			<ccg:click locator="id: storyDependencyTab" />
+			
+			
+			<ccg:waitFor locator="id: expandStory_{{storyTitleToId.Story1}}"/>
+			<ccg:click locator="id: expandStory_{{storyTitleToId.Story1}}"/>
+			
+			<ccg:waitFor locator="id: typeDropDown_{{storyTitleToId.Story1}}"/>
+			<ccg:click locator="id: typeDropDown_{{storyTitleToId.Story1}}"/>
+			
+			<ccg:waitFor locator="id: STARTS_WITH"/>
+			<ccg:click locator="id: STARTS_WITH"/>
+			
+			<ccg:waitFor locator="id: storyDropDown_{{storyTitleToId.Story1}}"/>
+			<ccg:click locator="id: storyDropDown_{{storyTitleToId.Story1}}"/>	
+			
+			<ccg:waitFor locator="id: Story2"/>
+			<ccg:click locator="id: Story2"/>
+			
+			<ccg:waitFor locator="id: addDependency_{{storyTitleToId.Story1}}"/>
+			<ccg:click locator="id: addDependency_{{storyTitleToId.Story1}}"/>			
+		</wrap:steps>
+		
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		</wrap:validations>
+		
+	</testCase>
+ -->
+
+	<testCase name="storyDependencyUpdate">
+	
+		<description>Update dependency story</description>
+		
+		<wrap:steps>
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Story1')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:gotoState state="story" />
+			
+			<ccg:waitFor locator="id: storyTab" />
+			<ccg:click locator="id: storyTab" />
+			
+			<ccg:waitFor locator="id: storyDependencyTab" />
+			<ccg:click locator="id: storyDependencyTab" />
+			
+			<ccg:waitFor locator="id: expandStory_{{storyTitleToId.Story1}}"/>
+			<ccg:click locator="id: expandStory_{{storyTitleToId.Story1}}"/>
+			
+			<ccg:waitFor locator="id: updateDependencyType__Story2"/>
+			<ccg:click locator="id: updateDependencyType__Story2"/>
+			
+			<ccg:waitFor locator="id: ENDS_WITH"/>
+			<ccg:click locator="id: ENDS_WITH"/>
+		</wrap:steps>
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		</wrap:validations>
+		
+	</testCase>
+	
+<!-- 	<testCase name="storyDependencyRemove">
+	
+		<description>Add new story</description>
+		
+		<wrap:steps>
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Story1')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:gotoState state="story" />
+			
+			<ccg:waitFor locator="id: storyTab" />
+			<ccg:click locator="id: storyTab" />
+			
+			<ccg:waitFor locator="id: storyDependencyTab" />
+			<ccg:click locator="id: storyDependencyTab" />
+			
+			<ccg:waitFor locator="id: expandStory_{{storyTitleToId.Story1}}"/>
+			<ccg:click locator="id: expandStory_{{storyTitleToId.Story1}}"/>
+			
+			<ccg:waitFor locator="id: removeDependency_Story2"/>
+			<ccg:click locator="id: removeDependency_Story2"/>
+			
+			<ccg:waitFor locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@class, 'btn btn-primary action-button')]" />
+			<ccg:click locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@class, 'btn btn-primary action-button')]" />
+		</wrap:steps>
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		</wrap:validations>
+		
+	</testCase> -->
+	
+</testSuite>
