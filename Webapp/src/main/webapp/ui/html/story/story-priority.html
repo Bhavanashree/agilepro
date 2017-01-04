@@ -5,14 +5,14 @@
 			
 			<div ng-repeat="backlog in sortedBacklogs">
 			
-				<div id="{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+				<div id="drop_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
 				 yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
 				 yk-on-drop="onDropBacklog(event)" style="border: 1px solid white; height: 15px;
 				 margin-left: 1em; margin-right: 1em;">
 					
 				</div>		
 				
-				<div id="{{backlog.id}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
+				<div id="drag_{{backlog.id}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
 					border: 3px solid lightblue; cursor: grab;"
 					draggable="true" yk-on-drag="dragBacklog(event)">
 				

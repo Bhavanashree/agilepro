@@ -1,0 +1,47 @@
+<testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyPriority">
+
+	<testCase name="storyPriorityDrag">
+	
+		<description>Drag story</description>
+		
+		<wrap:steps>
+		
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleDragToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Parent Story1')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleDropToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Parent Story3')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:gotoState state="story" />
+			
+			<ccg:waitFor locator="id: storyTab" />
+			<ccg:click locator="id: storyTab" />
+			
+			<ccg:waitFor locator="id: storyPriorityTab" />
+			<ccg:click locator="id: storyPriorityTab" />
+			
+			<ccg:dragAndDrop source="id: drag_{{storyTitleDragToId.Parent Story1}}" destination="id: drop_{{storyTitleDropToId.Parent Story3}}">
+			
+			</ccg:dragAndDrop>
+			
+		</wrap:steps>
+
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		</wrap:validations>
+		
+	</testCase>
+	
+</testSuite>

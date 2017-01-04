@@ -1,7 +1,7 @@
 <testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyHeirarchy">
 
 
- <!--  	<testCase name="storyAdd">
+  	<testCase name="storyAdd">
 	
 		<description>Add new story</description>
 		
@@ -19,11 +19,31 @@
 		</ccg:populateField>
 
 		<wrap:validations>
-			<ccg:validateVisibility locator="id: addNewBacklogId" />
+			<!-- <ccg:validateWithSql>
+				<query>
+					SELECT * FROM STORY WHERE TITLE = 'Parent Story1'
+				</query>
+				
+				<expectedRows>
+					<columnToValue key="TITLE" value="Parent Story1">
+					</columnToValue>
+				</expectedRows>
+			</ccg:validateWithSql> -->
+			
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Parent Story1')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:validateVisibility locator="id: symbol_{{storyTitleToId.Parent Story1}}" message="E"/>
 		</wrap:validations>
 		
 	</testCase>
- --> 		
+ 		
  		
 <!--  	<testCase name="storyAdd">
 	
@@ -126,7 +146,7 @@
 	</testCase>
  -->	
 
- 	<testCase name="childStoryAdd">
+<!--  	<testCase name="childStoryAdd">
 	
 		<description>Add child story</description>
 		
@@ -158,6 +178,6 @@
 			<ccg:validateVisibility locator="id: addNewBacklogId" />
 		</wrap:validations>
 		
-	</testCase>
+	</testCase> -->
 		
 </testSuite>

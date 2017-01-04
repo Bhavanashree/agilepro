@@ -39,12 +39,16 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	 */
 	$scope.dragBacklog = function(event){
 	
-		if($scope.draggingId == Number(event.target.id))
+		var dragId = (event.target.id).split('_')[1];
+		
+		console.log(dragId);
+		
+		if($scope.draggingId == Number(dragId))
 		{
 			return;
 		}
 		
-		$scope.draggingId = Number(event.target.id);
+		$scope.draggingId = Number(dragId);
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		var backlogObj = $scope.getBacklog($scope.draggingId); 
@@ -83,14 +87,16 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		event.preventDefault();
 		
-		$scope.areaId = Number(event.target.id);
+		$scope.expandAreaId = event.target.id;
+		
+		$scope.areaId = Number((event.target.id).split('_')[1]);
 		
 		if(($scope.draggingId == $scope.areaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
 		{
 			return;
 		}
 		
-		$("#" + $scope.areaId).height(40);
+		$("#" + $scope.expandAreaId).height(40);
 	};
 	
 	/**
@@ -100,7 +106,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		event.preventDefault();
 		
-		$("#" + $scope.areaId).height(15);
+		$("#" + $scope.expandAreaId).height(15);
 		
 		console.log("onDropAreaLeave");
 	};
@@ -112,7 +118,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		event.preventDefault();
 		
-		var droppingAreaId = Number(event.target.id);
+		var droppingAreaId = Number((event.target.id).split('_')[1]);
 		
 		if(($scope.draggingId == droppingAreaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
 		{
@@ -123,7 +129,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		var indexFrom = $(event.target).attr("name");
 		
-		$("#" + $scope.areaId).height(15);
+		$("#" + $scope.expandAreaId).height(15);
 		
 		actionHelper.invokeAction("story.updatePriority", null, 
 				{"id" : $scope.draggingId, 
@@ -134,7 +140,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 				{
 					if(updateResposne.code == 0)
 					{
-						for(var i = indexFrom; i<$scope.sortedBacklogs.length; i++)
+						for(var i = indexFrom; i < $scope.sortedBacklogs.length; i++)
 						{
 							var obj = $scope.sortedBacklogs[i];
 							
