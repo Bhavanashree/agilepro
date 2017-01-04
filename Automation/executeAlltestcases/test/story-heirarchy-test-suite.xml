@@ -1,7 +1,7 @@
 <testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyHeirarchy">
 
-<!--  
- 	<testCase name="storyAdd">
+
+ <!--  	<testCase name="storyAdd">
 	
 		<description>Add new story</description>
 		
@@ -15,22 +15,42 @@
 			<ccg:click locator="id: addNewBacklogId" />
 		</wrap:steps>
 		
-		<ccg:fillFormWithAction locator="id: addNewBacklogId" pressEnterAtEnd="true">
-			<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
-				<newBacklogTitle>Story1</newBacklogTitle>
-			</data>
-		</ccg:fillFormWithAction>
-		
+		<ccg:populateField locator="id: addNewBacklogId" pressEnterAtEnd="true" value="Parent Story1">
+		</ccg:populateField>
 
 		<wrap:validations>
 			<ccg:validateVisibility locator="id: addNewBacklogId" />
 		</wrap:validations>
 		
 	</testCase>
--->		
+ --> 		
+ 		
+<!--  	<testCase name="storyAdd">
+	
+		<description>Add new story</description>
+		
+		<wrap:steps>
+			<ccg:gotoState state="story" />
+			
+			<ccg:waitFor locator="id: storyTab" />
+			<ccg:click locator="id: storyTab" />
+			
+			<ccg:waitFor locator="id: addNewBacklogId" />
+			<ccg:click locator="id: addNewBacklogId" />
+		</wrap:steps>
+		
+		<ccg:populateField locator="id: addNewBacklogId" pressEnterAtEnd="true" value="Parent Story2">
+		</ccg:populateField>
 
-<!--
-	<testCase name="storyDelete">
+		<wrap:validations>
+			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		</wrap:validations>
+		
+	</testCase>
+ --> 	
+
+
+<!-- 	<testCase name="storyDelete">
 		
 		<description>Delete story</description>
 		
@@ -40,7 +60,7 @@
 				<query>
 					SELECT TITLE, ID
 					FROM STORY
-					WHERE TITLE IN ('Story1')
+					WHERE TITLE IN ('Parent Story1')
 				</query>
 			</ccg:loadQueryMap>
 		
@@ -49,11 +69,11 @@
 			<ccg:waitFor locator="id: storyTab" />
 			<ccg:click locator="id: storyTab" />
 			
-			<ccg:waitFor locator="id: delete_{{storyTitleToId.Story1}}"/>
-			<ccg:click locator="id: delete_{{storyTitleToId.Story1}}"/>
+			<ccg:waitFor locator="id: delete_{{storyTitleToId.Parent Story1}}"/>
+			<ccg:click locator="id: delete_{{storyTitleToId.Parent Story1}}"/>
 			
-			<ccg:waitFor locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@class, 'btn btn-primary action-button')]" />
-			<ccg:click locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@class, 'btn btn-primary action-button')]" />
+			<ccg:waitFor locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@id, 'yesBtnId')]" />
+			<ccg:click locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@id, 'yesBtnId')]" />
 			
 		</wrap:steps>
 		
@@ -62,11 +82,11 @@
 		</wrap:validations>
 		
 	</testCase>
--->	
+ -->
 	
 	
 	
-<!-- 	<testCase name="editStory">
+<!--   	<testCase name="editStory">
 	
 		<description>Edit story</description>
 		
@@ -76,7 +96,7 @@
 				<query>
 					SELECT TITLE, ID
 					FROM STORY
-					WHERE TITLE IN ('Story1')
+					WHERE TITLE IN ('Parent Story1')
 				</query>
 			</ccg:loadQueryMap>
 		
@@ -85,8 +105,8 @@
 			<ccg:waitFor locator="id: storyTab" />
 			<ccg:click locator="id: storyTab" />
 			
-			<ccg:waitFor locator="id: edit_{{storyTitleToId.Story1}}"/>
-			<ccg:click locator="id: edit_{{storyTitleToId.Story1}}"/>
+			<ccg:waitFor locator="id: edit_{{storyTitleToId.Parent Story1}}"/>
+			<ccg:click locator="id: edit_{{storyTitleToId.Parent Story1}}"/>
 			
 			<ccg:waitFor locator="id: storyDialogId"/>
 			<ccg:fillForm locator="id: storyDialogId">
@@ -94,8 +114,8 @@
 					<title>Story2</title>
 				</data>
 			</ccg:fillForm>
-			<ccg:waitFor locator="xpath: //div[@id='storyDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
-			<ccg:click locator="xpath: //div[@id='storyDialogId']//button[contains(@class, 'btn btn-primary action-button ng-binding')]" />
+			<ccg:waitFor locator="xpath: //div[@id='storyDialogId']//button[contains(@id, 'updateStoryBtnId')]" />
+			<ccg:click locator="xpath: //div[@id='storyDialogId']//button[contains(@id, 'updateStoryBtnId')]" />
 			
 		</wrap:steps>
 		
@@ -103,10 +123,10 @@
 			<ccg:validateVisibility locator="id: addNewBacklogId" />
 		</wrap:validations>
 		
-	</testCase> -->
-	
+	</testCase>
+ -->	
 
-	<testCase name="childStoryAdd">
+ 	<testCase name="childStoryAdd">
 	
 		<description>Add child story</description>
 		
@@ -116,7 +136,7 @@
 				<query>
 					SELECT TITLE, ID
 					FROM STORY
-					WHERE TITLE IN ('Story1')
+					WHERE TITLE IN ('Parent Story1')
 				</query>
 			</ccg:loadQueryMap>
 			
@@ -125,14 +145,13 @@
 			<ccg:waitFor locator="id: storyTab" />
 			<ccg:click locator="id: storyTab" />
 			
-			<ccg:waitFor locator="id: addChildStory_{{storyTitleToId.Story1}}" />
-			<ccg:click locator="id: addChildStory_{{storyTitleToId.Story1}}" />
+			<ccg:waitFor locator="id: addChildStory_{{storyTitleToId.Parent Story1}}" />
+			<ccg:click locator="id: addChildStory_{{storyTitleToId.Parent Story1}}" />
 			
-			<ccg:fillFormWithAction locator="id: addChildStory_{{storyTitleToId.Story1}}" pressEnterAtEnd="true">
-				<data ccg:beanType="com.yukthi.ccg.xml.DynamicBean">
-					<childTitle>Child story1</childTitle>
-				</data>
-			</ccg:fillFormWithAction>
+			<ccg:populateField locator="id: addChildStory_{{storyTitleToId.Parent Story1}}"
+				value="Child story1" 
+				pressEnterAtEnd="true">
+			</ccg:populateField>
 		</wrap:steps>
 
 		<wrap:validations>

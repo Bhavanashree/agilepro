@@ -1,7 +1,5 @@
 package com.yukthi.automation.ui.steps;
 
-import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
@@ -12,7 +10,6 @@ import com.yukthi.automation.Executable;
 import com.yukthi.automation.IExecutionLogger;
 import com.yukthi.automation.IStep;
 import com.yukthi.automation.ui.common.AutomationUtils;
-import com.yukthi.ccg.xml.DynamicBean;
 import com.yukthi.utils.exceptions.InvalidStateException;
 
 /**
@@ -20,13 +17,13 @@ import com.yukthi.utils.exceptions.InvalidStateException;
  * 
  * @author Pritam.
  */
-@Executable("fillFormWithAction")
-public class FillFormWithActionStep implements IStep
+@Executable("populateField")
+public class PopulateFieldStep implements IStep
 {
 	/**
 	 * The logger.
 	 */
-	private static Logger logger = LogManager.getLogger(FillFormWithActionStep.class);
+	private static Logger logger = LogManager.getLogger(PopulateFieldStep.class);
 
 	/**
 	 * The error message.
@@ -36,7 +33,7 @@ public class FillFormWithActionStep implements IStep
 	/**
 	 * The error message.
 	 **/
-	private static String ERROR_MESSAGE = "Failed to fill element '{}' under parent '{}' with value - {}";
+	private static String ERROR_MESSAGE = "Failed to fill element '{}' with value - {}";
 
 	/**
 	 * Html locator of the form or container (like DIV) enclosing the input
@@ -45,49 +42,14 @@ public class FillFormWithActionStep implements IStep
 	private String locator;
 
 	/**
-	 * Data to be filled. All the fields matching with the property names of
-	 * specified bean will be searched and populated with corresponding data.
+	 * Value to be filled. 
 	 */
-	private Object data;
+	private String value;
 
 	/**
 	 * PressEnterAtEnd if true then for the provided action or else ignore.
 	 */
 	private boolean pressEnterAtEnd;
-
-	/**
-	 * Fills the form using dynamic bean.
-	 * 
-	 * @param context
-	 *            Automation context
-	 * @param exeLogger
-	 *            logger
-	 */
-	private void fillWithDynamicBean(AutomationContext context, IExecutionLogger exeLogger)
-	{
-		DynamicBean dynamicBean = (DynamicBean) data;
-		Map<String, Object> properties = dynamicBean.getProperties();
-		Object value = null;
-
-		for(String name : properties.keySet())
-		{
-			value = properties.get(name);
-
-			// ignore java core properties like - getClass()
-			if(properties.get(name) == null)
-			{
-				continue;
-			}
-
-			exeLogger.debug(DEBUG_MESSAGE, name, value);
-
-			if(!AutomationUtils.populateField(context, null, name, "" + value))
-			{
-				exeLogger.error(ERROR_MESSAGE, name, value);
-				throw new InvalidStateException(ERROR_MESSAGE, name, locator, value);
-			}
-		}
-	}
 
 	/**
 	 * Press Enter sets the key value as enter for the web element.
@@ -115,9 +77,12 @@ public class FillFormWithActionStep implements IStep
 	@Override
 	public void execute(AutomationContext context, IExecutionLogger logger)
 	{
-		if(data instanceof DynamicBean)
+		logger.debug(DEBUG_MESSAGE, locator, value);
+		
+		if(!AutomationUtils.populateField(context, null, locator, value))
 		{
-			fillWithDynamicBean(context, logger);
+			logger.error(ERROR_MESSAGE, locator, value);
+			throw new InvalidStateException(ERROR_MESSAGE, locator, value);
 		}
 
 		if(pressEnterAtEnd)
@@ -154,28 +119,23 @@ public class FillFormWithActionStep implements IStep
 	}
 
 	/**
-	 * Gets the data to be filled. All the fields matching with the property
-	 * names of specified bean will be searched and populated with corresponding
-	 * data.
+	 * Gets the value to be filled.
 	 *
-	 * @return the data to be filled
+	 * @return the value to be filled
 	 */
-	public Object getData()
+	public String getValue()
 	{
-		return data;
+		return value;
 	}
 
 	/**
-	 * Sets the data to be filled. All the fields matching with the property
-	 * names of specified bean will be searched and populated with corresponding
-	 * data.
+	 * Sets the value to be filled.
 	 *
-	 * @param data
-	 *            the new data to be filled
+	 * @param value the new value to be filled
 	 */
-	public void setData(Object data)
+	public void setValue(String value)
 	{
-		this.data = data;
+		this.value = value;
 	}
 
 	/**

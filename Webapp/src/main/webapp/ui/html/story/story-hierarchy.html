@@ -234,8 +234,8 @@
 		<footer>
 			<button type="button" class="btn btn-info" ng-click="saveNote('DRAFT')" ng-if="selectedTab == 'storyNoteId'">Save Draft</button>
 			<button type="button" class="btn btn-success" ng-click="saveNote('PUBLISHED')" ng-if="selectedTab == 'storyNoteId'">Publish</button>
-			<button type="button" class="btn btn-primary save-button" ng-click="updateBacklog()" ng-if="selectedTab == 'modelFormId'">{{newStoryMode ? 'Save' : 'Update'}}</button>
-			<button type="button" class="btn btn-danger cancel-button" data-dismiss="modal" ng-if="selectedTab == 'modelFormId'">Cancel</button>
+			<button id="updateStoryBtnId" type="button" class="btn btn-primary save-button" ng-click="updateBacklog()" ng-if="selectedTab == 'modelFormId'">{{newStoryMode ? 'Save' : 'Update'}}</button>
+			<button id="cancelUpdateBtnId" type="button" class="btn btn-danger cancel-button" data-dismiss="modal" ng-if="selectedTab == 'modelFormId'">Cancel</button>
 		</footer>
 	</yk-dialog>
 	

@@ -123,17 +123,22 @@ public class AutomationUtils
 	 *            Automation context
 	 * @param parent
 	 *            Parent under which target element can be found
-	 * @param name
-	 *            Name of the target field.
+	 * @param locator
+	 *            Locator of the target field. If locator pattern is not used, this will be assumed as name.
 	 * @param value
 	 *            Value to be populated
 	 * @return True, if population was successful.
 	 */
-	public static boolean populateField(AutomationContext context, WebElement parent, String name, String value)
+	public static boolean populateField(AutomationContext context, WebElement parent, String locator, String value)
 	{
-		logger.trace("For field {} under parent {} setting value - {}", name, parent, value);
+		logger.trace("For field {} under parent {} setting value - {}", locator, parent, value);
+		
+		if(!LOCATOR_PATTERN.matcher(locator).matches())
+		{
+			locator = LocatorType.NAME.getKey() + ":" + locator;
+		}
 
-		List<WebElement> elements = findElements(context, parent, LocatorType.NAME.getKey() + ":" + name);
+		List<WebElement> elements = findElements(context, parent, locator);
 
 		// if no elements found with specified name
 		if(elements == null || elements.isEmpty())

@@ -42,13 +42,13 @@
 								style="width: 9%; text-align: center; background-color: #cce6ff;
 								border-left: 1px solid #66c2ff; cursor:pointer;">
 
-    							<div id="updateDependencyType_{{dependency.dependencyStory.title}}" class="dropdown-toggle" data-toggle="dropdown">
+    							<div id="updateDependencyType_{{dependency.id}}" class="dropdown-toggle" data-toggle="dropdown">
 								
 									<span>{{displayStoryDependencyType(dependency.storyDependencyType)}}</span>
     								<span class="caret"></span></div>
     								<ul class="dropdown-menu">
-      									<li id="{{type}}" ng-repeat="type in dependencyTypes">
-											<a ng-click="updateDependencyObj(dependency, type)" href="">
+      									<li ng-repeat="type in dependencyTypes">
+											<a id="{{dependency.id}}_{{type}}" ng-click="updateDependencyObj(dependency, type)" href="">
 												{{displayStoryDependencyType(type)}}
 											</a>
 										</li>
@@ -56,7 +56,7 @@
 								</div>
 			
 							</td>
-							<td id="removeDependency_{{dependency.dependencyStory.title}}" 
+							<td id="removeDependency_{{dependency.id}}" 
 								ng-click="removeDependencyObj(dependency)" ng-show="{{displayForDependencyOnly(dependency.storyDependencyType)}}"
 								style="width: 4%; text-align: center; background-color: #cce6ff;
 								border-left: 1px solid red; cursor:pointer;">
@@ -88,7 +88,7 @@
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right">
 													    <li ng-repeat="type in dependencyTypes">
-													    	<a id="{{type}}" ng-click="onDependencyTypeChange(dependency, type)" href="">
+													    	<a id="{{dependency.dependencyStory.id}}_{{type}}" ng-click="onDependencyTypeChange(dependency, type)" href="">
 													    		{{displayStoryDependencyType(type)}}
 													    	</a>
 													    </li>
@@ -117,8 +117,8 @@
 														<span class="caret"></span>
 													</button>
 													<ul class="dropdown-menu dropdown-menu-right" ng-show="dropdown.length > 0">
-													    <li id="{{story.title}}" ng-repeat="story in dropdown">
-													    	<a ng-click="onStoryChange(dependency, story)" href="">
+													    <li ng-repeat="story in dropdown">
+													    	<a id="{{dependency.dependencyStory.id}}_{{story.title}}" ng-click="onStoryChange(dependency, story)" href="">
 													    		{{story.title}}
 													    	</a>
 													    </li>
