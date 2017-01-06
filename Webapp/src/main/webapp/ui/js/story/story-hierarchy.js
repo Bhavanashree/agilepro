@@ -150,7 +150,7 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 						$scope.refreshPriority();
 					}else
 					{
-						utils.alert("error in save");
+						utils.alert(storyResponse.message);
 					}
 					
 					try

@@ -124,12 +124,15 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Update priority for the provided id and increment priority for the rest stories 
-	 * where respective priority is greater than newPriority .
+	 * Update priority for the provided id and increment priority for the rest
+	 * stories where respective priority is greater than newPriority .
 	 * 
-	 * @param id for which new priority is to be replaced.
-	 * @param newPriority new priority for update.
-	 * @param projectId stories of provided project.
+	 * @param id
+	 *            for which new priority is to be replaced.
+	 * @param newPriority
+	 *            new priority for update.
+	 * @param projectId
+	 *            stories of provided project.
 	 */
 	public void updatePriority(Long id, Integer newPriority, Long projectId)
 	{
@@ -146,6 +149,36 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		} catch(Exception ex)
 		{
 			throw new InvalidStateException(ex, "An error occurred while updating priority - {}");
+		}
+	}
+
+	/**
+	 * Swap the priority of the given stories.
+	 * 
+	 * @param idToMoveUp
+	 *            the story id which is to be moved up.
+	 * @param idToMoveDown
+	 *            the story id which is to be moved down.
+	 */
+	public void swapPriority(Long idToMoveUp, Long idToMoveDown)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			StoryModel storyUp = super.fetchFullModel(idToMoveUp, StoryModel.class);
+			
+			StoryModel storyDown = super.fetchFullModel(idToMoveDown, StoryModel.class);
+			
+			storyRepo.updatePriority(storyUp.getId(), storyDown.getPriority());
+
+			storyRepo.updatePriority(storyDown.getId(), storyUp.getPriority());
+
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while swapping priority - {}");
 		}
 	}
 

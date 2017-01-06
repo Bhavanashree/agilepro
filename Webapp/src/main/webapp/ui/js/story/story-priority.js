@@ -1,12 +1,14 @@
 $.application.controller('storyPriorityController', ["$scope", "actionHelper", 
                                               function($scope, actionHelper) {
-
-	// listener
-	$scope.$on("sortBacklogsByPriority", function(event, args) {
-
+	$scope.loadStoriesByPriority = function() {
 		$scope.sortedBacklogs = [];
 		
     	var backLogArr = $scope.getBackLogs();
+    	
+    	if(!backLogArr)
+    	{
+    		return;
+    	}
     	
     	for(var index in backLogArr)
     	{
@@ -14,7 +16,11 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
     	}
     	
     	$scope.sortAccordingToPriority();
-    	
+	};
+	
+	// listener
+	$scope.$on("sortBacklogsByPriority", function(event, args) {
+		$scope.loadStoriesByPriority();
 	});
 
 	/**
@@ -29,6 +35,53 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 			$scope.$digest();
 		}catch(ex)
 		{}
+	};
+	
+	/**
+	 * Gets invoked for stepping one step up for a story.
+	 */
+	$scope.oneStepUp = function(index){
+		
+		console.log(index);
+		
+		var storyToBeMovedUp = $scope.sortedBacklogs[index];
+		
+		var storyToBeMovedDown = $scope.sortedBacklogs[index - 1];
+		
+		$scope.swapPriority(storyToBeMovedUp, storyToBeMovedDown);
+	};
+	
+	/**
+	 * Gets invoked for stepping one step down for a story.
+	 */
+	$scope.oneStepDown = function(id, priority, index){
+		
+		$scope.draggingId = id;
+		$scope.updatePriority(priority + 1, index + 1);
+	};
+	
+	
+	/**
+	 * Common method for swapping the priority.
+	 * 
+	 * Uses action helper to call the controller. 
+	 */
+	$scope.swapPriority = function(storyToBeMovedUp, storyToBeMovedDown){
+		
+		actionHelper.invokeAction("story.swapPriority", null, {"idToMoveUp" : storyToBeMovedUp.id, "idToMoveDown" : storyToBeMovedDown.id}, 
+				function(r, s)
+				{
+			
+				}, {"hideInProgress" : true});
+		
+		
+		/*var tempPriority = storyToBeMovedUp.priority;
+		
+		storyToBeMovedUp.priority = storyToBeMovedDown.priority;
+		storyToBeMovedDown.priority = tempPriority;
+		
+		$scope.sortAccordingToPriority();*/
+		
 	};
 	
 	
@@ -131,6 +184,14 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		$("#" + $scope.expandAreaId).height(15);
 		
+		$scope.updatePriority(newPriority, indexFrom);
+	};
+	
+	/**
+	 * Common method for updating the priority and calling the controller with the help of action helper.
+	 */
+	$scope.updatePriority = function(newPriority, indexFrom){
+		
 		actionHelper.invokeAction("story.updatePriority", null, 
 				{"id" : $scope.draggingId, 
 				 "newPriority" : newPriority,
@@ -163,6 +224,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 					}
 					
 				}, {"hideInProgress" : true});
+		
 	};
 
 	

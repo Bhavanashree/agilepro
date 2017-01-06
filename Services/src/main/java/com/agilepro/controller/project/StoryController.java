@@ -13,6 +13,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_PRIORITY;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SWAP_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.List;
@@ -184,6 +185,21 @@ public class StoryController extends BaseController implements IStoryController
 			@RequestParam(value = "projectId") Long projectId)
 	{
 		storyService.updatePriority(id, newPriority, projectId);
+		return new BaseResponse();
+	}
+	
+	/**
+	 * Swap the priority of stories.
+	 * 
+	 * @return BaseResponse on success update.
+	 */
+	@ActionName(ACTION_TYPE_SWAP_PRIORITY)
+	@RequestMapping(value = "/swapPriority", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BaseResponse swapPriority(@RequestParam(value = "idToMoveUp")  Long idToMoveUp, @RequestParam(value = "idToMoveDown") Long idToMoveDown)
+	{
+		storyService.swapPriority(idToMoveUp, idToMoveDown);
 		return new BaseResponse();
 	}
 	

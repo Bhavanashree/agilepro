@@ -1,7 +1,7 @@
 <testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="storyHeirarchy">
 
 
-  	<testCase name="storyAdd">
+   	<testCase name="storyAdd">
 	
 		<description>Add new story</description>
 		
@@ -19,18 +19,17 @@
 		</ccg:populateField>
 
 		<wrap:validations>
-			<ccg:validateWithSql>
+			<ccg:validateWithSql dataSourceName="dataSource">
 				<query>
 					SELECT * FROM STORY WHERE TITLE = 'Parent Story1'
 				</query>
 				
-				<expectedRows>
-					<columnToValue key="TITLE" value="Parent Story1">
-					</columnToValue>
-				</expectedRows>
+				<expectedRow>
+					<column name="TITLE">Parent Story1</column>
+				</expectedRow>
 			</ccg:validateWithSql>
 			
-			<!-- <ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
 				dataSourceName="dataSource">
 				<query>
 					SELECT TITLE, ID
@@ -39,7 +38,9 @@
 				</query>
 			</ccg:loadQueryMap>
 			
-			<ccg:validateVisibility locator="id: symbol_{{storyTitleToId.Parent Story1}}" message="E"/> -->
+			<ccg:validateVisibility locator="id: symbol_{{storyTitleToId.Parent Story1}}" message="E"/>
+			<ccg:validateVisibility locator="id: backlogTitle_{{storyTitleToId.Parent Story1}}" message="Parent Story1"/>
+			
 		</wrap:validations>
 		
 	</testCase>
@@ -69,8 +70,8 @@
 	</testCase>
  --> 	
 
-
-<!-- 	<testCase name="storyDelete">
+<!-- 
+ 	<testCase name="storyDelete">
 		
 		<description>Delete story</description>
 		
@@ -98,11 +99,18 @@
 		</wrap:steps>
 		
 		<wrap:validations>
-			<ccg:validateVisibility locator="id: addNewBacklogId" />
+		
+			<ccg:validateWithSql dataSourceName="dataSource">
+				<query>
+					SELECT * FROM STORY WHERE TITLE = 'Parent Story1'
+				</query>
+				
+			</ccg:validateWithSql>
+			
 		</wrap:validations>
 		
-	</testCase>
- -->
+	</testCase> -->
+
 	
 	
 	

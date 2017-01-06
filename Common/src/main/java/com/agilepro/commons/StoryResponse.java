@@ -23,6 +23,14 @@ public class StoryResponse extends BasicReadResponse
 	private Map<Long, Integer> storyIdPriority;
 
 	/**
+	 * New Story response with default values.
+	 */
+	public StoryResponse()
+	{
+		super();
+	}
+
+	/**
 	 * New story response.
 	 * 
 	 * @param newStoryId

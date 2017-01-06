@@ -1,9 +1,11 @@
 package com.yukthi.automation.ui.steps;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 
 import com.yukthi.automation.AutomationContext;
@@ -37,7 +39,7 @@ public class DragAndDropStep implements IStep
 		WebElement sourceElement = AutomationUtils.findElement(context, null, source);
 		WebElement destinationElement = AutomationUtils.findElement(context, null, destination);
 
-		dragAndDrop(sourceElement, destinationElement);
+		dragAndDrop(context, sourceElement, destinationElement);
 	}
 
 	/**
@@ -48,7 +50,7 @@ public class DragAndDropStep implements IStep
 	 * @param destinationElement
 	 *            area to be dropped.
 	 */
-	private void dragAndDrop(WebElement sourceElement, WebElement destinationElement)
+	private void dragAndDrop(AutomationContext context, WebElement sourceElement, WebElement destinationElement)
 	{
 		try
 		{
@@ -61,10 +63,21 @@ public class DragAndDropStep implements IStep
 			{
 				throw new InvalidStateException("Failed to find drop area element - '{}'", destination);
 			}
+			
+			context.getWebDriver().manage().timeouts().implicitlyWait(10000, TimeUnit.MILLISECONDS);
+			
+			Thread.sleep(2000);
+			
+			Actions actions = new Actions(context.getWebDriver());
 
-			Actions actions = new Actions(new FirefoxDriver());
+			//actions.dragAndDrop(sourceElement, destinationElement).build().perform();
+			
+			Action dragAndDrop = actions.clickAndHold(sourceElement)
+					   .moveToElement(destinationElement, 2, 2)
+					   .release()
+					   .build();
 
-			actions.dragAndDrop(sourceElement, destinationElement).build().perform();
+			dragAndDrop.perform();
 		} catch(StaleElementReferenceException ex)
 		{
 			throw new InvalidStateException("Element with {} or {} is not attached to the page document", sourceElement, destinationElement);

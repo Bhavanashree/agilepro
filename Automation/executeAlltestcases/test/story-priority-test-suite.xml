@@ -11,7 +11,7 @@
 				<query>
 					SELECT TITLE, ID
 					FROM STORY
-					WHERE TITLE IN ('Parent Story1')
+					WHERE TITLE IN ('Parent Story3')
 				</query>
 			</ccg:loadQueryMap>
 			
@@ -20,7 +20,7 @@
 				<query>
 					SELECT TITLE, ID
 					FROM STORY
-					WHERE TITLE IN ('Parent Story3')
+					WHERE TITLE IN ('Parent Story1')
 				</query>
 			</ccg:loadQueryMap>
 			
@@ -29,10 +29,13 @@
 			<ccg:waitFor locator="id: storyTab" />
 			<ccg:click locator="id: storyTab" />
 			
+			<ccg:waitFor locator="id: storyDependencyTab" />
+			<ccg:click locator="id: storyDependencyTab" />
+			
 			<ccg:waitFor locator="id: storyPriorityTab" />
 			<ccg:click locator="id: storyPriorityTab" />
 			
-			<ccg:dragAndDrop source="id: drag_{{storyTitleDragToId.Parent Story1}}" destination="id: drop_{{storyTitleDropToId.Parent Story3}}">
+			<ccg:dragAndDrop source="id: drag_{{storyTitleDragToId.Parent Story3}}" destination="id: drop_{{storyTitleDropToId.Parent Story1}}">
 			
 			</ccg:dragAndDrop>
 			

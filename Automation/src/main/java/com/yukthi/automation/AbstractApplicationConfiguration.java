@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
@@ -28,7 +29,7 @@ public abstract class AbstractApplicationConfiguration implements IApplicationCo
 	/**
 	 * Selenium drivers to use for automation.
 	 */
-	private String seleniumDrivers[] = {FirefoxDriver.class.getName()};
+	private String seleniumDrivers[] = {ChromeDriver.class.getName()};
 	
 	/**
 	 * Base packages to be scanned for steps and validators.

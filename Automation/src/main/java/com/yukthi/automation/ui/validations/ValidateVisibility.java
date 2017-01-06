@@ -53,6 +53,8 @@ public class ValidateVisibility extends AbstractValidation
 	public boolean validate(AutomationContext context, IExecutionLogger exeLogger)
 	{
 		logger.trace("Waiting for element: {}", locator);
+		
+		replaceExpressions(context, this);
 
 		AutomationUtils.validateWithWait(() -> {
 			WebElement element = AutomationUtils.findElement(context, null, locator);

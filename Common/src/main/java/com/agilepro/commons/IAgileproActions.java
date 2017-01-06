@@ -513,6 +513,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_UPDATE_PRIORITY = "updatePriority";
 	
 	/**
+	 * The action type to swap the priority.
+	 */
+	public String ACTION_TYPE_SWAP_PRIORITY = "swapPriority";
+	
+	/**
 	 * The action prefix sprint.
 	 **/
 	public String ACTION_PREFIX_SPRINT = "sprint";

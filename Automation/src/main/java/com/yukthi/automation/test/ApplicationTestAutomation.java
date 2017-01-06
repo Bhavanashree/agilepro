@@ -188,6 +188,8 @@ public class ApplicationTestAutomation
 		String driverNames[] = appConfig.getSeleniumDrivers();
 		WebDriver drivers[] = new WebDriver[driverNames.length];
 
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+		
 		for(int i = 0; i < driverNames.length; i++)
 		{
 			drivers[i] = (WebDriver) Class.forName(driverNames[i]).newInstance();
