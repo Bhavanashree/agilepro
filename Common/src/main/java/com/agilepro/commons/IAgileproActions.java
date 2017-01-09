@@ -490,7 +490,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action type read story id.
 	 **/
-	public String ACTION_TYPE_READ_STORY_ID = "readStoryId";
+	public String ACTION_TYPE_READ_BY_STORY_ID = "readByStoryId";
 
 	/**
 	 * The action type read by project id.
@@ -760,7 +760,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action task read id.
 	 **/
-	public String ACTION_TASK_READ_ID = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_STORY_ID;
+	public String ACTION_TASK_READ_ID = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_BY_STORY_ID;
 
 	/**
 	 * Task delete action name.

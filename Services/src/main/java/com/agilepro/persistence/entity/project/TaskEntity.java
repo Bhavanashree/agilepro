@@ -16,9 +16,9 @@ import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * Maintains the Task created by Teams.
+ * Stories are sub-divided to task.
  * 
- * @author Bhavana.
+ * @author Pritam.
  */
 @ExtendableEntity(name = "Task")
 @Table(name = "TASK")
@@ -44,7 +44,7 @@ public class TaskEntity extends WebutilsExtendableEntity
 	/**
 	 * The project id.
 	 */
-	@Column(name = "PROJECT_ID")
+	@Column(name = "PROJECT_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = StoryModel.class, from = "projectId", subproperty = "id")
 	private ProjectEntity projectId;
@@ -73,7 +73,7 @@ public class TaskEntity extends WebutilsExtendableEntity
 	/**
 	 * list of stories.
 	 */
-	@Column(name = "STORY_ID")
+	@Column(name = "STORY_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = TaskModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;

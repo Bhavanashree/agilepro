@@ -4,7 +4,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_TASK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_STORY_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
@@ -64,10 +64,7 @@ public class TaskController extends BaseController implements ITaskController
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid TaskModel model)
 	{
-
-		TaskEntity entity = taskService.save(model);
-
-		return new BasicSaveResponse(entity.getId());
+		return new BasicSaveResponse(taskService.save(model).getId());
 	}
 
 	/*
@@ -84,22 +81,20 @@ public class TaskController extends BaseController implements ITaskController
 	@ResponseBody
 	public BasicReadResponse<TaskModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		TaskModel taskModel = taskService.fetchFullModel(id, TaskModel.class);
-
-		return new BasicReadResponse<TaskModel>(taskModel);
+		return new BasicReadResponse<TaskModel>(taskService.fetchFullModel(id, TaskModel.class));
 	}
 
 	/* (non-Javadoc)
 	 * @see com.agilepro.commons.controllers.project.ITaskController#fetchAllStories(java.lang.Long)
-	 */
++	 */
 	@Override
-	@ActionName(ACTION_TYPE_READ_STORY_ID)
+	@ActionName(ACTION_TYPE_READ_BY_STORY_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readStoryId", method = RequestMethod.GET)
+	@RequestMapping(value = "/readByStoryId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<TaskModel>> fetchAllStories(@RequestParam(value = "storyId", required = true) Long storyId)
+	public BasicReadResponse<List<TaskModel>> fetchTask(@RequestParam(value = "storyId", required = true) Long storyId)
 	{
-		return new BasicReadResponse<List<TaskModel>>(taskService.fetchAllStories(storyId));
+		return new BasicReadResponse<List<TaskModel>>(taskService.fetchTaskByStory(storyId));
 	}
 
 	/* (non-Javadoc)
@@ -111,11 +106,6 @@ public class TaskController extends BaseController implements ITaskController
 	@ResponseBody
 	public BasicVersionResponse update(@RequestBody @Valid TaskModel model)
 	{
-		if(model.getId() == null || model.getId() <= 0)
-		{
-			throw new InvalidRequestParameterException("Invalid id specified for update: " + model.getId());
-		}
-
 		Integer updatedVersion = taskService.updateTaskModel(model);
 
 		return new BasicVersionResponse(updatedVersion);

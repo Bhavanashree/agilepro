@@ -148,28 +148,19 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	}
 
 	/**
-	 * Fetch all stories.
-	 *
-	 * @param storyId
-	 *            the story id
-	 * @return the list
+	 * Fetch task by story id.
+	 * 
+	 * @param storyId provided story id for fetching task.
+	 * @return matching records.
 	 */
-	public List<TaskModel> fetchAllStories(Long storyId)
+	public List<TaskModel> fetchTaskByStory(Long storyId)
 	{
-		List<TaskModel> taskmodel = null;
-		taskRepo = repositoryFactory.getRepository(ITaskRepository.class);
-		List<TaskEntity> taskentity = taskRepo.fetchAllStories(storyId);
-		System.out.println(" hello        --------------->" + storyId);
-		if(taskentity != null)
-		{
-			taskmodel = new ArrayList<TaskModel>(taskentity.size());
-			for(TaskEntity entity : taskentity)
-			{
-				taskmodel.add(super.toModel(entity, TaskModel.class));
-			}
-		}
-
-		return taskmodel;
+		List<TaskEntity> tasks = taskRepo.fetchByStoryId(storyId);
+		List<TaskModel> taskModels = new ArrayList<TaskModel>();
+		
+		tasks.forEach(entity -> taskModels.add(super.toModel(entity, TaskModel.class)));
+		
+		return taskModels;
 	}
 
 	/**
@@ -181,25 +172,7 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	 */
 	public List<StoryAndTaskResult> searchByStory(Long storyId)
 	{
-		List<StoryAndTaskResult> storiesmodel = null;
-
-		taskRepo = repositoryFactory.getRepository(ITaskRepository.class);
-		List<TaskEntity> taskEntity = taskRepo.findByStoryId(storyId);
-
-		if(taskEntity != null)
-		{
-
-			storiesmodel = new ArrayList<StoryAndTaskResult>((taskEntity.size()));
-			System.out.println("taskservicessssssss" + storyId);
-
-			for(TaskEntity task : taskEntity)
-			{
-				StoryAndTaskResult storyandTask = new StoryAndTaskResult(task.getTitle(), task.getId());
-				storiesmodel.add(storyandTask);
-				System.out.println("in loop " + storyandTask);
-			}
-		}
-		return storiesmodel;
+		return null;
 	}
 
 	/**

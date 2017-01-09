@@ -34,7 +34,7 @@ public interface ITaskRepository extends IWebutilsRepository<TaskEntity>
 	public List<TaskEntity> fetchAllStories(@Condition(value = "story.id") Long storyId);
 
 	@RestrictBySpace
-	public List<TaskEntity> findByStoryId(@Condition(value = "story.id") Long storyId);
+	public List<TaskEntity> fetchByStoryId(@Condition(value = "story.id") Long storyId);
 	
 	@RestrictBySpace
 	public TaskEntity fetchVersionById(Integer versionId);

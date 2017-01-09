@@ -35,7 +35,7 @@ public interface ITaskController
 	 */
 	public BasicReadResponse<TaskModel> read(Long id);
 
-	public BasicReadResponse<List<TaskModel>> fetchAllStories(Long storyId);
+	public BasicReadResponse<List<TaskModel>> fetchTask(Long storyId);
 
 	/**
 	 * Update.
