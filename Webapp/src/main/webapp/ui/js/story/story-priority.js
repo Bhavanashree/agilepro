@@ -42,8 +42,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	 */
 	$scope.oneStepUp = function(index){
 		
-		console.log(index);
-		
 		var storyToBeMovedUp = $scope.sortedBacklogs[index];
 		
 		var storyToBeMovedDown = $scope.sortedBacklogs[index - 1];
@@ -54,12 +52,34 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	/**
 	 * Gets invoked for stepping one step down for a story.
 	 */
-	$scope.oneStepDown = function(id, priority, index){
+	$scope.oneStepDown = function(index){
 		
-		$scope.draggingId = id;
-		$scope.updatePriority(priority + 1, index + 1);
+		var storyToBeMovedUp = $scope.sortedBacklogs[index + 1];
+		
+		var storyToBeMovedDown = $scope.sortedBacklogs[index];
+		
+		$scope.swapPriority(storyToBeMovedUp, storyToBeMovedDown);
 	};
 	
+	/**
+	 * Move to the top.
+	 */
+	$scope.moveToTop = function(id){
+		
+		$scope.draggingId = id;
+		
+		$scope.updatePriority($scope.sortedBacklogs[0].priority, 0);
+	};
+	
+	/**
+	 * Move to the bottom.
+	 */
+	$scope.moveToBottom = function(id, index){
+		
+		$scope.draggingId = id;
+		
+		$scope.updateToMaxPriority(index);
+	};
 	
 	/**
 	 * Common method for swapping the priority.
@@ -69,18 +89,19 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	$scope.swapPriority = function(storyToBeMovedUp, storyToBeMovedDown){
 		
 		actionHelper.invokeAction("story.swapPriority", null, {"idToMoveUp" : storyToBeMovedUp.id, "idToMoveDown" : storyToBeMovedDown.id}, 
-				function(r, s)
+				function(updateResponse, respConfig)
 				{
-			
+					if(updateResponse.code == 0)
+					{
+						var tempPriority = storyToBeMovedUp.priority;
+						
+						storyToBeMovedUp.priority = storyToBeMovedDown.priority;
+						storyToBeMovedDown.priority = tempPriority;
+						
+						$scope.sortAccordingToPriority();
+					}
+					
 				}, {"hideInProgress" : true});
-		
-		
-		/*var tempPriority = storyToBeMovedUp.priority;
-		
-		storyToBeMovedUp.priority = storyToBeMovedDown.priority;
-		storyToBeMovedDown.priority = tempPriority;
-		
-		$scope.sortAccordingToPriority();*/
 		
 	};
 	
@@ -94,7 +115,9 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 	
 		var dragId = (event.target.id).split('_')[1];
 		
-		console.log(dragId);
+		$scope.draggingIndex = $(event.target).attr("name");
+		
+		$scope.showOnDrag = true;
 		
 		if($scope.draggingId == Number(dragId))
 		{
@@ -114,6 +137,8 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		{
 			$scope.fetchTheChildIds(backlogObj.childrens);
 		}
+		
+		$('#dropForMaxPriority').css("background-color", "lightblue");
 	};
 	
 	/**
@@ -159,9 +184,13 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		event.preventDefault();
 		
-		$("#" + $scope.expandAreaId).height(15);
-		
-		console.log("onDropAreaLeave");
+		if($scope.expandAreaId == "dropForMaxPriority")
+		{
+			$("#" + $scope.expandAreaId).height(30);
+		}else
+		{
+			$("#" + $scope.expandAreaId).height(15);
+		}
 	};
 	
 	/**
@@ -185,6 +214,27 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		$("#" + $scope.expandAreaId).height(15);
 		
 		$scope.updatePriority(newPriority, indexFrom);
+	};
+	
+
+	/**
+	 * Drop for max priority.
+	 */
+	$scope.onDropForMaxPriority = function(event){
+		
+		event.preventDefault();
+		
+		console.log("onDropForMaxPriority 123" + $scope.draggingIndex);
+		
+		if(!$scope.draggingIndex)
+		{
+			return;
+		}
+		
+		$scope.updateToMaxPriority($scope.draggingIndex);
+		
+		$scope.draggingIndex = null;
+		$('#dropForMaxPriority').css("background-color", "white");
 	};
 	
 	/**
@@ -227,5 +277,24 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 	};
 
+	/**
+	 * Update the provided story to max priority.
+	 */
+	$scope.updateToMaxPriority = function(index){
+		
+		actionHelper.invokeAction("story.updateToMaxPriority", null, {"id" : $scope.draggingId, "projectId" : $scope.getActiveProjectId()},
+			function(updateResponse, respConfig)
+			{
+				if(updateResponse.code == 0)
+				{
+					console.log("succes max priority");
+					
+					$scope.sortedBacklogs[index].priority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority + 1;
+					
+					$scope.sortAccordingToPriority();
+				}
+				
+			}, {"hideInProgress" : true});
+	};
 	
 }]);

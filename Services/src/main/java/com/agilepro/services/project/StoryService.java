@@ -151,6 +151,28 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating priority - {}");
 		}
 	}
+	
+	/**
+	 * Update the provided record with the max priority.
+	 * 
+	 * @param id provided id for max priority.
+	 * @param projectId story of provided project.
+	 */
+	public void updateToMaxPriority(Long id, Long projectId)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			storyRepo.updatePriority(id, storyRepo.getMaxOrder(projectId) + 1);
+			
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating to max priority - {}");
+		}
+	}
 
 	/**
 	 * Swap the priority of the given stories.
@@ -168,9 +190,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			
 			StoryModel storyDown = super.fetchFullModel(idToMoveDown, StoryModel.class);
 			
-			storyRepo.updatePriority(storyUp.getId(), storyDown.getPriority());
+			storyRepo.updatePriority(storyUp.getId(), -1);
 
 			storyRepo.updatePriority(storyDown.getId(), storyUp.getPriority());
+			
+			storyRepo.updatePriority(storyUp.getId(), storyDown.getPriority());
 
 			transaction.commit();
 		} catch(RuntimeException ex)

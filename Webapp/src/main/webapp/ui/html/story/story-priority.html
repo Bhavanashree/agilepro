@@ -12,7 +12,7 @@
 					
 				</div>		
 				
-				<div id="drag_{{backlog.id}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
+				<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
 					border: 3px solid #66c2ff; cursor: grab;"
 					draggable="true" yk-on-drag="dragBacklog(event)">
 				
@@ -31,27 +31,32 @@
 								<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 							</td>
 							
-							<td ng-click="oneStepUp($index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<td ng-show="!$first" ng-click="oneStepUp($index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
 								<i class="fa fa-angle-up" style="color: black;"></i>
 							</td>
 							
-							<td ng-click="moveToTop()" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<td ng-show="!$first" ng-click="moveToTop(backlog.id)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
 								<i class="fa fa-angle-double-up" style="color: black;"></i>
 							</td>
 							
-							<td ng-click="oneStepDown(backlog.id, backlog.priority, '{{$index}}')" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<td ng-show="!$last" ng-click="oneStepDown($index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
 								<i class="fa fa-angle-down" style="color: black;"></i>
 							</td>
 							
-							<td ng-click="moveToBottom()" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<td ng-show="!$last" ng-click="moveToBottom(backlog.id, $index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
 								<i class="fa fa-angle-double-down" style="color: black;"></i>
 							</td>
 						</tr>
 					</table>
 				</div>
-				
-				
+			
 			</div>
+			
+			<div id="dropForMaxPriority"  yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" yk-on-drop="onDropForMaxPriority(event)"
+				class="heightTransition" style="background-color: white; height: 30px; margin-top: 1em; margin-left: 1em; margin-right: 1em;">
+				
+					Drop for max priority
+			</div>			
 	</div>
 	
 </div>					
