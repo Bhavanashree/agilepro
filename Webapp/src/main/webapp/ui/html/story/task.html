@@ -39,9 +39,47 @@
 			
 		<div ng-show="story.expanded">
 			
-			<tr>
-				<td><div ng-repeat="task in tasks">{{task}}</div></td>
-			</tr>
+				<table ng-repeat="task in tasks" 
+					style="margin-left: 1.2em; margin-top: 0.5em;
+					border: 3px solid #66c2ff; height: 2.5em; width: 100%;">
+					<tr>
+						<td style="width: 3%; background-color: #383838; padding: 0.2em;
+								   border-right: 1px solid #101010; color: white; text-align: center;">
+							{{task.estimateTime}}
+						</td>
+						
+						<td style="width: 3%; background-color: #383838; padding: 0.2em;
+								   border-right: 1px solid #101010; cursor:pointer; color: white; text-align: center;">
+							{{task.actualTimeTaken}}
+						</td>
+						
+						<td style="width: 10%; border-right: 1px solid #66c2ff;">
+							<input type="text" class="form-control" placeholder="Hours worked"
+								style="max-width: 0.1em;"/>
+						</td>
+						
+						<td style="width: 80%; padding: 0.2em;">
+							<strong style="text-transform: capitalize;">{{task.title}}</strong>
+						</td>
+						
+						<td style="width: 9%; text-align: center; background-color: #cce6ff;
+								border-left: 1px solid #66c2ff; cursor:pointer;">
+								
+							<div id="updateDependencyType_{{dependency.id}}" class="dropdown-toggle" data-toggle="dropdown">
+								
+								<span>{{task.status}}</span>
+   								<span class="caret"></span></div>
+   								<ul class="dropdown-menu">
+     									<li ng-repeat="type in dependencyTypes">
+										<a id="{{dependency.id}}_{{type}}" ng-click="updateDependencyObj(dependency, type)" href="">
+											{{displayStoryDependencyType(type)}}
+										</a>
+									</li>
+   								</ul>
+							</div>
+						</td>
+					</tr>
+				</table>
 			
 			<table style="margin-left: 1em; margin-top: 0.5em;">
 				<tr>

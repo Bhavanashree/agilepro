@@ -138,7 +138,9 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		var model = {"title" : taskTitle, 
 					 "estimateTime" : estimateTime, 
 					 "storyId" : $scope.expandedStoryId, 
-					 "projectId" : $scope.getActiveProjectId()};
+					 "projectId" : $scope.getActiveProjectId(),
+					 "status" : "NOT_STARTED",
+					 "actualTimeTaken" : 0};
 		
 		actionHelper.invokeAction("task.save", model, null, 
 				function(saveResponse, respConfig)
