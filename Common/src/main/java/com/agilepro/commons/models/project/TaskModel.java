@@ -4,9 +4,9 @@ import com.agilepro.commons.TaskStatus;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
 import com.yukthi.validation.annotations.NotEmpty;
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
-import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -46,27 +46,6 @@ public class TaskModel extends AbstractExtendableModel
 	private String description;
 
 	/**
-	 * The timeTaken.
-	 **/
-	private Long timeTaken;
-
-	/**
-	 * The extra time.
-	 **/
-	private Long extraTime;
-
-	/**
-	 * The actual time.
-	 **/
-	private Long actualTime;
-
-	/**
-	 * The owner id.
-	 **/
-	@LOV(name = "projectMembers")
-	private Long ownerId;
-
-	/**
 	 * The status.
 	 **/
 	private TaskStatus status;
@@ -74,13 +53,25 @@ public class TaskModel extends AbstractExtendableModel
 	/**
 	 * the project id.
 	 */
-	@NonDisplayable
+	@Required
 	private Long projectId;
 
 	/**
 	 * The story.
 	 **/
+	@Required
 	private Long storyId;
+
+	/**
+	 * Estimate time.
+	 */
+	@Required
+	private Integer estimateTime;
+
+	/**
+	 * Actual time taken.
+	 */
+	private Integer actualTimeTaken;
 
 	/**
 	 * Instantiates a new task model.
@@ -173,27 +164,6 @@ public class TaskModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the owner id.
-	 *
-	 * @return the owner id
-	 */
-	public Long getOwnerId()
-	{
-		return ownerId;
-	}
-
-	/**
-	 * Sets the owner id.
-	 *
-	 * @param ownerId
-	 *            the new owner id
-	 */
-	public void setOwnerId(Long ownerId)
-	{
-		this.ownerId = ownerId;
-	}
-
-	/**
 	 * Gets the status.
 	 *
 	 * @return the status
@@ -257,65 +227,44 @@ public class TaskModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the time taken.
-	 *
-	 * @return the time taken
+	 * Gets the estimate time.
+	 * 
+	 * @return the estimate time.
 	 */
-	public Long getTimeTaken()
+	public Integer getEstimateTime()
 	{
-		return timeTaken;
+		return estimateTime;
 	}
 
 	/**
-	 * Sets the time taken.
-	 *
-	 * @param timeTaken
-	 *            the new time taken
+	 * Sets the estimate time.
+	 * 
+	 * @param estimateTime
+	 *            the new estimate time.
 	 */
-	public void setTimeTaken(Long timeTaken)
+	public void setEstimateTime(Integer estimateTime)
 	{
-		this.timeTaken = timeTaken;
+		this.estimateTime = estimateTime;
 	}
 
 	/**
 	 * Gets the actual time.
-	 *
+	 * 
 	 * @return the actual time
 	 */
-	public Long getActualTime()
+	public Integer getActualTimeTaken()
 	{
-		return actualTime;
+		return actualTimeTaken;
 	}
 
 	/**
 	 * Sets the actual time.
-	 *
-	 * @param actualTime
-	 *            the new actual time
+	 * 
+	 * @param actualTimeTaken
+	 *            the new actual time.
 	 */
-	public void setActualTime(Long actualTime)
+	public void setActualTimeTaken(Integer actualTimeTaken)
 	{
-		this.actualTime = actualTime;
-	}
-
-	/**
-	 * Gets the extra time.
-	 *
-	 * @return the extra time
-	 */
-	public Long getExtraTime()
-	{
-		return extraTime;
-	}
-
-	/**
-	 * Sets the extra time.
-	 *
-	 * @param extraTime
-	 *            the new extra time
-	 */
-	public void setExtraTime(Long extraTime)
-	{
-		this.extraTime = extraTime;
+		this.actualTimeTaken = actualTimeTaken;
 	}
 }

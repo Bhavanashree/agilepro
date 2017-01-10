@@ -124,18 +124,6 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			Long timeTaken = model.getTimeTaken();
-			Long modelExtraTime = model.getExtraTime();
-			if(timeTaken == null)
-			{
-				model.setTimeTaken(modelExtraTime);
-			}
-			else
-			{
-				model.setTimeTaken(timeTaken + modelExtraTime);
-			}
-
-			super.update(model);
 			transaction.commit();
 
 			TaskEntity updateEntity = super.fetch(model.getId());

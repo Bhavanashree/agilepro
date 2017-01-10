@@ -40,8 +40,7 @@ public interface ITaskRepository extends IWebutilsRepository<TaskEntity>
 	public TaskEntity fetchVersionById(Integer versionId);
 	
 	@UpdateFunction
-	public boolean addExtraTime(@Field(value = "timeTaken", updateOp = UpdateOperator.ADD) Long timeTaken, @Condition("id") long customerId);
-
+	public boolean addExtraTime(@Field(value = "actualTimeTaken", updateOp = UpdateOperator.ADD) Long timeTaken, @Condition("id") long customerId);
 
 	/**
 	 * Delete all.

@@ -12,6 +12,10 @@
 		<div>
 			story filter
 		</div>
+		
+		<div>
+			task status
+		</div>
 	</div>
 	
 	
@@ -31,22 +35,44 @@
 					</td>
 				</tr>
 			</table>
+		</div>
 			
-			<table ng-show="story.expanded" style="margin: 1em;">
-				<tr ng-repeat="task in tasks">
-					<td>{{task}}</td>
-				</tr>
+		<div ng-show="story.expanded">
+			
+			<tr>
+				<td><div ng-repeat="task in tasks">{{task}}</div></td>
+			</tr>
+			
+			<table style="margin-left: 1em; margin-top: 0.5em;">
 				<tr>
-					<td>
-						<div id="addNewBacklogForm" class="has-success has-feedback">
-							<input name="newBacklogTitle" class="form-control" id="addNewBacklogId" type="text" 
-							placeholder="Add new story" ng-model="newBacklogTitle" 
-							ng-keyup="onTypeNewBacklog($event)" style="border: none;"/>
+					<td style="padding: 0.2em;">
+						<div class="input-group input-group-sm">
+						  <span class="input-group-addon" style="background-color: #383838; color: white;">
+						  	Title
+						  </span>
+						  <input ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
 						</div>
 					</td>
-				</tr>				
-				
+					
+					<td style="padding: 0.2em;">
+						<div class="input-group input-group-sm">
+						  <span class="input-group-addon" style="background-color: #383838; color: white;">
+						  	Estimate Time
+						  </span>
+						  <input ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
+						</div>
+					</td>
+					
+					<td style="padding: 0.2em;">
+						<button ng-click="addNewTask(taskTitle, estimateTime)" class="btn btn-primary btn-sm">Add</button>
+					</td>
+					
+					<td ng-show="taskError.show" style="color: red;">
+						{{taskError.message}}
+					</td>
+				</tr>
 			</table>
-			
 		</div>
+			
+	</div>
 </div>

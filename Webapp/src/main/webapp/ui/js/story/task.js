@@ -25,6 +25,8 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 			return;
 		}
 		
+		$scope.taskError = {"show" : false, "message" : ""};
+		
 		actionHelper.invokeAction("story.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()},
 				function(readResponse, respConfig)
 				{
@@ -56,6 +58,27 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 	 */
 	$scope.onClickPlus = function(storyId){
 		
+		if(($scope.previousStoryId) && ($scope.previousStoryId != storyId))
+		{
+			$scope.idToStory[$scope.previousStoryId].expanded = false;
+		}
+		
+		if(!$scope.idToStory[storyId].expanded)
+		{
+			$scope.fetchTaskByStory(storyId);
+		}else
+		{
+			$scope.idToStory[storyId].expanded = false;
+		}
+		
+		$scope.previousStoryId = storyId;
+		
+	};
+	
+	/**
+	 * Fetch task by stories.
+	 */
+	$scope.fetchTaskByStory = function(storyId){
 		
 		actionHelper.invokeAction("task.readByStoryId", null, {"storyId" : storyId}, 
 				function(readResponse, respConfig)
@@ -66,6 +89,8 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						
 						$scope.idToStory[storyId].expanded = true;
 						
+						$scope.expandedStoryId = storyId;
+						
 						try
 						{
 							$scope.$apply();
@@ -74,10 +99,56 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 					}
 					
 				}, {"hideInProgress" : true});
-		
 	};
 	
+	/**
+	 * Gets invoked on click of add button. 
+	 */
+	$scope.addNewTask = function(taskTitle, estimateTime){
+
+		console.log(estimateTime);
+		
+		if(!taskTitle)
+		{
+			$scope.taskError.show = true;
+			$scope.taskError.message = "Please provide a title";
+			return;
+		}
+
+		if(!estimateTime)
+		{
+			$scope.taskError.show = true;
+			$scope.taskError.message = "Please provide the estimated time";
+			return;
+		}
+
+		$scope.taskError.show = false;
+		
+		if(taskTitle && estimateTime)
+		{
+			$scope.saveNewTask(taskTitle, estimateTime);
+		}
+	};
 	
+	/**
+	 * Save new task uses action helper to call the controller.
+	 */
+	$scope.saveNewTask = function(taskTitle, estimateTime){
+		
+		var model = {"title" : taskTitle, 
+					 "estimateTime" : estimateTime, 
+					 "storyId" : $scope.expandedStoryId, 
+					 "projectId" : $scope.getActiveProjectId()};
+		
+		actionHelper.invokeAction("task.save", model, null, 
+				function(saveResponse, respConfig)
+				{
+					if(saveResponse.code == 0)
+					{
+						
+					}
+				}, {"hideInProgress" : true});
+	};
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {

@@ -3,11 +3,9 @@ package com.agilepro.persistence.entity.project;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.commons.models.project.TaskModel;
-import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -39,23 +37,16 @@ public class TaskEntity extends WebutilsExtendableEntity
 	/**
 	 * The estimation of time.
 	 **/
-	@Column(name = "TIME_TAKEN")
-	private Long timeTaken;
+	@Column(name = "ESTIMATE_TIME")
+	private Integer estimateTime;
+	
 	/**
 	 * The project id.
 	 */
 	@Column(name = "PROJECT_ID", nullable = false)
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "projectId", subproperty = "id")
+	@PropertyMapping(type = TaskModel.class, from = "projectId", subproperty = "id")
 	private ProjectEntity projectId;
-
-	/**
-	 * The owner.
-	 **/
-	@ManyToOne
-	@PropertyMapping(type = TaskModel.class, from = "ownerId", subproperty = "id")
-	@Column(name = "TASK_OWNER_ID")
-	private EmployeeEntity owner;
 
 	/**
 	 * The status.
@@ -67,8 +58,8 @@ public class TaskEntity extends WebutilsExtendableEntity
 	/**
 	 * The actualTime.
 	 **/
-	@Column(name = "ACTUAL_TIME")
-	private Long actualTime;
+	@Column(name = "ACTUAL_TIME_TAKEN")
+	private Integer actualTimeTaken;
 
 	/**
 	 * list of stories.
@@ -83,26 +74,6 @@ public class TaskEntity extends WebutilsExtendableEntity
 	 */
 	public TaskEntity()
 	{}
-
-	/**
-	 * Instantiates a new task entity.
-	 *
-	 * @param title
-	 *            the title
-	 * @param description
-	 *            the description
-	 * @param timeTaken
-	 *            the time taken
-	 * @param actualTime
-	 *            the actual time
-	 */
-	public TaskEntity(String title, String description, Long timeTaken, Long actualTime)
-	{
-		this.title = title;
-		this.description = description;
-		this.timeTaken = timeTaken;
-		this.actualTime = actualTime;
-	}
 
 	/**
 	 * Gets the title.
@@ -168,27 +139,6 @@ public class TaskEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the owner.
-	 *
-	 * @return the owner
-	 */
-	public EmployeeEntity getOwner()
-	{
-		return owner;
-	}
-
-	/**
-	 * Sets the owner.
-	 *
-	 * @param owner
-	 *            the new owner
-	 */
-	public void setOwner(EmployeeEntity owner)
-	{
-		this.owner = owner;
-	}
-
-	/**
 	 * Gets the status.
 	 *
 	 * @return the status
@@ -231,34 +181,44 @@ public class TaskEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the time taken.
-	 *
-	 * @return the time taken
+	 * Get estimate time.
+	 * 
+	 * @return the estimate time.
 	 */
-	public Long getTimeTaken()
+	public Integer getEstimateTime()
 	{
-		return timeTaken;
+		return estimateTime;
 	}
 
 	/**
-	 * Sets the time taken.
-	 *
-	 * @param timeTaken
-	 *            the new time taken
+	 * Set estimate time.
+	 * 
+	 * @param estimateTime
+	 *            the new estimate time.
 	 */
-	public void setTimeTaken(Long timeTaken)
+	public void setEstimateTime(Integer estimateTime)
 	{
-		this.timeTaken = timeTaken;
+		this.estimateTime = estimateTime;
 	}
 
-	public Long getActualTime()
+	/**
+	 * Gets the actual time taken.
+	 * 
+	 * @return the actual time taken.
+	 */
+	public Integer getActualTimeTaken()
 	{
-		return actualTime;
+		return actualTimeTaken;
 	}
 
-	public void setActualTime(Long actualTime)
+	/**
+	 * Sets the actual time taken.
+	 * 
+	 * @param actualTimeTaken
+	 *            the new actual time taken.
+	 */
+	public void setActualTimeTaken(Integer actualTimeTaken)
 	{
-		this.actualTime = actualTime;
+		this.actualTimeTaken = actualTimeTaken;
 	}
-
 }

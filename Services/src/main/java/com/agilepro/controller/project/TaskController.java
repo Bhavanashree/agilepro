@@ -26,10 +26,8 @@ import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.ITaskController;
 import com.agilepro.commons.models.project.TaskModel;
-import com.agilepro.persistence.entity.project.TaskEntity;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.TaskService;
-import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
@@ -59,7 +57,7 @@ public class TaskController extends BaseController implements ITaskController
 	 */
 	@Override
 	@ActionName(ACTION_TYPE_SAVE)
-	@Authorization(roles = { UserRole.TASK_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@Authorization(roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid TaskModel model)
