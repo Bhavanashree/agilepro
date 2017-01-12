@@ -1,4 +1,4 @@
-<div class="container-fluid flexVertical" ng-controller="taskController" style="padding: 0px;" ng-init="initTask()">
+<div class="flexVertical" ng-controller="taskController" ng-init="initTask()">
 	
 	<div class="flexHorizontal" style="justify-content: space-between;">
 		<div>
@@ -17,100 +17,114 @@
 			task status
 		</div>
 	</div>
+		
+	<div style="border: 3px solid grey; width: 100%; height: 100%; padding: 0.5em;" >
 	
-	
-	<div ng-repeat="story in storiesForTask">
-		<div style="width: 100%; height: 2.5em; border: 3px solid #66c2ff; margin-top: 0.5em;">
-			<table style="width: 100%; height: 100%;">
-				<tr>
-					<td id="expandStory_{{story.id}}" 
-						ng-click="onClickPlus(story.id)" 
-						style="width: 5%; text-align: center; background-color: #383838; 
-						border-right: 1px solid #101010; cursor:pointer; color: white;">
-							<i ng-class="story.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
-							</i>
-					</td>
-					<td style="width: 95%; padding-left: 0.5em;">
-						<strong style="text-transform: capitalize;">{{story.title}}</strong>
-					</td>
-				</tr>
-			</table>
-		</div>
-			
-		<div ng-show="story.expanded">
-			
-				<table ng-repeat="task in tasks" 
-					style="margin-left: 1.2em; margin-top: 0.5em;
-					border: 3px solid #66c2ff; height: 2.5em; width: 100%;">
+		<div ng-repeat="story in storiesForTask">
+			<div style="height: 2.5em; border: 3px solid #66c2ff; margin: 0.5em;">
+				<table style="width: 100%; height: 100%;">
 					<tr>
-						<td style="width: 3%; background-color: #383838; padding: 0.2em;
-								   border-right: 1px solid #101010; color: white; text-align: center;">
-							{{task.estimateTime}}
+						<td id="expandStory_{{story.id}}" 
+							ng-click="onClickPlus(story.id)" 
+							style="width: 5%; text-align: center; background-color: #383838; 
+							border-right: 1px solid #101010; cursor:pointer; color: white;">
+								<i ng-class="story.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
+								</i>
 						</td>
-						
-						<td style="width: 3%; background-color: #383838; padding: 0.2em;
-								   border-right: 1px solid #101010; cursor:pointer; color: white; text-align: center;">
-							{{task.actualTimeTaken}}
-						</td>
-						
-						<td style="width: 10%; border-right: 1px solid #66c2ff;">
-							<input type="text" class="form-control" placeholder="Hours worked"
-								style="max-width: 0.1em;"/>
-						</td>
-						
-						<td style="width: 80%; padding: 0.2em;">
-							<strong style="text-transform: capitalize;">{{task.title}}</strong>
-						</td>
-						
-						<td style="width: 9%; text-align: center; background-color: #cce6ff;
-								border-left: 1px solid #66c2ff; cursor:pointer;">
-								
-							<div id="updateDependencyType_{{dependency.id}}" class="dropdown-toggle" data-toggle="dropdown">
-								
-								<span>{{task.status}}</span>
-   								<span class="caret"></span></div>
-   								<ul class="dropdown-menu">
-     									<li ng-repeat="type in dependencyTypes">
-										<a id="{{dependency.id}}_{{type}}" ng-click="updateDependencyObj(dependency, type)" href="">
-											{{displayStoryDependencyType(type)}}
-										</a>
-									</li>
-   								</ul>
-							</div>
+						<td style="width: 95%; padding-left: 0.5em;">
+							<strong style="text-transform: capitalize;">{{story.title}}</strong>
 						</td>
 					</tr>
 				</table>
-			
-			<table style="margin-left: 1em; margin-top: 0.5em;">
-				<tr>
-					<td style="padding: 0.2em;">
-						<div class="input-group input-group-sm">
-						  <span class="input-group-addon" style="background-color: #383838; color: white;">
-						  	Title
-						  </span>
-						  <input ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
-						</div>
-					</td>
-					
-					<td style="padding: 0.2em;">
-						<div class="input-group input-group-sm">
-						  <span class="input-group-addon" style="background-color: #383838; color: white;">
-						  	Estimate Time
-						  </span>
-						  <input ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
-						</div>
-					</td>
-					
-					<td style="padding: 0.2em;">
-						<button ng-click="addNewTask(taskTitle, estimateTime)" class="btn btn-primary btn-sm">Add</button>
-					</td>
-					
-					<td ng-show="taskError.show" style="color: red;">
-						{{taskError.message}}
-					</td>
-				</tr>
-			</table>
+			</div>
+				
+			<div ng-show="story.expanded" style="padding-right: 2em;">
+				
+					<table ng-repeat="task in tasks" 
+						style="margin-left: 1.2em; margin-top: 0.5em;
+						border: 3px solid #66c2ff; height: 2.5em; width: 100%;">
+						<tr>
+							<td style="width: 3%; background-color: #383838; padding: 0.2em;
+									   border-right: 1px solid #101010; color: white; text-align: center;">
+								{{task.estimateTime}}
+							</td>
+							
+							<td style="width: 3%; background-color: #383838; padding: 0.2em;
+									   border-right: 1px solid #101010; cursor:pointer; color: white; text-align: center;">
+								{{task.actualTimeTaken}}
+							</td>
+							
+							<td id="actualTime_{{task.id}}" style="width: 3%; border-right: 1px solid #66c2ff;">
+								<input type="text" class="form-control"
+									style="max-width: 4em; min-width: 4em; border: none;"
+									onblur="onBlurActualTime(this)"/>
+							</td>
+							
+							<td style="width: 80%; padding: 0.2em;">
+								<strong style="text-transform: capitalize;">{{task.title}}</strong>
+							</td>
+							
+							<td style="width: 8%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff; cursor:pointer;">
+									
+								<div class="dropdown">
+								    <div class="dropdown-toggle" data-toggle="dropdown">{{displayTask(task.status)}}
+								    	<span class="caret"></span>
+								    </div>
+									    <ul class="dropdown-menu">
+	     									<li ng-repeat="name in taskStatusNames">
+											<a ng-click="onStatusChange(task.id, name)" href="">
+												{{displayTask(name)}}
+											</a>
+										</li>
+	   									</ul>
+								  </div>
+							</td>
+							
+							<td ng-click="deleteTask(task.id, $index)" style="width: 3%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff; cursor:pointer; color: red;">
+									<span class="glyphicon glyphicon-remove"></span>
+							</td>
+						</tr>
+					</table>
+				
+				<table style="margin-left: 1em; margin-top: 0.5em;">
+					<tr>
+						<td style="padding: 0.2em;">
+							<div class="input-group input-group-sm">
+							  <span class="input-group-addon" style="background-color: #383838; color: white;">
+							  	Title
+							  </span>
+							  <input ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
+							</div>
+						</td>
+						
+						<td style="padding: 0.2em;">
+							<div class="input-group input-group-sm">
+							  <span class="input-group-addon" style="background-color: #383838; color: white;">
+							  	Estimate Time
+							  </span>
+							  <input ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
+							</div>
+						</td>
+						
+						<td style="padding: 0.2em;">
+							<button ng-click="addNewTask(taskTitle, estimateTime)" class="btn btn-primary btn-sm">Add</button>
+						</td>
+						
+						<td ng-show="taskError.show" style="color: red;">
+							{{taskError.message}}
+						</td>
+					</tr>
+				</table>
+			</div>
+				
 		</div>
-			
+	
 	</div>
+	
+	<div style="margin: 0.5em;">
+		<button class="btn btn-success" type="button" style="float: right;">Update</button>
+	</div>
+	
 </div>

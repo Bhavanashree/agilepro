@@ -3,6 +3,8 @@ package com.agilepro.persistence.entity.project;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+
 import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.commons.models.project.TaskModel;

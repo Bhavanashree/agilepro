@@ -1,5 +1,7 @@
 package com.agilepro.commons.models.project;
 
+import javax.validation.constraints.Min;
+
 import com.agilepro.commons.TaskStatus;
 import com.yukthi.validation.annotations.MaxLen;
 import com.yukthi.validation.annotations.MinLen;
@@ -66,6 +68,7 @@ public class TaskModel extends AbstractExtendableModel
 	 * Estimate time.
 	 */
 	@Required
+	@Min(value = 1)
 	private Integer estimateTime;
 
 	/**

@@ -14,6 +14,30 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		"deleteAction": "task.delete",
 	});
 	
+	$scope.taskStatusNames = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED"];
+	
+	/**
+	 * Display task for ui.
+	 */
+	$scope.displayTask = function(status){
+		
+		if(status == "NOT_STARTED")
+		{
+			return "Not started";
+		}
+		
+		if(status == "IN_PROGRESS")
+		{
+			return "In Progress";
+		}
+		
+		if(status == "COMPLETED")
+		{
+			return "Completed";
+		}
+	};
+	
+	
 	
 	/**
 	 * Initalize task
@@ -91,6 +115,17 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						
 						$scope.expandedStoryId = storyId;
 						
+						$scope.idToTask = {};
+						
+						for(index in $scope.tasks)
+						{
+							var obj = $scope.tasks[index];
+							
+							$scope.idToTask[obj.id] = obj;
+						}
+						
+						$scope.taskChanges = {};
+						
 						try
 						{
 							$scope.$apply();
@@ -120,8 +155,15 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 			$scope.taskError.show = true;
 			$scope.taskError.message = "Please provide the estimated time";
 			return;
-		}
-
+		}/*else (estimateTime <= 0)
+		{
+			console.log(estimateTime);
+			
+			$scope.taskError.show = true;
+			$scope.taskError.message = "Please provide estimated time greater than 0";
+			return;
+		}*/
+		
 		$scope.taskError.show = false;
 		
 		if(taskTitle && estimateTime)
@@ -147,9 +189,87 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 				{
 					if(saveResponse.code == 0)
 					{
+						$scope.tasks.push(model);
 						
+						$scope.taskTitle = "";
+						$scope.estimateTime = "";
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
 					}
 				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * On change of status drop down.
+	 */
+	$scope.onStatusChange = function(taskId, status){
+		
+		if(!$scope.taskChanges[taskId])
+		{
+			$scope.taskChanges[taskId] = {"taskStatus" : status};
+		}else
+		{
+			$scope.taskChanges[taskId].taskStatus = status;
+		}
+	};
+	
+	/**
+	 * On type of actual time.
+	 */
+	$scope.onBlurActualTime = function(htmlElem){
+		
+		/*var actualTime = $(htmlElem).val();
+		
+		if(!$scope.taskChanges[taskId])
+		{
+			$scope.taskChanges[taskId] = {"actualTime" : actualTime};
+		}else
+		{
+			$scope.taskChanges[taskId].actualTime = actualTime;
+		}*/
+		
+		console.log("onBlurActualTime");
+	};
+	
+	/**
+	 * Delete task.
+	 */
+	$scope.deleteTask = function(taskId, indexToRemove){
+		
+		var taskObj = $scope.idToTask[taskId];
+		
+		var deleteOp = $.proxy(function(confirmed) {
+				
+			if(!confirmed)
+			{
+				return;
+			}
+			else
+			{
+				actionHelper.invokeAction("task.delete", null, {"id" : taskId}, 
+						function(deleteResponse, respConfig)
+						{
+							if(deleteResponse.code == 0)
+							{
+								$scope.tasks.splice(indexToRemove, 1);
+								
+								try
+								{
+									$scope.$apply();
+								}catch(ex)
+								{}
+							}
+						}, {"hideInProgress" : true});
+			}
+			
+		}, {"$scope": $scope, "taskId": taskId});
+
+		
+		utils.confirm(["Are you sure you want to delete task - '{}'", taskObj.title], deleteOp);
 	};
 	
 	// Listener for broadcast
