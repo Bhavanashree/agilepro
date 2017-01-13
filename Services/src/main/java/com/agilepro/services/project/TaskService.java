@@ -2,6 +2,8 @@ package com.agilepro.services.project;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -9,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.project.StoryAndTaskResult;
+import com.agilepro.commons.models.project.TaskChangesModel;
 import com.agilepro.commons.models.project.TaskModel;
+import com.agilepro.commons.models.project.TaskRecords;
 import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.project.TaskEntity;
 import com.agilepro.persistence.repository.project.ITaskRepository;
@@ -64,77 +68,38 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	}
 
 	/**
-	 * Save.
-	 *
-	 * @param model
-	 *            the model
-	 * @return the sprint entity
+	 * Update task changes.
+	 * 
+	 * @param taskChangesModel new update task changes.
 	 */
-	public TaskEntity save(TaskModel model)
-	{
-		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
-
-		Long customerId = cbiller.getCustomerId();
-
-		TaskEntity taskEntity = WebUtils.convertBean(model, TaskEntity.class);
-		customerService.fetch(customerId);
-
-		super.save(taskEntity, model);
-
-		return taskEntity;
-	}
-
-	/**
-	 * Update.
-	 *
-	 * @param model
-	 *            the model
-	 * @return the sprint entity
-	 */
-	public TaskEntity updateTask(TaskModel model)
-	{
-		if(model == null)
-		{
-			throw new NullValueException("task Object is null");
-		}
-
-		try(ITransaction transaction = repository.newOrExistingTransaction())
-		{
-			// updating campaign
-			TaskEntity taskEntity = super.repository.findById(model.getId());
-			transaction.commit();
-			return taskEntity;
-		} catch(RuntimeException ex)
-		{
-			throw ex;
-		} catch(Exception ex)
-		{
-			throw new InvalidStateException(ex, "An error occurred while updating model - {}", model);
-		}
-	}
-
-	/**
-	 * Update task model.
-	 *
-	 * @param model
-	 *            the model
-	 * @return the integer
-	 */
-	public Integer updateTaskModel(TaskModel model)
+	public void updateTaskChanges(TaskChangesModel taskChangesModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
+			Map<Long, TaskRecords> changes = taskChangesModel.getTaskChanges();
+			
+			for(Long key : changes.keySet())
+			{
+				TaskRecords taskRecords = changes.get(key);
+				
+				if(taskRecords.getActualTime() != null)
+				{
+					taskRepo.addExtraTime(key, taskRecords.getActualTime());
+				}
+				
+				if(taskRecords.getTaskStatus() != null)
+				{
+					taskRepo.updateTaskStatus(key, taskRecords.getTaskStatus());
+				}
+			}
+			
 			transaction.commit();
-
-			TaskEntity updateEntity = super.fetch(model.getId());
-
-			return updateEntity.getVersion();
 		} catch(Exception ex)
 		{
-			throw new IllegalStateException("An error occurred while updating tasks - " + model, ex);
+			throw new IllegalStateException("An error occurred while updating task - " + taskChangesModel, ex);
 		}
 	}
-
+	
 	/**
 	 * Fetch task by story id.
 	 * 

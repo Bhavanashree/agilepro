@@ -84,6 +84,12 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		
 		if(($scope.previousStoryId) && ($scope.previousStoryId != storyId))
 		{
+			/*if($scope.taskChanges)
+			{
+				utils.alert("Please update");
+				return;
+			}*/
+			
 			$scope.idToStory[$scope.previousStoryId].expanded = false;
 		}
 		
@@ -92,6 +98,12 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 			$scope.fetchTaskByStory(storyId);
 		}else
 		{
+			/*if($scope.taskChanges)
+			{
+				utils.alert("Please update");
+				return;
+			}*/
+			
 			$scope.idToStory[storyId].expanded = false;
 		}
 		
@@ -126,6 +138,7 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						
 						$scope.taskChanges = {};
 						
+						$scope.onTypeTargets = [];
 						try
 						{
 							$scope.$apply();
@@ -189,7 +202,11 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 				{
 					if(saveResponse.code == 0)
 					{
+						model.id = saveResponse.id;
+						
 						$scope.tasks.push(model);
+						
+						$scope.idToTask[model.id] = model;
 						
 						$scope.taskTitle = "";
 						$scope.estimateTime = "";
@@ -215,14 +232,20 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		{
 			$scope.taskChanges[taskId].taskStatus = status;
 		}
+		
+		$scope.idToTask[taskId].status = status;
 	};
 	
 	/**
 	 * On type of actual time.
 	 */
-	$scope.onBlurActualTime = function(htmlElem){
+	$scope.onTypeActualTime = function(event, taskId){
 		
-		/*var actualTime = $(htmlElem).val();
+		var targetType = $(event.target);
+		
+		$scope.onTypeTargets.push(targetType);
+		
+		var actualTime = targetType.val();
 		
 		if(!$scope.taskChanges[taskId])
 		{
@@ -230,9 +253,7 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		}else
 		{
 			$scope.taskChanges[taskId].actualTime = actualTime;
-		}*/
-		
-		console.log("onBlurActualTime");
+		}
 	};
 	
 	/**
@@ -271,6 +292,44 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		
 		utils.confirm(["Are you sure you want to delete task - '{}'", taskObj.title], deleteOp);
 	};
+	
+	/**
+	 * Update task.
+	 */
+	$scope.updateTask = function(){
+		
+		if($scope.taskChanges)
+		{
+			
+			var model = {"taskChanges" : $scope.taskChanges};
+			
+			actionHelper.invokeAction("task.update", model, null, 
+					function(updateResponse, respConfig)
+					{
+						for(key in $scope.taskChanges)
+						{
+							var obj = $scope.idToTask[key];
+							obj.actualTimeTaken = Number(obj.actualTimeTaken) + Number($scope.taskChanges[key].actualTime);
+						}
+						
+						for(index in $scope.onTypeTargets)
+						{
+							$scope.onTypeTargets[index].val("");
+						}
+						
+						$scope.taskChanges = {};
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+						
+						
+					}, {"hideInProgress" : true});
+		}
+	};
+	
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {

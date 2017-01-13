@@ -2,6 +2,7 @@ package com.agilepro.persistence.repository.project;
 
 import java.util.List;
 
+import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.TaskSearchQuery;
 import com.agilepro.persistence.entity.project.TaskEntity;
@@ -40,8 +41,11 @@ public interface ITaskRepository extends IWebutilsRepository<TaskEntity>
 	public TaskEntity fetchVersionById(Integer versionId);
 	
 	@UpdateFunction
-	public boolean addExtraTime(@Field(value = "actualTimeTaken", updateOp = UpdateOperator.ADD) Long timeTaken, @Condition("id") long customerId);
+	public boolean addExtraTime(@Condition("id") Long id, @Field(value = "actualTimeTaken", updateOp = UpdateOperator.ADD) Integer timeTaken);
 
+	@RestrictBySpace
+	public int updateTaskStatus(@Condition("id") Long id, @Field(value = "status") TaskStatus status);
+	
 	/**
 	 * Delete all.
 	 */

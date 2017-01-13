@@ -10,6 +10,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.ITaskController;
+import com.agilepro.commons.models.project.TaskChangesModel;
 import com.agilepro.commons.models.project.TaskModel;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.TaskService;
@@ -40,7 +42,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_TASK)
 @RequestMapping("/task")
-public class TaskController extends BaseController implements ITaskController
+public class TaskController extends BaseController
 {
 	/**
 	 * The task service.
@@ -55,7 +57,6 @@ public class TaskController extends BaseController implements ITaskController
 	 *            TaskModel
 	 * @return the TaskModel save response
 	 */
-	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -72,7 +73,6 @@ public class TaskController extends BaseController implements ITaskController
 	 * com.agilepro.commons.controllers.project.ITaskController#read(java.lang.
 	 * Long)
 	 */
-	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
@@ -85,7 +85,6 @@ public class TaskController extends BaseController implements ITaskController
 	/* (non-Javadoc)
 	 * @see com.agilepro.commons.controllers.project.ITaskController#fetchAllStories(java.lang.Long)
 +	 */
-	@Override
 	@ActionName(ACTION_TYPE_READ_BY_STORY_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readByStoryId", method = RequestMethod.GET)
@@ -102,11 +101,11 @@ public class TaskController extends BaseController implements ITaskController
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public BasicVersionResponse update(@RequestBody @Valid TaskModel model)
+	public BaseResponse update(@RequestBody @Valid TaskChangesModel taskChanges)
 	{
-		Integer updatedVersion = taskService.updateTaskModel(model);
-
-		return new BasicVersionResponse(updatedVersion);
+		taskService.updateTaskChanges(taskChanges);
+		
+		return new BaseResponse();
 	}
 
 	/* (non-Javadoc)

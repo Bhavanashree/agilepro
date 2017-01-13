@@ -57,7 +57,7 @@
 							<td id="actualTime_{{task.id}}" style="width: 3%; border-right: 1px solid #66c2ff;">
 								<input type="text" class="form-control"
 									style="max-width: 4em; min-width: 4em; border: none;"
-									onblur="onBlurActualTime(this)"/>
+									ng-keyup="onTypeActualTime($event, task.id)"/>
 							</td>
 							
 							<td style="width: 80%; padding: 0.2em;">
@@ -124,7 +124,9 @@
 	</div>
 	
 	<div style="margin: 0.5em;">
-		<button class="btn btn-success" type="button" style="float: right;">Update</button>
+		<button ng-click="updateTask()" class="btn btn-success" type="button" style="float: right;">
+			Update
+		</button>
 	</div>
 	
 </div>
