@@ -84,11 +84,11 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		
 		if(($scope.previousStoryId) && ($scope.previousStoryId != storyId))
 		{
-			/*if($scope.taskChanges)
+			if(Object.keys($scope.taskChanges).length > 0)
 			{
 				utils.alert("Please update");
 				return;
-			}*/
+			}
 			
 			$scope.idToStory[$scope.previousStoryId].expanded = false;
 		}
@@ -98,11 +98,11 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 			$scope.fetchTaskByStory(storyId);
 		}else
 		{
-			/*if($scope.taskChanges)
+			if(Object.keys($scope.taskChanges).length > 0)
 			{
 				utils.alert("Please update");
 				return;
-			}*/
+			}
 			
 			$scope.idToStory[storyId].expanded = false;
 		}
@@ -298,9 +298,8 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 	 */
 	$scope.updateTask = function(){
 		
-		if($scope.taskChanges)
+		if($scope.taskChanges && Object.keys($scope.taskChanges).length > 0)
 		{
-			
 			var model = {"taskChanges" : $scope.taskChanges};
 			
 			actionHelper.invokeAction("task.update", model, null, 
