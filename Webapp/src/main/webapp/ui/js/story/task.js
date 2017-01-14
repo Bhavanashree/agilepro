@@ -16,6 +16,53 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 	
 	$scope.taskStatusNames = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED"];
 	
+	
+	$scope.storyFilter = function(){
+		
+		var retFunc = function(item){
+				
+			if(!$scope.storySearch)
+			{
+				return true;
+			}
+			
+			var searchString = $scope.storySearch.toLowerCase();
+
+			return item.title.toLowerCase().includes(searchString);
+		};
+		
+		if($scope.oldSearchStory == $scope.storySearch)
+		{
+			return retFunc;
+		}
+				
+		$scope.oldSearchStory = $scope.storySearch;
+
+		return retFunc;
+	};
+
+	
+	/**
+	 * Filter story by sprint.
+	 */
+	$scope.filterStoryBySprint = function(){
+		
+		var sprintObj = $scope.getSelectedSprint();
+		
+		for(index in $scope.storiesForTask)
+		{
+			var storyObj = $scope.storiesForTask[index];
+			
+			if(storyObj.sprintId == sprintObj.id)
+			{
+				storyObj.display = true;
+			}else
+			{
+				storyObj.display = false;
+			}
+		}
+	};
+	
 	/**
 	 * Display task for ui.
 	 */
@@ -64,6 +111,8 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						{
 							var obj = $scope.storiesForTask[index];
 							
+							obj.display = true;
+							
 							$scope.idToStory[obj.id] = obj;
 						}
 					}
@@ -78,7 +127,7 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 	};
 
 	/**
-	 * On click plus
+	 * On click plus.
 	 */
 	$scope.onClickPlus = function(storyId){
 		
@@ -188,7 +237,7 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 	/**
 	 * Save new task uses action helper to call the controller.
 	 */
-	$scope.saveNewTask = function(taskTitle, estimateTime){
+	$scope.saveNewTask = function(taskTitle, estimateTime, storyId){
 		
 		var model = {"title" : taskTitle, 
 					 "estimateTime" : estimateTime, 
@@ -208,8 +257,9 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						
 						$scope.idToTask[model.id] = model;
 						
-						$scope.taskTitle = "";
-						$scope.estimateTime = "";
+						console.log($("newTaskTitle_" + storyId));
+						
+						$("newTaskTitle_" + storyId).val("");
 						
 						try
 						{
@@ -324,16 +374,20 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						}catch(ex)
 						{}
 						
-						
 					}, {"hideInProgress" : true});
 		}
 	};
-	
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
 		
 		$scope.initTask();
+	});
+	
+	// Listener for broadcast
+	$scope.$on("activeSprintSelectionChanged", function(event, args) {
+		
+		$scope.filterStoryBySprint();
 	});
 
 }]);

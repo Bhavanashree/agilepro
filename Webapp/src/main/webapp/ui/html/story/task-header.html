@@ -1,0 +1,105 @@
+<div class="flexVertical" ng-controller="taskHeaderController" ng-init="initTaskheader()">
+	
+	<div class="flexHorizontal" style="justify-content: space-between; padding-bottom: 1em;">
+		<!-- Start of Sprint drop down -->
+		<div style="background: white;">
+			<div class="input-group">
+				<table>
+					<tr>
+						<td colspan="2" style="padding-bottom: 0.2em; font-size: 0.7em; color: brown;">
+							Sprint
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+							 placeholder="Please select sprint" value="{{selectedSprintObj.name}}">
+						</td>
+						<td>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu dropdown-menu-right" ng-if="sprints.length > 0">
+								    <li ng-repeat="sprint in sprints"><a ng-click="onSprintChange(sprint.id)" href="">{{sprint.name}}</a></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- End of Sprint drop down -->
+		
+		<!-- Start of Owner drop down -->
+		<div style="background: white;">
+			<div class="input-group">
+				<table>
+					<tr>
+						<td colspan="2" style="padding-bottom: 0.2em; color: brown; font-size: 0.7em">
+							Owner
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+							 placeholder="Please select user" value="{{selectedUser.label}}">
+						</td>
+						<td>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu dropdown-menu-right" ng-if="employees.length > 0">
+								    <li ng-repeat="employee in employees"><a ng-click="onUserChange(employee.value)" href="">{{employee.label}}</a></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- End of Owner drop down -->
+		
+		<div>
+			<input type="text" ng-model="storySearch" class="form-control" placeholder="Search Story"
+			style="margin-top: 1em; border: 1px solid black;"/>
+		</div>
+		
+		<!-- Start of status drop down -->
+		<div style="background: white;">
+			<div class="input-group">
+				<table>
+					<tr>
+						<td colspan="2" style="padding-bottom: 0.2em; color: brown; font-size: 0.7em">
+							Status
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
+							 placeholder="Please select user" value="{{selectedUser.label}}">
+						</td>
+						<td>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu dropdown-menu-right" ng-if="employees.length > 0">
+								    <li ng-repeat="employee in employees"><a ng-click="onUserChange(employee.value)" href="">{{employee.label}}</a></li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- End of status drop down -->
+		
+	</div>
+		
+	<div ng-controller="taskController" ng-include="'/ui/html/story/task.html'" 
+		style="width: 100%; height: 90%;">
+	</div>
+	
+</div>

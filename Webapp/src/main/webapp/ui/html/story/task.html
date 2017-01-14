@@ -1,26 +1,6 @@
-<div class="flexVertical" ng-controller="taskController" ng-init="initTask()">
+<div style="border: 3px solid grey; width: 100%; height: 90%; padding: 0.5em;" ng-init="initTask()">
 	
-	<div class="flexHorizontal" style="justify-content: space-between;">
-		<div>
-			sprint drop down
-		</div>
-		
-		<div>
-			owner drop down
-		</div>
-		
-		<div>
-			story filter
-		</div>
-		
-		<div>
-			task status
-		</div>
-	</div>
-		
-	<div style="border: 3px solid grey; width: 100%; height: 100%; padding: 0.5em;" >
-	
-		<div ng-repeat="story in storiesForTask">
+		<div ng-repeat="story in storiesForTask | filter:storyFilter()" ng-show="story.display">
 			<div style="height: 2.5em; border: 3px solid #66c2ff; margin: 0.5em;">
 				<table style="width: 100%; height: 100%;">
 					<tr>
@@ -95,7 +75,7 @@
 							  <span class="input-group-addon" style="background-color: #383838; color: white;">
 							  	Title
 							  </span>
-							  <input ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
+							  <input id="newTaskTitle_{{story.id}}" ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
 							</div>
 						</td>
 						
@@ -104,12 +84,12 @@
 							  <span class="input-group-addon" style="background-color: #383838; color: white;">
 							  	Estimate Time
 							  </span>
-							  <input ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
+							  <input id="estimateTime_{{story.id}}" ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
 							</div>
 						</td>
 						
 						<td style="padding: 0.2em;">
-							<button ng-click="addNewTask(taskTitle, estimateTime)" class="btn btn-primary btn-sm">Add</button>
+							<button ng-click="addNewTask(taskTitle, estimateTime, story.id)" class="btn btn-primary btn-sm">Add</button>
 						</td>
 						
 						<td ng-show="taskError.show" style="color: red;">
@@ -121,12 +101,10 @@
 				
 		</div>
 	
-	</div>
+</div>
 	
-	<div style="margin: 0.5em;">
-		<button ng-click="updateTask()" class="btn btn-success" type="button" style="float: right;">
-			Update
-		</button>
-	</div>
-	
+<div style="margin: 0.5em;">
+	<button ng-click="updateTask()" class="btn btn-success" type="button" style="float: right;">
+		Update
+	</button>
 </div>
