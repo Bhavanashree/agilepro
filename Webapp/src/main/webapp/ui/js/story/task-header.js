@@ -14,11 +14,12 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 			return;
 		}
 		
+		// Fetch sprints.
 		actionHelper.invokeAction("sprint.sprintProjectId", null, {"projectId" : projectId}, 
 				function(readResponse, respConfig)
 				{
 					$scope.sprints = readResponse.model;
-					
+
 					$scope.idToSprint = {};
 					
 					for(index in $scope.sprints)
@@ -29,7 +30,24 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 					}
 			
 				}, {"hideInProgress" : true});
-		
+			
+		// Fetch employees
+		actionHelper.invokeAction("employee.readAll", null, null, 
+				function(readResponse, respConfig)
+				{
+					$scope.employees = readResponse.model;
+
+					$scope.idToEmployee = {};
+					
+					for(index in $scope.employees)
+					{
+						var empObj = $scope.employees[index];
+						
+						$scope.idToSprint[empObj.id] = empObj;
+					}
+			
+				}, {"hideInProgress" : true});
+
 	};
 	
 	/**

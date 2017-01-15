@@ -51,7 +51,11 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu dropdown-menu-right" ng-if="employees.length > 0">
-								    <li ng-repeat="employee in employees"><a ng-click="onUserChange(employee.value)" href="">{{employee.label}}</a></li>
+								    <li ng-repeat="employee in employees">
+								    		<a ng-click="onUserChange(employee.value)" href="">
+								    		{{employee.name}}
+								    		</a>
+								    	</li>
 								</ul>
 							</div>
 						</td>

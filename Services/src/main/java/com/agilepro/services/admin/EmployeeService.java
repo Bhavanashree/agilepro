@@ -306,7 +306,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public List<EmployeeModel> fetchEmployees(String employeeName)
 	{
-		List<EmployeeModel> employeeModels = null;
+		List<EmployeeModel> employeeModels = new ArrayList<EmployeeModel>();
 
 		if(employeeName != null)
 		{
@@ -317,8 +317,6 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 
 		if(employeeEntities != null)
 		{
-			employeeModels = new ArrayList<EmployeeModel>(employeeEntities.size());
-
 			for(EmployeeEntity entity : employeeEntities)
 			{
 				employeeModels.add(super.toModel(entity, EmployeeModel.class));
