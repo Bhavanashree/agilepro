@@ -11,15 +11,6 @@
 				<query>
 					SELECT TITLE, ID
 					FROM STORY
-					WHERE TITLE IN ('Parent Story3')
-				</query>
-			</ccg:loadQueryMap>
-			
-			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleDropToId" 
-				dataSourceName="dataSource">
-				<query>
-					SELECT TITLE, ID
-					FROM STORY
 					WHERE TITLE IN ('Parent Story1')
 				</query>
 			</ccg:loadQueryMap>
@@ -35,9 +26,8 @@
 			<ccg:waitFor locator="id: storyPriorityTab" />
 			<ccg:click locator="id: storyPriorityTab" />
 			
-			<ccg:dragAndDrop source="id: drag_{{storyTitleDragToId.Parent Story3}}" destination="id: drop_{{storyTitleDropToId.Parent Story1}}">
-			
-			</ccg:dragAndDrop>
+			<ccg:waitFor locator="id: moveToBottom_{{storyTitleDragToId.Parent Story1}}" />
+			<ccg:click locator="id: moveToBottom_{{storyTitleDragToId.Parent Story1}}" />
 			
 		</wrap:steps>
 

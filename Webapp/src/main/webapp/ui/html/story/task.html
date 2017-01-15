@@ -34,8 +34,8 @@
 								{{task.actualTimeTaken}}
 							</td>
 							
-							<td id="actualTime_{{task.id}}" style="width: 3%; border-right: 1px solid #66c2ff;">
-								<input type="text" class="form-control"
+							<td style="width: 3%; border-right: 1px solid #66c2ff;">
+								<input id="actualTime_{{task.id}}" type="text" class="form-control"
 									style="max-width: 4em; min-width: 4em; border: none;"
 									ng-keyup="onTypeActualTime($event, task.id)"/>
 							</td>
@@ -48,20 +48,20 @@
 									border-left: 1px solid #66c2ff; cursor:pointer;">
 									
 								<div class="dropdown">
-								    <div class="dropdown-toggle" data-toggle="dropdown">{{displayTask(task.status)}}
+								    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">{{displayTask(task.status)}}
 								    	<span class="caret"></span>
 								    </div>
-									    <ul class="dropdown-menu">
-	     									<li ng-repeat="name in taskStatusNames">
+								    <ul class="dropdown-menu">
+     									<li ng-repeat="name in taskStatusNames">
 											<a ng-click="onStatusChange(task.id, name)" href="">
 												{{displayTask(name)}}
 											</a>
 										</li>
-	   									</ul>
-								  </div>
+   									</ul>
+								</div>
 							</td>
 							
-							<td ng-click="deleteTask(task.id, $index)" style="width: 3%; text-align: center; background-color: #cce6ff;
+							<td id="deleteTask_{{task.id}}" ng-click="deleteTask(task.id, $index)" style="width: 3%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff; cursor:pointer; color: red;">
 									<span class="glyphicon glyphicon-remove"></span>
 							</td>
@@ -89,7 +89,7 @@
 						</td>
 						
 						<td style="padding: 0.2em;">
-							<button ng-click="addNewTask(taskTitle, estimateTime, story.id)" class="btn btn-primary btn-sm">Add</button>
+							<button id="addNewTaskBtnId" ng-click="addNewTask(taskTitle, estimateTime, story.id)" class="btn btn-primary btn-sm">Add</button>
 						</td>
 						
 						<td ng-show="taskError.show" style="color: red;">
@@ -104,7 +104,7 @@
 </div>
 	
 <div style="margin: 0.5em;">
-	<button ng-click="updateTask()" class="btn btn-success" type="button" style="float: right;">
+	<button id="updateTaskChangesBtnId" ng-click="updateTask()" class="btn btn-success" type="button" style="float: right;">
 		Update
 	</button>
 </div>

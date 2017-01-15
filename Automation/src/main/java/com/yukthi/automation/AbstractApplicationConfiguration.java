@@ -29,7 +29,7 @@ public abstract class AbstractApplicationConfiguration implements IApplicationCo
 	/**
 	 * Selenium drivers to use for automation.
 	 */
-	private String seleniumDrivers[] = {ChromeDriver.class.getName()};
+	private String seleniumDrivers[] = {FirefoxDriver.class.getName()};
 	
 	/**
 	 * Base packages to be scanned for steps and validators.

@@ -170,5 +170,23 @@
 		</flow>
 
 	</state>
-	
+
+	<state name="task" urlPattern="http://${app.host}/index.html{.*}">
+		
+		<flow fromState="">
+			<ccg:gotoPage url="http://${app.host}/?customer=yukthi" />
+			<ccg:waitFor locator="xpath: //*[@id='loginForm']//input[@name='email']" />
+			
+			<ccg:fillForm locator="id: loginForm">
+				<data ccg:beanType="com.agilepro.automation.Credentials">
+					<email>employee1@gmail.com</email>
+					<password>password</password>
+				</data>
+			</ccg:fillForm>
+
+			<ccg:click locator="id: loginButton" />
+		</flow>
+
+	</state>
+		
 </states>

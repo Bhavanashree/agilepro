@@ -6,18 +6,18 @@
 		 <password>admin</password>
 	</wrap:configuration>
 	
-	<dataSource ccg:beanType="org.apache.commons.dbcp2.BasicDataSource">
+	<dataSource name="dataSource" ccg:beanType="org.apache.commons.dbcp2.BasicDataSource">
 		<driverClassName>com.mysql.jdbc.Driver</driverClassName>
-		<url>jdbc:mysql://localhost:3306/test</url>
-		<username>bhavana</username>
-		<password>bhavana</password>
+		<url>jdbc:mysql://localhost:3306/agilepro</url>
+		<username>root</username>
+		<password>pritam285</password>
 	</dataSource>
 
 	<stateConfigurationFile>./agilepro/app-states.xml</stateConfigurationFile>
 	<testSuiteFolder>./executeAlltestcases/test</testSuiteFolder>
-	
+
 	<wrap:limitedTestSuites>
-		<limitedTestSuite>allTest</limitedTestSuite>
+		<limitedTestSuite>task</limitedTestSuite>
 		
 	</wrap:limitedTestSuites>
 </app>

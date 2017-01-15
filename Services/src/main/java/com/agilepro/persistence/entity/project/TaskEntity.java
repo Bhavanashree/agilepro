@@ -3,14 +3,14 @@ package com.agilepro.persistence.entity.project;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 
 import com.agilepro.commons.TaskStatus;
-import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.commons.models.project.TaskModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
@@ -22,6 +22,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "Task")
 @Table(name = "TASK")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_STORY_TASK_TITLE", fields = { "spaceIdentity", "story", "title" })})
 public class TaskEntity extends WebutilsExtendableEntity
 {
 	/**

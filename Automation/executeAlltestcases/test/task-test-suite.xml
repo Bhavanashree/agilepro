@@ -1,0 +1,181 @@
+<testSuite xmlns:ccg="/fw/ccg/XMLBeanParser" xmlns:wrap="/fw/ccg/XMLBeanParser/wrap" name="task">
+
+<!-- 	<testCase name="taskAdd">
+	
+		<description>Add new task</description>
+		
+		<wrap:steps>
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Parent Story1')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:gotoState state="task"/>
+			
+			<ccg:waitFor locator="id: storyTab"/>
+			<ccg:click locator="id: storyTab"/>
+			
+			<ccg:waitFor locator="id: lftMenuTask"/>
+			<ccg:click locator="id: lftMenuTask"/>
+			
+			<ccg:waitFor locator="id: expandStory_{{storyTitleToId.Parent Story1}}"/>
+			<ccg:click locator="id: expandStory_{{storyTitleToId.Parent Story1}}"/>
+			
+		</wrap:steps>
+		
+		<ccg:waitFor locator="id: newTaskTitle_{{storyTitleToId.Parent Story1}}"/>
+		<ccg:populateField locator="id: newTaskTitle_{{storyTitleToId.Parent Story1}}" pressEnterAtEnd="false" value="Task1">
+		</ccg:populateField>
+
+		<ccg:waitFor locator="id: estimateTime_{{storyTitleToId.Parent Story1}}"/>
+		<ccg:populateField locator="id: estimateTime_{{storyTitleToId.Parent Story1}}" pressEnterAtEnd="false" value="10">
+		</ccg:populateField>
+		
+		<wrap:steps>
+			<ccg:waitFor locator="id: addNewTaskBtnId"/>
+			<ccg:click locator="id: addNewTaskBtnId"/>
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateWithSql dataSourceName="dataSource">
+				<query>
+					SELECT * FROM TASK WHERE TITLE = 'Task1'
+				</query>
+				
+				<expectedRow>
+					<column name="TITLE">Task1</column>
+				</expectedRow>
+			</ccg:validateWithSql>
+			
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="taskTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM TASK
+					WHERE TITLE IN ('Task1')
+				</query>
+			</ccg:loadQueryMap>
+			
+			<ccg:validateVisibility locator="id: displayTaskStatus_{{taskTitleToId.Task1}}" message="Not started"/>
+			
+		</wrap:validations>
+		
+	</testCase> -->
+	
+	<!-- <testCase name="taskDelete">
+	
+		<description>Delete task</description>
+		
+		<wrap:steps>
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Parent Story1')
+				</query>
+			</ccg:loadQueryMap>
+
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="taskTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM TASK
+					WHERE TITLE IN ('Task1')
+				</query>
+			</ccg:loadQueryMap>
+						
+			<ccg:gotoState state="task"/>
+			
+			<ccg:waitFor locator="id: storyTab"/>
+			<ccg:click locator="id: storyTab"/>
+			
+			<ccg:waitFor locator="id: lftMenuTask"/>
+			<ccg:click locator="id: lftMenuTask"/>
+			
+			<ccg:waitFor locator="id: expandStory_{{storyTitleToId.Parent Story1}}"/>
+			<ccg:click locator="id: expandStory_{{storyTitleToId.Parent Story1}}"/>
+			
+			<ccg:waitFor locator="id: deleteTask_{{taskTitleToId.Task1}}"/>
+			<ccg:click locator="id: deleteTask_{{taskTitleToId.Task1}}"/>
+			
+			<ccg:waitFor locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@id, 'yesBtnId')]" />
+			<ccg:click locator="xpath: //*[@id='webutilsConfirmDialog']//button[contains(@id, 'yesBtnId')]" />
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateWithSql dataSourceName="dataSource">
+				<query>
+					SELECT * FROM TASK WHERE TITLE = 'Task1'
+				</query>
+				
+				<expectedRow>
+					<column name="TITLE">Task1</column>
+				</expectedRow>
+			</ccg:validateWithSql>
+		</wrap:validations>
+		
+	</testCase>
+ -->
+ 
+ 	<testCase name="taskEdit">
+	
+		<description>Edit task</description>
+		
+		<wrap:steps>
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="storyTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM STORY
+					WHERE TITLE IN ('Parent Story1')
+				</query>
+			</ccg:loadQueryMap>
+
+			<ccg:loadQueryMap keyColumn="TITLE" valueColumn="ID" contextAttribute="taskTitleToId" 
+				dataSourceName="dataSource">
+				<query>
+					SELECT TITLE, ID
+					FROM TASK
+					WHERE TITLE IN ('Task1')
+				</query>
+			</ccg:loadQueryMap>
+						
+			<ccg:gotoState state="task"/>
+			
+			<ccg:waitFor locator="id: storyTab"/>
+			<ccg:click locator="id: storyTab"/>
+			
+			<ccg:waitFor locator="id: lftMenuTask"/>
+			<ccg:click locator="id: lftMenuTask"/>
+			
+			<ccg:waitFor locator="id: expandStory_{{storyTitleToId.Parent Story1}}"/>
+			<ccg:click locator="id: expandStory_{{storyTitleToId.Parent Story1}}"/>
+			
+			<ccg:waitFor locator="id: actualTime_{{taskTitleToId.Task1}}"/>
+			<ccg:populateField locator="id: actualTime_{{taskTitleToId.Task1}}" pressEnterAtEnd="false" value="10">
+			</ccg:populateField>
+			
+			<ccg:waitFor locator="id: updateTaskChangesBtnId"/>
+			<ccg:click locator="id: updateTaskChangesBtnId"/>			
+		</wrap:steps>
+		
+		<wrap:validations>
+			<ccg:validateWithSql dataSourceName="dataSource">
+				<query>
+					SELECT * FROM TASK WHERE TITLE = 'Task1'
+				</query>
+				
+				<expectedRow>
+					<column name="TITLE">Task1</column>
+				</expectedRow>
+			</ccg:validateWithSql>
+		</wrap:validations>
+		
+	</testCase>
+ 	
+</testSuite>

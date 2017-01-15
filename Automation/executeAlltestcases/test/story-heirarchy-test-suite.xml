@@ -6,10 +6,10 @@
 		<description>Add new story</description>
 		
 		<wrap:steps>
-			<ccg:gotoState state="story" />
+			<ccg:gotoState state="story"/>
 			
-			<ccg:waitFor locator="id: storyTab" />
-			<ccg:click locator="id: storyTab" />
+			<ccg:waitFor locator="id: storyTab"/>
+			<ccg:click locator="id: storyTab"/>
 			
 			<ccg:waitFor locator="id: addNewBacklogId" />
 			<ccg:click locator="id: addNewBacklogId" />
