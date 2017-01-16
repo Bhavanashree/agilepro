@@ -201,10 +201,8 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 	/**
 	 * Gets invoked on click of add button. 
 	 */
-	$scope.addNewTask = function(taskTitle, estimateTime){
+	$scope.addNewTask = function(taskTitle, estimateTime, storyId){
 
-		console.log(estimateTime);
-		
 		if(!taskTitle)
 		{
 			$scope.taskError.show = true;
@@ -230,7 +228,7 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		
 		if(taskTitle && estimateTime)
 		{
-			$scope.saveNewTask(taskTitle, estimateTime);
+			$scope.saveNewTask(taskTitle, estimateTime, storyId);
 		}
 	};
 	
@@ -257,10 +255,10 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						
 						$scope.idToTask[model.id] = model;
 						
-						console.log($("newTaskTitle_" + storyId));
-						
-						$("newTaskTitle_" + storyId).val("");
-						
+						$("#newTaskTitle_" + storyId).focus();
+						$("#newTaskTitle_" + storyId).val("");
+						$("#estimateTime_" + storyId).val("");
+
 						try
 						{
 							$scope.$apply();

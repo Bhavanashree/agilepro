@@ -1,6 +1,9 @@
 <div style="border: 3px solid grey; width: 100%; height: 90%; padding: 0.5em;" ng-init="initTask()">
 	
+		<!-- Start of main story list -->
 		<div ng-repeat="story in storiesForTask | filter:storyFilter()" ng-show="story.display">
+			
+			<!-- Start story display -->
 			<div style="height: 2.5em; border: 3px solid #66c2ff; margin: 0.5em;">
 				<table style="width: 100%; height: 100%;">
 					<tr>
@@ -11,16 +14,106 @@
 								<i ng-class="story.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 								</i>
 						</td>
-						<td style="width: 95%; padding-left: 0.5em;">
+						<td style="width: 80%; padding-left: 0.5em;">
 							<strong style="text-transform: capitalize;">{{story.title}}</strong>
+						</td>
+						<td style="width: 5%; text-align: center; background-color: #cce6ff; 
+							color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</td>
+						<td style="width: 10%; padding-left: 0.5em; border-left: 1px solid #66c2ff; 
+							background-color: #cce6ff; cursor:pointer;">
+							<div class="dropdown">
+							    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">
+							    	{{displayTask(story.status)}}
+							    	<span class="caret"></span>
+							    </div>
+							    <ul class="dropdown-menu">
+    									<li ng-repeat="name in taskStatusNames">
+										<a ng-click="onStatusChange(task.id, name)" href="">
+											{{displayTask(name)}}
+										</a>
+									</li>
+  									</ul>
+							</div>
 						</td>
 					</tr>
 				</table>
 			</div>
+			<!-- End story display -->
+			
+			<!-- Start of story expanded -->
+			<div ng-show="story.expanded" style="padding-right: 1em;">
 				
-			<div ng-show="story.expanded" style="padding-right: 2em;">
+				<!-- Start of list of tasks -->
+				<div style="margin-left: 1em;">
 				
-					<table ng-repeat="task in tasks" 
+					<table ng-show="tasks.length > 0" 
+						style="width: 100%; height: 100%; border: 3px solid #66c2ff;">
+						<tr style="background-color: #383838; color: white;">
+							<th style="text-align: center; width: 52%;">
+								Title
+							</th>
+							<th style="text-align: center; width: 13%; border-left: 1px solid #66c2ff;">
+								Estimated Time
+							</th>
+							<th style="text-align: center; width: 13%; border-left: 1px solid #66c2ff;">
+								Actual Time Taken
+							</th>
+							<th style="text-align: center; width: 2%; border-left: 1px solid #66c2ff;">
+								Hours
+							</th>
+							<th style="text-align: center; width: 10%; border-left: 1px solid #66c2ff;">
+								Status
+							</th>
+							<th style="text-align: center; width: 5%; border-left: 1px solid #66c2ff;">
+								Info
+							</th>
+							<th style="text-align: center; width: 5%; border-left: 1px solid #66c2ff;">
+								Delete
+							</th>
+						</tr>
+						<tr ng-repeat="task in tasks" style="border: 3px solid #66c2ff;">
+							<td style="padding-left: 0.2em;">
+								<strong style="text-transform: capitalize;">{{task.title}}</strong>
+							</td>
+							<td style="text-align: center; border-left: 1px solid #66c2ff;">
+								<strong>{{task.estimateTime}}</strong>
+							</td>
+							<td style="text-align: center; border-left: 1px solid #66c2ff;">
+								<strong>{{task.actualTimeTaken}}</strong>
+							</td>
+							<td style="border-left: 1px solid #66c2ff;">
+								<input id="actualTime_{{task.id}}" type="text" class="form-control"
+									style="border: none; max-width: 5em; min-width: 5em;" placeholder="Hours"
+									ng-keyup="onTypeActualTime($event, task.id)"/>
+							</td>
+							<td style="text-align: center; background-color: #cce6ff; cursor:pointer; border-left: 1px solid #66c2ff;">
+								<div class="dropdown">
+								    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">{{displayTask(task.status)}}
+								    	<span class="caret"></span>
+								    </div>
+								    <ul class="dropdown-menu">
+     									<li ng-repeat="name in taskStatusNames">
+											<a ng-click="onStatusChange(task.id, name)" href="">
+												{{displayTask(name)}}
+											</a>
+										</li>
+   									</ul>
+								</div>
+							</td>
+							<td style="text-align: center; background-color: #cce6ff; 
+									color: black; cursor:pointer; border-left: 1px solid #66c2ff;">
+									<i class="fa fa-info-circle" aria-hidden="true"></i>
+							</td>
+							<td id="deleteTask_{{task.id}}" ng-click="deleteTask(task.id, $index)" 
+								style="text-align: center; background-color: #cce6ff;
+									cursor:pointer; color: red; border-left: 1px solid #66c2ff;">
+									<span class="glyphicon glyphicon-remove"></span>
+							</td>
+						</tr>
+					</table>
+					<!-- <table ng-repeat="task in tasks" 
 						style="margin-left: 1.2em; margin-top: 0.5em;
 						border: 3px solid #66c2ff; height: 2.5em; width: 100%;">
 						<tr>
@@ -40,11 +133,11 @@
 									ng-keyup="onTypeActualTime($event, task.id)"/>
 							</td>
 							
-							<td style="width: 80%; padding: 0.2em;">
+							<td style="width: 75%; padding: 0.2em;">
 								<strong style="text-transform: capitalize;">{{task.title}}</strong>
 							</td>
 							
-							<td style="width: 8%; text-align: center; background-color: #cce6ff;
+							<td style="width: 12%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff; cursor:pointer;">
 									
 								<div class="dropdown">
@@ -66,9 +159,12 @@
 									<span class="glyphicon glyphicon-remove"></span>
 							</td>
 						</tr>
-					</table>
+					</table> -->
+				</div>
+				<!-- End of list of tasks -->
 				
-				<table style="margin-left: 1em; margin-top: 0.5em;">
+				<!-- Start of new task add -->
+				<table style="margin-left: 0.8em; margin-top: 0.3em;">
 					<tr>
 						<td style="padding: 0.2em;">
 							<div class="input-group input-group-sm">
@@ -89,7 +185,9 @@
 						</td>
 						
 						<td style="padding: 0.2em;">
-							<button id="addNewTaskBtnId" ng-click="addNewTask(taskTitle, estimateTime, story.id)" class="btn btn-primary btn-sm">Add</button>
+							<button id="addNewTaskBtnId" ng-click="addNewTask(taskTitle, estimateTime, story.id)" class="btn btn-primary btn-sm">
+								Add Task
+							</button>
 						</td>
 						
 						<td ng-show="taskError.show" style="color: red;">
@@ -97,12 +195,16 @@
 						</td>
 					</tr>
 				</table>
+				<!-- End of new task add -->
+				
 			</div>
+			<!-- End of story expanded -->
 				
 		</div>
-	
+		<!-- End of main story list -->
 </div>
 	
+<!-- Update task changes button -->
 <div style="margin: 0.5em;">
 	<button id="updateTaskChangesBtnId" ng-click="updateTask()" class="btn btn-success" type="button" style="float: right;">
 		Update
