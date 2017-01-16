@@ -358,13 +358,13 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	/**
 	 * Update task.
 	 */
-	$scope.updateTask = function(){
+	$scope.updateTaskChanges = function(){
 		
 		if($scope.taskChanges && Object.keys($scope.taskChanges).length > 0)
 		{
 			var model = {"taskChanges" : $scope.taskChanges};
 			
-			actionHelper.invokeAction("task.update", model, null, 
+			actionHelper.invokeAction("task.updateTaskChanges", model, null, 
 					function(updateResponse, respConfig)
 					{
 						for(key in $scope.taskChanges)
@@ -467,7 +467,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.updateTask = function(){
 		
-		actionHelper.invokeAction("task.updateTaskChanges", $scope.taskModel, null,
+		actionHelper.invokeAction("task.update", $scope.taskModel, null,
 				function(updateResposne, respConfig)
 				{
 					if(updateResposne.code == 0)
