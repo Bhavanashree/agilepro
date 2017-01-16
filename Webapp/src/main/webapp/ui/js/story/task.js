@@ -467,7 +467,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.updateTask = function(){
 		
-		actionHelper.invokeAction("task.update", $scope.taskModel, null,
+		actionHelper.invokeAction("task.updateTaskChanges", $scope.taskModel, null,
 				function(updateResposne, respConfig)
 				{
 					if(updateResposne.code == 0)
