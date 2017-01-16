@@ -17,7 +17,7 @@
 						<td style="width: 80%; padding-left: 0.5em;">
 							<strong style="text-transform: capitalize;">{{story.title}}</strong>
 						</td>
-						<td style="width: 5%; text-align: center; background-color: #cce6ff; 
+						<td ng-click="openStoryNoteModal(story.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
 							color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
 							<i class="fa fa-info-circle" aria-hidden="true"></i>
 						</td>
@@ -51,25 +51,25 @@
 					<table ng-show="tasks.length > 0" 
 						style="width: 100%; height: 100%; border: 3px solid #66c2ff;">
 						<tr style="background-color: #383838; color: white;">
-							<th style="text-align: center; width: 52%;">
+							<th style="text-align: center; width: 50%;">
 								Title
 							</th>
-							<th style="text-align: center; width: 13%; border-left: 1px solid #66c2ff;">
+							<th style="text-align: center; width: 13%; border-left: 2px solid #66c2ff;">
 								Estimated Time
 							</th>
-							<th style="text-align: center; width: 13%; border-left: 1px solid #66c2ff;">
+							<th style="text-align: center; width: 15%; border-left: 2px solid #66c2ff;">
 								Actual Time Taken
 							</th>
-							<th style="text-align: center; width: 2%; border-left: 1px solid #66c2ff;">
+							<th style="text-align: center; width: 2%; border-left: 2px solid #66c2ff;">
 								Hours
 							</th>
-							<th style="text-align: center; width: 10%; border-left: 1px solid #66c2ff;">
+							<th style="text-align: center; width: 10%; border-left: 2px solid #66c2ff;">
 								Status
 							</th>
-							<th style="text-align: center; width: 5%; border-left: 1px solid #66c2ff;">
+							<th style="text-align: center; width: 5%; border-left: 2px solid #66c2ff;">
 								Info
 							</th>
-							<th style="text-align: center; width: 5%; border-left: 1px solid #66c2ff;">
+							<th style="text-align: center; width: 5%; border-left: 2px solid #66c2ff;">
 								Delete
 							</th>
 						</tr>
@@ -77,18 +77,18 @@
 							<td style="padding-left: 0.2em;">
 								<strong style="text-transform: capitalize;">{{task.title}}</strong>
 							</td>
-							<td style="text-align: center; border-left: 1px solid #66c2ff;">
+							<td style="text-align: center; border-left: 2px solid #66c2ff;">
 								<strong>{{task.estimateTime}}</strong>
 							</td>
-							<td style="text-align: center; border-left: 1px solid #66c2ff;">
+							<td style="text-align: center; border-left: 2px solid #66c2ff;">
 								<strong>{{task.actualTimeTaken}}</strong>
 							</td>
-							<td style="border-left: 1px solid #66c2ff;">
+							<td style="border-left: 2px solid #66c2ff;">
 								<input id="actualTime_{{task.id}}" type="text" class="form-control"
 									style="border: none; max-width: 5em; min-width: 5em;" placeholder="Hours"
 									ng-keyup="onTypeActualTime($event, task.id)"/>
 							</td>
-							<td style="text-align: center; background-color: #cce6ff; cursor:pointer; border-left: 1px solid #66c2ff;">
+							<td style="text-align: center; background-color: #cce6ff; cursor:pointer; border-left: 2px solid #66c2ff;">
 								<div class="dropdown">
 								    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">{{displayTask(task.status)}}
 								    	<span class="caret"></span>
@@ -102,64 +102,17 @@
    									</ul>
 								</div>
 							</td>
-							<td style="text-align: center; background-color: #cce6ff; 
-									color: black; cursor:pointer; border-left: 1px solid #66c2ff;">
+							<td ng-click="openTaskModal(task.id)" style="text-align: center; background-color: #cce6ff; 
+									color: black; cursor:pointer; border-left: 2px solid #66c2ff;">
 									<i class="fa fa-info-circle" aria-hidden="true"></i>
 							</td>
 							<td id="deleteTask_{{task.id}}" ng-click="deleteTask(task.id, $index)" 
 								style="text-align: center; background-color: #cce6ff;
-									cursor:pointer; color: red; border-left: 1px solid #66c2ff;">
+									cursor:pointer; color: red; border-left: 2px solid #66c2ff;">
 									<span class="glyphicon glyphicon-remove"></span>
 							</td>
 						</tr>
 					</table>
-					<!-- <table ng-repeat="task in tasks" 
-						style="margin-left: 1.2em; margin-top: 0.5em;
-						border: 3px solid #66c2ff; height: 2.5em; width: 100%;">
-						<tr>
-							<td style="width: 3%; background-color: #383838; padding: 0.2em;
-									   border-right: 1px solid #101010; color: white; text-align: center;">
-								{{task.estimateTime}}
-							</td>
-							
-							<td style="width: 3%; background-color: #383838; padding: 0.2em;
-									   border-right: 1px solid #101010; cursor:pointer; color: white; text-align: center;">
-								{{task.actualTimeTaken}}
-							</td>
-							
-							<td style="width: 3%; border-right: 1px solid #66c2ff;">
-								<input id="actualTime_{{task.id}}" type="text" class="form-control"
-									style="max-width: 4em; min-width: 4em; border: none;"
-									ng-keyup="onTypeActualTime($event, task.id)"/>
-							</td>
-							
-							<td style="width: 75%; padding: 0.2em;">
-								<strong style="text-transform: capitalize;">{{task.title}}</strong>
-							</td>
-							
-							<td style="width: 12%; text-align: center; background-color: #cce6ff;
-									border-left: 1px solid #66c2ff; cursor:pointer;">
-									
-								<div class="dropdown">
-								    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">{{displayTask(task.status)}}
-								    	<span class="caret"></span>
-								    </div>
-								    <ul class="dropdown-menu">
-     									<li ng-repeat="name in taskStatusNames">
-											<a ng-click="onStatusChange(task.id, name)" href="">
-												{{displayTask(name)}}
-											</a>
-										</li>
-   									</ul>
-								</div>
-							</td>
-							
-							<td id="deleteTask_{{task.id}}" ng-click="deleteTask(task.id, $index)" style="width: 3%; text-align: center; background-color: #cce6ff;
-									border-left: 1px solid #66c2ff; cursor:pointer; color: red;">
-									<span class="glyphicon glyphicon-remove"></span>
-							</td>
-						</tr>
-					</table> -->
 				</div>
 				<!-- End of list of tasks -->
 				
@@ -210,3 +163,46 @@
 		Update
 	</button>
 </div>
+
+
+
+
+<!-- Modal related -->
+
+<div id="storyNoteModal" class="modal fade" role="dialog">
+	   <div role="document" class="modal-dialog modal-lg">
+			<div class="modal-content">
+			
+				<!-- Header -->
+				<div class="modal-header app-dlg-header">
+					<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
+						<i class="glyphicon glyphicon-remove"></i>
+					</a>
+					<h4 class="modal-title">Story Notes</h4>
+				</div>
+				
+				<!-- Content -->
+				<div yk-model="StoryNoteModel" class="modal-body">
+							
+					<table style="width: 100%;">
+						<tbody>
+							<tr>
+								<td>
+									{{storyNotes}}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+					
+				<!-- Footer -->
+				<div style="padding: 0.5em 1em;" class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Close</button>
+				</div>
+		</div>
+	</div>
+</div>
+
+<yk-model-dialog id="taskModelDialog" name="TaskModel" title="Task" columns="2" actionMethod="updateTask()" modelObj="taskModel">
+</yk-model-dialog>
+

@@ -56,12 +56,14 @@ public class TaskModel extends AbstractExtendableModel
 	 * the project id.
 	 */
 	@Required
+	@NonDisplayable
 	private Long projectId;
 
 	/**
 	 * The story.
 	 **/
 	@Required
+	@NonDisplayable
 	private Long storyId;
 
 	/**

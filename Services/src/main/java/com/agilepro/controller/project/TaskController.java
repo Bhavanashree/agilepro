@@ -7,10 +7,10 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_STORY_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TASK_CHANGES;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.ITaskController;
 import com.agilepro.commons.models.project.TaskChangesModel;
@@ -42,7 +41,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_TASK)
 @RequestMapping("/task")
-public class TaskController extends BaseController
+public class TaskController extends BaseController implements ITaskController
 {
 	/**
 	 * The task service.
@@ -51,12 +50,13 @@ public class TaskController extends BaseController
 	private TaskService taskService;
 
 	/**
-	 * Save the TaskModel.
-	 *
+	 * Receive request for saving a new task.
+	 * 
 	 * @param model
-	 *            TaskModel
-	 * @return the TaskModel save response
+	 *            new task model for save.
+	 * @return basic save response.
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -66,13 +66,14 @@ public class TaskController extends BaseController
 		return new BasicSaveResponse(taskService.save(model).getId());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Receive request to read the task for the given id.
 	 * 
-	 * @see
-	 * com.agilepro.commons.controllers.project.ITaskController#read(java.lang.
-	 * Long)
+	 * @param id
+	 *            for which task record is to be fetched.
+	 * @return matching record.
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
@@ -82,9 +83,14 @@ public class TaskController extends BaseController
 		return new BasicReadResponse<TaskModel>(taskService.fetchFullModel(id, TaskModel.class));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.project.ITaskController#fetchAllStories(java.lang.Long)
-+	 */
+	/**
+	 * Receive request for reading tasks for the given story id.
+	 * 
+	 * @param storyId
+	 *            provided story id for which tasks are to be fetched.
+	 * @return matching records.
+	 */
+	@Override
 	@ActionName(ACTION_TYPE_READ_BY_STORY_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readByStoryId", method = RequestMethod.GET)
@@ -94,39 +100,66 @@ public class TaskController extends BaseController
 		return new BasicReadResponse<List<TaskModel>>(taskService.fetchTaskByStory(storyId));
 	}
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.project.ITaskController#update(com.agilepro.commons.models.project.TaskModel)
+	/**
+	 * Receive request for updating the task.
+	 * 
+	 * @param model
+	 *            updated task model.
+	 * @return base response.
 	 */
+	@Override
 	@ActionName(ACTION_TYPE_UPDATE)
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse update(@RequestBody @Valid TaskChangesModel taskChanges)
+	public BaseResponse update(@RequestBody @Valid TaskModel model)
 	{
-		taskService.updateTaskChanges(taskChanges);
-		
+		taskService.update(model);
 		return new BaseResponse();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.agilepro.commons.controllers.project.ITaskController#delete(java.lang.Long)
+	/**
+	 * Receive request for updating group of task changes.
+	 * 
+	 * @param taskChanges.
+	 * @return base response.
 	 */
+	@Override
+	@ActionName(ACTION_TYPE_UPDATE_TASK_CHANGES)
+	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/updateTaskChanges", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResponse updateTaskChanges(@RequestBody @Valid TaskChangesModel taskChanges)
+	{
+		taskService.updateTaskChanges(taskChanges);
+		return new BaseResponse();
+	}
+
+	/**
+	 * Receive request for deleting the task.
+	 * 
+	 * @param id
+	 *            for which matching record will be deleted from task.
+	 * @return base response.
+	 */
+	@Override
 	@ActionName(ACTION_TYPE_DELETE)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/delete/{" + PARAM_ID + "}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
 	{
-		taskService.deleteTask(id);
+		taskService.deleteById(id);
 
 		return new BaseResponse();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Receive request for deleting all the records from task.
 	 * 
-	 * @see com.agilepro.commons.controllers.project.ITaskController#deleteAll()
+	 * @return base response.
 	 */
+	@Override
 	@Authorization(roles = { UserRole.TEST_DELETE_ALL, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@ActionName(ACTION_TYPE_DELETE_ALL)
 	@RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)

@@ -1,5 +1,5 @@
-$.application.controller('taskController', ["$scope", "crudController","utils","modelDefService", "validator","$state","actionHelper",
-                                            function($scope, crudController,utils, modelDefService, validator,$state,actionHelper) {
+$.application.controller('taskController', ["$scope", "crudController", "utils", "actionHelper",
+                                            function($scope, crudController, utils, actionHelper) {
 	crudController.extend($scope, {
 		"name": "Task",
 		"modelName": "TaskModel",
@@ -14,9 +14,9 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		"deleteAction": "task.delete",
 	});
 	
-	$scope.taskStatusNames = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED"];
-	
-	
+	/**
+	 * Default story filter by story title.
+	 */
 	$scope.storyFilter = function(){
 		
 		var retFunc = function(item){
@@ -64,27 +64,46 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 	};
 	
 	/**
-	 * Display task for ui.
+	 * Filter story by owner.
 	 */
-	$scope.displayTask = function(status){
+	$scope.filterStoryByOwner = function(){
 		
-		if(status == "NOT_STARTED")
-		{
-			return "Not started";
-		}
+		var ownerObj = $scope.getSelectedOwner();
 		
-		if(status == "IN_PROGRESS")
+		for(index in $scope.storiesForTask)
 		{
-			return "In Progress";
-		}
-		
-		if(status == "COMPLETED")
-		{
-			return "Completed";
+			var storyObj = $scope.storiesForTask[index];
+			
+			if(storyObj.employeeId == ownerObj.id)
+			{
+				storyObj.display = true;
+			}else
+			{
+				storyObj.display = false;
+			}
 		}
 	};
 	
-	
+	/**
+	 * Filter story by status.
+	 */
+	$scope.filterStoryByStoryStatus = function(){
+		
+		var storyStatus = $scope.getSelectedStoryStatus();
+		
+		for(index in $scope.storiesForTask)
+		{
+			var storyObj = $scope.storiesForTask[index];
+			
+			if(storyObj.status == storyStatus)
+			{
+				storyObj.display = true;
+			}else
+			{
+				storyObj.display = false;
+			}
+		}
+	};
 	
 	/**
 	 * Initalize task
@@ -96,15 +115,12 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 			return;
 		}
 		
-		$scope.taskError = {"show" : false, "message" : ""};
-		
 		actionHelper.invokeAction("story.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()},
 				function(readResponse, respConfig)
 				{
 					$scope.storiesForTask = readResponse.model;
 					
 					$scope.idToStory = {};
-					
 					if($scope.storiesForTask)
 					{
 						for(index in $scope.storiesForTask)
@@ -171,13 +187,10 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 					if(readResponse.code == 0)
 					{
 						$scope.tasks = readResponse.model;
-						
 						$scope.idToStory[storyId].expanded = true;
-						
 						$scope.expandedStoryId = storyId;
 						
 						$scope.idToTask = {};
-						
 						for(index in $scope.tasks)
 						{
 							var obj = $scope.tasks[index];
@@ -186,8 +199,9 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 						}
 						
 						$scope.taskChanges = {};
-						
 						$scope.onTypeTargets = [];
+						$scope.taskError = {"show" : false, "message" : ""};
+						
 						try
 						{
 							$scope.$apply();
@@ -388,4 +402,82 @@ $.application.controller('taskController', ["$scope", "crudController","utils","
 		$scope.filterStoryBySprint();
 	});
 
+	// Listener for broadcast
+	$scope.$on("activeOwnerSelectionChanged", function(event, args) {
+		
+		$scope.filterStoryByOwner();
+	});
+	
+	// Listener for broadcast
+	$scope.$on("activeStoryStatusSelectionChanged", function(event, args) {
+		
+		$scope.filterStoryByStoryStatus();
+	});
+	
+	// Modal open related methods
+	
+	/**
+	 * Fetch the story info and open the modal.
+	 */
+	$scope.openStoryNoteModal = function(storyId){
+		
+		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : storyId}, 
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						$("#storyNoteModal").modal("show");
+						$scope.storyNotes = readResponse.model;
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}
+					
+				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Fetch task and open the modal.
+	 */
+	$scope.openTaskModal = function(taskId){
+		
+		actionHelper.invokeAction("task.read", null, {"id" : taskId}, 
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						$("#taskModelDialog").modal("show");
+						$scope.taskModel = readResponse.model;
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}
+					
+				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Update task changes.
+	 */
+	$scope.updateTask = function(){
+		
+		actionHelper.invokeAction("task.update", $scope.taskModel, null,
+				function(updateResposne, respConfig)
+				{
+					if(updateResposne.code == 0)
+					{
+						$("#taskModelDialog").modal("hide");
+					}
+				
+				}, {"hideInProgress" : true});
+	};
+	
+	
+	
 }]);

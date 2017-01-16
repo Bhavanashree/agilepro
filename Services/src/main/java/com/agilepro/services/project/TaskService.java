@@ -3,28 +3,18 @@ package com.agilepro.services.project;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.TaskChangesModel;
 import com.agilepro.commons.models.project.TaskModel;
 import com.agilepro.commons.models.project.TaskRecords;
-import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.project.TaskEntity;
 import com.agilepro.persistence.repository.project.ITaskRepository;
-import com.agilepro.services.admin.CustomerService;
 import com.yukthi.persistence.ITransaction;
-import com.yukthi.utils.exceptions.InvalidStateException;
-import com.yukthi.utils.exceptions.NullValueException;
-import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.services.BaseCrudService;
-import com.yukthi.webutils.services.CurrentUserService;
-import com.yukthi.webutils.utils.WebUtils;
 
 /**
  * The Class TaskService.
@@ -32,26 +22,13 @@ import com.yukthi.webutils.utils.WebUtils;
 @Service
 public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 {
-
 	/**
-	 * The current user service.
-	 **/
-	@Autowired
-	private CurrentUserService currentUserService;
-
-	/**
-	 * Used to fetch customer info.
-	 */
-	@Autowired
-	private CustomerService customerService;
-
-	/**
-	 * The story repo.
+	 * The ITaskRepository for executing the queries.
 	 **/
 	private ITaskRepository taskRepo;
 
 	/**
-	 * Instantiates a new sprint service.
+	 * Instantiates a new task service.
 	 */
 	public TaskService()
 	{
@@ -59,7 +36,7 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	}
 
 	/**
-	 * Initialize the iprojectMemberRepository.
+	 * Initialize the taskRepo.
 	 */
 	@PostConstruct
 	private void init()
@@ -114,48 +91,6 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 		tasks.forEach(entity -> taskModels.add(super.toModel(entity, TaskModel.class)));
 		
 		return taskModels;
-	}
-
-	/**
-	 * Search by story.
-	 *
-	 * @param storyId
-	 *            the story id
-	 * @return the list
-	 */
-	public List<StoryAndTaskResult> searchByStory(Long storyId)
-	{
-		return null;
-	}
-
-	/**
-	 * Delete task.
-	 *
-	 * @param TaskId
-	 *            the task id
-	 */
-	public void deleteTask(long TaskId)
-	{
-		try(ITransaction transaction = repository.newOrExistingTransaction())
-		{
-
-			TaskEntity taskEntity = super.repository.findById(TaskId);
-
-			if(taskEntity == null)
-			{
-				throw new InvalidRequestParameterException("Invalid taskId id specified - " + TaskId);
-			}
-
-			Long tskId = taskEntity.getId();
-
-			// delete backlogEntity
-			super.deleteById(taskEntity.getId());
-
-			transaction.commit();
-		} catch(Exception ex)
-		{
-			throw new IllegalStateException("An error occurred while deleting task - " + TaskId, ex);
-		}
 	}
 
 	/**

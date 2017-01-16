@@ -1,11 +1,14 @@
 $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelper",
                                                function($scope, utils, actionHelper) {
+	
 	/**
 	 * Initialize task header.
 	 * 
 	 * Fetch the sprints and owner.
 	 */
 	$scope.initTaskheader = function(){
+		
+		$scope.taskStatusNames = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED"];
 		
 		var projectId = $scope.getActiveProjectId();
 		
@@ -43,11 +46,38 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 					{
 						var empObj = $scope.employees[index];
 						
-						$scope.idToSprint[empObj.id] = empObj;
+						$scope.idToEmployee[empObj.id] = empObj;
 					}
 			
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
 				}, {"hideInProgress" : true});
 
+	};
+	
+	/**
+	 * Display task for ui.
+	 */
+	$scope.displayTask = function(status){
+		
+		if(status == "NOT_STARTED")
+		{
+			return "Not started";
+		}
+		
+		if(status == "IN_PROGRESS")
+		{
+			return "In Progress";
+		}
+		
+		if(status == "COMPLETED")
+		{
+			return "Completed";
+		}
 	};
 	
 	/**
@@ -61,6 +91,26 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	};
 	
 	/**
+	 * On change of owner from drop down.
+	 */
+	$scope.onOwnerChange = function(employeeId){
+		
+		$scope.selectedOwner = $scope.idToEmployee[employeeId];
+		
+		$scope.$broadcast("activeOwnerSelectionChanged");
+	};
+	
+	/**
+	 * On change of status for filter. 
+	 */
+	$scope.onStatusChangeForFilter = function(name){
+		
+		$scope.activeStoryStatus = name; 
+		
+		$scope.$broadcast("activeStoryStatusSelectionChanged");
+	};
+	
+	/**
 	 * Get selected sprint.
 	 */
 	$scope.getSelectedSprint = function(){
@@ -68,6 +118,21 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		return $scope.selectedSprintObj;
 	};
 	
+	/**
+	 * Get selected owner.
+	 */
+	$scope.getSelectedOwner = function(){
+		
+		return $scope.selectedOwner;
+	};
+	
+	/**
+	 * Get selected story status.
+	 */
+	$scope.getSelectedStoryStatus = function(){
+		
+		return $scope.activeStoryStatus;
+	};
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {

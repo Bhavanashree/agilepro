@@ -518,6 +518,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_UPDATE_TO_MAX_PRIORITY = "updateToMaxPriority";
 	
 	/**
+	 * The action type update task changes.
+	 */
+	public String ACTION_TYPE_UPDATE_TASK_CHANGES = "updateTaskChanges";
+	
+	/**
 	 * The action type to swap the priority.
 	 */
 	public String ACTION_TYPE_SWAP_PRIORITY = "swapPriority";

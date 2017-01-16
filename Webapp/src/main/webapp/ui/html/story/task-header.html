@@ -21,7 +21,11 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu dropdown-menu-right" ng-if="sprints.length > 0">
-								    <li ng-repeat="sprint in sprints"><a ng-click="onSprintChange(sprint.id)" href="">{{sprint.name}}</a></li>
+								    <li ng-repeat="sprint in sprints">
+								    	<a ng-click="onSprintChange(sprint.id)" href="">
+								    		{{sprint.name}}
+								    	</a>
+								    </li>
 								</ul>
 							</div>
 						</td>
@@ -43,7 +47,7 @@
 					<tr>
 						<td>
 							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-							 placeholder="Please select user" value="{{selectedUser.label}}">
+							 placeholder="Please select owner" value="{{selectedOwner.name}}">
 						</td>
 						<td>
 							<div class="input-group-btn">
@@ -52,7 +56,7 @@
 								</button>
 								<ul class="dropdown-menu dropdown-menu-right" ng-if="employees.length > 0">
 								    <li ng-repeat="employee in employees">
-								    		<a ng-click="onUserChange(employee.value)" href="">
+								    		<a ng-click="onOwnerChange(employee.id)" href="">
 								    		{{employee.name}}
 								    		</a>
 								    	</li>
@@ -93,15 +97,19 @@
 					<tr>
 						<td>
 							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-							 placeholder="Please select user" value="{{selectedUser.label}}">
+							 placeholder="Please select status" value="{{displayTask(activeStoryStatus)}}">
 						</td>
 						<td>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="caret"></span>
 								</button>
-								<ul class="dropdown-menu dropdown-menu-right" ng-if="employees.length > 0">
-								    <li ng-repeat="employee in employees"><a ng-click="onUserChange(employee.value)" href="">{{employee.label}}</a></li>
+								<ul class="dropdown-menu dropdown-menu-right">
+								    <li ng-repeat="name in taskStatusNames">
+								    	<a ng-click="onStatusChangeForFilter(name)" href="">
+								    		{{displayTask(name)}}
+								    	</a>
+								    </li>
 								</ul>
 							</div>
 						</td>
