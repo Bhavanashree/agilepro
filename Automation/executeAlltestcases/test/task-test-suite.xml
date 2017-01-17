@@ -64,8 +64,9 @@
 			
 		</wrap:validations>
 		
-	</testCase> -->
-	
+	</testCase> 
+ -->
+ 	
 	<!-- <testCase name="taskDelete">
 	
 		<description>Delete task</description>
@@ -178,4 +179,5 @@
 		
 	</testCase>
  	
+ 
 </testSuite>
