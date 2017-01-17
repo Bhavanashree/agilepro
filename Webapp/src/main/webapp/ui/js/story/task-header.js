@@ -31,6 +31,12 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 						
 						$scope.idToSprint[sprintObj.id] = sprintObj;
 					}
+					
+					// set active sprint.
+					if($scope.sprints)
+					{
+						//$scope.onSprintChange($scope.sprints[0].id);
+					}
 			
 				}, {"hideInProgress" : true});
 			
@@ -40,6 +46,13 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 				{
 					$scope.employees = readResponse.model;
 
+					if($scope.employees)
+					{
+						var allObj = {"id" : 0, "name" : "All"};
+						
+						$scope.employees.splice(0, 0, allObj);
+					}
+					
 					$scope.idToEmployee = {};
 					
 					for(index in $scope.employees)

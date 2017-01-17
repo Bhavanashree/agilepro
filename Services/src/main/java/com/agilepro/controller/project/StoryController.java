@@ -15,6 +15,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SWAP_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TO_MAX_PRIORITY;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STATUS;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.lang.reflect.Method;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.StoryResponse;
+import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.BackLogModel;
@@ -191,12 +193,22 @@ public class StoryController extends BaseController implements IStoryController
 	}
 	
 	@ActionName(ACTION_TYPE_UPDATE_TO_MAX_PRIORITY)
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "updateToMaxPriority", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
 	public BaseResponse updateToMaxPriority(@RequestParam(value = "id") Long id, @RequestParam(value = "projectId") Long projectId)
 	{
 		storyService.updateToMaxPriority(id, projectId);
+		return new BaseResponse();
+	}
+	
+	@ActionName(ACTION_TYPE_UPDATE_STORY_STATUS)
+	@RequestMapping(value = "/updateStoryStatus", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BaseResponse updateStatus(@RequestParam(value = "id") Long id, @RequestParam(value = "status") StoryStatus status)
+	{
+		storyService.updateStoryStatus(id, status);
 		return new BaseResponse();
 	}
 	
@@ -233,6 +245,8 @@ public class StoryController extends BaseController implements IStoryController
 		
 		return new BaseResponse();
 	}
+
+	
 	
 	/**
 	 * Save stories in bulk.

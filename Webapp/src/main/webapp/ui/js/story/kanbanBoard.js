@@ -293,11 +293,10 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 			 return;
 		 }
 		
-		actionHelper.invokeAction("story.update", dropedStory, null, $.proxy(function(updateResponse, respConfig) {
+		actionHelper.invokeAction("story.updateStoryStatus", null, {"id" : dropedStory.id, "status" : dropedStory.status}, $.proxy(function(updateResponse, respConfig) {
 			//if update failed
 			if(updateResponse.code != 0)
 			{
-				utils.info(["Failed to move story '{}' to status '{}'. Please try again!", story.title, story.status]);
 				this.$scope.handleOnDropEvent(this.oldStatus, true);
 				return;
 			}

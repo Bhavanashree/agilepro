@@ -12,6 +12,7 @@ import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
+import com.yukthi.webutils.common.annotations.ReadOnly;
 
 /**
  * The Class TaskModel.
@@ -71,11 +72,13 @@ public class TaskModel extends AbstractExtendableModel
 	 */
 	@Required
 	@Min(value = 1)
+	@ReadOnly
 	private Integer estimateTime;
 
 	/**
 	 * Actual time taken.
 	 */
+	@ReadOnly
 	private Integer actualTimeTaken;
 
 	/**

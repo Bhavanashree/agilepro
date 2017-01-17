@@ -2,6 +2,7 @@ package com.agilepro.persistence.repository.project;
 
 import java.util.List;
 
+import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
@@ -162,4 +163,8 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 * @return 1 on successful update of priority.
 	 */
 	public int updatePriority(@Condition(value = "id") Long id, @Field(value = "priority") Integer newPriority);
+	
+	
+	public int updateStatus(@Condition(value = "id") Long id, @Field(value = "status") StoryStatus status);
+	
 }

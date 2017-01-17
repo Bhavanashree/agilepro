@@ -30,7 +30,7 @@
 							    </div>
 							    <ul class="dropdown-menu">
     									<li ng-repeat="name in taskStatusNames">
-										<a ng-click="onStatusChange(task.id, name)" href="">
+										<a ng-click="onStoryStatusChange(story.id, name)" href="">
 											{{displayTask(name)}}
 										</a>
 									</li>
@@ -64,7 +64,7 @@
 								Hours
 							</th>
 							<th style="text-align: center; width: 10%; border-left: 2px solid #66c2ff;">
-								Story status
+								Status
 							</th>
 							<th style="text-align: center; width: 5%; border-left: 2px solid #66c2ff;">
 								Info
@@ -95,7 +95,7 @@
 								    </div>
 								    <ul class="dropdown-menu">
      									<li ng-repeat="name in taskStatusNames">
-											<a ng-click="onStatusChange(task.id, name)" href="">
+											<a ng-click="onTaskStatusChange(task.id, name)" href="">
 												{{displayTask(name)}}
 											</a>
 										</li>

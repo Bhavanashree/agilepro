@@ -48,7 +48,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.filterStoryBySprint = function(){
 		
 		var sprintObj = $scope.getSelectedSprint();
-		
+
 		for(index in $scope.storiesForTask)
 		{
 			var storyObj = $scope.storiesForTask[index];
@@ -115,6 +115,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			return;
 		}
 		
+		$scope.idToTask = {};
+		
 		actionHelper.invokeAction("story.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()},
 				function(readResponse, respConfig)
 				{
@@ -131,6 +133,12 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 							
 							$scope.idToStory[obj.id] = obj;
 						}
+					}
+					
+					// Filter by active sprint.
+					if($scope.storiesForTask)
+					{
+						//$scope.filterStoryBySprint();
 					}
 					
 					try
@@ -186,16 +194,17 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				{
 					if(readResponse.code == 0)
 					{
-						$scope.tasks = readResponse.model;
-						$scope.idToStory[storyId].expanded = true;
+						var storyObj = $scope.idToStory[storyId]; 
+						
+						storyObj.tasks = readResponse.model;
+						storyObj.expanded = true;
 						$scope.expandedStoryId = storyId;
 						
-						$scope.idToTask = {};
-						for(index in $scope.tasks)
+						for(index in storyObj.tasks)
 						{
-							var obj = $scope.tasks[index];
+							var taskObj = storyObj.tasks[index];
 							
-							$scope.idToTask[obj.id] = obj;
+							$scope.idToTask[taskObj.id] = taskObj;
 						}
 						
 						$scope.taskChanges = {};
@@ -265,7 +274,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					{
 						model.id = saveResponse.id;
 						
-						$scope.tasks.push(model);
+						$scope.idToStory[storyId].tasks.push(model);
 						
 						$scope.idToTask[model.id] = model;
 						
@@ -283,9 +292,32 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	};
 	
 	/**
+	 * On change of story status.
+	 */
+	$scope.onStoryStatusChange = function(storyId, status){
+		
+		actionHelper.invokeAction("story.updateStoryStatus", null, {"id" : storyId, "status" : status},
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						$scope.idToStory[storyId].status = status;
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
+				}, {"hideInProgress" : true});
+	};
+	
+	
+	/**
 	 * On change of status drop down.
 	 */
-	$scope.onStatusChange = function(taskId, status){
+	$scope.onTaskStatusChange = function(taskId, status){
 		
 		if(!$scope.taskChanges[taskId])
 		{
@@ -338,7 +370,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						{
 							if(deleteResponse.code == 0)
 							{
-								$scope.tasks.splice(indexToRemove, 1);
+								$scope.idToStory[$scope.expandedStoryId].tasks.splice(indexToRemove, 1);
 								
 								try
 								{

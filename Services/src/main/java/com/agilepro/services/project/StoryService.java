@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.StoryResponse;
+import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
@@ -206,6 +207,28 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
+	/**
+	 * Update status of the story.
+	 * 
+	 * @param id for which status is to be updated.
+	 * @param status new status to be set.
+	 */
+	public void updateStoryStatus(Long id, StoryStatus status)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			storyRepo.updateStatus(id, status);
+
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating status");
+		}
+	}
+	
 	/**
 	 * Fetch all stories where (projectId + sprintId) + (projectId +
 	 * sprintId(null)) matches.
