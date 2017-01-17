@@ -79,6 +79,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("story","story/story-menu.html", "story/story.html", "storyTab");
 	addState("tag","story/story-menu.html", "story/tag.html", "storyTab");
 	addState("task","story/story-menu.html", "story/task-header.html", "storyTab");
+	addState("backlog-sprint","story/story-menu.html", "story/backlog-sprint.html", "storyTab", true);
 	
 	//bug
 	addState("bug","bug/bug-menu.html", "bug/bug.html", "bugTab");
