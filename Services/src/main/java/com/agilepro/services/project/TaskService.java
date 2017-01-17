@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
+import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.project.TaskChangesModel;
 import com.agilepro.commons.models.project.TaskModel;
 import com.agilepro.commons.models.project.TaskRecords;
@@ -75,6 +76,19 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 		{
 			throw new IllegalStateException("An error occurred while updating task - " + taskChangesModel, ex);
 		}
+	}
+	
+	public void updateTaskStatusByStory(Long storyId, TaskStatus status)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			taskRepo.updateTaskStatusByStory(storyId, status);
+			
+			transaction.commit();
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred while updating task of provided story", ex);
+		}	
 	}
 	
 	/**

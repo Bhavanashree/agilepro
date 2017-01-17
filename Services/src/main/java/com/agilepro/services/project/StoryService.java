@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.StoryStatus;
+import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
@@ -58,6 +59,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	@Autowired
 	private StoryDependencyService storyDependencyService;
 
+	/**
+	 * Task service.
+	 */
+	@Autowired
+	private TaskService taskService;
+	
 	/**
 	 * The story repo.
 	 **/
@@ -219,6 +226,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		{
 			storyRepo.updateStatus(id, status);
 
+			if(status.equals(StoryStatus.COMPLETED))
+			{
+				taskService.updateTaskStatusByStory(id, TaskStatus.COMPLETED);
+			}
+			
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{

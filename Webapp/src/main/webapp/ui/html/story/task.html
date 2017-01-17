@@ -48,7 +48,7 @@
 				<!-- Start of list of tasks -->
 				<div style="margin-left: 1em;">
 				
-					<table ng-show="tasks.length > 0" 
+					<table ng-show="story.tasks.length > 0" 
 						style="width: 100%; height: 100%; border: 3px solid #66c2ff;">
 						<tr style="background-color: #383838; color: white;">
 							<th style="text-align: center; width: 50%;">
@@ -73,7 +73,7 @@
 								Delete
 							</th>
 						</tr>
-						<tr ng-repeat="task in tasks" style="border: 3px solid #66c2ff;">
+						<tr ng-repeat="task in story.tasks" style="border: 3px solid #66c2ff;">
 							<td style="padding-left: 0.2em;">
 								<strong style="text-transform: capitalize;">{{task.title}}</strong>
 							</td>

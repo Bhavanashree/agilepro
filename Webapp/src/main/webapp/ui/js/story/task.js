@@ -304,6 +304,16 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						$scope.idToStory[storyId].status = status;
 					}
 					
+					if(status == "COMPLETED")
+					{
+						var taskArr = $scope.idToStory[storyId].tasks;
+						
+						for(index in taskArr)
+						{
+							taskArr[index].status = status;
+						}
+					}
+					
 					try
 					{
 						$scope.$apply();

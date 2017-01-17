@@ -45,6 +45,9 @@ public interface ITaskRepository extends IWebutilsRepository<TaskEntity>
 
 	@RestrictBySpace
 	public int updateTaskStatus(@Condition("id") Long id, @Field(value = "status") TaskStatus status);
+
+	@RestrictBySpace
+	public int updateTaskStatusByStory(@Condition("story.id") Long storyId, @Field(value = "status") TaskStatus status);
 	
 	/**
 	 * Delete all.
