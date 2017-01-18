@@ -240,6 +240,26 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating status");
 		}
 	}
+
+	public void updateStorySprint(Long id, Long sprintId)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			StoryModel story = super.fetchFullModel(id, StoryModel.class);
+			story.setSprintId(sprintId);
+			
+			super.update(story);
+			
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating sprint");
+		}
+	}
+
 	
 	/**
 	 * Fetch all stories where (projectId + sprintId) + (projectId +

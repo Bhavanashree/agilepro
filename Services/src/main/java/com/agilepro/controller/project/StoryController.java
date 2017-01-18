@@ -16,6 +16,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SWAP_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TO_MAX_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STATUS;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.lang.reflect.Method;
@@ -212,6 +213,16 @@ public class StoryController extends BaseController implements IStoryController
 		return new BaseResponse();
 	}
 	
+	@ActionName(ACTION_TYPE_UPDATE_STORY_SPRINT)
+	@RequestMapping(value = "/updateStorySprint", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BaseResponse updateStorySprint(@RequestParam(value = "id") Long id, @RequestParam(value = "sprintId") Long sprintId)
+	{
+		storyService.updateStorySprint(id, sprintId);
+		return new BaseResponse();
+	}
+	
 	/**
 	 * Swap the priority of stories.
 	 * 
@@ -246,8 +257,6 @@ public class StoryController extends BaseController implements IStoryController
 		return new BaseResponse();
 	}
 
-	
-	
 	/**
 	 * Save stories in bulk.
 	 *

@@ -37,6 +37,12 @@ public class BackLogModel
 	private Integer priority;
 	
 	/**
+	 * Project id.
+	 */
+	@Field("project.id")
+	private Long projectId;
+	
+	/**
 	 * Dependencies of the story.
 	 */
 	private List<StoryDependencyModel> dependencies;
@@ -130,4 +136,15 @@ public class BackLogModel
 	{
 		this.dependencies = dependencies;
 	}
+
+	public Long getProjectId()
+	{
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId)
+	{
+		this.projectId = projectId;
+	}
+	
 }

@@ -35,7 +35,7 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 					// set active sprint.
 					if($scope.sprints)
 					{
-						//$scope.onSprintChange($scope.sprints[0].id);
+						$scope.onSprintChange($scope.sprints[0].id);
 					}
 			
 				}, {"hideInProgress" : true});

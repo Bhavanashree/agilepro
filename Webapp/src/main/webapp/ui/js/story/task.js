@@ -40,29 +40,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 
 		return retFunc;
 	};
-
 	
-	/**
-	 * Filter story by sprint.
-	 */
-	$scope.filterStoryBySprint = function(){
 		
-		var sprintObj = $scope.getSelectedSprint();
-
-		for(index in $scope.storiesForTask)
-		{
-			var storyObj = $scope.storiesForTask[index];
-			
-			if(storyObj.sprintId == sprintObj.id)
-			{
-				storyObj.display = true;
-			}else
-			{
-				storyObj.display = false;
-			}
-		}
-	};
-	
 	/**
 	 * Filter story by owner.
 	 */
@@ -110,35 +89,26 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.initTask = function(){
 		
-		if($scope.getActiveProjectId() == -1)
+		var projectId = $scope.getActiveProjectId();
+		
+		if(projectId == -1)
 		{
 			return;
 		}
 		
 		$scope.idToTask = {};
 		
-		actionHelper.invokeAction("story.readByProjectId", null, {"projectId" : $scope.getActiveProjectId()},
+		actionHelper.invokeAction("story.fetchBacklogsByProjectId", null, {"projectId" : projectId},
 				function(readResponse, respConfig)
 				{
-					$scope.storiesForTask = readResponse.model;
+					$scope.backlogs = readResponse.model;
 					
-					$scope.idToStory = {};
-					if($scope.storiesForTask)
+					$scope.idToBacklog = {};
+					for(index in $scope.backlogs)
 					{
-						for(index in $scope.storiesForTask)
-						{
-							var obj = $scope.storiesForTask[index];
-							
-							obj.display = true;
-							
-							$scope.idToStory[obj.id] = obj;
-						}
-					}
-					
-					// Filter by active sprint.
-					if($scope.storiesForTask)
-					{
-						//$scope.filterStoryBySprint();
+						var obj = $scope.backlogs[index];
+						
+						$scope.idToBacklog[obj.id] = obj;
 					}
 					
 					try
@@ -148,6 +118,40 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					{}
 					
 				}, {"hideInProgress" : true});
+		
+	};
+
+	
+	/**
+	 * Fetch stories by sprint
+	 */
+	$scope.fetchStoriesBySprint = function(){
+		
+		actionHelper.invokeAction("story.readStoriesBySprint", null, {"sprintId" : $scope.getSelectedSprint().id},
+			function(readResponse, respConfig)
+			{
+				$scope.storiesForTask = readResponse.model;
+				
+				$scope.idToStory = {};
+				if($scope.storiesForTask)
+				{
+					for(index in $scope.storiesForTask)
+					{
+						var obj = $scope.storiesForTask[index];
+						
+						obj.display = true;
+						
+						$scope.idToStory[obj.id] = obj;
+					}
+				}
+				
+				try
+				{
+					$scope.$apply();
+				}catch(ex)
+				{}
+				
+			}, {"hideInProgress" : true});	
 	};
 
 	/**
@@ -441,7 +445,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	// Listener for broadcast
 	$scope.$on("activeSprintSelectionChanged", function(event, args) {
 		
-		$scope.filterStoryBySprint();
+		$scope.fetchStoriesBySprint();
 	});
 
 	// Listener for broadcast
@@ -520,6 +524,43 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				}, {"hideInProgress" : true});
 	};
 	
+	// Drag and Drop methods
 	
+	/**
+	 * Drag backlogs
+	 */
+	$scope.dragBacklogs = function(event){
+		
+		$scope.draggingId = Number((event.target.id).split('_')[1]);
+	};
+	
+	/**
+	 * On drop of backlog.
+	 */
+	$scope.onDropOfBacklog = function(event){
+		
+		var sprintObj = $scope.getSelectedSprint();
+		
+		if($scope.draggingId && sprintObj)
+		{
+			$scope.updateStorySprint(sprintObj.id);
+		}
+	};
+	
+	/**
+	 * Common method for updating the story sprint.
+	 */
+	$scope.updateStorySprint = function(sprintId){
+		
+		actionHelper.invokeAction("story.updateStorySprint", null, {"id" : $scope.draggingId, "sprintId" : sprintId},
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						$scope.idToBacklog[$scope.draggingId].sprintId = sprintId;
+					}
+					
+				}, {"hideInProgress" : true});
+	};
 	
 }]);

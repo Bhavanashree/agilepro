@@ -167,4 +167,5 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	
 	public int updateStatus(@Condition(value = "id") Long id, @Field(value = "status") StoryStatus status);
 	
+	public int updateSprint(@Condition(value = "id") Long id, @Field(value = "sprint") Long sprintId);
 }
