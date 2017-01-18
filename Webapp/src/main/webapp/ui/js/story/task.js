@@ -532,6 +532,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.dragBacklogs = function(event){
 		
 		$scope.draggingId = Number((event.target.id).split('_')[1]);
+		
+		$scope.draggingIndex = $(event.target).attr("name");
 	};
 	
 	/**
@@ -548,6 +550,17 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	};
 	
 	/**
+	 * Drag back the story
+	 */
+	$scope.onDropOfBackStory = function(event){
+		
+		if($scope.draggingId)
+		{
+			$scope.updateStorySprint(null);
+		}
+	};
+	
+	/**
 	 * Common method for updating the story sprint.
 	 */
 	$scope.updateStorySprint = function(sprintId){
@@ -557,8 +570,49 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				{
 					if(updateResponse.code == 0)
 					{
-						$scope.idToBacklog[$scope.draggingId].sprintId = sprintId;
+						if(sprintId)
+						{
+							var backlogObj = $scope.idToBacklog[$scope.draggingId];
+							backlogObj.sprintId = sprintId;
+							
+							if($scope.storiesForTask)
+							{
+								$scope.storiesForTask.push(backlogObj);
+							}else
+							{
+								$scope.storiesForTask = [backlogObj];
+							}
+							
+							$scope.idToStory[backlogObj.id] = backlogObj;
+							$scope.backlogs.splice($scope.draggingIndex, 1);
+						}else
+						{
+							var storyObj = $scope.idToStory[$scope.draggingId];
+							storyObj.sprintId = null;
+							
+							if($scope.backlogs)
+							{
+								$scope.backlogs.push(storyObj);
+							}else
+							{
+								$scope.backlogs = [storyObj];
+							}
+							
+							$scope.idToBacklog[storyObj.id] = storyObj;
+							$scope.storiesForTask.splice($scope.draggingIndex, 1);
+						}
+						
+						try
+						{
+							$scope.$digest();
+						}catch(ex)
+						{}
+					}else
+					{
+						utils.alert("Error in dragging");
 					}
+
+				 $scope.draggingId = null;
 					
 				}, {"hideInProgress" : true});
 	};
