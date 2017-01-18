@@ -53,7 +53,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		{
 			var storyObj = $scope.storiesForTask[index];
 			
-			if(storyObj.employeeId == ownerObj.id)
+			if((storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
 			{
 				storyObj.display = true;
 			}else
