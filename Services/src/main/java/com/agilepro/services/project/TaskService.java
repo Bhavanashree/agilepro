@@ -60,8 +60,15 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 			{
 				TaskRecords taskRecords = changes.get(key);
 				
-				if(taskRecords.getActualTime() != null)
+				Integer actualTime = taskRecords.getActualTime();
+				
+				if(actualTime != null)
 				{
+					if(actualTime <= 0)
+					{
+						throw new IllegalStateException("Actual time should be greater than 0");
+					}
+					
 					taskRepo.addExtraTime(key, taskRecords.getActualTime());
 				}
 				
