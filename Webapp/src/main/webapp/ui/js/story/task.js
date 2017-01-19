@@ -13,6 +13,56 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		"updateAction": "task.update",
 		"deleteAction": "task.delete",
 	});
+
+	$scope.multipleBacklogIds = [];
+	$scope.storiesForTask = [];
+	$scope.backlogs = [];
+	$scope.idToIndexForMultiple = {};
+	
+	/**
+	 * Check box multiple backlogs.
+	 */
+	$scope.checkBoxBacklog = function(backlogId, indexInBacklogs){
+		
+		$scope.idToIndexForMultiple[backlogId] = indexInBacklogs;
+		
+		$scope.idToBacklog[backlogId].check = !$scope.idToBacklog[backlogId].check; 
+		
+		var indexInMultiple = $scope.multipleBacklogIds.indexOf(backlogId);
+		
+		if(indexInMultiple == -1)
+		{
+			$scope.multipleBacklogIds.push(backlogId);
+		}else
+		{
+			$scope.multipleBacklogIds.splice(indexInMultiple, 1);
+		}
+	};
+	
+	/**
+	 * Default backlog filter by backlog title.
+	 */
+	$scope.backlogFilter = function(searchString){
+		
+		var retFunc = function(item){
+				
+			if(!searchString)
+			{
+				return true;
+			}
+			
+			return item.title.toLowerCase().includes(searchString.toLowerCase());
+		};
+		
+		if($scope.oldSearchBacklog == searchString)
+		{
+			return retFunc;
+		}
+				
+		$scope.oldSearchBacklog = searchString;
+
+		return retFunc;
+	};
 	
 	/**
 	 * Default story filter by story title.
@@ -531,9 +581,15 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.dragBacklogs = function(event){
 		
-		$scope.draggingId = Number((event.target.id).split('_')[1]);
+		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
-		$scope.draggingIndex = $(event.target).attr("name");
+		$scope.draggingId = Number((event.target.id).split('_')[1]);
+		var draggingIndex = $(event.target).attr("name");
+		
+		if($scope.draggingId)
+		{
+			$scope.idToIndexForMultiple[$scope.draggingId] = draggingIndex;
+		}
 	};
 	
 	/**
@@ -541,12 +597,20 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.onDropOfBacklog = function(event){
 		
-		var sprintObj = $scope.getSelectedSprint();
+		event.preventDefault();
 		
-		if($scope.draggingId && sprintObj)
+		var sprintObj = $scope.getSelectedSprint();
+	
+		if($scope.multipleBacklogIds.length > 0 && sprintObj)
 		{
-			$scope.updateStorySprint(sprintObj.id);
+			$scope.updateStorySprint(sprintObj.id, $scope.multipleBacklogIds);
+			
+			$scope.multipleBacklogIds = [];
+		}else if($scope.draggingId && sprintObj)
+		{
+			$scope.updateStorySprint(sprintObj.id, [$scope.draggingId]);
 		}
+		
 	};
 	
 	/**
@@ -554,57 +618,38 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.onDropOfBackStory = function(event){
 		
+		event.preventDefault();
+		
 		if($scope.draggingId)
 		{
-			$scope.updateStorySprint(null);
+			$scope.updateStorySprint(null, [$scope.draggingId]);
 		}
 	};
 	
 	/**
 	 * Common method for updating the story sprint.
 	 */
-	$scope.updateStorySprint = function(sprintId){
+	$scope.updateStorySprint = function(sprintId, ids){
 		
-		actionHelper.invokeAction("story.updateStorySprint", null, {"id" : $scope.draggingId, "sprintId" : sprintId},
+		actionHelper.invokeAction("story.updateStorySprint", {"ids" : ids, "sprintId" : sprintId}, null,
 				function(updateResponse, respConfig)
 				{
 					if(updateResponse.code == 0)
 					{
-						if(sprintId)
+						for(index in ids)
 						{
-							var backlogObj = $scope.idToBacklog[$scope.draggingId];
-							backlogObj.sprintId = sprintId;
-							
-							if($scope.storiesForTask)
+							if(sprintId)
 							{
-								$scope.storiesForTask.push(backlogObj);
+								$scope.reArrangeTheItems(ids[index], sprintId, $scope.backlogs, $scope.idToBacklog, $scope.storiesForTask, $scope.idToStory);
 							}else
 							{
-								$scope.storiesForTask = [backlogObj];
+								$scope.reArrangeTheItems(ids[index], sprintId, $scope.storiesForTask, $scope.idToStory, $scope.backlogs, $scope.idToBacklog);
 							}
-							
-							$scope.idToStory[backlogObj.id] = backlogObj;
-							$scope.backlogs.splice($scope.draggingIndex, 1);
-						}else
-						{
-							var storyObj = $scope.idToStory[$scope.draggingId];
-							storyObj.sprintId = null;
-							
-							if($scope.backlogs)
-							{
-								$scope.backlogs.push(storyObj);
-							}else
-							{
-								$scope.backlogs = [storyObj];
-							}
-							
-							$scope.idToBacklog[storyObj.id] = storyObj;
-							$scope.storiesForTask.splice($scope.draggingIndex, 1);
 						}
 						
 						try
 						{
-							$scope.$digest();
+							$scope.$apply();
 						}catch(ex)
 						{}
 					}else
@@ -615,6 +660,20 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				 $scope.draggingId = null;
 					
 				}, {"hideInProgress" : true});
+	};
+
+	/**
+	 * Common method for removing and adding the dragged objects.
+	 */
+	$scope.reArrangeTheItems = function(id, sprintId, sourceArr, sourceMap, destinationArr, destinationMap){
+		
+		var obj = sourceMap[id];
+		obj.sprintId = sprintId;
+		
+		destinationArr.push(obj);
+		
+		destinationMap[obj.id] = obj;
+		sourceArr.splice($scope.idToIndexForMultiple[id], 1);
 	};
 	
 }]);

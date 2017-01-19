@@ -229,8 +229,9 @@ $.application.controller('kanbanController', ["$scope", "crudController", "utils
 	};
 	
 	$scope.onDropBacklog = function(event){
+		
 		event.preventDefault();
-		console.log("onDropBacklog");
+
 		$scope.handleOnDropEvent(null);
 	};
 	

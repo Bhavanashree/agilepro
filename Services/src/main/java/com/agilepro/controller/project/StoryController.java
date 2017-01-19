@@ -41,6 +41,7 @@ import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.StoriesInBulk;
 import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.commons.models.project.StorySprintUpdateModel;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.StoryService;
 import com.yukthi.webutils.InvalidRequestParameterException;
@@ -214,12 +215,12 @@ public class StoryController extends BaseController implements IStoryController
 	}
 	
 	@ActionName(ACTION_TYPE_UPDATE_STORY_SPRINT)
-	@RequestMapping(value = "/updateStorySprint", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateStorySprint", method = RequestMethod.POST)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BaseResponse updateStorySprint(@RequestParam(value = "id") Long id, @RequestParam(value = "sprintId") Long sprintId)
+	public BaseResponse updateStorySprint(@RequestBody StorySprintUpdateModel storySprintUpdateModel)
 	{
-		storyService.updateStorySprint(id, sprintId);
+		storyService.updateStorySprint(storySprintUpdateModel.getIds(), storySprintUpdateModel.getSprintId());
 		return new BaseResponse();
 	}
 	

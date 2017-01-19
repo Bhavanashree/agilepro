@@ -241,14 +241,17 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
-	public void updateStorySprint(Long id, Long sprintId)
+	public void updateStorySprint(Long[] ids, Long sprintId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			StoryModel story = super.fetchFullModel(id, StoryModel.class);
-			story.setSprintId(sprintId);
-			
-			super.update(story);
+			for(Long id : ids)
+			{
+				StoryModel story = super.fetchFullModel(id, StoryModel.class);
+				story.setSprintId(sprintId);
+				
+				super.update(story);
+			}
 			
 			transaction.commit();
 		} catch(RuntimeException ex)
@@ -326,7 +329,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<StoryModel> fetchStoryBySprintId(Long sprintId)
 	{
-		List<StoryModel> storymodels = null;
+		List<StoryModel> storymodels = new ArrayList<StoryModel>();
 
 		List<StoryEntity> storyEntities = storyRepo.fetchStoryBySprintId(sprintId);
 
@@ -335,8 +338,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 		if(storyEntities.size() > 0)
 		{
-			storymodels = new ArrayList<StoryModel>(storyEntities.size());
-
 			for(StoryEntity entity : storyEntities)
 			{
 				storyModel = super.toModel(entity, StoryModel.class);

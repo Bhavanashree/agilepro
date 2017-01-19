@@ -3,14 +3,14 @@
 	<div style="border: 3px solid grey; width: 20%; height: 100%; margin-right: 0.5em;" yk-on-drop="onDropOfBackStory(event)">
 		
 		<div style="border-bottom: 3px solid grey;">
-			<input type="text" placeholder="Search backlog" style="border: none; height: 2.5em;"/>
+			<input type="text" ng-model="backlogSearch" placeholder="Search backlog" style="border: none; height: 2.5em;"/>
 		</div>
 		
-		<div id="dragBacklog_{{backlog.id}}" name="{{$index}}" ng-repeat="backlog in backlogs" 
+		<div id="dragBacklog_{{backlog.id}}" name="{{$index}}" ng-repeat="backlog in backlogs | filter:backlogFilter(backlogSearch)" 
 			 class="member" ng-class="backlog.check ? 'blueBackGround' : 'whiteBackGround'"
 				style="width: 95%;  height: 3em; margin: 0.5em; padding: 0.7em; cursor:pointer; 
 					   cursor:-moz-grabbing; overflow: hidden;" draggable="true" 
-					   yk-on-drag="dragBacklogs(event)" ng-click="checkBoxProject(project.id)">
+					   yk-on-drag="dragBacklogs(event)" ng-click="checkBoxBacklog(backlog.id, $index)">
 				<table>
 					<tr>
 						<td style="padding-left: 0.5em;">
