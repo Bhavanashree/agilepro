@@ -68,11 +68,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
 	 $scope.priorityViewTab = {active: false, color: "greyBackGround"};
 	 
-	 $scope.finalResult = [];
-	 $scope.scrollForFirstTime = true; 
-	 $scope.dependencyTree = [];
-	 $scope.dependencyIds = [];
-	 $scope.deletedIds = [];
 	 
  	/**
 	 * Set the active tab.
@@ -118,6 +113,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.parentIdChildListMap = {};
 		$scope.storyIdDependencyListMap = {};
 		  
+		$scope.scrollForFirstTime = true; 
+		$scope.dependencyTree = [];
+		$scope.dependencyIds = [];
+		$scope.deletedIds = [];
+		
 		// This array will be assigned to final result after recursion so that the scroll 
 		// bar will be not affected for child save.  
 		$scope.backlogsForRecursion = [];

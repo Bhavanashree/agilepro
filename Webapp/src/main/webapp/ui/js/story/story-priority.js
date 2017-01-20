@@ -138,7 +138,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 			$scope.fetchTheChildIds(backlogObj.childrens);
 		}
 		
-		$('#dropForMaxPriority').css("background-color", "lightblue");
+		$('#dropForLeastPriority').css("background-color", "lightblue");
 	};
 	
 	/**
@@ -224,8 +224,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		event.preventDefault();
 		
-		console.log("onDropForMaxPriority 123" + $scope.draggingIndex);
-		
 		if(!$scope.draggingIndex)
 		{
 			return;
@@ -236,6 +234,15 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		$scope.draggingIndex = null;
 		$('#dropForMaxPriority').css("background-color", "white");
 	};
+	
+	
+	$scope.mouseDroppedItem = function(event){
+		
+		console.log("mouseDroppedItem()");
+		
+		$('#dropForLeastPriority').css("background-color", "white");
+	};
+	
 	
 	/**
 	 * Common method for updating the priority and calling the controller with the help of action helper.

@@ -1,8 +1,8 @@
 <div class="flexHorizontal" style="width: 100%; height: 90%; justify-content: space-between;"  ng-init="initTask()">
 	
-	<div style="border: 3px solid grey; width: 20%; height: 100%; margin-right: 0.5em;" yk-on-drop="onDropOfBackStory(event)">
+	<div id="dropStoryForBacklogId" style="border: 3px solid grey; width: 20%; height: 100%; margin-right: 0.5em;" yk-on-drop="onDropOfBackStory(event)">
 		
-		<div style="border-bottom: 3px solid grey;">
+		<div id="searchBacklogInputId" style="border-bottom: 3px solid grey;">
 			<input type="text" ng-model="backlogSearch" placeholder="Search backlog" style="border: none; height: 2.5em;"/>
 		</div>
 		
@@ -10,7 +10,8 @@
 			 class="member" ng-class="backlog.check ? 'blueBackGround' : 'whiteBackGround'"
 				style="width: 95%;  height: 3em; margin: 0.5em; padding: 0.7em; cursor:pointer; 
 					   cursor:-moz-grabbing; overflow: hidden;" draggable="true" 
-					   yk-on-drag="dragBacklogs(event)" ng-click="checkBoxBacklog(backlog.id, $index)">
+					   yk-on-drag="dragBacklogs(event)" ng-click="checkBoxBacklog(backlog.id, $index)"
+					   yk-on-drag-end="mouseDroppedItem(event)">
 				<table>
 					<tr>
 						<td style="padding-left: 0.5em;">
@@ -23,14 +24,15 @@
 		</div>
 	</div>
 	
-	<div style="border: 3px solid grey; width: 80%; height: 100%; padding: 0.5em;"
+	<div id="dropStoryForTaskId" style="border: 3px solid grey; width: 80%; height: 100%; padding: 0.5em;"
 	yk-on-drop="onDropOfBacklog(event)">
 	
 		<!-- Start of main story list -->
 		<div ng-repeat="story in storiesForTask | filter:storyFilter()" ng-show="story.display">
 			
 			<!-- Start story display -->
-			<div id="dragStory_{{story.id}}" name="{{$index}}"  draggable="true" yk-on-drag="dragBacklogs(event)"
+			<div id="dragStory_{{story.id}}" name="{{$index}}"  draggable="true" yk-on-drag="dragStory(event)" 
+			     yk-on-drag-end="mouseDroppedItem(event)"
 				 style="height: 2.5em; border: 3px solid #66c2ff; margin: 0.5em;">
 				<table style="width: 100%; height: 100%;">
 					<tr>

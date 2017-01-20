@@ -14,7 +14,7 @@
 				
 				<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
 					border: 3px solid #66c2ff; cursor: grab;"
-					draggable="true" yk-on-drag="dragBacklog(event)">
+					draggable="true" yk-on-drag="dragBacklog(event)" yk-on-drag-end="mouseDroppedItem(event)">
 				
 					<table style="width: 100%; height: 100%;">
 						<tr>
@@ -52,8 +52,9 @@
 			
 			</div>
 			
-			<div id="dropForLeastPriority"  yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" yk-on-drop="onDropForMaxPriority(event)"
-				class="heightTransition" style="background-color: white; height: 30px; margin-top: 1em; margin-left: 1em; margin-right: 1em;">
+			<div id="dropForLeastPriority" yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" yk-on-drop="onDropForMaxPriority(event)"
+				class="heightTransition" 
+				style="background-color: white; height: 30px; margin-top: 1em; margin-left: 1em; margin-right: 1em;">
 				
 					Drop for least priority
 			</div>			

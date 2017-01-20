@@ -10,6 +10,8 @@ import javax.persistence.Table;
 
 import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
@@ -19,6 +21,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "Sprint")
 @Table(name = "SPRINT")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" })})
 public class SprintEntity extends WebutilsExtendableEntity
 {
 	/**

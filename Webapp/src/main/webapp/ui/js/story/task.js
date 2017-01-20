@@ -14,10 +14,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		"deleteAction": "task.delete",
 	});
 
-	$scope.multipleBacklogIds = [];
-	$scope.storiesForTask = [];
-	$scope.backlogs = [];
-	$scope.idToIndexForMultiple = {};
 	
 	/**
 	 * Check box multiple backlogs.
@@ -147,6 +143,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		}
 		
 		$scope.idToTask = {};
+		$scope.multipleBacklogIds = [];
+		$scope.storiesForTask = [];
+		$scope.backlogs = [];
+		$scope.idToIndexForMultiple = {};
 		
 		actionHelper.invokeAction("story.fetchBacklogsByProjectId", null, {"projectId" : projectId},
 				function(readResponse, respConfig)
@@ -287,19 +287,23 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			return;
 		}
 
-		if(!estimateTime)
+		if(!estimateTime || (estimateTime.trim()).length == 0)
 		{
 			$scope.taskError.show = true;
 			$scope.taskError.message = "Please provide the estimated time";
 			return;
-		}/*else (estimateTime <= 0)
+		}
+		
+		//estimateTime = toInt(estimateTime);
+		
+		if (estimateTime <= 0)
 		{
 			console.log(estimateTime);
 			
 			$scope.taskError.show = true;
 			$scope.taskError.message = "Please provide estimated time greater than 0";
 			return;
-		}*/
+		}
 		
 		$scope.taskError.show = false;
 		
@@ -590,6 +594,35 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		{
 			$scope.idToIndexForMultiple[$scope.draggingId] = draggingIndex;
 		}
+		
+		$('#dropStoryForTaskId').css("border", "3px solid #66c2ff");
+		$('#dropStoryForTaskId').css('box-shadow', "5px 5px 5px #888888");
+		
+		$scope.allowedFromBacklogToStory = true;
+		$scope.allowedFromStoryToBacklog = false;
+	};
+
+	/**
+	 * Drag backlogs
+	 */
+	$scope.dragStory = function(event){
+		
+		event.originalEvent.dataTransfer.setData('text/plain', 'text');
+		
+		$scope.draggingId = Number((event.target.id).split('_')[1]);
+		var draggingIndex = $(event.target).attr("name");
+		
+		if($scope.draggingId)
+		{
+			$scope.idToIndexForMultiple[$scope.draggingId] = draggingIndex;
+		}
+
+		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
+		$('#searchBacklogInputId').css("border-bottom", "3px solid #66c2ff");
+		$('#dropStoryForBacklogId').css('box-shadow', "5px 5px 5px #888888");
+		
+		$scope.allowedFromStoryToBacklog = true;
+		$scope.allowedFromBacklogToStory = false;
 	};
 	
 	/**
@@ -599,18 +632,20 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		event.preventDefault();
 		
-		var sprintObj = $scope.getSelectedSprint();
-	
-		if($scope.multipleBacklogIds.length > 0 && sprintObj)
+		if($scope.allowedFromBacklogToStory)
 		{
-			$scope.updateStorySprint(sprintObj.id, $scope.multipleBacklogIds);
+			var sprintObj = $scope.getSelectedSprint();
 			
-			$scope.multipleBacklogIds = [];
-		}else if($scope.draggingId && sprintObj)
-		{
-			$scope.updateStorySprint(sprintObj.id, [$scope.draggingId]);
+			if($scope.multipleBacklogIds.length > 0 && sprintObj)
+			{
+				$scope.updateStorySprint(sprintObj.id, $scope.multipleBacklogIds);
+				
+				$scope.multipleBacklogIds = [];
+			}else if($scope.draggingId && sprintObj)
+			{
+				$scope.updateStorySprint(sprintObj.id, [$scope.draggingId]);
+			}
 		}
-		
 	};
 	
 	/**
@@ -619,12 +654,26 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.onDropOfBackStory = function(event){
 		
 		event.preventDefault();
-		
-		if($scope.draggingId)
+
+		if($scope.draggingId && $scope.allowedFromStoryToBacklog)
 		{
 			$scope.updateStorySprint(null, [$scope.draggingId]);
 		}
 	};
+	
+	/**
+	 * Gets invoked when mouse leaves the dragging item.
+	 */
+	$scope.mouseDroppedItem = function(event){
+		
+		$('#dropStoryForTaskId').css("border", "3px solid grey");
+		$('#dropStoryForTaskId').css('box-shadow', "none");
+		
+		$('#dropStoryForBacklogId').css("border", "3px solid grey");
+		$('#searchBacklogInputId').css("border-bottom", "3px solid grey");
+		$('#dropStoryForBacklogId').css('box-shadow', "none");
+	};
+	
 	
 	/**
 	 * Common method for updating the story sprint.

@@ -276,7 +276,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<StoryModel> fetchStoriesForKanban(Long projectId, Long sprintId)
 	{
-		List<StoryModel> storymodels = null;
+		List<StoryModel> storymodels = new ArrayList<StoryModel>();
 
 		List<StoryEntity> stories = storyRepo.fetchStoryByProjIdAndSprint(projectId, sprintId);
 		List<StoryEntity> unassignedStories = storyRepo.fetchBacklogsForkanaban(projectId);
@@ -296,8 +296,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 		if(stories.size() > 0)
 		{
-			storymodels = new ArrayList<StoryModel>(stories.size());
-
 			for(StoryEntity entity : stories)
 			{
 				storyModel = super.toModel(entity, StoryModel.class);
@@ -390,11 +388,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		List<StoryEntity> storyEntities = storyRepo.findByTitle(title);
 		List<StoryAndTaskResult> storiesmodel = new ArrayList<StoryAndTaskResult>();
+		
 		for(StoryEntity story : storyEntities)
 		{
 			StoryAndTaskResult storyandTask = new StoryAndTaskResult(story.getTitle(), story.getId());
 			storiesmodel.add(storyandTask);
 		}
+		
 		return storiesmodel;
 	}
 
@@ -402,7 +402,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * Save bulk of stories.
 	 *
 	 * @param storieBulkModels
-	 *            the storie bulk models
+	 *            the story bulk models
 	 * @param projectId
 	 *            the project id
 	 * @param parentId
@@ -471,7 +471,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Deletes all entities.
+	 * Deletes all records.
 	 */
 	public void deleteAll()
 	{
