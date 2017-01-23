@@ -39,8 +39,12 @@
 									border-right: 1px solid #101010; color: white;">
 										{{backlog.priority}}
 								</td>
-								<td id="backlogTitle_{{backlog.id}}" style="width: 84%; padding-left: 0.5em;">
+								<td id="backlogTitle_{{backlog.id}}" style="width: 70%; padding-left: 0.5em;">
 									<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
+								</td>
+								<td style="width: 14%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff;">
+								 	managment story {{backlog.isManagementStory}}
 								</td>
 								<td id="edit_{{backlog.id}}" ng-click="editBacklog(backlog.id)" style="width: 4%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff; cursor:pointer;">

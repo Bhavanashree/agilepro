@@ -132,6 +132,12 @@ public class StoryModel extends AbstractExtendableModel
 	private Long teamId;
 
 	/**
+	 * Is management story, true if it has child stories or else by default
+	 * false.
+	 */
+	private Boolean isManagementStory;
+	
+	/**
 	 * Instantiates a new back log model.
 	 */
 	public StoryModel()
@@ -470,5 +476,26 @@ public class StoryModel extends AbstractExtendableModel
 	public void setOwnerId(Long ownerId)
 	{
 		this.ownerId = ownerId;
+	}
+	
+	/**
+	 * Gets the management story.
+	 * 
+	 * @return the management story.
+	 */
+	public Boolean getIsManagementStory()
+	{
+		return isManagementStory;
+	}
+
+	/**
+	 * Sets the management story.
+	 * 
+	 * @param isManagementStory
+	 *            new management story.
+	 */
+	public void setIsManagementStory(Boolean isManagementStory)
+	{
+		this.isManagementStory = isManagementStory;
 	}
 }

@@ -32,8 +32,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "Story")
 @Table(name = "STORY")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" }),
-					 @UniqueConstraint(name = "SPACE_PROJECT_PRIORITY", fields = { "spaceIdentity", "project", "priority" })})
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" }), @UniqueConstraint(name = "SPACE_PROJECT_PRIORITY", fields = { "spaceIdentity", "project", "priority" }) })
 public class StoryEntity extends WebutilsExtendableEntity
 {
 	/**
@@ -127,13 +126,20 @@ public class StoryEntity extends WebutilsExtendableEntity
 	@PropertyMapping(type = StoryModel.class, from = "teamId", subproperty = "id")
 	@Column(name = "TEAM_ID")
 	private ProjectTeamEntity team;
-	
+
 	/**
 	 * Story dependencies.
 	 */
 	@OneToMany(mappedBy = "dependencyStory")
 	private List<StoryDependencyEntity> storyDependencies;
-	
+
+	/**
+	 * Is management story, true if it has child stories or else by default
+	 * false.
+	 */
+	@Column(name = "IS_MANAGEMENT_STORY")
+	private Boolean isManagementStory;
+
 	/**
 	 * Instantiates a new back log entity.
 	 */
@@ -435,10 +441,32 @@ public class StoryEntity extends WebutilsExtendableEntity
 	/**
 	 * Sets story dependencies.
 	 * 
-	 * @param storyDependencies the new dependencies.
+	 * @param storyDependencies
+	 *            the new dependencies.
 	 */
 	public void setStoryDependencies(List<StoryDependencyEntity> storyDependencies)
 	{
 		this.storyDependencies = storyDependencies;
+	}
+
+	/**
+	 * Gets the management story.
+	 * 
+	 * @return the management story.
+	 */
+	public Boolean getIsManagementStory()
+	{
+		return isManagementStory;
+	}
+
+	/**
+	 * Sets the management story.
+	 * 
+	 * @param isManagementStory
+	 *            new management story.
+	 */
+	public void setIsManagementStory(Boolean isManagementStory)
+	{
+		this.isManagementStory = isManagementStory;
 	}
 }

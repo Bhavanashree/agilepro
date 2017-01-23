@@ -6,7 +6,7 @@ import com.yukthi.persistence.repository.annotations.Field;
 
 /**
  * BacklogModel is used for fetching the stories where sprint id will be null.
- * Result object will be mapped with the entity class. 
+ * Result object will be mapped with the entity class.
  * 
  * @author Pritam.
  */
@@ -17,35 +17,42 @@ public class BackLogModel
 	 */
 	@Field("id")
 	private Long id;
-	
+
 	/**
 	 * Title of the story.
 	 */
 	@Field("title")
 	private String title;
-	
+
 	/**
-	 * Parent story id. 
+	 * Parent story id.
 	 */
 	@Field("parentStory.id")
 	private Long parentStoryId;
-	
+
 	/**
 	 * Priority of the story.
 	 */
 	@Field("priority")
 	private Integer priority;
-	
+
 	/**
 	 * Project id.
 	 */
 	@Field("project.id")
 	private Long projectId;
-	
+
 	/**
 	 * Dependencies of the story.
 	 */
 	private List<StoryDependencyModel> dependencies;
+
+	/**
+	 * Is management story, true if it has child stories or else by default
+	 * false.
+	 */
+	@Field("isManagementStory")
+	private Boolean isManagementStory;
 
 	/**
 	 * Gets the story id.
@@ -60,7 +67,8 @@ public class BackLogModel
 	/**
 	 * Sets the story id.
 	 * 
-	 * @param id the new story id.
+	 * @param id
+	 *            the new story id.
 	 */
 	public void setId(Long id)
 	{
@@ -80,7 +88,8 @@ public class BackLogModel
 	/**
 	 * Sets the title.
 	 * 
-	 * @param title the new title.
+	 * @param title
+	 *            the new title.
 	 */
 	public void setTitle(String title)
 	{
@@ -99,8 +108,9 @@ public class BackLogModel
 
 	/**
 	 * Sets the parent story id.
-	 *  
-	 * @param parentStoryId the new parent story id.
+	 * 
+	 * @param parentStoryId
+	 *            the new parent story id.
 	 */
 	public void setParentStoryId(Long parentStoryId)
 	{
@@ -120,31 +130,74 @@ public class BackLogModel
 	/**
 	 * Sets the priority.
 	 * 
-	 * @param priority the new priority.
+	 * @param priority
+	 *            the new priority.
 	 */
 	public void setPriority(Integer priority)
 	{
 		this.priority = priority;
 	}
 
+	/**
+	 * Gets the dependencies.
+	 * 
+	 * @return the dependencies.
+	 */
 	public List<StoryDependencyModel> getDependencies()
 	{
 		return dependencies;
 	}
 
+	/**
+	 * Set the dependencies.
+	 * 
+	 * @param dependencies
+	 *            new dependencies.
+	 */
 	public void setDependencies(List<StoryDependencyModel> dependencies)
 	{
 		this.dependencies = dependencies;
 	}
 
+	/**
+	 * Gets the project id.
+	 * 
+	 * @return the project id.
+	 */
 	public Long getProjectId()
 	{
 		return projectId;
 	}
 
+	/**
+	 * Sets the project id.
+	 * 
+	 * @param projectId
+	 *            the new project id.
+	 */
 	public void setProjectId(Long projectId)
 	{
 		this.projectId = projectId;
 	}
-	
+
+	/**
+	 * Gets the management story.
+	 * 
+	 * @return the management story.
+	 */
+	public Boolean getIsManagementStory()
+	{
+		return isManagementStory;
+	}
+
+	/**
+	 * Sets the management story.
+	 * 
+	 * @param isManagementStory
+	 *            new management story.
+	 */
+	public void setIsManagementStory(Boolean isManagementStory)
+	{
+		this.isManagementStory = isManagementStory;
+	}
 }

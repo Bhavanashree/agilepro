@@ -19,14 +19,12 @@ import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
-import com.agilepro.persistence.entity.project.StoryDependencyEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.agilepro.services.admin.EmployeeService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
-import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -102,9 +100,20 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		{
 			List<BackLogPriorityModel> updatedPriorites = new ArrayList<BackLogPriorityModel>();
 
-			if(storyModel.getParentStoryId() != null)
+			Long parentStoryId = storyModel.getParentStoryId();
+			
+			// child is saved
+			if(parentStoryId != null)
 			{
-				Integer parentPriority = storyRepo.fetchOrderOfStory(storyModel.getParentStoryId());
+				StoryModel parentStory = super.fetchFullModel(parentStoryId, StoryModel.class);
+				
+				if(!parentStory.getIsManagementStory())
+				{
+					parentStory.setIsManagementStory(true);
+					super.update(parentStory);
+				}
+				
+				Integer parentPriority = storyRepo.fetchOrderOfStory(parentStoryId);
 
 				storyRepo.moveStoriesDown(storyModel.getProjectId(), parentPriority, PRIORITY_INCREMENT_VALUE);
 
@@ -373,7 +382,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		{
 			backlog.setDependencies(storyDependencyService.fetchDependencyIds(backlog.getId()));
 		}
-
+		
 		return backlogModels;
 	}
 
@@ -470,6 +479,33 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		return storyModels;
 	}
 
+	/**
+	 * Delete and update the parent story for 0 child's.
+	 * 
+	 * @param id provided id for delete.
+	 */
+	public void deleteAndUpdateManagementStory(Long id)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			StoryEntity parentStoryEntity = super.fetch(id).getParentStory();
+			
+			super.deleteById(id);
+			
+			if(parentStoryEntity != null && storyRepo.storyHasChilds(parentStoryEntity.getId()) == 0)
+			{
+				StoryModel parentStoryModel = super.fetchFullModel(parentStoryEntity.getId(), StoryModel.class);
+				parentStoryModel.setIsManagementStory(false);
+				super.update(parentStoryModel);
+			}
+			
+			transaction.commit();
+		} catch(Exception ex)
+		{
+			throw new IllegalStateException("An error occurred while deleteing story - ", ex);
+		}
+	}
+	
 	/**
 	 * Deletes all records.
 	 */

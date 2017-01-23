@@ -19,7 +19,6 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STA
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -33,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.agilepro.commons.BasicVersionResponse;
 import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.UserRole;
@@ -44,7 +42,6 @@ import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.commons.models.project.StorySprintUpdateModel;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.StoryService;
-import com.yukthi.webutils.InvalidRequestParameterException;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
@@ -291,7 +288,7 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
 	{
-		storyService.deleteById(id);
+		storyService.deleteAndUpdateManagementStory(id);
 
 		return new BaseResponse();
 	}

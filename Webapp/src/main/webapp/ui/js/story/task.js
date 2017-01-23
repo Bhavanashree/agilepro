@@ -718,6 +718,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		var obj = sourceMap[id];
 		obj.sprintId = sprintId;
+		obj.display = true;
 		
 		destinationArr.push(obj);
 		

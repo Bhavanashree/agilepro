@@ -276,22 +276,24 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			storyHierarchyElem.animate({ scrollTop: storyHierarchyElem[0].scrollHeight });
 		}else
 		{
-			var childrens = $scope.idToStory[backlogModel.parentStoryId].childrens;
+			var parentStory = $scope.idToStory[backlogModel.parentStoryId]
+			var childrens = parentStory.childrens;
 			
 			if(childrens)
 			{
 				childrens.push(backlogModel);
 			}else
 			{
-				$scope.idToStory[backlogModel.parentStoryId].childrens = [backlogModel];
+				parentStory.childrens = [backlogModel];
 			}
+			
+			parentStory.isManagementStory = true;
 			
 			for(key in storyIdPriority)
 			{
 				$scope.idToStory[key].priority = storyIdPriority[key];
 			}
 		}
-		
 	};
 	
 	/**
@@ -450,6 +452,11 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			var childrens = ($scope.idToStory[objToBeRemoved.parentStoryId]).childrens;
 			
 			childrens.splice(childrens.indexOf(objToBeRemoved), 1);
+			
+			if(childrens.length == 0)
+			{
+				$scope.idToStory[objToBeRemoved.parentStoryId].isManagementStory = false;
+			}
 		}
 		
 		if(objToBeRemoved.childrens)

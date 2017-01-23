@@ -21,7 +21,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "Sprint")
 @Table(name = "SPRINT")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" })})
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "name" })})
 public class SprintEntity extends WebutilsExtendableEntity
 {
 	/**

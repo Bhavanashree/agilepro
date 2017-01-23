@@ -85,7 +85,11 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	public List<BackLogModel> fetchBacklogs(@Condition(value = "project.id") Long projectId);
 
 	@RestrictBySpace
-	public List<StoryEntity> fetchstoryByParentId(@Condition(value = "parentStory.id") Long parentStoryId);
+	public List<StoryEntity> fetchChilds(@Condition(value = "parentStory.id") Long parentStoryId);
+	
+	@RestrictBySpace
+	@AggregateFunction
+	public int storyHasChilds(@Condition(value = "parentStory.id") Long parentStoryId);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchStoriesByProject(@Condition(value = "project.id") Long projectId);
