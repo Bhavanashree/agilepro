@@ -233,4 +233,13 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		utils.confirm([$scope.getAlertMessage(backlogId), backlogObj.title], deleteOp);
 	};
 	
+	
+	/**
+	 * save new note
+	 */
+	$scope.saveStoryNote  = function(storyNoteStatus){
+		
+		$scope.$broadcast("saveNewStoryNote", storyNoteStatus);
+	};	
+	
 }]);

@@ -93,7 +93,7 @@
 					<yk-model-form name="StoryModel" columns="2"/>
 				</tab>
 				
-				<tab id="conversationId" label="Conversation" ng-show="conversationTab">
+				<tab id="conversationId" label="Conversation">
 					
 					<!-- Conversation -->
 					<div class="panel panel-primary" style="margin-bottom: 0px;">
@@ -180,7 +180,7 @@
 				</tab>
 				
 				<!-- Attachment -->
-				<tab id="storyFormId" label="Attachment" ng-show="attachmentTab">
+				<tab id="storyFormId" label="Attachment">
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-12">
 							<div class="panel panel-default">
@@ -229,15 +229,15 @@
 					</div>
 				</tab>
 				
-				<tab id="storyNoteId" label="Notes" ng-show="conversationTab">
+				<tab id="storyNoteId" label="Notes">
 					<div ng-include="'/ui/html/story/story-note.html'"></div>
 				</tab>
 				
 			</yk-tabs>
 		</content>
 		<footer>
-			<button type="button" class="btn btn-info" ng-click="saveNote('DRAFT')" ng-if="selectedTab == 'storyNoteId'">Save Draft</button>
-			<button type="button" class="btn btn-success" ng-click="saveNote('PUBLISHED')" ng-if="selectedTab == 'storyNoteId'">Publish</button>
+			<button type="button" class="btn btn-info" ng-click="saveStoryNote('DRAFT')" ng-if="selectedTab == 'storyNoteId'">Save Draft</button>
+			<button type="button" class="btn btn-success" ng-click="saveStoryNote('PUBLISHED')" ng-if="selectedTab == 'storyNoteId'">Publish</button>
 			<button id="updateStoryBtnId" type="button" class="btn btn-primary save-button" ng-click="updateBacklog()" ng-if="selectedTab == 'modelFormId'">{{newStoryMode ? 'Save' : 'Update'}}</button>
 			<button id="cancelUpdateBtnId" type="button" class="btn btn-danger cancel-button" data-dismiss="modal" ng-if="selectedTab == 'modelFormId'">Cancel</button>
 		</footer>

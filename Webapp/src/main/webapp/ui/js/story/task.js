@@ -114,13 +114,19 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.filterStoryByStoryStatus = function(){
 		
-		var storyStatus = $scope.getSelectedStoryStatus();
+		var storyStatusName = $scope.getSelectedStoryStatus();
 		
 		for(index in $scope.storiesForTask)
 		{
 			var storyObj = $scope.storiesForTask[index];
 			
-			if(storyObj.status == storyStatus)
+			if(storyStatusName == "All")
+			{
+				storyObj.display = true;
+			}else if(storyStatusName == "Completed" && storyObj.status == "COMPLETED")
+			{
+				storyObj.display = true;
+			}else if(storyStatusName == "Not Completed" && storyObj.status != "COMPLETED")
 			{
 				storyObj.display = true;
 			}else
@@ -521,6 +527,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.openStoryNoteModal = function(storyId){
 		
+		$scope.storyNotesForStory = $scope.idToStory[storyId];
+		
 		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : storyId}, 
 				function(readResponse, respConfig)
 				{
@@ -529,6 +537,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						$("#storyNoteModal").modal("show");
 						$scope.storyNotes = readResponse.model;
 						
+						if($scope.storyNotes.length == 0)
+						{
+							$scope.storyNotes.push({"content" : "There is no notes for this story"});
+						}
 						try
 						{
 							$scope.$apply();

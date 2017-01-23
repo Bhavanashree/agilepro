@@ -22,43 +22,31 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		"onDisplay" : function(model){
 			
+			$scope.storyForUpdate = model;
+			
+			$scope.$broadcast("fetchAllStoryNotes");
+			
+			
 			//$scope.initTinyMce();
 			
-			if(!(model.id))
-			{
-				$scope.conversationTab = false;
-			}
-			else
-			{
-				$scope.message = "";
-				$scope.conversationTab = true;
-				$scope.attachmentTab = true;
+			$scope.message = "";
 				
-				// logic for adjust height as extension value can be added
-				var modelFormElem = angular.element('#modelFormId'); 
-				
-				var panelBodyElem = angular.element('#panelBodyId');
-				
-				var conversationHeight = modelFormElem.height();
-
-				panelBodyElem.css('height', conversationHeight + 'px');
-				
-				$scope.storyId = model.id;
-
-				$scope.storyForUpdate = model;
-				
-				//$scope.getAllProjectMembers();
-				
-				$scope.selectedTitle = {};
-				$scope.titles = [];
-				
-				//$scope.getAllTitle();
-				
-				//$scope.getAllAttachment();
-			}
+			// logic for adjust height as extension value can be added
+			var modelFormElem = angular.element('#modelFormId'); 
+			var panelBodyElem = angular.element('#panelBodyId');
 			
-			// Broad cast 
-	    	//$scope.$broadcast("fetchAllStoryNotes");
+			var conversationHeight = modelFormElem.height();
+
+			panelBodyElem.css('height', conversationHeight + 'px');
+			
+			//$scope.getAllProjectMembers();
+			
+			$scope.selectedTitle = {};
+			$scope.titles = [];
+				
+			//$scope.getAllTitle();
+			
+			//$scope.getAllAttachment();
 		}
 		
 	});
@@ -343,6 +331,14 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	};
 	
 	/**
+	 * Get selected story for update.
+	 */
+	$scope.getStoryForUpdate = function(){
+		
+		return $scope.storyForUpdate;
+	};
+	
+	/**
 	 * Get the list of back log items.
 	 */
 	$scope.getBackLogs = function(){
@@ -507,7 +503,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 */
 	$scope.refreshPriority = function(){
 		
-		console.log("sortBacklogsByPriority");
 		$scope.$broadcast("sortBacklogsByPriority");
 	};
 	

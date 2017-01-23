@@ -1,6 +1,6 @@
 <div class="container-fluid" ng-controller="storyNoteController" style="padding: 0px;">
 
-	<div class="row" style="height: 20em; padding-top: 1em;">
+	<div class="row" style="height: 100%; padding-top: 1em;">
 		
 		<div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
 			
@@ -8,13 +8,15 @@
 				Version {{activeVersionTitle}}
 				<input id="versionTitleId" type="text" class="form-control" placeholder="Version Title" style="border-color: #CD5C5C;" ng-model="versionTitle"
 				ng-keyup="checkVersionTitle($event)"/>
+				
 				<span ng-if="errorStoryNote.error" style="margin-left: 0.5em; color: red; font-size: 15px;">
 					{{errorStoryNote.message}}
 				</span>
 			</div>
 			
 			<div style="padding-top: 0.5em;">
-				<textarea rows="2" cols="2" id="noteId" class="form-control" style="height: 15em; resize: none;"></textarea>
+				<textarea rows="2" cols="2" id="noteId" class="form-control" style="height: 23.3em; resize: none;">
+				</textarea>
 			</div>
 		
 		</div>

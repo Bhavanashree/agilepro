@@ -2,17 +2,11 @@ $.application.controller("scrumController", ["$scope", "crudController", "utils"
                                      function($scope, crudController, utils, actionHelper) {
 	
 	$scope.simpleDateFormatter = new simpleDateFormat('dd/MM/yyyy');
-	
 	$scope.meetingDate = $scope.simpleDateFormatter.format(new Date());
-	
 	$scope.isFirstRequest = true;
-	
 	$scope.storyIdObjMap = {};
-	
 	$scope.selectedStory = {};
-	
 	$scope.projectMemberIds = [];
-	
 	
 	$scope.onDateChange = function(){
 		

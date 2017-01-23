@@ -97,7 +97,7 @@
 					<tr>
 						<td>
 							<input type="text" class="form-control" aria-label="..." style="width: 15em;" readonly="readonly" 
-							 placeholder="Please select status" value="{{displayTask(activeStoryStatus)}}">
+							 placeholder="Please select status" value="{{activeStoryStatus}}">
 						</td>
 						<td>
 							<div class="input-group-btn">
@@ -105,9 +105,9 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu dropdown-menu-right">
-								    <li ng-repeat="name in taskStatusNames">
+								    <li ng-repeat="name in taskStatusForFilter">
 								    	<a ng-click="onStatusChangeForFilter(name)" href="">
-								    		{{displayTask(name)}}
+								    		{{name}}
 								    	</a>
 								    </li>
 								</ul>

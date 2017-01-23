@@ -71,11 +71,9 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Long currentUserid = currentUserService.getCurrentUserDetails().getUserId();
-
 			String owner = userService.fetch(currentUserid).getDisplayName();
 
 			StoryNoteEntity storyNoteEntity, draftNote;
-
 			StoryNoteModel newStoryNoteModel, storyForUpdate;
 
 			draftNote = istoryNoteRepository.fetchSaveDraftNoteByStoryId(storyNoteModel.getStoryId(), StoryNoteStatus.DRAFT.toString());

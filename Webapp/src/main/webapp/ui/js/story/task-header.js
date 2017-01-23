@@ -9,6 +9,7 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	$scope.initTaskheader = function(){
 		
 		$scope.taskStatusNames = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED"];
+		$scope.taskStatusForFilter = ["All", "Completed", "Not Completed"];
 		
 		var projectId = $scope.getActiveProjectId();
 		
@@ -77,7 +78,7 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	 */
 	$scope.displayTask = function(status){
 		
-		if(status == "NOT_STARTED")
+		if(status == "NOT_STARTED" || !status)
 		{
 			return "Not started";
 		}

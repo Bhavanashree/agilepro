@@ -9,14 +9,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		
 		tinymce.init({
 		    "selector": '#noteId',
-		    "plugins": ["autolink link emoticons  textcolor mention",
-		                "advlist autolink lists link image charmap print preview anchor",
-		                "searchreplace visualblocks code fullscreen",
-		                "insertdatetime media table contextmenu paste imagetools"],
-		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | " +
-		    			"forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist" +
-		    			"insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-		    "menubar": true,
+		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
+		    "menubar": false,
+		    "statusbar": false,
 		    "mentions": {
 		        
 		    }
@@ -29,20 +24,20 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	
 	$scope.fetchNotes = function(){
 		
-		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : $scope.storyId}, 
+		var selectedStory = $scope.getStoryForUpdate();
+		
+		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : selectedStory.id}, 
 				function(readResponse, respConfig){
 			
 			$scope.activeNoteModel = {};
-			
 			$scope.versionTitle = "";
-			
 			$scope.activeVersionTitle = "";
 			
 			$scope.storyNotes = readResponse.model;
 			$scope.activeContent = "";
 			$scope.versionTitlesSet = []; 
 			
-			$scope.alreadyPresent
+			$scope.storyNotes = [];
 			
 			var obj;
 			
@@ -105,7 +100,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		}
 		
 		$scope.activeNoteModel["content"] = $scope.editedContent;
-		$scope.activeNoteModel["storyId"] = $scope.storyId;
+		$scope.activeNoteModel["storyId"] = $scope.getStoryForUpdate().id;
 		$scope.activeNoteModel["storyNoteStatus"] = status;
 		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
 		$scope.activeNoteModel["owner"] = $scope.activeUser.displayName;
