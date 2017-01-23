@@ -48,69 +48,79 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	/**
 	 * Update task changes.
 	 * 
-	 * @param taskChangesModel new update task changes.
+	 * @param taskChangesModel
+	 *            new update task changes.
 	 */
 	public void updateTaskChanges(TaskChangesModel taskChangesModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Map<Long, TaskRecords> changes = taskChangesModel.getTaskChanges();
-			
+
 			for(Long key : changes.keySet())
 			{
 				TaskRecords taskRecords = changes.get(key);
-				
+
 				Integer actualTime = taskRecords.getActualTime();
-				
+
 				if(actualTime != null)
 				{
 					if(actualTime <= 0)
 					{
 						throw new IllegalStateException("Actual time should be greater than 0");
 					}
-					
+
 					taskRepo.addExtraTime(key, taskRecords.getActualTime());
 				}
-				
+
 				if(taskRecords.getTaskStatus() != null)
 				{
 					taskRepo.updateTaskStatus(key, taskRecords.getTaskStatus());
 				}
 			}
-			
+
 			transaction.commit();
 		} catch(Exception ex)
 		{
 			throw new IllegalStateException("An error occurred while updating task - " + taskChangesModel, ex);
 		}
 	}
-	
+
+	/**
+	 * Update task status to completed if story status is changed to completed.
+	 * 
+	 * @param storyId
+	 *            task under story id should be updated.
+	 * @param status
+	 *            completed story status.
+	 */
 	public void updateTaskStatusByStory(Long storyId, TaskStatus status)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			taskRepo.updateTaskStatusByStory(storyId, status);
-			
+
 			transaction.commit();
 		} catch(Exception ex)
 		{
 			throw new IllegalStateException("An error occurred while updating task of provided story", ex);
-		}	
+		}
 	}
-	
+
 	/**
 	 * Fetch task by story id.
 	 * 
-	 * @param storyId provided story id for fetching task.
+	 * @param storyId
+	 *            provided story id for fetching task.
 	 * @return matching records.
 	 */
 	public List<TaskModel> fetchTaskByStory(Long storyId)
 	{
 		List<TaskEntity> tasks = taskRepo.fetchByStoryId(storyId);
 		List<TaskModel> taskModels = new ArrayList<TaskModel>();
-		
+
 		tasks.forEach(entity -> taskModels.add(super.toModel(entity, TaskModel.class)));
-		
+
 		return taskModels;
 	}
 

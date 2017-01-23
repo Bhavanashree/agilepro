@@ -250,6 +250,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		}
 	}
 
+	/**
+	 * Update story sprint.
+	 * 
+	 * @param ids for which new sprint is to be set.
+	 * @param sprintId provided new sprint id to set in story.
+	 */
 	public void updateStorySprint(Long[] ids, Long sprintId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
@@ -271,7 +277,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating sprint");
 		}
 	}
-
 	
 	/**
 	 * Fetch all stories where (projectId + sprintId) + (projectId +

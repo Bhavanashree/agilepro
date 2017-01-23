@@ -2,11 +2,7 @@ package com.agilepro.services.project;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -18,9 +14,6 @@ import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.repository.project.ISprintRepository;
 import com.yukthi.persistence.repository.RepositoryFactory;
-import com.yukthi.webutils.annotations.LovMethod;
-import com.yukthi.webutils.annotations.RequestParam;
-import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
