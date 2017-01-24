@@ -44,17 +44,20 @@
 								</td>
 								<td ng-show="backlog.childrens.length > 0" ng-click="updateManagementStory(backlog.id, backlog.isManagementStory)"
 									style="width: 4%; text-align: center; background-color: #cce6ff;
-									border-left: 1px solid #66c2ff; cursor:pointer;">
+									border-left: 1px solid #66c2ff; cursor:pointer;"
+									data-toggle="tooltip" data-placement="top" title="Change management for {{backlog.title}}">
 									<span ng-class="backlog.isManagementStory ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true">
 									</span>
 								</td>
 								<td id="edit_{{backlog.id}}" ng-click="editBacklog(backlog.id)"  
 									style="width: 4%; text-align: center; background-color: #cce6ff;
-									border-left: 1px solid #66c2ff; cursor:pointer;">
+									border-left: 1px solid #66c2ff; cursor:pointer;"
+									data-toggle="tooltip" data-placement="top" title="Update {{backlog.title}}">
 										<i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
 								</td>
 								<td id="delete_{{backlog.id}}" ng-click="deleteBacklog(backlog.id)" style="width: 4%; text-align: center; background-color: #cce6ff;
-									border-left: 1px solid #66c2ff; cursor:pointer;">
+									border-left: 1px solid #66c2ff; cursor:pointer;"
+									data-toggle="tooltip" data-placement="top" title="Delete {{backlog.title}}">
 									<i class="fa fa-times" aria-hidden="true" style="color: red;"></i>
 								</td>
 							</tr>

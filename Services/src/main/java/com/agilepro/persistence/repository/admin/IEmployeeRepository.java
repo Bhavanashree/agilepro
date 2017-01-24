@@ -64,6 +64,15 @@ public interface IEmployeeRepository extends IWebutilsRepository<EmployeeEntity>
 	 */
 	@Field("designations.id")
 	public List<Long> fetchDesignationIds(@Condition("id") long empId);
+	
+	/**
+	 * Fetch employee name.
+	 * 
+	 * @param empId provided employee id for search.
+	 * @return the matching record employee name.
+	 */
+	@Field("name")
+	public String fetchEmployeeName(@Condition("id") long empId);
 
 	/**
 	 * Find employee lov.

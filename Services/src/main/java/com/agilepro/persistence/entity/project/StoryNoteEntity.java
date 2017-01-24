@@ -6,6 +6,7 @@ import javax.persistence.Table;
 
 import com.agilepro.commons.StoryNoteStatus;
 import com.agilepro.commons.models.project.StoryNoteModel;
+import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
 import com.yukthi.persistence.annotations.UniqueConstraint;
@@ -14,8 +15,8 @@ import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * StoryNoteEntity holds the note for the story.
- * One draft per story and n number of published notes with unique version title.
+ * StoryNoteEntity holds the note for the story. One draft per story and n
+ * number of published notes with unique version title.
  * 
  * @author Pritam.
  */
@@ -53,8 +54,10 @@ public class StoryNoteEntity extends WebutilsEntity
 	/**
 	 * The owner.
 	 */
-	@Column(name = "OWNER")
-	private String owner;
+	@Column(name = "EMPLOYEE_ID")
+	@PropertyMapping(type = StoryNoteModel.class, from = "employeeId", subproperty = "id")
+	@ManyToOne
+	private EmployeeEntity employee;
 
 	/**
 	 * Gets the story.
@@ -141,23 +144,23 @@ public class StoryNoteEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets the owner.
-	 *
-	 * @return the owner
+	 * Gets the employee.
+	 * 
+	 * @return the employee.
 	 */
-	public String getOwner()
+	public EmployeeEntity getEmployee()
 	{
-		return owner;
+		return employee;
 	}
 
 	/**
-	 * Sets the owner.
-	 *
-	 * @param owner
-	 *            the new owner
+	 * Sets the employee.
+	 * 
+	 * @param employee
+	 *            the new employee.
 	 */
-	public void setOwner(String owner)
+	public void setEmployee(EmployeeEntity employee)
 	{
-		this.owner = owner;
+		this.employee = employee;
 	}
 }

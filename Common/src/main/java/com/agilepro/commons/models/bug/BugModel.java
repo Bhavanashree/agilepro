@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.agilepro.commons.BugStatus;
 import com.agilepro.commons.PriorityStatus;
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.FileInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
 import com.yukthi.webutils.common.annotations.LOV;
+import com.yukthi.webutils.common.annotations.Label;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.MultilineText;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
@@ -35,32 +37,52 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * The name.
 	 **/
+	@Required
 	private String title;
-
-	/**
-	 * The description.
-	 **/
-	@MultilineText
-	private String description;
 
 	/**
 	 * The reported by.
 	 **/
 
 	@LOV(name = "projectMembers")
+	@Required
 	private Long reportedBy;
-
-	/**
-	 * The bug status.
-	 **/
-	private BugStatus status;
 
 	/**
 	 * The owner.
 	 **/
 	@ReadOnly
 	@LOV(name = "projectMembers")
+	@Required
 	private Long owner;
+
+	/**
+	 * The project id.
+	 **/
+	@LOV(name = "projectsLov")
+	@Required
+	@Label("Project")
+	private Long projectId;
+
+	/**
+	 * The story.
+	 **/
+	@LOV(name = "storiesLov")
+	@Required
+	@Label("Story")
+	private Long storyId;
+
+	/**
+	 * The sprint.
+	 **/
+	@LOV(name = "sprintLov")
+	@Label("Sprint")
+	private Long sprintId;
+
+	/**
+	 * The bug status.
+	 **/
+	private BugStatus status;
 
 	/**
 	 * The priority status.
@@ -69,22 +91,10 @@ public class BugModel extends AbstractExtendableModel
 	private PriorityStatus priority;
 
 	/**
-	 * The project id.
+	 * The description.
 	 **/
-	@LOV(name = "projectsLov")
-	private Long projectId;
-
-	/**
-	 * The sprint.
-	 **/
-	@LOV(name = "sprintLov")
-	private Long sprintId;
-
-	/**
-	 * The story.
-	 **/
-	@LOV(name = "storiesLov")
-	private Long storyId;
+	@MultilineText
+	private String description;
 
 	/**
 	 * The file.
@@ -261,7 +271,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the project id.
 	 *
-	 * @param projectId the new project id
+	 * @param projectId
+	 *            the new project id
 	 */
 	public void setProjectId(Long projectId)
 	{
@@ -281,7 +292,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the sprint id.
 	 *
-	 * @param sprintId the new sprint id
+	 * @param sprintId
+	 *            the new sprint id
 	 */
 	public void setSprintId(Long sprintId)
 	{
@@ -301,7 +313,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the story id.
 	 *
-	 * @param storyId the new story id
+	 * @param storyId
+	 *            the new story id
 	 */
 	public void setStoryId(Long storyId)
 	{
@@ -321,7 +334,8 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * Sets the file.
 	 *
-	 * @param file the new file
+	 * @param file
+	 *            the new file
 	 */
 	public void setFile(List<FileInfo> file)
 	{

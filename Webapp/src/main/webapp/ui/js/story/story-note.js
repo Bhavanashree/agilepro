@@ -37,10 +37,6 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			$scope.activeContent = "";
 			$scope.versionTitlesSet = []; 
 			
-			$scope.storyNotes = [];
-			
-			var obj;
-			
 			if($scope.storyNotes.length > 0)
 			{
 				$scope.activeNoteModel = $scope.storyNotes[0];
@@ -60,15 +56,14 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			
 			for(index in $scope.storyNotes)
 			{
-				obj = $scope.storyNotes[index];
+				var noteObj = $scope.storyNotes[index];
 				
-				$scope.versionTitlesSet.push(obj.versionTitle);
+				$scope.versionTitlesSet.push(noteObj.versionTitle);
 			}
 			
 		}, {"hideInProgress" : true});
 	};
 	
-	//$scope.saveNote = function(published){
 	$scope.$on("saveNewStoryNote", function(event, status) {
 		
 		$scope.checkVersionTitle(null);
@@ -86,8 +81,6 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		
 		$scope.editedContent = tinymce.activeEditor.getContent();
 		
-		console.log($scope.editedContent);
-		
 		if($scope.editedContent.length == 0)
 		{
 			utils.alert("Please provide some note");
@@ -103,53 +96,58 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		$scope.activeNoteModel["storyId"] = $scope.getStoryForUpdate().id;
 		$scope.activeNoteModel["storyNoteStatus"] = status;
 		$scope.activeNoteModel["versionTitle"] = $scope.versionTitle;
-		$scope.activeNoteModel["owner"] = $scope.activeUser.displayName;
 		$scope.activeNoteModel["draftIsSelected"] = $scope.draftIsSelected;
 		
 		var simpleDateFormatter = new simpleDateFormat('d/MM/yyyy');
 		var date = new Date();
-		
 		$scope.activeNoteModel["updatedOn"]  = simpleDateFormatter.format(date);
 		
-		if(status != "DRAFT")
+		$scope.saveOrUpdate(status);
+	});
+	
+	/**
+	 * Save or update.
+	 */
+	$scope.saveOrUpdate = function(status){
+		
+		actionHelper.invokeAction("storyNote.saveOrUpdate", $scope.activeNoteModel, null, 
+				
+		function(saveResponse, respConfig)
 		{
-			console.log("published");
-
-			if($scope.draftIsSelected)
-			{
-				$scope.storyNotes[0] = $scope.activeNoteModel;
-			}else
-			{
-				$scope.storyNotes.push($scope.activeNoteModel);
-				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
-			}
-		}else 
-		{
-			if($scope.storyNotes.length == 0)
-			{
-				$scope.storyNotes.push($scope.activeNoteModel);
-				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
-			}else if($scope.storyNotes[0].storyNoteStatus != "DRAFT")
-			{
-				console.log("unshift");
-				$scope.storyNotes.unshift($scope.activeNoteModel);
-				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
-			}else
-			{
-				$scope.storyNotes[0] = $scope.activeNoteModel;
-			}
-		}
-		
-		tinymce.activeEditor.setContent("");
-		$scope.versionTitle = "";
-		
-		console.log($scope.draftIsSelected);
-		
-		actionHelper.invokeAction("storyNote.saveOrUpdate", $scope.activeNoteModel, null, function(saveResponse, respConfig){
-			
 			if(saveResponse.code == 0)
 			{
 				utils.info(["Successfully saved {} "], $scope.versionTitle);
+				
+				if(status != "DRAFT")
+				{
+					if($scope.draftIsSelected)
+					{
+						$scope.storyNotes[0] = $scope.activeNoteModel;
+					}else
+					{
+						$scope.storyNotes.push($scope.activeNoteModel);
+						$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+					}
+				}else 
+				{
+					if($scope.storyNotes.length == 0)
+					{
+						$scope.storyNotes.push($scope.activeNoteModel);
+						$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+					}else if($scope.storyNotes[0].storyNoteStatus != "DRAFT")
+					{
+						console.log("unshift");
+						$scope.storyNotes.unshift($scope.activeNoteModel);
+						$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
+					}else
+					{
+						$scope.storyNotes[0] = $scope.activeNoteModel;
+					}
+				}
+				
+				tinymce.activeEditor.setContent("");
+				$scope.versionTitle = "";
+				
 			}else
 			{
 				//$scope.fetchNotes();
@@ -162,9 +160,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			{}
 			
 		}, {"hideInProgress" : true});
-		
-		
-	});
+	};
 	
 	
 	$scope.activeNote = function(storyNote){
@@ -183,8 +179,6 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	 */
 	$scope.checkVersionTitle = function(event){
 		
-		console.log($scope.versionTitlesSet);
-		
 		$scope.draftIsSelected = false;
 		
 		if($scope.versionTitle.length > 20)
@@ -192,24 +186,16 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			$scope.errorStoryNote.error = true,
 			$scope.errorStoryNote.message  = "Title length can be maximum 20";
 			return;
-		}else
-		{
-			$scope.errorStoryNote.error = false;
 		}
 		
-		for(index in $scope.versionTitlesSet)
+		if($scope.versionTitlesSet.indexOf($scope.versionTitle) != -1)
 		{
-			if($scope.versionTitle == $scope.versionTitlesSet[index])
-			{
-				$scope.errorStoryNote.error = true,
-				$scope.errorStoryNote.message  = "Please provide different version title, provided version title is already existing";
-				break;
-			}else
-			{
-				$scope.errorStoryNote.error = false;
-			}
-			
+			$scope.errorStoryNote.error = true,
+			$scope.errorStoryNote.message  = "Please provide different version title, provided version title is already existing";
+			return;
 		}
+			
+		$scope.errorStoryNote.error = false;
 		
 	};
 	

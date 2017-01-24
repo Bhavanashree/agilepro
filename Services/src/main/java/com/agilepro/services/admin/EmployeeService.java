@@ -18,10 +18,8 @@ import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.entity.admin.DesignationEntity;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
-import com.agilepro.persistence.repository.admin.IDesignationRepository;
 import com.agilepro.persistence.repository.admin.IEmployeeRepository;
 import com.yukthi.persistence.ITransaction;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.repository.UserEntity;
@@ -67,15 +65,9 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	private DesignationService designationService;
 
 	/**
-	 * The repository factory.
-	 **/
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
-	 * Designation repository to fetch roles.
+	 * Employee repository for executing queries in employee table.
 	 */
-	private IDesignationRepository designationRepository;
+	private IEmployeeRepository employeeRepository;
 
 	/**
 	 * Instantiates a new employee service.
@@ -91,7 +83,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	@PostConstruct
 	private void init()
 	{
-		designationRepository = repositoryFactory.getRepository(IDesignationRepository.class);
+		employeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
 	}
 
 	/**
@@ -129,45 +121,45 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 
 	// This method is for testing purpose which will be removed latter
 	@Override
-	public EmployeeEntity save(Object model) 
+	public EmployeeEntity save(Object model)
 	{
 		// use transaction
-	
+
 		AgileProUserDetails cbiller = (AgileProUserDetails) currentUserService.getCurrentUserDetails();
 		Long customerId = cbiller.getCustomerId();
-		
-		//convert to entity
+
+		// convert to entity
 		EmployeeEntity entity = WebUtils.convertBean(model, EmployeeEntity.class);
 		EmployeeModel empModel = null;
-		
+
 		List<DesignationEntity> designations = new ArrayList<DesignationEntity>();
-		
+
 		if(model instanceof EmployeeModel)
 		{
 			empModel = (EmployeeModel) model;
 		}
-		
+
 		for(Long desigNationId : empModel.getDesignationId())
 		{
 			designations.add(designationService.fetch(desigNationId));
 		}
-		
+
 		entity.setDesignations(designations);
-		
+
 		super.save(entity, model);
-		
+
 		// saving user
 		saveUser(empModel, customerId, entity);
-					
+
 		return entity;
 	}
-	
-	//This method is for testing which will be removed latter 
+
+	// This method is for testing which will be removed latter
 	public EmployeeEntity saveEmp(EmployeeModel model)
 	{
 		return this.save(model);
 	}
-	
+
 	/**
 	 * Update.
 	 *
@@ -259,20 +251,6 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	}
 
 	/**
-	 * Fetches designation based roles of the specified employee.
-	 * 
-	 * @param empId
-	 *            Employee id whose designation roles needs to be fetched
-	 * @return Designation roles of the employee
-	 *
-	public List<UserRole> getEmployeeDesignationRoles(long empId)
-	{
-		Long designationId = super.repository.fetchDesignationId(empId);
-		DesignationEntity designation = designationService.fetch(designationId);
-		return designation.getRoles();
-	}
-*/
-	/**
 	 * deleteById.
 	 * 
 	 * @return employee
@@ -313,7 +291,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 			employeeName = employeeName.replace('*', '%');
 		}
 
-		List<EmployeeEntity> employeeEntities = repository.fetchEmployees(employeeName);
+		List<EmployeeEntity> employeeEntities = employeeRepository.fetchEmployees(employeeName);
 
 		if(employeeEntities != null)
 		{
@@ -335,40 +313,56 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public EmployeeEntity fetchWithNoSpace(Long employeeId)
 	{
-		return repository.fetchWithNoSpace(employeeId);
+		return employeeRepository.fetchWithNoSpace(employeeId);
 	}
 
 	/**
-	 * Deletes all entities.
-	 */
-	public void deleteAll()
-	{
-		repository.deleteAll();
-	}
-	
-	/**
-	 * Fetches specified employee roles based on emp designations.
-	 * @param employeeId Emp id for whom roles needs to be fetched
+	 * Fetches specified employee roles based on employee designations.
+	 * 
+	 * @param employeeId
+	 *            Employee id for whom roles needs to be fetched
 	 * @return Matching roles
 	 */
 	public Set<UserRole> fetchEmployeeRoles(Long employeeId)
 	{
-		List<Long> designationIds = repository.fetchDesignationIds(employeeId);
+		List<Long> designationIds = employeeRepository.fetchDesignationIds(employeeId);
+
 		Set<UserRole> roles = new HashSet<UserRole>();
 		DesignationEntity designation = null;
-		
+
 		if(designationIds != null)
 		{
 			for(Long designationId : designationIds)
 			{
-				designation = designationRepository.findById(designationId);
-				
+				designation = designationService.fetch(designationId);
+
 				for(UserRole role : designation.getRoles())
 				{
 					roles.add(role);
 				}
 			}
 		}
+
 		return roles;
+	}
+
+	/**
+	 * Fetch employee name for the provided employee id.
+	 * 
+	 * @param id
+	 *            provided employee id for fetching the record.
+	 * @return the matching record employee name.
+	 */
+	public String fetchEmployeeName(Long id)
+	{
+		return employeeRepository.fetchEmployeeName(id);
+	}
+
+	/**
+	 * Deletes all records.
+	 */
+	public void deleteAll()
+	{
+		repository.deleteAll();
 	}
 }

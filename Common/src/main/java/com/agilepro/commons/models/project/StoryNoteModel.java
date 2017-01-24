@@ -21,11 +21,14 @@ public class StoryNoteModel
 	private Long id;
 
 	/**
-	 * The note.
+	 * The note(description) for the note.
 	 **/
 	@Required
 	private String content;
 
+	/**
+	 * Story Note status.
+	 */
 	@Required
 	private StoryNoteStatus storyNoteStatus;
 
@@ -35,13 +38,30 @@ public class StoryNoteModel
 	@Required
 	private Long storyId;
 
+	/**
+	 * Version title for the note.
+	 */
 	@Required
 	private String versionTitle;
 
-	private String owner;
-
+	/**
+	 * Update on.
+	 */
 	private Date updatedOn;
 	
+	/**
+	 * Employee id for mapping.
+	 */
+	private Long employeeId;
+	
+	/**
+	 * Owner of the story note.
+	 */
+	private String owner;
+	
+	/**
+	 * Draft is selected.
+	 */
 	@Required
 	private Boolean draftIsSelected;
 
@@ -56,13 +76,22 @@ public class StoryNoteModel
 		super();
 	}
 
-	public StoryNoteModel(String content, StoryNoteStatus storyNoteStatus, Long storyId, String versionTitle, String owner)
+	/**
+	 * Creates new story note model object with provided values.
+	 * 
+	 * @param content new content.
+	 * @param storyNoteStatus new storyNoteStatus.
+	 * @param storyId new storyId.
+	 * @param versionTitle new versionTitle.
+	 * @param employeeId new employeeId.
+	 */
+	public StoryNoteModel(String content, StoryNoteStatus storyNoteStatus, Long storyId, String versionTitle, Long employeeId)
 	{
 		this.content = content;
 		this.storyNoteStatus = storyNoteStatus;
 		this.storyId = storyId;
 		this.versionTitle = versionTitle;
-		this.owner = owner;
+		this.employeeId = employeeId;
 	}
 
 	/**
@@ -192,24 +221,23 @@ public class StoryNoteModel
 	}
 
 	/**
-	 * Gets the owner.
-	 *
-	 * @return the owner
+	 * Gets the employee id.
+	 * 
+	 * @return the employee id.
 	 */
-	public String getOwner()
+	public Long getEmployeeId()
 	{
-		return owner;
+		return employeeId;
 	}
 
 	/**
-	 * Sets the owner.
-	 *
-	 * @param owner
-	 *            the new owner
+	 * Sets the employee id.
+	 * 
+	 * @param employeeId the new employee id.
 	 */
-	public void setOwner(String owner)
+	public void setEmployeeId(Long employeeId)
 	{
-		this.owner = owner;
+		this.employeeId = employeeId;
 	}
 
 	/**
@@ -241,5 +269,15 @@ public class StoryNoteModel
 	public void setDraftIsSelected(Boolean draftIsSelected)
 	{
 		this.draftIsSelected = draftIsSelected;
+	}
+
+	public String getOwner()
+	{
+		return owner;
+	}
+
+	public void setOwner(String owner)
+	{
+		this.owner = owner;
 	}
 }

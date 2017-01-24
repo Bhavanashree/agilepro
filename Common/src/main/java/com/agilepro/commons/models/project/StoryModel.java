@@ -21,7 +21,7 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 /**
  * The Class StoryModel.
  * 
- * @author Bhavana.
+ * @author Pritam.
  */
 
 @ExtendableModel(name = "Story")
@@ -135,6 +135,7 @@ public class StoryModel extends AbstractExtendableModel
 	 * Is management story, true if it has child stories or else by default
 	 * false.
 	 */
+	@NonDisplayable
 	private Boolean isManagementStory;
 	
 	/**

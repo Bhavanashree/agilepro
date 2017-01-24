@@ -28,7 +28,7 @@ public class BugEntity extends WebutilsExtendableEntity
 	/**
 	 * The name.
 	 **/
-	@Column(name = "TITLE")
+	@Column(name = "TITLE", nullable = false)
 	private String title;
 
 	/**
@@ -40,10 +40,9 @@ public class BugEntity extends WebutilsExtendableEntity
 	/**
 	 * The reported by.
 	 **/
-
 	@ManyToOne
 	@PropertyMapping(type = BugModel.class, from = "reportedBy", subproperty = "id")
-	@Column(name = "BUG_REPORTED_BY")
+	@Column(name = "BUG_REPORTED_BY", nullable = false)
 	private EmployeeEntity reportedBy;
 
 	/**
@@ -58,7 +57,7 @@ public class BugEntity extends WebutilsExtendableEntity
 	 **/
 	@ManyToOne
 	@PropertyMapping(type = BugModel.class, from = "owner", subproperty = "id")
-	@Column(name = "BUG_OWNER_ID")
+	@Column(name = "BUG_OWNER_ID", nullable = false)
 	private EmployeeEntity owner;
 
 	/**
@@ -72,13 +71,13 @@ public class BugEntity extends WebutilsExtendableEntity
 	 **/
 	@ManyToOne
 	@PropertyMapping(type = BugModel.class, from = "projectId", subproperty = "id")
-	@Column(name = "PROJECT_ID")
+	@Column(name = "PROJECT_ID", nullable = false)
 	private ProjectEntity project;
 
 	/**
 	 * The story entity.
 	 **/
-	@Column(name = "STORY_ID")
+	@Column(name = "STORY_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = BugModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;

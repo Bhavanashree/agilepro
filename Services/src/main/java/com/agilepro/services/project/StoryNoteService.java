@@ -12,6 +12,7 @@ import com.agilepro.commons.StoryNoteStatus;
 import com.agilepro.commons.models.project.StoryNoteModel;
 import com.agilepro.persistence.entity.project.StoryNoteEntity;
 import com.agilepro.persistence.repository.project.IStoryNoteRepository;
+import com.agilepro.services.admin.EmployeeService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.CurrentUserService;
@@ -41,6 +42,12 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	 **/
 	@Autowired
 	private UserService userService;
+	
+	/**
+	 * Employee service for interacting with employee table.
+	 */
+	@Autowired
+	private EmployeeService employeeService;
 
 	/**
 	 * Instantiates a new story note service.
@@ -71,7 +78,7 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Long currentUserid = currentUserService.getCurrentUserDetails().getUserId();
-			String owner = userService.fetch(currentUserid).getDisplayName();
+			Long employeeId = userService.fetch(currentUserid).getBaseEntityId();
 
 			StoryNoteEntity storyNoteEntity, draftNote;
 			StoryNoteModel newStoryNoteModel, storyForUpdate;
@@ -84,7 +91,7 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 				{
 					storyForUpdate = super.toModel(draftNote, StoryNoteModel.class);
 					
-					storyForUpdate.setOwner(owner);
+					storyForUpdate.setEmployeeId(employeeId);
 					storyForUpdate.setStoryNoteStatus(StoryNoteStatus.PUBLISHED);
 					storyForUpdate.setStoryId(storyNoteModel.getStoryId());
 					
@@ -92,7 +99,7 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 				}
 				else
 				{
-					newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getStoryNoteStatus(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), owner);
+					newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getStoryNoteStatus(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), employeeId);
 					storyNoteEntity = super.save(newStoryNoteModel);
 				}
 			}
@@ -100,13 +107,13 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 			{
 				if(draftNote == null)
 				{
-					newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getStoryNoteStatus(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), owner);
+					newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getStoryNoteStatus(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), employeeId);
 					storyNoteEntity = super.save(newStoryNoteModel);
 				}
 				else
 				{
 					storyNoteModel.setVersion(super.fetch(storyNoteModel.getId()).getVersion());
-					storyNoteModel.setOwner(owner);
+					storyNoteModel.setEmployeeId(employeeId);
 					storyNoteEntity = super.update(storyNoteModel);
 				}
 			}
@@ -130,7 +137,6 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	public List<StoryNoteModel> fetchAllNoteByStoryId(Long storyId)
 	{
 		List<StoryNoteEntity> storyNoteEntities = istoryNoteRepository.fetchAllNoteByStoryId(storyId);
-
 		List<StoryNoteModel> storyNoteModels = new ArrayList<StoryNoteModel>(storyNoteEntities.size());
 
 		storyNoteEntities.forEach(entity -> storyNoteModels.add(super.toModel(entity, StoryNoteModel.class)));
@@ -147,6 +153,10 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 				}
 			}
 		}
+		
+		// Set the employee name.
+		storyNoteModels.forEach(model -> model.setOwner(employeeService.fetchEmployeeName(model.getEmployeeId())));
+		
 		return storyNoteModels;
 	}
 }
