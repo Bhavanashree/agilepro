@@ -17,6 +17,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SWAP_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TO_MAX_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STATUS;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_SPRINT;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_MANAGEMENT;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.List;
@@ -192,7 +193,7 @@ public class StoryController extends BaseController implements IStoryController
 	}
 	
 	@ActionName(ACTION_TYPE_UPDATE_TO_MAX_PRIORITY)
-	@RequestMapping(value = "updateToMaxPriority", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateToMaxPriority", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
 	public BaseResponse updateToMaxPriority(@RequestParam(value = "id") Long id, @RequestParam(value = "projectId") Long projectId)
@@ -220,10 +221,22 @@ public class StoryController extends BaseController implements IStoryController
 		storyService.updateStorySprint(storySprintUpdateModel.getIds(), storySprintUpdateModel.getSprintId());
 		return new BaseResponse();
 	}
+
+	@ActionName(ACTION_TYPE_UPDATE_STORY_MANAGEMENT)
+	@RequestMapping(value = "/updateStoryManagement", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BaseResponse updateStoryManagement(@RequestParam(value = "id") Long id, @RequestParam(value = "isManagmentStory") boolean isManagementStory)
+	{
+		storyService.updateStoryManagement(id, isManagementStory);
+		return new BaseResponse();
+	}
 	
 	/**
 	 * Swap the priority of stories.
 	 * 
+	 * @param idToMoveUp provided backlog id to move up.
+	 * @param idToMoveDown  provided backlog id to move down.
 	 * @return BaseResponse on success update.
 	 */
 	@ActionName(ACTION_TYPE_SWAP_PRIORITY)

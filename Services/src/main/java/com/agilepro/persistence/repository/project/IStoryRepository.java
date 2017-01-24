@@ -8,6 +8,7 @@ import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StorySearchQuery;
 import com.agilepro.commons.models.project.StorySearchResult;
+import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.services.common.StorySearchCustomizer;
 import com.yukthi.persistence.repository.annotations.AggregateFunction;
@@ -168,8 +169,9 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	 */
 	public int updatePriority(@Condition(value = "id") Long id, @Field(value = "priority") Integer newPriority);
 	
-	
 	public int updateStatus(@Condition(value = "id") Long id, @Field(value = "status") StoryStatus status);
 	
-	public int updateSprint(@Condition(value = "id") Long id, @Field(value = "sprint") Long sprintId);
+	public int updateSprint(@Condition(value = "id") Long id, @Field(value = "sprint") SprintEntity sprint);
+	
+	public int updateManagement(@Condition(value = "id") Long id, @Field(value = "isManagementStory") Boolean isManagementStory);
 }

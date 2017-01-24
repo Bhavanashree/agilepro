@@ -39,14 +39,17 @@
 									border-right: 1px solid #101010; color: white;">
 										{{backlog.priority}}
 								</td>
-								<td id="backlogTitle_{{backlog.id}}" style="width: 70%; padding-left: 0.5em;">
+								<td id="backlogTitle_{{backlog.id}}" style="width: 80%; padding-left: 0.5em;">
 									<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 								</td>
-								<td style="width: 14%; text-align: center; background-color: #cce6ff;
-									border-left: 1px solid #66c2ff;">
-								 	managment story {{backlog.isManagementStory}}
+								<td ng-show="backlog.childrens.length > 0" ng-click="updateManagementStory(backlog.id, backlog.isManagementStory)"
+									style="width: 4%; text-align: center; background-color: #cce6ff;
+									border-left: 1px solid #66c2ff; cursor:pointer;">
+									<span ng-class="backlog.isManagementStory ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true">
+									</span>
 								</td>
-								<td id="edit_{{backlog.id}}" ng-click="editBacklog(backlog.id)" style="width: 4%; text-align: center; background-color: #cce6ff;
+								<td id="edit_{{backlog.id}}" ng-click="editBacklog(backlog.id)"  
+									style="width: 4%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff; cursor:pointer;">
 										<i class="fa fa-pencil-square-o" aria-hidden="true" style="color: black;"></i>
 								</td>

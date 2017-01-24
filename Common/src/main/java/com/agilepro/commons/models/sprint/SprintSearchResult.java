@@ -5,6 +5,7 @@ import java.util.Date;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class SprintSearchResult.
@@ -15,6 +16,7 @@ public class SprintSearchResult extends AbstractExtendedSearchResult
 	/**
 	 * Id.
 	 */
+	@NonDisplayable
 	@Field(value = "id")
 	private long id;
 

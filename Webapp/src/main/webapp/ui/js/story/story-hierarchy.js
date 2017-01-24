@@ -233,6 +233,27 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		utils.confirm([$scope.getAlertMessage(backlogId), backlogObj.title], deleteOp);
 	};
 	
+	/**
+	 * Update management story.
+	 */
+	$scope.updateManagementStory = function(backlogId, isManagementStory){
+		
+		actionHelper.invokeAction("story.updateStoryManagement", null, {"id" : backlogId, "isManagmentStory" : !isManagementStory},
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						$scope.idToStory[backlogId].isManagementStory = !isManagementStory;
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
+				}, {"hideInProgress" : true});
+	};
 	
 	/**
 	 * save new note

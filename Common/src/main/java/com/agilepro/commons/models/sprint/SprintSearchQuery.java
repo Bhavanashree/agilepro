@@ -37,22 +37,6 @@ public class SprintSearchQuery
 	private Date endDate;
 
 	/**
-	 * Instantiates a new sprint search query.
-	 *
-	 * @param name
-	 *            the name
-	 * @param description
-	 *            the description
-	 * @param endDate
-	 *            the end date
-	 * @param startDate
-	 *            the start date
-	 */
-	public SprintSearchQuery()
-	{
-	}
-
-	/**
 	 * Gets the name.
 	 *
 	 * @return the name

@@ -19,6 +19,7 @@ import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.agilepro.services.admin.EmployeeService;
@@ -62,7 +63,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	@Autowired
 	private TaskService taskService;
-	
+
+	/**
+	 * SprintService.
+	 */
+	@Autowired
+	private SprintService sprintService;
+
 	/**
 	 * The story repo.
 	 **/
@@ -101,18 +108,18 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			List<BackLogPriorityModel> updatedPriorites = new ArrayList<BackLogPriorityModel>();
 
 			Long parentStoryId = storyModel.getParentStoryId();
-			
+
 			// child is saved
 			if(parentStoryId != null)
 			{
 				StoryModel parentStory = super.fetchFullModel(parentStoryId, StoryModel.class);
-				
+
 				if(!parentStory.getIsManagementStory())
 				{
 					parentStory.setIsManagementStory(true);
 					super.update(parentStory);
 				}
-				
+
 				Integer parentPriority = storyRepo.fetchOrderOfStory(parentStoryId);
 
 				storyRepo.moveStoriesDown(storyModel.getProjectId(), parentPriority, PRIORITY_INCREMENT_VALUE);
@@ -168,19 +175,21 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating priority - {}");
 		}
 	}
-	
+
 	/**
 	 * Update the provided record with the max priority.
 	 * 
-	 * @param id provided id for max priority.
-	 * @param projectId story of provided project.
+	 * @param id
+	 *            provided id for max priority.
+	 * @param projectId
+	 *            story of provided project.
 	 */
 	public void updateToMaxPriority(Long id, Long projectId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			storyRepo.updatePriority(id, storyRepo.getMaxOrder(projectId) + 1);
-			
+
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{
@@ -204,13 +213,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			StoryModel storyUp = super.fetchFullModel(idToMoveUp, StoryModel.class);
-			
+
 			StoryModel storyDown = super.fetchFullModel(idToMoveDown, StoryModel.class);
-			
+
 			storyRepo.updatePriority(storyUp.getId(), -1);
 
 			storyRepo.updatePriority(storyDown.getId(), storyUp.getPriority());
-			
+
 			storyRepo.updatePriority(storyUp.getId(), storyDown.getPriority());
 
 			transaction.commit();
@@ -226,8 +235,10 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Update status of the story.
 	 * 
-	 * @param id for which status is to be updated.
-	 * @param status new status to be set.
+	 * @param id
+	 *            for which status is to be updated.
+	 * @param status
+	 *            new status to be set.
 	 */
 	public void updateStoryStatus(Long id, StoryStatus status)
 	{
@@ -239,7 +250,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			{
 				taskService.updateTaskStatusByStory(id, TaskStatus.COMPLETED);
 			}
-			
+
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{
@@ -253,20 +264,50 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Update story sprint.
 	 * 
-	 * @param ids for which new sprint is to be set.
-	 * @param sprintId provided new sprint id to set in story.
+	 * @param ids
+	 *            for which new sprint is to be set.
+	 * @param sprintId
+	 *            provided new sprint id to set in story.
 	 */
 	public void updateStorySprint(Long[] ids, Long sprintId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
+			SprintEntity sprint = null;
+			
+			if(sprintId != null)
+			{
+				sprint = sprintService.fetch(sprintId);
+			}
+
 			for(Long id : ids)
 			{
-				StoryModel story = super.fetchFullModel(id, StoryModel.class);
-				story.setSprintId(sprintId);
-				
-				super.update(story);
+				storyRepo.updateSprint(id, sprint);
 			}
+
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating story sprint");
+		}
+	}
+
+	/**
+	 * Update story management.
+	 * 
+	 * @param id
+	 *            provided story id for update.
+	 * @param isManagementStory
+	 *            new isManagementStory.
+	 */
+	public void updateStoryManagement(Long id, boolean isManagementStory)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			storyRepo.updateManagement(id, isManagementStory);
 			
 			transaction.commit();
 		} catch(RuntimeException ex)
@@ -274,10 +315,10 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw ex;
 		} catch(Exception ex)
 		{
-			throw new InvalidStateException(ex, "An error occurred while updating sprint");
+			throw new InvalidStateException(ex, "An error occurred while updating story management");
 		}
 	}
-	
+
 	/**
 	 * Fetch all stories where (projectId + sprintId) + (projectId +
 	 * sprintId(null)) matches.
@@ -387,7 +428,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		{
 			backlog.setDependencies(storyDependencyService.fetchDependencyIds(backlog.getId()));
 		}
-		
+
 		return backlogModels;
 	}
 
@@ -402,13 +443,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		List<StoryEntity> storyEntities = storyRepo.findByTitle(title);
 		List<StoryAndTaskResult> storiesmodel = new ArrayList<StoryAndTaskResult>();
-		
+
 		for(StoryEntity story : storyEntities)
 		{
 			StoryAndTaskResult storyandTask = new StoryAndTaskResult(story.getTitle(), story.getId());
 			storiesmodel.add(storyandTask);
 		}
-		
+
 		return storiesmodel;
 	}
 
@@ -487,30 +528,31 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Delete and update the parent story for 0 child's.
 	 * 
-	 * @param id provided id for delete.
+	 * @param id
+	 *            provided id for delete.
 	 */
 	public void deleteAndUpdateManagementStory(Long id)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			StoryEntity parentStoryEntity = super.fetch(id).getParentStory();
-			
+
 			super.deleteById(id);
-			
+
 			if(parentStoryEntity != null && storyRepo.storyHasChilds(parentStoryEntity.getId()) == 0)
 			{
 				StoryModel parentStoryModel = super.fetchFullModel(parentStoryEntity.getId(), StoryModel.class);
 				parentStoryModel.setIsManagementStory(false);
 				super.update(parentStoryModel);
 			}
-			
+
 			transaction.commit();
 		} catch(Exception ex)
 		{
 			throw new IllegalStateException("An error occurred while deleteing story - ", ex);
 		}
 	}
-	
+
 	/**
 	 * Deletes all records.
 	 */

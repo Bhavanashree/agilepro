@@ -528,6 +528,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_UPDATE_STORY_SPRINT = "updateStorySprint";
 	
 	/**
+	 * The action type update story management.
+	 */
+	public String ACTION_TYPE_UPDATE_STORY_MANAGEMENT = "updateStoryManagement";
+	
+	/**
 	 * The action type update task changes.
 	 */
 	public String ACTION_TYPE_UPDATE_TASK_CHANGES = "updateTaskChanges";
