@@ -11,6 +11,7 @@
 				<tab id="modelFormId" label="Basic">
 					<yk-model-form name="BugModel" columns="2"/>
 				</tab>
+				
 				<!-- bugcomment --> 
 				<tab id="bugComment" label="Comments"   >
 					<div class="panel panel-primary" style="margin-bottom: 0px;">
@@ -20,7 +21,7 @@
 									<td style=" width: 100%; padding: 0.3em 0.5em;  height: 1em;">
 										<div>
 											<span style="font-size: 0.8em; color: #008080;" class="ng-binding">
-													  {{cmtObj.commentedBy}} {{cmtObj.createdOn}}
+												{{cmtObj.commentedBy}} {{cmtObj.createdOn}}
 											</span>
 												
 											<div style="float :right;">
@@ -46,7 +47,7 @@
 								placeholder="Type your comment here" style="height: 10em; resize: none;"></textarea>			
 						</div>
 							
-							<!-- footer + dropdown -->
+						<!-- footer + dropdown -->
 						<div class="panel-footer" style="text-align:right;">	
 							<div class="btn-group dropup">
 								<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions

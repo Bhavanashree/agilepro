@@ -3,6 +3,7 @@ package com.agilepro.commons.models.bug;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class BugSearchResult.
@@ -10,11 +11,11 @@ import com.yukthi.webutils.common.annotations.Model;
 @Model
 public class BugSearchResult extends AbstractExtendedSearchResult
 {
-
 	/**
 	 * The id.
 	 **/
 	@Field(value = "id")
+	@NonDisplayable
 	private long id;
 
 	/**

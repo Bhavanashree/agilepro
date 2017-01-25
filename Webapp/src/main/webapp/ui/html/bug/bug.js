@@ -13,9 +13,10 @@ $.application.controller('bugController', ["$scope", "crudController","validator
 	
 		"onDisplay" : function(model){
 			$scope.init();
+			
 			if(!(model.id))
 			{
-			$scope.commentTab = false;	
+				$scope.commentTab = false;	
 			}
 			else
 			{
@@ -28,6 +29,7 @@ $.application.controller('bugController', ["$scope", "crudController","validator
 			}
 		}
 	});
+	
 	//dropdowns array
 	$scope.commentStatus = [{"name" : "Comment"},{"name": "reopen"}, {"name": "closed"}, {"name":"deferred"}];
 		
@@ -64,6 +66,7 @@ $.application.controller('bugController', ["$scope", "crudController","validator
 		$scope.displayComments();
 		
 	}
+	
 	//save comments dropdown
 	$scope.onCommentedBtn =function(){
 		
@@ -90,7 +93,9 @@ $.application.controller('bugController', ["$scope", "crudController","validator
 	};
 	
 	var readCmtscallBack = function(read, resp){	
+		
 		$scope.commentRead = read.model;
+		
 		try
 		{
     		$scope.$apply();
@@ -100,6 +105,7 @@ $.application.controller('bugController', ["$scope", "crudController","validator
 	
 	//read comments as per bugid
 	$scope.displayComments =function(){
+		
 		console.log("displaycommens");
 		actionHelper.invokeAction("bugComment.readByBugId", null,{"bugId" :  $scope.bugId}, readCmtscallBack);
 	};

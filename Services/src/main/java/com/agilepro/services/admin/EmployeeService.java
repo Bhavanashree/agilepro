@@ -65,25 +65,11 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	private DesignationService designationService;
 
 	/**
-	 * Employee repository for executing queries in employee table.
-	 */
-	private IEmployeeRepository employeeRepository;
-
-	/**
 	 * Instantiates a new employee service.
 	 */
 	public EmployeeService()
 	{
 		super(EmployeeEntity.class, IEmployeeRepository.class);
-	}
-
-	/**
-	 * Initialize the iemployeeRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		employeeRepository = repositoryFactory.getRepository(IEmployeeRepository.class);
 	}
 
 	/**
@@ -291,7 +277,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 			employeeName = employeeName.replace('*', '%');
 		}
 
-		List<EmployeeEntity> employeeEntities = employeeRepository.fetchEmployees(employeeName);
+		List<EmployeeEntity> employeeEntities = repository.fetchEmployees(employeeName);
 
 		if(employeeEntities != null)
 		{
@@ -313,7 +299,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public EmployeeEntity fetchWithNoSpace(Long employeeId)
 	{
-		return employeeRepository.fetchWithNoSpace(employeeId);
+		return repository.fetchWithNoSpace(employeeId);
 	}
 
 	/**
@@ -325,7 +311,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public Set<UserRole> fetchEmployeeRoles(Long employeeId)
 	{
-		List<Long> designationIds = employeeRepository.fetchDesignationIds(employeeId);
+		List<Long> designationIds = repository.fetchDesignationIds(employeeId);
 
 		Set<UserRole> roles = new HashSet<UserRole>();
 		DesignationEntity designation = null;
@@ -355,7 +341,7 @@ public class EmployeeService extends BaseCrudService<EmployeeEntity, IEmployeeRe
 	 */
 	public String fetchEmployeeName(Long id)
 	{
-		return employeeRepository.fetchEmployeeName(id);
+		return repository.fetchEmployeeName(id);
 	}
 
 	/**
