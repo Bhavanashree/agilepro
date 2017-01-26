@@ -529,18 +529,19 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		$scope.storyNotesForStory = $scope.idToStory[storyId];
 		
-		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : storyId}, 
+		actionHelper.invokeAction("storyNote.readActiveStoryNoteByStoryId", null, {"storyId" : storyId}, 
 				function(readResponse, respConfig)
 				{
 					if(readResponse.code == 0)
 					{
 						$("#storyNoteModal").modal("show");
-						$scope.storyNotes = readResponse.model;
+						$scope.storyNote = readResponse.model;
 						
-						if($scope.storyNotes.length == 0)
+						if(!$scope.storyNote)
 						{
-							$scope.storyNotes.push({"content" : "There is no notes for this story"});
+							$scope.storyNote = {"content" : "There is no notes for this story"};
 						}
+						
 						try
 						{
 							$scope.$apply();

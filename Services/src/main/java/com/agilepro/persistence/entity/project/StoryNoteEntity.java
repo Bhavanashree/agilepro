@@ -21,7 +21,7 @@ import com.yukthi.webutils.repository.WebutilsEntity;
  * @author Pritam.
  */
 @Table(name = "STORY_NOTE")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_NAME", fields = { "spaceIdentity", "story", "versionTitle" }) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_STORY_VERSION_TITLE", fields = { "spaceIdentity", "story", "versionTitle" }) })
 public class StoryNoteEntity extends WebutilsEntity
 {
 	/**

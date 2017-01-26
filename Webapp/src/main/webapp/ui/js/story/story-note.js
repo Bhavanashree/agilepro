@@ -5,8 +5,6 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	// Listener for broadcast
 	$scope.$on("fetchAllStoryNotes", function(event, args) {
 
-		console.log("$scope.initStoryNote is invoked");
-		
 		tinymce.init({
 		    "selector": '#noteId',
 		    "toolbar": "undo, redo | bold, italic, underline, strikethrough, subscript, superscript | forecolor backcolor emoticons | fontselect, fontsizeselect | bullist, numlist",
@@ -21,7 +19,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		$scope.errorStoryNote = {"error" : false, "message" : ""};
 	});
 	
-	
+	/**
+	 * Fetch all the notes of the selected story.
+	 */
 	$scope.fetchNotes = function(){
 		
 		var selectedStory = $scope.getStoryForUpdate();
@@ -32,10 +32,10 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			$scope.activeNoteModel = {};
 			$scope.versionTitle = "";
 			$scope.activeVersionTitle = "";
+			$scope.activeContent = "";
+			$scope.versionTitlesSet = [];
 			
 			$scope.storyNotes = readResponse.model;
-			$scope.activeContent = "";
-			$scope.versionTitlesSet = []; 
 			
 			if($scope.storyNotes.length > 0)
 			{
@@ -64,6 +64,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		}, {"hideInProgress" : true});
 	};
 	
+	// Listener for saving new story note, save or published button in parent controller displayed at the bottom of the dailoge.
 	$scope.$on("saveNewStoryNote", function(event, status) {
 		
 		$scope.checkVersionTitle(null);
@@ -87,7 +88,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			return;
 		}
 		
-		if(status != "DRAFT")
+		if(status == "PUBLISHED" && !$scope.draftIsSelected)
 		{
 			$scope.activeNoteModel = {};
 		}
@@ -116,13 +117,13 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		{
 			if(saveResponse.code == 0)
 			{
-				utils.info(["Successfully saved {} "], $scope.versionTitle);
-				
-				if(status != "DRAFT")
+				if(status == "PUBLISHED")
 				{
 					if($scope.draftIsSelected)
 					{
 						$scope.storyNotes[0] = $scope.activeNoteModel;
+						
+						$scope.draftIsSelected = false;
 					}else
 					{
 						$scope.storyNotes.push($scope.activeNoteModel);
@@ -130,19 +131,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 					}
 				}else 
 				{
-					if($scope.storyNotes.length == 0)
-					{
-						$scope.storyNotes.push($scope.activeNoteModel);
-						$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
-					}else if($scope.storyNotes[0].storyNoteStatus != "DRAFT")
-					{
-						console.log("unshift");
-						$scope.storyNotes.unshift($scope.activeNoteModel);
-						$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
-					}else
-					{
-						$scope.storyNotes[0] = $scope.activeNoteModel;
-					}
+					
 				}
 				
 				tinymce.activeEditor.setContent("");
@@ -150,7 +139,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 				
 			}else
 			{
-				//$scope.fetchNotes();
+				utils.alert("Error in saving story notes");
 			}
 		
 			try
@@ -162,7 +151,10 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		}, {"hideInProgress" : true});
 	};
 	
-	
+
+	/**
+	 * Gets invoked when active note is selected.
+	 */
 	$scope.activeNote = function(storyNote){
 		
 		$scope.activeNoteModel = storyNote;
@@ -175,11 +167,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	};
 	
 	/**
-	 * Gets invoked on type version title.
+	 * Gets invoked on type in input box for new version title.
 	 */
 	$scope.checkVersionTitle = function(event){
-		
-		$scope.draftIsSelected = false;
 		
 		if($scope.versionTitle.length > 20)
 		{
@@ -188,7 +178,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			return;
 		}
 		
-		if($scope.versionTitlesSet.indexOf($scope.versionTitle) != -1)
+		if($scope.versionTitlesSet.indexOf($scope.versionTitle) != -1 && !$scope.draftIsSelected)
 		{
 			$scope.errorStoryNote.error = true,
 			$scope.errorStoryNote.message  = "Please provide different version title, provided version title is already existing";

@@ -136,9 +136,12 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 			
 			var model = {"stories" : $scope.bulkStories, "projectId" :  $scope.getActiveProjectId()};
 		
-			actionHelper.invokeAction("story.storiesInbulk", model, null, function(read, Response){
+			actionHelper.invokeAction("story.storiesInbulk", model, null, 
+			
+					function(saveResponse, respConfig)
+					{
 				
-			});
+					}, {"hideInProgress" : true});
 			
 		};
 		

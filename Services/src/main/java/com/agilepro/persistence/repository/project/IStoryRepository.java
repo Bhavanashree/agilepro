@@ -83,7 +83,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@MethodConditions(
 		nullChecks = @NullCheck(field = "sprint.id")
 	)
-	public List<BackLogModel> fetchBacklogs(@Condition(value = "project.id") Long projectId);
+	public List<BackLogModel> fetchBacklogs(@Condition(value = "project.id") Long projectId, @Condition(value = "isManagementStory") Boolean isManagementStory);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchChilds(@Condition(value = "parentStory.id") Long parentStoryId);

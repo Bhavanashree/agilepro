@@ -17,7 +17,7 @@ public interface IStoryNoteRepository extends IWebutilsRepository<StoryNoteEntit
 {
 	@RestrictBySpace
 	@OrderBy("updatedOn")
-	public List<StoryNoteEntity> fetchAllNoteByStoryId(@Condition(value = "story.id") Long storyId);
+	public List<StoryNoteEntity> fetchActiveStoryNoteByStoryId(@Condition(value = "story.id") Long storyId);
 	
 	@RestrictBySpace
 	public StoryNoteEntity fetchSaveDraftNoteByStoryId(@Condition(value = "story.id") Long storyId, @Condition(value = "storyNoteStatus") String storyNoteStatus);

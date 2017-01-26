@@ -88,9 +88,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_SAVE_OR_UPDATE = "saveOrUpdate";
 
 	/**
-	 * The action type read all note by story id.
+	 * The action type read story note by story id.
 	 **/
-	public String ACTION_TYPE_READ_ALL_NOTE_BY_STORY_ID = "readAllNoteByStoryId";
+	public String ACTION_TYPE_ACTIVE_STORY_NOTE_BY_STORY_ID = "readActiveStoryNoteByStoryId";
 
 	/**
 	 * The action type delete by project id.

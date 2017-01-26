@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,25 +69,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	private SprintService sprintService;
 
 	/**
-	 * The story repo.
-	 **/
-	private IStoryRepository storyRepo;
-
-	/**
 	 * Instantiates a new StoryService.
 	 */
 	public StoryService()
 	{
 		super(StoryEntity.class, IStoryRepository.class);
-	}
-
-	/**
-	 * Inits the storyRepo, istoryReleaseRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		storyRepo = repositoryFactory.getRepository(IStoryRepository.class);
 	}
 
 	/**
@@ -120,17 +104,17 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 					super.update(parentStory);
 				}
 
-				Integer parentPriority = storyRepo.fetchOrderOfStory(parentStoryId);
+				Integer parentPriority = repository.fetchOrderOfStory(parentStoryId);
 
-				storyRepo.moveStoriesDown(storyModel.getProjectId(), parentPriority, PRIORITY_INCREMENT_VALUE);
+				repository.moveStoriesDown(storyModel.getProjectId(), parentPriority, PRIORITY_INCREMENT_VALUE);
 
-				updatedPriorites = storyRepo.fetchStoriesWherePriorityGreaterThan(storyModel.getProjectId(), parentPriority);
+				updatedPriorites = repository.fetchStoriesWherePriorityGreaterThan(storyModel.getProjectId(), parentPriority);
 
 				storyModel.setPriority(parentPriority);
 			}
 			else
 			{
-				storyModel.setPriority(storyRepo.getMaxOrder(storyModel.getProjectId()) + PRIORITY_INCREMENT_VALUE);
+				storyModel.setPriority(repository.getMaxOrder(storyModel.getProjectId()) + PRIORITY_INCREMENT_VALUE);
 			}
 
 			StoryEntity entity = super.save(storyModel);
@@ -162,9 +146,9 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			storyRepo.moveStoriesDown(projectId, newPriority, PRIORITY_INCREMENT_VALUE);
+			repository.moveStoriesDown(projectId, newPriority, PRIORITY_INCREMENT_VALUE);
 
-			storyRepo.updatePriority(id, newPriority);
+			repository.updatePriority(id, newPriority);
 
 			transaction.commit();
 		} catch(RuntimeException ex)
@@ -188,7 +172,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			storyRepo.updatePriority(id, storyRepo.getMaxOrder(projectId) + 1);
+			repository.updatePriority(id, repository.getMaxOrder(projectId) + 1);
 
 			transaction.commit();
 		} catch(RuntimeException ex)
@@ -216,11 +200,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 			StoryModel storyDown = super.fetchFullModel(idToMoveDown, StoryModel.class);
 
-			storyRepo.updatePriority(storyUp.getId(), -1);
+			repository.updatePriority(storyUp.getId(), -1);
 
-			storyRepo.updatePriority(storyDown.getId(), storyUp.getPriority());
+			repository.updatePriority(storyDown.getId(), storyUp.getPriority());
 
-			storyRepo.updatePriority(storyUp.getId(), storyDown.getPriority());
+			repository.updatePriority(storyUp.getId(), storyDown.getPriority());
 
 			transaction.commit();
 		} catch(RuntimeException ex)
@@ -244,7 +228,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			storyRepo.updateStatus(id, status);
+			repository.updateStatus(id, status);
 
 			if(status.equals(StoryStatus.COMPLETED))
 			{
@@ -282,7 +266,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 			for(Long id : ids)
 			{
-				storyRepo.updateSprint(id, sprint);
+				repository.updateSprint(id, sprint);
 			}
 
 			transaction.commit();
@@ -307,7 +291,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			storyRepo.updateManagement(id, isManagementStory);
+			repository.updateManagement(id, isManagementStory);
 			
 			transaction.commit();
 		} catch(RuntimeException ex)
@@ -333,8 +317,8 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		List<StoryModel> storymodels = new ArrayList<StoryModel>();
 
-		List<StoryEntity> stories = storyRepo.fetchStoryByProjIdAndSprint(projectId, sprintId);
-		List<StoryEntity> unassignedStories = storyRepo.fetchBacklogsForkanaban(projectId);
+		List<StoryEntity> stories = repository.fetchStoryByProjIdAndSprint(projectId, sprintId);
+		List<StoryEntity> unassignedStories = repository.fetchBacklogsForkanaban(projectId);
 
 		if(stories == null)
 		{
@@ -384,7 +368,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	{
 		List<StoryModel> storymodels = new ArrayList<StoryModel>();
 
-		List<StoryEntity> storyEntities = storyRepo.fetchStoryBySprintId(sprintId);
+		List<StoryEntity> storyEntities = repository.fetchStoryBySprintId(sprintId);
 
 		StoryModel storyModel = null;
 		EmployeeModel employeeModel = null;
@@ -422,7 +406,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<BackLogModel> fetchBackLogs(Long projectId)
 	{
-		List<BackLogModel> backlogModels = storyRepo.fetchBacklogs(projectId);
+		List<BackLogModel> backlogModels = repository.fetchBacklogs(projectId, false);
 
 		for(BackLogModel backlog : backlogModels)
 		{
@@ -441,7 +425,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<StoryAndTaskResult> searchByTitle(String title)
 	{
-		List<StoryEntity> storyEntities = storyRepo.findByTitle(title);
+		List<StoryEntity> storyEntities = repository.findByTitle(title);
 		List<StoryAndTaskResult> storiesmodel = new ArrayList<StoryAndTaskResult>();
 
 		for(StoryEntity story : storyEntities)
@@ -496,7 +480,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<StoryModel> fetchStoriesByProject(Long projectId)
 	{
-		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProject(projectId);
+		List<StoryEntity> storyEntities = repository.fetchStoriesByProject(projectId);
 		List<StoryModel> storyModels = new ArrayList<StoryModel>();
 
 		if(storyEntities != null)
@@ -515,7 +499,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<StoryModel> fetchStoriesByProjectOrderByPriority(Long projectId)
 	{
-		List<StoryEntity> storyEntities = storyRepo.fetchStoriesByProjectOrderByPriority(projectId);
+		List<StoryEntity> storyEntities = repository.fetchStoriesByProjectOrderByPriority(projectId);
 		List<StoryModel> storyModels = new ArrayList<StoryModel>();
 
 		if(storyEntities != null)
@@ -539,7 +523,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 			super.deleteById(id);
 
-			if(parentStoryEntity != null && storyRepo.storyHasChilds(parentStoryEntity.getId()) == 0)
+			if(parentStoryEntity != null && repository.storyHasChilds(parentStoryEntity.getId()) == 0)
 			{
 				StoryModel parentStoryModel = super.fetchFullModel(parentStoryEntity.getId(), StoryModel.class);
 				parentStoryModel.setIsManagementStory(false);
