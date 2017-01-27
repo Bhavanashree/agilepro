@@ -88,6 +88,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_SAVE_OR_UPDATE = "saveOrUpdate";
 
 	/**
+	 * The action type read all story note by story id.
+	 */
+	public String  ACTION_TYPE_READ_ALL_STORY_NOTE_BY_STORY_ID = "readAllNoteByStoryId";
+	
+	/**
 	 * The action type read story note by story id.
 	 **/
 	public String ACTION_TYPE_ACTIVE_STORY_NOTE_BY_STORY_ID = "readActiveStoryNoteByStoryId";
@@ -471,6 +476,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type readProjectid.
 	 */
 	public String ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID = "fetchBacklogBysprintAndProjectId";
+	
+	/**
+	 * The action type fetch backlogs for drag by provided project id. 
+	 */
+	public String ACTION_TYPE_READ_BACKLOGS_FOR_DRAG_BY_PROJECT_ID = "fetchBacklogsForDragByProjectId";
 	
 	/**
 	 * Action type to read stories by project id and sprint id will be null.

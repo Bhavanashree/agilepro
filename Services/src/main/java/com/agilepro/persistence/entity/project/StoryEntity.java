@@ -57,7 +57,10 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * The parent story id.
 	 **/
 	@ManyToOne
-	@PropertyMapping(type = StoryModel.class, from = "parentStoryId", subproperty = "id")
+	@PropertyMappings({
+		@PropertyMapping(type = StoryModel.class, from = "parentStoryId", subproperty = "id"),
+		@PropertyMapping(type = StoryBulkModel.class, from = "parentStoryId", subproperty = "id")
+	})
 	@Column(name = "PARENT_STORY_ID")
 	@DeleteWithParent
 	private StoryEntity parentStory;
@@ -137,7 +140,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * Is management story, true if it has child stories or else by default
 	 * false.
 	 */
-	@Column(name = "IS_MANAGEMENT_STORY")
+	@Column(name = "IS_MANAGEMENT_STORY", nullable = false)
 	private Boolean isManagementStory;
 
 	/**

@@ -208,7 +208,6 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 				
 			if(!confirmed)
 			{
-				this.logger.trace("Delete operation is cancelled by user.");
 				return;
 			}
 			else

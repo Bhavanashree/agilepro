@@ -43,8 +43,12 @@
 								<i ng-class="story.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 								</i>
 						</td>
-						<td style="width: 80%; padding-left: 0.5em;">
+						<td style="width: 75%; padding-left: 0.5em;">
 							<strong style="text-transform: capitalize;">{{story.title}}</strong>
+						</td>
+						<td ng-click="openStoryEditModal(story.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
+							color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
+							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 						</td>
 						<td ng-click="openStoryNoteModal(story.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
 							color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
@@ -224,7 +228,7 @@
 							<td>
 								{{storyNote.versionTitle}}
 							</td>
-							<td>
+							<td ng-show="storyNote.owner">
 								<span style="float: right;">Update by: {{storyNote.owner}}</span>
 							</td>
 						</tr>

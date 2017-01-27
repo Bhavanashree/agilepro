@@ -44,9 +44,20 @@ public class StoryBulkModel
 	private List<StoryBulkModel> substories;
 
 	/**
-	 *  The project id. 
+	 * The project id.
 	 **/
 	private Long projectId;
+
+	/**
+	 * Priority.
+	 */
+	private Integer priority;
+
+	/**
+	 * Is management story, true if it has child stories or else by default
+	 * false.
+	 */
+	private Boolean isManagementStory;
 
 	/**
 	 * Instantiates a new story bulk model.
@@ -182,10 +193,53 @@ public class StoryBulkModel
 	/**
 	 * Sets the project id.
 	 *
-	 * @param projectId the new project id
+	 * @param projectId
+	 *            the new project id
 	 */
 	public void setProjectId(Long projectId)
 	{
 		this.projectId = projectId;
+	}
+
+	/**
+	 * Gets the priority.
+	 * 
+	 * @return the priority.
+	 */
+	public Integer getPriority()
+	{
+		return priority;
+	}
+
+	/**
+	 * Sets the priority.
+	 * 
+	 * @param priority
+	 *            the new priority.
+	 */
+	public void setPriority(Integer priority)
+	{
+		this.priority = priority;
+	}
+
+	/**
+	 * Gets is management story.
+	 * 
+	 * @return the management story.
+	 */
+	public Boolean getIsManagementStory()
+	{
+		return isManagementStory;
+	}
+
+	/**
+	 * Set the management story.
+	 * 
+	 * @param isManagementStory
+	 *            the new management story.
+	 */
+	public void setIsManagementStory(Boolean isManagementStory)
+	{
+		this.isManagementStory = isManagementStory;
 	}
 }

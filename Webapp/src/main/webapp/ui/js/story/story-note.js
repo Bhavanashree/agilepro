@@ -171,6 +171,9 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	 */
 	$scope.checkVersionTitle = function(event){
 		
+		// Set draftIsSelected as false as the new title for draft or published
+		$scope.draftIsSelected = false;
+		
 		if($scope.versionTitle.length > 20)
 		{
 			$scope.errorStoryNote.error = true,

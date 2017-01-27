@@ -154,7 +154,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		$scope.backlogs = [];
 		$scope.idToIndexForMultiple = {};
 		
-		actionHelper.invokeAction("story.fetchBacklogsByProjectId", null, {"projectId" : projectId},
+		actionHelper.invokeAction("story.fetchBacklogsForDragByProjectId", null, {"projectId" : projectId},
 				function(readResponse, respConfig)
 				{
 					$scope.backlogs = readResponse.model;
@@ -550,6 +550,14 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					}
 					
 				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Open story edit modal.
+	 */
+	$scope.openStoryEditModal = function(storyId){
+		
+		$scope.$emit("editStory",storyId);
 	};
 	
 	/**

@@ -131,8 +131,15 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 			{}
 		};
 		
+		/**
+		 * Gets invoked on click of save.
+		 */
 		$scope.saveStoryTitle = function(e){
-			$scope.newStoryMode= 'true';
+			
+			if(!$scope.bulkStories)
+			{
+				return;
+			}
 			
 			var model = {"stories" : $scope.bulkStories, "projectId" :  $scope.getActiveProjectId()};
 		
@@ -140,8 +147,42 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 			
 					function(saveResponse, respConfig)
 					{
-				
+						if(saveResponse.code == 0)
+						{
+							$scope.addBulkStoriesAfterSave($scope.bulkStories);
+							
+							$("#bulkStoryDialog").modal("hide");
+							$scope.refreshPriority();
+						}
+						
+						try
+						{
+							$scop.$apply();
+						}catch(ex)
+						{}
+						
 					}, {"hideInProgress" : true});
+			
+		};
+		
+		/**
+		 * Add saved bulk stories after save.
+		 */
+		$scope.addBulkStoriesAfterSave = function(storyArr){
+			
+			for(index in storyArr)
+			{
+				var storyObj = storyArr[index];
+				
+				storyObj.filtered = true;
+				
+				$scope.addSavedBacklog(storyObj, null);
+				
+				if(storyObj.substories)
+				{
+					$scope.addBulkStoriesAfterSave(storyObj.substories);
+				}
+			}
 			
 		};
 		

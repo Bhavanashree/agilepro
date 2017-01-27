@@ -14,6 +14,7 @@ import com.agilepro.services.common.StorySearchCustomizer;
 import com.yukthi.persistence.repository.annotations.AggregateFunction;
 import com.yukthi.persistence.repository.annotations.AggregateFunctionType;
 import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.DefaultCondition;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.NullCheck;
@@ -55,9 +56,6 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	@SearchQueryMethod(name = "storyTaskSearch", queryModel = StorySearchQuery.class)
 	public List<StoryAndTaskResult> findByStories(SearchQuery searchQuery);
 	
-	@RestrictBySpace
-	public List<StoryEntity> findByTitle(@Condition(value = "title") String title);
-	
 	@LovQuery(name = "parentStory", valueField = "id", labelField = "title")
 	@RestrictBySpace
 	public List<ValueLabel> findParentStoryIdLov();
@@ -74,16 +72,25 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 
 	@RestrictBySpace
 	@MethodConditions(
-		nullChecks = @NullCheck(field = "sprint.id")
+		nullChecks = @NullCheck(field = "sprint.id"),
+		conditions = @DefaultCondition(field = "isManagementStory", value = "false") 
 	)
-	public List<StoryEntity> fetchBacklogsForkanaban(@Condition(value = "project.id") Long projectId);
+	public List<StoryEntity> fetchBacklogsForKanban(@Condition(value = "project.id") Long projectId);
+	
+	@SearchResult
+	@RestrictBySpace
+	@MethodConditions(
+		nullChecks = @NullCheck(field = "sprint.id"),
+		conditions = @DefaultCondition(field = "isManagementStory", value = "false") 
+	)
+	public List<BackLogModel> fetchBacklogsForDrag(@Condition(value = "project.id") Long projectId);
 	
 	@RestrictBySpace
 	@SearchResult
 	@MethodConditions(
 		nullChecks = @NullCheck(field = "sprint.id")
 	)
-	public List<BackLogModel> fetchBacklogs(@Condition(value = "project.id") Long projectId, @Condition(value = "isManagementStory") Boolean isManagementStory);
+	public List<BackLogModel> fetchBacklogs(@Condition(value = "project.id") Long projectId);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchChilds(@Condition(value = "parentStory.id") Long parentStoryId);

@@ -18,6 +18,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TO_MAX_PR
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STATUS;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_MANAGEMENT;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACKLOGS_FOR_DRAG_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.List;
@@ -39,6 +40,7 @@ import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.StoriesInBulk;
+import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.commons.models.project.StorySprintUpdateModel;
 import com.agilepro.services.common.Authorization;
@@ -133,7 +135,16 @@ public class StoryController extends BaseController implements IStoryController
 	{
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesForKanban(projectId, sprint));
 	}
-
+	
+	@ActionName(ACTION_TYPE_READ_BACKLOGS_FOR_DRAG_BY_PROJECT_ID)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/fetchBacklogsForDragByProjectId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<BackLogModel>> fetchBacklogForDrag(@RequestParam(value = "projectId") Long projectId)
+	{
+		return new BasicReadResponse<List<BackLogModel>>(storyService.fetchBacklogsForDrag(projectId));
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

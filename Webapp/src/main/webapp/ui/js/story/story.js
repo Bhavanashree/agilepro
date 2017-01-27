@@ -277,9 +277,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 			parentStory.isManagementStory = true;
 			
-			for(key in storyIdPriority)
+			if(storyIdPriority)
 			{
-				$scope.idToStory[key].priority = storyIdPriority[key];
+				for(key in storyIdPriority)
+				{
+					$scope.idToStory[key].priority = storyIdPriority[key];
+				}
 			}
 		}
 	};
@@ -318,9 +321,19 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	 * Displays bulk story dialog.
 	 */
 	$scope.openBulkStories = function() {
-		utils.openModal("bulkStoryDialog", {});
 		
+		utils.openModal("bulkStoryDialog", {});
+	
+		$("#bulkStoryText").val("");
+		$scope.bulkStories = [];
+		
+		try
+		{
+			$scope.$digest();
+		}catch(ex)
+		{}
 	};
+	
 	
 	/**
 	 * Get backlog.

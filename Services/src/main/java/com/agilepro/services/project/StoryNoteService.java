@@ -111,6 +111,22 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	}
 
 	/**
+	 * Fetch All the story notes for the given story id.
+	 * 
+	 * @param storyId provided story id for which story notes are to be fetched. 
+	 * @return matching records.
+	 */
+	public List<StoryNoteModel> fetchAllStoryNotes(Long storyId)
+	{
+		List<StoryNoteEntity> storyNoteEntities = repository.fetchAllStoryNoteByStoryId(storyId);
+		List<StoryNoteModel> storyNoteModels = new ArrayList<StoryNoteModel>();
+		
+		storyNoteEntities.forEach(entity -> storyNoteModels.add(super.toModel(entity, StoryNoteModel.class)));
+		
+		return storyNoteModels;
+	}
+	
+	/**
 	 * Fetch active story note by story id.
 	 *
 	 * @param storyId

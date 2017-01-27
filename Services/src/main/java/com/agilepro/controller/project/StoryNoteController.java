@@ -3,6 +3,7 @@ package com.agilepro.controller.project;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY_NOTE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_ACTIVE_STORY_NOTE_BY_STORY_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_OR_UPDATE;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_STORY_NOTE_BY_STORY_ID;
 
 import java.util.Date;
 import java.util.List;
@@ -58,6 +59,15 @@ public class StoryNoteController extends BaseController
 		storyNoteModel.setUpdatedOn(new Date());
 		
 		return new BasicSaveResponse(storyNoteService.saveOrUpdate(storyNoteModel).getId());
+	}
+	
+	@ActionName(ACTION_TYPE_READ_ALL_STORY_NOTE_BY_STORY_ID)
+	@Authorization(roles = { UserRole.EMPLOYEE_VIEW, UserRole.STORY_NOTE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@RequestMapping(value = "/readAllNoteByStoryId", method = RequestMethod.GET)
+	@ResponseBody
+	public BasicReadResponse<List<StoryNoteModel>> fetchAllStoryNotes(@RequestParam(value = "storyId") Long storyId)
+	{
+		return new BasicReadResponse<List<StoryNoteModel>>(storyNoteService.fetchAllStoryNotes(storyId));
 	}
 	
 	@ActionName(ACTION_TYPE_ACTIVE_STORY_NOTE_BY_STORY_ID)
