@@ -424,20 +424,20 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Save bulk of stories.
 	 *
-	 * @param storieBulkModels
+	 * @param storiesBulkModels
 	 *            the story bulk models
 	 * @param projectId
 	 *            the project id
 	 * @param parentId
 	 *            the parent id
 	 */
-	public void saveListOfStories(List<StoryBulkModel> storieBulkModels, Long projectId, Long parentId)
+	public void saveListOfStories(List<StoryBulkModel> storiesBulkModels, Long projectId, Long parentId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Integer maxPriority = repository.getMaxOrder(projectId);
 			
-			for(StoryBulkModel stryBulkModel : storieBulkModels)
+			for(StoryBulkModel stryBulkModel : storiesBulkModels)
 			{
 				stryBulkModel.setProjectId(projectId);
 				stryBulkModel.setParentStoryId(parentId);

@@ -42,7 +42,7 @@
 								<td id="backlogTitle_{{backlog.id}}" style="width: 80%; padding-left: 0.5em;">
 									<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 								</td>
-								<td ng-show="backlog.childrens.length > 0" ng-click="updateManagementStory(backlog.id, backlog.isManagementStory)"
+								<td ng-show="backlog.isManagementStory" ng-click="updateManagementStory(backlog.id, backlog.isManagementStory)"
 									style="width: 4%; text-align: center; background-color: #cce6ff;
 									border-left: 1px solid #66c2ff; cursor:pointer;"
 									data-toggle="tooltip" data-placement="top" title="Change management for {{backlog.title}}">

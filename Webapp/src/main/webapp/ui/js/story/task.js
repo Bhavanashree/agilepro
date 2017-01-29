@@ -91,36 +91,43 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	/**
 	 * Filter story by owner.
 	 */
-	$scope.filterStoryByOwner = function(){
+	$scope.isStoryFilteredByOwner = function(storyId){
 		
 		var ownerObj = $scope.getSelectedOwner();
 		
-		for(index in $scope.storiesForTask)
+		var storyObj = $scope.idToStory[storyId];
+		
+		if((ownerObj) && (storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
 		{
-			var storyObj = $scope.storiesForTask[index];
-			
-			if((storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
-			{
-				storyObj.display = true;
-			}else
-			{
-				storyObj.display = false;
-			}
+			return true;
+		}else
+		{
+			return false;
 		}
 	};
 	
 	/**
 	 * Filter story by status.
 	 */
-	$scope.filterStoryByStoryStatus = function(){
+	$scope.commonFilterStory = function(){
 		
 		var storyStatusName = $scope.getSelectedStoryStatus();
 		
 		for(index in $scope.storiesForTask)
 		{
 			var storyObj = $scope.storiesForTask[index];
+			var ownerObj = $scope.getSelectedOwner();
 			
-			if(storyStatusName == "All")
+			if((ownerObj) && (storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
+			{
+				storyObj.display = true;
+			}else
+			{
+				storyObj.display = false;
+				continue;
+			}
+			
+			if(storyStatusName == "All" || !storyStatusName)
 			{
 				storyObj.display = true;
 			}else if(storyStatusName == "Completed" && storyObj.status == "COMPLETED")
@@ -511,13 +518,13 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	// Listener for broadcast
 	$scope.$on("activeOwnerSelectionChanged", function(event, args) {
 		
-		$scope.filterStoryByOwner();
+		$scope.commonFilterStory();
 	});
 	
 	// Listener for broadcast
 	$scope.$on("activeStoryStatusSelectionChanged", function(event, args) {
 		
-		$scope.filterStoryByStoryStatus();
+		$scope.commonFilterStory();
 	});
 	
 	// Modal open related methods
