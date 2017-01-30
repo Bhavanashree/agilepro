@@ -30,8 +30,12 @@
 			 				<a href="" ng-click="activeNote(note, $index)">{{note.versionTitle}}</a>
 			 				
 			 				<span style="font-size: 10px; float: right;" ng-if="note.storyNoteStatus == 'DRAFT'">
-			 				{{note.storyNoteStatus}}
+			 					{{note.storyNoteStatus}}
+			 					
+			 					<i ng-click="deleteDraftNote(note.id, $index)" class="glyphicon glyphicon-remove" style="color: red; cursor: pointer;">
+			 					</i>
 			 				</span>
+			 				
 			 			</td>
 			 		</tr>
 			 		<tr>

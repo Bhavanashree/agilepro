@@ -29,6 +29,7 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		actionHelper.invokeAction("storyNote.readAllNoteByStoryId", null, {"storyId" : selectedStory.id}, 
 				function(readResponse, respConfig){
 
+			$scope.idToStoryNote = {};
 			$scope.versionTitlesSet = [];			
 			tinymce.activeEditor.setContent("");
 			$scope.versionTitle = "";
@@ -63,7 +64,8 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			for(index in $scope.storyNotes)
 			{
 				var noteObj = $scope.storyNotes[index];
-				
+			
+				$scope.idToStoryNote[noteObj.id] = noteObj;
 				$scope.versionTitlesSet.push(noteObj.versionTitle);
 			}
 			
@@ -129,8 +131,10 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 		{
 			if(saveResponse.code == 0)
 			{
-				$scope.activeNoteModel.owner = $scope.activeUser.displayName;
+				$scope.activeNoteModel.id = saveResponse.id;
+				$scope.idToStoryNote[$scope.activeNoteModel.id] = $scope.activeNoteModel; 
 				
+				$scope.activeNoteModel.owner = $scope.activeUser.displayName;
 				$scope.versionTitlesSet.push($scope.activeNoteModel.versionTitle);
 				
 				if($scope.storyNotes.length == 0)
@@ -161,6 +165,45 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 			{}
 			
 		}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Delete draft note.
+	 */
+	$scope.deleteDraftNote = function(storyNoteId, indexForDelete){
+		
+		var noteObj = $scope.idToStoryNote[storyNoteId];
+		var storyObj = $scope.getStoryForUpdate();
+		
+		var deleteOp = $.proxy(function(confirmed) {
+				
+			if(!confirmed)
+			{
+				return;
+			}
+			else
+			{
+				actionHelper.invokeAction("storyNote.delete", null, {"id" : storyNoteId}, 
+						function(deleteResponse, respConfig)
+						{
+							if(deleteResponse.code == 0)
+							{
+								$scope.storyNotes.splice(indexForDelete, 1);
+								
+								try
+								{
+									$scope.$apply();
+								}catch(ex)
+								{}
+								
+							}
+						}, {"hideInProgress" : true});
+			}
+			
+		}, {"$scope": $scope, "storyNoteId": storyNoteId});
+		
+		utils.confirm(["Are you sure you want to delete note - '{}' of story - '{}'", noteObj.versionTitle, storyObj.title], deleteOp);
+
 	};
 	
 
