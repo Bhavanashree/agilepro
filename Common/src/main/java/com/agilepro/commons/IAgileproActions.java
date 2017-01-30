@@ -93,9 +93,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String  ACTION_TYPE_READ_ALL_STORY_NOTE_BY_STORY_ID = "readAllNoteByStoryId";
 	
 	/**
-	 * The action type read story note by story id.
+	 * The action type read latest story note by story id.
 	 **/
-	public String ACTION_TYPE_ACTIVE_STORY_NOTE_BY_STORY_ID = "readActiveStoryNoteByStoryId";
+	public String ACTION_TYPE_LATEST_STORY_NOTE_BY_STORY_ID = "readLatestStoryNoteByStoryId";
 
 	/**
 	 * The action type delete by project id.

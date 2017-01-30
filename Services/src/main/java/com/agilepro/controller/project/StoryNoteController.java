@@ -1,7 +1,7 @@
 package com.agilepro.controller.project;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY_NOTE;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_ACTIVE_STORY_NOTE_BY_STORY_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_LATEST_STORY_NOTE_BY_STORY_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_OR_UPDATE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_ALL_STORY_NOTE_BY_STORY_ID;
 
@@ -70,9 +70,9 @@ public class StoryNoteController extends BaseController
 		return new BasicReadResponse<List<StoryNoteModel>>(storyNoteService.fetchAllStoryNotes(storyId));
 	}
 	
-	@ActionName(ACTION_TYPE_ACTIVE_STORY_NOTE_BY_STORY_ID)
+	@ActionName(ACTION_TYPE_LATEST_STORY_NOTE_BY_STORY_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.EMPLOYEE_VIEW, UserRole.STORY_NOTE_VIEW, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readActiveStoryNoteByStoryId", method = RequestMethod.GET)
+	@RequestMapping(value = "/readLatestStoryNoteByStoryId", method = RequestMethod.GET)
 	@ResponseBody
 	public BasicReadResponse<StoryNoteModel> fetchActiveStoryNote(@RequestParam(value = "storyId") Long storyId)
 	{

@@ -9,14 +9,14 @@ import com.agilepro.commons.models.project.StoryNoteModel;
 import com.agilepro.persistence.entity.admin.EmployeeEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.DeleteWithParent;
 import com.yukthi.persistence.annotations.UniqueConstraint;
 import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.repository.WebutilsEntity;
 
 /**
- * StoryNoteEntity holds the note for the story. One draft per story and n
- * number of published notes with unique version title.
+ * StoryNoteEntity holds the note for the story. Draft and Published notes with unique version title per story.
  * 
  * @author Pritam.
  */
@@ -30,31 +30,32 @@ public class StoryNoteEntity extends WebutilsEntity
 	@Column(name = "STORY_ID", nullable = false)
 	@ManyToOne
 	@PropertyMapping(type = StoryNoteModel.class, from = "storyId", subproperty = "id")
+	@DeleteWithParent
 	private StoryEntity story;
 
 	/**
 	 * The note.
 	 **/
-	@Column(name = "CONTENT", length = 1000)
+	@Column(name = "CONTENT", length = 1000, nullable = false)
 	private String content;
 
 	/**
 	 * The story note status.
 	 **/
-	@Column(name = "NOTE_STATUS")
+	@Column(name = "NOTE_STATUS", nullable = false)
 	@DataTypeMapping(type = DataType.STRING)
 	private StoryNoteStatus storyNoteStatus;
 
 	/**
 	 * The version title.
 	 **/
-	@Column(name = "VERSION_TITLE")
+	@Column(name = "VERSION_TITLE", nullable = false)
 	private String versionTitle;
 
 	/**
 	 * The owner.
 	 */
-	@Column(name = "EMPLOYEE_ID")
+	@Column(name = "EMPLOYEE_ID", nullable = false)
 	@PropertyMapping(type = StoryNoteModel.class, from = "employeeId", subproperty = "id")
 	@ManyToOne
 	private EmployeeEntity employee;

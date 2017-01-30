@@ -3,6 +3,7 @@ package com.agilepro.services.project;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -245,7 +246,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * @param ids
 	 *            for which new sprint is to be set.
 	 * @param sprintId
-	 *            provided new sprint id to set in story.
+	 *            provided new sprint id to set in story if and set sprintId null for the story to backlogs.
 	 */
 	public void updateStorySprint(Long[] ids, Long sprintId)
 	{
@@ -253,6 +254,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		{
 			SprintEntity sprint = null;
 			
+			// check for null for the case where story to backlogs
 			if(sprintId != null)
 			{
 				sprint = sprintService.fetch(sprintId);
@@ -425,36 +427,52 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * Save bulk of stories.
 	 *
 	 * @param storiesBulkModels
-	 *            the story bulk models
+	 *            the story bulk models which may contain sub stories.
 	 * @param projectId
-	 *            the project id
-	 * @param parentId
-	 *            the parent id
+	 *            the project id, active project id
 	 */
-	public void saveListOfStories(List<StoryBulkModel> storiesBulkModels, Long projectId, Long parentId)
+	public void saveListOfStories(List<StoryBulkModel> storiesBulkModels, Long projectId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Integer maxPriority = repository.getMaxOrder(projectId);
+			saveListOfStories(storiesBulkModels, projectId, null, new AtomicInteger(maxPriority));
 			
-			for(StoryBulkModel stryBulkModel : storiesBulkModels)
-			{
-				stryBulkModel.setProjectId(projectId);
-				stryBulkModel.setParentStoryId(parentId);
-				stryBulkModel.setPriority(maxPriority + PRIORITY_INCREMENT_VALUE);
-				stryBulkModel.setIsManagementStory(CollectionUtils.isNotEmpty(stryBulkModel.getSubstories()));
-				
-				StoryEntity storyEntity = super.save(stryBulkModel);
-
-				if(stryBulkModel.getSubstories() != null)
-				{
-					saveListOfStories(stryBulkModel.getSubstories(), projectId, storyEntity.getId());
-				}
-			}
 			transaction.commit();
 		} catch(Exception ex)
 		{
-			throw new IllegalStateException("An error occurred while saving  story - ", ex);
+			throw new IllegalStateException("An error occurred while saving bulk stories", ex);
+		}
+	}
+
+	/**
+	 * Save bulk of stories recursion wise.
+	 * 
+	 * @param storiesBulkModels list of story bulk model.
+	 * @param projectId provided project id under which story is to be saved. 
+	 * @param parentId provided parent id for saving the child.
+	 * @param maxPriority provided max priority for new story save.
+	 */
+	private void saveListOfStories(List<StoryBulkModel> storiesBulkModels, Long projectId, Long parentId, AtomicInteger maxPriority)
+	{
+		for(StoryBulkModel stryBulkModel : storiesBulkModels)
+		{
+			stryBulkModel.setProjectId(projectId);
+			stryBulkModel.setParentStoryId(parentId);
+			stryBulkModel.setPriority(maxPriority.incrementAndGet());
+			
+			List<StoryBulkModel> subStories = stryBulkModel.getSubstories();
+			stryBulkModel.setIsManagementStory(CollectionUtils.isNotEmpty(subStories));
+			
+			StoryEntity storyEntity = super.save(stryBulkModel);
+
+			if(CollectionUtils.isNotEmpty(subStories))
+			{
+				saveListOfStories(subStories, projectId, storyEntity.getId(), maxPriority);
+				
+				// update priority for the parent as parent priority should be greater than child priority.
+				repository.updatePriority(parentId, maxPriority.incrementAndGet());
+			}
 		}
 	}
 

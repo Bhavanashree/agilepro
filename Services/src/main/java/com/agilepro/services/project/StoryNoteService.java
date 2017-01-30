@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.StoryNoteStatus;
 import com.agilepro.commons.models.project.StoryNoteModel;
 import com.agilepro.persistence.entity.project.StoryNoteEntity;
 import com.agilepro.persistence.repository.project.IStoryNoteRepository;
@@ -35,7 +34,7 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	 **/
 	@Autowired
 	private UserService userService;
-	
+
 	/**
 	 * Employee service for interacting with employee table.
 	 */
@@ -61,44 +60,20 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			Long currentUserid = currentUserService.getCurrentUserDetails().getUserId();
-			Long employeeId = userService.fetch(currentUserid).getBaseEntityId();
+			Long currentUserId = currentUserService.getCurrentUserDetails().getUserId();
+			Long employeeId = userService.fetch(currentUserId).getBaseEntityId();
 
-			StoryNoteEntity storyNoteEntity, existingDraftNote;
-			StoryNoteModel newStoryNoteModel;
+			storyNoteModel.setEmployeeId(employeeId);
 
-			existingDraftNote = repository.fetchSaveDraftNoteByStoryId(storyNoteModel.getStoryId(), StoryNoteStatus.DRAFT.toString());
+			StoryNoteEntity storyNoteEntity;
 
-			if(storyNoteModel.getStoryNoteStatus().equals(StoryNoteStatus.PUBLISHED))
+			if(storyNoteModel.getId() == null)
 			{
-				// update the draft to published
-				if(existingDraftNote != null && storyNoteModel.getDraftIsSelected())
-				{
-					storyNoteModel.setVersion(super.fetch(storyNoteModel.getId()).getVersion());
-					storyNoteModel.setEmployeeId(employeeId);
-
-					storyNoteEntity = super.update(storyNoteModel);
-				}
-				else
-				{
-					// save new published
-					newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getStoryNoteStatus(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), employeeId);
-					storyNoteEntity = super.save(newStoryNoteModel);
-				}
+				storyNoteEntity = super.save(storyNoteModel);
 			}
 			else
 			{
-				if(existingDraftNote == null)
-				{
-					newStoryNoteModel = new StoryNoteModel(storyNoteModel.getContent(), storyNoteModel.getStoryNoteStatus(), storyNoteModel.getStoryId(), storyNoteModel.getVersionTitle(), employeeId);
-					storyNoteEntity = super.save(newStoryNoteModel);
-				}
-				else
-				{
-					storyNoteModel.setVersion(super.fetch(storyNoteModel.getId()).getVersion());
-					storyNoteModel.setEmployeeId(employeeId);
-					storyNoteEntity = super.update(storyNoteModel);
-				}
+				storyNoteEntity = super.update(storyNoteModel);
 			}
 
 			transaction.commit();
@@ -113,19 +88,26 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	/**
 	 * Fetch All the story notes for the given story id.
 	 * 
-	 * @param storyId provided story id for which story notes are to be fetched. 
+	 * @param storyId
+	 *            provided story id for which story notes are to be fetched.
 	 * @return matching records.
 	 */
 	public List<StoryNoteModel> fetchAllStoryNotes(Long storyId)
 	{
 		List<StoryNoteEntity> storyNoteEntities = repository.fetchAllStoryNoteByStoryId(storyId);
 		List<StoryNoteModel> storyNoteModels = new ArrayList<StoryNoteModel>();
-		
-		storyNoteEntities.forEach(entity -> storyNoteModels.add(super.toModel(entity, StoryNoteModel.class)));
+
+		storyNoteEntities.forEach(entity -> 
+		{
+			StoryNoteModel storyNoteModel = super.toModel(entity, StoryNoteModel.class);
+			storyNoteModel.setOwner(employeeService.fetchEmployeeName(storyNoteModel.getEmployeeId()));
+			
+			storyNoteModels.add(storyNoteModel);
+		});
 		
 		return storyNoteModels;
 	}
-	
+
 	/**
 	 * Fetch active story note by story id.
 	 *
@@ -135,17 +117,17 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	 */
 	public StoryNoteModel fetchActiveStoryNoteByStoryId(Long storyId)
 	{
-		List<StoryNoteEntity> storyNoteEntities = repository.fetchActiveStoryNoteByStoryId(storyId);
+		List<StoryNoteEntity> storyNoteEntities = repository.fetchLatestPublisedStoryNoteByStoryId(storyId);
 
 		StoryNoteModel storyNoteModel = null;
-		
+
 		if(storyNoteEntities.size() > 0)
 		{
 			storyNoteModel = super.toModel(storyNoteEntities.get(0), StoryNoteModel.class);
-			
+
 			storyNoteModel.setOwner(employeeService.fetchEmployeeName(storyNoteModel.getEmployeeId()));
 		}
-		
+
 		return storyNoteModel;
 	}
 }

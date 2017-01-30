@@ -136,6 +136,8 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 		 */
 		$scope.saveStoryTitle = function(e){
 			
+			debugger;
+			
 			if(!$scope.bulkStories)
 			{
 				return;
@@ -153,6 +155,9 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 							
 							$("#bulkStoryDialog").modal("hide");
 							$scope.refreshPriority();
+						}else
+						{
+							utils.alert(saveResponse.message);
 						}
 						
 						try

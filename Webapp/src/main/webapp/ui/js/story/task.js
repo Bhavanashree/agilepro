@@ -87,59 +87,47 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		return retFunc;
 	};
 	
-		
-	/**
-	 * Filter story by owner.
-	 */
-	$scope.isStoryFilteredByOwner = function(storyId){
-		
-		var ownerObj = $scope.getSelectedOwner();
-		
-		var storyObj = $scope.idToStory[storyId];
-		
-		if((ownerObj) && (storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
-		{
-			return true;
-		}else
-		{
-			return false;
-		}
-	};
-	
 	/**
 	 * Filter story by status.
 	 */
 	$scope.commonFilterStory = function(){
 		
 		var storyStatusName = $scope.getSelectedStoryStatus();
+		var ownerObj = $scope.getSelectedOwner();
 		
 		for(index in $scope.storiesForTask)
 		{
 			var storyObj = $scope.storiesForTask[index];
-			var ownerObj = $scope.getSelectedOwner();
 			
-			if((ownerObj) && (storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
+			if(ownerObj && !storyStatusName)
 			{
-				storyObj.display = true;
-			}else
+				if((storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
+				{
+					storyObj.display = true;
+				}else
+				{
+					storyObj.display = false;
+					continue;
+				}
+			}
+		
+			if(!ownerObj && storyStatusName)
 			{
-				storyObj.display = false;
-				continue;
+				if(storyStatusName == "All" || !storyStatusName)
+				{
+					storyObj.display = true;
+				}else if(storyStatusName == "Completed" && storyObj.status == "COMPLETED")
+				{
+					storyObj.display = true;
+				}else if(storyStatusName == "Not Completed" && storyObj.status != "COMPLETED")
+				{
+					storyObj.display = true;
+				}else
+				{
+					storyObj.display = false;
+				}
 			}
 			
-			if(storyStatusName == "All" || !storyStatusName)
-			{
-				storyObj.display = true;
-			}else if(storyStatusName == "Completed" && storyObj.status == "COMPLETED")
-			{
-				storyObj.display = true;
-			}else if(storyStatusName == "Not Completed" && storyObj.status != "COMPLETED")
-			{
-				storyObj.display = true;
-			}else
-			{
-				storyObj.display = false;
-			}
 		}
 	};
 	
@@ -536,7 +524,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		$scope.storyNotesForStory = $scope.idToStory[storyId];
 		
-		actionHelper.invokeAction("storyNote.readActiveStoryNoteByStoryId", null, {"storyId" : storyId}, 
+		actionHelper.invokeAction("storyNote.readLatestStoryNoteByStoryId", null, {"storyId" : storyId}, 
 				function(readResponse, respConfig)
 				{
 					if(readResponse.code == 0)

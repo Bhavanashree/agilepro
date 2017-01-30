@@ -60,12 +60,6 @@ public class StoryNoteModel
 	private String owner;
 	
 	/**
-	 * Draft is selected.
-	 */
-	@Required
-	private Boolean draftIsSelected;
-
-	/**
 	 * Version used for update.
 	 **/
 	@NonDisplayable
@@ -259,16 +253,6 @@ public class StoryNoteModel
 	public void setUpdatedOn(Date updatedOn)
 	{
 		this.updatedOn = updatedOn;
-	}
-
-	public Boolean getDraftIsSelected()
-	{
-		return draftIsSelected;
-	}
-
-	public void setDraftIsSelected(Boolean draftIsSelected)
-	{
-		this.draftIsSelected = draftIsSelected;
 	}
 
 	public String getOwner()

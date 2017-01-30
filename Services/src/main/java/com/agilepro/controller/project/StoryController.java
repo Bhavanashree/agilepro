@@ -292,7 +292,7 @@ public class StoryController extends BaseController implements IStoryController
 	@ResponseBody
 	public BasicSaveResponse saveStoriesInBulk(@RequestBody @Valid StoriesInBulk model)
 	{
-		storyService.saveListOfStories(model.getStories(), model.getProjectId(), null);
+		storyService.saveListOfStories(model.getStories(), model.getProjectId());
 
 		return new BasicSaveResponse();
 	}

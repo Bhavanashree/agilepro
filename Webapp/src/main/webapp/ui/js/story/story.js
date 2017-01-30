@@ -372,6 +372,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		
 		$scope.selectedId = id;
 		
+		$scope.initModelDef();
+		
 		$scope.editEntry();
 	});
 	
