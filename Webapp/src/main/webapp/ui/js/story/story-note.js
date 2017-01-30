@@ -189,8 +189,6 @@ $.application.controller('storyNoteController', ["$scope", "crudController", "ut
 	 */
 	$scope.checkVersionTitleLength = function(event){
 		
-		$scope.draftIsSelected = false;
-		
 		if($scope.versionTitle.length > 20)
 		{
 			$scope.errorStoryNote.error = true,
