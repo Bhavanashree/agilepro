@@ -2,7 +2,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
                                              "validator","$state","actionHelper",
        function($scope, crudController, utils, modelDefService, validator, $state, actionHelper) {
 	
-	 crudController.extend($scope, {
+/*	 crudController.extend($scope, {
 		"name": "Story",
 		"modelName": "StoryModel",
 		
@@ -49,8 +49,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			//$scope.getAllAttachment();
 		}
 		
-	});
-	
+	});*/	
 	 
 	 $scope.storyViewTab = {active: true, color: "blueBackGround"};
 	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
