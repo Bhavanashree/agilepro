@@ -1,6 +1,6 @@
-$.application.controller('storyController', ["$scope", "crudController", "utils","modelDefService", 
+$.application.controller('storyController', ["$scope", "crudController", "utils", 
                                              "validator","$state","actionHelper",
-       function($scope, crudController, utils, modelDefService, validator, $state, actionHelper) {
+       function($scope, crudController, utils, validator, $state, actionHelper) {
 	
 /*	 crudController.extend($scope, {
 		"name": "Story",
@@ -343,14 +343,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	};
 	
 	/**
-	 * Get selected story for update.
-	 */
-	$scope.getStoryForUpdate = function(){
-		
-		return $scope.storyForUpdate;
-	};
-	
-	/**
 	 * Get the list of back log items.
 	 */
 	$scope.getBackLogs = function(){
@@ -367,14 +359,14 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	
 	
 	// Listener for broadcast
-	$scope.$on("editStory", function(event, id) {
+	/*$scope.$on("editStory", function(event, id) {
 		
 		$scope.selectedId = id;
 		
 		$scope.initModelDef();
 		
 		$scope.editEntry();
-	});
+	});*/
 	
 
 	/**
@@ -533,41 +525,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}catch(ex)
 		{}
 	};
-	
-	
-	$scope.initModelDef = function() {
-		modelDefService.getModelDef("StoryModel", $.proxy(function(modelDefResp){
-			this.$scope.modelDef = modelDefResp.modelDef;
-			
-			console.log("Story Model");
-		}, {"$scope": $scope}));
-		
-		modelDefService.getModelDef("ConversationTitleModel", $.proxy(function(modelDefResp){
-			this.$scope.titleModelDef = modelDefResp.modelDef;
-			
-			console.log("Title model");
-		}, {"$scope": $scope}));
-		
-		modelDefService.getModelDef("StoryAttachmentModel", $.proxy(function(modelDefResp){
-			this.$scope.attachmentModelDef = modelDefResp.modelDef;
-			
-			console.log("Attachment model");
-		}, {"$scope": $scope}));
-	};
-	
-	$scope.getModelDef = function(prefix) {
-		if(prefix == 'converTitleModel')
-		{
-			return $scope.titleModelDef;
-		}
-		else if(prefix == 'storyAttachmentModel')
-		{
-			return $scope.attachmentModelDef;
-		}
-		
-		return $scope.modelDef;
-	};
-	
 	
 }]);
 

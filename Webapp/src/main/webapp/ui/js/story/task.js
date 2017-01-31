@@ -552,7 +552,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.openStoryEditModal = function(storyId){
 		
-		$scope.$emit("editStory",storyId);
+		$scope.$broadcast("editStory",storyId);
 	};
 	
 	/**

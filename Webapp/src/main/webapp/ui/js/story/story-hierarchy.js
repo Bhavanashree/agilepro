@@ -170,67 +170,16 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	 */
 	$scope.editBacklog = function(backlogId){
 		
-		$scope.$emit("editStory",backlogId); 
-	};
-	
-	/**
-	 * Gets invoked on click of update button on dailoge.
-	 * 
-	 * It uses action helper to call the controller for updating the story.
-	 */
-	$scope.updateBacklog = function(){
-		
-		actionHelper.invokeAction("story.update", $scope.storyForUpdate, null, 
-				
-				function(updateResponse, respConfig)
-				{
-					if(updateResponse.code == 0)
-					{
-						$('#storyDialogId').modal('hide');
-						
-						$scope.updateStoryChanges($scope.storyForUpdate);
-						
-						$scope.refreshPriority();
-					}
-			
-				},{"hideInProgress" : true});
-		
+		$scope.$broadcast("editStory", backlogId);
 	};
 	
 	/**
 	 * Gets invoked on click of delete button.
 	 */
 	$scope.deleteBacklog = function(backlogId){
-
-		var backlogObj = $scope.getBacklog(backlogId);
 		
-		var deleteOp = $.proxy(function(confirmed) {
-				
-			if(!confirmed)
-			{
-				return;
-			}
-			else
-			{
-				actionHelper.invokeAction("story.delete", null, {"id" : backlogId}, 
-						function(deleteResponse, respConfig)
-						{
-							if(deleteResponse.code == 0)
-							{
-								$scope.removeBacklog(backlogId);
-								
-								$scope.refreshDependencyTree(null);
-								
-								$scope.refreshPriority();
-								
-							}
-						}, {"hideInProgress" : true});
-			}
-			
-		}, {"$scope": $scope, "backlogId": backlogId});
-		
-		utils.confirm([$scope.getAlertMessage(backlogId), backlogObj.title], deleteOp);
-	};
+		$scope.$broadcast("deleteStory", backlogId);
+	}
 	
 	/**
 	 * Update management story.
