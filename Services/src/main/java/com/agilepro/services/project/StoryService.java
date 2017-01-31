@@ -471,7 +471,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 				saveListOfStories(subStories, projectId, storyEntity.getId(), maxPriority);
 				
 				// update priority for the parent as parent priority should be greater than child priority.
-				repository.updatePriority(parentId, maxPriority.incrementAndGet());
+				repository.updatePriority(storyEntity.getId(), maxPriority.incrementAndGet());
 			}
 		}
 	}

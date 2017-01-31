@@ -487,13 +487,15 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			dpendencyArr = $scope.dependencyTree;
 		}
 		
-		for(index in dpendencyArr)
+		for(var index = 0; index < dpendencyArr.length ; index++)
 		{
 			var obj = dpendencyArr[index].dependencyStory;
 			
 			if($scope.deletedIds.indexOf(obj.id) != -1)
 			{
 				dpendencyArr.splice(index, 1);
+				
+				index = index - 1;
 			}
 			
 			if(obj.dependencies)
@@ -501,7 +503,15 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				$scope.refreshDependencyTree(obj.dependencies);
 			}
 		}
-		
+	};
+	
+	
+	/**
+	 * Set deleted ids to empty.
+	 */
+	$scope.initDeletedIds = function(){
+	
+		$scope.deletedIds = [];
 	};
 	
 	/**

@@ -178,6 +178,8 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 	 */
 	$scope.deleteBacklog = function(backlogId){
 		
+		$scope.initDeletedIds();
+		
 		$scope.$broadcast("deleteStory", backlogId);
 	}
 	
