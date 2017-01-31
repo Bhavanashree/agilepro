@@ -151,10 +151,9 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 					{
 						if(saveResponse.code == 0)
 						{
-							$scope.addBulkStoriesAfterSave($scope.bulkStories);
-							
 							$("#bulkStoryDialog").modal("hide");
-							$scope.refreshPriority();
+							
+							$scope.$emit("activeProjectSelectionChanged");
 						}else
 						{
 							utils.alert(saveResponse.message);
@@ -167,27 +166,6 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 						{}
 						
 					}, {"hideInProgress" : true});
-			
-		};
-		
-		/**
-		 * Add saved bulk stories after save.
-		 */
-		$scope.addBulkStoriesAfterSave = function(storyArr){
-			
-			for(index in storyArr)
-			{
-				var storyObj = storyArr[index];
-				
-				storyObj.filtered = true;
-				
-				$scope.addSavedBacklog(storyObj, null);
-				
-				if(storyObj.substories)
-				{
-					$scope.addBulkStoriesAfterSave(storyObj.substories);
-				}
-			}
 			
 		};
 		
