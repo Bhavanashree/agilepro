@@ -55,6 +55,12 @@ public class BackLogModel
 	private Boolean isManagementStory;
 
 	/**
+	 * The story points.
+	 **/
+	@Field("storyPoints")
+	private Integer storyPoints;
+
+	/**
 	 * Gets the story id.
 	 * 
 	 * @return the story id.
@@ -199,5 +205,26 @@ public class BackLogModel
 	public void setIsManagementStory(Boolean isManagementStory)
 	{
 		this.isManagementStory = isManagementStory;
+	}
+
+	/**
+	 * Gets the story points.
+	 * 
+	 * @return the story points.
+	 */
+	public Integer getStoryPoints()
+	{
+		return storyPoints;
+	}
+
+	/**
+	 * Set the story points.
+	 * 
+	 * @param storyPoints
+	 *            the new story points.
+	 */
+	public void setStoryPoints(Integer storyPoints)
+	{
+		this.storyPoints = storyPoints;
 	}
 }

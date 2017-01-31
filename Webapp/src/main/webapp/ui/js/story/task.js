@@ -22,7 +22,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		$scope.idToIndexForMultiple[backlogId] = indexInBacklogs;
 		
-		$scope.idToBacklog[backlogId].check = !$scope.idToBacklog[backlogId].check; 
+		var backlogObj = $scope.idToBacklog[backlogId];
+		
+		backlogObj.check = !backlogObj.check; 
 		
 		var indexInMultiple = $scope.multipleBacklogIds.indexOf(backlogId);
 		
@@ -33,6 +35,31 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		{
 			$scope.multipleBacklogIds.splice(indexInMultiple, 1);
 		}
+		
+		if(backlogObj.childrens.length > 0)
+		{
+			$scope.checkBoxChildStories(backlogObj.childrens, backlogObj.check);
+		}
+		
+	};
+	
+	/**
+	 * Check box child stories as per the parent.
+	 */
+	$scope.checkBoxChildStories = function(childArr, checkValue){
+		
+		for(index in childArr)
+		{
+			var childObj = childArr[index];
+			
+			childObj.check = checkValue;
+			
+			if(childObj.childrens.length > 0)
+			{
+				$scope.checkBoxChildStories(childObj.childrens, checkValue);
+			}
+		}
+		
 	};
 	
 	/**
@@ -158,9 +185,22 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					for(index in $scope.backlogs)
 					{
 						var obj = $scope.backlogs[index];
+						obj.childrens = [];
 						
 						$scope.idToBacklog[obj.id] = obj;
 					}
+					
+					// add childrens
+					for(index in $scope.backlogs)
+					 {
+						 var backlog =  $scope.backlogs[index];
+						
+						 if(backlog.parentStoryId)
+						 {
+							 var parent = $scope.idToBacklog[backlog.parentStoryId];
+							 parent.childrens.push(backlog);
+						 }
+					 }
 					
 					try
 					{

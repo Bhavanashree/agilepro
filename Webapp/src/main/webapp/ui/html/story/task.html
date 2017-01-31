@@ -6,19 +6,27 @@
 			<input type="text" ng-model="backlogSearch" placeholder="Search backlog" style="border: none; height: 2.5em;"/>
 		</div>
 		
-		<div id="dragBacklog_{{backlog.id}}" name="{{$index}}" ng-repeat="backlog in backlogs | filter:backlogFilter(backlogSearch)" 
+		<div id="dragBacklog_{{backlog.id}}" name="{{$index}}" ng-repeat="backlog in backlogs | filter:backlogFilter(backlogSearch) | orderBy:'backlog.priority'" 
 			 class="member" ng-class="backlog.check ? 'blueBackGround' : 'whiteBackGround'"
-				style="width: 95%;  height: 3em; margin: 0.5em; padding: 0.7em; cursor:pointer; 
+				style="width: 95%;  height: 4em; margin: 0.5em; padding: 0.7em; cursor:pointer; 
 					   cursor:-moz-grabbing; overflow: hidden;" draggable="true" 
 					   yk-on-drag="dragBacklogs(event)" ng-click="checkBoxBacklog(backlog.id, $index)"
 					   yk-on-drag-end="mouseDroppedItem(event)">
-				<table>
+					   
+				<table style="width: 100%;">
 					<tr>
-						<td style="padding-left: 0.5em;">
+						<td>
 							<span ng-class="backlog.check ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true">
 							</span>
+							{{backlog.title}}
 						</td>
-						<td style="padding-left: 0.3em;">{{backlog.title}}</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="float: right; font-size: 0.7em; color: brown;">
+								Priority : {{backlog.priority}}, Points : {{backlog.storyPoints}}
+							</span>
+						</td>
 					</tr>
 				</table>
 		</div>
