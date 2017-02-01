@@ -227,19 +227,21 @@
 				<!-- Content -->
 				<div yk-model="StoryNoteModel" class="modal-body">
 						
-					<div ng-bind-html="storyNote.content | unsafe" 
+					{{message}}
+					
+					<div ng-show="storyNote" ng-bind-html="storyNote.content | unsafe" 
 						style="box-shadow: 1px 1px 2px #888888; padding: 0.5em; margin-bottom: 1em;
-						max-height: 25em; overflow-y:auto;">
+						height: 25em; overflow-y:auto;">
 						
 					</div>
 					
-					<div class="flexHorizontal" style="justify-content: space-between;">
-							<div ng-show="storyNote.versionTitle" style="background-color: #5bc0de; color: black;
+					<div ng-show="storyNote" class="flexHorizontal" style="justify-content: space-between;">
+							<div style="background-color: #5bc0de; color: black;
 								height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
 								Title : {{storyNote.versionTitle}}
 							</div>
 					
-							<div ng-show="storyNote.owner" style="background-color: #5bc0de; color: black;
+							<div style="background-color: #5bc0de; color: black;
 								height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
 								Update by : {{storyNote.owner}}
 							</div>
