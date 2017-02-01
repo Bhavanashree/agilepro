@@ -16,7 +16,7 @@ $.application.controller('sprintController', ["$scope", "crudController","utils"
 	});
 	
 	
-	$scope.model = {};
+	 $scope.model = {};
 	 $scope.saveSprint = function() {
 		projectId = $scope.getActiveProjectId();
 			

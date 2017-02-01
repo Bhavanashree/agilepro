@@ -3,17 +3,11 @@ package com.agilepro.services.project;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.agilepro.commons.models.sprint.SprintDropDown;
 import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.repository.project.ISprintRepository;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -24,28 +18,11 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class SprintService extends BaseCrudService<SprintEntity, ISprintRepository>
 {
 	/**
-	 * The repository factory.
-	 */
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
-	 * The sprint repository.
-	 **/
-	private ISprintRepository sprintRepository;
-
-	/**
 	 * Instantiates a new sprint service.
 	 */
 	public SprintService()
 	{
 		super(SprintEntity.class, ISprintRepository.class);
-	}
-
-	@PostConstruct
-	private void initSprintRepo()
-	{
-		sprintRepository = repositoryFactory.getRepository(ISprintRepository.class);
 	}
 
 	/**
@@ -58,7 +35,7 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	public List<SprintModel> fetchAllSprint(String sprintName)
 	{
 		List<SprintModel> sprintModels = new ArrayList<SprintModel>();
-		List<SprintEntity> sprintEntity = sprintRepository.fetchAllSprint(sprintName);
+		List<SprintEntity> sprintEntity = repository.fetchAllSprint(sprintName);
 
 		if(sprintEntity != null)
 		{
@@ -71,17 +48,23 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 		return sprintModels;
 	}
 
+	/**
+	 * Fetch sprint according to project.
+	 * 
+	 * @param projectId
+	 *            provided project id for fetching the sprint.
+	 * @return the matching records.
+	 */
 	public List<SprintDropDown> fetchSprintDropDown(Long projectId)
 	{
-		return sprintRepository.fetchSprintByProjId(projectId, new Date());
+		return repository.fetchSprintByProjId(projectId, new Date());
 	}
 
 	/**
-	 * Deletes all entities.
+	 * Deletes all records.
 	 */
 	public void deleteAll()
 	{
-
 		repository.deleteAll();
 	}
 }

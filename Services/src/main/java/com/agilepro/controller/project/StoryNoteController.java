@@ -82,7 +82,7 @@ public class StoryNoteController extends BaseController
 	@ResponseBody
 	public BasicReadResponse<StoryNoteModel> fetchActiveStoryNote(@RequestParam(value = "storyId") Long storyId)
 	{
-		return new BasicReadResponse<StoryNoteModel>(storyNoteService.fetchActiveStoryNoteByStoryId(storyId)); 
+		return new BasicReadResponse<StoryNoteModel>(storyNoteService.fetchLatestStoryNoteByStoryId(storyId)); 
 	}
 	
 	@ActionName(ACTION_TYPE_DELETE)

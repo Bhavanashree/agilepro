@@ -136,8 +136,6 @@ $.application.controller('bulkStoryController', ["$scope", "crudController", "ut
 		 */
 		$scope.saveStoryTitle = function(e){
 			
-			debugger;
-			
 			if(!$scope.bulkStories)
 			{
 				return;

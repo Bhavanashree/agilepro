@@ -2,55 +2,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
                                              "validator","$state","actionHelper",
        function($scope, crudController, utils, validator, $state, actionHelper) {
 	
-/*	 crudController.extend($scope, {
-		"name": "Story",
-		"modelName": "StoryModel",
-		
-		"nameColumn" : "title",
-		
-		"modelDailogId": "storyDialogId",
-		
-		"saveAction": "story.save",
-		"readAction": "story.read",
-		"updateAction": "story.update",
-		"deleteAction": "story.delete",
-		
-		"onHide" : function(){
-		
-			//$scope.stopInterval();
-		},
-		
-		"onDisplay" : function(model){
-			
-			$scope.storyForUpdate = model;
-			
-			$scope.$broadcast("fetchAllStoryNotes");
-			
-			
-			//$scope.initTinyMce();
-			
-			$scope.message = "";
-				
-			// logic for adjust height as extension value can be added
-			var modelFormElem = angular.element('#modelFormId'); 
-			var panelBodyElem = angular.element('#panelBodyId');
-			
-			var conversationHeight = modelFormElem.height();
-
-			panelBodyElem.css('height', conversationHeight + 'px');
-			
-			//$scope.getAllProjectMembers();
-			
-			$scope.selectedTitle = {};
-			$scope.titles = [];
-				
-			//$scope.getAllTitle();
-			
-			//$scope.getAllAttachment();
-		}
-		
-	});*/	
-	 
 	 $scope.storyViewTab = {active: true, color: "blueBackGround"};
 	 $scope.dependencyViewTab = {active: false, color: "greyBackGround"};
 	 $scope.priorityViewTab = {active: false, color: "greyBackGround"};
@@ -264,6 +215,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		}else
 		{
 			var parentStory = $scope.idToStory[backlogModel.parentStoryId]
+			parentStory.hasChildrens = true;
+			
 			var childrens = parentStory.childrens;
 			
 			if(childrens)
@@ -357,18 +310,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.initStory();
 	});
 	
-	
-	// Listener for broadcast
-	/*$scope.$on("editStory", function(event, id) {
-		
-		$scope.selectedId = id;
-		
-		$scope.initModelDef();
-		
-		$scope.editEntry();
-	});*/
-	
-
 	/**
 	 * Returns the alert message for deleting a story.
 	 */
@@ -457,7 +398,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			
 			if(childrens.length == 0)
 			{
-				$scope.idToStory[objToBeRemoved.parentStoryId].isManagementStory = false;
+				var parentStory = $scope.idToStory[objToBeRemoved.parentStoryId];
+				
+				parentStory.isManagementStory = false;
+				parentStory.hasChildrens = false;
 			}
 		}
 		

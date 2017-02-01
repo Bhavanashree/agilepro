@@ -6,7 +6,7 @@
 			<input type="text" ng-model="backlogSearch" placeholder="Search backlog" style="border: none; height: 2.5em;"/>
 		</div>
 		
-		<div id="dragBacklog_{{backlog.id}}" name="{{$index}}" ng-repeat="backlog in backlogs | filter:backlogFilter(backlogSearch) | orderBy:'backlog.priority'" 
+		<div id="dragBacklog_{{backlog.id}}" name="{{$index}}" ng-repeat="backlog in backlogs | filter:backlogFilter(backlogSearch)" 
 			 class="member" ng-class="backlog.check ? 'blueBackGround' : 'whiteBackGround'"
 				style="width: 95%;  height: 4em; margin: 0.5em; padding: 0.7em; cursor:pointer; 
 					   cursor:-moz-grabbing; overflow: hidden;" draggable="true" 
@@ -18,7 +18,7 @@
 						<td>
 							<span ng-class="backlog.check ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true">
 							</span>
-							{{backlog.title}}
+							<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 						</td>
 					</tr>
 					<tr>
@@ -221,26 +221,30 @@
 					<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
 						<i class="glyphicon glyphicon-remove"></i>
 					</a>
-					<h4 class="modal-title">{{storyNotesForStory.title}} - notes</h4>
+					<h4 class="modal-title">{{storyForUpdate.title}} - notes</h4>
 				</div>
 				
 				<!-- Content -->
 				<div yk-model="StoryNoteModel" class="modal-body">
 						
-					<table style="width: 100%; height: 100%;">
-						<tr>
-							<td coslpan="2" ng-bind-html="storyNote.content | unsafe">
-							</td>
-						</tr>
-						<tr>
-							<td>
-								{{storyNote.versionTitle}}
-							</td>
-							<td ng-show="storyNote.owner">
-								<span style="float: right;">Update by: {{storyNote.owner}}</span>
-							</td>
-						</tr>
-					</table>
+					<div ng-bind-html="storyNote.content | unsafe" 
+						style="box-shadow: 1px 1px 2px #888888; padding: 0.5em; margin-bottom: 1em;
+						max-height: 25em; overflow-y:auto;">
+						
+					</div>
+					
+					<div class="flexHorizontal" style="justify-content: space-between;">
+							<div ng-show="storyNote.versionTitle" style="background-color: #5bc0de; color: black;
+								height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
+								Title : {{storyNote.versionTitle}}
+							</div>
+					
+							<div ng-show="storyNote.owner" style="background-color: #5bc0de; color: black;
+								height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
+								Update by : {{storyNote.owner}}
+							</div>
+					</div>
+					
 				</div>
 					
 				<!-- Footer -->
@@ -253,4 +257,7 @@
 
 <yk-model-dialog id="taskModelDialog" name="TaskModel" title="Task" columns="2" actionMethod="updateTask()" modelObj="taskModel">
 </yk-model-dialog>
+
+<div ng-include="'/ui/html/story/story-dialog.html'"></div>
+
 

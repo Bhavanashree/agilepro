@@ -36,7 +36,8 @@ public class StoryNoteEntity extends WebutilsEntity
 	/**
 	 * The note.
 	 **/
-	@Column(name = "CONTENT", length = 1000, nullable = false)
+	@Column(name = "CONTENT", nullable = false)
+	@DataTypeMapping(type = DataType.CLOB)
 	private String content;
 
 	/**

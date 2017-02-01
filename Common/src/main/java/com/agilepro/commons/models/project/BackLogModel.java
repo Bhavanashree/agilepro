@@ -3,6 +3,7 @@ package com.agilepro.commons.models.project;
 import java.util.List;
 
 import com.yukthi.persistence.repository.annotations.Field;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * BacklogModel is used for fetching the stories where sprint id will be null.
@@ -59,6 +60,13 @@ public class BackLogModel
 	 **/
 	@Field("storyPoints")
 	private Integer storyPoints;
+	
+	/**
+	 * Has Childrens story, boolean value used for indicating the story has
+	 * childs or not.
+	 */
+	@NonDisplayable
+	private Boolean hasChildrens;
 
 	/**
 	 * Gets the story id.
@@ -226,5 +234,26 @@ public class BackLogModel
 	public void setStoryPoints(Integer storyPoints)
 	{
 		this.storyPoints = storyPoints;
+	}
+	
+	/**
+	 * Get has childrens.
+	 * 
+	 * @return the has childrens.
+	 */
+	public Boolean getHasChildrens()
+	{
+		return hasChildrens;
+	}
+
+	/**
+	 * Set the has childrens.
+	 * 
+	 * @param hasChildrens
+	 *            the new has childrens
+	 */
+	public void setHasChildrens(Boolean hasChildrens)
+	{
+		this.hasChildrens = hasChildrens;
 	}
 }

@@ -79,6 +79,7 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 	
 	@SearchResult
 	@RestrictBySpace
+	@OrderBy(fields = { @OrderByField(name = "priority", type = OrderByType.ASC) })
 	@MethodConditions(
 		nullChecks = @NullCheck(field = "sprint.id"),
 		conditions = @DefaultCondition(field = "isManagementStory", value = "false") 

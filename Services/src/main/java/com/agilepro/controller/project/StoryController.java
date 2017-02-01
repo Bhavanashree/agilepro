@@ -40,7 +40,6 @@ import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.BackLogModel;
 import com.agilepro.commons.models.project.StoriesInBulk;
-import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.commons.models.project.StorySprintUpdateModel;
 import com.agilepro.services.common.Authorization;

@@ -20,8 +20,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.checkBoxBacklog = function(backlogId, indexInBacklogs){
 		
-		$scope.idToIndexForMultiple[backlogId] = indexInBacklogs;
-		
 		var backlogObj = $scope.idToBacklog[backlogId];
 		
 		backlogObj.check = !backlogObj.check; 
@@ -35,6 +33,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		{
 			$scope.multipleBacklogIds.splice(indexInMultiple, 1);
 		}
+		
+		console.log(backlogObj.childrens);
 		
 		if(backlogObj.childrens.length > 0)
 		{
@@ -174,7 +174,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		$scope.multipleBacklogIds = [];
 		$scope.storiesForTask = [];
 		$scope.backlogs = [];
-		$scope.idToIndexForMultiple = {};
 		
 		actionHelper.invokeAction("story.fetchBacklogsForDragByProjectId", null, {"projectId" : projectId},
 				function(readResponse, respConfig)
@@ -195,9 +194,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					 {
 						 var backlog =  $scope.backlogs[index];
 						
-						 if(backlog.parentStoryId)
+						 var parent = $scope.idToBacklog[backlog.parentStoryId];
+						 
+						 if(parent)
 						 {
-							 var parent = $scope.idToBacklog[backlog.parentStoryId];
 							 parent.childrens.push(backlog);
 						 }
 					 }
@@ -562,7 +562,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.openStoryNoteModal = function(storyId){
 		
-		$scope.storyNotesForStory = $scope.idToStory[storyId];
+		$scope.storyForUpdate = $scope.idToStory[storyId];
 		
 		actionHelper.invokeAction("storyNote.readLatestStoryNoteByStoryId", null, {"storyId" : storyId}, 
 				function(readResponse, respConfig)
@@ -574,7 +574,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						
 						if(!$scope.storyNote)
 						{
-							$scope.storyNote = {"content" : "There is no notes for this story"};
+							$scope.storyNote = {"content" : "Currently there is no note for " + $scope.storyForUpdate.title};
 						}
 						
 						try
@@ -644,12 +644,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		$scope.draggingId = Number((event.target.id).split('_')[1]);
-		var draggingIndex = $(event.target).attr("name");
-		
-		if($scope.draggingId)
-		{
-			$scope.idToIndexForMultiple[$scope.draggingId] = draggingIndex;
-		}
+		$scope.multipleBacklogIds.push($scope.draggingId);
 		
 		$('#dropStoryForTaskId').css("border", "3px solid #66c2ff");
 		$('#dropStoryForTaskId').css('box-shadow', "5px 5px 5px #888888");
@@ -666,13 +661,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		$scope.draggingId = Number((event.target.id).split('_')[1]);
-		var draggingIndex = $(event.target).attr("name");
+		$scope.multipleBacklogIds.push($scope.draggingId);
 		
-		if($scope.draggingId)
-		{
-			$scope.idToIndexForMultiple[$scope.draggingId] = draggingIndex;
-		}
-
 		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
 		$('#searchBacklogInputId').css("border-bottom", "3px solid #66c2ff");
 		$('#dropStoryForBacklogId').css('box-shadow', "5px 5px 5px #888888");
@@ -695,9 +685,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			if($scope.multipleBacklogIds.length > 0 && sprintObj)
 			{
 				$scope.updateStorySprint(sprintObj.id, $scope.multipleBacklogIds);
-				
-				$scope.multipleBacklogIds = [];
-			}else if($scope.draggingId && sprintObj)
+			}
+			else if($scope.draggingId && sprintObj)
 			{
 				$scope.updateStorySprint(sprintObj.id, [$scope.draggingId]);
 			}
@@ -728,6 +717,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		$('#dropStoryForBacklogId').css("border", "3px solid grey");
 		$('#searchBacklogInputId').css("border-bottom", "3px solid grey");
 		$('#dropStoryForBacklogId').css('box-shadow', "none");
+		
+		$scope.multipleBacklogIds = [];
 	};
 	
 	
@@ -749,6 +740,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 							}else
 							{
 								$scope.reArrangeTheItems(ids[index], sprintId, $scope.storiesForTask, $scope.idToStory, $scope.backlogs, $scope.idToBacklog);
+								
+								$scope.backlogs.sort(function(a, b){return a.priority-b.priority});
 							}
 						}
 						
@@ -779,7 +772,18 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		destinationArr.push(obj);
 		
 		destinationMap[obj.id] = obj;
-		sourceArr.splice($scope.idToIndexForMultiple[id], 1);
+		
+		for(var index=0; index<sourceArr.length ; index++)
+		{
+			var idToBeRemove = sourceArr[index].id;
+			
+			if(idToBeRemove == id)
+			{
+				sourceArr.splice(index, 1);
+				break;
+			}
+		}
+		
 	};
 	
 }]);

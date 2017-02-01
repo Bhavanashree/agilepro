@@ -137,7 +137,14 @@ public class StoryModel extends AbstractExtendableModel
 	 */
 	@NonDisplayable
 	private Boolean isManagementStory;
-	
+
+	/**
+	 * Has Childrens story, boolean value used for indicating the story has
+	 * childs or not.
+	 */
+	@NonDisplayable
+	private Boolean hasChildrens;
+
 	/**
 	 * Instantiates a new back log model.
 	 */
@@ -432,7 +439,8 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the tag id.
 	 *
-	 * @param tagId the new tag id
+	 * @param tagId
+	 *            the new tag id
 	 */
 	public void setTagId(Long tagId)
 	{
@@ -452,7 +460,8 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the team id.
 	 *
-	 * @param teamId the new team id
+	 * @param teamId
+	 *            the new team id
 	 */
 	public void setTeamId(Long teamId)
 	{
@@ -472,13 +481,14 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * Sets the owner id.
 	 *
-	 * @param ownerId the new owner id
+	 * @param ownerId
+	 *            the new owner id
 	 */
 	public void setOwnerId(Long ownerId)
 	{
 		this.ownerId = ownerId;
 	}
-	
+
 	/**
 	 * Gets the management story.
 	 * 
@@ -498,5 +508,26 @@ public class StoryModel extends AbstractExtendableModel
 	public void setIsManagementStory(Boolean isManagementStory)
 	{
 		this.isManagementStory = isManagementStory;
+	}
+
+	/**
+	 * Get has childrens.
+	 * 
+	 * @return the has childrens.
+	 */
+	public Boolean getHasChildrens()
+	{
+		return hasChildrens;
+	}
+
+	/**
+	 * Set the has childrens.
+	 * 
+	 * @param hasChildrens
+	 *            the new has childrens
+	 */
+	public void setHasChildrens(Boolean hasChildrens)
+	{
+		this.hasChildrens = hasChildrens;
 	}
 }

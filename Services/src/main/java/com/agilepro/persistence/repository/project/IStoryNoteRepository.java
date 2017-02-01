@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.agilepro.persistence.entity.project.StoryNoteEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.DefaultCondition;
+import com.yukthi.persistence.repository.annotations.MethodConditions;
 import com.yukthi.persistence.repository.annotations.OrderBy;
 import com.yukthi.persistence.repository.annotations.OrderByField;
 import com.yukthi.persistence.repository.annotations.OrderByType;

@@ -407,6 +407,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		for(BackLogModel backlog : backlogModels)
 		{
 			backlog.setDependencies(storyDependencyService.fetchDependencyIds(backlog.getId()));
+			backlog.setHasChildrens(repository.storyHasChilds(backlog.getId()) > 0);
 		}
 
 		return backlogModels;

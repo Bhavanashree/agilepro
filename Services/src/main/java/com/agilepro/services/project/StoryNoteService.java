@@ -109,13 +109,13 @@ public class StoryNoteService extends BaseCrudService<StoryNoteEntity, IStoryNot
 	}
 
 	/**
-	 * Fetch active story note by story id.
+	 * Fetch latest story note by story id.
 	 *
 	 * @param storyId
 	 *            the story id
 	 * @return the list
 	 */
-	public StoryNoteModel fetchActiveStoryNoteByStoryId(Long storyId)
+	public StoryNoteModel fetchLatestStoryNoteByStoryId(Long storyId)
 	{
 		List<StoryNoteEntity> storyNoteEntities = repository.fetchLatestPublisedStoryNoteByStoryId(storyId);
 
