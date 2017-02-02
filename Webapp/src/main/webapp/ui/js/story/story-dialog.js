@@ -55,7 +55,6 @@ $.application.controller('storyDialogController', ["$scope", "actionHelper", "ut
 		
 		$scope.selectedId = id;
 		
-		//$scope.initModelDef();
 		$scope.editEntry();
 	});
 	

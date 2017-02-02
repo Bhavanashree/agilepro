@@ -668,6 +668,13 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		if(childrens.length > 0)
 		{
+			for(index in childrens)
+			{
+				var childObj = childrens[index];
+				
+				$scope.backlogs
+			}
+			
 			$scope.addChildIdsForDrag(childrens);
 		}
 		
@@ -707,6 +714,20 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		$scope.draggingId = Number((event.target.id).split('_')[1]);
+		
+		
+		var parentStoryId = $scope.idToStory[$scope.draggingId].parentStoryId;
+		
+		if(parentStoryId)
+		{
+			var parentObj = $scope.idToStory[parentStoryId];
+			
+			if($scope.storiesForTask.indexOf(parentObj) != -1)
+			{
+				utils.alert("Please drag the parent first");
+				return;
+			}
+		}
 		
 		if($scope.multipleBacklogIds.indexOf($scope.draggingId) == -1)
 		{

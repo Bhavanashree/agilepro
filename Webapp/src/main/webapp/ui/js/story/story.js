@@ -348,6 +348,9 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				var parent = $scope.idToStory[oldBacklogObj.parentStoryId];
 				
 				parent.childrens.splice(parent.childrens.indexOf(oldBacklogObj), 1);
+			}else
+			{
+				$scope.epicStoryList.splice($scope.epicStoryList.indexOf(oldBacklogObj), 1);
 			}
 			
 			if(updatedBacklog.parentStoryId)
@@ -355,6 +358,10 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				oldBacklogObj.parentStoryId = updatedBacklog.parentStoryId;
 				
 				var parent = $scope.idToStory[oldBacklogObj.parentStoryId];
+				
+				oldBacklogObj.indentHierarchy = parent.indentHierarchy + 1;
+				
+				$scope.setStoryType(oldBacklogObj);
 				
 				if(parent.childrens)
 				{
@@ -364,9 +371,19 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 					parent.childrens = [oldBacklogObj];
 				}
 				
+				if(oldBacklogObj.childrens.length > 0)
+				{
+					$scope.addIndentValueForAllTheChilds(oldBacklogObj.childrens);
+				}
+				
 			}else
 			{
 				oldBacklogObj.parentStoryId = null;
+				oldBacklogObj.indentHierarchy = 0;
+				
+				$scope.setStoryType(oldBacklogObj);
+				
+				$scope.epicStoryList.push(oldBacklogObj);
 			}
 		}
 		
@@ -375,6 +392,25 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			$scope.$digest();
 		}catch(ex)
 		{}
+	};
+	
+	/**
+	 * Add indent value for all the childs.
+	 */
+	$scope.addIndentValueForAllTheChilds = function(childArr){
+		
+		for(index in childArr)
+		{
+			var backlogObj = childArr[index];
+			
+			var parent = $scope.idToStory[backlogObj.id];
+			backlogObj.indentHierarchy = parent.indentHierarchy + 1;
+			
+			if(backlogObj.childrens.length > 0)
+			{
+				$scope.addIndentValueForAllTheChilds(backlogObj.childrens);
+			}
+		}
 	};
 	
 	/**
