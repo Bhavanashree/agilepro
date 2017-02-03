@@ -26,21 +26,20 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		var indexInMultiple = $scope.multipleBacklogIds.indexOf(backlogId);
 		
-		if(backlogObj.check)
+		if(backlogObj.check && indexInMultiple == -1)
 		{
 			$scope.multipleBacklogIds.push(backlogId);
-		}else if(indexInMultiple != -1)
+		}else if(!backlogObj.check && indexInMultiple != -1)
 		{
 			$scope.multipleBacklogIds.splice(indexInMultiple, 1);
 		}
-		
-		console.log(backlogObj.childrens);
 		
 		if(backlogObj.childrens.length > 0)
 		{
 			$scope.checkBoxChildStories(backlogObj.childrens, backlogObj.check);
 		}
 		
+		console.log($scope.multipleBacklogIds);
 	};
 	
 	/**
@@ -56,10 +55,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			
 			var indexInMultiple = $scope.multipleBacklogIds.indexOf(childObj.id);
 			
-			if(childObj.check)
+			if(childObj.check && indexInMultiple == -1)
 			{
 				$scope.multipleBacklogIds.push(childObj.id);
-			}else if(indexInMultiple != -1)
+			}else if(!childObj.check && indexInMultiple != -1)
 			{
 				$scope.multipleBacklogIds.splice(indexInMultiple, 1);
 			}
@@ -73,6 +72,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	};
 	
 	/**
+	 * Gets invoked by the angular js filter
+	 * 
 	 * Default backlog filter by backlog title.
 	 */
 	$scope.backlogFilter = function(searchString){
@@ -98,6 +99,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	};
 	
 	/**
+	 * Gets invoked by the angular js filter.
+	 * 
 	 * Default story filter by story title.
 	 */
 	$scope.storyFilter = function(){
@@ -136,9 +139,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		{
 			var storyObj = $scope.storiesForTask[index];
 			
-			if(ownerObj && !storyStatusName)
+			if(ownerObj)
 			{
-				if((storyObj.employeeId == ownerObj.id) || (ownerObj.id == 0 && storyObj.employeeId))
+				if((storyObj.ownerId == ownerObj.id) || (ownerObj.id == 0 && storyObj.ownerId))
 				{
 					storyObj.display = true;
 				}else
@@ -148,15 +151,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				}
 			}
 		
-			if(!ownerObj && storyStatusName)
+			if(storyStatusName)
 			{
-				if(storyStatusName == "All" || !storyStatusName)
-				{
-					storyObj.display = true;
-				}else if(storyStatusName == "Completed" && storyObj.status == "COMPLETED")
-				{
-					storyObj.display = true;
-				}else if(storyStatusName == "Not Completed" && storyObj.status != "COMPLETED")
+				if((storyStatusName == "All" || !storyStatusName)|| (storyStatusName == "Completed" && storyObj.status == "COMPLETED")|| (storyStatusName == "Not Completed" && storyObj.status != "COMPLETED"))
 				{
 					storyObj.display = true;
 				}else
@@ -198,19 +195,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						
 						$scope.idToBacklog[obj.id] = obj;
 					}
-					
+				
 					// add childrens
-					for(index in $scope.backlogs)
-					 {
-						 var backlog =  $scope.backlogs[index];
-						
-						 var parent = $scope.idToBacklog[backlog.parentStoryId];
-						 
-						 if(parent)
-						 {
-							 parent.childrens.push(backlog);
-						 }
-					 }
+					$scope.addChildrens($scope.backlogs, $scope.idToBacklog);
 					
 					try
 					{
@@ -222,6 +209,22 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 	};
 
+	/**
+	 * Add childrens
+	 */
+	$scope.addChildrens = function(arrObjs, idToObjMap){
+		
+		for(index in arrObjs)
+		 {
+			 var obj =  arrObjs[index];
+			 var parent = idToObjMap[obj.parentStoryId];
+			 
+			 if(parent)
+			 {
+				 parent.childrens.push(obj);
+			 }
+		 }
+	};
 	
 	/**
 	 * Fetch stories by sprint
@@ -239,12 +242,15 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					for(index in $scope.storiesForTask)
 					{
 						var obj = $scope.storiesForTask[index];
-						
 						obj.display = true;
+						obj.childrens = [];
 						
 						$scope.idToStory[obj.id] = obj;
 					}
 				}
+				
+				// add childrens
+				$scope.addChildrens($scope.storiesForTask, $scope.idToStory);
 				
 				try
 				{
@@ -665,18 +671,29 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		var childrens = $scope.idToBacklog[$scope.draggingId].childrens;
 		$scope.childIdsFromBacklog = [];
-		
+		var backlogContainsChild = false;
+
 		if(childrens.length > 0)
 		{
 			for(index in childrens)
 			{
 				var childObj = childrens[index];
 				
-				$scope.backlogs
+				if(($scope.backlogs.indexOf(childObj) != -1))
+				{
+					backlogContainsChild = true;
+					break;
+				}
 			}
 			
-			$scope.addChildIdsForDrag(childrens);
+			if(backlogContainsChild)
+			{
+				$scope.addChildIdsForDrag(childrens);
+			}
+			
 		}
+		
+		console.log($scope.childIdsFromBacklog);
 		
 		$('#dropStoryForTaskId').css("border", "3px solid #66c2ff");
 		$('#dropStoryForTaskId').css('box-shadow', "5px 5px 5px #888888");
@@ -694,7 +711,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		{
 			var childObj = childArr[index];
 			
-			$scope.childIdsFromBacklog.push(childObj.id);
+			if($scope.multipleBacklogIds.indexOf(childObj.id) == -1)
+			{
+				$scope.childIdsFromBacklog.push(childObj.id);
+			}
 			
 			var childrens = $scope.idToBacklog[childObj.id].childrens;
 			
@@ -714,20 +734,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		$scope.draggingId = Number((event.target.id).split('_')[1]);
-		
-		
-		var parentStoryId = $scope.idToStory[$scope.draggingId].parentStoryId;
-		
-		if(parentStoryId)
-		{
-			var parentObj = $scope.idToStory[parentStoryId];
-			
-			if($scope.storiesForTask.indexOf(parentObj) != -1)
-			{
-				utils.alert("Please drag the parent first");
-				return;
-			}
-		}
 		
 		if($scope.multipleBacklogIds.indexOf($scope.draggingId) == -1)
 		{
@@ -802,8 +808,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			}
 			
 			$scope.updateStorySprint(sprintObj.id, $scope.multipleBacklogIds);
-			
-			$scope.multipleBacklogIds = [];
 		}
 		else if($scope.draggingId && sprintObj)
 		{
@@ -818,6 +822,16 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		event.preventDefault();
 
+		var parentStoryId = $scope.idToStory[$scope.draggingId].parentStoryId;
+		
+		var parentObj = $scope.idToStory[parentStoryId];
+		
+		if(parentObj && ($scope.storiesForTask.indexOf(parentObj) != -1))
+		{
+			utils.alert("Please drag the " + parentObj.title + " first");
+			return;
+		}
+		
 		if($scope.draggingId && $scope.allowedFromStoryToBacklog)
 		{
 			$scope.updateStorySprint(null, [$scope.draggingId]);
@@ -872,7 +886,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						utils.alert("Error in dragging");
 					}
 
-				 $scope.draggingId = null;
+				$scope.multipleBacklogIds = [];
+				$scope.draggingId = null;
 					
 				}, {"hideInProgress" : true});
 	};
@@ -885,8 +900,11 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		var obj = sourceMap[id];
 		obj.sprintId = sprintId;
 		obj.display = true;
-		
 		obj.check = false; 
+		
+		console.log($scope.multipleBacklogIds);
+		console.log(obj.title + " is added");
+		
 		destinationArr.push(obj);
 		
 		destinationMap[obj.id] = obj;

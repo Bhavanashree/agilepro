@@ -21,9 +21,9 @@ public interface IStoryNoteRepository extends IWebutilsRepository<StoryNoteEntit
 {
 	@RestrictBySpace
 	@OrderBy(fields = { @OrderByField(name = "updatedOn", type = OrderByType.DESC) })
-	/*@MethodConditions(
+	@MethodConditions(
 			conditions = @DefaultCondition(field = "storyNoteStatus", value = "PUBLISHED") 
-		)*/
+		)
 	public List<StoryNoteEntity> fetchLatestPublisedStoryNoteByStoryId(@Condition(value = "story.id") Long storyId);
 	
 	@RestrictBySpace

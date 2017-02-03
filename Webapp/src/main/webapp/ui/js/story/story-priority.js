@@ -1,5 +1,5 @@
-$.application.controller('storyPriorityController', ["$scope", "actionHelper", 
-                                              function($scope, actionHelper) {
+$.application.controller('storyPriorityController', ["$scope", "actionHelper", "utils", 
+                                              function($scope, actionHelper, utils) {
 	$scope.loadStoriesByPriority = function() {
 		$scope.sortedBacklogs = [];
 		
@@ -169,8 +169,14 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper",
 		
 		$scope.areaId = Number((event.target.id).split('_')[1]);
 		
-		if(($scope.draggingId == $scope.areaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
+		if(($scope.draggingId == $scope.areaId))
 		{
+			return;
+		}
+		
+		if($scope.childIds.indexOf($scope.areaId) != -1)
+		{
+			utils.info("Hey");
 			return;
 		}
 		

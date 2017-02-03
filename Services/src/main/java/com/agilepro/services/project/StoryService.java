@@ -383,6 +383,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 						throw new IllegalArgumentException("No employee found with id - {} " + storyModel.getOwnerId());
 					}
 
+					storyModel.setOwnerId(storyModel.getOwnerId());
 					storyModel.setPhoto(employeeModel.getPhoto());
 				}
 

@@ -8,6 +8,7 @@ import com.agilepro.commons.models.sprint.SprintDropDown;
 import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.repository.project.ISprintRepository;
+import com.yukthi.utils.DateUtil;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -57,7 +58,7 @@ public class SprintService extends BaseCrudService<SprintEntity, ISprintReposito
 	 */
 	public List<SprintDropDown> fetchSprintDropDown(Long projectId)
 	{
-		return repository.fetchSprintByProjId(projectId, new Date());
+		return repository.fetchSprintByProjId(projectId, DateUtil.trimTime(new Date()) );
 	}
 
 	/**
