@@ -176,7 +176,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		if($scope.childIds.indexOf($scope.areaId) != -1)
 		{
-			utils.info("Hey");
+			utils.info("You are not allowed to drop above child", 5);
 			return;
 		}
 		
@@ -244,8 +244,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	
 	$scope.mouseDroppedItem = function(event){
 		
-		console.log("mouseDroppedItem()");
-		
 		$('#dropForLeastPriority').css("background-color", "white");
 	};
 	
@@ -264,14 +262,13 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 				{
 					if(updateResposne.code == 0)
 					{
+						$scope.sortedBacklogs[$scope.draggingIndex].priority = newPriority;;
+						
 						for(var i = indexFrom; i < $scope.sortedBacklogs.length; i++)
 						{
 							var obj = $scope.sortedBacklogs[i];
 							
-							if(obj.id == $scope.draggingId)
-							{
-								obj.priority = newPriority; 
-							}else
+							if(obj.id != $scope.draggingId)
 							{
 								obj.priority = obj.priority + 1;
 							}
