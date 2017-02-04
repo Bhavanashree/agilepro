@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.controllers.project.ISprintController;
+import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.commons.models.sprint.SprintDropDown;
 import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.commons.UserRole;
@@ -57,6 +58,31 @@ public class SprintController extends BaseController implements ISprintControlle
 	private SprintService sprintService;
 
 	/**
+	 * Check dates where startDate is mandatory if end date is provided and end date should be after start date.
+	 *
+	 * @param model
+	 *            the SprintModel model
+	 */
+	private void checkDates(SprintModel model)
+	{
+		Date startDate = model.getStartDate();
+		Date endDate = model.getEndDate();
+
+		// if end date is provided
+		if(endDate != null)
+		{
+			if(startDate == null)
+			{
+				throw new InvalidRequestParameterException("Start date is mandatory for end date");
+			}
+			else if((endDate.before(startDate)))
+			{
+				throw new InvalidRequestParameterException("End date should be after start date");
+			}
+		}
+	}
+
+	/**
 	 * Save Sprint.
 	 *
 	 * @param model
@@ -69,6 +95,8 @@ public class SprintController extends BaseController implements ISprintControlle
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid SprintModel model)
 	{
+		checkDates(model);
+		
 		return new BasicSaveResponse(sprintService.save(model).getId());
 	}
 
@@ -110,6 +138,8 @@ public class SprintController extends BaseController implements ISprintControlle
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid SprintModel model)
 	{
+		checkDates(model);
+		
 		if(model.getId() == null || model.getId() <= 0)
 		{
 			throw new InvalidRequestParameterException("Invalid id specified for update: " + model.getId());

@@ -15,21 +15,23 @@ $.application.controller('sprintController', ["$scope", "crudController","utils"
 		"deleteAction": "sprint.delete",
 	});
 	
-	
-	 $scope.model = {};
+	/**
+	 * Add active project id to the new sprint and save.
+	 */
 	 $scope.saveSprint = function() {
+		 
 		projectId = $scope.getActiveProjectId();
 			
 		$scope.model.projectId =  projectId;
 			
 		$scope.saveChanges();
-		};
+	};
 		
+	// listener	activeProjectSelectionChanged
+	$scope.$on("activeProjectSelectionChanged", function(event, args) {	
+	
 		
-		$scope.$on("activeProjectSelectionChanged", function(event, args) {	
-			console.log("Kanban Board: Project change event recieved");
-			$scope.listOfSprint();
-		});
+	});
 		
 }]);
 
