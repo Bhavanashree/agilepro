@@ -297,8 +297,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 			{
 				if(updateResponse.code == 0)
 				{
-					console.log("succes max priority");
-					
 					$scope.sortedBacklogs[index].priority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority + 1;
 					
 					$scope.sortAccordingToPriority();
@@ -306,5 +304,35 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 				
 			}, {"hideInProgress" : true});
 	};
+
+	/**
+	 * Display input box for the priority.
+	 */
+	$scope.showInputPriority = function(backlogId){
+		
+		var backlogObj = $scope.getBacklog(backlogId);
+		
+		backlogObj.displayInputPriority = true;
+		
+		//$("#" + backlogId + "_priorityInputBoxId").val("test")
+		//$("#" + backlogId + "_priorityInputBoxId").focus();
+		
+		setTimeout(function(){
+			$("#" + backlogId + "_priorityInputBoxId").focus();
+        }, 1);
+	};
+	
+	
+	/**
+	 * On blur of input box.
+	 */
+	$scope.onBlurInput = function(backlogId){
+		
+		$("#" + backlogId + "_priorityInputBoxId").val("");
+		
+		var backlogObj = $scope.getBacklog(backlogId);
+		backlogObj.displayInputPriority = false;
+	};
+	
 	
 }]);

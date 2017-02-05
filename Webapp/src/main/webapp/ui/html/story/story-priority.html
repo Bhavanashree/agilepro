@@ -22,12 +22,21 @@
 								{{getSymbolFor(backlog)}}
 							</td>
 							
-							<td style="width: 4%; text-align: center; background-color: #383838;
-								border-right: 1px solid #101010; color: white;">
+							<td ng-show="!backlog.displayInputPriority" ng-click="showInputPriority(backlog.id)"
+								style="width: 4%; text-align: center; background-color: #383838;
+								color: white;"
+								data-toggle="tooltip" data-placement="top" title="Click to change the priority of - {{backlog.title}}">
 									{{backlog.priority}}
 							</td>
 							
-							<td style="width: 76%; padding-left: 0.5em;">
+							<td ng-show="backlog.displayInputPriority" style="width: 4%;">
+								<input id="{{backlog.id}}_priorityInputBoxId" ng-blur="onBlurInput(backlog.id)" 
+									type="text" ng-model="inputPriority" ng-keyup="checkKey($event)" 
+									class="form-control" style="max-width: 3.5em; min-width: 3.5em; border: none; 
+									max-height: 2em; min-height: 2em; margin-right: 0; padding-right: 0;"/>
+							</td>
+							
+							<td style="width: 76%; padding-left: 0.5em; border-left: 1px solid #101010; ">
 								<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 							</td>
 							
