@@ -39,7 +39,7 @@ import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.IStoryController;
-import com.agilepro.commons.models.project.BackLogModel;
+import com.agilepro.commons.models.project.BackLogStoryModel;
 import com.agilepro.commons.models.project.StoriesInBulk;
 import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.commons.models.project.StorySprintUpdateModel;
@@ -113,9 +113,9 @@ public class StoryController extends BaseController implements IStoryController
 	@RequestMapping(value = "/fetchBacklogsByProjectId", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BasicReadResponse<List<BackLogModel>> fetchBacklogs(@RequestParam(value = "projectId") Long projectId)
+	public BasicReadResponse<List<BackLogStoryModel>> fetchBacklogs(@RequestParam(value = "projectId") Long projectId)
 	{
-		return  new BasicReadResponse<List<BackLogModel>>(storyService.fetchBackLogs(projectId));
+		return  new BasicReadResponse<List<BackLogStoryModel>>(storyService.fetchBackLogs(projectId));
 	}
 	
 	/**
@@ -140,9 +140,9 @@ public class StoryController extends BaseController implements IStoryController
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/fetchBacklogsForDragByProjectId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<BackLogModel>> fetchBacklogForDrag(@RequestParam(value = "projectId") Long projectId)
+	public BasicReadResponse<List<BackLogStoryModel>> fetchBacklogForDrag(@RequestParam(value = "projectId") Long projectId)
 	{
-		return new BasicReadResponse<List<BackLogModel>>(storyService.fetchBacklogsForDrag(projectId));
+		return new BasicReadResponse<List<BackLogStoryModel>>(storyService.fetchBacklogsForDrag(projectId));
 	}
 	
 	/*

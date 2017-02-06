@@ -14,7 +14,7 @@ import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.admin.EmployeeModel;
-import com.agilepro.commons.models.project.BackLogModel;
+import com.agilepro.commons.models.project.BackLogStoryModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
@@ -436,17 +436,17 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 *            provided project id.
 	 * @return matching records.
 	 */
-	public List<BackLogModel> fetchBackLogs(Long projectId)
+	public List<BackLogStoryModel> fetchBackLogs(Long projectId)
 	{
-		List<BackLogModel> backlogModels = repository.fetchBacklogs(projectId);
+		List<BackLogStoryModel> backlogStoryModels = repository.fetchBacklogs(projectId);
 
-		for(BackLogModel backlog : backlogModels)
+		for(BackLogStoryModel backlog : backlogStoryModels)
 		{
 			backlog.setDependencies(storyDependencyService.fetchDependencyIds(backlog.getId()));
 			backlog.setHasChildrens(repository.storyHasChilds(backlog.getId()) > 0);
 		}
 
-		return backlogModels;
+		return backlogStoryModels;
 	}
 	
 	/**
@@ -455,7 +455,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * @param projectId provided project id under which matching backlogs are fetched.
 	 * @return matching records.
 	 */
-	public List<BackLogModel> fetchBacklogsForDrag(Long projectId)
+	public List<BackLogStoryModel> fetchBacklogsForDrag(Long projectId)
 	{
 		return repository.fetchBacklogsForDrag(projectId);
 	}

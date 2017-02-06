@@ -34,8 +34,10 @@ public interface IBugRepository extends IWebutilsRepository<BugEntity>
 	@MethodConditions(
 			nullChecks = @NullCheck(field = "targetSprint.id")
 		)
-	public List<BugEntity> fetchUnAssignedBugs(@Condition(value = "project.id") Long projectId);
+	public List<BugEntity> fetchBacklogBugs(@Condition(value = "project.id") Long projectId);
 	
 	@RestrictBySpace
 	public List<BugEntity> fetchBugsBySprintId(@Condition(value = "project.id") Long projectId, @Condition(value = "targetSprint.id") Long sprintId);
+	
+	
 }

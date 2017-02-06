@@ -25,18 +25,6 @@ import com.yukthi.webutils.services.BaseCrudService;
 @Service
 public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 {
-
-	/**
-	 * The repository factory.
-	 */
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
-	 *  The bug repo.
-	 **/
-	private IBugRepository bugRepo;
-
 	/**
 	 * Instantiates a new bug service.
 	 */
@@ -45,22 +33,8 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 		super(BugEntity.class, IBugRepository.class);
 	}
 
-	/**
-	 * Initialize the iprojectMemberRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		bugRepo = repositoryFactory.getRepository(IBugRepository.class);
-	}
-	
 	public int updateBug(BugModel model)
 	{
-		if(model == null)
-		{
-			throw new NullValueException("bugmodel Object is null");
-		}
-
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			super.update(model);
@@ -77,11 +51,12 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating model - {}", model);
 		}
 	}
+
 	
 	public List<BugModel> fetchBugsBySprint(Long projectId, Long sprintId)
 	{
-		List<BugEntity> unAssignedBugs = bugRepo.fetchUnAssignedBugs(projectId);
-		List<BugEntity> sprintBugs = bugRepo.fetchBugsBySprintId(projectId, sprintId);
+		List<BugEntity> unAssignedBugs = repository.fetchBacklogBugs(projectId);
+		List<BugEntity> sprintBugs = repository.fetchBugsBySprintId(projectId, sprintId);
 		
 		List<BugModel> bugs = new ArrayList<BugModel>();
 		
