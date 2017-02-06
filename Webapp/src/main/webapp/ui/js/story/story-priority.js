@@ -1,5 +1,6 @@
 $.application.controller('storyPriorityController', ["$scope", "actionHelper", "utils", 
                                               function($scope, actionHelper, utils) {
+	
 	$scope.loadStoriesByPriority = function() {
 		$scope.sortedBacklogs = [];
 		
@@ -64,9 +65,11 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	/**
 	 * Move to the top.
 	 */
-	$scope.moveToTop = function(id){
+	$scope.moveToTop = function(id, index){
 		
 		$scope.draggingId = id;
+		
+		$scope.draggingIndex = index;
 		
 		$scope.updatePriority($scope.sortedBacklogs[0].priority, 0);
 	};
@@ -79,6 +82,53 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.draggingId = id;
 		
 		$scope.updateToMaxPriority(index);
+	};
+	
+	/**
+	 * Gets invoked on type of new priority.
+	 */
+	$scope.onTypeNewPriority = function(event, index){
+		
+		event = event || window.event;
+		var key = event.keyCode ? event.keyCode : event.which;
+			  
+		//enter key   
+		if (key == 13) 
+		{
+			var newPriority = $(event.target).val();
+			
+			newPriority = Number(newPriority);
+			
+			if(isNaN(newPriority))
+			{
+				utils.alert("Please provide a number");
+				$scope.newPriorityHasError = true;
+				return;
+			}
+			
+			if(newPriority < 0)
+			{
+				utils.alert("Please provide the priority value greater than 0");
+				$scope.newPriorityHasError = true;
+				return;
+			}else
+			{
+				for(index in $scope.sortedBacklogs)
+				{
+					var backlogObj = $scope.sortedBacklogs[index];
+					
+					if(backlogObj.priority == newPriority)
+					{
+						utils.alert("Please provide different priority value, provided value is already existing");
+						$scope.newPriorityHasError = true;
+						return;
+					}
+				}
+			}
+			
+			$scope.newPriorityHasError = false;
+		}
+		
 	};
 	
 	/**
@@ -262,6 +312,8 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 				{
 					if(updateResposne.code == 0)
 					{
+						console.log($scope.draggingIndex);
+						
 						$scope.sortedBacklogs[$scope.draggingIndex].priority = newPriority;;
 						
 						for(var i = indexFrom; i < $scope.sortedBacklogs.length; i++)
@@ -314,12 +366,9 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		backlogObj.displayInputPriority = true;
 		
-		//$("#" + backlogId + "_priorityInputBoxId").val("test")
-		//$("#" + backlogId + "_priorityInputBoxId").focus();
-		
 		setTimeout(function(){
 			$("#" + backlogId + "_priorityInputBoxId").focus();
-        }, 1);
+        }, 15);
 	};
 	
 	
@@ -328,10 +377,15 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	 */
 	$scope.onBlurInput = function(backlogId){
 		
-		$("#" + backlogId + "_priorityInputBoxId").val("");
-		
-		var backlogObj = $scope.getBacklog(backlogId);
-		backlogObj.displayInputPriority = false;
+		// if new priority has error in input then do not hide the input box
+		if(!$scope.newPriorityHasError)
+		{
+			$("#" + backlogId + "_priorityInputBoxId").val("");
+			
+			var backlogObj = $scope.getBacklog(backlogId);
+			backlogObj.displayInputPriority = false;
+
+		}
 	};
 	
 	
