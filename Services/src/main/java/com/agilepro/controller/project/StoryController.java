@@ -19,6 +19,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STA
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_MANAGEMENT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACKLOGS_FOR_DRAG_BY_PROJECT_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_INPUT_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.List;
@@ -199,6 +200,19 @@ public class StoryController extends BaseController implements IStoryController
 			@RequestParam(value = "projectId") Long projectId)
 	{
 		storyService.updatePriority(id, newPriority, projectId);
+		
+		return new BaseResponse();
+	}
+	
+	@ActionName(ACTION_TYPE_UPDATE_INPUT_PRIORITY)
+	@RequestMapping(value = "/updateInputPriority", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BaseResponse updatePriorityAccordingToInput(@RequestParam(value = "id") Long id, @RequestParam(value = "newInputPriority") Integer newInputPriority, 
+			@RequestParam(value = "projectId") Long projectId)
+	{
+		storyService.updatePriorityAccordingToInput(id, newInputPriority, projectId);
+		
 		return new BaseResponse();
 	}
 	

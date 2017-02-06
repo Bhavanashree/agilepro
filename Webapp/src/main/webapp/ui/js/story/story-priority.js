@@ -87,18 +87,26 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	/**
 	 * Gets invoked on type of new priority.
 	 */
-	$scope.onTypeNewPriority = function(event, index){
+	$scope.onTypeNewPriority = function(event, index, backlogId){
 		
 		event = event || window.event;
 		var key = event.keyCode ? event.keyCode : event.which;
-			  
+
+		$scope.inputPriorityElm = $(event.target);
+		
+		var newPriority = $(event.target).val();
+
+		// if input is empty
+		if(newPriority.trim().length == 0)
+		{
+			$scope.newPriorityHasError = false;
+		}
+		
+		newPriority = Number(newPriority);
+		
 		//enter key   
 		if (key == 13) 
 		{
-			var newPriority = $(event.target).val();
-			
-			newPriority = Number(newPriority);
-			
 			if(isNaN(newPriority))
 			{
 				utils.alert("Please provide a number");
@@ -106,29 +114,132 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 				return;
 			}
 			
-			if(newPriority < 0)
+			if(newPriority <= 0)
 			{
 				utils.alert("Please provide the priority value greater than 0");
 				$scope.newPriorityHasError = true;
 				return;
 			}else
 			{
-				for(index in $scope.sortedBacklogs)
+				var backlogObj = $scope.getBacklog(backlogId);
+				
+				var childrens = backlogObj.childrens;
+				if(childrens.length > 0)
 				{
-					var backlogObj = $scope.sortedBacklogs[index];
+					var maxPriorityChildObj = $scope.getMaxPriorityChildObj(childrens);
 					
-					if(backlogObj.priority == newPriority)
+					if(newPriority < maxPriorityChildObj.priority)
 					{
-						utils.alert("Please provide different priority value, provided value is already existing");
+						utils.alert("Provided priority value cannot be less than " + maxPriorityChildObj.title + " priority");
 						$scope.newPriorityHasError = true;
 						return;
 					}
 				}
+				
+				var parentStoryId = backlogObj.parentStoryId;
+				if(parentStoryId)
+				{
+					var parent = $scope.getBacklog(parentStoryId);
+					
+					if(newPriority > parent.priority )
+					{
+						utils.alert("Provided priority value cannot be greater than " + parent.title + " priority");
+						$scope.newPriorityHasError = true;
+						return;
+					}
+				}
+				
+				$scope.updateNewInputPriority(newPriority, backlogId);
 			}
 			
 			$scope.newPriorityHasError = false;
 		}
 		
+	};
+	
+	/**
+	 * Get minimum priority child object.
+	 */
+	$scope.getMaxPriorityChildObj = function(childArr){
+		
+		var maxPriorityChildObj = childArr[0];
+		
+		for(var index = 1; index < childArr.length ; index++)
+		{
+			var childObj = childArr[index];
+			
+			if(maxPriorityChildObj.priority < childObj.priority)
+			{
+				maxPriorityChildObj = childObj;
+			}
+		}
+		
+		return maxPriorityChildObj;
+	};
+	
+	
+	/**
+	 * Update new input priority.
+	 */
+	$scope.updateNewInputPriority = function(newInputPriority, backlogId){
+		
+		actionHelper.invokeAction("story.updateInputPriority", null,{"id" : backlogId, "newInputPriority" : newInputPriority, "projectId" : $scope.getActiveProjectId()},
+			 function(updateResponse, respConfig)
+			 {
+				if(updateResponse.code == 0)
+				{
+					var minPriority = $scope.sortedBacklogs[0].priority; 
+					var maxPriority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority;
+					
+					var backlogObj = $scope.getBacklog(backlogId);
+					
+					if(newInputPriority > maxPriority)
+					{
+						backlogObj.priority = maxPriority + 1;
+					}
+					else if(newInputPriority < minPriority)
+					{
+						$scope.increasePriorityFrom(0);
+						
+						backlogObj.priority = minPriority;
+					}
+					else
+					{
+						for(index in $scope.sortedBacklogs)
+						{
+							var obj = $scope.sortedBacklogs[index];
+							
+							if(obj.priority == newInputPriority)
+							{
+								$scope.increasePriorityFrom(index);
+								break;
+							}
+						}
+						
+						backlogObj.priority = newInputPriority;
+					}
+		
+					
+					backlogObj.displayInputPriority = false;
+					$scope.inputPriorityElm.val("");
+					$scope.sortAccordingToPriority();
+				}
+							
+			 }, {"hideInProgress" : true});
+		
+	};
+	
+	/**
+	 * Increase priority from.
+	 */
+	$scope.increasePriorityFrom = function(indexFrom){
+		
+		for(var i = indexFrom ; i < $scope.sortedBacklogs.length ; i++)
+		{
+			var obj = $scope.sortedBacklogs[i];
+			
+			obj.priority = obj.priority + 1; 
+		}
 	};
 	
 	/**
@@ -177,17 +288,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.draggingId = Number(dragId);
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
-		var backlogObj = $scope.getBacklog($scope.draggingId); 
-		
-		console.log("dragging title = " + backlogObj.title);
-		
-		$scope.childIds = [];
-		
-		if(backlogObj.childrens)
-		{
-			$scope.fetchTheChildIds(backlogObj.childrens);
-		}
-		
 		$('#dropForLeastPriority').css("background-color", "lightblue");
 	};
 	
@@ -224,12 +324,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 			return;
 		}
 		
-		if($scope.childIds.indexOf($scope.areaId) != -1)
-		{
-			utils.info("You are not allowed to drop above child", 5);
-			return;
-		}
-		
 		$("#" + $scope.expandAreaId).height(40);
 	};
 	
@@ -257,10 +351,41 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		event.preventDefault();
 		
 		var droppingAreaId = Number((event.target.id).split('_')[1]);
+		var droppingAreaObj = $scope.getBacklog(droppingAreaId);
 		
-		if(($scope.draggingId == droppingAreaId) || ($scope.childIds.indexOf($scope.areaId) != -1))
+		if($scope.draggingId == droppingAreaId)
 		{
 			return;
+		}
+		
+		var backlogObj = $scope.getBacklog($scope.draggingId); 
+		var childrens = backlogObj.childrens;
+		
+		// validate priority
+		if(childrens.length > 0)
+		{
+			var maxPriorityChildObj = $scope.getMaxPriorityChildObj(childrens);
+			
+			if(droppingAreaObj.priority <= maxPriorityChildObj.priority)
+			{
+				utils.info("You are not allowed to drop above "+ maxPriorityChildObj.title, 5);
+				$("#" + $scope.expandAreaId).height(15);
+				return;
+			}
+		}
+		
+		var parentStoryId = backlogObj.parentStoryId;
+		
+		if(parentStoryId)
+		{
+			var parent = $scope.getBacklog(parentStoryId);
+			
+			if(droppingAreaObj.priority >= parent.priority )
+			{
+				utils.info("You are not allowed to drop below " + parent.title, 5);
+				$("#" + $scope.expandAreaId).height(15);
+				return;
+			}
 		}
 		
 		var newPriority = $scope.getBacklog(droppingAreaId).priority;
@@ -280,9 +405,25 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		event.preventDefault();
 		
-		if(!$scope.draggingIndex)
+		if((!$scope.draggingIndex) || ($scope.sortedBacklogs.length == 1))
 		{
 			return;
+		}
+		
+		var backlogObj = $scope.getBacklog($scope.draggingId);
+		var parentStoryId = backlogObj.parentStoryId;
+		var maxPriorityObj = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1];
+		
+		if(parentStoryId)
+		{
+			var parent = $scope.getBacklog(parentStoryId);
+			
+			if(maxPriorityObj.priority > parent.priority)
+			{
+				utils.info("You are not allowed to drop below " + parent.title, 5);
+				$("#" + $scope.expandAreaId).height(15);
+				return;
+			}
 		}
 		
 		$scope.updateToMaxPriority($scope.draggingIndex);
@@ -295,6 +436,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	$scope.mouseDroppedItem = function(event){
 		
 		$('#dropForLeastPriority').css("background-color", "white");
+		$scope.draggingIndex = null;
 	};
 	
 	

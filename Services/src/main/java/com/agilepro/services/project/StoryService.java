@@ -151,7 +151,42 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw ex;
 		} catch(Exception ex)
 		{
-			throw new InvalidStateException(ex, "An error occurred while updating priority - {}");
+			throw new InvalidStateException(ex, "An error occurred while updating priority");
+		}
+	}
+	
+	public void updatePriorityAccordingToInput(Long id, Integer newInputPriority, Long projectId)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			Integer maxPriority = repository.getMaxOrder(projectId);
+			Integer minPriority = repository.getMinOrder(projectId);
+			
+			if(newInputPriority > maxPriority)
+			{
+				repository.updatePriority(id, maxPriority + 1);
+			}
+			else if(newInputPriority > 0)
+			{
+				if(newInputPriority < minPriority)
+				{
+					repository.moveStoriesDown(projectId, minPriority, PRIORITY_INCREMENT_VALUE);
+					repository.updatePriority(id, minPriority);
+				}
+				else
+				{
+					repository.moveStoriesDown(projectId, newInputPriority, PRIORITY_INCREMENT_VALUE);
+					repository.updatePriority(id, newInputPriority);
+				}
+			}
+			
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating priority accoring to the input");
 		}
 	}
 

@@ -31,7 +31,7 @@
 							
 							<td ng-show="backlog.displayInputPriority" style="width: 4%;">
 								<input id="{{backlog.id}}_priorityInputBoxId" ng-blur="onBlurInput(backlog.id)" 
-									type="text" ng-model="inputPriority" ng-keyup="onTypeNewPriority($event, $index)" 
+									type="text" ng-model="inputPriority" ng-keyup="onTypeNewPriority($event, $index, backlog.id)" 
 									class="form-control" style="max-width: 3.5em; min-width: 3.5em; border: none; 
 									max-height: 2em; min-height: 2em; margin-right: 0; padding-right: 0;"/>
 							</td>
