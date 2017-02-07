@@ -14,7 +14,9 @@ import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.admin.EmployeeModel;
-import com.agilepro.commons.models.project.BackLogStoryModel;
+import com.agilepro.commons.models.bug.BacklogBugModel;
+import com.agilepro.commons.models.project.BacklogStoryModel;
+import com.agilepro.commons.models.project.StoryAndBugModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
@@ -22,6 +24,7 @@ import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.agilepro.services.admin.EmployeeService;
+import com.agilepro.services.bug.BugService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
@@ -55,6 +58,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	@Autowired
 	private TaskService taskService;
+	
+	/**
+	 * Bug service.
+	 */
+	@Autowired
+	private BugService bugService;
 
 	/**
 	 * SprintService.
@@ -436,11 +445,11 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 *            provided project id.
 	 * @return matching records.
 	 */
-	public List<BackLogStoryModel> fetchBackLogs(Long projectId)
+	public List<BacklogStoryModel> fetchBackLogs(Long projectId)
 	{
-		List<BackLogStoryModel> backlogStoryModels = repository.fetchBacklogs(projectId);
+		List<BacklogStoryModel> backlogStoryModels = repository.fetchBacklogs(projectId);
 
-		for(BackLogStoryModel backlog : backlogStoryModels)
+		for(BacklogStoryModel backlog : backlogStoryModels)
 		{
 			backlog.setDependencies(storyDependencyService.fetchDependencyIds(backlog.getId()));
 			backlog.setHasChildrens(repository.storyHasChilds(backlog.getId()) > 0);
@@ -455,9 +464,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * @param projectId provided project id under which matching backlogs are fetched.
 	 * @return matching records.
 	 */
-	public List<BackLogStoryModel> fetchBacklogsForDrag(Long projectId)
+	public StoryAndBugModel fetchBacklogsForDrag(Long projectId)
 	{
-		return repository.fetchBacklogsForDrag(projectId);
+		List<BacklogStoryModel> backlogStoryModels = repository.fetchBacklogsForDrag(projectId);
+		
+		List<BacklogBugModel> backlogBugModels = bugService.fetchBacklogBugs(projectId);
+		
+		return new StoryAndBugModel(backlogStoryModels, backlogBugModels);
 	}
 
 	/**

@@ -3,7 +3,7 @@ package com.agilepro.persistence.repository.project;
 import java.util.List;
 
 import com.agilepro.commons.StoryStatus;
-import com.agilepro.commons.models.project.BackLogStoryModel;
+import com.agilepro.commons.models.project.BacklogStoryModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryAndTaskResult;
 import com.agilepro.commons.models.project.StorySearchQuery;
@@ -84,14 +84,14 @@ public interface IStoryRepository extends IWebutilsRepository<StoryEntity>
 		nullChecks = @NullCheck(field = "sprint.id"),
 		conditions = @DefaultCondition(field = "isManagementStory", value = "false") 
 	)
-	public List<BackLogStoryModel> fetchBacklogsForDrag(@Condition(value = "project.id") Long projectId);
+	public List<BacklogStoryModel> fetchBacklogsForDrag(@Condition(value = "project.id") Long projectId);
 	
 	@RestrictBySpace
 	@SearchResult
 	@MethodConditions(
 		nullChecks = @NullCheck(field = "sprint.id")
 	)
-	public List<BackLogStoryModel> fetchBacklogs(@Condition(value = "project.id") Long projectId);
+	public List<BacklogStoryModel> fetchBacklogs(@Condition(value = "project.id") Long projectId);
 
 	@RestrictBySpace
 	public List<StoryEntity> fetchChilds(@Condition(value = "parentStory.id") Long parentStoryId);

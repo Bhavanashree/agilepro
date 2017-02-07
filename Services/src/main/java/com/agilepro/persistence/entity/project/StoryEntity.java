@@ -48,7 +48,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	private String description;
 
 	/**
-	 * The estimation of time.
+	 * Indicates the importance of a story.
 	 **/
 	@Column(name = "STORY_POINTS")
 	private Integer storyPoints;
@@ -57,10 +57,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * The parent story id.
 	 **/
 	@ManyToOne
-	@PropertyMappings({
-		@PropertyMapping(type = StoryModel.class, from = "parentStoryId", subproperty = "id"),
-		@PropertyMapping(type = StoryBulkModel.class, from = "parentStoryId", subproperty = "id")
-	})
+	@PropertyMappings({ @PropertyMapping(type = StoryModel.class, from = "parentStoryId", subproperty = "id"), @PropertyMapping(type = StoryBulkModel.class, from = "parentStoryId", subproperty = "id") })
 	@Column(name = "PARENT_STORY_ID")
 	@DeleteWithParent
 	private StoryEntity parentStory;
@@ -295,11 +292,22 @@ public class StoryEntity extends WebutilsExtendableEntity
 		this.status = status;
 	}
 
+	/**
+	 * Gets the priority.
+	 * 
+	 * @return the new priority.
+	 */
 	public Integer getPriority()
 	{
 		return priority;
 	}
 
+	/**
+	 * Sets the priority.
+	 * 
+	 * @param priority
+	 *            the new priority.
+	 */
 	public void setPriority(Integer priority)
 	{
 		this.priority = priority;

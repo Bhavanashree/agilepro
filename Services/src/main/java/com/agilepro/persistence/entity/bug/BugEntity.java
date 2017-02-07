@@ -13,6 +13,8 @@ import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
@@ -23,6 +25,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 @ExtendableEntity(name = "Bug")
 @Table(name = "BUG")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_PROJECT_TITLE", fields = { "spaceIdentity", "project", "title" }), @UniqueConstraint(name = "SPACE_PROJECT_PRIORITY", fields = { "spaceIdentity", "project", "priority" }) })
 public class BugEntity extends WebutilsExtendableEntity
 {
 	/**
@@ -90,11 +93,34 @@ public class BugEntity extends WebutilsExtendableEntity
 	@Column(name = "TARGET_SPRINT_ID")
 	private SprintEntity targetSprint;
 
+	/**
+	 * Indicates the importance of a story.
+	 **/
+	@Column(name = "STORY_POINTS")
+	private Integer storyPoints;
+	
+	/**
+	 * The priority.
+	 */
+	@Column(name = "PRIORITY", nullable = false)
+	private Integer priority;
+
+	/**
+	 * Gets the title.
+	 * 
+	 * @return the title.
+	 */
 	public String getTitle()
 	{
 		return title;
 	}
 
+	/**
+	 * Set the title.
+	 * 
+	 * @param title
+	 *            the new title.
+	 */
 	public void setTitle(String title)
 	{
 		this.title = title;
@@ -255,5 +281,47 @@ public class BugEntity extends WebutilsExtendableEntity
 	public void setReportedBy(EmployeeEntity reportedBy)
 	{
 		this.reportedBy = reportedBy;
+	}
+
+	/**
+	 * Gets the story points.
+	 * 
+	 * @return the story points.
+	 */
+	public Integer getStoryPoints()
+	{
+		return storyPoints;
+	}
+
+	/**
+	 * Set the story points.
+	 * 
+	 * @param storyPoints
+	 *            the new story points.
+	 */
+	public void setStoryPoints(Integer storyPoints)
+	{
+		this.storyPoints = storyPoints;
+	}
+	
+	/**
+	 * Gets the priority.
+	 * 
+	 * @return the new priority.
+	 */
+	public Integer getPriority()
+	{
+		return priority;
+	}
+
+	/**
+	 * Sets the priority.
+	 * 
+	 * @param priority
+	 *            the new priority.
+	 */
+	public void setPriority(Integer priority)
+	{
+		this.priority = priority;
 	}
 }

@@ -491,6 +491,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action type read bug by sprint id.
 	 **/
 	public String ACTION_TYPE_READ_BUG_BY_SPRINT_ID = "fetchBugBySprintId";
+	
+	/**
+	 * The action type update bug sprint.
+	 */
+	public String ACTION_TYPE_UPDATE_BUG_SPRINT = "updateBugSprint";
 
 	/**
 	 * The action type read sprint project id.

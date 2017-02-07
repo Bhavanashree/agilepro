@@ -38,8 +38,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		{
 			$scope.checkBoxChildStories(backlogObj.childrens, backlogObj.check);
 		}
-		
-		console.log($scope.multipleBacklogIds);
 	};
 	
 	/**
@@ -185,7 +183,12 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		actionHelper.invokeAction("story.fetchBacklogsForDragByProjectId", null, {"projectId" : projectId},
 				function(readResponse, respConfig)
 				{
-					$scope.backlogs = readResponse.model;
+					$scope.backlogStoryModels = readResponse.model.backlogStoryModels;
+					$scope.backlogBugModels = readResponse.model.backlogBugModels;
+					
+					$scope.backlogs = $scope.backlogStoryModels.concat($scope.backlogBugModels);
+					
+					$scope.backlogs.sort(function(a, b){return a.priority-b.priority});
 					
 					$scope.idToBacklog = {};
 					for(index in $scope.backlogs)
@@ -249,7 +252,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					}
 				}
 				
-				// add childrens
+				// add childrens.
 				$scope.addChildrens($scope.storiesForTask, $scope.idToStory);
 				
 				try
@@ -690,7 +693,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			{
 				$scope.addChildIdsForDrag(childrens);
 			}
-			
 		}
 		
 		console.log($scope.childIdsFromBacklog);
@@ -850,6 +852,18 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		$('#searchBacklogInputId').css("border-bottom", "3px solid grey");
 		$('#dropStoryForBacklogId').css('box-shadow', "none");
 		
+	};
+	
+	/**
+	 * Common method for updating sprint id for bugs.
+	 */
+	$scope.updateStorySprint = function(sprintId, ids){
+		
+		actionHelper.invokeAction("story.updateBugSprint", {"ids" : ids, "sprintId" : sprintId}, null,
+				function(updateResponse, respConfig)
+				{
+			
+				},{"hideInProgress" : true});
 	};
 	
 	

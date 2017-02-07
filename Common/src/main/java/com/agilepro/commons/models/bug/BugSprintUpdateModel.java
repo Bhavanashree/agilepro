@@ -1,18 +1,18 @@
-package com.agilepro.commons.models.project;
+package com.agilepro.commons.models.bug;
 
 import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.Model;
 
 /**
- * Story sprint update model.
+ * Bug sprint update model.
  * 
  * @author Pritam.
  */
 @Model
-public class StorySprintUpdateModel
+public class BugSprintUpdateModel
 {
 	/**
-	 * Story ids for updating with the sprint id.
+	 * Bug ids for updating with the sprint id.
 	 */
 	@IgnoreField
 	private Long[] ids;

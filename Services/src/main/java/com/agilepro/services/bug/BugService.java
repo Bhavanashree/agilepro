@@ -1,30 +1,33 @@
 package com.agilepro.services.bug;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.agilepro.commons.models.bug.BacklogBugModel;
 import com.agilepro.commons.models.bug.BugModel;
-import com.agilepro.commons.models.project.StoryModel;
 import com.agilepro.persistence.entity.bug.BugEntity;
-import com.agilepro.persistence.entity.project.StoryEntity;
+import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.repository.bug.IBugRepository;
+import com.agilepro.services.project.SprintService;
 import com.yukthi.persistence.ITransaction;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
-import com.yukthi.utils.exceptions.NullValueException;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
  * The Class BugService.
+ * 
+ * @author Pritam.
  */
 @Service
 public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 {
+	/**
+	 * SprintService.
+	 */
+	@Autowired
+	private SprintService sprintService;
+	
 	/**
 	 * Instantiates a new bug service.
 	 */
@@ -32,49 +35,69 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 	{
 		super(BugEntity.class, IBugRepository.class);
 	}
-
-	public int updateBug(BugModel model)
+	
+	/**
+	 * Adding the priority and saving the bug model.
+	 * 
+	 * @param bugModel provided bug model for save.
+	 * @return newly saved bug.
+	 */
+	public BugEntity saveBug(BugModel bugModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			super.update(model);
-			transaction.commit();
-
-			BugEntity updateEntity = super.fetch(model.getId());
+			bugModel.setPriority(repository.getMaxOrder(bugModel.getProjectId()) + 1);
 			
-			return updateEntity.getVersion();
+			BugEntity bugEntity = super.save(bugModel);
+			
+			transaction.commit();
+			
+			return bugEntity;
 		} catch(RuntimeException ex)
 		{
 			throw ex;
 		} catch(Exception ex)
 		{
-			throw new InvalidStateException(ex, "An error occurred while updating model - {}", model);
+			throw new InvalidStateException(ex, "An error occurred while saving bug model - {}", bugModel);
 		}
 	}
 
-	
-	public List<BugModel> fetchBugsBySprint(Long projectId, Long sprintId)
+	public void updateBugSprint(Long[] ids, Long sprintId)
 	{
-		List<BugEntity> unAssignedBugs = repository.fetchBacklogBugs(projectId);
-		List<BugEntity> sprintBugs = repository.fetchBugsBySprintId(projectId, sprintId);
-		
-		List<BugModel> bugs = new ArrayList<BugModel>();
-		
-		if(sprintBugs == null)
+		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			sprintBugs = new ArrayList<BugEntity>();
-		}
-		
-		if(unAssignedBugs != null)
+			SprintEntity sprint = null;
+			
+			// check for null for the case where story to backlogs
+			if(sprintId != null)
+			{
+				sprint = sprintService.fetch(sprintId);
+			}
+
+			for(Long id : ids)
+			{
+				repository.updateSprint(id, sprint);
+			}
+
+			transaction.commit();
+		} catch(RuntimeException ex)
 		{
-			sprintBugs.addAll(unAssignedBugs);
-		}
-		
-		if(sprintBugs != null)
+			throw ex;
+		} catch(Exception ex)
 		{
-			sprintBugs.forEach(entity -> bugs.add(super.toModel(entity, BugModel.class)));
+			throw new InvalidStateException(ex, "An error occurred while updating bug sprint");
 		}
-		
-		return bugs;
+	}
+	
+	/**
+	 * Fetch backlogs bugs.
+	 * 
+	 * @param projectId
+	 *            provided project id for fetching the backlog.
+	 * @return matching record.
+	 */
+	public List<BacklogBugModel> fetchBacklogBugs(Long projectId)
+	{
+		return repository.fetchBacklogBugs(projectId);
 	}
 }

@@ -88,7 +88,17 @@ public class BugModel extends AbstractExtendableModel
 	 * The priority status.
 	 **/
 	@ReadOnly
-	private PriorityStatus priority;
+	private PriorityStatus priorityStatus;
+
+	/**
+	 * Priority.
+	 */
+	private Integer priority;
+
+	/**
+	 * Story points for the bug.
+	 */
+	private Integer storyPoints;
 
 	/**
 	 * The description.
@@ -238,27 +248,6 @@ public class BugModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the priority.
-	 *
-	 * @return the priority
-	 */
-	public PriorityStatus getPriority()
-	{
-		return priority;
-	}
-
-	/**
-	 * Sets the priority.
-	 *
-	 * @param priority
-	 *            the new priority
-	 */
-	public void setPriority(PriorityStatus priority)
-	{
-		this.priority = priority;
-	}
-
-	/**
 	 * Gets the project id.
 	 *
 	 * @return the project id
@@ -340,5 +329,68 @@ public class BugModel extends AbstractExtendableModel
 	public void setFile(List<FileInfo> file)
 	{
 		this.file = file;
+	}
+
+	/**
+	 * Get the story points.
+	 * 
+	 * @return the story points.
+	 */
+	public Integer getStoryPoints()
+	{
+		return storyPoints;
+	}
+
+	/**
+	 * Set the story points.
+	 * 
+	 * @param storyPoints
+	 *            the new story points.
+	 */
+	public void setStoryPoints(Integer storyPoints)
+	{
+		this.storyPoints = storyPoints;
+	}
+
+	/**
+	 * Gets the priority.
+	 * 
+	 * @return the new priority.
+	 */
+	public Integer getPriority()
+	{
+		return priority;
+	}
+
+	/**
+	 * Sets the priority.
+	 * 
+	 * @param priority
+	 *            the new priority.
+	 */
+	public void setPriority(Integer priority)
+	{
+		this.priority = priority;
+	}
+
+	/**
+	 * Get the priority status.
+	 * 
+	 * @return the priority status.
+	 */
+	public PriorityStatus getPriorityStatus()
+	{
+		return priorityStatus;
+	}
+
+	/**
+	 * Set the priority status.
+	 * 
+	 * @param priorityStatus
+	 *            the new priority status.
+	 */
+	public void setPriorityStatus(PriorityStatus priorityStatus)
+	{
+		this.priorityStatus = priorityStatus;
 	}
 }

@@ -1,8 +1,6 @@
 package com.agilepro.commons.models.project;
 
 import java.util.List;
-
-import com.agilepro.commons.BacklogModel;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
@@ -12,13 +10,25 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
  * 
  * @author Pritam.
  */
-public class BackLogStoryModel extends BacklogModel
+public class BacklogStoryModel
 {
+	/**
+	 * Id of the story record.
+	 */
+	@Field("id")
+	private Long id;
+
 	/**
 	 * Title of the story.
 	 */
 	@Field("title")
 	private String title;
+
+	/**
+	 * The story points.
+	 **/
+	@Field("storyPoints")
+	private Integer storyPoints;
 
 	/**
 	 * Parent story id.
@@ -51,17 +61,32 @@ public class BackLogStoryModel extends BacklogModel
 	private Boolean isManagementStory;
 
 	/**
-	 * The story points.
-	 **/
-	@Field("storyPoints")
-	private Integer storyPoints;
-	
-	/**
 	 * Has Childrens story, boolean value used for indicating the story has
 	 * childs or not.
 	 */
 	@NonDisplayable
 	private Boolean hasChildrens;
+
+	/**
+	 * Gets the story id.
+	 * 
+	 * @return the story id.
+	 */
+	public Long getId()
+	{
+		return id;
+	}
+
+	/**
+	 * Sets the story id.
+	 * 
+	 * @param id
+	 *            the new story id.
+	 */
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	/**
 	 * Gets the title.
@@ -82,6 +107,27 @@ public class BackLogStoryModel extends BacklogModel
 	public void setTitle(String title)
 	{
 		this.title = title;
+	}
+
+	/**
+	 * Gets the story points.
+	 * 
+	 * @return the story points.
+	 */
+	public Integer getStoryPoints()
+	{
+		return storyPoints;
+	}
+
+	/**
+	 * Set the story points.
+	 * 
+	 * @param storyPoints
+	 *            the new story points.
+	 */
+	public void setStoryPoints(Integer storyPoints)
+	{
+		this.storyPoints = storyPoints;
 	}
 
 	/**
@@ -189,27 +235,6 @@ public class BackLogStoryModel extends BacklogModel
 		this.isManagementStory = isManagementStory;
 	}
 
-	/**
-	 * Gets the story points.
-	 * 
-	 * @return the story points.
-	 */
-	public Integer getStoryPoints()
-	{
-		return storyPoints;
-	}
-
-	/**
-	 * Set the story points.
-	 * 
-	 * @param storyPoints
-	 *            the new story points.
-	 */
-	public void setStoryPoints(Integer storyPoints)
-	{
-		this.storyPoints = storyPoints;
-	}
-	
 	/**
 	 * Get has childrens.
 	 * 
