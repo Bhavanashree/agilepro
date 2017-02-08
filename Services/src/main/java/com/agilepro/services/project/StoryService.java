@@ -16,10 +16,11 @@ import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.bug.BacklogBugModel;
 import com.agilepro.commons.models.project.BacklogStoryModel;
-import com.agilepro.commons.models.project.StoryAndBugModel;
+import com.agilepro.commons.models.project.StoryAndBugInBacklogModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
+import com.agilepro.commons.models.project.StoryAndBugSprintUpdateModel;
 import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.project.IStoryRepository;
@@ -283,16 +284,8 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating status");
 		}
 	}
-
-	/**
-	 * Update story sprint.
-	 * 
-	 * @param ids
-	 *            for which new sprint is to be set.
-	 * @param sprintId
-	 *            provided new sprint id to set in story if and set sprintId null for the story to backlogs.
-	 */
-	public void updateStorySprint(Long[] ids, Long sprintId)
+	
+	public void updateStorySprint(Long [] multipleStoryIds, Long sprintId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
@@ -304,11 +297,14 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 				sprint = sprintService.fetch(sprintId);
 			}
 
-			for(Long id : ids)
+			if(multipleStoryIds != null && multipleStoryIds.length > 0)
 			{
-				repository.updateSprint(id, sprint);
+				for(Long id : multipleStoryIds)
+				{
+					repository.updateSprint(id, sprint);
+				}
 			}
-
+			
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{
@@ -406,36 +402,13 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 */
 	public List<StoryModel> fetchStoryBySprintId(Long sprintId)
 	{
-		List<StoryModel> storymodels = new ArrayList<StoryModel>();
+		List<StoryModel> storyModels = new ArrayList<StoryModel>();
 
 		List<StoryEntity> storyEntities = repository.fetchStoryBySprintId(sprintId);
-
-		StoryModel storyModel = null;
-		EmployeeModel employeeModel = null;
-
-		if(storyEntities.size() > 0)
-		{
-			for(StoryEntity entity : storyEntities)
-			{
-				storyModel = super.toModel(entity, StoryModel.class);
-
-				if(storyModel.getOwnerId() != null)
-				{
-					employeeModel = employeeService.fetchFullModel(storyModel.getOwnerId(), EmployeeModel.class);
-					if(employeeModel == null)
-					{
-						throw new IllegalArgumentException("No employee found with id - {} " + storyModel.getOwnerId());
-					}
-
-					storyModel.setOwnerId(storyModel.getOwnerId());
-					storyModel.setPhoto(employeeModel.getPhoto());
-				}
-
-				storymodels.add(storyModel);
-			}
-		}
-
-		return storymodels;
+		
+		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
+		
+		return storyModels;
 	}
 
 	/**
@@ -464,13 +437,9 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * @param projectId provided project id under which matching backlogs are fetched.
 	 * @return matching records.
 	 */
-	public StoryAndBugModel fetchBacklogsForDrag(Long projectId)
+	public List<BacklogStoryModel> fetchBacklogsStory(Long projectId)
 	{
-		List<BacklogStoryModel> backlogStoryModels = repository.fetchBacklogsForDrag(projectId);
-		
-		List<BacklogBugModel> backlogBugModels = bugService.fetchBacklogBugs(projectId);
-		
-		return new StoryAndBugModel(backlogStoryModels, backlogBugModels);
+		return repository.fetchBacklogsForDrag(projectId);
 	}
 
 	/**

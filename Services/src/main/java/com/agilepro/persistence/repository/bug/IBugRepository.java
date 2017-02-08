@@ -37,7 +37,7 @@ public interface IBugRepository extends IWebutilsRepository<BugEntity>
 	public List<BugSearchResult> findBugs(SearchQuery searchQuery);
 	
 	@RestrictBySpace
-	public List<BugEntity> fetchBugsBySprintId(@Condition(value = "project.id") Long projectId, @Condition(value = "targetSprint.id") Long sprintId);
+	public List<BugEntity> fetchBugsBySprintId(@Condition(value = "targetSprint.id") Long sprintId);
 	
 	@SearchResult
 	@RestrictBySpace

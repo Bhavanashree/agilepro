@@ -120,7 +120,7 @@ public class BugController extends BaseController implements IBugController
 	@ResponseBody
 	public BaseResponse updateBugSprint(@RequestBody BugSprintUpdateModel bugSprintUpdateModel)
 	{
-		bugService.updateBugSprint(bugSprintUpdateModel.getIds(), bugSprintUpdateModel.getSprintId());
+		//bugService.updateBugSprint(bugSprintUpdateModel.getIds(), bugSprintUpdateModel.getSprintId());
 		
 		return new BaseResponse();
 	}

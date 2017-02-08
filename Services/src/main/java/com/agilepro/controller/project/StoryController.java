@@ -8,7 +8,6 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE_STORIES_IN_
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACK_LOG_BY_SPRINT_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_BY_PROJECT_IN_PRIORITY_ORDER;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACK_LOGS_BY_PROJECT_ID;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_STORY_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
@@ -16,9 +15,8 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SWAP_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TO_MAX_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STATUS;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_SPRINT;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_SPRINT_BUG_SPRINT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_MANAGEMENT;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BACKLOGS_FOR_DRAG_BY_PROJECT_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_INPUT_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
@@ -38,12 +36,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.UserRole;
-import com.agilepro.commons.controllers.project.IStoryController;
 import com.agilepro.commons.models.project.BacklogStoryModel;
 import com.agilepro.commons.models.project.StoriesInBulk;
-import com.agilepro.commons.models.project.StoryAndBugModel;
 import com.agilepro.commons.models.project.StoryModel;
-import com.agilepro.commons.models.project.StorySprintUpdateModel;
+import com.agilepro.commons.models.project.StoryAndBugSprintUpdateModel;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.project.StoryService;
 import com.yukthi.webutils.annotations.ActionName;
@@ -61,7 +57,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_STORY)
 @RequestMapping("/story")
-public class StoryController extends BaseController implements IStoryController
+public class StoryController extends BaseController
 {
 	/**
 	 * The story service.
@@ -72,9 +68,9 @@ public class StoryController extends BaseController implements IStoryController
 	/**
 	 * Save new story.
 	 * 
+	 * @param model for save.
 	 * @return save response wrapped with newly saved story id.
 	 */
-	@Override
 	@ActionName(ACTION_TYPE_SAVE)
 	@Authorization(roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -92,7 +88,6 @@ public class StoryController extends BaseController implements IStoryController
 	 * 
 	 * @return the StoryModel read response
 	 */
-	@Override
 	@ActionName(ACTION_TYPE_READ)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
@@ -137,31 +132,6 @@ public class StoryController extends BaseController implements IStoryController
 		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoriesForKanban(projectId, sprint));
 	}
 	
-	@ActionName(ACTION_TYPE_READ_BACKLOGS_FOR_DRAG_BY_PROJECT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/fetchBacklogsForDragByProjectId", method = RequestMethod.GET)
-	@ResponseBody
-	public BasicReadResponse<StoryAndBugModel> fetchBacklogForDrag(@RequestParam(value = "projectId") Long projectId)
-	{
-		return new BasicReadResponse<StoryAndBugModel>(storyService.fetchBacklogsForDrag(projectId));
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.agilepro.commons.controllers.project.IStoryController#
-	 * fetchStoryBySprintId(java.lang.Long)
-	 */
-	@Override
-	@ActionName(ACTION_TYPE_READ_STORY_SPRINT)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/readStoriesBySprint", method = RequestMethod.GET)
-	@ResponseBody
-	public BasicReadResponse<List<StoryModel>> fetchStoryBySprintId(@RequestParam(value = "sprintId", required = true) Long sprintId)
-	{
-		return new BasicReadResponse<List<StoryModel>>(storyService.fetchStoryBySprintId(sprintId));
-	}
-
 	/**
 	 * Fetch story by project id.
 	 *
@@ -237,16 +207,6 @@ public class StoryController extends BaseController implements IStoryController
 		return new BaseResponse();
 	}
 	
-	@ActionName(ACTION_TYPE_UPDATE_STORY_SPRINT)
-	@RequestMapping(value = "/updateStorySprint", method = RequestMethod.POST)
-	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@ResponseBody
-	public BaseResponse updateStorySprint(@RequestBody StorySprintUpdateModel storySprintUpdateModel)
-	{
-		storyService.updateStorySprint(storySprintUpdateModel.getIds(), storySprintUpdateModel.getSprintId());
-		return new BaseResponse();
-	}
-
 	@ActionName(ACTION_TYPE_UPDATE_STORY_MANAGEMENT)
 	@RequestMapping(value = "/updateStoryManagement", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })

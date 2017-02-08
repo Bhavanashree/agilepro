@@ -110,6 +110,11 @@ public class BugModel extends AbstractExtendableModel
 	 * The file.
 	 **/
 	private List<FileInfo> file;
+	
+	/**
+	 * By default true for a bug.
+	 */
+	private Boolean isBug = true;
 
 	/*
 	 * (non-Javadoc)
@@ -392,5 +397,26 @@ public class BugModel extends AbstractExtendableModel
 	public void setPriorityStatus(PriorityStatus priorityStatus)
 	{
 		this.priorityStatus = priorityStatus;
+	}
+	
+	/**
+	 * Gets isBug.
+	 * 
+	 * @return isBug.
+	 */
+	public Boolean getIsBug()
+	{
+		return isBug;
+	}
+
+	/**
+	 * Set isBug.
+	 * 
+	 * @param isBug
+	 *            the new isBug.
+	 */
+	public void setIsBug(Boolean isBug)
+	{
+		this.isBug = isBug;
 	}
 }

@@ -146,6 +146,11 @@ public class StoryModel extends AbstractExtendableModel
 	private Boolean hasChildrens;
 
 	/**
+	 * By default false for a story.
+	 */
+	private Boolean isBug = false;
+
+	/**
 	 * Instantiates a new back log model.
 	 */
 	public StoryModel()
@@ -529,5 +534,26 @@ public class StoryModel extends AbstractExtendableModel
 	public void setHasChildrens(Boolean hasChildrens)
 	{
 		this.hasChildrens = hasChildrens;
+	}
+
+	/**
+	 * Gets isBug.
+	 * 
+	 * @return isBug.
+	 */
+	public Boolean getIsBug()
+	{
+		return isBug;
+	}
+
+	/**
+	 * Set isBug.
+	 * 
+	 * @param isBug
+	 *            the new isBug.
+	 */
+	public void setIsBug(Boolean isBug)
+	{
+		this.isBug = isBug;
 	}
 }

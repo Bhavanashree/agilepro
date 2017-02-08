@@ -1,5 +1,6 @@
 package com.agilepro.services.bug;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 	 */
 	@Autowired
 	private SprintService sprintService;
-	
+
 	/**
 	 * Instantiates a new bug service.
 	 */
@@ -35,11 +36,12 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 	{
 		super(BugEntity.class, IBugRepository.class);
 	}
-	
+
 	/**
 	 * Adding the priority and saving the bug model.
 	 * 
-	 * @param bugModel provided bug model for save.
+	 * @param bugModel
+	 *            provided bug model for save.
 	 * @return newly saved bug.
 	 */
 	public BugEntity saveBug(BugModel bugModel)
@@ -47,11 +49,11 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			bugModel.setPriority(repository.getMaxOrder(bugModel.getProjectId()) + 1);
-			
+
 			BugEntity bugEntity = super.save(bugModel);
-			
+
 			transaction.commit();
-			
+
 			return bugEntity;
 		} catch(RuntimeException ex)
 		{
@@ -62,7 +64,7 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 		}
 	}
 
-	public void updateBugSprint(Long[] ids, Long sprintId)
+	public void updateBugSprint(Long[] multipleBugIds, Long sprintId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
@@ -73,8 +75,8 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 			{
 				sprint = sprintService.fetch(sprintId);
 			}
-
-			for(Long id : ids)
+			
+			for(Long id : multipleBugIds)
 			{
 				repository.updateSprint(id, sprint);
 			}
@@ -88,7 +90,24 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating bug sprint");
 		}
 	}
-	
+
+	/**
+	 * Fetch bug models by sprint id.
+	 * 
+	 * @param sprintId
+	 *            provided sprint id for fetching the bugs.
+	 * @return matching record.
+	 */
+	public List<BugModel> fetchBugBySprint(Long sprintId)
+	{
+		List<BugModel> bugModels = new ArrayList<BugModel>();
+		List<BugEntity> bugEntities = repository.fetchBugsBySprintId(sprintId);
+
+		bugEntities.forEach(entity -> bugModels.add(super.toModel(entity, BugModel.class)));
+
+		return bugModels;
+	}
+
 	/**
 	 * Fetch backlogs bugs.
 	 * 

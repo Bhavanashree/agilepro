@@ -68,6 +68,11 @@ public class BacklogStoryModel
 	private Boolean hasChildrens;
 
 	/**
+	 * Indicates false for a bug model.
+	 */
+	private Boolean isBug = false;
+
+	/**
 	 * Gets the story id.
 	 * 
 	 * @return the story id.
@@ -254,5 +259,26 @@ public class BacklogStoryModel
 	public void setHasChildrens(Boolean hasChildrens)
 	{
 		this.hasChildrens = hasChildrens;
+	}
+
+	/**
+	 * Gets isBug.
+	 * 
+	 * @return isBug.
+	 */
+	public Boolean getIsBug()
+	{
+		return isBug;
+	}
+
+	/**
+	 * Set isBug.
+	 * 
+	 * @param isBug
+	 *            the new isBug.
+	 */
+	public void setIsBug(Boolean isBug)
+	{
+		this.isBug = isBug;
 	}
 }

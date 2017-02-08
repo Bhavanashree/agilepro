@@ -63,13 +63,13 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 						$scope.idToEmployee[empObj.id] = empObj;
 					}
 			
-					try
-					{
-						$scope.$apply();
-					}catch(ex)
-					{}
-					
 				}, {"hideInProgress" : true});
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
 
 	};
 	

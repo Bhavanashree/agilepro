@@ -5,11 +5,11 @@ import java.util.List;
 import com.agilepro.commons.models.bug.BacklogBugModel;
 
 /**
- * List of stories and list of bugs.
+ * List of stories and list of bugs which are not in a sprint.
  * 
  * @author Pritam.
  */
-public class StoryAndBugModel
+public class StoryAndBugInBacklogModel
 {
 	/**
 	 * Backlog story models.
@@ -29,7 +29,7 @@ public class StoryAndBugModel
 	 * @param backlogBugModels
 	 *            provided new backlogBugModels.
 	 */
-	public StoryAndBugModel(List<BacklogStoryModel> backLogStoryModels, List<BacklogBugModel> backlogBugModels)
+	public StoryAndBugInBacklogModel(List<BacklogStoryModel> backLogStoryModels, List<BacklogBugModel> backlogBugModels)
 	{
 		super();
 		this.backlogStoryModels = backLogStoryModels;

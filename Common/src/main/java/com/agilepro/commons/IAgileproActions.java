@@ -428,6 +428,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PREFIX_STORY = "story";
 	
 	/**
+	 * The action prefix story and bug.
+	 */
+	public String ACTION_PREFIX_STORY_AND_BUG = "storyAndBug";
+	
+	/**
 	 * Action for story dependency.
 	 */
 	public String ACTION_PREFIX_STORY_DEPENDENCY = "storyDependency";
@@ -443,9 +448,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_READ_SPRINT = "readSprints";
 
 	/**
-	 * The action type readSprints.
+	 * The action type read story and bug by sprint.
 	 */
-	public String ACTION_TYPE_READ_STORY_SPRINT = "readStoriesBySprint";
+	public String ACTION_TYPE_READ_STORY_SPRINT_BUG_SPRINT = "readStoriesAndBugBySprint";
 
 	/**
 	 * The action type to fetch stories by project id and in priority order.
@@ -480,7 +485,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action type fetch backlogs for drag by provided project id. 
 	 */
-	public String ACTION_TYPE_READ_BACKLOGS_FOR_DRAG_BY_PROJECT_ID = "fetchBacklogsForDragByProjectId";
+	public String ACTION_TYPE_FETCH_BACKLOGS_BY_PROJECT_ID = "fetchBacklogsByProjectId";
 	
 	/**
 	 * Action type to read stories by project id and sprint id will be null.
@@ -543,9 +548,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_UPDATE_STORY_STATUS = "updateStoryStatus";
 	
 	/**
-	 * The action type update story sprint.
+	 * The action type update story sprint or bug sprint.
 	 */
-	public String ACTION_TYPE_UPDATE_STORY_SPRINT = "updateStorySprint";
+	public String ACTION_TYPE_UPDATE_STORY_SPRINT_BUG_SPRINT = "updateStorySprintBugSprint";
 	
 	/**
 	 * The action type update story management.
