@@ -213,6 +213,8 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	 */
 	$scope.addFetchedItemsToParent = function(idToBacklogBug, idToBacklogStory, backlogListIds){
 		
+		console.log("aded to paremt");
+		
 		$scope.idToBacklogBug = idToBacklogBug;
 		$scope.idToBacklogStory = idToBacklogStory;
 		$scope.backlogListIds = backlogListIds;
@@ -232,6 +234,22 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	$scope.getBacklogStory = function(storyId){
 		
 		return $scope.idToBacklogStory[storyId];
+	};
+	
+	/**
+	 * Set backlog bug.
+	 */
+	$scope.setBacklogBug = function(bugId, data){
+		
+		$scope.idToBacklogBug[bugId] = data;
+	};
+	
+	/**
+	 * Set backlog story.
+	 */
+	$scope.setBacklogStory = function(storyId, data){
+		
+		$scope.idToBacklogStory[storyId] = data;
 	};
 	
 	/**
@@ -263,6 +281,17 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		
 		$scope.multipleCheckedBugIds = [];
 		$scope.multipleCheckedStoryIds = [];
+		$scope.draggingId = null;
+	};
+	
+	/**
+	 * Rearrange the items.
+	 */
+	$scope.reArrangeTheItems = function(multipleBugIds, multipleStoryIds, sprintId){
+		
+		var args = {"multipleBugIds" : multipleBugIds, "multipleStoryIds" : multipleStoryIds, "sprintId" : sprintId};
+		
+		$scope.$broadcast("reArrangeTheBacklogItems", args);
 	};
 	
 	

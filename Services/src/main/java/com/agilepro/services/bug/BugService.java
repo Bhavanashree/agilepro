@@ -76,9 +76,12 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 				sprint = sprintService.fetch(sprintId);
 			}
 			
-			for(Long id : multipleBugIds)
+			if(multipleBugIds != null && multipleBugIds.length > 0)
 			{
-				repository.updateSprint(id, sprint);
+				for(Long id : multipleBugIds)
+				{
+					repository.updateSprint(id, sprint);
+				}
 			}
 
 			transaction.commit();

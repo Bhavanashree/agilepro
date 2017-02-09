@@ -50,9 +50,9 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		
 		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds(); 
 		
-		for(index in childArr)
+		for(var i = 0 ; i < childArr.length ; i++)
 		{
-			var childObj = childArr[index];
+			var childObj = childArr[i];
 			
 			childObj.check = checkValue;
 			
@@ -107,9 +107,9 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 					
 					var backlogListIds = [];
 					
-					for(index in $scope.backlogs)
+					for(var i = 0 ;i < $scope.backlogs.length ; i++)
 					{
-						var obj = $scope.backlogs[index];
+						var obj = $scope.backlogs[i];
 						obj.childrens = [];
 						
 						backlogListIds.push(obj.id);
@@ -142,9 +142,9 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 	 */
 	$scope.addChildrens = function(arrObjs, idToObjMap){
 		
-		for(index in arrObjs)
+		for(var i = 0 ; i < arrObjs.length ; i++)
 		 {
-			 var obj =  arrObjs[index];
+			 var obj =  arrObjs[i];
 			 var parent = idToObjMap[obj.parentStoryId];
 			 
 			 if(parent)
@@ -213,6 +213,30 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		$scope.onDragOfItemFromBacklogToSprint(draggingItemIsBug, draggingId);
 	};
 	
+	
+	/**
+	 * Drag back the story
+	 */
+	$scope.onDropOfBackStory = function(event){
+		
+		event.preventDefault();
+
+		/*var parentStoryId = $scope.idToStory[$scope.draggingId].parentStoryId;
+		
+		var parentObj = $scope.idToStory[parentStoryId];
+		
+		if(parentObj && ($scope.storiesForTask.indexOf(parentObj) != -1))
+		{
+			utils.alert("Please drag the " + parentObj.title + " first");
+			return;
+		}
+		
+		if($scope.draggingId && $scope.allowedFromStoryToBacklog)
+		{
+			$scope.updateStorySprint(null, [$scope.draggingId]);
+		}*/
+	};
+	
 
 	/**
 	 * Gets invoked when mouse leaves the dragging item.
@@ -221,6 +245,82 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		
 		$scope.initOnMouseReleasedItem();
 		
+	};
+	
+	// Listener for broadcast
+	$scope.$on("reArrangeTheBacklogItems", function(event, args) {
+		
+		console.log("Listener reArrangeTheBacklogItems");
+		
+		//debugger;
+		
+		var multipleBugIds = args.multipleBugIds;
+		var multipleStoryIds = args.multipleStoryIds;
+		var sprintId = args.sprintId;
+		
+		var backlogListIds = $scope.getBacklogListIds();
+		
+		if(sprintId)
+		{
+			for(var i = 0 ; i < multipleBugIds.length ; i++)
+			{
+				var bugId = multipleBugIds[i];
+				
+				if(backlogListIds.indexOf(bugId) != -1)
+				{
+					backlogListIds.splice(backlogListIds.indexOf(bugId), 1);
+				}
+				
+				$scope.setBacklogBug(bugId, null);
+				
+				$scope.removeFromBacklogList(bugId);
+			}
+			
+			for(var i = 0 ; i < multipleStoryIds.length ; i++)
+			{
+				var storyId = multipleStoryIds[i];
+				
+				if(backlogListIds.indexOf(storyId) != -1)
+				{
+					backlogListIds.splice(backlogListIds.indexOf(storyId), 1);
+				}
+				
+				$scope.setBacklogStory(storyId, null);
+				
+				$scope.removeFromBacklogList(storyId);
+			}
+		}
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
+		
+	});
+
+	/**
+	 * Remove from backlog list.
+	 */
+	$scope.removeFromBacklogList = function(id){
+		
+		var indexForRemove = -1;
+		
+		for(var i = 0 ; i < $scope.backlogs.length ; i++)
+		{
+			var obj = $scope.backlogs[i];
+			
+			if(obj.id == id)
+			{
+				indexForRemove = i;
+				break;
+			}
+		}
+		
+		if(indexForRemove >= 0)
+		{
+			$scope.backlogs.splice(indexForRemove, 1);
+		}
 	};
 	
 	// Listener for broadcast

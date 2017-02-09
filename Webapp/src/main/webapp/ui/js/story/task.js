@@ -32,9 +32,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				
 				if($scope.itemsFortask)
 				{
-					for(index in $scope.itemsFortask)
+					for(var i = 0 ; i < $scope.itemsFortask.length ; i++)
 					{
-						var obj = $scope.itemsFortask[index];
+						var obj = $scope.itemsFortask[i];
 						obj.display = true;
 						obj.childrens = [];
 						
@@ -47,7 +47,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						}
 					}
 				}
-				
 				
 				try
 				{
@@ -68,9 +67,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();
 		var backlogListIds = $scope.getBacklogListIds();
 		
-		for(index in childArr)
+		for(var i = 0 ;i < childArr.length ; i++)
 		{
-			var childObj = childArr[index];
+			var childObj = childArr[i];
 			
 			if( (multipleCheckedStoryIds.indexOf(childObj.id) == -1) && (backlogListIds.indexOf(childObj.id) != -1) )
 			{
@@ -154,7 +153,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		var sprintObj = $scope.getSelectedSprint();
 		
-		
 		var multipleCheckedBugIds = $scope.getMultipleCheckedBugIds();
 		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();
 		var draggingId = $scope.getDraggingId();
@@ -162,9 +160,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		if((multipleCheckedBugIds.length > 0) || (multipleCheckedStoryIds.length > 0) && sprintObj) 
 		{
-			for(index in $scope.childIdsFromBacklog)
+			for(var i = 0 ; i <  $scope.childIdsFromBacklog.length ; i++)
 			{
-				var childId = $scope.childIdsFromBacklog[index];
+				var childId = $scope.childIdsFromBacklog[i];
 				
 				if(multipleCheckedStoryIds.indexOf(childId) == -1)
 				{
@@ -189,6 +187,40 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	};
 	
 	/**
+	 * Add items for task.
+	 */
+	$scope.addToItemsFortask = function(multipleBugIds, multipleStoryIds, sprintId){
+		
+		for(var i = 0 ;i < multipleBugIds.length ; i++)
+		{
+			var obj = $scope.getBacklogBug(multipleBugIds[i]);
+			
+			if(obj)
+			{
+				obj.sprintId = sprintId;
+				$scope.itemsFortask.push(obj);
+			}
+		}
+		
+		for(var i = 0 ;i < multipleStoryIds.length ; i++)
+		{
+			var obj = $scope.getBacklogStory(multipleStoryIds[i]);
+			
+			if(obj)
+			{
+				obj.sprintId = sprintId;
+				$scope.itemsFortask.push(obj);
+			}
+		}
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
+	};
+	
+	/**
 	 * Common method for updating the sprint.
 	 */
 	$scope.updateStorySprint = function(sprintId, multipleBugIds, multipleStoryIds){
@@ -199,11 +231,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				{
 					if(updateResponse.code == 0)
 					{
-						try
-						{
-							$scope.$apply();
-						}catch(ex)
-						{}
+						$scope.addToItemsFortask(multipleBugIds, multipleStoryIds, sprintId);
+						
+						$scope.reArrangeTheItems(multipleBugIds, multipleStoryIds, sprintId);
+						
 					}else
 					{
 						utils.alert("Error in dragging");
