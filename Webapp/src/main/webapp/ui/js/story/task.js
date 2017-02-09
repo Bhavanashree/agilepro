@@ -57,7 +57,32 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			}, {"hideInProgress" : true});	
 	};
 
-	// DROP METHODS.
+	// DRAG AND DROP METHODS.
+	
+	/**
+	 * Drag backlogs
+	 */
+	$scope.dragStoryBugFromSprint = function(event){
+		
+		event.originalEvent.dataTransfer.setData('text/plain', 'text');
+		
+		$scope.draggingId = Number((event.target.id).split('_')[1]);
+		
+		//$scope.onDragOfItemFromSprintToBacklog();
+		
+		/*
+		if($scope.multipleBacklogIds.indexOf($scope.draggingId) == -1)
+		{
+			$scope.multipleBacklogIds.push($scope.draggingId);
+		}
+		
+		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
+		$('#searchBacklogInputId').css("border-bottom", "3px solid #66c2ff");
+		$('#dropStoryForBacklogId').css('box-shadow', "5px 5px 5px #888888");
+		
+		$scope.allowedFromStoryToBacklog = true;
+		$scope.allowedFromBacklogToStory = false;*/
+	};
 	
 	/**
 	 * Recursive method for adding the child stories.

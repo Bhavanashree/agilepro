@@ -6,8 +6,8 @@
 	<div ng-repeat="story in itemsFortask | filter:storyFilter()" ng-show="story.display">
 		
 		<!-- Start story display -->
-		<div id="dragStory_{{story.id}}" name="{{$index}}"  draggable="true" yk-on-drag="dragStory(event)" 
-		     yk-on-drag-end="mouseDroppedItem(event)"
+		<div id="dragStory_{{story.isBug}}_{{story.id}}" name="{{$index}}"  draggable="true" yk-on-drag="dragStoryBugFromSprint(event)" 
+		     yk-on-drag-end="initOnMouseReleasedItem(event)"
 			 style="height: 2.5em; border: 3px solid #66c2ff; margin: 0.5em;">
 			<table style="width: 100%; height: 100%;">
 				<tr>

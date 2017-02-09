@@ -268,6 +268,22 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	};
 	
 	/**
+	 * Gets invoked from the child controller when the item is dragged from sprint to backlog.
+	 */
+	$scope.onDragOfItemFromSprintToBacklog = function(draggingItemIsBug, draggingId){
+	
+		$scope.allowedFromStoryToBacklog = true;
+		$scope.allowedFromBacklogToStory = false;
+		
+		$scope.draggingItemIsBug = draggingItemIsBug;
+		$scope.draggingId = draggingId;
+		
+		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
+		$('#searchBacklogInputId').css("border-bottom", "3px solid #66c2ff");
+		$('#dropStoryForBacklogId').css('box-shadow', "5px 5px 5px #888888");
+	};
+	
+	/**
 	 * On mouse release item
 	 */
 	$scope.initOnMouseReleasedItem = function(){
