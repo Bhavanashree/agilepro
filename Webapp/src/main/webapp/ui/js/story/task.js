@@ -15,77 +15,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	});
 
 	/**
-	 * Check box multiple backlogs.
-	 */
-	$scope.checkBoxBacklog = function(backlogId, isBug){
-		
-		var backlogObj = isBug ? $scope.idToBacklogBug[backlogId] : $scope.idToBacklogStory[backlogId];
-		
-		backlogObj.check = !backlogObj.check; 
-		
-		if(backlogObj.check)
-		{
-			if(backlogObj.isBug)
-			{
-				$scope.multipleCheckedBugIds.push(backlogObj.id);
-			}else
-			{
-				$scope.multipleCheckedStoryIds.push(backlogObj.id);
-			}
-		}else
-		{
-			if(backlogObj.isBug)
-			{
-				var index = $scope.multipleCheckedBugIds.indexOf(backlogObj.id);
-				
-				$scope.multipleCheckedBugIds.splice(index, 1);
-			}else
-			{
-				var index = $scope.multipleCheckedStoryIds.indexOf(backlogObj.id);
-				
-				$scope.multipleCheckedStoryIds.splice(index, 1);
-			}
-		}
-		
-		if(backlogObj.childrens.length > 0)
-		{
-			$scope.checkBoxChildStories(backlogObj.childrens, backlogObj.check);
-		}
-	};
-	
-	/**
-	 * Check box child stories as per the parent.
-	 */
-	$scope.checkBoxChildStories = function(childArr, checkValue){
-		
-		for(index in childArr)
-		{
-			var childObj = childArr[index];
-			
-			childObj.check = checkValue;
-			
-			var indexInMultiple = $scope.multipleCheckedStoryIds.indexOf(childObj.id);
-			
-			if(childObj.check && indexInMultiple == -1)
-			{
-				$scope.multipleCheckedStoryIds.push(childObj.id);
-			}else if(!childObj.check && indexInMultiple != -1)
-			{
-				$scope.multipleCheckedStoryIds.splice(indexInMultiple, 1);
-			}
-			
-			if(childObj.childrens.length > 0)
-			{
-				$scope.checkBoxChildStories(childObj.childrens, checkValue);
-			}
-		}
-		
-	};
-	
-	/**
 	 * Fetch stories by sprint
 	 */
-	$scope.fetchStoriesBySprint = function(){
+	$scope.fetchStoriesAndBugBySprint = function(){
 		
 		actionHelper.invokeAction("storyAndBug.readStoriesAndBugBySprint", null, {"sprintId" : $scope.getSelectedSprint().id},
 			function(readResponse, respConfig)
@@ -125,82 +57,22 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				
 			}, {"hideInProgress" : true});	
 	};
-	
-	// Drag and Drop methods
-	
-	/**
-	 * Drag backlogs
-	 */
-	$scope.dragBacklogs = function(event){
-		
-		//event.preventDefault();
-		event.originalEvent.dataTransfer.setData('text/plain', 'text');
-		
-		var arrElem = (event.target.id).split('_');
-		
-		$scope.draggingItemIsBug = (arrElem[1] == "true");
-		$scope.draggingId = Number(arrElem[2]);
 
-		$scope.childIdsFromBacklog = [];
-		var backlogContainsChild = false;
-		
-		if($scope.draggingItemIsBug)
-		{
-			if($scope.multipleCheckedBugIds.indexOf($scope.draggingId) == -1)
-			{
-				$scope.multipleCheckedBugIds.push($scope.draggingId);
-			}
-		}else
-		{
-			if($scope.multipleCheckedStoryIds.indexOf($scope.draggingId) == -1)
-			{
-				$scope.multipleCheckedStoryIds.push($scope.draggingId);
-			}
-			
-			var childrens = ($scope.getBacklogStory($scope.draggingId)).childrens;
-
-			if(childrens.length > 0)
-			{
-				for(index in childrens)
-				{
-					var childObj = childrens[index];
-					
-					if(($scope.backlogs.indexOf(childObj) != -1))
-					{
-						backlogContainsChild = true;
-						break;
-					}
-				}
-				
-				if(backlogContainsChild)
-				{
-					$scope.addChildIdsForDrag(childrens);
-				}
-			}
-		}
-		
-		console.log("$scope.multipleCheckedStoryIds "  + $scope.multipleCheckedStoryIds);
-		
-		console.log("$scope.multipleCheckedBugIds " + $scope.multipleCheckedBugIds);
-		
-		$('#dropStoryForTaskId').css("border", "3px solid #66c2ff");
-		$('#dropStoryForTaskId').css('box-shadow', "5px 5px 5px #888888");
-		
-		$scope.allowedFromBacklogToStory = true;
-		$scope.allowedFromStoryToBacklog = false;
-	};
-	
+	// DROP METHODS.
 	
 	/**
 	 * Recursive method for adding the child stories.
 	 */
 	$scope.addChildIdsForDrag = function(childArr){
 		
+		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();
+		var backlogListIds = $scope.getBacklogListIds();
+		
 		for(index in childArr)
 		{
 			var childObj = childArr[index];
 			
-			if($scope.multipleCheckedStoryIds.indexOf(childObj.id) == -1)
+			if( (multipleCheckedStoryIds.indexOf(childObj.id) == -1) && (backlogListIds.indexOf(childObj.id) != -1) )
 			{
 				$scope.childIdsFromBacklog.push(childObj.id);
 			}
@@ -214,23 +86,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		}
 		
 	};
-
-	/**
-	 * Gets invoked when mouse leaves the dragging item.
-	 */
-	$scope.mouseDroppedItem = function(event){
-		
-		$('#dropStoryForTaskId').css("border", "3px solid grey");
-		$('#dropStoryForTaskId').css('box-shadow', "none");
-		
-		$('#dropStoryForBacklogId').css("border", "3px solid grey");
-		$('#searchBacklogInputId').css("border-bottom", "3px solid grey");
-		$('#dropStoryForBacklogId').css('box-shadow', "none");
-		
-		
-		$scope.multipleCheckedBugIds = [];
-		$scope.multipleCheckedStoryIds = [];
-	};
 	
 	/**
 	 * On drop of backlog.
@@ -238,9 +93,29 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.onDropOfBacklog = function(event){
 		
 		event.preventDefault();
-		
-		if($scope.allowedFromBacklogToStory)
+	
+		if($scope.getAllowedFromBacklogToStory())
 		{
+			$scope.childIdsFromBacklog = [];
+			
+			var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();
+			
+			// check for childs in case of dragging single item
+			if((multipleCheckedStoryIds.length == 1))
+			{
+				var parent = $scope.getBacklogStory(multipleCheckedStoryIds[0]);
+				
+				if(parent)
+				{
+					var childArr = parent.childrens;
+					
+					if(childArr.length > 0)
+					{
+						$scope.addChildIdsForDrag(childArr);
+					}
+				}
+			}
+			
 			var proceed = true;
 			
 			if($scope.childIdsFromBacklog.length > 0)
@@ -271,6 +146,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		}
 	};
 
+	
 	/**
 	 * Gets invoked for success drop of backlog
 	 */
@@ -278,31 +154,37 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		var sprintObj = $scope.getSelectedSprint();
 		
-		if((($scope.multipleCheckedBugIds.length > 0) || ($scope.multipleCheckedStoryIds.length > 0)  || ($scope.childIdsFromBacklog.length > 0)) && sprintObj) 
+		
+		var multipleCheckedBugIds = $scope.getMultipleCheckedBugIds();
+		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();
+		var draggingId = $scope.getDraggingId();
+		var draggingItemIsBug = $scope.getDraggingItem();
+		
+		if((multipleCheckedBugIds.length > 0) || (multipleCheckedStoryIds.length > 0) && sprintObj) 
 		{
 			for(index in $scope.childIdsFromBacklog)
 			{
 				var childId = $scope.childIdsFromBacklog[index];
 				
-				if($scope.multipleCheckedStoryIds.indexOf(childId) == -1)
+				if(multipleCheckedStoryIds.indexOf(childId) == -1)
 				{
-					$scope.multipleCheckedStoryIds.push(childId);
+					multipleCheckedStoryIds.push(childId);
 				}
 			}
 			
-			$scope.updateStorySprint(sprintObj.id, $scope.multipleCheckedBugIds, $scope.multipleCheckedStoryIds);
+			$scope.updateStorySprint(sprintObj.id, multipleCheckedBugIds, multipleCheckedStoryIds);
 		}
-		else if($scope.draggingId && sprintObj)
+		else if(draggingId && sprintObj)
 		{
-			if($scope.draggingItemIsBug)
+			if(draggingItemIsBug)
 			{
-				$scope.multipleCheckedBugIds = [$scope.draggingId];
+				multipleCheckedBugIds = [draggingId];
 			}else
 			{
-				$scope.multipleCheckedStoryIds = [$scope.draggingId];
+				multipleCheckedStoryIds = [draggingId];
 			}
 			
-			$scope.updateStorySprint(sprintObj.id, $scope.multipleCheckedBugIds, $scope.multipleCheckedStoryIds);
+			$scope.updateStorySprint(sprintObj.id, multipleCheckedBugIds, multipleCheckedStoryIds);
 		}
 	};
 	
@@ -332,17 +214,11 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					
 				}, {"hideInProgress" : true});
 	};
-
-	// Listener for broadcast
-	$scope.$on("activeProjectSelectionChanged", function(event, args) {
-		
-		$scope.initTask();
-	});
 	
 	// Listener for broadcast
 	$scope.$on("activeSprintSelectionChanged", function(event, args) {
 		
-		$scope.fetchStoriesBySprint();
+		$scope.fetchStoriesAndBugBySprint();
 	});
 	
 }]);

@@ -1,74 +1,166 @@
-<div class="flexHorizontal" style="width: 100%; height: 90%;"  
-	ng-controller="taskController" ng-init="initTask()">
-	
-	<div ng-include="'/ui/html/story/backlog.html'" style="width: 20%;">
-	</div>
-	
-	<div ng-include="'/ui/html/story/story-bug-task.html'" style="width: 80%;">
-	</div>
-	
-</div>
+<div id="dropStoryAndBugForTaskDivId" ng-controller="taskController" 
+	style="border: 3px solid grey; width: 100%; height: 100%; padding: 0.5em; margin-left: 0.5em;"
+	yk-on-drop="onDropOfBacklog(event)">
 
-	
-<!-- Update task changes button -->
-<div style="margin: 0.5em;">
-	<button id="updateTaskChangesBtnId" ng-click="updateTaskChanges()" class="btn btn-success" type="button" style="float: right;">
-		Update
-	</button>
-</div>
-
-
-
-<!-- Modal related -->
-
-<div id="storyNoteModal" class="modal fade" role="dialog">
-	   <div role="document" class="modal-dialog modal-lg">
-			<div class="modal-content">
-			
-				<!-- Header -->
-				<div class="modal-header app-dlg-header">
-					<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
-						<i class="glyphicon glyphicon-remove"></i>
-					</a>
-					<h4 class="modal-title">{{storyForUpdate.title}} - notes</h4>
-				</div>
-				
-				<!-- Content -->
-				<div yk-model="StoryNoteModel" class="modal-body">
-						
-					{{message}}
-					
-					<div ng-show="storyNote" ng-bind-html="storyNote.content | unsafe" 
-						style="box-shadow: 1px 1px 2px #888888; padding: 0.5em; margin-bottom: 1em;
-						height: 25em; overflow-y:auto;">
-						
-					</div>
-					
-					<div ng-show="storyNote" class="flexHorizontal" style="justify-content: space-between;">
-							<div style="background-color: #5bc0de; color: black;
-								height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
-								Version Title - {{storyNote.versionTitle}}
-							</div>
-					
-							<div style="background-color: #5bc0de; color: black;
-								height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
-								Update by - {{storyNote.owner}}
-							</div>
-					</div>
-					
-				</div>
-					
-				<!-- Footer -->
-				<div style="padding: 0.5em 1em;" class="modal-footer">
-					<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Close</button>
-				</div>
+	<!-- Start of main story list -->
+	<div ng-repeat="story in itemsFortask | filter:storyFilter()" ng-show="story.display">
+		
+		<!-- Start story display -->
+		<div id="dragStory_{{story.id}}" name="{{$index}}"  draggable="true" yk-on-drag="dragStory(event)" 
+		     yk-on-drag-end="mouseDroppedItem(event)"
+			 style="height: 2.5em; border: 3px solid #66c2ff; margin: 0.5em;">
+			<table style="width: 100%; height: 100%;">
+				<tr>
+					<td id="expandStory_{{story.id}}" 
+						ng-click="onClickPlus(story.id)" 
+						style="width: 5%; text-align: center; background-color: #383838; 
+						border-right: 1px solid #101010; cursor:pointer; color: white;">
+							<i ng-class="story.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
+							</i>
+					</td>
+					<td style="width: 75%; padding-left: 0.5em;">
+						<strong style="text-transform: capitalize;">{{story.title}}</strong>
+					</td>
+					<td ng-click="openStoryEditModal(story.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
+						color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+					</td>
+					<td ng-click="openStoryNoteModal(story.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
+						color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+					</td>
+					<td style="width: 10%; padding-left: 0.5em; border-left: 1px solid #66c2ff; 
+						background-color: #cce6ff; cursor:pointer;">
+						<div class="dropdown">
+						    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">
+						    	{{displayTask(story.status)}}
+						    	<span class="caret"></span>
+						    </div>
+						    <ul class="dropdown-menu">
+   									<li ng-repeat="name in taskStatusNames">
+									<a ng-click="onStoryStatusChange(story.id, name)" href="">
+										{{displayTask(name)}}
+									</a>
+								</li>
+ 									</ul>
+						</div>
+					</td>
+				</tr>
+			</table>
 		</div>
+		<!-- End story display -->
+		
+		<!-- Start of story expanded -->
+		<div ng-show="story.expanded" style="padding-right: 1em;">
+			
+			<!-- Start of list of tasks -->
+			<div style="margin-left: 1em;">
+			
+				<table ng-show="story.tasks.length > 0" 
+					style="width: 100%; height: 100%; border: 3px solid #66c2ff;">
+					<tr style="background-color: #383838; color: white;">
+						<th style="text-align: center; width: 50%;">
+							Title
+						</th>
+						<th style="text-align: center; width: 13%; border-left: 2px solid #66c2ff;">
+							Estimated Time
+						</th>
+						<th style="text-align: center; width: 15%; border-left: 2px solid #66c2ff;">
+							Actual Time Taken
+						</th>
+						<th style="text-align: center; width: 2%; border-left: 2px solid #66c2ff;">
+							Hours
+						</th>
+						<th style="text-align: center; width: 10%; border-left: 2px solid #66c2ff;">
+							Status
+						</th>
+						<th style="text-align: center; width: 5%; border-left: 2px solid #66c2ff;">
+							Info
+						</th>
+						<th style="text-align: center; width: 5%; border-left: 2px solid #66c2ff;">
+							Delete
+						</th>
+					</tr>
+					<tr ng-repeat="task in story.tasks" style="border: 3px solid #66c2ff;">
+						<td style="padding-left: 0.2em;">
+							<strong style="text-transform: capitalize;">{{task.title}}</strong>
+						</td>
+						<td style="text-align: center; border-left: 2px solid #66c2ff;">
+							<strong>{{task.estimateTime}}</strong>
+						</td>
+						<td style="text-align: center; border-left: 2px solid #66c2ff;">
+							<strong>{{task.actualTimeTaken}}</strong>
+						</td>
+						<td style="border-left: 2px solid #66c2ff;">
+							<input id="actualTime_{{task.id}}" type="text" class="form-control"
+								style="border: none; max-width: 5em; min-width: 5em;" placeholder="Hours"
+								ng-keyup="onTypeActualTime($event, task.id)"/>
+						</td>
+						<td style="text-align: center; background-color: #cce6ff; cursor:pointer; border-left: 2px solid #66c2ff;">
+							<div class="dropdown">
+							    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">{{displayTask(task.status)}}
+							    	<span class="caret"></span>
+							    </div>
+							    <ul class="dropdown-menu">
+    									<li ng-repeat="name in taskStatusNames">
+										<a ng-click="onTaskStatusChange(task.id, name)" href="">
+											{{displayTask(name)}}
+										</a>
+									</li>
+  									</ul>
+							</div>
+						</td>
+						<td ng-click="openTaskModal(task.id)" style="text-align: center; background-color: #cce6ff; 
+								color: black; cursor:pointer; border-left: 2px solid #66c2ff;">
+								<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</td>
+						<td id="deleteTask_{{task.id}}" ng-click="deleteTask(task.id, $index)" 
+							style="text-align: center; background-color: #cce6ff;
+								cursor:pointer; color: red; border-left: 2px solid #66c2ff;">
+								<span class="glyphicon glyphicon-remove"></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End of list of tasks -->
+			
+			<!-- Start of new task add -->
+			<table style="margin-left: 0.8em; margin-top: 0.3em;">
+				<tr>
+					<td style="padding: 0.2em;">
+						<div class="input-group input-group-sm">
+						  <span class="input-group-addon" style="background-color: #383838; color: white;">
+						  	Title
+						  </span>
+						  <input id="newTaskTitle_{{story.id}}" ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
+						</div>
+					</td>
+					
+					<td style="padding: 0.2em;">
+						<div class="input-group input-group-sm">
+						  <span class="input-group-addon" style="background-color: #383838; color: white;">
+						  	Estimate Time
+						  </span>
+						  <input id="estimateTime_{{story.id}}" ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
+						</div>
+					</td>
+					
+					<td style="padding: 0.2em;">
+						<button id="addNewTaskBtnId" ng-click="addNewTask(taskTitle, estimateTime, story.id)" class="btn btn-primary btn-sm">
+							Add Task
+						</button>
+					</td>
+					
+					<td ng-show="taskError.show" style="color: red;">
+						{{taskError.message}}
+					</td>
+				</tr>
+			</table>
+			<!-- End of new task add -->
+			
+		</div>
+		<!-- End of story expanded -->
+			
 	</div>
+	<!-- End of main story list -->
 </div>
-
-<yk-model-dialog id="taskModelDialog" name="TaskModel" title="Task" columns="2" actionMethod="updateTask()" modelObj="taskModel">
-</yk-model-dialog>
-
-<div ng-include="'/ui/html/story/story-dialog.html'"></div>
-
-

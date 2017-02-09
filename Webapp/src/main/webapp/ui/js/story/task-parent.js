@@ -11,6 +11,10 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		$scope.taskStatusNames = ["NOT_STARTED", "IN_PROGRESS", "COMPLETED"];
 		$scope.taskStatusForFilter = ["All", "Completed", "Not Completed"];
 		
+		
+		$scope.multipleCheckedBugIds = [];
+		$scope.multipleCheckedStoryIds = [];
+		
 		var projectId = $scope.getActiveProjectId();
 		
 		if(projectId == -1)
@@ -64,12 +68,12 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 					}
 			
 				}, {"hideInProgress" : true});
-		
+	/*	
 		try
 		{
 			$scope.$apply();
 		}catch(ex)
-		{}
+		{}*/
 
 	};
 	
@@ -147,6 +151,120 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		
 		return $scope.activeStoryStatus;
 	};
+	
+	/**
+	 * Get allowed from backlog to story.
+	 */
+	$scope.getAllowedFromBacklogToStory = function(){
+		
+		return $scope.allowedFromBacklogToStory;
+	};
+
+	/**
+	 * Get allowed from story to backlog.
+	 */
+	$scope.getAllowedFromStoryToBacklog = function(){
+		
+		return $scope.allowedFromStoryToBacklog;
+	};
+	
+	/**
+	 * Get multiple checked bug ids.
+	 */
+	$scope.getMultipleCheckedBugIds = function(){
+		
+		return $scope.multipleCheckedBugIds;
+	};
+	
+	/**
+	 * Get multiple checked story ids.
+	 */
+	$scope.getMultipleCheckedStoryIds = function(){
+		
+		return $scope.multipleCheckedStoryIds;
+	};
+	
+	/**
+	 * Get dragging item.
+	 */
+	$scope.getDraggingItem = function(){
+		
+		return $scope.draggingItemIsBug;
+	};
+	
+	/**
+	 * Get dragging id.
+	 */
+	$scope.getDraggingId = function(){
+		
+		return $scope.draggingId;
+	};
+	
+	/**
+	 * Get backlog list ids.
+	 */
+	$scope.getBacklogListIds = function(){
+	
+		return $scope.backlogListIds;
+	};
+	
+	/**
+	 * Add id to map items.
+	 */
+	$scope.addFetchedItemsToParent = function(idToBacklogBug, idToBacklogStory, backlogListIds){
+		
+		$scope.idToBacklogBug = idToBacklogBug;
+		$scope.idToBacklogStory = idToBacklogStory;
+		$scope.backlogListIds = backlogListIds;
+	};
+	
+	/**
+	 * Get backlog bug.
+	 */
+	$scope.getBacklogBug = function(bugId){
+		
+		return $scope.idToBacklogBug[bugId];
+	};
+	
+	/**
+	 * Get backlog story.
+	 */
+	$scope.getBacklogStory = function(storyId){
+		
+		return $scope.idToBacklogStory[storyId];
+	};
+	
+	/**
+	 * Gets invoked from the child controller when the item is dragged from backlog to sprint.
+	 */
+	$scope.onDragOfItemFromBacklogToSprint = function(draggingItemIsBug, draggingId){
+	
+		$scope.allowedFromBacklogToStory = true;
+		$scope.allowedFromStoryToBacklog = false;
+		
+		$scope.draggingItemIsBug = draggingItemIsBug;
+		$scope.draggingId = draggingId;
+		
+		$('#dropStoryAndBugForTaskDivId').css("border", "3px solid #66c2ff");
+		$('#dropStoryAndBugForTaskDivId').css('box-shadow', "5px 5px 5px #888888");
+	};
+	
+	/**
+	 * On mouse release item
+	 */
+	$scope.initOnMouseReleasedItem = function(){
+
+		$('#dropStoryAndBugForTaskDivId').css("border", "3px solid grey");
+		$('#dropStoryAndBugForTaskDivId').css('box-shadow', "none");
+		
+		$('#dropStoryForBacklogId').css("border", "3px solid grey");
+		$('#searchBacklogInputId').css("border-bottom", "3px solid grey");
+		$('#dropStoryForBacklogId').css('box-shadow', "none");
+		
+		$scope.multipleCheckedBugIds = [];
+		$scope.multipleCheckedStoryIds = [];
+	};
+	
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {

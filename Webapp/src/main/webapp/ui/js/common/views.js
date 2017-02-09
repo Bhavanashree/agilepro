@@ -78,7 +78,7 @@ $.application.config(function($stateProvider, $urlRouterProvider)
 	addState("kanbanBoard","story/story-menu.html", "kanban-board/kanban-board.html", "kanbanTab", true);
 	addState("story","story/story-menu.html", "story/story.html", "storyTab");
 	addState("tag","story/story-menu.html", "story/tag.html", "storyTab");
-	addState("task","story/story-menu.html", "story/task-header.html", "storyTab", true);
+	addState("task","story/story-menu.html", "story/task-parent.html", "storyTab", true);
 	
 	//bug
 	addState("bug","bug/bug-menu.html", "bug/bug.html", "bugTab");
