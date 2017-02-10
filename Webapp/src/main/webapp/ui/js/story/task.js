@@ -90,13 +90,13 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.addChildIdsForDrag = function(childArr){
 		
 		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();
-		var backlogListIds = $scope.getBacklogListIds();
+		var storyIdsInBacklog = $scope.getStoryIdsInBacklog();
 		
 		for(var i = 0 ;i < childArr.length ; i++)
 		{
 			var childObj = childArr[i];
 			
-			if( (multipleCheckedStoryIds.indexOf(childObj.id) == -1) && (backlogListIds.indexOf(childObj.id) != -1) )
+			if( (multipleCheckedStoryIds.indexOf(childObj.id) == -1) && (storyIdsInBacklog.indexOf(childObj.id) != -1) )
 			{
 				$scope.childIdsFromBacklog.push(childObj.id);
 			}

@@ -105,14 +105,18 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 					
 					$scope.backlogs.sort(function(a, b){return a.priority-b.priority});
 					
-					var backlogListIds = [];
+					var storyIdsInBacklog = [];
+
+					for(var i = 0 ;i < $scope.backlogStoryModels.length ; i++)
+					{
+						var obj = $scope.backlogStoryModels[i];
+						storyIdsInBacklog.push(obj.id);
+					}
 					
 					for(var i = 0 ;i < $scope.backlogs.length ; i++)
 					{
 						var obj = $scope.backlogs[i];
 						obj.childrens = [];
-						
-						backlogListIds.push(obj.id);
 						
 						if(obj.isBug)
 						{
@@ -126,7 +130,7 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 					// add childrens
 					$scope.addChildrens($scope.backlogStoryModels, idToBacklogStory);
 					
-					$scope.addFetchedItemsToParent(idToBacklogBug, idToBacklogStory, backlogListIds);
+					$scope.addFetchedItemsToParent(idToBacklogBug, idToBacklogStory, storyIdsInBacklog);
 					
 					try
 					{
@@ -221,20 +225,25 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		
 		event.preventDefault();
 
-		/*var parentStoryId = $scope.idToStory[$scope.draggingId].parentStoryId;
-		
-		var parentObj = $scope.idToStory[parentStoryId];
-		
-		if(parentObj && ($scope.storiesForTask.indexOf(parentObj) != -1))
+		if($scope.getAllowedFromStoryToBacklog())
 		{
-			utils.alert("Please drag the " + parentObj.title + " first");
-			return;
+			var draggingId  = $scope.getDraggingId();
+			var parentStoryId = $scope.idToStory[draggingId].parentStoryId;
+			var parentObj = $scope.idToStory[parentStoryId];
+			
+			
+			
+			if(parentObj && ($scope.storiesForTask.indexOf(parentObj) != -1))
+			{
+				utils.alert("Please drag the " + parentObj.title + " first");
+				return;
+			}
+			
+			if($scope.draggingId && $scope.allowedFromStoryToBacklog)
+			{
+				$scope.updateStorySprint(null, [$scope.draggingId]);
+			}
 		}
-		
-		if($scope.draggingId && $scope.allowedFromStoryToBacklog)
-		{
-			$scope.updateStorySprint(null, [$scope.draggingId]);
-		}*/
 	};
 	
 
@@ -258,18 +267,13 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		var multipleStoryIds = args.multipleStoryIds;
 		var sprintId = args.sprintId;
 		
-		var backlogListIds = $scope.getBacklogListIds();
+		var storyIdsInBacklog = $scope.getStoryIdsInBacklog();
 		
 		if(sprintId)
 		{
 			for(var i = 0 ; i < multipleBugIds.length ; i++)
 			{
 				var bugId = multipleBugIds[i];
-				
-				if(backlogListIds.indexOf(bugId) != -1)
-				{
-					backlogListIds.splice(backlogListIds.indexOf(bugId), 1);
-				}
 				
 				$scope.setBacklogBug(bugId, null);
 				
@@ -280,9 +284,9 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 			{
 				var storyId = multipleStoryIds[i];
 				
-				if(backlogListIds.indexOf(storyId) != -1)
+				if(storyIdsInBacklog.indexOf(bugId) != -1)
 				{
-					backlogListIds.splice(backlogListIds.indexOf(storyId), 1);
+					storyIdsInBacklog.splice(storyIdsInBacklog.indexOf(bugId), 1);
 				}
 				
 				$scope.setBacklogStory(storyId, null);

@@ -203,21 +203,19 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	/**
 	 * Get backlog list ids.
 	 */
-	$scope.getBacklogListIds = function(){
+	$scope.getStoryIdsInBacklog = function(){
 	
-		return $scope.backlogListIds;
+		return $scope.storyIdsInBacklog;
 	};
 	
 	/**
 	 * Add id to map items.
 	 */
-	$scope.addFetchedItemsToParent = function(idToBacklogBug, idToBacklogStory, backlogListIds){
-		
-		console.log("aded to paremt");
+	$scope.addFetchedItemsToParent = function(idToBacklogBug, idToBacklogStory, storyIdsInBacklog){
 		
 		$scope.idToBacklogBug = idToBacklogBug;
 		$scope.idToBacklogStory = idToBacklogStory;
-		$scope.backlogListIds = backlogListIds;
+		$scope.storyIdsInBacklog = storyIdsInBacklog;
 	};
 	
 	/**
@@ -270,12 +268,11 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	/**
 	 * Gets invoked from the child controller when the item is dragged from sprint to backlog.
 	 */
-	$scope.onDragOfItemFromSprintToBacklog = function(draggingItemIsBug, draggingId){
+	$scope.onDragOfItemFromSprintToBacklog = function(draggingId){
 	
 		$scope.allowedFromStoryToBacklog = true;
 		$scope.allowedFromBacklogToStory = false;
 		
-		$scope.draggingItemIsBug = draggingItemIsBug;
 		$scope.draggingId = draggingId;
 		
 		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
