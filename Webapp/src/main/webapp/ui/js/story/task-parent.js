@@ -209,13 +209,31 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	};
 	
 	/**
-	 * Add id to map items.
+	 * Add fetched backlog items.
 	 */
-	$scope.addFetchedItemsToParent = function(idToBacklogBug, idToBacklogStory, storyIdsInBacklog){
+	$scope.addFetchedBacklogItemsToParent = function(idToBacklogBug, idToBacklogStory, storyIdsInBacklog){
 		
 		$scope.idToBacklogBug = idToBacklogBug;
 		$scope.idToBacklogStory = idToBacklogStory;
 		$scope.storyIdsInBacklog = storyIdsInBacklog;
+	};
+	
+	/**
+	 * Add fetched sprint items.
+	 */
+	$scope.addFetchedStoryItemsToParent = function(idToBug, idToStory, storyIdsInSprint){
+
+		$scope.idToBug = idToBug;
+		$scope.idToStory = idToStory;
+		$scope.storyIdsInSprint = storyIdsInSprint;
+	};
+	
+	/**
+	 * Get story ids in Sprint.
+	 */
+	$scope.getStoryIdsInSprint = function(){
+		
+		return $scope.storyIdsInSprint;
 	};
 	
 	/**
@@ -232,6 +250,22 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	$scope.getBacklogStory = function(storyId){
 		
 		return $scope.idToBacklogStory[storyId];
+	};
+
+	/**
+	 * Get backlog bug.
+	 */
+	$scope.getSprintBug = function(bugId){
+		
+		return $scope.idToBug[bugId];
+	};
+	
+	/**
+	 * Get backlog story.
+	 */
+	$scope.getSprintStory = function(storyId){
+		
+		return $scope.idToStory[storyId];
 	};
 	
 	/**
@@ -268,11 +302,12 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	/**
 	 * Gets invoked from the child controller when the item is dragged from sprint to backlog.
 	 */
-	$scope.onDragOfItemFromSprintToBacklog = function(draggingId){
+	$scope.onDragOfItemFromSprintToBacklog = function(draggingItemIsBug, draggingId){
 	
 		$scope.allowedFromStoryToBacklog = true;
 		$scope.allowedFromBacklogToStory = false;
 		
+		$scope.draggingItemIsBug = draggingItemIsBug;
 		$scope.draggingId = draggingId;
 		
 		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");

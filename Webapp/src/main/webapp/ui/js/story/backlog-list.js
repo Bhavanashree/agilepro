@@ -130,7 +130,7 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 					// add childrens
 					$scope.addChildrens($scope.backlogStoryModels, idToBacklogStory);
 					
-					$scope.addFetchedItemsToParent(idToBacklogBug, idToBacklogStory, storyIdsInBacklog);
+					$scope.addFetchedBacklogItemsToParent(idToBacklogBug, idToBacklogStory, storyIdsInBacklog);
 					
 					try
 					{
@@ -156,6 +156,36 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 				 parent.childrens.push(obj);
 			 }
 		 }
+	};
+
+	/**
+	 * Calls the controller method for updating the bug or story
+	 */
+	$scope.updateStoryAndBugToBacklog = function(draggingId){
+		
+		var draggingItemIsBug = $scope.getDraggingItem();
+		
+		var storySprintUpdateModel = {"sprintId" : null};
+		
+		if(draggingItemIsBug)
+		{
+			storySprintUpdateModel.multipleStoryIds = [];
+			storySprintUpdateModel.multipleBugIds = [draggingId];
+		}else
+		{
+			storySprintUpdateModel.multipleStoryIds = [draggingId];
+			storySprintUpdateModel.multipleBugIds = [];
+		}
+		
+		
+		actionHelper.invokeAction("storyAndBug.updateStorySprintBugSprint", storySprintUpdateModel, null, 
+				function(updateResponse, respConfig)
+				{
+					console.log("sprint null sucess");
+					
+				}, {"hideInProgress" : true});
+		
+		
 	};
 	
 	// Drag and Drop methods
@@ -227,26 +257,30 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 
 		if($scope.getAllowedFromStoryToBacklog())
 		{
+			var draggingItemIsBug = $scope.getDraggingItem();
 			var draggingId  = $scope.getDraggingId();
-			var parentStoryId = $scope.idToStory[draggingId].parentStoryId;
-			var parentObj = $scope.idToStory[parentStoryId];
 			
-			
-			
-			if(parentObj && ($scope.storiesForTask.indexOf(parentObj) != -1))
+			if(!draggingItemIsBug)
 			{
-				utils.alert("Please drag the " + parentObj.title + " first");
-				return;
+				var parentStoryId = $scope.getSprintStory(draggingId).parentStoryId;
+				
+				if(parentStoryId)
+				{
+					var parentObj = $scope.getSprintStory(parentStoryId);
+					var storyIdsInSprint = $scope.getStoryIdsInSprint();
+					
+					if(parentObj && (storyIdsInSprint.indexOf(parentObj.id) != -1))
+					{
+						utils.alert("Please drag the " + parentObj.title + " first");
+						return;
+					}
+				}
 			}
 			
-			if($scope.draggingId && $scope.allowedFromStoryToBacklog)
-			{
-				$scope.updateStorySprint(null, [$scope.draggingId]);
-			}
+			$scope.updateStoryAndBugToBacklog(draggingId);
 		}
 	};
 	
-
 	/**
 	 * Gets invoked when mouse leaves the dragging item.
 	 */

@@ -27,8 +27,9 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				
 				$scope.itemsFortask = $scope.storyModels.concat($scope.bugModels);
 				
-				$scope.idToStory = {};
-				$scope.idToBug = {};
+				var idToStory = {};
+				var idToBug = {};
+				var storyIdsInSprint = [];
 				
 				if($scope.itemsFortask)
 				{
@@ -40,13 +41,16 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						
 						if(obj.isBug)
 						{
-							$scope.idToBug[obj.id] = obj;
+							idToBug[obj.id] = obj;
 						}else
 						{
-							$scope.idToStory[obj.id] = obj;
+							idToStory[obj.id] = obj;
+							storyIdsInSprint.push(obj.id);
 						}
 					}
 				}
+				
+				$scope.addFetchedStoryItemsToParent(idToBug, idToStory, storyIdsInSprint);
 				
 				try
 				{
@@ -66,9 +70,12 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
-		$scope.draggingId = Number((event.target.id).split('_')[1]);
+		var arrElem = (event.target.id).split('_');
 		
-		//$scope.onDragOfItemFromSprintToBacklog();
+		var draggingItemIsBug = (arrElem[1] == "true");
+		var draggingId = Number(arrElem[2]);
+		
+		$scope.onDragOfItemFromSprintToBacklog(draggingItemIsBug, draggingId);
 		
 		/*
 		if($scope.multipleBacklogIds.indexOf($scope.draggingId) == -1)
@@ -222,6 +229,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			
 			if(obj)
 			{
+				obj.display = true;
 				obj.sprintId = sprintId;
 				$scope.itemsFortask.push(obj);
 			}
@@ -233,6 +241,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			
 			if(obj)
 			{
+				obj.display = true;
 				obj.sprintId = sprintId;
 				$scope.itemsFortask.push(obj);
 			}
