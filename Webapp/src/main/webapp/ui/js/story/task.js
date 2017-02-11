@@ -87,6 +87,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.fetchStoriesAndBugBySprint = function(){
 		
 		$scope.itemsFortask = [];
+		$scope.idToTask = {};
 		
 		if(!$scope.getSelectedSprint())
 		{
@@ -174,6 +175,203 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.openStoryEditModal = function(storyId){
 		
 		$scope.$broadcast("editStory",storyId);
+	};
+
+	// TASK
+	
+	/**
+	 * On click plus.
+	 */
+	$scope.onClickPlus = function(indexInTask){
+		
+		var obj = $scope.itemsFortask[indexInTask];
+
+		//debugger;
+		
+		if(!$scope.previousClickedIndex || $scope.previousClickedIndex == indexInTask)
+		{
+			obj.expanded = !obj.expanded;
+			console.log($scope.previousClickedIndex);
+			console.log(obj.title + " = " + obj.expanded);
+		}
+		else if($scope.previousClickedIndex && ($scope.previousClickedIndex != indexInTask))
+		{
+			var previousObj = $scope.itemsFortask[$scope.previousClickedIndex];
+			
+			previousObj.expanded = false;
+			console.log(previousObj.title + " is closed");
+			obj.expanded = true;
+		}
+		
+		$scope.previousClickedIndex = indexInTask;
+		
+		if(obj.expanded)
+		{
+			if(obj.isBug)
+			{
+				
+			}else
+			{
+				//$scope.fetchTaskByStory(obj);
+			}
+		}
+	};
+	
+	/**
+	 * Fetch task by stories.
+	 */
+	$scope.fetchTaskByStory = function(storyObj){
+		
+		actionHelper.invokeAction("task.readByStoryId", null, {"storyId" : storyObj.id}, 
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						storyObj.tasks = readResponse.model;
+						
+						$scope.expandedStoryId = storyObj.id;
+						
+						for(var i = 0 ; i < storyObj.tasks.length ; i++)
+						{
+							var taskObj = storyObj.tasks[i];
+							
+							$scope.idToTask[taskObj.id] = taskObj;
+						}
+						
+						$scope.taskChanges = {};
+						$scope.onTypeTargets = [];
+						$scope.taskError = {"show" : false, "message" : ""};
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}
+					
+				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Gets invoked on click of add button. 
+	 */
+	$scope.addNewTask = function(taskTitle, estimateTime, storyId){
+
+		if(!taskTitle)
+		{
+			$scope.taskError.show = true;
+			$scope.taskError.message = "Please provide a title";
+			return;
+		}
+
+		if(!estimateTime || (estimateTime.trim()).length == 0)
+		{
+			$scope.taskError.show = true;
+			$scope.taskError.message = "Please provide the estimated time";
+			return;
+		}
+		
+		//estimateTime = toInt(estimateTime);
+		
+		if (estimateTime <= 0)
+		{
+			console.log(estimateTime);
+			
+			$scope.taskError.show = true;
+			$scope.taskError.message = "Please provide estimated time greater than 0";
+			return;
+		}
+		
+		$scope.taskError.show = false;
+		
+		if(taskTitle && estimateTime)
+		{
+			$scope.saveNewTask(taskTitle, estimateTime, storyId);
+		}
+	};
+	
+	/**
+	 * Save new task uses action helper to call the controller.
+	 */
+	$scope.saveNewTask = function(taskTitle, estimateTime, storyId){
+		
+		var model = {"title" : taskTitle, 
+					 "estimateTime" : estimateTime, 
+					 "storyId" : $scope.expandedStoryId, 
+					 "projectId" : $scope.getActiveProjectId(),
+					 "status" : "NOT_STARTED",
+					 "actualTimeTaken" : 0};
+		
+		actionHelper.invokeAction("task.save", model, null, 
+				function(saveResponse, respConfig)
+				{
+					if(saveResponse.code == 0)
+					{
+						model.id = saveResponse.id;
+						
+						$scope.idToStory[storyId].tasks.push(model);
+						
+						$scope.idToTask[model.id] = model;
+						
+						$("#newTaskTitle_" + storyId).focus();
+						$("#newTaskTitle_" + storyId).val("");
+						$("#estimateTime_" + storyId).val("");
+
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}
+				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Update story status, calls the controller.
+	 */
+	$scope.updateStoryStatus = function(storyId, status){
+		
+		actionHelper.invokeAction("story.updateStoryStatus", null, {"id" : storyId, "status" : status},
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						$scope.idToStory[storyId].status = status;
+					}
+					
+					if(status == "COMPLETED")
+					{
+						var taskArr = $scope.idToStory[storyId].tasks;
+						
+						for(index in taskArr)
+						{
+							taskArr[index].status = status;
+						}
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
+				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * On change of story status.
+	 */
+	$scope.onStatusChange = function(id, updateItemIsBug, status){
+		
+		console.log("$scope.onStatusChange");
+		
+		if(updateItemIsBug)
+		{
+			
+		}else
+		{
+			$scope.updateStoryStatus(id, status);
+		}
 	};
 	
 	// DRAG AND DROP METHODS.

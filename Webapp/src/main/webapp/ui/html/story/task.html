@@ -12,7 +12,7 @@
 			<table style="width: 100%; height: 100%;">
 				<tr>
 					<td id="expandStory_{{item.id}}" 
-						ng-click="onClickPlus(item.id)" 
+						ng-click="onClickPlus($index)" 
 						style="width: 5%; text-align: center; background-color: #383838; 
 						border-right: 1px solid #101010; cursor:pointer; color: white;">
 							<i ng-class="item.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
@@ -38,7 +38,7 @@
 						    </div>
 						    <ul class="dropdown-menu">
    									<li ng-repeat="name in taskStatusNames">
-									<a ng-click="onStoryStatusChange(item.id, name)" href="">
+									<a ng-click="onStatusChange(item.id, item.isBug, name)" href="">
 										{{displayTask(name)}}
 									</a>
 								</li>
