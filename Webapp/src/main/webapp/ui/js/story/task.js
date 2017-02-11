@@ -274,9 +274,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 						utils.alert("Error in dragging");
 					}
 
-				$scope.multipleBacklogIds = [];
-				$scope.draggingId = null;
-					
 				}, {"hideInProgress" : true});
 	};
 	
