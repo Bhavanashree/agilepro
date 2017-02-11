@@ -2,6 +2,33 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
        function($scope, utils, actionHelper) {
 	
 	/**
+	 * Gets invoked by the angular js filter
+	 * 
+	 * Default backlog filter by backlog title.
+	 */
+	$scope.backlogFilter = function(searchString){
+		
+		var retFunc = function(item){
+				
+			if(!searchString)
+			{
+				return true;
+			}
+			
+			return item.title.toLowerCase().includes(searchString.toLowerCase());
+		};
+		
+		if($scope.oldSearchBacklog == searchString)
+		{
+			return retFunc;
+		}
+				
+		$scope.oldSearchBacklog = searchString;
+
+		return retFunc;
+	};
+	
+	/**
 	 * Check box multiple backlogs.
 	 */
 	$scope.checkBoxBacklog = function(backlogId, isBug){

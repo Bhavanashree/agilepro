@@ -15,6 +15,73 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	});
 
 	/**
+	 * Gets invoked by the angular js filter.
+	 * 
+	 * Default story filter by story title.
+	 */
+	$scope.storyFilter = function(){
+		
+		var retFunc = function(item){
+				
+			if(!$scope.storySearch)
+			{
+				return true;
+			}
+			
+			var searchString = $scope.storySearch.toLowerCase();
+
+			return item.title.toLowerCase().includes(searchString);
+		};
+		
+		if($scope.oldSearchStory == $scope.storySearch)
+		{
+			return retFunc;
+		}
+				
+		$scope.oldSearchStory = $scope.storySearch;
+
+		return retFunc;
+	};
+	
+	/**
+	 * Filter story by status.
+	 */
+	$scope.commonFilterStory = function(){
+		
+		var storyStatusName = $scope.getSelectedStoryStatus();
+		var ownerObj = $scope.getSelectedOwner();
+		
+		for(var i = 0 ; i < $scope.itemsFortask.length ; i++)
+		{
+			var storyObj = $scope.itemsFortask[i];
+			
+			if(ownerObj)
+			{
+				if((storyObj.ownerId == ownerObj.id) || (ownerObj.id == 0 && storyObj.ownerId))
+				{
+					storyObj.display = true;
+				}else
+				{
+					storyObj.display = false;
+					continue;
+				}
+			}
+		
+			if(storyStatusName)
+			{
+				if((storyStatusName == "All" || !storyStatusName)|| (storyStatusName == "Completed" && storyObj.status == "COMPLETED")|| (storyStatusName == "Not Completed" && storyObj.status != "COMPLETED"))
+				{
+					storyObj.display = true;
+				}else
+				{
+					storyObj.display = false;
+				}
+			}
+			
+		}
+	};
+	
+	/**
 	 * Fetch stories by sprint
 	 */
 	$scope.fetchStoriesAndBugBySprint = function(){
@@ -342,6 +409,18 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.$on("activeSprintSelectionChanged", function(event, args) {
 		
 		$scope.fetchStoriesAndBugBySprint();
+	});
+	
+	// Listener for broadcast
+	$scope.$on("activeOwnerSelectionChanged", function(event, args) {
+		
+		$scope.commonFilterStory();
+	});
+	
+	// Listener for broadcast
+	$scope.$on("activeStoryStatusSelectionChanged", function(event, args) {
+		
+		$scope.commonFilterStory();
 	});
 	
 }]);

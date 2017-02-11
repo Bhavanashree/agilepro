@@ -331,9 +331,9 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		
 		console.log("$scope.draggingId" + $scope.draggingId);
 		
-		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
+		$('#dropStoryAndBugForBacklogDivId').css("border", "3px solid #66c2ff");
 		$('#searchBacklogInputId').css("border-bottom", "3px solid #66c2ff");
-		$('#dropStoryForBacklogId').css('box-shadow', "5px 5px 5px #888888");
+		$('#dropStoryAndBugForBacklogDivId').css('box-shadow', "5px 5px 5px #888888");
 	};
 	
 	/**
@@ -344,9 +344,9 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		$('#dropStoryAndBugForTaskDivId').css("border", "3px solid grey");
 		$('#dropStoryAndBugForTaskDivId').css('box-shadow', "none");
 		
-		$('#dropStoryForBacklogId').css("border", "3px solid grey");
+		$('#dropStoryAndBugForBacklogDivId').css("border", "3px solid grey");
 		$('#searchBacklogInputId').css("border-bottom", "3px solid grey");
-		$('#dropStoryForBacklogId').css('box-shadow', "none");
+		$('#dropStoryAndBugForBacklogDivId').css('box-shadow', "none");
 		
 		$scope.multipleCheckedBugIds = [];
 		$scope.multipleCheckedStoryIds = [];
