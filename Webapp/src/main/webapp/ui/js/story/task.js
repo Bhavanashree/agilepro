@@ -19,6 +19,13 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.fetchStoriesAndBugBySprint = function(){
 		
+		$scope.itemsFortask = [];
+		
+		if(!$scope.getSelectedSprint())
+		{
+			return;
+		}
+		
 		actionHelper.invokeAction("storyAndBug.readStoriesAndBugBySprint", null, {"sprintId" : $scope.getSelectedSprint().id},
 			function(readResponse, respConfig)
 			{
@@ -223,6 +230,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 */
 	$scope.addToItemsFortask = function(multipleBugIds, multipleStoryIds, sprintId){
 		
+		var storyIdsInSprint = $scope.getStoryIdsInSprint();
+		
 		for(var i = 0 ;i < multipleBugIds.length ; i++)
 		{
 			var obj = $scope.getBacklogBug(multipleBugIds[i]);
@@ -231,6 +240,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			{
 				obj.display = true;
 				obj.sprintId = sprintId;
+				
+				$scope.setSprintBug(obj.id, obj);
+				storyIdsInSprint.push(obj.id);
+				
 				$scope.itemsFortask.push(obj);
 			}
 		}
@@ -243,6 +256,10 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 			{
 				obj.display = true;
 				obj.sprintId = sprintId;
+				
+				$scope.setSprintStory(obj.id, obj);
+				storyIdsInSprint.push(obj.id);
+				
 				$scope.itemsFortask.push(obj);
 			}
 		}
@@ -267,7 +284,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					{
 						$scope.addToItemsFortask(multipleBugIds, multipleStoryIds, sprintId);
 						
-						$scope.reArrangeTheItems(multipleBugIds, multipleStoryIds, sprintId);
+						$scope.reArrangeTheBacklogItems(multipleBugIds, multipleStoryIds, sprintId);
 						
 					}else
 					{
@@ -276,6 +293,50 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 
 				}, {"hideInProgress" : true});
 	};
+	
+	// Listener for broadcast
+	$scope.$on("reArrangeSprintItems", function(event, args) {
+		
+		var draggingItemIsBug = args.draggingItemIsBug;
+		var draggingId = args.draggingId;
+		
+		if(!draggingItemIsBug)
+		{
+			var storyIdsInSprint = $scope.getStoryIdsInSprint();
+			
+			storyIdsInSprint.splice(storyIdsInSprint.indexOf(draggingId), 1);
+		}
+		
+		var indexForRemove = -1;
+		
+		for(var i = 0 ; i < $scope.itemsFortask.length ; i++)
+		{
+			var obj = $scope.itemsFortask[i];
+
+			if(draggingItemIsBug && obj.id == draggingId && obj.isBug)
+			{
+				indexForRemove = i;
+				break;
+			}
+			else if(!draggingItemIsBug && obj.id == draggingId && !obj.isBug)
+			{
+				indexForRemove = i;
+				break;
+			}
+		}
+		
+		if(indexForRemove >= 0)
+		{
+			$scope.itemsFortask.splice(indexForRemove, 1);
+		}
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
+		
+	});
 	
 	// Listener for broadcast
 	$scope.$on("activeSprintSelectionChanged", function(event, args) {

@@ -159,6 +159,50 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 	};
 
 	/**
+	 * Add items to backlog.
+	 */
+	$scope.addToItemsInBacklogs = function(storySprintUpdateModel){
+		
+		var storyIdsInBacklog = $scope.getStoryIdsInSprint();
+		var multipleStoryIds = storySprintUpdateModel.multipleStoryIds;
+		
+		var draggingId = -1; 
+		
+		if(multipleStoryIds && multipleStoryIds.length == 1)
+		{
+			var storyId = multipleStoryIds[0];
+			storyIdsInBacklog.push(storyId);
+			
+			var story = $scope.getSprintStory(storyId);
+			story.check = false;
+			
+			$scope.backlogs.push(story);
+			draggingId = storyId;
+			$scope.setBacklogStory(storyId, story);
+			$scope.setSprintStory(storyId, null);
+		}
+		
+		var multipleBugIds = storySprintUpdateModel.multipleBugIds;
+		
+		if(multipleBugIds && multipleBugIds.length == 1)
+		{
+			var bugId = multipleBugIds[0];
+			
+			var bug = $scope.getSprintBug(bugId);
+			bug.check= false;
+			
+			$scope.backlogs.push(bug);
+			draggingId = bugId;
+			$scope.setBacklogBug(bugId, bug);
+			$scope.setSprintBug(bugId, null);
+		}
+		
+		$scope.backlogs.sort(function(a, b){return a.priority-b.priority});
+		
+		$scope.reArrangeSprintItems(draggingId);
+	};
+	
+	/**
 	 * Calls the controller method for updating the bug or story
 	 */
 	$scope.updateStoryAndBugToBacklog = function(draggingId){
@@ -181,7 +225,11 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		actionHelper.invokeAction("storyAndBug.updateStorySprintBugSprint", storySprintUpdateModel, null, 
 				function(updateResponse, respConfig)
 				{
-					console.log("sprint null sucess");
+					if(updateResponse.code == 0)
+					{
+						$scope.addToItemsInBacklogs(storySprintUpdateModel);
+					}
+					
 					
 				}, {"hideInProgress" : true});
 		
@@ -311,7 +359,7 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 				
 				$scope.setBacklogBug(bugId, null);
 				
-				$scope.removeFromBacklogList(bugId);
+				$scope.removeFromBacklogList(bugId, true);
 			}
 			
 			for(var i = 0 ; i < multipleStoryIds.length ; i++)
@@ -325,7 +373,7 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 				
 				$scope.setBacklogStory(storyId, null);
 				
-				$scope.removeFromBacklogList(storyId);
+				$scope.removeFromBacklogList(storyId, false);
 			}
 		}
 		
@@ -340,7 +388,7 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 	/**
 	 * Remove from backlog list.
 	 */
-	$scope.removeFromBacklogList = function(id){
+	$scope.removeFromBacklogList = function(id, removeBug){
 		
 		var indexForRemove = -1;
 		
@@ -348,11 +396,22 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		{
 			var obj = $scope.backlogs[i];
 			
-			if(obj.id == id)
+			if(removeBug)
 			{
-				indexForRemove = i;
-				break;
+				if(obj.id == id && obj.isBug)
+				{
+					indexForRemove = i;
+					break;
+				}
+			}else
+			{
+				if(obj.id == id && !obj.isBug)
+				{
+					indexForRemove = i;
+					break;
+				}
 			}
+			
 		}
 		
 		if(indexForRemove >= 0)

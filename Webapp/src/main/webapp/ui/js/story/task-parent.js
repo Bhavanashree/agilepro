@@ -38,9 +38,18 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 					}
 					
 					// set active sprint.
-					if($scope.sprints)
+					if($scope.sprints && $scope.sprints.length > 0)
 					{
 						$scope.onSprintChange($scope.sprints[0].id);
+					}else
+					{
+						$scope.onSprintChange(null);
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
 					}
 			
 				}, {"hideInProgress" : true});
@@ -68,13 +77,7 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 					}
 			
 				}, {"hideInProgress" : true});
-	/*	
-		try
-		{
-			$scope.$apply();
-		}catch(ex)
-		{}*/
-
+		
 	};
 	
 	/**
@@ -253,11 +256,27 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	};
 
 	/**
+	 * Set backlog bug.
+	 */
+	$scope.setSprintBug = function(bugId, data){
+		
+		$scope.idToBug[bugId] = data;
+	};
+
+	/**
 	 * Get backlog bug.
 	 */
 	$scope.getSprintBug = function(bugId){
 		
 		return $scope.idToBug[bugId];
+	};
+	
+	/**
+	 * Set backlog story.
+	 */
+	$scope.setSprintStory = function(storyId, data){
+		
+		$scope.idToStory[storyId] = data;
 	};
 	
 	/**
@@ -310,6 +329,8 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		$scope.draggingItemIsBug = draggingItemIsBug;
 		$scope.draggingId = draggingId;
 		
+		console.log("$scope.draggingId" + $scope.draggingId);
+		
 		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
 		$('#searchBacklogInputId').css("border-bottom", "3px solid #66c2ff");
 		$('#dropStoryForBacklogId').css('box-shadow', "5px 5px 5px #888888");
@@ -333,15 +354,24 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 	};
 	
 	/**
-	 * Rearrange the items.
+	 * Rearrange the baklog items.
 	 */
-	$scope.reArrangeTheItems = function(multipleBugIds, multipleStoryIds, sprintId){
+	$scope.reArrangeTheBacklogItems = function(multipleBugIds, multipleStoryIds, sprintId){
 		
 		var args = {"multipleBugIds" : multipleBugIds, "multipleStoryIds" : multipleStoryIds, "sprintId" : sprintId};
 		
 		$scope.$broadcast("reArrangeTheBacklogItems", args);
 	};
 	
+	/**
+	 * Re arrange sprint itesm.
+	 */
+	$scope.reArrangeSprintItems = function(draggingId){
+		
+		var args = {"draggingItemIsBug" : $scope.draggingItemIsBug, "draggingId" : draggingId};
+		
+		$scope.$broadcast("reArrangeSprintItems", args);
+	};
 	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
