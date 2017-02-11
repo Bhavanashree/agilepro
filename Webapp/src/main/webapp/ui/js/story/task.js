@@ -19,7 +19,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	 * 
 	 * Default story filter by story title.
 	 */
-	$scope.storyFilter = function(){
+	$scope.storyBugFilter = function(){
 		
 		var retFunc = function(item){
 				
@@ -134,7 +134,48 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				
 			}, {"hideInProgress" : true});	
 	};
-
+	
+	/**
+	 * Fetch the story info and open the modal.
+	 */
+	$scope.openStoryNoteModal = function(storyId){
+		
+		$scope.storyForUpdate = $scope.idToStory[storyId];
+		
+		actionHelper.invokeAction("storyNote.readLatestStoryNoteByStoryId", null, {"storyId" : storyId}, 
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						$("#storyNoteModal").modal("show");
+						$scope.storyNote = readResponse.model;
+						
+						if(!$scope.storyNote)
+						{
+							$scope.message = "Currently there is no note for " + $scope.storyForUpdate.title;
+						}else
+						{
+							$scope.message = "";
+						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}
+					
+				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Open story edit modal.
+	 */
+	$scope.openStoryEditModal = function(storyId){
+		
+		$scope.$broadcast("editStory",storyId);
+	};
+	
 	// DRAG AND DROP METHODS.
 	
 	/**

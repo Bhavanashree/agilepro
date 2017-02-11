@@ -143,57 +143,7 @@
 	</div>
 
 
-
-	<!-- Modal related -->
-	
-	<div id="storyNoteModal" class="modal fade" role="dialog">
-		   <div role="document" class="modal-dialog modal-lg">
-				<div class="modal-content">
-				
-					<!-- Header -->
-					<div class="modal-header app-dlg-header">
-						<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
-							<i class="glyphicon glyphicon-remove"></i>
-						</a>
-						<h4 class="modal-title">{{storyForUpdate.title}} - notes</h4>
-					</div>
-					
-					<!-- Content -->
-					<div yk-model="StoryNoteModel" class="modal-body">
-							
-						{{message}}
-						
-						<div ng-show="storyNote" ng-bind-html="storyNote.content | unsafe" 
-							style="box-shadow: 1px 1px 2px #888888; padding: 0.5em; margin-bottom: 1em;
-							height: 25em; overflow-y:auto;">
-							
-						</div>
-						
-						<div ng-show="storyNote" class="flexHorizontal" style="justify-content: space-between;">
-								<div style="background-color: #5bc0de; color: black;
-									height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
-									Version Title - {{storyNote.versionTitle}}
-								</div>
-						
-								<div style="background-color: #5bc0de; color: black;
-									height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
-									Update by - {{storyNote.owner}}
-								</div>
-						</div>
-						
-					</div>
-						
-					<!-- Footer -->
-					<div style="padding: 0.5em 1em;" class="modal-footer">
-						<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Close</button>
-					</div>
-			</div>
-		</div>
-	</div>
-
 	<yk-model-dialog id="taskModelDialog" name="TaskModel" title="Task" columns="2" actionMethod="updateTask()" modelObj="taskModel">
 	</yk-model-dialog>
 	
-	<div ng-include="'/ui/html/story/story-dialog.html'"></div>
-
 </div>

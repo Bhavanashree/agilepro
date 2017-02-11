@@ -3,29 +3,29 @@
 	yk-on-drop="onDropOfBacklog(event)">
 
 	<!-- Start of main story list -->
-	<div ng-repeat="story in itemsFortask | filter:storyFilter()" ng-show="story.display">
+	<div ng-repeat="item in itemsFortask | filter:storyBugFilter()" ng-show="item.display">
 		
 		<!-- Start story display -->
-		<div id="dragStory_{{story.isBug}}_{{story.id}}" name="{{$index}}"  draggable="true" yk-on-drag="dragStoryBugFromSprint(event)" 
+		<div id="dragStory_{{item.isBug}}_{{item.id}}" name="{{$index}}"  draggable="true" yk-on-drag="dragStoryBugFromSprint(event)" 
 		     yk-on-drag-end="initOnMouseReleasedItem(event)"
 			 style="height: 2.5em; border: 3px solid #66c2ff; margin: 0.5em;">
 			<table style="width: 100%; height: 100%;">
 				<tr>
-					<td id="expandStory_{{story.id}}" 
-						ng-click="onClickPlus(story.id)" 
+					<td id="expandStory_{{item.id}}" 
+						ng-click="onClickPlus(item.id)" 
 						style="width: 5%; text-align: center; background-color: #383838; 
 						border-right: 1px solid #101010; cursor:pointer; color: white;">
-							<i ng-class="story.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
+							<i ng-class="item.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 							</i>
 					</td>
 					<td style="width: 75%; padding-left: 0.5em;">
-						<strong style="text-transform: capitalize;">{{story.title}}</strong>
+						<strong style="text-transform: capitalize;">{{item.title}}</strong>
 					</td>
-					<td ng-click="openStoryEditModal(story.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
+					<td ng-click="openStoryEditModal(item.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
 						color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 					</td>
-					<td ng-click="openStoryNoteModal(story.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
+					<td ng-click="openStoryNoteModal(item.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
 						color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
 						<i class="fa fa-info-circle" aria-hidden="true"></i>
 					</td>
@@ -33,12 +33,12 @@
 						background-color: #cce6ff; cursor:pointer;">
 						<div class="dropdown">
 						    <div id="displayTaskStatus_{{task.id}}" class="dropdown-toggle" data-toggle="dropdown">
-						    	{{displayTask(story.status)}}
+						    	{{displayTask(item.status)}}
 						    	<span class="caret"></span>
 						    </div>
 						    <ul class="dropdown-menu">
    									<li ng-repeat="name in taskStatusNames">
-									<a ng-click="onStoryStatusChange(story.id, name)" href="">
+									<a ng-click="onStoryStatusChange(item.id, name)" href="">
 										{{displayTask(name)}}
 									</a>
 								</li>
@@ -51,12 +51,12 @@
 		<!-- End story display -->
 		
 		<!-- Start of story expanded -->
-		<div ng-show="story.expanded" style="padding-right: 1em;">
+		<div ng-show="item.expanded" style="padding-right: 1em;">
 			
 			<!-- Start of list of tasks -->
 			<div style="margin-left: 1em;">
 			
-				<table ng-show="story.tasks.length > 0" 
+				<table ng-show="item.tasks.length > 0" 
 					style="width: 100%; height: 100%; border: 3px solid #66c2ff;">
 					<tr style="background-color: #383838; color: white;">
 						<th style="text-align: center; width: 50%;">
@@ -81,7 +81,7 @@
 							Delete
 						</th>
 					</tr>
-					<tr ng-repeat="task in story.tasks" style="border: 3px solid #66c2ff;">
+					<tr ng-repeat="task in item.tasks" style="border: 3px solid #66c2ff;">
 						<td style="padding-left: 0.2em;">
 							<strong style="text-transform: capitalize;">{{task.title}}</strong>
 						</td>
@@ -132,7 +132,7 @@
 						  <span class="input-group-addon" style="background-color: #383838; color: white;">
 						  	Title
 						  </span>
-						  <input id="newTaskTitle_{{story.id}}" ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
+						  <input id="newTaskTitle_{{item.id}}" ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
 						</div>
 					</td>
 					
@@ -141,12 +141,12 @@
 						  <span class="input-group-addon" style="background-color: #383838; color: white;">
 						  	Estimate Time
 						  </span>
-						  <input id="estimateTime_{{story.id}}" ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
+						  <input id="estimateTime_{{item.id}}" ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
 						</div>
 					</td>
 					
 					<td style="padding: 0.2em;">
-						<button id="addNewTaskBtnId" ng-click="addNewTask(taskTitle, estimateTime, story.id)" class="btn btn-primary btn-sm">
+						<button id="addNewTaskBtnId" ng-click="addNewTask(taskTitle, estimateTime, item.id)" class="btn btn-primary btn-sm">
 							Add Task
 						</button>
 					</td>
@@ -163,4 +163,53 @@
 			
 	</div>
 	<!-- End of main story list -->
+	
+	<div ng-include="'/ui/html/story/story-dialog.html'"></div>
+	
+	<!-- Modal related -->
+	<div id="storyNoteModal" class="modal fade" role="dialog">
+		   <div role="document" class="modal-dialog modal-lg">
+				<div class="modal-content">
+				
+					<!-- Header -->
+					<div class="modal-header app-dlg-header">
+						<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+						<h4 class="modal-title">{{storyForUpdate.title}} - notes</h4>
+					</div>
+					
+					<!-- Content -->
+					<div yk-model="StoryNoteModel" class="modal-body">
+							
+						{{message}}
+						
+						<div ng-show="storyNote" ng-bind-html="storyNote.content | unsafe" 
+							style="box-shadow: 1px 1px 2px #888888; padding: 0.5em; margin-bottom: 1em;
+							height: 25em; overflow-y:auto;">
+							
+						</div>
+						
+						<div ng-show="storyNote" class="flexHorizontal" style="justify-content: space-between;">
+								<div style="background-color: #5bc0de; color: black;
+									height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
+									Version Title - {{storyNote.versionTitle}}
+								</div>
+						
+								<div style="background-color: #5bc0de; color: black;
+									height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
+									Update by - {{storyNote.owner}}
+								</div>
+						</div>
+						
+					</div>
+						
+					<!-- Footer -->
+					<div style="padding: 0.5em 1em;" class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Close</button>
+					</div>
+			</div>
+		</div>
+	</div>
+	
 </div>

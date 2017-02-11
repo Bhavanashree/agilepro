@@ -115,6 +115,9 @@ $.application.controller('storyDialogController', ["$scope", "actionHelper", "ut
 								
 								$scope.refreshPriority();
 								
+							}else
+							{
+								utils.alert(deleteResponse.message);
 							}
 						}, {"hideInProgress" : true});
 			}
