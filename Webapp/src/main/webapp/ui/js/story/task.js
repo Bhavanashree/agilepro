@@ -212,7 +212,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				
 			}else
 			{
-				//$scope.fetchTaskByStory(obj);
+				$scope.fetchTaskByStory(obj);
 			}
 		}
 	};
@@ -326,7 +326,41 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				}, {"hideInProgress" : true});
 	};
 	
-	$scope.updateBugStatus(id, status);
+	/**
+	 * Update bug status. calls the controller.
+	 */
+	$scope.updateBugStatus=  function(bugId, status){
+
+		actionHelper.invokeAction("bug.updateBugStatus", null, {"id" : bugId, "status" : status},
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						var bug = $scope.getSprintBug(bugId);
+						
+						bug.status = status;
+						
+						// if parent story is completed then all the task related to story should be completed. 
+						if(status == "COMPLETED")
+						{
+							var taskArr = bug.tasks;
+							
+							for(var i = 0 ; i < taskArr.length ; i++)
+							{
+								taskArr[i].status = status;
+							}
+						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+
+					}
+					
+				}, {"hideInProgress" : true});
+	};
 
 	/**
 	 * Update story status, calls the controller.
@@ -338,24 +372,28 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				{
 					if(updateResponse.code == 0)
 					{
-						$scope.idToStory[storyId].status = status;
-					}
-					
-					if(status == "COMPLETED")
-					{
-						var taskArr = $scope.idToStory[storyId].tasks;
+						var story = $scope.getSprintStory(storyId);
 						
-						for(index in taskArr)
+						story.status = status;
+						
+						// if parent story is completed then all the task related to story should be completed. 
+						if(status == "COMPLETED")
 						{
-							taskArr[index].status = status;
+							var taskArr = story.tasks;
+							
+							for(var i = 0 ; i < taskArr.length ; i++)
+							{
+								taskArr[i].status = status;
+							}
 						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+
 					}
-					
-					try
-					{
-						$scope.$apply();
-					}catch(ex)
-					{}
 					
 				}, {"hideInProgress" : true});
 	};
