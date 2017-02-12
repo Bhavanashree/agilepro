@@ -1,4 +1,4 @@
-package com.agilepro.commons.models.project;
+package com.agilepro.commons.models.bug;
 
 import javax.validation.constraints.Min;
 
@@ -15,11 +15,13 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 import com.yukthi.webutils.common.annotations.ReadOnly;
 
 /**
- * The Class TaskModel.
+ * Bug task model.
+ * 
+ * @author Pritam.
  */
-@ExtendableModel(name = "Task")
+@ExtendableModel(name = "BugTask")
 @Model
-public class TaskModel extends AbstractExtendableModel
+public class BugTaskModel extends AbstractExtendableModel
 {
 	/**
 	 * The id.
@@ -61,11 +63,11 @@ public class TaskModel extends AbstractExtendableModel
 	private Long projectId;
 
 	/**
-	 * The story.
+	 * The bug.
 	 **/
 	@Required
 	@NonDisplayable
-	private Long storyId;
+	private Long bugId;
 
 	/**
 	 * Estimate time.
@@ -80,12 +82,6 @@ public class TaskModel extends AbstractExtendableModel
 	 */
 	@ReadOnly
 	private Integer actualTimeTaken;
-
-	/**
-	 * Instantiates a new task model.
-	 */
-	public TaskModel()
-	{}
 
 	/*
 	 * (non-Javadoc)
@@ -214,27 +210,6 @@ public class TaskModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the story id.
-	 *
-	 * @return the story id
-	 */
-	public Long getStoryId()
-	{
-		return storyId;
-	}
-
-	/**
-	 * Sets the story id.
-	 *
-	 * @param storyId
-	 *            the new story id
-	 */
-	public void setStoryId(Long storyId)
-	{
-		this.storyId = storyId;
-	}
-
-	/**
 	 * Gets the estimate time.
 	 * 
 	 * @return the estimate time.
@@ -274,5 +249,26 @@ public class TaskModel extends AbstractExtendableModel
 	public void setActualTimeTaken(Integer actualTimeTaken)
 	{
 		this.actualTimeTaken = actualTimeTaken;
+	}
+
+	/**
+	 * Gets the bug id.
+	 * 
+	 * @return the bug id.
+	 */
+	public Long getBugId()
+	{
+		return bugId;
+	}
+
+	/**
+	 * Set the bug id.
+	 * 
+	 * @param bugId
+	 *            new bug id.
+	 */
+	public void setBugId(Long bugId)
+	{
+		this.bugId = bugId;
 	}
 }

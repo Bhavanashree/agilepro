@@ -302,7 +302,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					 "status" : "NOT_STARTED",
 					 "actualTimeTaken" : 0};
 		
-		actionHelper.invokeAction("task.save", model, null, 
+		actionHelper.invokeAction("storyTask.save", model, null, 
 				function(saveResponse, respConfig)
 				{
 					if(saveResponse.code == 0)
@@ -325,6 +325,41 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					}
 				}, {"hideInProgress" : true});
 	};
+	
+	$scope.updateBugStatus(id, status);
+
+	/**
+	 * Update story status, calls the controller.
+	 */
+	$scope.updateStoryStatus = function(storyId, status){
+		
+		actionHelper.invokeAction("story.updateStoryStatus", null, {"id" : storyId, "status" : status},
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						$scope.idToStory[storyId].status = status;
+					}
+					
+					if(status == "COMPLETED")
+					{
+						var taskArr = $scope.idToStory[storyId].tasks;
+						
+						for(index in taskArr)
+						{
+							taskArr[index].status = status;
+						}
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+					
+				}, {"hideInProgress" : true});
+	};
+
 	
 	/**
 	 * Update story status, calls the controller.
@@ -367,7 +402,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		if(updateItemIsBug)
 		{
-			
+			$scope.updateBugStatus(id, status);
 		}else
 		{
 			$scope.updateStoryStatus(id, status);

@@ -103,7 +103,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * The list of stories under this sprint.
 	 **/
 	@OneToMany(mappedBy = "story")
-	private List<TaskEntity> tasks;
+	private List<StoryTaskEntity> tasks;
 
 	/**
 	 * The time taken for story.
@@ -360,7 +360,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 *
 	 * @return the tasks
 	 */
-	public List<TaskEntity> getTasks()
+	public List<StoryTaskEntity> getTasks()
 	{
 		return tasks;
 	}
@@ -371,7 +371,7 @@ public class StoryEntity extends WebutilsExtendableEntity
 	 * @param tasks
 	 *            the new tasks
 	 */
-	public void setTasks(List<TaskEntity> tasks)
+	public void setTasks(List<StoryTaskEntity> tasks)
 	{
 		this.tasks = tasks;
 	}

@@ -2,7 +2,7 @@ package com.agilepro.commons.controllers.project;
 
 import java.util.List;
 import com.agilepro.commons.models.project.TaskChangesModel;
-import com.agilepro.commons.models.project.TaskModel;
+import com.agilepro.commons.models.project.StoryTaskModel;
 import com.yukthi.webutils.common.RemoteService;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
@@ -22,7 +22,7 @@ public interface ITaskController
 	 * @param model for save.
 	 * @return basic save response on success save.
 	 */
-	public BasicSaveResponse save(TaskModel model);
+	public BasicSaveResponse save(StoryTaskModel model);
 
 	/**
 	 * Read task record for the given id.
@@ -30,7 +30,7 @@ public interface ITaskController
 	 * @param id for which task is to be fetched.
 	 * @return basic read response wrapped with matching record.
 	 */
-	public BasicReadResponse<TaskModel> read(Long id);
+	public BasicReadResponse<StoryTaskModel> read(Long id);
 
 	/**
 	 * Fetch tasks for a given story id.
@@ -38,7 +38,7 @@ public interface ITaskController
 	 * @param storyId provided story id for which tasks are to be fetched.
 	 * @return matching records.
 	 */
-	public BasicReadResponse<List<TaskModel>> fetchTask(Long storyId);
+	public BasicReadResponse<List<StoryTaskModel>> fetchTask(Long storyId);
 	
 	/**
 	 * Update task.
@@ -46,7 +46,7 @@ public interface ITaskController
 	 * @param model new model for update.
 	 * @return base response on success update.
 	 */
-	public BaseResponse update(TaskModel model);
+	public BaseResponse update(StoryTaskModel model);
 	
 	/**
 	 * Update task changes.

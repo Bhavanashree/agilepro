@@ -1,11 +1,11 @@
-package com.agilepro.persistence.entity.project;
+package com.agilepro.persistence.entity.bug;
 
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.TaskStatus;
-import com.agilepro.commons.models.project.TaskModel;
+import com.agilepro.commons.models.bug.BugTaskModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -16,14 +16,15 @@ import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
 
 /**
- * Stories are sub-divided to task.
+ * Bug task for saving the task related to bugs, bugs can be sub divided to
+ * tasks.
  * 
  * @author Pritam.
  */
-@ExtendableEntity(name = "Task")
-@Table(name = "TASK")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_STORY_TASK_TITLE", fields = { "spaceIdentity", "story", "title" })})
-public class TaskEntity extends WebutilsExtendableEntity
+@ExtendableEntity(name = "bugTask")
+@Table(name = "BUG_TASK")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_BUG_TASK_TITLE", fields = { "spaceIdentity", "bug", "title" }) })
+public class BugTaskEntity extends WebutilsExtendableEntity
 {
 	/**
 	 * The task title.
@@ -42,14 +43,22 @@ public class TaskEntity extends WebutilsExtendableEntity
 	 **/
 	@Column(name = "ESTIMATE_TIME")
 	private Integer estimateTime;
-	
+
 	/**
 	 * The project id.
 	 */
 	@Column(name = "PROJECT_ID", nullable = false)
 	@ManyToOne
-	@PropertyMapping(type = TaskModel.class, from = "projectId", subproperty = "id")
+	@PropertyMapping(type = BugTaskModel.class, from = "projectId", subproperty = "id")
 	private ProjectEntity projectId;
+
+	/**
+	 * Bug id for many to one mapping.
+	 */
+	@Column(name = "BUG_ID", nullable = false)
+	@ManyToOne
+	@PropertyMapping(type = BugTaskModel.class, from = "bugId", subproperty = "id")
+	private BugEntity bug;
 
 	/**
 	 * The status.
@@ -59,23 +68,9 @@ public class TaskEntity extends WebutilsExtendableEntity
 	private TaskStatus status;
 
 	/**
-	 * The actualTime.
-	 **/
-	@Column(name = "ACTUAL_TIME_TAKEN")
-	private Integer actualTimeTaken;
-
-	/**
-	 * list of stories.
+	 * Instantiates a new bug task entity.
 	 */
-	@Column(name = "STORY_ID", nullable = false)
-	@ManyToOne
-	@PropertyMapping(type = TaskModel.class, from = "storyId", subproperty = "id")
-	private StoryEntity story;
-
-	/**
-	 * Instantiates a new task entity.
-	 */
-	public TaskEntity()
+	public BugTaskEntity()
 	{}
 
 	/**
@@ -163,28 +158,7 @@ public class TaskEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the story.
-	 *
-	 * @return the story
-	 */
-	public StoryEntity getStory()
-	{
-		return story;
-	}
-
-	/**
-	 * Sets the story.
-	 *
-	 * @param story
-	 *            the new story
-	 */
-	public void setStory(StoryEntity story)
-	{
-		this.story = story;
-	}
-
-	/**
-	 * Get estimate time.
+	 * Gets the estimate time.
 	 * 
 	 * @return the estimate time.
 	 */
@@ -194,7 +168,7 @@ public class TaskEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Set estimate time.
+	 * Set the estimate time.
 	 * 
 	 * @param estimateTime
 	 *            the new estimate time.
@@ -205,23 +179,23 @@ public class TaskEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the actual time taken.
+	 * Gets the bug.
 	 * 
-	 * @return the actual time taken.
+	 * @return the bug.
 	 */
-	public Integer getActualTimeTaken()
+	public BugEntity getBug()
 	{
-		return actualTimeTaken;
+		return bug;
 	}
 
 	/**
-	 * Sets the actual time taken.
+	 * Set the bug.
 	 * 
-	 * @param actualTimeTaken
-	 *            the new actual time taken.
+	 * @param bug
+	 *            the new bug.
 	 */
-	public void setActualTimeTaken(Integer actualTimeTaken)
+	public void setBug(BugEntity bug)
 	{
-		this.actualTimeTaken = actualTimeTaken;
+		this.bug = bug;
 	}
 }

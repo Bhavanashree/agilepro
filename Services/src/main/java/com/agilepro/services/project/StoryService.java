@@ -58,7 +58,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * Task service.
 	 */
 	@Autowired
-	private TaskService taskService;
+	private StoryTaskService taskService;
 	
 	/**
 	 * Bug service.

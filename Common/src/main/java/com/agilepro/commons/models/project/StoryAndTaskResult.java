@@ -1,6 +1,5 @@
 package com.agilepro.commons.models.project;
 
-import com.agilepro.commons.TaskSearchStatus;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.common.AbstractExtendedSearchResult;
 import com.yukthi.webutils.common.annotations.Model;
@@ -24,11 +23,6 @@ public class StoryAndTaskResult extends AbstractExtendedSearchResult
 	@Field(value = "title")
 	private String title;
 
-	/**
-	 * The type.
-	 **/
-	private TaskSearchStatus type;
-	
 	/**
 	 * Instantiates a new story and task result.
 	 */
@@ -89,26 +83,5 @@ public class StoryAndTaskResult extends AbstractExtendedSearchResult
 	public void setTitle(String title)
 	{
 		this.title = title;
-	}
-
-	/**
-	 * Gets the type.
-	 *
-	 * @return the type
-	 */
-	public TaskSearchStatus getType()
-	{
-		return type;
-	}
-
-	/**
-	 * Sets the type.
-	 *
-	 * @param type
-	 *            the new type
-	 */
-	public void setType(TaskSearchStatus type)
-	{
-		this.type = type;
 	}
 }

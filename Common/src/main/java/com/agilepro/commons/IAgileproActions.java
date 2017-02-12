@@ -310,9 +310,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PREFIX_MEETING = "meeting";
 
 	/**
-	 * The action prefix task.
+	 * The action prefix story task.
 	 **/
-	public String ACTION_PREFIX_TASK = "task";
+	public String ACTION_PREFIX_STORY_TASK = "storyTask";
 
 	/**
 	 * The action prefix news.
@@ -590,6 +590,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix for bug.
 	 **/
 	public String ACTION_PREFIX_BUG = "bug";
+	
+	/**
+	 * The action prefix for bug task.
+	 */
+	public String ACTION_PREFIX_BUG_TASK = "bugTask";
 
 	/**
 	 * The action prefix bug comments.
@@ -792,29 +797,29 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * Task save action name.
 	 */
-	public String ACTION_TASK_SAVE = ACTION_PREFIX_TASK + DOT + ACTION_TYPE_SAVE;
+	public String ACTION_TASK_SAVE = ACTION_PREFIX_STORY_TASK + DOT + ACTION_TYPE_SAVE;
 	/**
 	 * Task read action name.
 	 */
-	public String ACTION_TASK_READ = ACTION_PREFIX_TASK + DOT + ACTION_TYPE_READ;
+	public String ACTION_TASK_READ = ACTION_PREFIX_STORY_TASK + DOT + ACTION_TYPE_READ;
 	/**
 	 * The action backlog readall.
 	 **/
-	public String ACTION_TASK_READALL = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_ALL;
+	public String ACTION_TASK_READALL = ACTION_PREFIX_STORY_TASK + "." + ACTION_TYPE_READ_ALL;
 
 	/**
 	 * The action task read id.
 	 **/
-	public String ACTION_TASK_READ_ID = ACTION_PREFIX_TASK + "." + ACTION_TYPE_READ_BY_STORY_ID;
+	public String ACTION_TASK_READ_ID = ACTION_PREFIX_STORY_TASK + "." + ACTION_TYPE_READ_BY_STORY_ID;
 
 	/**
 	 * Task delete action name.
 	 */
-	public String ACTION_TASK_DELETE = ACTION_PREFIX_TASK + DOT + ACTION_TYPE_DELETE;
+	public String ACTION_TASK_DELETE = ACTION_PREFIX_STORY_TASK + DOT + ACTION_TYPE_DELETE;
 	/**
 	 * Task update action name.
 	 */
-	public String ACTION_TASK_UPDATE = ACTION_PREFIX_TASK + DOT + ACTION_TYPE_UPDATE;
+	public String ACTION_TASK_UPDATE = ACTION_PREFIX_STORY_TASK + DOT + ACTION_TYPE_UPDATE;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 

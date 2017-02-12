@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.project.TaskChangesModel;
-import com.agilepro.commons.models.project.TaskModel;
+import com.agilepro.commons.models.project.StoryTaskModel;
 import com.agilepro.commons.models.project.TaskRecords;
-import com.agilepro.persistence.entity.project.TaskEntity;
-import com.agilepro.persistence.repository.project.ITaskRepository;
+import com.agilepro.persistence.entity.project.StoryTaskEntity;
+import com.agilepro.persistence.repository.project.IStoryTaskRepository;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.webutils.services.BaseCrudService;
 
@@ -21,19 +21,19 @@ import com.yukthi.webutils.services.BaseCrudService;
  * The Class TaskService.
  */
 @Service
-public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
+public class StoryTaskService extends BaseCrudService<StoryTaskEntity, IStoryTaskRepository>
 {
 	/**
 	 * The ITaskRepository for executing the queries.
 	 **/
-	private ITaskRepository taskRepo;
+	private IStoryTaskRepository taskRepo;
 
 	/**
 	 * Instantiates a new task service.
 	 */
-	public TaskService()
+	public StoryTaskService()
 	{
-		super(TaskEntity.class, ITaskRepository.class);
+		super(StoryTaskEntity.class, IStoryTaskRepository.class);
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	@PostConstruct
 	private void init()
 	{
-		taskRepo = repositoryFactory.getRepository(ITaskRepository.class);
+		taskRepo = repositoryFactory.getRepository(IStoryTaskRepository.class);
 	}
 
 	/**
@@ -114,12 +114,12 @@ public class TaskService extends BaseCrudService<TaskEntity, ITaskRepository>
 	 *            provided story id for fetching task.
 	 * @return matching records.
 	 */
-	public List<TaskModel> fetchTaskByStory(Long storyId)
+	public List<StoryTaskModel> fetchTaskByStory(Long storyId)
 	{
-		List<TaskEntity> tasks = taskRepo.fetchByStoryId(storyId);
-		List<TaskModel> taskModels = new ArrayList<TaskModel>();
+		List<StoryTaskEntity> tasks = taskRepo.fetchByStoryId(storyId);
+		List<StoryTaskModel> taskModels = new ArrayList<StoryTaskModel>();
 
-		tasks.forEach(entity -> taskModels.add(super.toModel(entity, TaskModel.class)));
+		tasks.forEach(entity -> taskModels.add(super.toModel(entity, StoryTaskModel.class)));
 
 		return taskModels;
 	}

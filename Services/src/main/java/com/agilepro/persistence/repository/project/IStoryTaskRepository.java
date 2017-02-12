@@ -3,42 +3,27 @@ package com.agilepro.persistence.repository.project;
 import java.util.List;
 
 import com.agilepro.commons.TaskStatus;
-import com.agilepro.commons.models.project.StoryAndTaskResult;
-import com.agilepro.commons.models.project.TaskSearchQuery;
-import com.agilepro.persistence.entity.project.TaskEntity;
+import com.agilepro.persistence.entity.project.StoryTaskEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.persistence.repository.annotations.UpdateFunction;
 import com.yukthi.persistence.repository.annotations.UpdateOperator;
-import com.yukthi.persistence.repository.search.SearchQuery;
 import com.yukthi.webutils.annotations.RestrictBySpace;
-import com.yukthi.webutils.annotations.SearchQueryMethod;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
 /**
  * The Interface ITaskRepository.
  */
-public interface ITaskRepository extends IWebutilsRepository<TaskEntity>
+public interface IStoryTaskRepository extends IWebutilsRepository<StoryTaskEntity>
 {
-	/**
-	 * Find task.
-	 *
-	 * @param searchQuery
-	 *            the search query
-	 * @return the list
-	 */
 	@RestrictBySpace
-	@SearchQueryMethod(name = "taskSearch", queryModel = TaskSearchQuery.class)
-	public List<StoryAndTaskResult> findTask(SearchQuery searchQuery);
+	public List<StoryTaskEntity> fetchAllStories(@Condition(value = "story.id") Long storyId);
 
 	@RestrictBySpace
-	public List<TaskEntity> fetchAllStories(@Condition(value = "story.id") Long storyId);
-
-	@RestrictBySpace
-	public List<TaskEntity> fetchByStoryId(@Condition(value = "story.id") Long storyId);
+	public List<StoryTaskEntity> fetchByStoryId(@Condition(value = "story.id") Long storyId);
 	
 	@RestrictBySpace
-	public TaskEntity fetchVersionById(Integer versionId);
+	public StoryTaskEntity fetchVersionById(Integer versionId);
 	
 	@UpdateFunction
 	public boolean addExtraTime(@Condition("id") Long id, @Field(value = "actualTimeTaken", updateOp = UpdateOperator.ADD) Integer timeTaken);

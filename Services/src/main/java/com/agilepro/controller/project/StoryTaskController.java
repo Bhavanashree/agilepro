@@ -1,6 +1,6 @@
 package com.agilepro.controller.project;
 
-import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_TASK;
+import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_STORY_TASK;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE_ALL;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.project.ITaskController;
 import com.agilepro.commons.models.project.TaskChangesModel;
-import com.agilepro.commons.models.project.TaskModel;
+import com.agilepro.commons.models.project.StoryTaskModel;
 import com.agilepro.services.common.Authorization;
-import com.agilepro.services.project.TaskService;
+import com.agilepro.services.project.StoryTaskService;
 import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
@@ -39,15 +39,15 @@ import com.yukthi.webutils.controllers.BaseController;
  * The Class TaskController.
  */
 @RestController
-@ActionName(ACTION_PREFIX_TASK)
-@RequestMapping("/task")
-public class TaskController extends BaseController implements ITaskController
+@ActionName(ACTION_PREFIX_STORY_TASK)
+@RequestMapping("/storyTask")
+public class StoryTaskController extends BaseController implements ITaskController
 {
 	/**
 	 * The task service.
 	 **/
 	@Autowired
-	private TaskService taskService;
+	private StoryTaskService taskService;
 
 	/**
 	 * Receive request for saving a new task.
@@ -61,7 +61,7 @@ public class TaskController extends BaseController implements ITaskController
 	@Authorization(roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public BasicSaveResponse save(@RequestBody @Valid TaskModel model)
+	public BasicSaveResponse save(@RequestBody @Valid StoryTaskModel model)
 	{
 		return new BasicSaveResponse(taskService.save(model).getId());
 	}
@@ -78,9 +78,9 @@ public class TaskController extends BaseController implements ITaskController
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/read/{" + PARAM_ID + "}", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<TaskModel> read(@PathVariable(PARAM_ID) Long id)
+	public BasicReadResponse<StoryTaskModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		return new BasicReadResponse<TaskModel>(taskService.fetchFullModel(id, TaskModel.class));
+		return new BasicReadResponse<StoryTaskModel>(taskService.fetchFullModel(id, StoryTaskModel.class));
 	}
 
 	/**
@@ -95,9 +95,9 @@ public class TaskController extends BaseController implements ITaskController
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readByStoryId", method = RequestMethod.GET)
 	@ResponseBody
-	public BasicReadResponse<List<TaskModel>> fetchTask(@RequestParam(value = "storyId", required = true) Long storyId)
+	public BasicReadResponse<List<StoryTaskModel>> fetchTask(@RequestParam(value = "storyId", required = true) Long storyId)
 	{
-		return new BasicReadResponse<List<TaskModel>>(taskService.fetchTaskByStory(storyId));
+		return new BasicReadResponse<List<StoryTaskModel>>(taskService.fetchTaskByStory(storyId));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class TaskController extends BaseController implements ITaskController
 	@Authorization(entityIdExpression = "parameters[0].id", roles = { UserRole.TASK_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResponse update(@RequestBody @Valid TaskModel model)
+	public BaseResponse update(@RequestBody @Valid StoryTaskModel model)
 	{
 		taskService.update(model);
 		return new BaseResponse();
