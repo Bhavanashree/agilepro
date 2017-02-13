@@ -148,6 +148,7 @@ public class StoryModel extends AbstractExtendableModel
 	/**
 	 * By default false for a story.
 	 */
+	@NonDisplayable
 	private Boolean isBug = false;
 
 	/**

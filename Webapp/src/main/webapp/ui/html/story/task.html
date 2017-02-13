@@ -18,17 +18,26 @@
 							<i ng-class="item.expanded ? 'fa fa-minus' : 'fa fa-plus'" aria-hidden="true">
 							</i>
 					</td>
+					
 					<td style="width: 75%; padding-left: 0.5em;">
 						<strong style="text-transform: capitalize;">{{item.title}}</strong>
 					</td>
-					<td ng-click="openStoryEditModal(item.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
-						color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-					</td>
-					<td ng-click="openStoryNoteModal(item.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
+					
+					<td ng-show="!item.isBug" ng-click="openStoryNoteModal(item.id)" style="width: 5%; text-align: center; background-color: #cce6ff; 
 						color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
 						<i class="fa fa-info-circle" aria-hidden="true"></i>
 					</td>
+					
+					<td ng-show="item.isBug" style="width: 5%; text-align: center; background-color: #cce6ff; 
+						color: red; border-left: 1px solid #66c2ff;">
+						<i class="fa fa-bug" aria-hidden="true"></i>
+					</td>
+					
+					<td ng-click="openEditModal(item.id, item.isBug)" style="width: 5%; text-align: center; background-color: #cce6ff; 
+						color: black; border-left: 1px solid #66c2ff; cursor:pointer;">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+					</td>
+					
 					<td style="width: 10%; padding-left: 0.5em; border-left: 1px solid #66c2ff; 
 						background-color: #cce6ff; cursor:pointer;">
 						<div class="dropdown">
@@ -110,7 +119,7 @@
   									</ul>
 							</div>
 						</td>
-						<td ng-click="openTaskModal(task.id)" style="text-align: center; background-color: #cce6ff; 
+						<td ng-click="openTaskModal(task.id, $index)" style="text-align: center; background-color: #cce6ff; 
 								color: black; cursor:pointer; border-left: 2px solid #66c2ff;">
 								<i class="fa fa-info-circle" aria-hidden="true"></i>
 						</td>
@@ -132,7 +141,7 @@
 						  <span class="input-group-addon" style="background-color: #383838; color: white;">
 						  	Title
 						  </span>
-						  <input id="newTaskTitle_{{item.id}}" ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
+						  <input id="newTaskTitle_{{item.isBug}}_{{item.id}}" ng-model="taskTitle" type="text" class="form-control" placeholder="Title">
 						</div>
 					</td>
 					
@@ -141,7 +150,7 @@
 						  <span class="input-group-addon" style="background-color: #383838; color: white;">
 						  	Estimate Time
 						  </span>
-						  <input id="estimateTime_{{item.id}}" ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
+						  <input id="estimateTime_{{item.isBug}}_{{item.id}}" ng-model="estimateTime" type="text" class="form-control" placeholder="Estimate time">
 						</div>
 					</td>
 					
@@ -165,6 +174,8 @@
 	<!-- End of main story list -->
 	
 	<div ng-include="'/ui/html/story/story-dialog.html'"></div>
+	
+	<div ng-include="'/ui/html/bug/bug-dialog.html'"></div>
 	
 	<!-- Modal related -->
 	<div id="storyNoteModal" class="modal fade" role="dialog">
@@ -211,5 +222,11 @@
 			</div>
 		</div>
 	</div>
+	
+	<yk-model-dialog id="storyTaskModelDialogId" name="StoryTask" title="Story Task" columns="2" actionMethod="updateTask()" modelObj="storyTaskModel">
+	</yk-model-dialog>
+	
+	<yk-model-dialog id="bugTaskModelDialogId" name="BugTask" title="Bug Task" columns="2" actionMethod="updateTask()" modelObj="bugTaskModel">
+	</yk-model-dialog>
 	
 </div>

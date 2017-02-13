@@ -20,7 +20,7 @@ import com.yukthi.webutils.common.annotations.ReadOnly;
  * @author Pritam.
  */
 @ExtendableModel(name = "BugTask")
-@Model
+@Model(name = "BugTask")
 public class BugTaskModel extends AbstractExtendableModel
 {
 	/**

@@ -87,7 +87,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.fetchStoriesAndBugBySprint = function(){
 		
 		$scope.itemsFortask = [];
-		$scope.idToTask = {};
+		$scope.idToStoryTask = {};
+		$scope.idToBugTask = {};
 		
 		if(!$scope.getSelectedSprint())
 		{
@@ -101,6 +102,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				$scope.bugModels  = readResponse.model.bugModels;
 				
 				$scope.itemsFortask = $scope.storyModels.concat($scope.bugModels);
+				$scope.itemsFortask.sort(function(a, b){return a.title.localeCompare(b.title)});
 				
 				var idToStory = {};
 				var idToBug = {};
@@ -172,9 +174,15 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	/**
 	 * Open story edit modal.
 	 */
-	$scope.openStoryEditModal = function(storyId){
+	$scope.openEditModal = function(id, clickedItemIsBug){
 		
-		$scope.$broadcast("editStory",storyId);
+		if(clickedItemIsBug)
+		{
+			$scope.$broadcast("openEditBugDialog", id);
+		}else
+		{
+			$scope.$broadcast("editStory", id);
+		}
 	};
 
 	// TASK
@@ -186,20 +194,15 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		var obj = $scope.itemsFortask[indexInTask];
 
-		//debugger;
-		
 		if(!$scope.previousClickedIndex || $scope.previousClickedIndex == indexInTask)
 		{
 			obj.expanded = !obj.expanded;
-			console.log($scope.previousClickedIndex);
-			console.log(obj.title + " = " + obj.expanded);
 		}
 		else if($scope.previousClickedIndex && ($scope.previousClickedIndex != indexInTask))
 		{
 			var previousObj = $scope.itemsFortask[$scope.previousClickedIndex];
 			
 			previousObj.expanded = false;
-			console.log(previousObj.title + " is closed");
 			obj.expanded = true;
 		}
 		
@@ -207,35 +210,46 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		if(obj.expanded)
 		{
+			$scope.expandedId = obj.id;
+			
 			if(obj.isBug)
 			{
+				$scope.expandedItemIsBug = true;
+				
+				$scope.fetchTasks("bugTask.readByBugId", {"bugId" : obj.id}, obj);
 				
 			}else
 			{
-				$scope.fetchTaskByStory(obj);
+				$scope.expandedItemIsBug = false;
+				
+				$scope.fetchTasks("storyTask.readByStoryId", {"storyId" : obj.id}, obj);
 			}
 		}
 	};
-	
+
 	/**
-	 * Fetch task by stories.
+	 * Common method to fetch the tasks.
 	 */
-	$scope.fetchTaskByStory = function(storyObj){
-		
-		actionHelper.invokeAction("task.readByStoryId", null, {"storyId" : storyObj.id}, 
+	$scope.fetchTasks = function(actionType, searchQueryObj, obj){
+
+		actionHelper.invokeAction(actionType, null, searchQueryObj, 
 				function(readResponse, respConfig)
 				{
 					if(readResponse.code == 0)
 					{
-						storyObj.tasks = readResponse.model;
+						obj.tasks = readResponse.model;
 						
-						$scope.expandedStoryId = storyObj.id;
-						
-						for(var i = 0 ; i < storyObj.tasks.length ; i++)
+						for(var i = 0 ; i < obj.tasks.length ; i++)
 						{
-							var taskObj = storyObj.tasks[i];
+							var taskObj = obj.tasks[i];
 							
-							$scope.idToTask[taskObj.id] = taskObj;
+							if($scope.expandedItemIsBug)
+							{
+								$scope.idToBugTask[taskObj.id] = taskObj;
+							}else
+							{
+								$scope.idToStoryTask[taskObj.id] = taskObj;
+							}
 						}
 						
 						$scope.taskChanges = {};
@@ -251,6 +265,7 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 					
 				}, {"hideInProgress" : true});
 	};
+	
 	
 	/**
 	 * Gets invoked on click of add button. 
@@ -286,105 +301,136 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		if(taskTitle && estimateTime)
 		{
-			$scope.saveNewTask(taskTitle, estimateTime, storyId);
+			if($scope.expandedItemIsBug)
+			{
+				var model = {"title" : taskTitle, 
+						 "estimateTime" : estimateTime, 
+						 "bugId" : $scope.expandedId, 
+						 "projectId" : $scope.getActiveProjectId(),
+						 "status" : "NOT_STARTED",
+						 "actualTimeTaken" : 0};
+			
+				$scope.saveNewTask(model, "bugTask.save");
+			}else
+			{
+				var model = {"title" : taskTitle, 
+						 "estimateTime" : estimateTime, 
+						 "storyId" : $scope.expandedId, 
+						 "projectId" : $scope.getActiveProjectId(),
+						 "status" : "NOT_STARTED",
+						 "actualTimeTaken" : 0};
+			
+				$scope.saveNewTask(model, "storyTask.save");
+			}
 		}
 	};
-	
+
 	/**
-	 * Save new task uses action helper to call the controller.
+	 * Common method to save new task.
 	 */
-	$scope.saveNewTask = function(taskTitle, estimateTime, storyId){
+	$scope.saveNewTask = function(model, actionType){
 		
-		var model = {"title" : taskTitle, 
-					 "estimateTime" : estimateTime, 
-					 "storyId" : $scope.expandedStoryId, 
-					 "projectId" : $scope.getActiveProjectId(),
-					 "status" : "NOT_STARTED",
-					 "actualTimeTaken" : 0};
-		
-		actionHelper.invokeAction("storyTask.save", model, null, 
+		actionHelper.invokeAction(actionType, model, null, 
 				function(saveResponse, respConfig)
 				{
 					if(saveResponse.code == 0)
 					{
 						model.id = saveResponse.id;
 						
-						$scope.idToStory[storyId].tasks.push(model);
-						
-						$scope.idToTask[model.id] = model;
-						
-						$("#newTaskTitle_" + storyId).focus();
-						$("#newTaskTitle_" + storyId).val("");
-						$("#estimateTime_" + storyId).val("");
-
-						try
+						if($scope.expandedItemIsBug)
 						{
-							$scope.$apply();
-						}catch(ex)
-						{}
-					}
-				}, {"hideInProgress" : true});
-	};
-	
-	/**
-	 * Update bug status. calls the controller.
-	 */
-	$scope.updateBugStatus=  function(bugId, status){
-
-		actionHelper.invokeAction("bug.updateBugStatus", null, {"id" : bugId, "status" : status},
-				function(updateResponse, respConfig)
-				{
-					if(updateResponse.code == 0)
-					{
-						var bug = $scope.getSprintBug(bugId);
-						
-						bug.status = status;
-						
-						// if parent story is completed then all the task related to story should be completed. 
-						if(status == "COMPLETED")
+							var bug = $scope.getSprintBug($scope.expandedId);
+							bug.tasks.push(model);
+							$scope.idToBugTask[model.id] = model;
+						}else
 						{
-							var taskArr = bug.tasks;
-							
-							for(var i = 0 ; i < taskArr.length ; i++)
-							{
-								taskArr[i].status = status;
-							}
+							var story = $scope.getSprintStory($scope.expandedId);
+							story.tasks.push(model);
+							$scope.idToStoryTask[model.id] = model;
 						}
-						
+												
+						$("#newTaskTitle_" + $scope.expandedItemIsBug + "_" + $scope.expandedId).focus();
+						$("#newTaskTitle_" + $scope.expandedItemIsBug + "_" + $scope.expandedId).val("");
+						$("#estimateTime_" + $scope.expandedItemIsBug + "_" + $scope.expandedId).val("");
+
 						try
 						{
 							$scope.$apply();
 						}catch(ex)
 						{}
-
 					}
-					
-				}, {"hideInProgress" : true});
-	};
-
-	/**
-	 * Update story status, calls the controller.
-	 */
-	$scope.updateStoryStatus = function(storyId, status){
+		}, {"hideInProgress" : true});
 		
-		actionHelper.invokeAction("story.updateStoryStatus", null, {"id" : storyId, "status" : status},
-				function(updateResponse, respConfig)
-				{
-					if(updateResponse.code == 0)
-					{
-						var story = $scope.getSprintStory(storyId);
-						
-						story.status = status;
-						
-						// if parent story is completed then all the task related to story should be completed. 
-						if(status == "COMPLETED")
+	};
+	
+	
+	/**
+	 * Delete task.
+	 */
+	$scope.deleteTask = function(taskId, indexToRemove){
+		
+		var taskObj = $scope.expandedItemIsBug ? $scope.idToBugTask[taskId] : $scope.idToStoryTask[taskId];
+
+		var actionType = $scope.expandedItemIsBug ? "bugTask.delete" : "storyTask.delete";
+		
+		var deleteOp = $.proxy(function(confirmed) {
+				
+			if(!confirmed)
+			{
+				return;
+			}
+			else
+			{
+				actionHelper.invokeAction(actionType, null, {"id" : taskId}, 
+						function(deleteResponse, respConfig)
 						{
-							var taskArr = story.tasks;
-							
-							for(var i = 0 ; i < taskArr.length ; i++)
+							if(deleteResponse.code == 0)
 							{
-								taskArr[i].status = status;
+								if($scope.expandedItemIsBug)
+								{
+									$scope.getSprintBug($scope.expandedId).tasks.splice(indexToRemove, 1);
+								}else
+								{
+									$scope.getSprintStory($scope.expandedId).tasks.splice(indexToRemove, 1);
+								}
+								
+								try
+								{
+									$scope.$apply();
+								}catch(ex)
+								{}
 							}
+						}, {"hideInProgress" : true});
+			}
+			
+		}, {"$scope": $scope, "taskId": taskId});
+		
+		utils.confirm(["Are you sure you want to delete task - '{}'", taskObj.title], deleteOp);
+	};
+		
+		
+	/**
+	 * Fetch task and open the modal.
+	 */
+	$scope.openTaskModal = function(taskId, indexInTaskArr){
+		
+		var actionType = $scope.expandedItemIsBug ? "bugTask.read" : "storyTask.read";
+		
+		$scope.indexInTaskArr = indexInTaskArr;
+		
+		actionHelper.invokeAction(actionType, null, {"id" : taskId}, 
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						if($scope.expandedItemIsBug)
+						{
+							$("#bugTaskModelDialogId").modal("show");
+							$scope.bugTaskModel = readResponse.model;
+						}else
+						{
+							$("#storyTaskModelDialogId").modal("show");
+							$scope.storyTaskModel = readResponse.model;
 						}
 						
 						try
@@ -392,47 +438,61 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 							$scope.$apply();
 						}catch(ex)
 						{}
-
 					}
 					
 				}, {"hideInProgress" : true});
 	};
-
 	
 	/**
-	 * Update story status, calls the controller.
+	 * Update task changes.
 	 */
-	$scope.updateStoryStatus = function(storyId, status){
+	$scope.updateTask = function(){
 		
-		actionHelper.invokeAction("story.updateStoryStatus", null, {"id" : storyId, "status" : status},
-				function(updateResponse, respConfig)
+		var actionType = $scope.expandedItemIsBug ? "bugTask.update" : "storyTask.update";
+		
+		var model = $scope.expandedItemIsBug ? $scope.bugTaskModel : $scope.storyTaskModel;
+		
+		actionHelper.invokeAction(actionType, model, null,
+				function(updateResposne, respConfig)
 				{
-					if(updateResponse.code == 0)
+					if(updateResposne.code == 0)
 					{
-						$scope.idToStory[storyId].status = status;
-					}
-					
-					if(status == "COMPLETED")
-					{
-						var taskArr = $scope.idToStory[storyId].tasks;
-						
-						for(index in taskArr)
+						if($scope.expandedItemIsBug)
 						{
-							taskArr[index].status = status;
+							var bug = $scope.getSprintBug($scope.expandedId);
+							
+							if(bug)
+							{
+								bug.tasks[$scope.indexInTaskArr] = model;
+							}
+							
+							$scope.idToBugTask[model.id] = model;
+							$("#bugTaskModelDialogId").modal("hide");
+						}else
+						{
+							var story = $scope.getSprintStory($scope.expandedId);
+							
+							if(story)
+							{
+								story.tasks[$scope.indexInTaskArr] = model;
+							}
+							
+							$scope.idToStoryTask[model.id] = model;
+							$("#storyTaskModelDialogId").modal("hide");
 						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
 					}
-					
-					try
-					{
-						$scope.$apply();
-					}catch(ex)
-					{}
-					
+				
 				}, {"hideInProgress" : true});
 	};
-	
+
 	/**
-	 * On change of story status.
+	 * On change status.
 	 */
 	$scope.onStatusChange = function(id, updateItemIsBug, status){
 		
@@ -440,10 +500,104 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		if(updateItemIsBug)
 		{
-			$scope.updateBugStatus(id, status);
+			$scope.updateParentStatus("bug.updateBugStatus", {"id" : id, "status" : status}, updateItemIsBug);
 		}else
 		{
-			$scope.updateStoryStatus(id, status);
+			$scope.updateParentStatus("story.updateStoryStatus", {"id" : id, "status" : status}, updateItemIsBug);
+		}
+	};
+	
+	/**
+	 * Common method to update status.
+	 */
+	$scope.updateParentStatus = function(actionType, updateQueryObj, updateItemIsBug){
+
+		actionHelper.invokeAction(actionType, null, updateQueryObj,
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						var obj = updateItemIsBug ? $scope.getSprintBug(updateQueryObj.id) : $scope.getSprintStory(updateQueryObj.id);
+
+						obj.status = status;
+						
+						// if parent story or bug is completed then all the task related to story or bug should be completed. 
+						if(status == "COMPLETED")
+						{
+							var taskArr = obj.tasks;
+							for(var i = 0 ; i < taskArr.length ; i++)
+							{
+								taskArr[i].status = status;
+							}
+						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+
+					}
+					
+				}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * On type of actual time.
+	 */
+	$scope.onTypeActualTime = function(event, taskId){
+		
+		console.log("on type");
+		
+		var targetType = $(event.target);
+		
+		$scope.onTypeTargets.push(targetType);
+		
+		var actualTime = targetType.val();
+		
+		if(!$scope.taskChanges[taskId])
+		{
+			$scope.taskChanges[taskId] = {"actualTime" : actualTime};
+		}else
+		{
+			$scope.taskChanges[taskId].actualTime = actualTime;
+		}
+	};
+	
+	/**
+	 * Update task.
+	 */
+	$scope.updateTaskChangesByInput = function(actionType){
+		
+		if($scope.taskChanges && Object.keys($scope.taskChanges).length > 0)
+		{
+			var model = {"taskChanges" : $scope.taskChanges};
+			
+			actionHelper.invokeAction(actionType, model, null, 
+					function(updateResponse, respConfig)
+					{
+						for(key in $scope.taskChanges)
+						{
+							var obj = $scope.expandedItemIsBug ? $scope.idToBugTask[key] : $scope.idToStoryTask[key];
+							
+							obj.actualTimeTaken = Number(obj.actualTimeTaken) + Number($scope.taskChanges[key].actualTime);
+						}
+						
+						for(var i = 0 ; i < $scope.onTypeTargets.length ; i++)
+						{
+							$scope.onTypeTargets[i].val("");
+						}
+						
+						$scope.taskChanges = {};
+						$scope.onTypeTargets = [];
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+						
+					}, {"hideInProgress" : true});
 		}
 	};
 	
@@ -462,19 +616,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		var draggingId = Number(arrElem[2]);
 		
 		$scope.onDragOfItemFromSprintToBacklog(draggingItemIsBug, draggingId);
-		
-		/*
-		if($scope.multipleBacklogIds.indexOf($scope.draggingId) == -1)
-		{
-			$scope.multipleBacklogIds.push($scope.draggingId);
-		}
-		
-		$('#dropStoryForBacklogId').css("border", "3px solid #66c2ff");
-		$('#searchBacklogInputId').css("border-bottom", "3px solid #66c2ff");
-		$('#dropStoryForBacklogId').css('box-shadow', "5px 5px 5px #888888");
-		
-		$scope.allowedFromStoryToBacklog = true;
-		$scope.allowedFromBacklogToStory = false;*/
 	};
 	
 	/**
@@ -621,7 +762,6 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				obj.sprintId = sprintId;
 				
 				$scope.setSprintBug(obj.id, obj);
-				storyIdsInSprint.push(obj.id);
 				
 				$scope.itemsFortask.push(obj);
 			}
@@ -642,6 +782,8 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 				$scope.itemsFortask.push(obj);
 			}
 		}
+		
+		$scope.itemsFortask.sort(function(a, b){return a.title.localeCompare(b.title)});
 		
 		try
 		{
@@ -733,6 +875,14 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 	$scope.$on("activeStoryStatusSelectionChanged", function(event, args) {
 		
 		$scope.commonFilterStory();
+	});
+	
+	// Listener for broadcast
+	$scope.$on("updateTaskChanges", function(event, args) {
+		
+		var actionType = $scope.expandedItemIsBug ? "bugTask.updateTaskChanges" : "storyTask.updateTaskChanges";
+		
+		$scope.updateTaskChangesByInput(actionType);
 	});
 	
 }]);

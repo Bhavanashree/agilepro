@@ -493,16 +493,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_READ_BACK_LOGS_BY_PROJECT_ID = "fetchBacklogsByProjectId";
 
 	/**
-	 * The action type read bug by sprint id.
-	 **/
-	public String ACTION_TYPE_READ_BUG_BY_SPRINT_ID = "fetchBugBySprintId";
-	
-	/**
-	 * The action type update bug sprint.
-	 */
-	public String ACTION_TYPE_UPDATE_BUG_SPRINT = "updateBugSprint";
-
-	/**
 	 * The action type read sprint project id.
 	 **/
 	public String ACTION_TYPE_READ_SPRINT_PROJECT_ID = "sprintProjectId";
@@ -568,6 +558,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_SWAP_PRIORITY = "swapPriority";
 	
 	/**
+	 * The action type update bug status.
+	 */
+	public String ACTION_TYPE_UPDATE_BUG_STATUS = "updateBugStatus";
+	
+	/**
 	 * The action prefix sprint.
 	 **/
 	public String ACTION_PREFIX_SPRINT = "sprint";
@@ -600,11 +595,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix bug comments.
 	 **/
 	public String ACTION_PREFIX_BUG_COMMENTS = "bugComment";
-
-	/**
-	 * The action type read bug comment by bug id.
-	 **/
-	public String ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID = "readByBugId";
 
 	/**
 	 * The action prefix bug attachment message.
@@ -806,20 +796,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action backlog readall.
 	 **/
 	public String ACTION_TASK_READALL = ACTION_PREFIX_STORY_TASK + "." + ACTION_TYPE_READ_ALL;
-
-	/**
-	 * The action task read id.
-	 **/
-	public String ACTION_TASK_READ_ID = ACTION_PREFIX_STORY_TASK + "." + ACTION_TYPE_READ_BY_STORY_ID;
-
-	/**
-	 * Task delete action name.
-	 */
-	public String ACTION_TASK_DELETE = ACTION_PREFIX_STORY_TASK + DOT + ACTION_TYPE_DELETE;
-	/**
-	 * Task update action name.
-	 */
-	public String ACTION_TASK_UPDATE = ACTION_PREFIX_STORY_TASK + DOT + ACTION_TYPE_UPDATE;
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1056,19 +1032,29 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/** The action story attachment save. */
+	/** 
+	 * The action story attachment save. 
+	 **/
 	public String ACTION_STORY_ATTACHMENT_SAVE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_SAVE;
 
-	/** The action story attachment read. */
+	/** 
+	 * The action story attachment read. 
+	 **/
 	public String ACTION_STORY_ATTACHMENT_READ = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_READ;
 
-	/** The action story attachment update. */
+	/** 
+	 * The action story attachment update. 
+	 **/
 	public String ACTION_STORY_ATTACHMENT_UPDATE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_UPDATE;
 
-	/** The action story attachment delete. */
+	/** 
+	 * The action story attachment delete. 
+	 **/
 	public String ACTION_STORY_ATTACHMENT_DELETE = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE;
 
-	/** The action story attachment delete all. */
+	/** 
+	 * The action story attachment delete all. 
+	 **/
 	public String ACTION_STORY_ATTACHMENT_DELETE_ALL = ACTION_PREFIX_STORY_ATTACHMENT_MESSAGE + DOT + ACTION_TYPE_DELETE_ALL;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1411,6 +1397,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_MAIL_TEMPLATE_SAVETEMPLATE = ACTION_PREFIX_MAIL_TEMPLATE + DOT + ACTION_TYPE_SAVE_MAIL_TEMPLATE;
 
 	/**
+	 * The action type read bug task by bug id.
+	 */
+	public String ACTION_TYPE_READ_BY_BUG_ID = "readByBugId";
+	
+	/**
 	 * The action bug save.
 	 */
 	public String ACTION_BUG_SAVE = ACTION_PREFIX_BUG + DOT + ACTION_TYPE_SAVE;
@@ -1447,7 +1438,7 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	/**
 	 * The action bug comment read by bug id.
 	 **/
-	public String ACTION_BUG_COMMENT_READ_BY_BUG_ID = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID;
+	public String ACTION_BUG_COMMENT_READ_BY_BUG_ID = ACTION_PREFIX_BUG_COMMENTS + DOT + ACTION_TYPE_READ_BY_BUG_ID;
 
 	/**
 	 * The action bugComment update.

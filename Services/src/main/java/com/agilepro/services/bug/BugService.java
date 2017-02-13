@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.agilepro.commons.BugStatus;
 import com.agilepro.commons.models.bug.BacklogBugModel;
 import com.agilepro.commons.models.bug.BugModel;
 import com.agilepro.persistence.entity.bug.BugEntity;
@@ -28,6 +30,12 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 	 */
 	@Autowired
 	private SprintService sprintService;
+	
+	/**
+	 * Bug task service.
+	 */
+	@Autowired
+	private BugTaskService bugTaskService;
 
 	/**
 	 * Instantiates a new bug service.
@@ -38,7 +46,7 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 	}
 
 	/**
-	 * Adding the priority and saving the bug model.
+	 * Add the priority and save the bug model.
 	 * 
 	 * @param bugModel
 	 *            provided bug model for save.
@@ -64,6 +72,12 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 		}
 	}
 
+	/**
+	 * Update bug with provided sprint.
+	 * 
+	 * @param multipleBugIds provided multiple bug ids for update.
+	 * @param sprintId provided sprint id to set.
+	 */
 	public void updateBugSprint(Long[] multipleBugIds, Long sprintId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
@@ -111,6 +125,33 @@ public class BugService extends BaseCrudService<BugEntity, IBugRepository>
 		return bugModels;
 	}
 
+	/**
+	 * Update bug status.
+	 * 
+	 * @param id provided bug id for update. 
+	 * @param bugStatus new bug status to be set.
+	 */
+	public void updateBugStatus(Long id, BugStatus bugStatus)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			repository.updateStatus(id, bugStatus);
+
+			if(bugStatus.equals(BugStatus.CLOSED))
+			{
+				bugTaskService.updateTaskStatusByBug(id, BugStatus.CLOSED);
+			}
+
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating bug status");
+		}
+	}
+	
 	/**
 	 * Fetch backlogs bugs.
 	 * 

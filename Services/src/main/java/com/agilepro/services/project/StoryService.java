@@ -14,18 +14,14 @@ import com.agilepro.commons.StoryResponse;
 import com.agilepro.commons.StoryStatus;
 import com.agilepro.commons.TaskStatus;
 import com.agilepro.commons.models.admin.EmployeeModel;
-import com.agilepro.commons.models.bug.BacklogBugModel;
 import com.agilepro.commons.models.project.BacklogStoryModel;
-import com.agilepro.commons.models.project.StoryAndBugInBacklogModel;
 import com.agilepro.commons.models.project.BackLogPriorityModel;
 import com.agilepro.commons.models.project.StoryBulkModel;
 import com.agilepro.commons.models.project.StoryModel;
-import com.agilepro.commons.models.project.StoryAndBugSprintUpdateModel;
 import com.agilepro.persistence.entity.project.SprintEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.project.IStoryRepository;
 import com.agilepro.services.admin.EmployeeService;
-import com.agilepro.services.bug.BugService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
@@ -58,20 +54,14 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * Task service.
 	 */
 	@Autowired
-	private StoryTaskService taskService;
-	
-	/**
-	 * Bug service.
-	 */
-	@Autowired
-	private BugService bugService;
+	private StoryTaskService storyTaskService;
 
 	/**
 	 * SprintService.
 	 */
 	@Autowired
 	private SprintService sprintService;
-	
+
 	/**
 	 * Instantiates a new StoryService.
 	 */
@@ -164,14 +154,24 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating priority");
 		}
 	}
-	
+
+	/**
+	 * Update priority according to the input.
+	 * 
+	 * @param id
+	 *            provided id for update.
+	 * @param newInputPriority
+	 *            newly provided input priority for update.
+	 * @param projectId
+	 *            story related to the project id.
+	 */
 	public void updatePriorityAccordingToInput(Long id, Integer newInputPriority, Long projectId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Integer maxPriority = repository.getMaxOrder(projectId);
 			Integer minPriority = repository.getMinOrder(projectId);
-			
+
 			if(newInputPriority > maxPriority)
 			{
 				repository.updatePriority(id, maxPriority + 1);
@@ -189,7 +189,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 					repository.updatePriority(id, newInputPriority);
 				}
 			}
-			
+
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{
@@ -272,7 +272,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 			if(status.equals(StoryStatus.COMPLETED))
 			{
-				taskService.updateTaskStatusByStory(id, TaskStatus.COMPLETED);
+				storyTaskService.updateTaskStatusByStory(id, TaskStatus.COMPLETED);
 			}
 
 			transaction.commit();
@@ -284,13 +284,21 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			throw new InvalidStateException(ex, "An error occurred while updating status");
 		}
 	}
-	
-	public void updateStorySprint(Long [] multipleStoryIds, Long sprintId)
+
+	/**
+	 * Update story sprint.
+	 * 
+	 * @param multipleStoryIds
+	 *            for update.
+	 * @param sprintId
+	 *            provided sprint id to set in the story.
+	 */
+	public void updateStorySprint(Long[] multipleStoryIds, Long sprintId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			SprintEntity sprint = null;
-			
+
 			// check for null for the case where story to backlogs
 			if(sprintId != null)
 			{
@@ -304,7 +312,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 					repository.updateSprint(id, sprint);
 				}
 			}
-			
+
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{
@@ -328,7 +336,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			repository.updateManagement(id, isManagementStory);
-			
+
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{
@@ -405,9 +413,9 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		List<StoryModel> storyModels = new ArrayList<StoryModel>();
 
 		List<StoryEntity> storyEntities = repository.fetchStoryBySprintId(sprintId);
-		
+
 		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
-		
+
 		return storyModels;
 	}
 
@@ -430,11 +438,12 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 
 		return backlogStoryModels;
 	}
-	
+
 	/**
 	 * Fetch backlogs for drag in task.
 	 * 
-	 * @param projectId provided project id under which matching backlogs are fetched.
+	 * @param projectId
+	 *            provided project id under which matching backlogs are fetched.
 	 * @return matching records.
 	 */
 	public List<BacklogStoryModel> fetchBacklogsStory(Long projectId)
@@ -456,7 +465,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		{
 			Integer maxPriority = repository.getMaxOrder(projectId);
 			saveListOfStories(storiesBulkModels, projectId, null, new AtomicInteger(maxPriority));
-			
+
 			transaction.commit();
 		} catch(Exception ex)
 		{
@@ -467,10 +476,14 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	/**
 	 * Save bulk of stories recursion wise.
 	 * 
-	 * @param storiesBulkModels list of story bulk model.
-	 * @param projectId provided project id under which story is to be saved. 
-	 * @param parentId provided parent id for saving the child.
-	 * @param maxPriority provided max priority for new story save.
+	 * @param storiesBulkModels
+	 *            list of story bulk model.
+	 * @param projectId
+	 *            provided project id under which story is to be saved.
+	 * @param parentId
+	 *            provided parent id for saving the child.
+	 * @param maxPriority
+	 *            provided max priority for new story save.
 	 */
 	private void saveListOfStories(List<StoryBulkModel> storiesBulkModels, Long projectId, Long parentId, AtomicInteger maxPriority)
 	{
@@ -479,17 +492,18 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			stryBulkModel.setProjectId(projectId);
 			stryBulkModel.setParentStoryId(parentId);
 			stryBulkModel.setPriority(maxPriority.incrementAndGet());
-			
+
 			List<StoryBulkModel> subStories = stryBulkModel.getSubstories();
 			stryBulkModel.setIsManagementStory(CollectionUtils.isNotEmpty(subStories));
-			
+
 			StoryEntity storyEntity = super.save(stryBulkModel);
 
 			if(CollectionUtils.isNotEmpty(subStories))
 			{
 				saveListOfStories(subStories, projectId, storyEntity.getId(), maxPriority);
-				
-				// update priority for the parent as parent priority should be greater than child priority.
+
+				// update priority for the parent as parent priority should be
+				// greater than child priority.
 				repository.updatePriority(storyEntity.getId(), maxPriority.incrementAndGet());
 			}
 		}

@@ -66,6 +66,12 @@ public class BugTaskEntity extends WebutilsExtendableEntity
 	@Column(name = "STATUS")
 	@DataTypeMapping(type = DataType.STRING)
 	private TaskStatus status;
+	
+	/**
+	 * The actualTime.
+	 **/
+	@Column(name = "ACTUAL_TIME_TAKEN")
+	private Integer actualTimeTaken;
 
 	/**
 	 * Instantiates a new bug task entity.
@@ -197,5 +203,26 @@ public class BugTaskEntity extends WebutilsExtendableEntity
 	public void setBug(BugEntity bug)
 	{
 		this.bug = bug;
+	}
+
+	/**
+	 * Gets the actual time taken.
+	 * 
+	 * @return the actual time taken.
+	 */
+	public Integer getActualTimeTaken()
+	{
+		return actualTimeTaken;
+	}
+
+	/**
+	 * Sets the actual time taken.
+	 * 
+	 * @param actualTimeTaken
+	 *            the new actual time taken.
+	 */
+	public void setActualTimeTaken(Integer actualTimeTaken)
+	{
+		this.actualTimeTaken = actualTimeTaken;
 	}
 }

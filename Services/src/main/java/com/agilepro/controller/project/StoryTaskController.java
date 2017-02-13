@@ -47,7 +47,7 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	 * The task service.
 	 **/
 	@Autowired
-	private StoryTaskService taskService;
+	private StoryTaskService storyTaskService;
 
 	/**
 	 * Receive request for saving a new task.
@@ -63,7 +63,7 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	@ResponseBody
 	public BasicSaveResponse save(@RequestBody @Valid StoryTaskModel model)
 	{
-		return new BasicSaveResponse(taskService.save(model).getId());
+		return new BasicSaveResponse(storyTaskService.save(model).getId());
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	@ResponseBody
 	public BasicReadResponse<StoryTaskModel> read(@PathVariable(PARAM_ID) Long id)
 	{
-		return new BasicReadResponse<StoryTaskModel>(taskService.fetchFullModel(id, StoryTaskModel.class));
+		return new BasicReadResponse<StoryTaskModel>(storyTaskService.fetchFullModel(id, StoryTaskModel.class));
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	@ResponseBody
 	public BasicReadResponse<List<StoryTaskModel>> fetchTask(@RequestParam(value = "storyId", required = true) Long storyId)
 	{
-		return new BasicReadResponse<List<StoryTaskModel>>(taskService.fetchTaskByStory(storyId));
+		return new BasicReadResponse<List<StoryTaskModel>>(storyTaskService.fetchTaskByStory(storyId));
 	}
 
 	/**
@@ -114,7 +114,8 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	@ResponseBody
 	public BaseResponse update(@RequestBody @Valid StoryTaskModel model)
 	{
-		taskService.update(model);
+		storyTaskService.update(model);
+		
 		return new BaseResponse();
 	}
 
@@ -131,7 +132,7 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	@ResponseBody
 	public BaseResponse updateTaskChanges(@RequestBody @Valid TaskChangesModel taskChanges)
 	{
-		taskService.updateTaskChanges(taskChanges);
+		storyTaskService.updateTaskChanges(taskChanges);
 		return new BaseResponse();
 	}
 
@@ -149,7 +150,7 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	@ResponseBody
 	public BaseResponse delete(@PathVariable(PARAM_ID) Long id)
 	{
-		taskService.deleteById(id);
+		storyTaskService.deleteById(id);
 
 		return new BaseResponse();
 	}
@@ -166,7 +167,7 @@ public class StoryTaskController extends BaseController implements ITaskControll
 	@ResponseBody
 	public BaseResponse deleteAll()
 	{
-		taskService.deleteAll();
+		storyTaskService.deleteAll();
 		return new BaseResponse();
 	}
 }

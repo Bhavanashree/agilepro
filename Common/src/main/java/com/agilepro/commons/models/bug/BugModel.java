@@ -8,6 +8,7 @@ import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.FileInfo;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
+import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.LOV;
 import com.yukthi.webutils.common.annotations.Label;
 import com.yukthi.webutils.common.annotations.Model;
@@ -114,7 +115,15 @@ public class BugModel extends AbstractExtendableModel
 	/**
 	 * By default true for a bug.
 	 */
+	@NonDisplayable
 	private Boolean isBug = true;
+	
+	/**
+	 * The tasks.
+	 */
+	@NonDisplayable
+	@IgnoreField
+	private List<Long> tasks;
 
 	/*
 	 * (non-Javadoc)
@@ -418,5 +427,26 @@ public class BugModel extends AbstractExtendableModel
 	public void setIsBug(Boolean isBug)
 	{
 		this.isBug = isBug;
+	}
+	
+	/**
+	 * Gets the tasks.
+	 *
+	 * @return the tasks
+	 */
+	public List<Long> getTasks()
+	{
+		return tasks;
+	}
+
+	/**
+	 * Sets the tasks.
+	 *
+	 * @param tasks
+	 *            the new tasks
+	 */
+	public void setTasks(List<Long> tasks)
+	{
+		this.tasks = tasks;
 	}
 }

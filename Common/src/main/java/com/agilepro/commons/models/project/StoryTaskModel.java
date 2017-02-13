@@ -18,7 +18,7 @@ import com.yukthi.webutils.common.annotations.ReadOnly;
  * The Class TaskModel.
  */
 @ExtendableModel(name = "StoryTask")
-@Model
+@Model(name = "StoryTask")
 public class StoryTaskModel extends AbstractExtendableModel
 {
 	/**

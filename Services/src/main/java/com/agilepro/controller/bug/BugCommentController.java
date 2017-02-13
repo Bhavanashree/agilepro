@@ -1,7 +1,7 @@
 package com.agilepro.controller.bug;
 
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_BUG_COMMENTS;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BY_BUG_ID;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
@@ -85,7 +85,7 @@ public class BugCommentController extends BaseController implements IBugCommentC
 		return new BasicReadResponse<BugCommentsModel>(model);
 	}
 
-	@ActionName(ACTION_TYPE_READ_BUG_COMMENT_BY_BUG_ID)
+	@ActionName(ACTION_TYPE_READ_BY_BUG_ID)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BUG_COMMENT_VIEW, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT , UserRole.CUSTOMER_SUPER_USER })
 	@RequestMapping(value = "/readByBugId", method = RequestMethod.GET)
 	@ResponseBody

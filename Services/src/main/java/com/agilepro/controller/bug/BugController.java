@@ -5,14 +5,9 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_DELETE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_READ_BUG_BY_SPRINT_ID;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_BUG_SPRINT;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_BUG_STATUS;
 import static com.agilepro.commons.IAgileproActions.PARAM_ID;
-
-import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.agilepro.commons.BugStatus;
 import com.agilepro.commons.UserRole;
 import com.agilepro.commons.controllers.bug.IBugController;
 import com.agilepro.commons.models.bug.BugModel;
-import com.agilepro.commons.models.bug.BugSprintUpdateModel;
 import com.agilepro.services.bug.BugService;
 import com.agilepro.services.common.Authorization;
 import com.yukthi.webutils.annotations.ActionName;
@@ -104,24 +99,12 @@ public class BugController extends BaseController implements IBugController
 		return new BaseResponse();
 	}
 
-	@ActionName(ACTION_TYPE_READ_BUG_BY_SPRINT_ID)
-	@Authorization(entityIdExpression = "parameters[0]", roles = {UserRole.BUG_DELETE, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/fetchBugBySprintId", method = RequestMethod.GET)
+	@ActionName(ACTION_TYPE_UPDATE_BUG_STATUS)
+	@RequestMapping(value = "/updateBugStatus", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0].id", roles = {UserRole.BUG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BasicReadResponse<List<BugModel>> fetchBugs(@RequestParam(value = "projectId", required = true) Long projectId, @RequestParam(value = "sprintId", required = true)Long sprintId)
+	public BaseResponse updateBugStatus(@RequestParam(value = "id") Long id, @RequestParam(value = "status") BugStatus status)
 	{
-		return null;//new BasicReadResponse<List<BugModel>>(bugService.fetchBugsBySprint(projectId, sprintId));
-	}
-	
-	
-	@ActionName(ACTION_TYPE_UPDATE_BUG_SPRINT)
-	@Authorization(roles = {UserRole.BUG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
-	@RequestMapping(value = "/updateBugSprint", method = RequestMethod.POST)
-	@ResponseBody
-	public BaseResponse updateBugSprint(@RequestBody BugSprintUpdateModel bugSprintUpdateModel)
-	{
-		//bugService.updateBugSprint(bugSprintUpdateModel.getIds(), bugSprintUpdateModel.getSprintId());
-		
 		return new BaseResponse();
 	}
 	

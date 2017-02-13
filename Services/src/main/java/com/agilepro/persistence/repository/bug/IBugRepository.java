@@ -2,6 +2,7 @@ package com.agilepro.persistence.repository.bug;
 
 import java.util.List;
 
+import com.agilepro.commons.BugStatus;
 import com.agilepro.commons.models.bug.BacklogBugModel;
 import com.agilepro.commons.models.bug.BugSearchQuery;
 import com.agilepro.commons.models.bug.BugSearchResult;
@@ -55,5 +56,9 @@ public interface IBugRepository extends IWebutilsRepository<BugEntity>
 	@AggregateFunction(type = AggregateFunctionType.MAX, field = "priority")
 	public int getMaxOrder(@Condition(value = "project.id") Long projectId);
 	
+	@RestrictBySpace
 	public int updateSprint(@Condition(value = "id") Long id, @Field(value = "targetSprint") SprintEntity sprint);
+	
+	@RestrictBySpace
+	public int updateStatus(@Condition(value = "id") Long id, @Field(value = "status") BugStatus bugStatus);
 }

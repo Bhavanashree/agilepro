@@ -1,35 +1,5 @@
 $.application.controller('bugController', ["$scope", "crudController","validator", "utils","modelDefService","actionHelper", 
                                            function($scope, crudController,validator,utils,modelDefService,actionHelper) {
-	crudController.extend($scope, {
-		"name": "Bug",
-		
-		"nameColumn" : "name",
-		
-		"modelDailogId": "bugDialog",
-		"saveAction": "bug.save",
-		"readAction": "bug.read",
-		"updateAction": "bug.update",
-		"deleteAction": "bug.delete",
-	
-		"onDisplay" : function(model){
-			$scope.init();
-			
-			if(!(model.id))
-			{
-				$scope.commentTab = false;	
-			}
-			else
-			{
-				$scope.bugId = model.id;
-				$scope.bugOwner = model;
-				$scope.commentTab = true;	
-				$scope.bugAttachmentTab = true;
-				$scope.listOfEmployees();
-				$scope.displayComments();
-			}
-		}
-	});
-	
 	//dropdowns array
 	$scope.commentStatus = [{"name" : "Comment"},{"name": "reopen"}, {"name": "closed"}, {"name":"deferred"}];
 		
@@ -60,6 +30,27 @@ $.application.controller('bugController', ["$scope", "crudController","validator
 			};
 
 	$scope.bugModel = {};
+	
+	// Bug dialog
+	
+	/**
+	 * Gets invoked on click of plus button
+	 */
+	$scope.openNewBugDialog = function(event){
+	
+		$scope.$broadcast("openNewBugDialog");
+		
+	}; 
+	
+	/**
+	 * Gets invoked on click of edit button.
+	 */
+	$scope.openEditBugDialog = function(event, bugId){
+		
+		console.log(bugId);
+		
+		//$scope.$broadcast("openEditBugDialog", bugId);
+	};
 	
 	var saveCommentCallBack =function(readResponse, respConfig){
 		

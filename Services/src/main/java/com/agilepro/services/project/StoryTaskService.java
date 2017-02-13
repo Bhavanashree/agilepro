@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.TaskStatus;
@@ -24,25 +22,11 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class StoryTaskService extends BaseCrudService<StoryTaskEntity, IStoryTaskRepository>
 {
 	/**
-	 * The ITaskRepository for executing the queries.
-	 **/
-	private IStoryTaskRepository taskRepo;
-
-	/**
 	 * Instantiates a new task service.
 	 */
 	public StoryTaskService()
 	{
 		super(StoryTaskEntity.class, IStoryTaskRepository.class);
-	}
-
-	/**
-	 * Initialize the taskRepo.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		taskRepo = repositoryFactory.getRepository(IStoryTaskRepository.class);
 	}
 
 	/**
@@ -70,12 +54,12 @@ public class StoryTaskService extends BaseCrudService<StoryTaskEntity, IStoryTas
 						throw new IllegalStateException("Actual time should be greater than 0");
 					}
 
-					taskRepo.addExtraTime(key, taskRecords.getActualTime());
+					repository.addExtraTime(key, taskRecords.getActualTime());
 				}
 
 				if(taskRecords.getTaskStatus() != null)
 				{
-					taskRepo.updateTaskStatus(key, taskRecords.getTaskStatus());
+					repository.updateTaskStatus(key, taskRecords.getTaskStatus());
 				}
 			}
 
@@ -98,7 +82,7 @@ public class StoryTaskService extends BaseCrudService<StoryTaskEntity, IStoryTas
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			taskRepo.updateTaskStatusByStory(storyId, status);
+			repository.updateTaskStatusByStory(storyId, status);
 
 			transaction.commit();
 		} catch(Exception ex)
@@ -116,7 +100,7 @@ public class StoryTaskService extends BaseCrudService<StoryTaskEntity, IStoryTas
 	 */
 	public List<StoryTaskModel> fetchTaskByStory(Long storyId)
 	{
-		List<StoryTaskEntity> tasks = taskRepo.fetchByStoryId(storyId);
+		List<StoryTaskEntity> tasks = repository.fetchByStoryId(storyId);
 		List<StoryTaskModel> taskModels = new ArrayList<StoryTaskModel>();
 
 		tasks.forEach(entity -> taskModels.add(super.toModel(entity, StoryTaskModel.class)));

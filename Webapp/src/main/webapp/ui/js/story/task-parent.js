@@ -379,4 +379,12 @@ $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelp
 		$scope.initTaskheader();
 	});
 	
+	/**
+	 * Gets invoked from the parent controller on click of update button
+	 */
+	$scope.updateTaskChanges = function(){
+		
+		$scope.$broadcast("updateTaskChanges");
+	};
+	
 }]);
