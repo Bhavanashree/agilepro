@@ -1,7 +1,40 @@
 $.application.controller('storyPriorityController', ["$scope", "actionHelper", "utils", 
                                               function($scope, actionHelper, utils) {
 	
+	/**
+	 * Gets invoked on type of search title in the search input box.
+	 * 
+	 * Only backlogs are filtered.
+	 */
+	$scope.priorityStoryFilter = function(){
+		
+		var retFunc = function(item){
+				
+			if(!$scope.prioritySearchStory)
+			{
+				return true;
+			}
+			
+			var searchString = $scope.prioritySearchStory.toLowerCase();
+
+			return item.title.toLowerCase().includes(searchString);
+		};
+		
+		if($scope.oldSearchPriorityStory == $scope.prioritySearchStory)
+		{
+			return retFunc;
+		}
+				
+		$scope.oldSearchPriorityStory = $scope.prioritySearchStory;
+
+		return retFunc;
+	};
+
+	/**
+	 * Load and sort by priority.
+	 */
 	$scope.loadStoriesByPriority = function() {
+		
 		$scope.sortedBacklogs = [];
 		
     	var backLogArr = $scope.getBackLogs();
@@ -324,7 +357,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 			return;
 		}
 		
-		$("#" + $scope.expandAreaId).height(40);
+		$("#" + $scope.expandAreaId).height(20);
 	};
 	
 	/**
@@ -339,7 +372,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 			$("#" + $scope.expandAreaId).height(30);
 		}else
 		{
-			$("#" + $scope.expandAreaId).height(15);
+			$("#" + $scope.expandAreaId).height(10);
 		}
 	};
 	

@@ -1,72 +1,94 @@
 <!-- Priority View -->
 <div ng-controller="storyPriorityController" style="border: 3px solid grey; width: 100%; height: 100%;">
 
+	<div style="border-bottom: 3px solid grey;">
+		<table style="width: 100%;">
+			<tr>
+				<td class="has-success has-feedback" style="border-right: 3px solid grey;">
+					<input ng-model="prioritySearchStory" class="form-control" type="text" placeholder="Search story" style="border: none;"/>
+					<span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true" style="color: #A8A8A8;"></span>
+				</td>
+				
+				<td>
+					drop down
+				</td>
+			</tr>
+		</table>
+	</div>
+	
 	<div id="storyPriorityId" style="overflow-y: auto; height: 100%;" ng-init="loadStoriesByPriority()">
 			
-			<div ng-repeat="backlog in sortedBacklogs">
-			
-				<div id="drop_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
-				 yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
-				 yk-on-drop="onDropBacklog(event)" style="border: 1px solid white; height: 15px;
-				 margin-left: 1em; margin-right: 1em;">
-					
-				</div>		
+		<div ng-repeat="backlog in sortedBacklogs | filter:priorityStoryFilter()">
+		
+			<div id="dropAbove_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+			 	yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
+			 	yk-on-drop="onDropBacklog(event)" style="border: 1px solid white; height: 10px;
+			 	margin-left: 1em; margin-right: 1em;">
 				
-				<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
-					border: 3px solid #66c2ff; cursor: grab;"
-					draggable="true" yk-on-drag="dragBacklog(event)" yk-on-drag-end="mouseDroppedItem(event)">
-				
-					<table style="width: 100%; height: 100%;">
-						<tr>
-							<td style="width: 4%; text-align: center; background-color: #383838; border-right: 1px solid #101010; color: white;">
-								{{getSymbolFor(backlog)}}
-							</td>
-							
-							<td ng-show="!backlog.displayInputPriority" ng-click="showInputPriority(backlog.id)"
-								style="width: 4%; text-align: center; background-color: #383838;
-								color: white;"
-								data-toggle="tooltip" data-placement="top" title="Click to change the priority of - {{backlog.title}}">
-									{{backlog.priority}}
-							</td>
-							
-							<td ng-show="backlog.displayInputPriority" style="width: 4%;">
-								<input id="{{backlog.id}}_priorityInputBoxId" ng-blur="onBlurInput(backlog.id)" 
-									type="text" ng-model="inputPriority" ng-keyup="onTypeNewPriority($event, $index, backlog.id)" 
-									class="form-control" style="max-width: 3.5em; min-width: 3.5em; border: none; 
-									max-height: 2em; min-height: 2em; margin-right: 0; padding-right: 0;"/>
-							</td>
-							
-							<td style="width: 76%; padding-left: 0.5em; border-left: 1px solid #101010; ">
-								<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
-							</td>
-							
-							<td id="oneStepUp_{{backlog.id}}" ng-show="!$first" ng-click="oneStepUp($index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
-								<i class="fa fa-angle-up" style="color: black;"></i>
-							</td>
-							
-							<td id="moveToTop_{{backlog.id}}" ng-show="!$first" ng-click="moveToTop(backlog.id, $index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
-								<i class="fa fa-angle-double-up" style="color: black;"></i>
-							</td>
-							
-							<td id="oneStepDown_{{backlog.id}}" ng-show="!$last" ng-click="oneStepDown($index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
-								<i class="fa fa-angle-down" style="color: black;"></i>
-							</td>
-							
-							<td id="moveToBottom_{{backlog.id}}" ng-show="!$last" ng-click="moveToBottom(backlog.id, $index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
-								<i class="fa fa-angle-double-down" style="color: black;"></i>
-							</td>
-						</tr>
-					</table>
-				</div>
+			</div>		
 			
+			<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
+				border: 3px solid #66c2ff; cursor: grab;"
+				draggable="true" yk-on-drag="dragBacklog(event)" yk-on-drag-end="mouseDroppedItem(event)">
+			
+				<table style="width: 100%; height: 100%;">
+					<tr>
+						<td style="width: 4%; text-align: center; background-color: #383838; border-right: 1px solid #101010; color: white;">
+							{{getSymbolFor(backlog)}}
+						</td>
+						
+						<td ng-show="!backlog.displayInputPriority" ng-click="showInputPriority(backlog.id)"
+							style="width: 4%; text-align: center; background-color: #383838;
+							color: white;"
+							data-toggle="tooltip" data-placement="top" title="Click to change the priority of - {{backlog.title}}">
+								{{backlog.priority}}
+						</td>
+						
+						<td ng-show="backlog.displayInputPriority" style="width: 4%;">
+							<input id="{{backlog.id}}_priorityInputBoxId" ng-blur="onBlurInput(backlog.id)" 
+								type="text" ng-model="inputPriority" ng-keyup="onTypeNewPriority($event, $index, backlog.id)" 
+								class="form-control" style="max-width: 3.5em; min-width: 3.5em; border: none; 
+								max-height: 2em; min-height: 2em; margin-right: 0; padding-right: 0;"/>
+						</td>
+						
+						<td style="width: 76%; padding-left: 0.5em; border-left: 1px solid #101010; ">
+							<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
+						</td>
+						
+						<td id="oneStepUp_{{backlog.id}}" ng-show="!$first" ng-click="oneStepUp($index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<i class="fa fa-angle-up" style="color: black;"></i>
+						</td>
+						
+						<td id="moveToTop_{{backlog.id}}" ng-show="!$first" ng-click="moveToTop(backlog.id, $index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<i class="fa fa-angle-double-up" style="color: black;"></i>
+						</td>
+						
+						<td id="oneStepDown_{{backlog.id}}" ng-show="!$last" ng-click="oneStepDown($index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<i class="fa fa-angle-down" style="color: black;"></i>
+						</td>
+						
+						<td id="moveToBottom_{{backlog.id}}" ng-show="!$last" ng-click="moveToBottom(backlog.id, $index)" style="width: 4%; text-align: center; background-color: #cce6ff; border-left: 1px solid #66c2ff; color: white;">
+							<i class="fa fa-angle-double-down" style="color: black;"></i>
+						</td>
+					</tr>
+				</table>
+			</div>
+		
+			<div id="dropBelow_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+			 	yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
+			 	yk-on-drop="onDropBacklog(event)" style="border: 1px solid white; height: 5px;
+			 	margin-left: 1em; margin-right: 1em;">
+				
 			</div>
 			
-			<div id="dropForLeastPriority" yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" yk-on-drop="onDropForMaxPriority(event)"
-				class="heightTransition" 
-				style="background-color: white; height: 30px; margin-top: 1em; margin-left: 1em; margin-right: 1em;">
-				
-					Drop for least priority
-			</div>			
+		</div>
+			
+		<div id="dropForLeastPriority" yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" yk-on-drop="onDropForMaxPriority(event)"
+			class="heightTransition" 
+			style="background-color: white; height: 30px; margin-top: 1em; margin-left: 1em; margin-right: 1em;">
+			
+				Drop for least priority
+		</div>			
 	</div>
 	
 </div>					
