@@ -20,14 +20,7 @@
 			
 		<div ng-repeat="backlog in sortedBacklogs | filter:priorityStoryFilter()">
 		
-			<div id="dropAbove_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
-			 	yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
-			 	yk-on-drop="onDropBacklog(event)" style="border: 1px solid white; height: 10px;
-			 	margin-left: 1em; margin-right: 1em;">
-				
-			</div>		
-			
-			<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin-left: 1em; margin-right: 1em; 
+			<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin: 0.5em; 
 				border: 3px solid #66c2ff; cursor: grab;"
 				draggable="true" yk-on-drag="dragBacklog(event)" yk-on-drag-end="mouseDroppedItem(event)">
 			
@@ -74,11 +67,22 @@
 				</table>
 			</div>
 		
-			<div id="dropBelow_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+			<div id="dropArea_{{backlog.id}}" name="{{$index}}" 
+				class="heightTransition" ng-show="!$last" 
 			 	yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
-			 	yk-on-drop="onDropBacklog(event)" style="border: 1px solid white; height: 5px;
-			 	margin-left: 1em; margin-right: 1em;">
-				
+			 	style="border: 1px solid white; height: 10px;">
+			 	
+			 	<div id="displayBelowOnPriorityHasGap_{{backlog.id}}" style="visibility: hidden;">
+			 		<span style="text-transform: capitalize;">Drop below {{backlog.title}}</span>
+			 	</div>
+			 	
+			 	<div id="displayOnPriorityHasNoGap_{{backlog.id}}" style="visibility: hidden;">
+			 		<span style="text-transform: capitalize;">Drop between {{message}}</span>
+			 	</div>
+			 	
+			 	<div id="displayAboveOnPriorityHasGap_{{backlog.id}}" style="visibility: hidden;">
+			 		<span style="text-transform: capitalize;">Drop above {{backlog.title}}</span>
+			 	</div>
 			</div>
 			
 		</div>
