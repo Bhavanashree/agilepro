@@ -14,12 +14,24 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 				
 			if(!$scope.prioritySearchStory)
 			{
+				$scope.filteredItems = [];
 				return true;
 			}
 			
 			var searchString = $scope.prioritySearchStory.toLowerCase();
 
-			return item.title.toLowerCase().includes(searchString);
+			var filtered = item.title.toLowerCase().includes(searchString);
+			var index = $scope.filteredItems.indexOf(item);
+			
+			if(filtered && (index == -1))
+			{
+				$scope.filteredItems.push(item);
+			}else if(!filtered && index != -1)
+			{
+				$scope.filteredItems.splice(index, 1);
+			}
+			
+			return filtered;
 		};
 		
 		if($scope.oldSearchPriorityStory == $scope.prioritySearchStory)
@@ -317,7 +329,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		$scope.showOnDrag = true;
 		
-		if($scope.draggingId == Number(dragId))
+		if($scope.draggingId == Number(dragId) || ($scope.filteredItems.length == 1))
 		{
 			return;
 		}
@@ -359,8 +371,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		event.preventDefault();
 		
-		console.log("drop area enter");
-		
 		$scope.expandAreaId = event.target.id;
 		$scope.areaId = Number((event.target.id).split('_')[1]);
 		var dropAreaIndex = Number($(event.target).attr("name"));
@@ -373,17 +383,27 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		if($scope.expandAreaId)
 		{
-			$scope.upperObj = $scope.sortedBacklogs[dropAreaIndex];
-			$scope.lowerObj = $scope.sortedBacklogs[dropAreaIndex + 1];
+			debugger;
+			
+			if($scope.filteredItems.length == 0)
+			{
+				$scope.upperObj = $scope.sortedBacklogs[dropAreaIndex];
+				$scope.lowerObj = $scope.sortedBacklogs[dropAreaIndex + 1];
+			}
+			else if($scope.filteredItems.length > 1)
+			{
+				$scope.upperObj = $scope.filteredItems[dropAreaIndex];
+				$scope.lowerObj = $scope.filteredItems[dropAreaIndex + 1];
+			}
 			
 			if(($scope.lowerObj.priority - $scope.upperObj.priority) == 1)
 			{
 				$scope.message = $scope.upperObj.title + $scope.lowerObj.title;  
-				$("#displayOnPriorityHasNoGap_" + $scope.upperObj.id).css("visibility", "visible");
+				$("#displayOnPriorityHasNoGap_" + $scope.upperObj.id).css("display", "inherit ");
 			}else
 			{
-				$("#displayBelowOnPriorityHasGap_" + $scope.upperObj.id).css("visibility", "visible");
-				$("#displayAboveOnPriorityHasGap_" + $scope.upperObj.id).css("visibility", "visible");
+				$("#displayBelowOnPriorityHasGap_" + $scope.upperObj.id).css("display", "inherit");
+				$("#displayAboveOnPriorityHasGap_" + $scope.upperObj.id).css("display", "inherit");
 			}
 			
 			$("#" + $scope.expandAreaId).height(25);
@@ -404,7 +424,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		{
 			if($scope.lowerObj && $scope.upperObj && ($scope.lowerObj.priority - $scope.upperObj.priority) == 1)
 			{
-				$("#displayOnPriorityHasNoGap_" + $scope.upperObj.id).css("visibility", "hidden");
+				$("#displayOnPriorityHasNoGap_" + $scope.upperObj.id).css("display", "none");
 			}
 			
 			$("#" + $scope.expandAreaId).height(10);
@@ -504,7 +524,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	$scope.mouseDroppedItem = function(event){
 		
 		$('#dropForLeastPriority').css("background-color", "white");
-		$scope.draggingIndex = null;
 	};
 	
 	
