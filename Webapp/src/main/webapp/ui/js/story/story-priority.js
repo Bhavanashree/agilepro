@@ -356,21 +356,23 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 				var message = upperBacklog.title  + " and " + lowerBacklog.title;
 				upperBacklog.message = message;
 				
-				$("#dropAreaBetween_" + upperBacklog.id).height(10);
+				$("#dropAreaBetween_" + upperBacklog.id).height(20);
 				$("#dropAreaBetween_" + upperBacklog.id).css("visibility", "visible");
+				$("#dropAreaBetween_" + upperBacklog.id).css("background-color", "#383838");
 			}else
 			{
 				if(!(i - 1 == $scope.draggingIndex))
 				{
-					$("#dropAreaAbove_" + lowerBacklog.id).height(10);
+					$("#dropAreaAbove_" + lowerBacklog.id).height(20);
 					$("#dropAreaAbove_" + lowerBacklog.id).css("visibility", "visible");
+					$("#dropAreaAbove_" + upperBacklog.id).css("background-color", "#383838");
 				}
 				
 				if(!(i + 1 == $scope.draggingIndex))
 				{
-					console.log("drop below for " + upperBacklog.title);
-					$("#dropAreaBelow_" + upperBacklog.id).height(10);
+					$("#dropAreaBelow_" + upperBacklog.id).height(20);
 					$("#dropAreaBelow_" + upperBacklog.id).css("visibility", "visible");
+					$("#dropAreaBelow_" + upperBacklog.id).css("background-color", "#383838");
 				}
 			}
 		}
@@ -400,76 +402,22 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 	};
 	
-	/**
-	 * Gets invoked on drop area enter.
-	 */
-	$scope.onDropAreaAboveEnter = function(event){
+	$scope.onDropBetweenBacklog = function(event){
 		
 		event.preventDefault();
-		
-		$scope.draggingAreaAboveId = event.target.id;
-		
-		$scope.areaId = Number((event.target.id).split('_')[1]);
-		
-		if(($scope.draggingId == $scope.areaId))
-		{
-			return;
-		}
-		
-		if($scope.draggingAreaAboveId)
-		{
-			$("#" + $scope.draggingAreaAboveId + " > span").css("visibility", "visible");
-			$("#" + $scope.draggingAreaAboveId).css("background-color", "red");
-		}
+		console.log("onDropBetweenBacklog");
 	};
 	
-	/**
-	 * Gets invoked on drop area leave.
-	 */
-	$scope.onDropAreaAboveLeave = function(event){
+	$scope.onDropBelowBacklog = function(event){
 		
 		event.preventDefault();
-		
-		if($scope.draggingAreaAboveId == "dropForMaxPriority")
-		{
-		}else if($scope.draggingAreaAboveId)
-		{
-			$("#" + $scope.draggingAreaAboveId + " > span").css("visibility", "hidden");
-			$("#" + $scope.draggingAreaAboveId).css("background-color", "white");
-		}
+		console.log("onDropBelowBacklog");
 	};
 	
-	$scope.onDropAreaBelowEnter = function(event){
+	$scope.onDropAboveBacklog = function(event){
 		
 		event.preventDefault();
-		
-		$scope.draggingAreaBelowId = event.target.id;
-		
-		$scope.areaId = Number((event.target.id).split('_')[1]);
-		
-		if(($scope.draggingId == $scope.areaId))
-		{
-			return;
-		}
-		
-		if($scope.draggingAreaBelowId)
-		{
-			$("#" + $scope.draggingAreaBelowId + " > span").css("visibility", "visible");
-			$("#" + $scope.draggingAreaBelowId).css("background-color", "green");
-		}
-	};
-	
-	$scope.onDropAreaBelowLeave = function(event){
-		
-		event.preventDefault();
-		
-		if($scope.draggingAreaBelowId == "dropForMaxPriority")
-		{
-		}else if($scope.draggingAreaBelowId)
-		{
-			$("#" + $scope.draggingAreaBelowId + " > span").css("visibility", "hidden");
-			$("#" + $scope.draggingAreaBelowId).css("background-color", "white");
-		}
+		console.log("onDropAboveBacklog");
 	};
 	
 	/**
