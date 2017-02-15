@@ -20,7 +20,15 @@
 			
 		<div ng-repeat="backlog in sortedBacklogs | filter:priorityStoryFilter()">
 		
-			<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin: 0.5em; 
+			<div id="dropAreaAbove_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+			 	yk-on-drop="onDropAboveBacklog(event)" style="border: 1px solid white; height: 1px;
+			 	 visibility: hidden;">
+				
+				<span style="text-transform: capitalize;">Drop above {{backlog.title}}</span>
+				
+			</div>	
+			
+			<div id="drag_{{backlog.id}}" name="{{$index}}" style="height: 2.5em; margin: 0.5em;
 				border: 3px solid #66c2ff; cursor: grab;"
 				draggable="true" yk-on-drag="dragBacklog(event)" yk-on-drag-end="mouseDroppedItem(event)">
 			
@@ -67,22 +75,20 @@
 				</table>
 			</div>
 		
-			<div id="dropArea_{{backlog.id}}" name="{{$index}}" 
-				class="heightTransition" ng-show="!$last" 
-			 	yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" 
-			 	style="border: 1px solid white; height: 10px;">
-			 	
-			 	<div id="displayBelowOnPriorityHasGap_{{backlog.id}}" style="display: none;">
-			 		<span style="text-transform: capitalize;">Drop below {{backlog.title}}</span>
-			 	</div>
-			 	
-			 	<div id="displayOnPriorityHasNoGap_{{backlog.id}}" style="display: none;">
-			 		<span style="text-transform: capitalize;">Drop between {{message}}</span>
-			 	</div>
-			 	
-			 	<div id="displayAboveOnPriorityHasGap_{{backlog.id}}" style="display: none;">
-			 		<span style="text-transform: capitalize;">Drop above {{backlog.title}}</span>
-			 	</div>
+			<div id="dropAreaBetween_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+			 	yk-on-drop="onDropBelowBacklog(event)" style="border: 1px solid white; height: 1px;
+			 	 visibility: hidden;">
+				
+				<span style="text-transform: capitalize;">Drop between {{backlog.message}}</span>
+				
+			</div>
+			
+			<div id="dropAreaBelow_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+			 	yk-on-drop="onDropBelowBacklog(event)" style="border: 1px solid white; height: 1px;
+			 	 visibility: hidden;">
+				
+				<span style="text-transform: capitalize;">Drop below {{backlog.title}}</span>
+				
 			</div>
 			
 		</div>

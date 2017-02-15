@@ -325,11 +325,9 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		$scope.draggingIndex = Number($(event.target).attr("name"));
 		
-		console.log("$scope.draggingIndex = " + $scope.draggingIndex);
-		
 		$scope.showOnDrag = true;
 		
-		if($scope.draggingId == Number(dragId) || ($scope.filteredItems.length == 1))
+		if($scope.draggingId == Number(dragId))
 		{
 			return;
 		}
@@ -338,6 +336,44 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		$('#dropForLeastPriority').css("background-color", "lightblue");
+		
+		var arrayItems = $scope.filteredItems.length > 0 ? $scope.filteredItems : $scope.sortedBacklogs; 
+		
+		var arraylength = arrayItems.length;
+		
+		for(var i = 0 ; i < arraylength - 1 ; i++)
+		{
+			if($scope.draggingIndex == i || $scope.draggingIndex == i + 1)
+			{
+				continue;
+			}
+			
+			var upperBacklog = arrayItems[i];
+			var lowerBacklog = arrayItems[i + 1];
+			
+			if(lowerBacklog.priority - upperBacklog.priority == 1)
+			{
+				var message = upperBacklog.title  + " and " + lowerBacklog.title;
+				upperBacklog.message = message;
+				
+				$("#dropAreaBetween_" + upperBacklog.id).height(10);
+				$("#dropAreaBetween_" + upperBacklog.id).css("visibility", "visible");
+			}else
+			{
+				if(!(i - 1 == $scope.draggingIndex))
+				{
+					$("#dropAreaAbove_" + lowerBacklog.id).height(10);
+					$("#dropAreaAbove_" + lowerBacklog.id).css("visibility", "visible");
+				}
+				
+				if(!(i + 1 == $scope.draggingIndex))
+				{
+					console.log("drop below for " + upperBacklog.title);
+					$("#dropAreaBelow_" + upperBacklog.id).height(10);
+					$("#dropAreaBelow_" + upperBacklog.id).css("visibility", "visible");
+				}
+			}
+		}
 		
 		try
 		{
@@ -367,67 +403,72 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	/**
 	 * Gets invoked on drop area enter.
 	 */
-	$scope.onDropAreaEnter = function(event){
+	$scope.onDropAreaAboveEnter = function(event){
 		
 		event.preventDefault();
 		
-		$scope.expandAreaId = event.target.id;
-		$scope.areaId = Number((event.target.id).split('_')[1]);
-		var dropAreaIndex = Number($(event.target).attr("name"));
+		$scope.draggingAreaAboveId = event.target.id;
 		
-		// when item is filtered then no need to check with immediate item
-		if(($scope.draggingId == $scope.areaId) || (($scope.draggingIndex == dropAreaIndex + 1) && ($scope.filteredItems.length == 0)))
+		$scope.areaId = Number((event.target.id).split('_')[1]);
+		
+		if(($scope.draggingId == $scope.areaId))
 		{
 			return;
 		}
 		
-		if($scope.expandAreaId)
+		if($scope.draggingAreaAboveId)
 		{
-			debugger;
-			
-			if($scope.filteredItems.length == 0)
-			{
-				$scope.upperObj = $scope.sortedBacklogs[dropAreaIndex];
-				$scope.lowerObj = $scope.sortedBacklogs[dropAreaIndex + 1];
-			}
-			else if($scope.filteredItems.length > 1)
-			{
-				$scope.upperObj = $scope.filteredItems[dropAreaIndex];
-				$scope.lowerObj = $scope.filteredItems[dropAreaIndex + 1];
-			}
-			
-			if(($scope.lowerObj.priority - $scope.upperObj.priority) == 1)
-			{
-				$scope.message = $scope.upperObj.title + $scope.lowerObj.title;  
-				$("#displayOnPriorityHasNoGap_" + $scope.upperObj.id).css("display", "inherit ");
-			}else
-			{
-				$("#displayBelowOnPriorityHasGap_" + $scope.upperObj.id).css("display", "inherit");
-				$("#displayAboveOnPriorityHasGap_" + $scope.upperObj.id).css("display", "inherit");
-			}
-			
-			$("#" + $scope.expandAreaId).height(25);
+			$("#" + $scope.draggingAreaAboveId + " > span").css("visibility", "visible");
+			$("#" + $scope.draggingAreaAboveId).css("background-color", "red");
 		}
 	};
 	
 	/**
 	 * Gets invoked on drop area leave.
 	 */
-	$scope.onDropAreaLeave = function(event){
+	$scope.onDropAreaAboveLeave = function(event){
 		
 		event.preventDefault();
 		
-		if($scope.expandAreaId == "dropForMaxPriority")
+		if($scope.draggingAreaAboveId == "dropForMaxPriority")
 		{
-			$("#" + $scope.expandAreaId).height(30);
-		}else if($scope.expandAreaId)
+		}else if($scope.draggingAreaAboveId)
 		{
-			if($scope.lowerObj && $scope.upperObj && ($scope.lowerObj.priority - $scope.upperObj.priority) == 1)
-			{
-				$("#displayOnPriorityHasNoGap_" + $scope.upperObj.id).css("display", "none");
-			}
-			
-			$("#" + $scope.expandAreaId).height(10);
+			$("#" + $scope.draggingAreaAboveId + " > span").css("visibility", "hidden");
+			$("#" + $scope.draggingAreaAboveId).css("background-color", "white");
+		}
+	};
+	
+	$scope.onDropAreaBelowEnter = function(event){
+		
+		event.preventDefault();
+		
+		$scope.draggingAreaBelowId = event.target.id;
+		
+		$scope.areaId = Number((event.target.id).split('_')[1]);
+		
+		if(($scope.draggingId == $scope.areaId))
+		{
+			return;
+		}
+		
+		if($scope.draggingAreaBelowId)
+		{
+			$("#" + $scope.draggingAreaBelowId + " > span").css("visibility", "visible");
+			$("#" + $scope.draggingAreaBelowId).css("background-color", "green");
+		}
+	};
+	
+	$scope.onDropAreaBelowLeave = function(event){
+		
+		event.preventDefault();
+		
+		if($scope.draggingAreaBelowId == "dropForMaxPriority")
+		{
+		}else if($scope.draggingAreaBelowId)
+		{
+			$("#" + $scope.draggingAreaBelowId + " > span").css("visibility", "hidden");
+			$("#" + $scope.draggingAreaBelowId).css("background-color", "white");
 		}
 	};
 	
@@ -524,6 +565,21 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	$scope.mouseDroppedItem = function(event){
 		
 		$('#dropForLeastPriority').css("background-color", "white");
+		$scope.draggingIndex = null;
+		
+		for(var i = 0 ; i < $scope.sortedBacklogs.length ; i++)
+		{
+			var backlog = $scope.sortedBacklogs[i];
+			
+			$("#dropAreaAbove_" + backlog.id).height(1);
+			$("#dropAreaAbove_" + backlog.id).css("visibility", "hidden");
+			
+			$("#dropAreaBelow_" + backlog.id).height(1);
+			$("#dropAreaBelow_" + backlog.id).css("visibility", "hidden");
+			
+			$("#dropAreaBetween_" + backlog.id).height(1);
+			$("#dropAreaBetween_" + backlog.id).css("visibility", "hidden");
+		}
 	};
 	
 	
