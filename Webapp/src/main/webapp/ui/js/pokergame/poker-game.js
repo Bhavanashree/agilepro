@@ -13,9 +13,6 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 	
 	$scope.pokerGameError = {"error" : false, "message" : ""};
 	
-	// testing
-	//$scope.isGameStarted = true;
-	
 	var projectId;
 	
 	/**

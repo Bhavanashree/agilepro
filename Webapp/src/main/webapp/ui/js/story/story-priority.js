@@ -279,11 +279,16 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	/**
 	 * Increase priority from.
 	 */
-	$scope.increasePriorityFrom = function(indexFrom){
+	$scope.increasePriorityFrom = function(indexFrom, skipId){
 		
 		for(var i = indexFrom ; i < $scope.sortedBacklogs.length ; i++)
 		{
 			var obj = $scope.sortedBacklogs[i];
+			
+			if(skipId && skipId == obj.id)
+			{
+				continue;
+			}
 			
 			obj.priority = obj.priority + 1; 
 		}
@@ -585,15 +590,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 					{
 						$scope.sortedBacklogs[$scope.draggingIndex].priority = newPriority;;
 						
-						for(var i = indexFrom; i < $scope.sortedBacklogs.length; i++)
-						{
-							var obj = $scope.sortedBacklogs[i];
-							
-							if(obj.id != $scope.draggingId)
-							{
-								obj.priority = obj.priority + 1;
-							}
-						}
+						$scope.increasePriorityFrom(indexFrom, $scope.draggingId);
 							
 						$scope.sortAccordingToPriority();
 						
