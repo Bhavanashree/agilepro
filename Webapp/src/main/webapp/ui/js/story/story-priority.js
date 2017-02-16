@@ -335,14 +335,13 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.draggingId = Number(dragId);
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
-		$('#dropForLeastPriority').css("background-color", "lightblue");
-		
 		var arrayItems = $scope.filteredItems.length > 0 ? $scope.filteredItems : $scope.sortedBacklogs; 
 		
 		var arraylength = arrayItems.length;
 		
 		for(var i = 0 ; i < arraylength - 1 ; i++)
 		{
+			// text should not be displayed for the dragging item area.
 			if($scope.draggingIndex == i || $scope.draggingIndex == i + 1)
 			{
 				continue;
@@ -356,25 +355,37 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 				var message = upperBacklog.title  + " and " + lowerBacklog.title;
 				upperBacklog.message = message;
 				
-				$("#dropAreaBetween_" + upperBacklog.id).height(20);
+				$("#dropAreaBetween_" + upperBacklog.id).height(25);
 				$("#dropAreaBetween_" + upperBacklog.id).css("visibility", "visible");
 				$("#dropAreaBetween_" + upperBacklog.id).css("background-color", "#383838");
 			}else
 			{
 				if(!(i - 1 == $scope.draggingIndex))
 				{
-					$("#dropAreaAbove_" + lowerBacklog.id).height(20);
+					$("#dropAreaAbove_" + lowerBacklog.id).height(25);
 					$("#dropAreaAbove_" + lowerBacklog.id).css("visibility", "visible");
-					$("#dropAreaAbove_" + upperBacklog.id).css("background-color", "#383838");
+					$("#dropAreaAbove_" + lowerBacklog.id).css("background-color", "#383838");
 				}
 				
 				if(!(i + 1 == $scope.draggingIndex))
 				{
-					$("#dropAreaBelow_" + upperBacklog.id).height(20);
+					$("#dropAreaBelow_" + upperBacklog.id).height(25);
 					$("#dropAreaBelow_" + upperBacklog.id).css("visibility", "visible");
 					$("#dropAreaBelow_" + upperBacklog.id).css("background-color", "#383838");
 				}
 			}
+		}
+
+		if($scope.draggingIndex != 0)
+		{
+			$("#dropForMaxPriority").height(25);
+			$("#dropForMaxPriority").css("visibility", "visible");
+		}
+		
+		if($scope.draggingIndex != arraylength - 1)
+		{
+			$("#dropForLeastPriority").height(25);
+			$("#dropForLeastPriority").css("visibility", "visible");
 		}
 		
 		try
@@ -509,10 +520,14 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$('#dropForMaxPriority').css("background-color", "white");
 	};
 	
-	
+	/**
+	 * Gets invoked when mouse release the dragging item.
+	 */
 	$scope.mouseDroppedItem = function(event){
 		
-		$('#dropForLeastPriority').css("background-color", "white");
+		$('#dropForLeastPriority').css("visibility", "hidden");
+		$('#dropForMaxPriority').css("visibility", "hidden");
+		$('#dropForMaxPriority').css("height", "5");
 		$scope.draggingIndex = null;
 		
 		for(var i = 0 ; i < $scope.sortedBacklogs.length ; i++)
