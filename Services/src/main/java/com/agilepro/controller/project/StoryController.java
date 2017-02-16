@@ -13,7 +13,7 @@ import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SWAP_PRIORITY;
-import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TO_MAX_PRIORITY;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_TO_LEAST_PRIORITY;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_STATUS;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_STORY_MANAGEMENT;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_UPDATE_INPUT_PRIORITY;
@@ -185,13 +185,13 @@ public class StoryController extends BaseController
 		return new BaseResponse();
 	}
 	
-	@ActionName(ACTION_TYPE_UPDATE_TO_MAX_PRIORITY)
-	@RequestMapping(value = "/updateToMaxPriority", method = RequestMethod.GET)
+	@ActionName(ACTION_TYPE_UPDATE_TO_LEAST_PRIORITY)
+	@RequestMapping(value = "/updateToLeastPriority", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.BACKLOG_EDIT, UserRole.EMPLOYEE_VIEW, UserRole.EMPLOYEE_EDIT, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BaseResponse updateToMaxPriority(@RequestParam(value = "id") Long id, @RequestParam(value = "projectId") Long projectId)
+	public BaseResponse updateToLeastPriority(@RequestParam(value = "id") Long id, @RequestParam(value = "projectId") Long projectId)
 	{
-		storyService.updateToMaxPriority(id, projectId);
+		storyService.updateToLeastPriority(id, projectId);
 		return new BaseResponse();
 	}
 	

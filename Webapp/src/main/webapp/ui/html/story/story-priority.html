@@ -18,7 +18,7 @@
 	
 	<div id="storyPriorityId" style="overflow-y: auto; height: 100%;" ng-init="loadStoriesByPriority()">
 			
-		<div id="dropForMaxPriority" yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" yk-on-drop="onDropForMaxPriority(event)"
+		<div id="dropForMaxPriority" yk-on-drop="onDropForMaxPriority(event)"
 				class="heightTransition" 
 				style="background-color: #383838; visibility: hidden; text-align: center; 
 					  margin-top: 0.3em; margin-bottom: 0.2em; padding-top: 0.4em;
@@ -104,7 +104,7 @@
 			
 		</div>
 			
-		<div id="dropForLeastPriority" yk-on-drag-enter="onDropAreaEnter(event)" yk-on-drag-leave="onDropAreaLeave(event)" yk-on-drop="onDropForMaxPriority(event)"
+		<div id="dropForLeastPriority" yk-on-drop="onDropForLeastPriority(event)"
 			class="heightTransition" 
 			style="background-color: #383838; visibility: hidden; text-align: center; padding-top: 0.4em;
 				height: 0px; margin-left: 0.5em; margin-right: 0.5em; color: white; margin-top: 0.3em;">

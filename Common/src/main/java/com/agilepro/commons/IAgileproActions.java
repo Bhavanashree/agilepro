@@ -528,9 +528,9 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_UPDATE_INPUT_PRIORITY = "updateInputPriority";
 	
 	/**
-	 * The action type update to max priority.
+	 * The action type update to least priority.
 	 */
-	public String ACTION_TYPE_UPDATE_TO_MAX_PRIORITY = "updateToMaxPriority";
+	public String ACTION_TYPE_UPDATE_TO_LEAST_PRIORITY = "updateToLeastPriority";
 	
 	/**
 	 * The  action type update story status.

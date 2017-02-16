@@ -201,14 +201,14 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	}
 
 	/**
-	 * Update the provided record with the max priority.
+	 * Update the provided record with the least priority.
 	 * 
 	 * @param id
 	 *            provided id for max priority.
 	 * @param projectId
 	 *            story of provided project.
 	 */
-	public void updateToMaxPriority(Long id, Long projectId)
+	public void updateToLeastPriority(Long id, Long projectId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
