@@ -7,14 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.IAgileproActions;
-import com.agilepro.commons.IAgileproCommonConstants;
 import com.agilepro.commons.models.scrum.ScrumActionItemModel;
 import com.agilepro.commons.models.scrum.ScrumMeetingConversationModel;
 import com.agilepro.controller.IAgileProConstants;
@@ -23,7 +18,6 @@ import com.agilepro.persistence.repository.scrum.IScrumMeetingConversationReposi
 import com.agilepro.services.admin.ProjectMemberService;
 import com.agilepro.services.project.StoryService;
 import com.yukthi.persistence.ITransaction;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.UserService;
@@ -61,28 +55,11 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 	private ScrumActionItemService scrumActionItemService;
 
 	/**
-	 * The iscrum meeting conversation repository.
-	 **/
-	private IScrumMeetingConversationRepository iscrumMeetingConversationRepository;
-
-	/**
-	 * The repository factory.
-	 **/
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
 	 * Instantiates a new scrum meeting conversation service.
 	 */
 	public ScrumMeetingConversationService()
 	{
 		super(ScrumMeetingConversationEntity.class, IScrumMeetingConversationRepository.class);
-	}
-
-	@PostConstruct
-	private void init()
-	{
-		iscrumMeetingConversationRepository = repositoryFactory.getRepository(IScrumMeetingConversationRepository.class);
 	}
 
 	/**
@@ -137,7 +114,7 @@ public class ScrumMeetingConversationService extends BaseCrudService<ScrumMeetin
 		Integer numberOfConversations = 0;
 		Map<Integer, List<ScrumMeetingConversationModel>> conversations = new HashMap<Integer, List<ScrumMeetingConversationModel>>();
 
-		List<ScrumMeetingConversationEntity> scrumConversations = iscrumMeetingConversationRepository.fetchConversationByScrumMeeting(scrumMeetingId);
+		List<ScrumMeetingConversationEntity> scrumConversations = repository.fetchConversationByScrumMeeting(scrumMeetingId);
 
 		List<ScrumMeetingConversationModel> scrumConversationModel = new ArrayList<ScrumMeetingConversationModel>();
 

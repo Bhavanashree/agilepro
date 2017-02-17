@@ -43,6 +43,9 @@ public class ScrumMeetingUpdateProcessor implements INotificationProcessor
 	@Autowired
 	private ProjectMemberService projectMemberService;
 	
+	/**
+	 * Scrum meeting service.
+	 */
 	@Autowired
 	private ScrumMeetingService scrumMeetingService;
 

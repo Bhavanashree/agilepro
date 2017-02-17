@@ -1,7 +1,6 @@
 package com.agilepro.services.notification;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import com.yukthi.webutils.mail.IMailCustomizer;
 import com.yukthi.webutils.mail.MailMessage;

@@ -3,8 +3,6 @@ package com.agilepro.services.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.admin.HolidayModel;
@@ -18,27 +16,12 @@ import com.yukthi.webutils.services.BaseCrudService;
 @Service
 public class HolidayService extends BaseCrudService<HolidayEntity, IHolidayRepository>
 {
-
-	/**
-	 * The holiday repo.
-	 **/
-	private IHolidayRepository holidayRepo;
-
 	/**
 	 * Instantiates a new release service.
 	 */
 	public HolidayService()
 	{
 		super(HolidayEntity.class, IHolidayRepository.class);
-	}
-
-	/**
-	 * Inits the.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		holidayRepo = repositoryFactory.getRepository(IHolidayRepository.class);
 	}
 
 	/**
@@ -50,7 +33,7 @@ public class HolidayService extends BaseCrudService<HolidayEntity, IHolidayRepos
 	{
 		List<HolidayModel> holidayModels = new ArrayList<HolidayModel>();
 
-		holidayRepo.fetchHoliday().forEach(entity -> holidayModels.add(super.toModel(entity, HolidayModel.class)));
+		repository.fetchHoliday().forEach(entity -> holidayModels.add(super.toModel(entity, HolidayModel.class)));
 		return holidayModels;
 	}
 }

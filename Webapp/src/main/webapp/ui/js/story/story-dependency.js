@@ -78,6 +78,11 @@ $.application.controller('storyDependencyController', ["$scope", "actionHelper",
 	 */
 	$scope.minimizeDependencies = function(dependencyArr){
 		
+		if(!dependencyArr)
+		{
+			return;
+		}
+		
 		for(obj of dependencyArr)
 		{
 			obj.expanded = false;

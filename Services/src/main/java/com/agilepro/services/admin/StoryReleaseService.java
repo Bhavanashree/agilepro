@@ -3,9 +3,6 @@ package com.agilepro.services.admin;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.agilepro.commons.models.customer.StoryReleaseModel;
@@ -25,11 +22,6 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, IStoryReleaseRepository>
 {
 	/**
-	 * The i story release repository.
-	 **/
-	private IStoryReleaseRepository istoryReleaseRepository;
-
-	/**
 	 * The story service.
 	 **/
 	@Autowired
@@ -41,15 +33,6 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 	public StoryReleaseService()
 	{
 		super(StoryReleaseEntity.class, IStoryReleaseRepository.class);
-	}
-
-	/**
-	 * Inits the.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		istoryReleaseRepository = repositoryFactory.getRepository(IStoryReleaseRepository.class);
 	}
 
 	/**
@@ -99,7 +82,7 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 	 */
 	public StoryReleaseReadResponse fetchAllStoryReleaseByReleaseAndProject(Long releaseId, Long projectId)
 	{
-		List<BasicStoryInfo> basicStoryInfos = istoryReleaseRepository.fetchStorysByReleaseAndProject(releaseId, projectId);
+		List<BasicStoryInfo> basicStoryInfos = repository.fetchStorysByReleaseAndProject(releaseId, projectId);
 
 		Set<Long> storyIds = basicStoryInfos.stream().map(basicInfo -> basicInfo.getId()).collect(Collectors.toSet());
 
@@ -127,9 +110,9 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 			{
 				for(Long projectId : projectIds)
 				{
-					if(istoryReleaseRepository.fetchStorysByReleaseAndProject(releaseId, projectId).size() > 0)
+					if(repository.fetchStorysByReleaseAndProject(releaseId, projectId).size() > 0)
 					{
-						if(!istoryReleaseRepository.deleteByProjectId(releaseId, projectId))
+						if(!repository.deleteByProjectId(releaseId, projectId))
 						{
 							throw new IllegalStateException("An error occurred  while deleting story release");
 						}
@@ -159,7 +142,7 @@ public class StoryReleaseService extends BaseCrudService<StoryReleaseEntity, ISt
 			{
 				for(Long storyId : storyReleaseModel.getStoryIds())
 				{
-					if(!istoryReleaseRepository.deleteByStoryId(storyId))
+					if(!repository.deleteByStoryId(storyId))
 					{
 						throw new IllegalStateException("An error occurred  while deleting story release");
 					}

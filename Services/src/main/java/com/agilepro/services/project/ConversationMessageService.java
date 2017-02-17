@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ import com.agilepro.commons.models.project.ConversationTitleModel;
 import com.agilepro.persistence.entity.project.ConversationMessageEntity;
 import com.agilepro.persistence.repository.admin.IConversationMessageRepository;
 import com.yukthi.persistence.ITransaction;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.UserService;
 
@@ -28,22 +25,11 @@ import com.yukthi.webutils.services.UserService;
 public class ConversationMessageService extends BaseCrudService<ConversationMessageEntity, IConversationMessageRepository>
 {
 	/**
-	 * The repository factory.
-	 **/
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
 	 * The conversation title service.
 	 **/
 	@Autowired
 	private ConversationTitleService conversationTitleService;
 
-	/**
-	 * The i conversation repository.
-	 **/
-	private IConversationMessageRepository iconversationMessageRepository;
-	
 	/** 
 	 * The user service. 
 	 **/
@@ -59,15 +45,6 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 	}
 
 	/**
-	 * Inits the.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		iconversationMessageRepository = repositoryFactory.getRepository(IConversationMessageRepository.class);
-	}
-
-	/**
 	 * Check conversation.
 	 *
 	 * @param conversationTitleId
@@ -77,7 +54,7 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 	 */
 	private void checkConversation(Long conversationTitleId, Long userId)
 	{
-		List<ConversationMessageEntity> conversationMessageEntities = iconversationMessageRepository.fetchConversationMessageByTitleId(conversationTitleId);
+		List<ConversationMessageEntity> conversationMessageEntities = repository.fetchConversationMessageByTitleId(conversationTitleId);
 
 		if(conversationMessageEntities.size() == 0)
 		{
@@ -132,7 +109,7 @@ public class ConversationMessageService extends BaseCrudService<ConversationMess
 
 		Long ownerId = conversationTitleService.fetchFullModel(conversationTitleId, ConversationTitleModel.class).getOwnerId();
 		
-		List<ConversationMessageEntity> conversationEntities = iconversationMessageRepository.fetchConversationMessageByTitleId(conversationTitleId);
+		List<ConversationMessageEntity> conversationEntities = repository.fetchConversationMessageByTitleId(conversationTitleId);
 
 		List<ConversationMessageModel> conversationModels = new ArrayList<ConversationMessageModel>();
 

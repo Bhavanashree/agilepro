@@ -1,5 +1,14 @@
 $.application.controller('taskHeaderController', ["$scope", "utils", "actionHelper",
                                                function($scope, utils, actionHelper) {
+	/**
+	 * Returns the page configuration whether drag and drop is supported or not.
+	 */
+	$scope.getPageConfiguraion = function(){
+		
+		var pageConfig = {"dragAndDropFunctionality" : true}
+
+		return pageConfig;
+	};
 	
 	/**
 	 * Initialize task header.

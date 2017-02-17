@@ -3,12 +3,8 @@ package com.agilepro.services.admin;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.commons.models.customer.ProjectReleaseModel;
 import com.agilepro.commons.models.project.BasicProjectInfo;
@@ -27,11 +23,6 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity, IProjectReleaseRepository>
 {
 	/**
-	 * The iproject release repository.
-	 **/
-	private IProjectReleaseRepository iprojectReleaseRepository;
-
-	/**
 	 * The project service.
 	 **/
 	@Autowired
@@ -43,15 +34,6 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	public ProjectReleaseService()
 	{
 		super(ProjectReleaseEntity.class, IProjectReleaseRepository.class);
-	}
-
-	/**
-	 * Inits the.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		iprojectReleaseRepository = repositoryFactory.getRepository(IProjectReleaseRepository.class);
 	}
 
 	/**
@@ -99,9 +81,9 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 	 */
 	public ProjectReleaseReadResponse fetchAllProjectRelease(Long releaseId)
 	{
-		List<BasicProjectInfo> basicProjectInfos = iprojectReleaseRepository.fetchProjectsByRelease(releaseId);
+		List<BasicProjectInfo> basicProjectInfos = repository.fetchProjectsByRelease(releaseId);
 
-		List<ProjectReleaseEntity> projectReleaseEntities = iprojectReleaseRepository.fetchAllProjectRelease();
+		List<ProjectReleaseEntity> projectReleaseEntities = repository.fetchAllProjectRelease();
 
 		Set<Long> projectIds = projectReleaseEntities.stream().map(entity -> entity.getProject().getId()).collect(Collectors.toSet());
 
@@ -127,7 +109,7 @@ public class ProjectReleaseService extends BaseCrudService<ProjectReleaseEntity,
 			{
 				for(Long projectId : projectIds)
 				{
-					if(!iprojectReleaseRepository.deleteByProjectId(projectId))
+					if(!repository.deleteByProjectId(projectId))
 					{
 						throw new IllegalStateException("An error occurred  while deleting project release");
 					}

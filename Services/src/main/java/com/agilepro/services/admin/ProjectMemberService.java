@@ -2,12 +2,8 @@ package com.agilepro.services.admin;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.agilepro.commons.ProjectMemberRole;
 import com.agilepro.commons.models.admin.EmployeeModel;
 import com.agilepro.commons.models.customer.ProjectMemberModel;
@@ -15,7 +11,6 @@ import com.agilepro.controller.response.ProjectMemberReadResponse;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.repository.admin.IProjectMemberRepository;
 import com.yukthi.persistence.ITransaction;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.services.BaseCrudService;
 
@@ -28,21 +23,10 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, IProjectMemberRepository>
 {
 	/**
-	 * The repository factory.
-	 **/
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
 	 * The employee service.
 	 **/
 	@Autowired
 	private EmployeeService employeeService;
-
-	/**
-	 * The iproject member repository.
-	 **/
-	private IProjectMemberRepository iprojectMemberRepository;
 
 	/**
 	 * Instantiates a new project members service.
@@ -50,15 +34,6 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	public ProjectMemberService()
 	{
 		super(ProjectMemberEntity.class, IProjectMemberRepository.class);
-	}
-
-	/**
-	 * Initialize the iprojectMemberRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		iprojectMemberRepository = repositoryFactory.getRepository(IProjectMemberRepository.class);
 	}
 
 	private List<ProjectMemberModel> initPhoto(List<ProjectMemberEntity> projectMemberEntities)
@@ -96,7 +71,7 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public ProjectMemberReadResponse fetchProjectAdminManagers(Long projectId)
 	{
-		List<ProjectMemberModel> projectAdminManagers = initPhoto(iprojectMemberRepository.fetchAdminManagers(projectId));
+		List<ProjectMemberModel> projectAdminManagers = initPhoto(repository.fetchAdminManagers(projectId));
 
 		ProjectMemberModel manager = null;
 
@@ -121,7 +96,7 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public ProjectMemberReadResponse fetchMembersByTeam(Long projectTeamId)
 	{
-		List<ProjectMemberModel> projectMemberModels = initPhoto(iprojectMemberRepository.fetchMembers(projectTeamId));
+		List<ProjectMemberModel> projectMemberModels = initPhoto(repository.fetchMembers(projectTeamId));
 
 		return new ProjectMemberReadResponse(projectMemberModels);
 	}
@@ -136,12 +111,12 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public List<ProjectMemberModel> fetchProjectMembers(Long projectId)
 	{
-		return initPhoto(iprojectMemberRepository.fetchProjectMembers(projectId));
+		return initPhoto(repository.fetchProjectMembers(projectId));
 	}
 
 	public List<ValueLabel> fetchMembersDropDown(Long projectId)
 	{
-		return iprojectMemberRepository.fetchMembersDropDown(projectId);
+		return repository.fetchMembersDropDown(projectId);
 	}
 	
 	/**
@@ -154,7 +129,7 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			iprojectMemberRepository.deleteByEmployeeId(employeeId);
+			repository.deleteByEmployeeId(employeeId);
 
 			transaction.commit();
 		} catch(Exception ex)
@@ -180,12 +155,12 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public List<ProjectMemberEntity> fetchProjectMembersWithNoSpace(Long id)
 	{
-		return iprojectMemberRepository.fetchProjectMembersWithNoSpace(id);
+		return repository.fetchProjectMembersWithNoSpace(id);
 	}
 	
 	public boolean isProjectMember(Long projectId, Long employeeId)
 	{
-		return iprojectMemberRepository.isProjectMember(projectId, employeeId) > 0;
+		return repository.isProjectMember(projectId, employeeId) > 0;
 	}
 	
 	/**
@@ -197,6 +172,6 @@ public class ProjectMemberService extends BaseCrudService<ProjectMemberEntity, I
 	 */
 	public Long getProjectMemberId(Long projectId, Long employeeId)
 	{
-		return iprojectMemberRepository.fetchProjectMemberId(projectId, employeeId);
+		return repository.fetchProjectMemberId(projectId, employeeId);
 	}
 }

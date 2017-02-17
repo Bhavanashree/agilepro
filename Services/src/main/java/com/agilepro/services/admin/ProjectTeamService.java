@@ -2,7 +2,6 @@ package com.agilepro.services.admin;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import com.agilepro.commons.models.customer.ProjectTeamModel;
 import com.agilepro.persistence.entity.admin.ProjectTeamEntity;
@@ -19,25 +18,11 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class ProjectTeamService extends BaseCrudService<ProjectTeamEntity, IProjectTeamRepository>
 {
 	/**
-	 * The iproject team repository.
-	 **/
-	private IProjectTeamRepository iprojectTeamRepository;
-
-	/**
 	 * Instantiates a new project team service.
 	 */
 	public ProjectTeamService()
 	{
 		super(ProjectTeamEntity.class, IProjectTeamRepository.class);
-	}
-
-	/**
-	 * Initialize the iprojectTeamRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		iprojectTeamRepository = repositoryFactory.getRepository(IProjectTeamRepository.class);
 	}
 
 	/**
@@ -49,7 +34,7 @@ public class ProjectTeamService extends BaseCrudService<ProjectTeamEntity, IProj
 	 */
 	public List<ProjectTeamModel> fetchAllTeamByProjectId(Long projectId)
 	{
-		List<ProjectTeamEntity> projectTeamEntities = iprojectTeamRepository.fetchTeamsByProjectId(projectId);
+		List<ProjectTeamEntity> projectTeamEntities = repository.fetchTeamsByProjectId(projectId);
 
 		List<ProjectTeamModel> projectTeamModels = new ArrayList<ProjectTeamModel>(projectTeamEntities.size());
 
@@ -66,6 +51,6 @@ public class ProjectTeamService extends BaseCrudService<ProjectTeamEntity, IProj
 	 */
 	public List<ValueLabel> fetchTeamsDropDown(Long projectId)
 	{
-		return iprojectTeamRepository.fetchTeamsDropDown(projectId);
+		return repository.fetchTeamsDropDown(projectId);
 	}
 }

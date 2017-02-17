@@ -1,5 +1,16 @@
 $.application.controller('pokerGameController', ["$scope", "actionHelper", 
                                               function($scope, actionHelper) {
+	
+	/**
+	 * Returns the page configuration whether drag and drop is supported or not.
+	 */
+	$scope.getPageConfiguraion = function(){
+		
+		var pageConfig = {"dragAndDropFunctionality" : false}
+
+		return pageConfig;
+	};
+	
 	/**
 	 * List of game series for drop down.
 	 */

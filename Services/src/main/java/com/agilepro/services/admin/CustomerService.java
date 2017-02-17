@@ -2,8 +2,6 @@ package com.agilepro.services.admin;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,25 +48,11 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	private UserRoleService userRoleService;
 
 	/**
-	 * The icustomer repository.
-	 **/
-	private ICustomerRepository customerRepository;
-
-	/**
 	 * Instantiates a new customer service.
 	 */
 	public CustomerService()
 	{
 		super(CustomerEntity.class, ICustomerRepository.class);
-	}
-
-	/**
-	 * Inits the icustomerRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		customerRepository = repositoryFactory.getRepository(ICustomerRepository.class);
 	}
 
 	/**
@@ -252,7 +236,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	 */
 	public CustomerModel fetchCustomerByEmail(String emailId)
 	{
-		return super.toModel(customerRepository.fetchCustomerByEmail(emailId), CustomerModel.class);
+		return super.toModel(repository.fetchCustomerByEmail(emailId), CustomerModel.class);
 	}
 
 	/**
@@ -262,7 +246,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	 */
 	public List<CustomerEntity> fetchAllCustomers()
 	{
-		return customerRepository.fetchAllCustomers();
+		return repository.fetchAllCustomers();
 	}
 
 	/**
@@ -274,7 +258,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	 */
 	public CustomerEntity fetchByNoSpace(Long customerId)
 	{
-		return customerRepository.fetchCustomerWithNoSpace(customerId);
+		return repository.fetchCustomerWithNoSpace(customerId);
 	}
 	
 	/**
@@ -286,7 +270,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	 */
 	public boolean updateMailServerSetting(EmailServerSettings settings, Long customerId)
 	{
-		return customerRepository.updateMailServerSetting(settings, customerId);
+		return repository.updateMailServerSetting(settings, customerId);
 	}
 
 	/**
@@ -298,7 +282,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	 */
 	public String fetchCustomerName(Long customerId)
 	{
-		return customerRepository.fetchCustomerName(customerId);
+		return repository.fetchCustomerName(customerId);
 	}
 
 	/**
@@ -310,7 +294,7 @@ public class CustomerService extends BaseCrudService<CustomerEntity, ICustomerRe
 	 */
 	public String fetchCustomerSubDomainPath(Long customerId)
 	{
-		String str = customerRepository.fetchCustomerSubDomain(customerId);
+		String str = repository.fetchCustomerSubDomain(customerId);
 		return str;
 	}
 

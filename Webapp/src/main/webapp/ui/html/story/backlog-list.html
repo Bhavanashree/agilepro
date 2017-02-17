@@ -31,7 +31,7 @@
 				</tr>
 				<tr style="height: 80%;">
 					<td style=" padding: 0.2em;">
-						<span ng-class="backlog.check ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true">
+						<span ng-show="pageConfig.dragAndDropFunctionality" ng-class="backlog.check ? 'fa fa-check-square': 'fa fa-square-o'" aria-hidden="true">
 						</span>
 						<strong style="text-transform: capitalize;">{{backlog.title}}</strong>
 					</td>

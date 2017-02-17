@@ -237,13 +237,10 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			StoryModel storyUp = super.fetchFullModel(idToMoveUp, StoryModel.class);
-
 			StoryModel storyDown = super.fetchFullModel(idToMoveDown, StoryModel.class);
 
 			repository.updatePriority(storyUp.getId(), -1);
-
 			repository.updatePriority(storyDown.getId(), storyUp.getPriority());
-
 			repository.updatePriority(storyUp.getId(), storyDown.getPriority());
 
 			transaction.commit();
@@ -411,7 +408,6 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	public List<StoryModel> fetchStoryBySprintId(Long sprintId)
 	{
 		List<StoryModel> storyModels = new ArrayList<StoryModel>();
-
 		List<StoryEntity> storyEntities = repository.fetchStoryBySprintId(sprintId);
 
 		storyEntities.forEach(entity -> storyModels.add(super.toModel(entity, StoryModel.class)));
@@ -502,7 +498,7 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 			{
 				saveListOfStories(subStories, projectId, storyEntity.getId(), maxPriority);
 
-				// update priority for the parent as parent priority should be
+				// update parent priority as parent priority should be
 				// greater than child priority.
 				repository.updatePriority(storyEntity.getId(), maxPriority.incrementAndGet());
 			}

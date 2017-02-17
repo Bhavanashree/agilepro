@@ -122,7 +122,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 			}
 		}
 		
-		
 		return true;
 	};
 	
@@ -157,6 +156,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 						utils.info("You are not allowed to move above "+ maxPriorityChildObj.title);
 					}
 				}
+				
 				return false;
 			}
 		}
@@ -275,34 +275,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 					return;
 				}
 					
-/*				var backlogObj = $scope.getBacklog(backlogId);
-				
-				var childrens = backlogObj.childrens;
-				if(childrens.length > 0)
-				{
-					var maxPriorityChildObj = $scope.getMaxPriorityChildObj(childrens);
-					
-					if(newPriority < maxPriorityChildObj.priority)
-					{
-						utils.alert("Provided priority value cannot be less than " + maxPriorityChildObj.title + " priority");
-						$scope.newPriorityHasError = true;
-						return;
-					}
-				}
-				
-				var parentStoryId = backlogObj.parentStoryId;
-				if(parentStoryId)
-				{
-					var parent = $scope.getBacklog(parentStoryId);
-					
-					if(newPriority > parent.priority )
-					{
-						utils.alert("Provided priority value cannot be greater than " + parent.title + " priority");
-						$scope.newPriorityHasError = true;
-						return;
-					}
-				}*/
-				
 				$scope.updateNewInputPriority(newPriority, backlogId);
 			}
 			
@@ -527,8 +499,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		event.preventDefault();
 		
-		console.log("onDropForMaxPriority");
-		
 		var arrayItems = $scope.filteredItems.length > 0 ? $scope.filteredItems : $scope.sortedBacklogs; 
 		
 		var droppingAreaId = arrayItems[0].id;
@@ -536,11 +506,13 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.onDropBacklog(droppingAreaId, 0);
 	};
 	
+	/**
+	 * Gets invoked when item is dropped in drop area above.
+	 */
 	$scope.onDropAboveBacklog = function(event){
 		
 		event.preventDefault();
-		console.log("onDropAboveBacklog");
-		
+
 		var droppedAreaIndex = Number($(event.target).attr("name"));
 		
 		var droppedAreaBelowObj = $scope.filteredItems[droppedAreaIndex];
@@ -554,11 +526,13 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		$scope.updateNewInputPriority(newPriority, $scope.draggingId);
 	};
-	
+
+	/**
+	 * Gets invoked when item is dropped in drop area below.
+	 */
 	$scope.onDropBelowBacklog = function(event){
 		
 		event.preventDefault();
-		console.log("onDropBelowBacklog");
 		
 		var droppedAreaIndex = Number($(event.target).attr("name"));
 		
@@ -574,10 +548,12 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.updateNewInputPriority(newPriority, $scope.draggingId);
 	};
 	
+	/**
+	 * Gets invoked when item is dropped in drop between area. 
+	 */
 	$scope.onDropBetweenBacklog = function(event){
 		
 		event.preventDefault();
-		console.log("onDropBetweenBacklog");
 
 		// In case of drop in between index should be consider for the below item.
 		var indexFrom = Number($(event.target).attr("name")) + 1;
@@ -589,6 +565,9 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.onDropBacklog(droppingAreaId, indexFrom);
 	};
 	
+	/**
+	 * Gets invoked when item is dropped in least priority area.
+	 */
 	$scope.onDropForLeastPriority = function(event){
 		
 		event.preventDefault();

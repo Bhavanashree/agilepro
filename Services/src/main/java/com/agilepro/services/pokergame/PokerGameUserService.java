@@ -1,7 +1,6 @@
 package com.agilepro.services.pokergame;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import com.agilepro.persistence.entity.pokergame.PokerGameUserEntity;
 import com.agilepro.persistence.repository.pokergame.IPokerGameUserRepository;
 import com.agilepro.services.admin.ProjectMemberService;
 import com.yukthi.persistence.ITransaction;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.utils.exceptions.InvalidStateException;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.UserService;
@@ -23,17 +21,6 @@ import com.yukthi.webutils.services.UserService;
 @Service
 public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, IPokerGameUserRepository>
 {
-	/**
-	 * The repository factory.
-	 */
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
-	 * Poker game user repo.
-	 */
-	private IPokerGameUserRepository pokerUserRepo;
-
 	/**
 	 * User service for user entity.
 	 */
@@ -52,15 +39,6 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 	public PokerGameUserService()
 	{
 		super(PokerGameUserEntity.class, IPokerGameUserRepository.class);
-	}
-
-	/**
-	 * Inits the pokerRepo, IPokerGameRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		pokerUserRepo = repositoryFactory.getRepository(IPokerGameUserRepository.class);
 	}
 
 	/**
@@ -102,6 +80,6 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 	 */
 	public List<PokerGameStatusModel> readPokerGameStatus(Long pokerGameId)
 	{
-		return pokerUserRepo.fetchGameStatus(pokerGameId);
+		return repository.fetchGameStatus(pokerGameId);
 	}
 }

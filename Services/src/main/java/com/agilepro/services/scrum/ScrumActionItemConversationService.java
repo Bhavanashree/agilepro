@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +12,6 @@ import com.agilepro.commons.ScrumActionStatus;
 import com.agilepro.commons.models.scrum.ScrumActionItemConversationModel;
 import com.agilepro.persistence.entity.scrum.ScrumActionItemConversationEntity;
 import com.agilepro.persistence.repository.scrum.IScrumActionItemConversationRepository;
-import com.agilepro.services.project.StoryService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.UserService;
@@ -31,13 +27,7 @@ public class ScrumActionItemConversationService extends BaseCrudService<ScrumAct
 	/**
 	 * The is action item conversation repository.
 	 **/
-	private IScrumActionItemConversationRepository isActionItemConversationRepository;
-
-	/**
-	 * The story service.
-	 **/
-	@Autowired
-	private StoryService storyService;
+	private IScrumActionItemConversationRepository repository;
 
 	/**
 	 * The user service.
@@ -57,15 +47,6 @@ public class ScrumActionItemConversationService extends BaseCrudService<ScrumAct
 	public ScrumActionItemConversationService()
 	{
 		super(ScrumActionItemConversationEntity.class, IScrumActionItemConversationRepository.class);
-	}
-
-	/**
-	 * Inits the scrum conversation.
-	 */
-	@PostConstruct
-	public void initScrumConversation()
-	{
-		isActionItemConversationRepository = repositoryFactory.getRepository(IScrumActionItemConversationRepository.class);
 	}
 
 	/**
@@ -112,7 +93,7 @@ public class ScrumActionItemConversationService extends BaseCrudService<ScrumAct
 		Integer numberOfConversations = 0;
 		Map<Integer, List<ScrumActionItemConversationModel>> conversations = new HashMap<Integer, List<ScrumActionItemConversationModel>>();
 
-		List<ScrumActionItemConversationEntity> actionItems = isActionItemConversationRepository.fetchConversationByActionId(scrumActionItemId);
+		List<ScrumActionItemConversationEntity> actionItems = repository.fetchConversationByActionId(scrumActionItemId);
 
 		List<ScrumActionItemConversationModel> scrumActionItemConversations = new ArrayList<ScrumActionItemConversationModel>();
 

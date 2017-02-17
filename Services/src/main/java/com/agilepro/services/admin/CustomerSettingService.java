@@ -1,16 +1,12 @@
 package com.agilepro.services.admin;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.agilepro.commons.models.customer.CustomerSettingModel;
 import com.agilepro.controller.AgileProUserDetails;
 import com.agilepro.persistence.entity.admin.CustomerEntity;
 import com.agilepro.persistence.entity.admin.CustomerSettingEntity;
 import com.agilepro.persistence.repository.admin.ICustomerSettingRepository;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.CurrentUserService;
 
@@ -25,17 +21,6 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 	 */
 	@Autowired
 	private CurrentUserService currentUserService;
-
-	/**
-	 * The repository factory.
-	 **/
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
-	 * The iuser setting repository.
-	 */
-	private ICustomerSettingRepository custSettingRepository;
 
 	/** 
 	 * The customer setting for update. 
@@ -56,15 +41,6 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 	}
 
 	/**
-	 * Initialize the iuserSettingRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		custSettingRepository = repositoryFactory.getRepository(ICustomerSettingRepository.class);
-	}
-
-	/**
 	 * Gets the setting.
 	 *
 	 * @param key
@@ -77,7 +53,7 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 
 		Long customerId = cbiller.getCustomerId();
 
-		CustomerSettingEntity customerSettingEntity = custSettingRepository.fetchCustomerSetting(customerId, key);
+		CustomerSettingEntity customerSettingEntity = repository.fetchCustomerSetting(customerId, key);
 
 		return super.toModel(customerSettingEntity, CustomerSettingModel.class);
 	}
@@ -93,7 +69,7 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 	 */
 	private boolean checkExsitingHolidays(Long customerId, String key)
 	{
-		customerSettingForUpdate = custSettingRepository.fetchCustomerSetting(customerId, key);
+		customerSettingForUpdate = repository.fetchCustomerSetting(customerId, key);
 
 		if(customerSettingForUpdate != null)
 		{
@@ -148,7 +124,7 @@ public class CustomerSettingService extends BaseCrudService<CustomerSettingEntit
 
 		Long customerId = cbiller.getCustomerId();
 
-		CustomerSettingEntity customerSettingEntity = custSettingRepository.fetchCustomerSetting(customerId, "weekHolidays");
+		CustomerSettingEntity customerSettingEntity = repository.fetchCustomerSetting(customerId, "weekHolidays");
 
 		return super.toModel(customerSettingEntity, CustomerSettingModel.class);
 	}

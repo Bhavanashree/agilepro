@@ -1,11 +1,6 @@
 package com.agilepro.services.scrum;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
@@ -23,22 +18,11 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class ScrumMeetingService extends BaseCrudService<ScrumMeetingEntity, IScrumMeetingRepository>
 {
 	/**
-	 * The I scrum meeting repository.
-	 **/
-	private IScrumMeetingRepository iscrumMeetingRepository;
-
-	/**
 	 * Instantiates a new scrum meeting service.
 	 */
 	public ScrumMeetingService()
 	{
 		super(ScrumMeetingEntity.class, IScrumMeetingRepository.class);
-	}
-
-	@PostConstruct
-	private void init()
-	{
-		iscrumMeetingRepository = repositoryFactory.getRepository(IScrumMeetingRepository.class);
 	}
 
 	/**
@@ -52,17 +36,19 @@ public class ScrumMeetingService extends BaseCrudService<ScrumMeetingEntity, ISc
 	 */
 	public ScrumMeetingModel fetchMeetingByDateAndProject(Date date, Long projectId)
 	{
-		/*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-		
-		String s = simpleDateFormat.format(date);*/
-		
-		ScrumMeetingEntity scrumMeeting = iscrumMeetingRepository.fetchMeetingByDate(date, projectId);
+		ScrumMeetingEntity scrumMeeting = repository.fetchMeetingByDate(date, projectId);
 
 		return super.toModel(scrumMeeting, ScrumMeetingModel.class);
 	}
 	
-	public Long fetchProjectIdByScrumMeeting(Long projectId)
+	/**
+	 * Fetch project id for the provided scrum meeting id.
+	 * 
+	 * @param scrumMeetingId provided scrum meeting id.
+	 * @return matching id.
+	 */
+	public Long fetchProjectIdByScrumMeeting(Long scrumMeetingId)
 	{
-		return iscrumMeetingRepository.fetchProjectId(projectId);
+		return repository.fetchProjectId(scrumMeetingId);
 	}
 }

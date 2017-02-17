@@ -114,6 +114,8 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 			return;
 		}
 		
+		$scope.pageConfig = $scope.getPageConfiguraion();
+		
 		$scope.multipleCheckedStoryIds = [];
 		$scope.multipleCheckedBugIds = [];
 		
@@ -270,7 +272,11 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 	 */
 	$scope.dragBacklogs = function(event){
 		
-		//event.preventDefault();
+		if(!$scope.pageConfig.dragAndDropFunctionality)
+		{
+			return;
+		}
+		
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
 		
 		var arrElem = (event.target.id).split('_');
@@ -280,9 +286,6 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 
 		var multipleCheckedBugIds = $scope.getMultipleCheckedBugIds();
 		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();
-		
-	/*	$scope.childIdsFromBacklog = [];
-		var backlogContainsChild = false;*/
 		
 		if(draggingItemIsBug)
 		{
@@ -296,28 +299,7 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 			{
 				multipleCheckedStoryIds.push(draggingId);
 			}
-			
-			/*var childrens = ($scope.idToBacklogStory[$scope.draggingId]).childrens;
-
-			if(childrens.length > 0)
-			{
-				for(index in childrens)
-				{
-					var childObj = childrens[index];
-					
-					if(($scope.backlogs.indexOf(childObj) != -1))
-					{
-						backlogContainsChild = true;
-						break;
-					}
-				}
-				
-				if(backlogContainsChild)
-				{
-					$scope.addChildIdsForDrag(childrens);
-				}
-			}
-*/		}
+		}
 		
 		$scope.onDragOfItemFromBacklogToSprint(draggingItemIsBug, draggingId);
 	};
@@ -369,8 +351,6 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 	$scope.$on("reArrangeTheBacklogItems", function(event, args) {
 		
 		console.log("Listener reArrangeTheBacklogItems");
-		
-		//debugger;
 		
 		var multipleBugIds = args.multipleBugIds;
 		var multipleStoryIds = args.multipleStoryIds;

@@ -3,7 +3,6 @@ package com.agilepro.services.admin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 import com.agilepro.commons.models.customer.ReleaseModel;
 import com.agilepro.persistence.entity.admin.ReleaseEntity;
@@ -17,25 +16,11 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class ReleaseService extends BaseCrudService<ReleaseEntity, IReleaseRepository>
 {
 	/**
-	 * The i release repository.
-	 **/
-	private IReleaseRepository ireleaseRepository;
-
-	/**
 	 * Instantiates a new release service.
 	 */
 	public ReleaseService()
 	{
 		super(ReleaseEntity.class, IReleaseRepository.class);
-	}
-
-	/**
-	 * Initialize ireleaseRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		ireleaseRepository = repositoryFactory.getRepository(IReleaseRepository.class);
 	}
 
 	/**
@@ -45,7 +30,7 @@ public class ReleaseService extends BaseCrudService<ReleaseEntity, IReleaseRepos
 	 */
 	public List<ReleaseModel> fetchAllRelease()
 	{
-		List<ReleaseEntity> releaseEntities = ireleaseRepository.fetchAllReleaseByDate(new Date());
+		List<ReleaseEntity> releaseEntities = repository.fetchAllReleaseByDate(new Date());
 
 		List<ReleaseModel> releaseModels = new ArrayList<ReleaseModel>(releaseEntities.size());
 

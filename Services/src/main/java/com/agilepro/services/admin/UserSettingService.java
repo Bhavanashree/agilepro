@@ -1,14 +1,9 @@
 package com.agilepro.services.admin;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.agilepro.commons.models.customer.UserSettingModel;
 import com.agilepro.persistence.entity.admin.UserSettingEntity;
 import com.agilepro.persistence.repository.admin.IUserSettingRepository;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 
 /**
@@ -20,17 +15,6 @@ import com.yukthi.webutils.services.BaseCrudService;
 public class UserSettingService extends BaseCrudService<UserSettingEntity, IUserSettingRepository>
 {
 	/**
-	 * The repository factory.
-	 **/
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/** 
-	 * The iuser setting repository.
-	 * */
-	private IUserSettingRepository iuserSettingRepository;
-	
-	/**
 	 * Instantiates a new user setting service.
 	 */
 	public UserSettingService()
@@ -38,15 +22,6 @@ public class UserSettingService extends BaseCrudService<UserSettingEntity, IUser
 		super(UserSettingEntity.class, IUserSettingRepository.class);
 	}
 
-	/**
-	 * Initialize the iuserSettingRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		iuserSettingRepository = repositoryFactory.getRepository(IUserSettingRepository.class);
-	}
-	
 	/**
 	 * Fetch user setting.
 	 *
@@ -56,7 +31,7 @@ public class UserSettingService extends BaseCrudService<UserSettingEntity, IUser
 	 */
 	public UserSettingModel fetchUserSetting(Long userId)
 	{
-		UserSettingEntity userSettingEntity = iuserSettingRepository.fetchUserSetting(userId, "activeProjectId");
+		UserSettingEntity userSettingEntity = repository.fetchUserSetting(userId, "activeProjectId");
 
 		return super.toModel(userSettingEntity, UserSettingModel.class);
 	}

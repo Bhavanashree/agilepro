@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.services.notification.ActionItemContext;
 import com.agilepro.services.notification.EmailNotificationService;
 import com.agilepro.commons.ScrumActionStatus;
 import com.agilepro.commons.models.scrum.ScrumActionItemConversationModel;
@@ -21,7 +17,6 @@ import com.agilepro.persistence.repository.scrum.IScrumActionItemRepository;
 import com.agilepro.services.admin.EmployeeService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.utils.exceptions.InvalidStateException;
-import com.yukthi.webutils.mail.EmailService;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.UserService;
 
@@ -33,11 +28,6 @@ import com.yukthi.webutils.services.UserService;
 @Service
 public class ScrumActionItemService extends BaseCrudService<ScrumActionItemEntity, IScrumActionItemRepository>
 {
-	/**
-	 * The iscrum action item repository.
-	 **/
-	private IScrumActionItemRepository iscrumActionItemRepository;
-
 	/**
 	 * The email notification service for sending mail.
 	 **/
@@ -70,15 +60,6 @@ public class ScrumActionItemService extends BaseCrudService<ScrumActionItemEntit
 		super(ScrumActionItemEntity.class, IScrumActionItemRepository.class);
 	}
 
-	/**
-	 * Inits the iscrumActionItemRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		iscrumActionItemRepository = repositoryFactory.getRepository(IScrumActionItemRepository.class);
-	}
-
 	public void saveAndSendMail(ScrumActionItemModel scrumActionItemModel)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
@@ -109,7 +90,7 @@ public class ScrumActionItemService extends BaseCrudService<ScrumActionItemEntit
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			if(iscrumActionItemRepository.updateActionStatus(actionStatus, actionItemId))
+			if(repository.updateActionStatus(actionStatus, actionItemId))
 			{
 				transaction.commit();
 				return true;
@@ -136,7 +117,7 @@ public class ScrumActionItemService extends BaseCrudService<ScrumActionItemEntit
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
 		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 
-		List<ScrumActionItemEntity> scrumActionItemEntities = iscrumActionItemRepository.fetchByScrumId(scrumMeetingId);
+		List<ScrumActionItemEntity> scrumActionItemEntities = repository.fetchByScrumId(scrumMeetingId);
 		List<ScrumActionItemModel> scrumActionModels = new ArrayList<ScrumActionItemModel>();
 
 		if(scrumActionItemEntities != null)

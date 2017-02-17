@@ -2,16 +2,12 @@ package com.agilepro.services.bug;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.bug.BugCommentsModel;
 import com.agilepro.persistence.entity.bug.BugCommentsEntity;
 import com.agilepro.persistence.repository.bug.IBugCommentRepositoy;
-import com.yukthi.persistence.repository.RepositoryFactory;
 import com.yukthi.webutils.services.BaseCrudService;
 import com.yukthi.webutils.services.CurrentUserService;
 import com.yukthi.webutils.services.UserService;
@@ -22,17 +18,6 @@ import com.yukthi.webutils.services.UserService;
 @Service
 public class BugCommentService extends BaseCrudService<BugCommentsEntity, IBugCommentRepositoy>
 {
-
-	/**
-	 * The repository factory.
-	 */
-	@Autowired
-	private RepositoryFactory repositoryFactory;
-
-	/**
-	 * The bug repo.
-	 **/
-	private IBugCommentRepositoy bugCommentRepo;
 
 	/**
 	 * The user service.
@@ -52,15 +37,6 @@ public class BugCommentService extends BaseCrudService<BugCommentsEntity, IBugCo
 	public BugCommentService()
 	{
 		super(BugCommentsEntity.class, IBugCommentRepositoy.class);
-	}
-
-	/**
-	 * Initialize the iprojectMemberRepository.
-	 */
-	@PostConstruct
-	private void init()
-	{
-		bugCommentRepo = repositoryFactory.getRepository(IBugCommentRepositoy.class);
 	}
 
 	/**
@@ -92,8 +68,8 @@ public class BugCommentService extends BaseCrudService<BugCommentsEntity, IBugCo
 	{
 		List<BugCommentsModel> comments = null;
 
-		bugCommentRepo = repositoryFactory.getRepository(IBugCommentRepositoy.class);
-		List<BugCommentsEntity> commententity = bugCommentRepo.fetchbugById(bug);
+		repository = repositoryFactory.getRepository(IBugCommentRepositoy.class);
+		List<BugCommentsEntity> commententity = repository.fetchbugById(bug);
 
 		BugCommentsModel comment = null;
 
