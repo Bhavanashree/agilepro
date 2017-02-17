@@ -33,9 +33,21 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 	 */
 	$scope.checkBoxBacklog = function(backlogId, isBug){
 		
-		var backlogObj = isBug ? $scope.idToBacklogBug[backlogId] : $scope.idToBacklogStory[backlogId];
+		var backlogObj = isBug ? $scope.getBacklogBug(backlogId) : $scope.getBacklogStory(backlogId);
 		
 		backlogObj.check = !backlogObj.check; 
+		
+		// executed for the page where drag and drop functionality is avoided.
+		if(!$scope.pageConfig.dragAndDropFunctionality)
+		{
+			if($scope.previuosCheckedObj && ($scope.previuosCheckedObj != backlogObj))
+			{
+				$scope.previuosCheckedObj.check = false;
+			}
+			
+			$scope.previuosCheckedObj = backlogObj; 
+			return;
+		}
 		
 		var multipleCheckedBugIds = $scope.getMultipleCheckedBugIds();
 		var multipleCheckedStoryIds = $scope.getMultipleCheckedStoryIds();

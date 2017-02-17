@@ -76,6 +76,32 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 	});
 
 	/**
+	 * Add fetched backlog items.
+	 */
+	$scope.addFetchedBacklogItemsToParent = function(idToBacklogBug, idToBacklogStory, storyIdsInBacklog){
+		
+		$scope.idToBacklogBug = idToBacklogBug;
+		$scope.idToBacklogStory = idToBacklogStory;
+		$scope.storyIdsInBacklog = storyIdsInBacklog;
+	};
+	
+	/**
+	 * Get backlog bug.
+	 */
+	$scope.getBacklogBug = function(bugId){
+		
+		return $scope.idToBacklogBug[bugId];
+	};
+	
+	/**
+	 * Get backlog story.
+	 */
+	$scope.getBacklogStory = function(storyId){
+		
+		return $scope.idToBacklogStory[storyId];
+	};
+	
+	/**
 	 * Gets invoked on selection of series.
 	 */
 	$scope.onGameSeriesChange  = function(name){
