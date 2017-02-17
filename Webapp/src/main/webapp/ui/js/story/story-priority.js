@@ -86,6 +86,86 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	};
 	
 	/**
+	 * Validate when item is moved down.
+	 */
+	$scope.validateWhenItemIsMovedDown = function(itemId, newPriority, validateFor){
+		
+		var backlogObj = $scope.getBacklog(itemId);
+		
+		var parentStoryId = backlogObj.parentStoryId;
+		
+		if(parentStoryId)
+		{
+			var parent = $scope.getBacklog(parentStoryId);
+			
+			if(newPriority >= parent.priority)
+			{
+				switch(validateFor)
+				{
+					case "Drop":
+					{
+						utils.info("You are not allowed to drop below " + parent.title, 5);
+						break;
+					}
+					case "Input":
+					{
+						utils.info("Provided priority value cannot be greater than " + parent.title + " priority");
+						break;
+					}
+					case "Button":
+					{
+						utils.info("You are not allowed to move below " + parent.title);
+					}
+				}
+				
+				return false;;
+			}
+		}
+		
+		
+		return true;
+	};
+	
+	/**
+	 * Validate when item is moved up.
+	 */
+	$scope.validateWhenItemIsMovedUp = function(itemId, newPriority, validateFor){
+		
+		var backlogObj = $scope.getBacklog(itemId);
+		var childrens = backlogObj.childrens;
+		
+		if(childrens.length > 0)
+		{
+			var maxPriorityChildObj = $scope.getMaxPriorityChildObj(childrens);
+			
+			if(newPriority <= maxPriorityChildObj.priority)
+			{
+				switch(validateFor)
+				{
+					case "Drop":
+					{
+						utils.info("You are not allowed to drop above "+ maxPriorityChildObj.title, 5);
+						break;
+					}
+					case "Input":
+					{
+						utils.alert("Provided priority value cannot be less than " + maxPriorityChildObj.title + " priority");
+						break;
+					}
+					case "Button":
+					{
+						utils.info("You are not allowed to move above "+ maxPriorityChildObj.title);
+					}
+				}
+				return false;
+			}
+		}
+		
+		return true;
+	};
+	
+	
+	/**
 	 * Gets invoked for stepping one step up for a story.
 	 */
 	$scope.oneStepUp = function(index){
@@ -94,7 +174,10 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		var storyToBeMovedDown = $scope.sortedBacklogs[index - 1];
 		
-		$scope.swapPriority(storyToBeMovedUp, storyToBeMovedDown);
+		if($scope.validateWhenItemIsMovedUp(storyToBeMovedUp.id, storyToBeMovedDown.priority, "Button"))
+		{
+			$scope.swapPriority(storyToBeMovedUp, storyToBeMovedDown);
+		}
 	};
 	
 	/**
@@ -106,7 +189,10 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		var storyToBeMovedDown = $scope.sortedBacklogs[index];
 		
-		$scope.swapPriority(storyToBeMovedUp, storyToBeMovedDown);
+		if($scope.validateWhenItemIsMovedDown(storyToBeMovedDown.id, storyToBeMovedUp.priority, "Button"))
+		{
+			$scope.swapPriority(storyToBeMovedUp, storyToBeMovedDown);
+		}
 	};
 	
 	/**
@@ -118,7 +204,12 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		$scope.draggingIndex = index;
 		
-		$scope.updatePriority($scope.sortedBacklogs[0].priority, 0);
+		var newPriority = $scope.sortedBacklogs[0].priority;
+		
+		if($scope.validateWhenItemIsMovedUp($scope.draggingId, newPriority, "Button"))
+		{
+			$scope.updatePriority(newPriority, 0);
+		}
 	};
 	
 	/**
@@ -128,7 +219,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		$scope.draggingId = id;
 		
-		$scope.updateToLeastPriority(index);
+		$scope.updateToLeastPriority(index, "Button");
 	};
 	
 	/**
@@ -142,9 +233,10 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.inputPriorityElm = $(event.target);
 		
 		var newPriority = $(event.target).val();
-
+		var inputLength = newPriority.trim().length;
+		
 		// if input is empty
-		if(newPriority.trim().length == 0)
+		if(inputLength == 0)
 		{
 			$scope.newPriorityHasError = false;
 		}
@@ -154,21 +246,36 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		//enter key   
 		if (key == 13) 
 		{
+			// if input is empty
+			if(inputLength == 0)
+			{
+				utils.info("Please provide the priority value");
+				return;
+			}
+			
+			// if input value is not a number
 			if(isNaN(newPriority))
 			{
-				utils.alert("Please provide a number");
+				utils.info("Please provide a number");
 				$scope.newPriorityHasError = true;
 				return;
 			}
 			
 			if(newPriority <= 0)
 			{
-				utils.alert("Please provide the priority value greater than 0");
+				utils.info("Please provide the priority value greater than 0");
 				$scope.newPriorityHasError = true;
 				return;
 			}else
 			{
-				var backlogObj = $scope.getBacklog(backlogId);
+				
+				if(!$scope.validateWhenItemIsMovedDown(backlogId, newPriority, "Input") || !$scope.validateWhenItemIsMovedUp(backlogId, newPriority, "Input"))
+				{
+					$scope.newPriorityHasError = true;
+					return;
+				}
+					
+/*				var backlogObj = $scope.getBacklog(backlogId);
 				
 				var childrens = backlogObj.childrens;
 				if(childrens.length > 0)
@@ -194,7 +301,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 						$scope.newPriorityHasError = true;
 						return;
 					}
-				}
+				}*/
 				
 				$scope.updateNewInputPriority(newPriority, backlogId);
 			}
@@ -438,7 +545,14 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		var droppedAreaBelowObj = $scope.filteredItems[droppedAreaIndex];
 		
-		$scope.updateNewInputPriority(droppedAreaBelowObj.priority - 1, $scope.draggingId);
+		var newPriority = droppedAreaBelowObj.priority - 1;
+		
+		if(!$scope.validateWhenItemIsMovedDown($scope.draggingId, newPriority, "Drop") || !$scope.validateWhenItemIsMovedUp($scope.draggingId, newPriority, "Drop"))
+		{
+			return;
+		}
+		
+		$scope.updateNewInputPriority(newPriority, $scope.draggingId);
 	};
 	
 	$scope.onDropBelowBacklog = function(event){
@@ -450,7 +564,14 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		var droppedAreaBelowObj = $scope.filteredItems[droppedAreaIndex];
 		
-		$scope.updateNewInputPriority(droppedAreaBelowObj.priority + 1, $scope.draggingId);
+		var newPriority = droppedAreaBelowObj.priority + 1;
+		
+		if(!$scope.validateWhenItemIsMovedDown($scope.draggingId, newPriority, "Drop") || !$scope.validateWhenItemIsMovedUp($scope.draggingId, newPriority, "Drop"))
+		{
+			return;
+		}
+		
+		$scope.updateNewInputPriority(newPriority, $scope.draggingId);
 	};
 	
 	$scope.onDropBetweenBacklog = function(event){
@@ -473,33 +594,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		event.preventDefault();
 		console.log("onDropForLeastPriority");
 		
-		/*if((!$scope.draggingIndex) || ($scope.sortedBacklogs.length == 1))
-		{
-			return;
-		}
-		
-		var backlogObj = $scope.getBacklog($scope.draggingId);
-		var parentStoryId = backlogObj.parentStoryId;
-		var maxPriorityObj = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1];
-		
-		if(parentStoryId)
-		{
-			var parent = $scope.getBacklog(parentStoryId);
-			
-			if(maxPriorityObj.priority > parent.priority)
-			{
-				utils.info("You are not allowed to drop below " + parent.title, 5);
-				$("#" + $scope.expandAreaId).height(15);
-				return;
-			}
-		}
-		
-		$scope.updateToMaxPriority($scope.draggingIndex);
-		
-		$scope.draggingIndex = null;
-		$('#dropForMaxPriority').css("background-color", "white");*/
-		
-		$scope.updateToLeastPriority($scope.draggingIndex);
+		$scope.updateToLeastPriority($scope.draggingIndex, "Drop");
 	};
 
 	/**
@@ -513,38 +608,13 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		{
 			return;
 		}
-		
-		var backlogObj = $scope.getBacklog($scope.draggingId); 
-		var childrens = backlogObj.childrens;
-		
-		// validate priority
-		if(childrens.length > 0)
-		{
-			var maxPriorityChildObj = $scope.getMaxPriorityChildObj(childrens);
-			
-			if(droppingAreaObj.priority <= maxPriorityChildObj.priority)
-			{
-				utils.info("You are not allowed to drop above "+ maxPriorityChildObj.title, 5);
-				$("#" + $scope.expandAreaId).height(15);
-				return;
-			}
-		}
-		
-		var parentStoryId = backlogObj.parentStoryId;
-		
-		if(parentStoryId)
-		{
-			var parent = $scope.getBacklog(parentStoryId);
-			
-			if(droppingAreaObj.priority >= parent.priority )
-			{
-				utils.info("You are not allowed to drop below " + parent.title, 5);
-				$("#" + $scope.expandAreaId).height(15);
-				return;
-			}
-		}
-		
+
 		var newPriority = $scope.getBacklog(droppingAreaId).priority;
+		
+		if(!$scope.validateWhenItemIsMovedDown($scope.draggingId, newPriority, "Drop") || !$scope.validateWhenItemIsMovedUp($scope.draggingId, newPriority, "Drop"))
+		{
+			return;
+		}
 		
 		$scope.updatePriority(newPriority, indexFrom);
 	};
@@ -603,19 +673,24 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	/**
 	 * Update the provided story to max priority.
 	 */
-	$scope.updateToLeastPriority = function(index){
+	$scope.updateToLeastPriority = function(index, validateFor){
 		
-		actionHelper.invokeAction("story.updateToLeastPriority", null, {"id" : $scope.draggingId, "projectId" : $scope.getActiveProjectId()},
-			function(updateResponse, respConfig)
-			{
-				if(updateResponse.code == 0)
-				{
-					$scope.sortedBacklogs[index].priority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority + 1;
-					
-					$scope.sortAccordingToPriority();
-				}
-				
-			}, {"hideInProgress" : true});
+		var newPriority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority + 1;
+		
+		if($scope.validateWhenItemIsMovedDown($scope.draggingId, newPriority, validateFor))
+		{
+			actionHelper.invokeAction("story.updateToLeastPriority", null, {"id" : $scope.draggingId, "projectId" : $scope.getActiveProjectId()},
+					function(updateResponse, respConfig)
+					{
+						if(updateResponse.code == 0)
+						{
+							$scope.sortedBacklogs[index].priority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority + 1;
+							
+							$scope.sortAccordingToPriority();
+						}
+						
+					}, {"hideInProgress" : true});
+		}
 	};
 
 	/**
@@ -637,6 +712,8 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	 * On blur of input box.
 	 */
 	$scope.onBlurInput = function(backlogId){
+		
+		console.log("blur for " + $scope.newPriorityHasError);
 		
 		// if new priority has error in input then do not hide the input box
 		if(!$scope.newPriorityHasError)
