@@ -15,12 +15,6 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 	 * List of game series for drop down.
 	 */
 	$scope.listOfGameSeries =["FIBONACCI", "SEQUENTIAL", "EVEN"];
-
-	$scope.gameStarted = false;
-	$scope.gameNotStarted = false;
-	$scope.isUserScrumMaster = false;
-	$scope.isUserNonScrumMaster = false;
-	$scope.nonScrumMasterJoined = false;
 	
 	$scope.pokerGameError = {"error" : false, "message" : ""};
 	
@@ -60,6 +54,12 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 							$scope.gameNotStarted = true;	
 						}
 						
+						if($scope.gameStarted)
+						{
+							// broad cast to fetch the poker game status.
+							$scope.$broadcast("fetchPokerGameStatus");
+						}
+						
 						try
 						{
 							$scope.$apply();
@@ -67,6 +67,11 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 						{}
 					});
 		}
+	
+		
+		
+		
+		
 	};
 	
 	// Listener for broadcast
@@ -139,7 +144,7 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 		}else if($scope.noOfCards > 20)
 		{
 			$scope.pokerGameError.error = true;
-			$scope.pokerGameError.message = "Please provide number smaller than thirty";
+			$scope.pokerGameError.message = "Please provide number smaller than twenty";
 			return;
 		}else
 		{
@@ -202,8 +207,14 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 		// broad cast add add new poker game user.
 		$scope.$broadcast("addNewPokerGameUser");
 		
-		
-		 //$scope.nonScrumMasterJoined = true;
+	 };
+	 
+	 /**
+	  * Add the poker user after save.
+	  */
+	 $scope.addPokerUserAfterSave = function(){
+		 
+		 $scope.nonScrumMasterJoined = true;
 	 };
 	 
 }]);

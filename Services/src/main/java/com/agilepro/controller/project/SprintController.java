@@ -12,7 +12,6 @@ import static com.agilepro.commons.IAgileproActions.PARAM_ID;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.controllers.project.ISprintController;
-import com.agilepro.commons.models.customer.ProjectModel;
 import com.agilepro.commons.models.sprint.SprintDropDown;
 import com.agilepro.commons.models.sprint.SprintModel;
 import com.agilepro.commons.UserRole;
@@ -37,7 +35,6 @@ import com.yukthi.webutils.annotations.ActionName;
 import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
-import com.yukthi.webutils.common.models.ValueLabel;
 import com.yukthi.webutils.controllers.BaseController;
 
 /**

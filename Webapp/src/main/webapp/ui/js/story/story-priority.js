@@ -68,8 +68,10 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	
 	// listener
 	$scope.$on("sortBacklogsByPriority", function(event, args) {
+		
 		$scope.loadStoriesByPriority();
 	});
+	
 
 	/**
 	 * Common method for sorting
@@ -409,8 +411,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		$scope.draggingIndex = Number($(event.target).attr("name"));
 		
-		$scope.showOnDrag = true;
-		
 		if($scope.draggingId == Number(dragId))
 		{
 			return;
@@ -418,54 +418,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		
 		$scope.draggingId = Number(dragId);
 		event.originalEvent.dataTransfer.setData('text/plain', 'text');
-		
-		var arrayItems = $scope.filteredItems.length > 0 ? $scope.filteredItems : $scope.sortedBacklogs; 
-		
-		var arraylength = arrayItems.length;
-		
-		for(var i = 0 ; i < arraylength - 1 ; i++)
-		{
-			// text should not be displayed for the dragging item area.
-			if($scope.draggingIndex == i || $scope.draggingIndex == i + 1)
-			{
-				continue;
-			}
-			
-			var upperBacklog = arrayItems[i];
-			var lowerBacklog = arrayItems[i + 1];
-			
-			if(lowerBacklog.priority - upperBacklog.priority == 1 || $scope.filteredItems.length == 0)
-			{
-				var message = upperBacklog.title  + " and " + lowerBacklog.title;
-				upperBacklog.message = message;
-				
-				$("#dropAreaBetween_" + upperBacklog.id).height(25);
-				$("#dropAreaBetween_" + upperBacklog.id).css("visibility", "visible");
-				$("#dropAreaBetween_" + upperBacklog.id).css("background-color", "#383838");
-				
-			}else
-			{
-				$("#dropAreaBelow_" + upperBacklog.id).height(25);
-				$("#dropAreaBelow_" + upperBacklog.id).css("visibility", "visible");
-				$("#dropAreaBelow_" + upperBacklog.id).css("background-color", "#383838");
-			
-				$("#dropAreaAbove_" + lowerBacklog.id).height(25);
-				$("#dropAreaAbove_" + lowerBacklog.id).css("visibility", "visible");
-				$("#dropAreaAbove_" + lowerBacklog.id).css("background-color", "#383838");
-			}
-		}
-
-		if($scope.draggingIndex != 0)
-		{
-			$("#dropForMaxPriority").height(25);
-			$("#dropForMaxPriority").css("visibility", "visible");
-		}
-		
-		if($scope.draggingIndex != arraylength - 1)
-		{
-			$("#dropForLeastPriority").height(25);
-			$("#dropForLeastPriority").css("visibility", "visible");
-		}
 		
 		try
 		{
@@ -491,25 +443,59 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		}
 		
 	};
-
+	
 	/**
-	 * Drop for max priority.
+	 * Gets invoked when dragged item mouse enters the drop area above.
 	 */
-	$scope.onDropForMaxPriority = function(event){
+	$scope.onDropAreaAboveEnter = function(event){
+
+		event.preventDefault();
+
+		var htmlElem = $("#" + event.target.id);
+		htmlElem.css("height", 30);
+		htmlElem.children().css("visibility", "visible");
+	};
+	
+	/**
+	 * Gets invoked when dragged item mouse leaves the drop area below.
+	 */
+	$scope.onDropAreaAboveLeave = function(event){
+
+		event.preventDefault();
+
+		var htmlElem = $("#" + event.target.id);
+		htmlElem.css("height", 10);
+		htmlElem.children().css("visibility", "hidden");
+	};
+	
+	/**
+	 * Gets invoked when dragged item mouse enters the drop area below.
+	 */
+	$scope.onDropAreaBelowEnter = function(event){
 		
 		event.preventDefault();
-		
-		var arrayItems = $scope.filteredItems.length > 0 ? $scope.filteredItems : $scope.sortedBacklogs; 
-		
-		var droppingAreaId = arrayItems[0].id;
 
-		$scope.onDropBacklog(droppingAreaId, 0);
+		var htmlElem = $("#" + event.target.id);
+		htmlElem.css("height", 30);
+		htmlElem.children().css("visibility", "visible");
+	};
+	
+	/**
+	 * Gets invoked when dragged item mouse leaves the drop area below.
+	 */
+	$scope.onDropAreaBelowLeave = function(event){
+
+		event.preventDefault();
+
+		var htmlElem = $("#" + event.target.id);
+		htmlElem.css("height", 10);
+		htmlElem.children().css("visibility", "hidden");
 	};
 	
 	/**
 	 * Gets invoked when item is dropped in drop area above.
 	 */
-	$scope.onDropAboveBacklog = function(event){
+	$scope.onDropAreaAbove = function(event){
 		
 		event.preventDefault();
 
@@ -530,7 +516,7 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	/**
 	 * Gets invoked when item is dropped in drop area below.
 	 */
-	$scope.onDropBelowBacklog = function(event){
+	$scope.onDropAreaBelow = function(event){
 		
 		event.preventDefault();
 		
@@ -548,34 +534,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 		$scope.updateNewInputPriority(newPriority, $scope.draggingId);
 	};
 	
-	/**
-	 * Gets invoked when item is dropped in drop between area. 
-	 */
-	$scope.onDropBetweenBacklog = function(event){
-		
-		event.preventDefault();
-
-		// In case of drop in between index should be consider for the below item.
-		var indexFrom = Number($(event.target).attr("name")) + 1;
-		
-		var arrayItems = $scope.filteredItems.length > 0 ? $scope.filteredItems : $scope.sortedBacklogs; 
-		
-		var droppingAreaId = arrayItems[indexFrom].id;
-		
-		$scope.onDropBacklog(droppingAreaId, indexFrom);
-	};
-	
-	/**
-	 * Gets invoked when item is dropped in least priority area.
-	 */
-	$scope.onDropForLeastPriority = function(event){
-		
-		event.preventDefault();
-		console.log("onDropForLeastPriority");
-		
-		$scope.updateToLeastPriority($scope.draggingIndex, "Drop");
-	};
-
 	/**
 	 * Gets invoked on drop of backlog.
 	 */
@@ -603,23 +561,8 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 	 */
 	$scope.mouseDroppedItem = function(event){
 		
-		$('#dropForLeastPriority').css("visibility", "hidden");
-		$('#dropForMaxPriority').css("visibility", "hidden");
-		$('#dropForMaxPriority').css("height", "5");
 		
-		for(var i = 0 ; i < $scope.sortedBacklogs.length ; i++)
-		{
-			var backlog = $scope.sortedBacklogs[i];
-			
-			$("#dropAreaAbove_" + backlog.id).height(1);
-			$("#dropAreaAbove_" + backlog.id).css("visibility", "hidden");
-			
-			$("#dropAreaBelow_" + backlog.id).height(1);
-			$("#dropAreaBelow_" + backlog.id).css("visibility", "hidden");
-			
-			$("#dropAreaBetween_" + backlog.id).height(1);
-			$("#dropAreaBetween_" + backlog.id).css("visibility", "hidden");
-		}
+	
 	};
 	
 	
@@ -647,29 +590,6 @@ $.application.controller('storyPriorityController', ["$scope", "actionHelper", "
 					
 				}, {"hideInProgress" : true});
 		
-	};
-
-	/**
-	 * Update the provided story to max priority.
-	 */
-	$scope.updateToLeastPriority = function(index, validateFor){
-		
-		var newPriority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority + 1;
-		
-		if($scope.validateWhenItemIsMovedDown($scope.draggingId, newPriority, validateFor))
-		{
-			actionHelper.invokeAction("story.updateToLeastPriority", null, {"id" : $scope.draggingId, "projectId" : $scope.getActiveProjectId()},
-					function(updateResponse, respConfig)
-					{
-						if(updateResponse.code == 0)
-						{
-							$scope.sortedBacklogs[index].priority = $scope.sortedBacklogs[$scope.sortedBacklogs.length - 1].priority + 1;
-							
-							$scope.sortAccordingToPriority();
-						}
-						
-					}, {"hideInProgress" : true});
-		}
 	};
 
 	/**

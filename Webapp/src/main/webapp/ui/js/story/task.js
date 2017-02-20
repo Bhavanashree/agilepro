@@ -194,11 +194,11 @@ $.application.controller('taskController', ["$scope", "crudController", "utils",
 		
 		var obj = $scope.itemsFortask[indexInTask];
 
-		if(!$scope.previousClickedIndex || $scope.previousClickedIndex == indexInTask)
+		if($scope.previousClickedIndex == null || $scope.previousClickedIndex == indexInTask)
 		{
 			obj.expanded = !obj.expanded;
 		}
-		else if($scope.previousClickedIndex && ($scope.previousClickedIndex != indexInTask))
+		else if($scope.previousClickedIndex != null && ($scope.previousClickedIndex != indexInTask))
 		{
 			var previousObj = $scope.itemsFortask[$scope.previousClickedIndex];
 			

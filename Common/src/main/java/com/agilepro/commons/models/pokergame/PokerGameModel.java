@@ -39,7 +39,7 @@ public class PokerGameModel extends AbstractExtendableModel
 	 * Status of the story in poker game.
 	 */
 	@Required
-	private PokerGameStoryStatus pokerGameStoryStatus = PokerGameStoryStatus.STORY_SELECTED;
+	private PokerGameStoryStatus pokerGameStoryStatus;
 
 	/**
 	 * The Average.

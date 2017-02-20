@@ -20,13 +20,19 @@ $.application.controller('sprintController', ["$scope", "crudController","utils"
 	 */
 	 $scope.saveSprint = function() {
 		 
-		projectId = $scope.getActiveProjectId();
-			
-		$scope.model.projectId =  projectId;
+		$scope.model.projectId =  $scope.getActiveProjectId();
 			
 		$scope.saveChanges();
 	};
+	
+	/**
+	 * Customize search query.
+	 */
+	$scope.customizeSearchQuery = function(searchQuery){
 		
+		searchQuery.projectId = $scope.getActiveProjectId();
+	};
+	
 	// listener	activeProjectSelectionChanged
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {	
 	

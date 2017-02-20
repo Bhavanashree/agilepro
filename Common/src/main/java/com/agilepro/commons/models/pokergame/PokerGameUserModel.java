@@ -9,8 +9,8 @@ import com.yukthi.webutils.common.annotations.NonDisplayable;
 /**
  * The Class PokerGameUserModel.
  */
-@ExtendableModel(name = "PokerGame")
-@Model
+@ExtendableModel(name = "PokerGameUser")
+@Model(name = "PokerGameUser")
 public class PokerGameUserModel extends AbstractExtendableModel
 {
 	/**

@@ -63,8 +63,8 @@
 		
 			<div ng-show="gameNotStarted">no game has started</div>
 			
-			<div ng-show="gameStarted">
-				game has started would you like to join 
+			<div ng-show="gameStarted && !nonScrumMasterJoined">
+				game has started would you like to join {{nonScrumMasterJoined}}
 				<button class="btn btn-success" ng-click="nonScrumUserJoinsTheGame()">Join</button>
 			</div>
 			

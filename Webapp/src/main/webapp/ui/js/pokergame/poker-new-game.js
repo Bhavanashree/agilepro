@@ -12,14 +12,22 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 	// Listener for broadcast
 	$scope.$on("addNewPokerGameUser", function(event, args) {
 		
-		var pokerGameUser =  {"pokerGameId" : $scope.getPokerGameId()};
+		var pokerGameUser =  {"projectId" : $scope.getActiveProjectId(),
+							  "pokerGameId" : $scope.getPokerGameId(),
+							  "userId" : $scope.activeUser.userId};
 		
 		actionHelper.invokeAction("pokerGameUser.save", pokerGameUser, null, 
 				function(saveResposne, respConfig)
 				{
-					
+					$scope.addPokerUserAfterSave();
 					
 				}, {"hideInProgress" : true});
+	});
+	
+	// Listener for broadcast
+	$scope.$on("fetchPokerGameStatus", function(event, args) {
+		
+		$scope.fetchPokerGameStatus(); 
 	});
 	
 	/**
@@ -119,7 +127,21 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 		 
 	 };
 	
-	 
+	 /**
+	  * Fetch poker game status.
+	  */
+	 $scope.fetchPokerGameStatus = function(){
+		 
+		 console.log("fetchPokerGameStatus");
+		 
+		 actionHelper.invokeAction("pokerGameUser.readPokerGameStatus", null, {"pokerGameId" : $scope.getPokerGameId()},
+					function(saveResponse, respConfig)
+					{
+				 		
+			 		}
+			 , {"hideInProgress" : true});
+		 
+	 }; 
 	 
 	 $scope.displayPokerGame = function(){
 		

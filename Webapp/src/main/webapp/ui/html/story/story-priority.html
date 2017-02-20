@@ -18,23 +18,17 @@
 	
 	<div id="storyPriorityId" style="overflow-y: auto; height: 100%;" ng-init="loadStoriesByPriority()">
 			
-		<div id="dropForMaxPriority" yk-on-drop="onDropForMaxPriority(event)"
-				class="heightTransition" 
-				style="background-color: #383838; visibility: hidden; text-align: center; 
-					  margin-top: 0.3em; margin-bottom: 0.2em; padding-top: 0.4em;
-				 	  height: 5px; margin-left: 0.5em; margin-right: 0.5em; color: white;">
-			
-				<span style="text-transform: capitalize;">Drop for max priority</span>
-		</div>
-			
 		<div ng-repeat="backlog in sortedBacklogs | filter:priorityStoryFilter()">
 		
 			<div id="dropAreaAbove_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
-			 	yk-on-drop="onDropAboveBacklog(event)" 
-			 	style="border: 1px solid white; height: 0px; padding-top: 0.2em; text-align: center;
-			 	 visibility: hidden; margin-left: 0.5em; margin-right: 0.5em;">
+			 	yk-on-drop="onDropAreaAbove(event)" 
+			 	yk-on-drag-enter = "onDropAreaAboveEnter(event)" yk-on-drag-leave = "onDropAreaAboveLeave(event)"
+			 	style="border: 1px solid white; height: 10px; padding-top: 0.2em; text-align: center;
+			 	 margin: 0.5em;">
 				
-				<span style="text-transform: capitalize; color: white;">Drop above {{backlog.title}}</span>
+				<span style="text-transform: capitalize; color: black; visibility: hidden;">
+					Drop above {{backlog.title}}
+				</span>
 				
 			</div>	
 			
@@ -85,32 +79,20 @@
 				</table>
 			</div>
 		
-			<div ng-show="!{{$last}}" id="dropAreaBelow_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
-			 	yk-on-drop="onDropBelowBacklog(event)" 
-			 	style="border: 1px solid white; height: 0px; padding-top: 0.2em; text-align: center;
-			 	 visibility: hidden; margin-left: 0.5em; margin-right: 0.5em;">
+			<div id="dropAreaBelow_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
+			 	yk-on-drop="onDropAreaBelow(event)" 
+			 	yk-on-drag-enter = "onDropAreaBelowEnter(event)" yk-on-drag-leave = "onDropAreaBelowLeave(event)"
+			 	style="border: 1px solid white; height: 10px; padding-top: 0.2em; text-align: center;
+			 	 margin: 0.5em;">
 				
-				<span style="text-transform: capitalize; color: white;">Drop below {{backlog.title}}</span>
-				
-			</div>
-			
-			<div ng-show="!{{$last}}" id="dropAreaBetween_{{backlog.id}}" name="{{$index}}" class="heightTransition" 
-			 	yk-on-drop="onDropBetweenBacklog(event)" style="border: 1px solid white; height: 0px;
-			 	 visibility: hidden; text-align: center; padding-top: 0.4em; margin-left: 0.5em; margin-right: 0.5em;">
-				
-				<span style="text-transform: capitalize; color: white;">Drop between {{backlog.message}}</span>
+				<span style="text-transform: capitalize; color: black; visibility: hidden; ">
+					Drop below {{backlog.title}}
+				</span>
 				
 			</div>
 			
 		</div>
-			
-		<div id="dropForLeastPriority" yk-on-drop="onDropForLeastPriority(event)"
-			class="heightTransition" 
-			style="background-color: #383838; visibility: hidden; text-align: center; padding-top: 0.4em;
-				height: 0px; margin-left: 0.5em; margin-right: 0.5em; color: white; margin-top: 0.3em;">
-			
-				<span style="text-transform: capitalize;">Drop for least priority</span>
-		</div>			
+				
 	</div>
 	
 </div>					
