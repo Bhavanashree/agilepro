@@ -47,7 +47,7 @@ public class PokerGameModel extends AbstractExtendableModel
 	private Integer average;
 
 	/**
-	 * The story points.
+	 * The story id.
 	 **/
 	private Long storyId;
 
@@ -73,6 +73,11 @@ public class PokerGameModel extends AbstractExtendableModel
 	 */
 	@Required
 	private Integer numberOfCards;
+	
+	/**
+	 * Bug id.
+	 */
+	private Long bugId;
 
 	/*
 	 * (non-Javadoc)
@@ -282,5 +287,25 @@ public class PokerGameModel extends AbstractExtendableModel
 	public void setNumberOfCards(Integer numberOfCards)
 	{
 		this.numberOfCards = numberOfCards;
+	}
+
+	/**
+	 * Gets the bug id.
+	 * 
+	 * @return the bug id.
+	 */
+	public Long getBugId()
+	{
+		return bugId;
+	}
+
+	/**
+	 * Set the bug id.
+	 * 
+	 * @param bugId the new bug id.
+	 */
+	public void setBugId(Long bugId)
+	{
+		this.bugId = bugId;
 	}
 }

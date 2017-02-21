@@ -53,6 +53,29 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	 */
 	private Integer cardValue;
 
+	/**
+	 * Poker Game User no argument constructor.
+	 */
+	public PokerGameUserModel()
+	{
+		super();
+	}
+
+	/**
+	 * Poker Game user. 
+	 * 
+	 * @param pokerGameId new poker game id.
+	 * @param projectId new project id.
+	 * @param userId new user id.
+	 */
+	public PokerGameUserModel(Long pokerGameId, Long projectId, Long userId)
+	{
+		super();
+		this.pokerGameId = pokerGameId;
+		this.projectId = projectId;
+		this.userId = userId;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

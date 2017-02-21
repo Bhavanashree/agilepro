@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.pokergame.PokerGameModel;
+import com.agilepro.commons.models.pokergame.PokerGameUserModel;
 import com.agilepro.persistence.entity.pokergame.PokerGameEntity;
 import com.agilepro.persistence.repository.pokergame.IPokerGameRepository;
 import com.agilepro.services.admin.ProjectMemberService;
@@ -31,6 +32,12 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	private ProjectMemberService projectMembers;
 
 	/**
+	 * The poker game user service.
+	 */
+	@Autowired
+	private PokerGameUserService pokerGameUserService;
+	
+	/**
 	 * Instantiates a new ProjectService.
 	 */
 	public PokerGameService()
@@ -54,6 +61,8 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 			
 			pokerGameModel.setMemberId(projectMemberId);
 			PokerGameEntity gameEntity = super.save(pokerGameModel);
+			
+			pokerGameUserService.savePokerGameUser(new PokerGameUserModel(gameEntity.getId(), pokerGameModel.getProjectId(), pokerGameModel.getUserId()));
 			
 			transaction.commit();
 			

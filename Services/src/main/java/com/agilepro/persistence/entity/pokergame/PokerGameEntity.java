@@ -10,6 +10,7 @@ import com.agilepro.commons.PokerGameStoryStatus;
 import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
+import com.agilepro.persistence.entity.bug.BugEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.yukthi.persistence.annotations.DataType;
 import com.yukthi.persistence.annotations.DataTypeMapping;
@@ -67,6 +68,14 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	private StoryEntity story;
 
 	/**
+	 * Bug for which game will be played and points will be calculated.
+	 */
+	@Column(name = "BUG_ID")
+	@OneToOne
+	@PropertyMapping(type = PokerGameModel.class, from = "bugId", subproperty = "id")
+	private BugEntity bugEntity;
+	
+	/**
 	 * Project under which stories will be assigned points.
 	 */
 	@Column(name = "PROJECT_ID", nullable = false)
@@ -78,7 +87,7 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	 * Project member as scrum master.
 	 */
 	@ManyToOne
-	@Column(name = "SCRUM_MASTER_ID")
+	@Column(name = "SCRUM_MASTER_ID", nullable = false)
 	@PropertyMapping(type = PokerGameModel.class, from = "memberId", subproperty = "id")
 	private ProjectMemberEntity projectMember;
 
@@ -227,5 +236,25 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	public void setProjectMember(ProjectMemberEntity projectMember)
 	{
 		this.projectMember = projectMember;
+	}
+
+	/**
+	 * Gets the bug.
+	 * 
+	 * @return the bug.
+	 */
+	public BugEntity getBugEntity()
+	{
+		return bugEntity;
+	}
+
+	/**
+	 * Sets the bug.
+	 * 
+	 * @param bugEntity the new bug.
+	 */
+	public void setBugEntity(BugEntity bugEntity)
+	{
+		this.bugEntity = bugEntity;
 	}
 }
