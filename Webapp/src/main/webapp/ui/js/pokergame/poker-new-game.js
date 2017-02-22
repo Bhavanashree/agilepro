@@ -113,8 +113,6 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 			 			$scope.setGameStarted();
 			 			
 			 			$scope.displayPokerGame();
-			 			 
-			 			//$scope.cardValues.splice(0, 0, '?', "0", "&#x221e;");
 			 		}
 			 		
 			 		try
@@ -168,6 +166,9 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 						break;
 					}
 			}
+		 
+		$scope.cardValues.splice(0, 0, '?', "0");
+		$scope.cardValues.push("\u221E");
 	 };
 	 
  	/**

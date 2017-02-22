@@ -1,57 +1,74 @@
 <div class="flexHorizontal" ng-controller="pokerNewGameController" ng-init="initPokerNewGame()" style="width: 100%; height: 100%;">
 
 	<!-- Cards to be displayed -->
-	<div style="width: 80%; padding: 1em;">
-		<table style="width: 100%; height: 100%;">
-			<tr>
-				<td style="height: 60%; width: 80%; padding-bottom: 0.5em;">
-					<div style="border: 2px solid lightblue; height: 100%;">
-						
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td style="height: 40%; width: 80%;">
-					<table style="width: 100%; height: 100%; border: 2px solid lightblue;">
+	<div style="width: 80%; border: 3px solid grey; margin-right: 0.5em;">
+		
+		<!-- Header -->
+		<div  style="border-bottom: 3px solid grey; height: 5%;">
+			<span>Title</span>
+			<span style="float: right;">info</span>
+		</div>
+		
+		<div style="border-bottom: 3px solid grey; height: 45%;">
+			items
+		</div>	
+		
+		<div class="flexHorizontal" ng-show="isUserScrumMaster" 
+			 style="border-bottom: 3px solid grey; height: 7%; width: 100%;">
+			
+			<table>
+				<tr>
+					<td style="padding: 0.2em;">
+						<button class="btn btn-success btn-sm">Flip</button>
+					</td>
 					
-						<tr ng-show="isUserScrumMaster" style="border-bottom: 2px solid lightblue;  height: 20%; width: 100%;">
-							<td style="width: 80%; padding: 0.3em;">
-								<button class="btn btn-success">Flip</button>
-							</td>
-							<td style="width: 10%; padding: 0.3em;">
-								<input type="number" class="form-control" placeholder="story points"/>
-							</td>
-							<td style="width: 10%; padding: 0.3em;">
-								<button class="btn btn-success">Confirm</button>
-							</td>
+					<td style="padding: 0.2em; width: 80%;">
+						<button class="btn btn-danger btn-sm">End the game</button>
+					</td>
+					
+					<td style="padding: 0.2em;">
+						<input type="number" class="form-control" placeholder="Points"/>
+					</td>
+					
+					<td style="padding: 0.2em;">
+						<button class="btn btn-success btn-sm">Confirm</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="flexHorizontal"  style="border-bottom: 3px solid grey; height: 30%; overflow-x: auto;">
+		
+			<div ng-repeat="value in cardValues track by $index" 
+					style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
+					border-radius: 10px; min-width: 5em;max-width: 5em;" >
+						
+					<table style="height: 100%; width: 100%;">
+						<tr>
+							<td style="width: 95%;">{{value}}</td>
+							<td style="width: 5%;">{{value}}</td>
 						</tr>
-						<tr style="width: 100%; height: 80%; width: 100%;">
-							<td colspan="3">
-								<div class="flexHorizontal" style="height: 100%; padding: 0.5em; -webkit-justify-content: space-around; justify-content: space-around;">
-								
-									<div ng-repeat="value in cardValues track by $index" 
-										style="background-color: lightblue;  padding: 0.5em; border-radius: 10px; height: 100%; width: 10%;" >
-										<table style="height: 100%; width: 100%;">
-											<tr>
-												<td style="width: 95%;">{{value}}</td>
-												<td style="width: 5%;">{{value}}</td>
-											</tr>
-											<tr>
-												<td style="text-align: center; font-size: 2.5em;"colspan="2">{{value}}</td>
-											</tr>
-											<tr>
-												<td style="width: 95%;">{{value}}</td>
-												<td style="width: 5%;">{{value}}</td>
-											</tr>
-										</table>
-									</div>
-								</div>
-							</td>
+						<tr>
+							<td style="text-align: center; font-size: 2.5em;"colspan="2">{{value}}</td>
+						</tr>
+						<tr>
+							<td style="width: 95%;">{{value}}</td>
+							<td style="width: 5%;">{{value}}</td>
 						</tr>
 					</table>
-				</td>
-			</tr>
-		</table>
+			</div>
+			
+		</div>
+		
+		<div class="flexHorizontal" style="height: 10%;">
+			<textarea rows="2" cols="2" id="runningNoteId" class="form-control" 
+				style="height: 100%; resize: none; border: none; height: 125%;">
+			</textarea>
+			
+			<div>
+				send
+			</div>
+		</div>
 	</div>
 	
 	<!-- Stories -->
