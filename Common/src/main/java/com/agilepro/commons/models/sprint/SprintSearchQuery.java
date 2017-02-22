@@ -4,7 +4,9 @@ import java.util.Date;
 
 import com.yukthi.persistence.repository.annotations.Condition;
 import com.yukthi.persistence.repository.annotations.Operator;
+import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.annotations.Model;
+import com.yukthi.webutils.common.annotations.NonDisplayable;
 
 /**
  * The Class SprintSearchQuery.
@@ -35,6 +37,14 @@ public class SprintSearchQuery
 	 **/
 	@Condition(value = "endDate", op = Operator.LE)
 	private Date endDate;
+	
+	/**
+	 * Project id is mandatory for sprint search.
+	 */
+	@Required
+	@NonDisplayable
+	@Condition(value = "project.id", op = Operator.EQ)
+	private Long projectId;
 
 	/**
 	 * Gets the name.
@@ -118,5 +128,15 @@ public class SprintSearchQuery
 	public void setEndDate(Date endDate)
 	{
 		this.endDate = endDate;
+	}
+
+	public Long getProjectId()
+	{
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId)
+	{
+		this.projectId = projectId;
 	}
 }

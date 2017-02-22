@@ -36,7 +36,7 @@ $.application.controller('sprintController', ["$scope", "crudController","utils"
 	// listener	activeProjectSelectionChanged
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {	
 	
-		
+		$scope.$emit('invokeSearch');
 	});
 		
 }]);

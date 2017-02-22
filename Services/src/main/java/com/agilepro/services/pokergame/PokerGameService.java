@@ -62,7 +62,7 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 			pokerGameModel.setMemberId(projectMemberId);
 			PokerGameEntity gameEntity = super.save(pokerGameModel);
 			
-			pokerGameUserService.savePokerGameUser(new PokerGameUserModel(gameEntity.getId(), pokerGameModel.getProjectId(), pokerGameModel.getUserId()));
+			//pokerGameUserService.savePokerGameUser(new PokerGameUserModel(gameEntity.getId(), pokerGameModel.getProjectId(), pokerGameModel.getUserId()));
 			
 			transaction.commit();
 			

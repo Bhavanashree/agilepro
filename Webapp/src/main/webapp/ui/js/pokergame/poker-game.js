@@ -51,7 +51,7 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 							$scope.gameStarted = true;
 						}else
 						{
-							$scope.gameNotStarted = true;	
+							$scope.gameNotStarted = true;
 						}
 						
 						if($scope.gameStarted)

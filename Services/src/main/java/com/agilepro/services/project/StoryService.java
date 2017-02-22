@@ -160,33 +160,33 @@ public class StoryService extends BaseCrudService<StoryEntity, IStoryRepository>
 	 * 
 	 * @param id
 	 *            provided id for update.
-	 * @param newInputPriority
+	 * @param newPriority
 	 *            newly provided input priority for update.
 	 * @param projectId
 	 *            story related to the project id.
 	 */
-	public void updatePriorityAccordingToInput(Long id, Integer newInputPriority, Long projectId)
+	public void updatePriorityAccordingToInput(Long id, Integer newPriority, Long projectId)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Integer maxPriority = repository.getMaxOrder(projectId);
 			Integer minPriority = repository.getMinOrder(projectId);
 
-			if(newInputPriority > maxPriority)
+			if(newPriority > maxPriority)
 			{
 				repository.updatePriority(id, maxPriority + 1);
 			}
-			else if(newInputPriority > 0)
+			else if(newPriority > 0)
 			{
-				if(newInputPriority < minPriority)
+				if(newPriority < minPriority)
 				{
 					repository.moveStoriesDown(projectId, minPriority, PRIORITY_INCREMENT_VALUE);
 					repository.updatePriority(id, minPriority);
 				}
 				else
 				{
-					repository.moveStoriesDown(projectId, newInputPriority, PRIORITY_INCREMENT_VALUE);
-					repository.updatePriority(id, newInputPriority);
+					repository.moveStoriesDown(projectId, newPriority, PRIORITY_INCREMENT_VALUE);
+					repository.updatePriority(id, newPriority);
 				}
 			}
 

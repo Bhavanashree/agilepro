@@ -55,6 +55,7 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 		$scope.dependencyTree = [];
 		$scope.dependencyIds = [];
 		$scope.deletedIds = [];
+		$scope.parentStories = [];
 		
 		// This array will be assigned to final result after recursion so that the scroll 
 		// bar will be not affected for child save.  
@@ -71,6 +72,8 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			 		
 			 		if($scope.backLogs)
 			 		{
+			 			debugger;
+			 			
 			 			$scope.addChildAndDependencies();
 			 			
 			 			$scope.$broadcast("sortBacklogsByPriority");
@@ -116,6 +119,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				 var parent = $scope.idToStory[backlog.parentStoryId];
 				 backlog["indentHierarchy"] = parent.indentHierarchy + 1;
 				 parent.childrens.push(backlog);
+				 
+				// parent stories
+				if($scope.parentStories.indexOf(parent) == -1)
+				{
+					$scope.parentStories.push(parent);
+				}
 			 }
 			 
 			 //set the type of story
@@ -235,6 +244,12 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 				{
 					$scope.idToStory[key].priority = storyIdPriority[key];
 				}
+			}
+			
+			// parent stories
+			if($scope.parentStories.indexOf(parentStory) == -1)
+			{
+				$scope.parentStories.push(parentStory);
 			}
 		}
 	};
@@ -500,6 +515,14 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 	$scope.refreshPriority = function(){
 		
 		$scope.$broadcast("sortBacklogsByPriority");
+	};
+	
+	/**
+	 * Get parent stories.
+	 */
+	$scope.getParentStories = function(){
+		
+		return $scope.parentStories;
 	};
 	
 	/**
