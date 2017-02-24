@@ -1,28 +1,5 @@
-$.application.controller("pokerNewGameController", ["$scope", "actionHelper", 
-                                             function($scope, actionHelper){
-	
-	// Listener for broadcast
-	$scope.$on("startNewPokerGame", function(event, args) {
-		
-		// start new game
-		$scope.startNewGame(); 
-	});
-	
-	
-	// Listener for broadcast
-	$scope.$on("addNewPokerGameUser", function(event, args) {
-		
-		var pokerGameUser =  {"projectId" : $scope.getActiveProjectId(),
-							  "pokerGameId" : $scope.getPokerGameId(),
-							  "userId" : $scope.activeUser.userId};
-		
-		actionHelper.invokeAction("pokerGameUser.save", pokerGameUser, null, 
-				function(saveResposne, respConfig)
-				{
-					$scope.addPokerUserAfterSave();
-					
-				}, {"hideInProgress" : true});
-	});
+$.application.controller("pokerNewGameController", ["$scope", "actionHelper", "utils", 
+                                             function($scope, actionHelper, utils){
 	
 	/**
 	 * Initialize new poker game.
@@ -41,15 +18,23 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 					 "projectId" : $scope.getActiveProjectId(), "userId" : $scope.activeUser.userId, 
 					 "numberOfCards" : $scope.getNumberOfCards()};
 		
-		if($scope.selectedBacklogId)
+		if($scope.selectedBacklogItem)
 		{
-			model["storyId"] = $scope.selectedBacklogId; 
-			model["pokerGameStoryStatus"] = "STORY_SELECTED";
+			if($scope.selectedBacklogItem.isBug)
+			{
+				model["bugId"] = $scope.selectedBacklogItem.id; 
+			}else
+			{
+				model["storyId"] = $scope.selectedBacklogItem.id;
+			}
+			
+			model["pokerGameStatus"] = "CARDS_NOT_FLIPPED";
 		}else
 		{
-			model["pokerGameStoryStatus"] = "STORY_NOT_SEELCTED";
+			utils.alert("Please create story or bug");
+			return;
 		}
-		 
+		
 		 actionHelper.invokeAction("pokerGame.save", model, null,
 				function(saveResponse, respConfig)
 				{
@@ -95,8 +80,7 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 					}
 			}
 		 
-		$scope.cardValues.splice(0, 0, '?', "0");
-		$scope.cardValues.push("\u221E");
+		$scope.cardValues.splice(0, 0, '?', "\u221E", "0");
 		
 		// set the width dynamically of game box for non scrum users
 		
@@ -246,6 +230,37 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 				}, {"hideInProgress" : true});
 	};
 	
+	/**
+	 * On change of card.
+	 */
+	$scope.onChangeCard = function(value){
+		
+	};
+	
+	
+	// Listener for broadcast
+	$scope.$on("startNewPokerGame", function(event, args) {
+		
+		// start new game
+		$scope.startNewGame(); 
+	});
+	
+	
+	// Listener for broadcast
+	$scope.$on("addNewPokerGameUser", function(event, args) {
+		
+		var pokerGameUser =  {"projectId" : $scope.getActiveProjectId(),
+							  "pokerGameId" : $scope.getPokerGameId(),
+							  "userId" : $scope.activeUser.userId};
+		
+		actionHelper.invokeAction("pokerGameUser.save", pokerGameUser, null, 
+				function(saveResposne, respConfig)
+				{
+					$scope.addPokerUserAfterSave();
+					
+				}, {"hideInProgress" : true});
+	});
+	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
 
@@ -258,13 +273,13 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 		$scope.displayPokerGame();
 	});
 	
-	// Listener for broadcast
+	// Listener for emit
 	$scope.$on("backlogsForPokerGame", function(event, args) {
 		
 		$scope.selectDefaultBacklogItem(args.backlogs);
 	});
 	
-	// Listener for broadcast
+	// Listener for emit
 	$scope.$on("backlogIsSelectedForPokerGame", function(event, args) {
 		
 		$scope.selectClickedBacklogItem(args.selectedBacklogItem);

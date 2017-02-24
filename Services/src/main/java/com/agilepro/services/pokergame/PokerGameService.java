@@ -92,8 +92,32 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 			return null;
 		}
 		
-		pokerGameModel.setActiveUserHasJoinedTheGame(pokerGameUserService.hasUserJoinedTheGame(activeUserId, pokerGameModel.getId(), projectId));
+		pokerGameModel.setPokerGameUserModel(pokerGameUserService.fetchPokerUser(activeUserId, 
+				pokerGameModel.getId(), projectId));
 		
 		return pokerGameModel;
+	}
+	
+	/**
+	 * Gets the backlog item details.
+	 * 
+	 * @param projectId project under which game is going on.
+	 * @param backlogId backlog item id.
+	 * @param isBug indicates whether the backlog item is bug or not.
+	 */
+	public void getOnChangeBacklogItem(Long projectId, Long backlogId, Boolean isBug)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			PokerGameModel pokerGameModel = null;
+			
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while saving poker game");
+		}
 	}
 }

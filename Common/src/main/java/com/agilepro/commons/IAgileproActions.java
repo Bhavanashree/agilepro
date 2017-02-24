@@ -615,11 +615,21 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * Action for checking whether the poker game is started or not.
 	 */
 	public String ACTION_TYPE_IS_POKER_GAME_STARTED = "isPokerGameStarted";
+	
+	/**
+	 * Action for on change of item in backlog for poker game.
+	 */
+	public String ACTION_TYPE_ON_CHANGE_BACKLOG_ITEM_POKER_GAME = "onChangeBacklogItemPokerGame";
 
 	/**
 	 * Action prefix poker game user.
 	 */
 	public String ACTION_PREFIX_POKER_GAME_USER = "pokerGameUser";
+	
+	/**
+	 * Action for on change of card. 
+	 */
+	public String ACTION_TYPE_ON_CHANGE_CARD = "onChangeCard";
 
 	/**
 	 * The action type to save.

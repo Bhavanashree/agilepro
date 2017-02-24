@@ -45,11 +45,12 @@
 			</table>
 		</div>
 		
-		<div id="pokerGameCardBox" class="flexHorizontal"  style="height: 26%; overflow-x: auto;">
+		<div id="pokerGameCardBox" class="flexHorizontal"  style="height: 26%; overflow-y: auto; flex-wrap: wrap;">
 		
-			<div ng-repeat="value in cardValues track by $index" 
+			<div ng-repeat="value in cardValues track by $index" ng-click="onChangeCard(value)"
 					style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
-					border-radius: 10px; height: 8.5em; min-width: 5em; max-width: 5em;" >
+					border-radius: 10px; height: 7.5em; min-width: 4.5em; max-width: 4.5em;
+					cursor: pointer;">
 						
 					<table style="height: 100%; width: 100%;">
 						<tr>
@@ -57,7 +58,7 @@
 							<td style="width: 5%;">{{value}}</td>
 						</tr>
 						<tr>
-							<td style="text-align: center; font-size: 2.5em;"colspan="2">{{value}}</td>
+							<td style="text-align: center; font-size: 1.5em;"colspan="2">{{value}}</td>
 						</tr>
 						<tr>
 							<td style="width: 95%;">{{value}}</td>
@@ -75,7 +76,17 @@
 	</div>
 	
 	<div style="max-width: 20%; min-width: 20%; border: 3px solid grey; margin-left: 0.5em;">
-		Running notes
+		
+		<div style="height: 80%;">
+			<div ng-repeat="notes in runningNotes">
+				
+			</div>
+		</div>
+		
+		<div style="border-top: 3px solid grey; height: 20%;">
+			<textarea placeholder="Running notes" class="form-control"
+				style="border: none; height: 100%;"/>
+		</div>
 	</div>
 	
 	

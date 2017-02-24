@@ -3,6 +3,7 @@ package com.agilepro.controller.pokergame;
 import static com.agilepro.commons.IAgileproActions.ACTION_PREFIX_POKER_GAME;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_SAVE;
 import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_IS_POKER_GAME_STARTED;
+import static com.agilepro.commons.IAgileproActions.ACTION_TYPE_ON_CHANGE_BACKLOG_ITEM_POKER_GAME;
 
 import javax.validation.Valid;
 
@@ -70,6 +71,15 @@ public class PokerGameController extends BaseController
 			@RequestParam(value = "userId") Long activeUserId)
 	{
 		return new BasicReadResponse<PokerGameModel>(pokerService.isGameStarted(projectId, activeUserId)) ;
+	}
+	
+	@ActionName(ACTION_TYPE_ON_CHANGE_BACKLOG_ITEM_POKER_GAME)
+	@RequestMapping(value = "/onChangeBacklogItemPokerGame", method = RequestMethod.GET)
+	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
+	@ResponseBody
+	public BasicReadResponse getOnChangeBacklogItem(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "backlogId") Long backlogId, @RequestParam(value = "isBug") Boolean isBug)
+	{
+		return null;
 	}
 }
 

@@ -7,19 +7,13 @@ import com.yukthi.webutils.common.annotations.Label;
  */
 public enum PokerGameStatus
 {
+	/**
+	 * The cards selected.
+	 **/
+	@Label("cards selected") CARDS_NOT_FLIPPED,
 
 	/**
-	 * The not started.
+	 * The cards flipped.
 	 **/
-	@Label("not selected") NOT_STARTED,
-
-	/**
-	 * The story selected.
-	 **/
-	@Label("story selected") STORY_SELECTED,
-
-	/**
-	 * The story flipped.
-	 **/
-	@Label(" story flipped") STORY_FLIPPED,
+	@Label("cards flipped") CARDS_FLIPPED,
 }

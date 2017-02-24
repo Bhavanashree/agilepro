@@ -1,10 +1,11 @@
 package com.agilepro.commons.models.pokergame;
 
 import com.agilepro.commons.GameSeries;
-import com.agilepro.commons.PokerGameStoryStatus;
+import com.agilepro.commons.PokerGameStatus;
 import com.yukthi.validation.annotations.Required;
 import com.yukthi.webutils.common.AbstractExtendableModel;
 import com.yukthi.webutils.common.annotations.ExtendableModel;
+import com.yukthi.webutils.common.annotations.IgnoreField;
 import com.yukthi.webutils.common.annotations.Model;
 import com.yukthi.webutils.common.annotations.NonDisplayable;
 
@@ -39,7 +40,7 @@ public class PokerGameModel extends AbstractExtendableModel
 	 * Status of the story in poker game.
 	 */
 	@Required
-	private PokerGameStoryStatus pokerGameStoryStatus;
+	private PokerGameStatus pokerGameStatus;
 
 	/**
 	 * The Average.
@@ -80,9 +81,10 @@ public class PokerGameModel extends AbstractExtendableModel
 	private Long bugId;
 
 	/**
-	 * Indicates whether the active user has joined the game or not.
+	 * Poker game user model.
 	 */
-	private Boolean activeUserHasJoinedTheGame;
+	@IgnoreField
+	private PokerGameUserModel pokerGameUserModel;
 
 	/*
 	 * (non-Javadoc)
@@ -257,20 +259,20 @@ public class PokerGameModel extends AbstractExtendableModel
 	 * 
 	 * @return the poker game status.
 	 */
-	public PokerGameStoryStatus getPokerGameStoryStatus()
+	public PokerGameStatus getPokerGameStatus()
 	{
-		return pokerGameStoryStatus;
+		return pokerGameStatus;
 	}
 
 	/**
 	 * Sets the poker game status.
 	 * 
-	 * @param pokerGameStoryStatus
+	 * @param pokerGameStatus
 	 *            the new poker game status.
 	 */
-	public void setPokerGameStoryStatus(PokerGameStoryStatus pokerGameStoryStatus)
+	public void setPokerGameStatus(PokerGameStatus pokerGameStatus)
 	{
-		this.pokerGameStoryStatus = pokerGameStoryStatus;
+		this.pokerGameStatus = pokerGameStatus;
 	}
 
 	/**
@@ -316,23 +318,23 @@ public class PokerGameModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Gets the activeUserHasJoinedTheGame.
+	 * gets the poker game user model.
 	 * 
-	 * @return the activeUserHasJoinedTheGame.
+	 * @return the poker game user model.
 	 */
-	public Boolean getActiveUserHasJoinedTheGame()
+	public PokerGameUserModel getPokerGameUserModel()
 	{
-		return activeUserHasJoinedTheGame;
+		return pokerGameUserModel;
 	}
 
 	/**
-	 * Sets the activeUserHasJoinedTheGame.
+	 * Sets the poker game user model.
 	 * 
-	 * @param activeUserHasJoinedTheGame
-	 *            the new activeUserHasJoinedTheGame.
+	 * @param pokerGameUserModel
+	 *            the new poker game user model.
 	 */
-	public void setActiveUserHasJoinedTheGame(Boolean activeUserHasJoinedTheGame)
+	public void setPokerGameUserModel(PokerGameUserModel pokerGameUserModel)
 	{
-		this.activeUserHasJoinedTheGame = activeUserHasJoinedTheGame;
+		this.pokerGameUserModel = pokerGameUserModel;
 	}
 }

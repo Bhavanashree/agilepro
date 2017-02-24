@@ -67,11 +67,41 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 		}
 	}
 	
-	public boolean hasUserJoinedTheGame(Long userId, Long pokerGameId, Long projectId)
+	/**
+	 * Fetch the poker game user model.
+	 * 
+	 * @param userId active user id.
+	 * @param pokerGameId game id.
+	 * @param projectId project under which game is going on.
+	 * @return matching record.
+	 */
+	public PokerGameUserModel fetchPokerUser(Long userId, Long pokerGameId, Long projectId)
 	{
 		Long employeeId = userService.fetch(userId).getBaseEntityId();
 		Long projectMemberId = projectMembers.getProjectMemberId(projectId, employeeId);
 		
-		return (repository.hasUserJoinedTheGame(projectMemberId, pokerGameId) > 0);
+		return super.toModel(repository.fetchPokerUser(projectMemberId, pokerGameId), PokerGameUserModel.class);
+	}
+	
+	/**
+	 * Update the newly selected card value.
+	 * 
+	 * @param id id for which card value is to be updated.
+	 * @param cardValueDisplay new selected value.
+	 */
+	public void onChangeOfCard(Long id, String cardValueDisplay)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			//repository.updateNewCardValue(id, cardValue);
+			
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating card value in poker game user");
+		}
 	}
 }

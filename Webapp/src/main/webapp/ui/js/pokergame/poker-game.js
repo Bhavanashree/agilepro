@@ -60,7 +60,7 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 						
 						if($scope.gameStarted)
 						{
-							$scope.nonScrumMasterJoined = $scope.pokerGame.activeUserHasJoinedTheGame;
+							$scope.nonScrumMasterJoined = $scope.pokerGame.pokerGameUserModel ? true : false;
 							
 							if($scope.isUserScrumMaster || $scope.nonScrumMasterJoined)
 							{
@@ -152,7 +152,7 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 		}else if($scope.noOfCards > 20)
 		{
 			$scope.pokerGameError.error = true;
-			$scope.pokerGameError.message = "Please provide number smaller than twenty";
+			$scope.pokerGameError.message = "Please provide number smaller than 20";
 			return;
 		}else
 		{

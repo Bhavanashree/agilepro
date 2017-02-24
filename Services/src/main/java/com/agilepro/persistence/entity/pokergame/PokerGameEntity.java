@@ -6,7 +6,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.agilepro.commons.GameSeries;
-import com.agilepro.commons.PokerGameStoryStatus;
+import com.agilepro.commons.PokerGameStatus;
 import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.agilepro.persistence.entity.admin.ProjectEntity;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
@@ -30,7 +30,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "PokerGame")
 @Table(name = "POKER_GAME")
-@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_PROJECT", fields = { "spaceIdentity", "project"}) })
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_ID_PROJECT", fields = { "spaceIdentity", "project", "story", }) })
 public class PokerGameEntity extends WebutilsExtendableEntity
 {
 	/**
@@ -43,9 +43,9 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	/**
 	 * Poker game story status.
 	 */
-	@Column(name = "POKER_GAME_STORY_STATUS")
+	@Column(name = "POKER_GAME_STATUS")
 	@DataTypeMapping(type = DataType.STRING)
-	private PokerGameStoryStatus pokerGameStoryStatus;
+	private PokerGameStatus pokerGameStatus;
 
 	/**
 	 * Average of points provided for a story.
@@ -73,8 +73,8 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	@Column(name = "BUG_ID")
 	@ManyToOne
 	@PropertyMapping(type = PokerGameModel.class, from = "bugId", subproperty = "id")
-	private BugEntity bugEntity;
-	
+	private BugEntity bug;
+
 	/**
 	 * Project under which stories will be assigned points.
 	 */
@@ -89,7 +89,7 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	@ManyToOne
 	@Column(name = "SCRUM_MASTER_ID", nullable = false)
 	@PropertyMapping(type = PokerGameModel.class, from = "memberId", subproperty = "id")
-	private ProjectMemberEntity projectMember;
+	private ProjectMemberEntity scrumMaster;
 
 	/**
 	 * Gets the game series.
@@ -155,24 +155,24 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets the poker game story status.
+	 * Gets the poker game status.
 	 * 
-	 * @return poker game story status.
+	 * @return the poker game status.
 	 */
-	public PokerGameStoryStatus getPokerGameStoryStatus()
+	public PokerGameStatus getPokerGameStatus()
 	{
-		return pokerGameStoryStatus;
+		return pokerGameStatus;
 	}
 
 	/**
-	 * Sets the poker game story status.
+	 * Sets the poker game status.
 	 * 
-	 * @param pokerGameStoryStatus
-	 *            the new poker game story status.
+	 * @param pokerGameStatus
+	 *            the new poker game status.
 	 */
-	public void setPokerGameStoryStatus(PokerGameStoryStatus pokerGameStoryStatus)
+	public void setPokerGameStatus(PokerGameStatus pokerGameStatus)
 	{
-		this.pokerGameStoryStatus = pokerGameStoryStatus;
+		this.pokerGameStatus = pokerGameStatus;
 	}
 
 	/**
@@ -218,24 +218,24 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	}
 
 	/**
-	 * Gets project member.
+	 * Gets the scrum master.
 	 * 
-	 * @return the project member.
+	 * @return the scrum master.
 	 */
-	public ProjectMemberEntity getProjectMember()
+	public ProjectMemberEntity getScrumMaster()
 	{
-		return projectMember;
+		return scrumMaster;
 	}
 
 	/**
-	 * Set project member.
+	 * Sets the scrum master.
 	 * 
-	 * @param projectMember
-	 *            the new project member.
+	 * @param scrumMaster
+	 *            the new scrum master.
 	 */
-	public void setProjectMember(ProjectMemberEntity projectMember)
+	public void setScrumMaster(ProjectMemberEntity scrumMaster)
 	{
-		this.projectMember = projectMember;
+		this.scrumMaster = scrumMaster;
 	}
 
 	/**
@@ -243,18 +243,18 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	 * 
 	 * @return the bug.
 	 */
-	public BugEntity getBugEntity()
+	public BugEntity getBug()
 	{
-		return bugEntity;
+		return bug;
 	}
 
 	/**
 	 * Sets the bug.
 	 * 
-	 * @param bugEntity the new bug.
+	 * @param bug the new bug.
 	 */
-	public void setBugEntity(BugEntity bugEntity)
+	public void setBug(BugEntity bug)
 	{
-		this.bugEntity = bugEntity;
+		this.bug = bug;
 	}
 }
