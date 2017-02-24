@@ -73,11 +73,16 @@ public class PokerGameModel extends AbstractExtendableModel
 	 */
 	@Required
 	private Integer numberOfCards;
-	
+
 	/**
 	 * Bug id.
 	 */
 	private Long bugId;
+
+	/**
+	 * Indicates whether the active user has joined the game or not.
+	 */
+	private Boolean activeUserHasJoinedTheGame;
 
 	/*
 	 * (non-Javadoc)
@@ -302,10 +307,32 @@ public class PokerGameModel extends AbstractExtendableModel
 	/**
 	 * Set the bug id.
 	 * 
-	 * @param bugId the new bug id.
+	 * @param bugId
+	 *            the new bug id.
 	 */
 	public void setBugId(Long bugId)
 	{
 		this.bugId = bugId;
+	}
+
+	/**
+	 * Gets the activeUserHasJoinedTheGame.
+	 * 
+	 * @return the activeUserHasJoinedTheGame.
+	 */
+	public Boolean getActiveUserHasJoinedTheGame()
+	{
+		return activeUserHasJoinedTheGame;
+	}
+
+	/**
+	 * Sets the activeUserHasJoinedTheGame.
+	 * 
+	 * @param activeUserHasJoinedTheGame
+	 *            the new activeUserHasJoinedTheGame.
+	 */
+	public void setActiveUserHasJoinedTheGame(Boolean activeUserHasJoinedTheGame)
+	{
+		this.activeUserHasJoinedTheGame = activeUserHasJoinedTheGame;
 	}
 }

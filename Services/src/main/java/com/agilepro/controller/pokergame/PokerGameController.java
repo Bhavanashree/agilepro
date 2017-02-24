@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agilepro.commons.UserRole;
-import com.agilepro.commons.controllers.pokergame.IPokerGameController;
 import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.pokergame.PokerGameService;
 import com.yukthi.webutils.annotations.ActionName;
-import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
@@ -34,7 +32,7 @@ import com.yukthi.webutils.controllers.BaseController;
 @RestController
 @ActionName(ACTION_PREFIX_POKER_GAME)
 @RequestMapping("/pokerGame")
-public class PokerGameController extends BaseController implements IPokerGameController
+public class PokerGameController extends BaseController
 {
 	/**
 	 * service to fetch pokerGame details.
@@ -43,7 +41,7 @@ public class PokerGameController extends BaseController implements IPokerGameCon
 	private PokerGameService pokerService;
 
 	/**
-	 * Save new poker game for a story.
+	 * Save new poker game for a story or bug.
 	 * 
 	 * @param pokerGameModel model object from ui for save.
 	 * @return basic save response.
@@ -57,31 +55,21 @@ public class PokerGameController extends BaseController implements IPokerGameCon
 		return new BasicSaveResponse((pokerService.saveNewGame(pokerGameModel)).getId());
 	}
 
-	@Override
-	public BaseResponse update(PokerGameModel model)
-	{
-		return null;
-	}
-
-	@Override
-	public BaseResponse delete(Long id)
-	{
-		return null;
-	}
-
 	/**
 	 * Reads the whether the poker game is started or not for provided project id.
 	 * 
+	 * @param projectId to check whether the game is started or not.
+	 * @param activeUserId to check whether the user has joined the game or not. 
 	 * @return response wrapped with matching poker game model or else return null.
 	 */
-	@Override
 	@ActionName(ACTION_TYPE_IS_POKER_GAME_STARTED)
 	@RequestMapping(value = "/isPokerGameStarted", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BasicReadResponse<PokerGameModel> isGameStartedForProject(@RequestParam(value = "projectId") Long projectId)
+	public BasicReadResponse<PokerGameModel> isGameStartedForProject(@RequestParam(value = "projectId") Long projectId,
+			@RequestParam(value = "userId") Long activeUserId)
 	{
-		return new BasicReadResponse<PokerGameModel>(pokerService.isGameStarted(projectId)) ;
+		return new BasicReadResponse<PokerGameModel>(pokerService.isGameStarted(projectId, activeUserId)) ;
 	}
 }
 

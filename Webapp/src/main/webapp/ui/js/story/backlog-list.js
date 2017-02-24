@@ -40,12 +40,24 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		// executed for the page where drag and drop functionality is avoided.
 		if(!$scope.pageConfig.dragAndDropFunctionality)
 		{
+			// if checked item selected by default not by click.
+			if(!$scope.previuosCheckedObj)
+			{
+				$scope.previuosCheckedObj = $scope.getSelectedBacklogItem();
+			}
+			
 			if($scope.previuosCheckedObj && ($scope.previuosCheckedObj != backlogObj))
 			{
 				$scope.previuosCheckedObj.check = false;
 			}
 			
 			$scope.previuosCheckedObj = backlogObj; 
+			
+			if(backlogObj.check)
+			{
+				$scope.$emit("backlogIsSelectedForPokerGame", {"selectedBacklogItem" : backlogObj});
+			}
+			
 			return;
 		}
 		
@@ -172,6 +184,9 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 					$scope.addChildrens($scope.backlogStoryModels, idToBacklogStory);
 					
 					$scope.addFetchedBacklogItemsToParent(idToBacklogBug, idToBacklogStory, storyIdsInBacklog);
+					
+					// emit for poker game. 
+					$scope.$emit("backlogsForPokerGame", {"backlogs" : $scope.backlogs});
 					
 					try
 					{

@@ -1,11 +1,8 @@
 package com.agilepro.services.pokergame;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agilepro.commons.models.pokergame.PokerGameStatusModel;
 import com.agilepro.commons.models.pokergame.PokerGameUserModel;
 import com.agilepro.persistence.entity.pokergame.PokerGameUserEntity;
 import com.agilepro.persistence.repository.pokergame.IPokerGameUserRepository;
@@ -53,7 +50,6 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Long employeeId = userService.fetch(pokerGameUserModel.getUserId()).getBaseEntityId();
-
 			Long projectMemberId = projectMembers.getProjectMemberId(pokerGameUserModel.getProjectId(), employeeId);
 
 			pokerGameUserModel.setProjectMemberId(projectMemberId);
@@ -70,16 +66,12 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 			throw new InvalidStateException(ex, "An error occurred while saving model - {}", pokerGameUserModel);
 		}
 	}
-
-	/**
-	 * Read poker game status which will be called every interval of time.
-	 * 
-	 * @param pokerGameId
-	 *            poker game id for which poker game status is to fetched.
-	 * @return list of poker game status.
-	 */
-	public List<PokerGameStatusModel> readPokerGameStatus(Long pokerGameId)
+	
+	public boolean hasUserJoinedTheGame(Long userId, Long pokerGameId, Long projectId)
 	{
-		return repository.fetchGameStatus(pokerGameId);
+		Long employeeId = userService.fetch(userId).getBaseEntityId();
+		Long projectMemberId = projectMembers.getProjectMemberId(projectId, employeeId);
+		
+		return (repository.hasUserJoinedTheGame(projectMemberId, pokerGameId) > 0);
 	}
 }

@@ -622,11 +622,6 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_PREFIX_POKER_GAME_USER = "pokerGameUser";
 
 	/**
-	 * Action type read poker game status.
-	 */
-	public String ACTION_TYPE_READ_GAME_STATUS = "readPokerGameStatus";
-
-	/**
 	 * The action type to save.
 	 **/
 	public String ACTION_TYPE_SAVE_LIST_OF_DAYS = "listOfDays";

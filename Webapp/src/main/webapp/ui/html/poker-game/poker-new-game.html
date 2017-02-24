@@ -1,16 +1,24 @@
 <div class="flexHorizontal" ng-controller="pokerNewGameController" ng-init="initPokerNewGame()" style="width: 100%; height: 100%;">
 
 	<!-- Cards to be displayed -->
-	<div style="width: 80%; border: 3px solid grey; margin-right: 0.5em;">
+	<div id="pokerGameId" style="width: 60%; border: 3px solid grey;">
 		
 		<!-- Header -->
-		<div  style="border-bottom: 3px solid grey; height: 5%;">
-			<span>Title</span>
-			<span style="float: right;">info</span>
+		<div  style="border-bottom: 3px solid grey; height: 5%; background-color: #383838; color: white; 
+				padding: 0.2em;">
+			
+			<span>Title - {{selectedBacklogItem.title}}
+				<i ng-show="selectedBacklogItem.isBug" class="fa fa-bug" aria-hidden="true"
+					style="font-size: 0.8em; color: red;"></i>
+			</span>
+			 
+			<span style="float: right; cursor: pointer;" ng-click="openNoteModal()">
+				<i class="fa fa-info-circle" aria-hidden="true"></i>
+			</span>
 		</div>
 		
-		<div style="border-bottom: 3px solid grey; height: 45%;">
-			items
+		<div id="pokerGameSelectedCardBoxId" style="border-bottom: 3px solid grey; height: 62%;">
+			
 		</div>	
 		
 		<div class="flexHorizontal" ng-show="isUserScrumMaster" 
@@ -37,11 +45,11 @@
 			</table>
 		</div>
 		
-		<div class="flexHorizontal"  style="border-bottom: 3px solid grey; height: 30%; overflow-x: auto;">
+		<div id="pokerGameCardBox" class="flexHorizontal"  style="height: 26%; overflow-x: auto;">
 		
 			<div ng-repeat="value in cardValues track by $index" 
 					style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
-					border-radius: 10px; min-width: 5em;max-width: 5em;" >
+					border-radius: 10px; height: 8.5em; min-width: 5em; max-width: 5em;" >
 						
 					<table style="height: 100%; width: 100%;">
 						<tr>
@@ -59,20 +67,63 @@
 			</div>
 			
 		</div>
-		
-		<div class="flexHorizontal" style="height: 10%;">
-			<textarea rows="2" cols="2" id="runningNoteId" class="form-control" 
-				style="height: 100%; resize: none; border: none; height: 125%;">
-			</textarea>
-			
-			<div>
-				send
+	</div>
+	
+	<!-- Stories -->
+	<div ng-show="isUserScrumMaster" ng-include="'/ui/html/story/backlog-list.html'" style="max-width: 20%; min-width: 20%;
+		margin-left: 0.5em;">
+	</div>
+	
+	<div style="max-width: 20%; min-width: 20%; border: 3px solid grey; margin-left: 0.5em;">
+		Running notes
+	</div>
+	
+	
+	<!-- Modal related -->
+	<div id="storyNoteModal" class="modal fade" role="dialog">
+		   <div role="document" class="modal-dialog modal-lg">
+				<div class="modal-content">
+				
+					<!-- Header -->
+					<div class="modal-header app-dlg-header">
+						<a aria-label="Close" data-dismiss="modal" style="text-decoration: none; color: black; font-size: 0.9em; float: right; cursor: pointer;" class="yk-icon-link" data-toggle="tooltip" title="Close">
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+						<h4 class="modal-title">{{selectedBacklogItem.title}} - notes</h4>
+					</div>
+					
+					<!-- Content -->
+					<div yk-model="StoryNoteModel" class="modal-body">
+							
+						{{message}}
+						
+						<div ng-show="storyNote" ng-bind-html="storyNote.content | unsafe" 
+							style="box-shadow: 1px 1px 2px #888888; padding: 0.5em; margin-bottom: 1em;
+							height: 25em; overflow-y:auto;">
+							
+						</div>
+						
+						<div ng-show="storyNote" class="flexHorizontal" style="justify-content: space-between;">
+								<div style="background-color: #5bc0de; color: black;
+									height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
+									Version Title - {{storyNote.versionTitle}}
+								</div>
+						
+								<div style="background-color: #5bc0de; color: black;
+									height: 2.5em; text-align: center; padding: 0.5em; border-radius: 4px;">
+									Update by - {{storyNote.owner}}
+								</div>
+						</div>
+						
+					</div>
+						
+					<!-- Footer -->
+					<div style="padding: 0.5em 1em;" class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-danger cancel-button" type="button">Close</button>
+					</div>
 			</div>
 		</div>
 	</div>
 	
-	<!-- Stories -->
-	<div ng-include="'/ui/html/story/backlog-list.html'" style="width: 20%;">
-	</div>
 	
 </div>

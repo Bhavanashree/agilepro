@@ -63,7 +63,7 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	 * Story for which game will be played and points will be calculated.
 	 **/
 	@Column(name = "STORY_ID")
-	@OneToOne
+	@ManyToOne
 	@PropertyMapping(type = PokerGameModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;
 
@@ -71,7 +71,7 @@ public class PokerGameEntity extends WebutilsExtendableEntity
 	 * Bug for which game will be played and points will be calculated.
 	 */
 	@Column(name = "BUG_ID")
-	@OneToOne
+	@ManyToOne
 	@PropertyMapping(type = PokerGameModel.class, from = "bugId", subproperty = "id")
 	private BugEntity bugEntity;
 	

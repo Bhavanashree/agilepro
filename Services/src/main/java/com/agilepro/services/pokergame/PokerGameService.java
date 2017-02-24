@@ -62,7 +62,7 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 			pokerGameModel.setMemberId(projectMemberId);
 			PokerGameEntity gameEntity = super.save(pokerGameModel);
 			
-			//pokerGameUserService.savePokerGameUser(new PokerGameUserModel(gameEntity.getId(), pokerGameModel.getProjectId(), pokerGameModel.getUserId()));
+			pokerGameUserService.savePokerGameUser(new PokerGameUserModel(gameEntity.getId(), pokerGameModel.getProjectId(), pokerGameModel.getUserId()));
 			
 			transaction.commit();
 			
@@ -80,10 +80,20 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	 * Fetch poker game model object for the provided project id.
 	 * 
 	 * @param projectId provided project id.
+	 * @param activeUserId provided user id to check whether the user has joined the game or not.
 	 * @return matching poker game object.
 	 */
-	public PokerGameModel isGameStarted(Long projectId)
+	public PokerGameModel isGameStarted(Long projectId, Long activeUserId)
 	{
-		return super.toModel(repository.fetchPokerGame(projectId), PokerGameModel.class);
+		PokerGameModel pokerGameModel = super.toModel(repository.fetchPokerGame(projectId), PokerGameModel.class);
+		
+		if(pokerGameModel == null)
+		{
+			return null;
+		}
+		
+		pokerGameModel.setActiveUserHasJoinedTheGame(pokerGameUserService.hasUserJoinedTheGame(activeUserId, pokerGameModel.getId(), projectId));
+		
+		return pokerGameModel;
 	}
 }

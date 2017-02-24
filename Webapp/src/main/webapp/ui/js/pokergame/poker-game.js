@@ -31,6 +31,9 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 		$scope.isUserNonScrumMaster = false;
 		$scope.nonScrumMasterJoined = false;
 		
+		$scope.selectedSeries = "";
+		$scope.noOfCards = "";
+		
 		if($scope.activeUser && ($scope.getActiveProjectId() != -1))
 		{
 			if($scope.activeUser.roles.indexOf("SCRUM_MASTER") >= 0)
@@ -42,7 +45,8 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 			}
 			
 			
-			actionHelper.invokeAction("pokerGame.isPokerGameStarted", null, {"projectId" :  $scope.getActiveProjectId()},
+			actionHelper.invokeAction("pokerGame.isPokerGameStarted", null, 
+					{"projectId" :  $scope.getActiveProjectId(), "userId" : $scope.activeUser.userId},
 					function(readResponse, respConfig)
 					{
 						if(readResponse.model)
@@ -56,8 +60,12 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 						
 						if($scope.gameStarted)
 						{
-							// broad cast to fetch the poker game status.
-							$scope.$broadcast("fetchPokerGameStatus");
+							$scope.nonScrumMasterJoined = $scope.pokerGame.activeUserHasJoinedTheGame;
+							
+							if($scope.isUserScrumMaster || $scope.nonScrumMasterJoined)
+							{
+								$scope.$broadcast("displayPokerGame");
+							}
 						}
 						
 						try
@@ -214,7 +222,18 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 	  */
 	 $scope.addPokerUserAfterSave = function(){
 		 
-		 $scope.nonScrumMasterJoined = true;
+		$scope.nonScrumMasterJoined = true;
+			
+		$scope.$broadcast("displayPokerGame");
 	 };
+	 
+	 /**
+	  * Get the value of isUserNonScrumMaster.
+	  */
+	 $scope.getIsUserNonScrumMaster = function(){
+		 
+		 return $scope.isUserNonScrumMaster;
+	 };
+	 
 	 
 }]);

@@ -24,68 +24,13 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 				}, {"hideInProgress" : true});
 	});
 	
-	// Listener for broadcast
-	$scope.$on("fetchPokerGameStatus", function(event, args) {
-		
-		$scope.fetchPokerGameStatus(); 
-	});
-	
 	/**
 	 * Initialize new poker game.
 	 */
 	$scope.initPokerNewGame = function(){
 		
-		$scope.fetchStories();
 		
 	};
-	
-	/**
-	 * Fetch stories.
-	 */
-	$scope.fetchStories = function(){
-		
-		projectId = $scope.getActiveProjectId();
-		
-		if(projectId != -1)
-		{
-			actionHelper.invokeAction("story.readByProjectId", null, {"projectId" : projectId}, 
-					function(readResponse, respConfig){
-					
-						$scope.stories = readResponse.model;
-						
-						var index, storyObj;
-						
-						if($scope.stories.length > 0)
-						{
-							for(index in $scope.stories)
-							{
-								storyObj = $scope.stories[index];
-								
-								if(!storyObj.storyPoints)
-								{
-									$scope.selectedStoryId = storyObj.id;
-									break;
-								}
-							}
-							
-							if(!$scope.selectedStoryId)
-							{
-								$scope.selectedStoryId = $scope.stories[0].id;
-							}
-						}
-						
-						$scope.displayPokerGame();
-						
-						try
-				 		{
-				 			$scope.$apply();
-				 		}catch(ex)
-				 		{}
-						
-				},{"hideInProgress" : true});
-		}
-	};
-	
 	
 	/**
 	  * Start a new poker game.
@@ -96,9 +41,9 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 					 "projectId" : $scope.getActiveProjectId(), "userId" : $scope.activeUser.userId, 
 					 "numberOfCards" : $scope.getNumberOfCards()};
 		
-		if($scope.selectedStoryId)
+		if($scope.selectedBacklogId)
 		{
-			model["storyId"] = $scope.selectedStoryId; 
+			model["storyId"] = $scope.selectedBacklogId; 
 			model["pokerGameStoryStatus"] = "STORY_SELECTED";
 		}else
 		{
@@ -120,27 +65,10 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 			 			$scope.$apply();
 			 		}catch(ex)
 			 		{}
-		 		}
-		 , {"hideInProgress" : true});
+		 		});
 		 
 	 };
 	
-	 /**
-	  * Fetch poker game status.
-	  */
-	 $scope.fetchPokerGameStatus = function(){
-		 
-		 console.log("fetchPokerGameStatus");
-		 
-		 actionHelper.invokeAction("pokerGameUser.readPokerGameStatus", null, {"pokerGameId" : $scope.getPokerGameId()},
-					function(saveResponse, respConfig)
-					{
-				 		
-			 		}
-			 , {"hideInProgress" : true});
-		 
-	 }; 
-	 
 	 $scope.displayPokerGame = function(){
 		
 		 $scope.selectedSeries = $scope.getSelectedSeries();
@@ -169,6 +97,22 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 		 
 		$scope.cardValues.splice(0, 0, '?', "0");
 		$scope.cardValues.push("\u221E");
+		
+		// set the width dynamically of game box for non scrum users
+		
+		var  isUserNonScrumMaster = $scope.getIsUserNonScrumMaster();
+		
+		if(isUserNonScrumMaster)
+		{
+			$("#" + "pokerGameId").css("width", "80%");
+			$("#" + "pokerGameSelectedCardBoxId").css("height", "69%");
+		}
+		
+		try
+		{
+			$scope.$apply();
+		}catch(ex)
+		{}
 	 };
 	 
  	/**
@@ -229,11 +173,103 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper",
 		 return evenSeries;
 	 };
 		 
+	 
+	 /**
+	  * Select default backlogs item, first backlog item which has null story points or the backlog item in zero index.
+	  */
+	 $scope.selectDefaultBacklogItem = function(backlogArr){
+		 
+		for(var i = 0 ; i < backlogArr.length ; i++)
+		{
+			var obj = backlogArr[i];
+			
+			$scope.selectedBacklogItem = null;
+			
+			if(!obj.storyPoints)
+			{
+				obj.check = true;
+				$scope.selectedBacklogItem = obj;
+				break;
+			}
+		}
+		
+		if(backlogArr.length > 0 &&  !$scope.selectedBacklogItem)
+		{
+			$scope.selectedBacklogItem = backlogArr[0]; 
+		}	
+	 };
+	 
+	/**
+	 * Get selected backlog item.
+	 */
+	$scope.getSelectedBacklogItem = function(){
+		
+		return $scope.selectedBacklogItem;
+	};
+	 
+	/**
+	 * Set the clicked backlog item.
+	 */
+	$scope.selectClickedBacklogItem = function(selectedBacklogItem){
+		
+		$scope.selectedBacklogItem = selectedBacklogItem;
+	};
+	
+	/**
+	 * Fetch the story info and open the modal.
+	 */
+	$scope.openNoteModal = function(){
+		
+		actionHelper.invokeAction("storyNote.readLatestStoryNoteByStoryId", null, {"storyId" : $scope.selectedBacklogItem.id}, 
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						$("#storyNoteModal").modal("show");
+						$scope.storyNote = readResponse.model;
+						
+						if(!$scope.storyNote)
+						{
+							$scope.message = "Currently there is no note for " + $scope.selectedBacklogItem.title;
+						}else
+						{
+							$scope.message = "";
+						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}
+					
+				}, {"hideInProgress" : true});
+	};
+	
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
 
 		$scope.initPokerNewGame();
 	});
 	
-	 		
+	// Listener for broadcast
+	$scope.$on("displayPokerGame", function(event, args) {
+
+		$scope.displayPokerGame();
+	});
+	
+	// Listener for broadcast
+	$scope.$on("backlogsForPokerGame", function(event, args) {
+		
+		$scope.selectDefaultBacklogItem(args.backlogs);
+	});
+	
+	// Listener for broadcast
+	$scope.$on("backlogIsSelectedForPokerGame", function(event, args) {
+		
+		$scope.selectClickedBacklogItem(args.selectedBacklogItem);
+		
+	});
+	
+	
 }]);

@@ -51,7 +51,12 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	/**
 	 * Card value selected by the user.
 	 */
-	private Integer cardValue;
+	private Float cardValue;
+
+	/**
+	 * Card value to display in UI.
+	 */
+	private String cardValueDisplay;
 
 	/**
 	 * Poker Game User no argument constructor.
@@ -62,11 +67,14 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	}
 
 	/**
-	 * Poker Game user. 
+	 * Poker Game user.
 	 * 
-	 * @param pokerGameId new poker game id.
-	 * @param projectId new project id.
-	 * @param userId new user id.
+	 * @param pokerGameId
+	 *            new poker game id.
+	 * @param projectId
+	 *            new project id.
+	 * @param userId
+	 *            new user id.
 	 */
 	public PokerGameUserModel(Long pokerGameId, Long projectId, Long userId)
 	{
@@ -165,7 +173,7 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	 * 
 	 * @return the card value.
 	 */
-	public Integer getCardValue()
+	public Float getCardValue()
 	{
 		return cardValue;
 	}
@@ -176,7 +184,7 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	 * @param cardValue
 	 *            the new card value.
 	 */
-	public void setCardValue(Integer cardValue)
+	public void setCardValue(Float cardValue)
 	{
 		this.cardValue = cardValue;
 	}
@@ -194,7 +202,8 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	/**
 	 * Set the project id.
 	 * 
-	 * @param projectId the new project id for fetching the project member id..
+	 * @param projectId
+	 *            the new project id for fetching the project member id..
 	 */
 	public void setProjectId(Long projectId)
 	{
@@ -220,5 +229,26 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	public void setUserId(Long userId)
 	{
 		this.userId = userId;
+	}
+
+	/**
+	 * Gets the card value display.
+	 * 
+	 * @return the card value display.
+	 */
+	public String getCardValueDisplay()
+	{
+		return cardValueDisplay;
+	}
+
+	/**
+	 * Set the card value display.
+	 * 
+	 * @param cardValueDisplay
+	 *            the new card value display.
+	 */
+	public void setCardValueDisplay(String cardValueDisplay)
+	{
+		this.cardValueDisplay = cardValueDisplay;
 	}
 }

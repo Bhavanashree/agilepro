@@ -1,6 +1,7 @@
 package com.agilepro.persistence.entity.pokergame;
 
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,16 +29,16 @@ public class PokerGameUserEntity extends WebutilsExtendableEntity
 	/**
 	 * The poker game.
 	 **/
-	@OneToOne
+	@ManyToOne
 	@PropertyMapping(type = PokerGameUserModel.class, from = "pokerGameId", subproperty = "id")
 	@Column(name = "POKER_GAME_ID", nullable = false)
 	private PokerGameEntity pokerGame;
 
 	/**
-	 * Card value is the story point selected by user for a story.
+	 * Card value is the story point selected by user for a story or bug.
 	 */
 	@Column(name = "CARD_VALUE")
-	private Integer cardValue;
+	private Float cardValue;
 
 	/**
 	 * Gets the project member.
@@ -84,7 +85,7 @@ public class PokerGameUserEntity extends WebutilsExtendableEntity
 	 * 
 	 * @return the card value.
 	 */
-	public Integer getCardValue()
+	public Float getCardValue()
 	{
 		return cardValue;
 	}
@@ -94,7 +95,7 @@ public class PokerGameUserEntity extends WebutilsExtendableEntity
 	 * 
 	 * @param cardValue the new card value.
 	 */
-	public void setCardValue(Integer cardValue)
+	public void setCardValue(Float cardValue)
 	{
 		this.cardValue = cardValue;
 	}
