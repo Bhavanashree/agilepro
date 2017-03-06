@@ -17,7 +17,27 @@
 			</span>
 		</div>
 		
-		<div id="pokerGameSelectedCardBoxId" style="border-bottom: 3px solid grey; height: 62%;">
+		<div id="pokerGameSelectedCardBoxId" class="flexHorizontal" style="border-bottom: 3px solid grey; height: 62%;
+			flex-wrap: wrap;">
+			
+			<div ng-repeat="value in selectedCardValues track by $index" ng-click="onChangeCard(value)"
+					style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
+					border-radius: 10px; height: 7.5em; min-width: 4.5em; max-width: 4.5em;">
+						
+					<table style="height: 100%; width: 100%;">
+						<tr>
+							<td style="width: 95%;">{{value}}</td>
+							<td style="width: 5%;">{{value}}</td>
+						</tr>
+						<tr>
+							<td style="text-align: center; font-size: 1.5em;"colspan="2">{{value}}</td>
+						</tr>
+						<tr>
+							<td style="width: 95%;">{{value}}</td>
+							<td style="width: 5%;">{{value}}</td>
+						</tr>
+					</table>
+			</div>
 			
 		</div>	
 		
@@ -77,15 +97,22 @@
 	
 	<div style="max-width: 20%; min-width: 20%; border: 3px solid grey; margin-left: 0.5em;">
 		
-		<div style="height: 80%;">
-			<div ng-repeat="notes in runningNotes">
-				
+		<div style="border-bottom: 3px solid grey; height: 6%;">
+			<input type="text" ng-model="searchNote" placeholder="Search Note" style="border: none; height: 2.3em;"/>
+		</div>
+	
+		<div style="height: 79%; overflow-y: scroll;">
+			<div ng-repeat="notes in runningNotes | filter:filterNote()"  
+				style="background-color: lightblue; border-radius: 5px;
+				margin: 0.5em; padding: 0.5em;" ng-bind-html="notes.runningNote | unsafe">
 			</div>
 		</div>
 		
-		<div style="border-top: 3px solid grey; height: 20%;">
-			<textarea placeholder="Running notes" class="form-control"
-				style="border: none; height: 100%;"/>
+		<div style="border-top: 3px solid grey; height: 15%;">
+			<textarea placeholder="Running notes" 
+				ng-model="newRunningNote" class="form-control" 
+				ng-keyup="onTypeNotes($event)"
+				style="border: none; height: 100%; resize: none;"/>
 		</div>
 	</div>
 	

@@ -76,10 +76,6 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 					});
 		}
 	
-		
-		
-		
-		
 	};
 	
 	// Listener for broadcast
@@ -234,6 +230,19 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 		 
 		 return $scope.isUserNonScrumMaster;
 	 };
+	
+	 /**
+	  * Get is game started.
+	  */
+	 $scope.getIsGameStarted = function(){
+		 
+		 return $scope.gameStarted;
+	 };
 	 
+	 
+	 $scope.getPokerGame = function(){
+		 
+		 return $scope.pokerGame;
+	 };
 	 
 }]);

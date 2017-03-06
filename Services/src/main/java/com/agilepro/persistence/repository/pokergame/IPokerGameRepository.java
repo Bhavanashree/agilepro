@@ -2,6 +2,7 @@ package com.agilepro.persistence.repository.pokergame;
 
 import com.agilepro.persistence.entity.pokergame.PokerGameEntity;
 import com.yukthi.persistence.repository.annotations.Condition;
+import com.yukthi.persistence.repository.annotations.Field;
 import com.yukthi.webutils.annotations.RestrictBySpace;
 import com.yukthi.webutils.repository.IWebutilsRepository;
 
@@ -20,4 +21,10 @@ public interface IPokerGameRepository extends IWebutilsRepository<PokerGameEntit
 	 */
 	@RestrictBySpace
 	public PokerGameEntity fetchPokerGame(@Condition(value = "project.id") Long projectId);
+	
+	@RestrictBySpace
+	public int updateStoryId(@Condition(value = "project.id") Long projectId, @Field(value = "story") Long storyId);
+	
+	@RestrictBySpace
+	public int updateBugId(@Condition(value = "project.id") Long projectId, @Field(value = "bug") Long bugId);
 }

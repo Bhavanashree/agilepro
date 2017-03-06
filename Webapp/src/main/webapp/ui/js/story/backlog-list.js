@@ -40,6 +40,12 @@ $.application.controller('backlogListController', ["$scope", "utils", "actionHel
 		// executed for the page where drag and drop functionality is avoided.
 		if(!$scope.pageConfig.dragAndDropFunctionality)
 		{
+			if($scope.previuosCheckedObj == backlogObj)
+			{
+				backlogObj.check = true;
+				return;
+			}
+			
 			// if checked item selected by default not by click.
 			if(!$scope.previuosCheckedObj)
 			{

@@ -86,6 +86,11 @@ public class PokerGameModel extends AbstractExtendableModel
 	@IgnoreField
 	private PokerGameUserModel pokerGameUserModel;
 
+	/**
+	 * Indicates whether active item is bug or not.
+	 */
+	private Boolean activeItemIsBug;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -336,5 +341,26 @@ public class PokerGameModel extends AbstractExtendableModel
 	public void setPokerGameUserModel(PokerGameUserModel pokerGameUserModel)
 	{
 		this.pokerGameUserModel = pokerGameUserModel;
+	}
+
+	/**
+	 * Gets the activeItemIsBug.
+	 * 
+	 * @return the activeItemIsBug.
+	 */
+	public Boolean getActiveItemIsBug()
+	{
+		return activeItemIsBug;
+	}
+
+	/**
+	 * Set the activeItemIsBug.
+	 * 
+	 * @param activeItemIsBug
+	 *            the new activeItemIsBug.
+	 */
+	public void setActiveItemIsBug(Boolean activeItemIsBug)
+	{
+		this.activeItemIsBug = activeItemIsBug;
 	}
 }

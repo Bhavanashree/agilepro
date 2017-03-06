@@ -72,8 +72,6 @@ $.application.controller('storyController', ["$scope", "crudController", "utils"
 			 		
 			 		if($scope.backLogs)
 			 		{
-			 			debugger;
-			 			
 			 			$scope.addChildAndDependencies();
 			 			
 			 			$scope.$broadcast("sortBacklogsByPriority");

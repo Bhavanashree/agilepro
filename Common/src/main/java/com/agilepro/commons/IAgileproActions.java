@@ -610,6 +610,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * The action prefix poker game.
 	 **/
 	public String ACTION_PREFIX_POKER_GAME = "pokerGame";
+	
+	/**
+	 * The action prefix running notes.
+	 */
+	public String ACTION_PREFIX_RUNNING_NOTES = "runningNotes";
 
 	/**
 	 * Action for checking whether the poker game is started or not.
@@ -620,7 +625,12 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	 * Action for on change of item in backlog for poker game.
 	 */
 	public String ACTION_TYPE_ON_CHANGE_BACKLOG_ITEM_POKER_GAME = "onChangeBacklogItemPokerGame";
-
+	
+	/**
+	 * Action to fetch running notes.
+	 */
+	public String ACTION_TYPE_FETCH_RUNNING_NOTES = "fetchRunningNotes";
+	
 	/**
 	 * Action prefix poker game user.
 	 */

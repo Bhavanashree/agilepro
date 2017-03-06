@@ -20,6 +20,7 @@ import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.agilepro.services.common.Authorization;
 import com.agilepro.services.pokergame.PokerGameService;
 import com.yukthi.webutils.annotations.ActionName;
+import com.yukthi.webutils.common.models.BaseResponse;
 import com.yukthi.webutils.common.models.BasicReadResponse;
 import com.yukthi.webutils.common.models.BasicSaveResponse;
 import com.yukthi.webutils.controllers.BaseController;
@@ -77,9 +78,11 @@ public class PokerGameController extends BaseController
 	@RequestMapping(value = "/onChangeBacklogItemPokerGame", method = RequestMethod.GET)
 	@Authorization(entityIdExpression = "parameters[0]", roles = { UserRole.EMPLOYEE_VIEW, UserRole.CUSTOMER_SUPER_USER })
 	@ResponseBody
-	public BasicReadResponse getOnChangeBacklogItem(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "backlogId") Long backlogId, @RequestParam(value = "isBug") Boolean isBug)
+	public BaseResponse getOnChangeBacklogItem(@RequestParam(value = "projectId") Long projectId, @RequestParam(value = "backlogId") Long backlogId, @RequestParam(value = "selectedItemIsBug") Boolean selectedItemIsBug)
 	{
-		return null;
+		pokerService.getOnChangeBacklogItem(projectId, backlogId, selectedItemIsBug);
+		
+		return new BaseResponse();
 	}
 }
 

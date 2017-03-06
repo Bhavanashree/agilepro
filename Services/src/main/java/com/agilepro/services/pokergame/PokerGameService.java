@@ -36,7 +36,7 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	 */
 	@Autowired
 	private PokerGameUserService pokerGameUserService;
-	
+
 	/**
 	 * Instantiates a new ProjectService.
 	 */
@@ -48,7 +48,8 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	/**
 	 * Save new poker game.
 	 * 
-	 * @param pokerGameModel model object from the controller.
+	 * @param pokerGameModel
+	 *            model object from the controller.
 	 * @return newly saved poker game object.
 	 */
 	public PokerGameEntity saveNewGame(PokerGameModel pokerGameModel)
@@ -56,16 +57,15 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Long employeeId = userService.fetch(pokerGameModel.getUserId()).getBaseEntityId();
-			
 			Long projectMemberId = projectMembers.getProjectMemberId(pokerGameModel.getProjectId(), employeeId);
-			
+
 			pokerGameModel.setMemberId(projectMemberId);
 			PokerGameEntity gameEntity = super.save(pokerGameModel);
-			
+
 			pokerGameUserService.savePokerGameUser(new PokerGameUserModel(gameEntity.getId(), pokerGameModel.getProjectId(), pokerGameModel.getUserId()));
-			
+
 			transaction.commit();
-			
+
 			return gameEntity;
 		} catch(RuntimeException ex)
 		{
@@ -75,49 +75,66 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 			throw new InvalidStateException(ex, "An error occurred while saving model - {}", pokerGameModel);
 		}
 	}
-	
+
 	/**
 	 * Fetch poker game model object for the provided project id.
 	 * 
-	 * @param projectId provided project id.
-	 * @param activeUserId provided user id to check whether the user has joined the game or not.
+	 * @param projectId
+	 *            provided project id.
+	 * @param activeUserId
+	 *            provided user id to check whether the user has joined the game
+	 *            or not.
 	 * @return matching poker game object.
 	 */
 	public PokerGameModel isGameStarted(Long projectId, Long activeUserId)
 	{
 		PokerGameModel pokerGameModel = super.toModel(repository.fetchPokerGame(projectId), PokerGameModel.class);
-		
+
 		if(pokerGameModel == null)
 		{
 			return null;
 		}
-		
-		pokerGameModel.setPokerGameUserModel(pokerGameUserService.fetchPokerUser(activeUserId, 
-				pokerGameModel.getId(), projectId));
-		
+
+		boolean activeItemIsBug = pokerGameModel.getBugId() != null ? true : false;
+		pokerGameModel.setActiveItemIsBug(activeItemIsBug);
+
+		pokerGameModel.setPokerGameUserModel(pokerGameUserService.fetchPokerUser(activeUserId, pokerGameModel.getId(), projectId));
+
 		return pokerGameModel;
 	}
-	
+
 	/**
 	 * Gets the backlog item details.
 	 * 
-	 * @param projectId project under which game is going on.
-	 * @param backlogId backlog item id.
-	 * @param isBug indicates whether the backlog item is bug or not.
+	 * @param projectId
+	 *            project under which game is going on.
+	 * @param backlogId
+	 *            backlog item id.
+	 * @param selectedItemIsBug
+	 *            indicates whether the backlog item is bug or not.
 	 */
-	public void getOnChangeBacklogItem(Long projectId, Long backlogId, Boolean isBug)
+	public void getOnChangeBacklogItem(Long projectId, Long backlogId, Boolean selectedItemIsBug)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			PokerGameModel pokerGameModel = null;
-			
+			if(selectedItemIsBug)
+			{
+				repository.updateBugId(projectId, backlogId);
+				repository.updateStoryId(projectId, null);
+			}
+			else
+			{
+				repository.updateStoryId(projectId, backlogId);
+				repository.updateBugId(projectId, null);
+			}
+
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{
 			throw ex;
 		} catch(Exception ex)
 		{
-			throw new InvalidStateException(ex, "An error occurred while saving poker game");
+			throw new InvalidStateException(ex, "An error occurred while updating poker game");
 		}
 	}
 }

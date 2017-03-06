@@ -1,5 +1,7 @@
 package com.agilepro.persistence.entity.pokergame;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -37,11 +39,17 @@ public class RunningNotesEntity extends WebutilsEntity
 	private StoryEntity story;
 
 	/**
-	 * Running notes.
+	 * Running note.
 	 */
 	@Column(name = "RUNNING_NOTES")
 	@DataTypeMapping(type = DataType.CLOB)
-	private String runningNotes;
+	private String runningNote;
+
+	/**
+	 * The time.
+	 **/
+	@Column(name = "DATE", nullable = false)
+	private Date date;
 
 	/**
 	 * Gets the bug.
@@ -86,23 +94,44 @@ public class RunningNotesEntity extends WebutilsEntity
 	}
 
 	/**
-	 * Gets Running notes.
+	 * Gets the running note.
 	 * 
-	 * @return the new running notes.
+	 * @return the running note.
 	 */
-	public String getRunningNotes()
+	public String getRunningNote()
 	{
-		return runningNotes;
+		return runningNote;
 	}
 
 	/**
-	 * Sets the running notes.
+	 * Set the running note.
 	 * 
-	 * @param runningNotes
-	 *            the new running notes.
+	 * @param runningNote
+	 *            the new running note.
 	 */
-	public void setRunningNotes(String runningNotes)
+	public void setRunningNote(String runningNote)
 	{
-		this.runningNotes = runningNotes;
+		this.runningNote = runningNote;
+	}
+
+	/**
+	 * Gets the date.
+	 * 
+	 * @return the date.
+	 */
+	public Date getDate()
+	{
+		return date;
+	}
+
+	/**
+	 * Sets the date.
+	 * 
+	 * @param date
+	 *            the new date.
+	 */
+	public void setDate(Date date)
+	{
+		this.date = date;
 	}
 }

@@ -1,10 +1,16 @@
 package com.agilepro.commons.models.pokergame;
 
+import java.util.Date;
+
+import com.yukthi.validation.annotations.Required;
+import com.yukthi.webutils.common.annotations.Model;
+
 /**
  * Running notes model for ui.
  * 
  * @author Pritam.
  */
+@Model
 public class RunningNotesModel
 {
 	/**
@@ -18,30 +24,16 @@ public class RunningNotesModel
 	private Long storyId;
 
 	/**
-	 * Running notes.
+	 * Running note.
 	 */
-	private String runningNotes;
+	@Required
+	private String runningNote;
 
 	/**
-	 * Gets Running notes.
+	 * The time.
 	 * 
-	 * @return the new running notes.
 	 */
-	public String getRunningNotes()
-	{
-		return runningNotes;
-	}
-
-	/**
-	 * Sets the running notes.
-	 * 
-	 * @param runningNotes
-	 *            the new running notes.
-	 */
-	public void setRunningNotes(String runningNotes)
-	{
-		this.runningNotes = runningNotes;
-	}
+	private Date date;
 
 	/**
 	 * Gets the bug id.
@@ -83,5 +75,47 @@ public class RunningNotesModel
 	public void setStoryId(Long storyId)
 	{
 		this.storyId = storyId;
+	}
+
+	/**
+	 * Gets the date.
+	 * 
+	 * @return the date.
+	 */
+	public Date getDate()
+	{
+		return date;
+	}
+
+	/**
+	 * Sets the date.
+	 * 
+	 * @param date
+	 *            the new date.
+	 */
+	public void setDate(Date date)
+	{
+		this.date = date;
+	}
+	
+	/**
+	 * Gets the running note.
+	 * 
+	 * @return the running note.
+	 */
+	public String getRunningNote()
+	{
+		return runningNote;
+	}
+
+	/**
+	 * Set the running note.
+	 * 
+	 * @param runningNote
+	 *            the new running note.
+	 */
+	public void setRunningNote(String runningNote)
+	{
+		this.runningNote = runningNote;
 	}
 }

@@ -83,7 +83,6 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		$scope.cardValues.splice(0, 0, '?', "\u221E", "0");
 		
 		// set the width dynamically of game box for non scrum users
-		
 		var  isUserNonScrumMaster = $scope.getIsUserNonScrumMaster();
 		
 		if(isUserNonScrumMaster)
@@ -159,17 +158,37 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		 
 	 
 	 /**
-	  * Select default backlogs item, first backlog item which has null story points or the backlog item in zero index.
+	  * Select default backlogs item, first backlog item which has story points as null or the backlog item in zero index.
 	  */
 	 $scope.selectDefaultBacklogItem = function(backlogArr){
-		 
+
+		$scope.selectedBacklogItem = null;
+		var pokerGame = null;
+		
+		if($scope.getIsGameStarted())
+		{
+			pokerGame =  $scope.getPokerGame();
+		}
+			
 		for(var i = 0 ; i < backlogArr.length ; i++)
 		{
 			var obj = backlogArr[i];
 			
-			$scope.selectedBacklogItem = null;
-			
-			if(!obj.storyPoints)
+			if(pokerGame)
+			{
+				if(pokerGame.activeItemIsBug && obj.id == pokerGame.bugId)
+				{
+					obj.check = true;
+					$scope.selectedBacklogItem = obj;
+					break;
+				}else if(!pokerGame.activeItemIsBug && obj.id == pokerGame.storyId)
+				{
+					obj.check = true;
+					$scope.selectedBacklogItem = obj;
+					break;
+				}
+			}
+			else if(!obj.storyPoints)
 			{
 				obj.check = true;
 				$scope.selectedBacklogItem = obj;
@@ -180,7 +199,10 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		if(backlogArr.length > 0 &&  !$scope.selectedBacklogItem)
 		{
 			$scope.selectedBacklogItem = backlogArr[0]; 
-		}	
+		}
+		
+		// fetch running notes for the selected backlog item.
+		$scope.fetchRunningNotes();
 	 };
 	 
 	/**
@@ -235,6 +257,7 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 	 */
 	$scope.onChangeCard = function(value){
 		
+		$scope.selectedCardValues = [value];
 	};
 	
 	
@@ -284,7 +307,129 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		
 		$scope.selectClickedBacklogItem(args.selectedBacklogItem);
 		
+		$scope.updateNewSelectedItem();
+		
+		$scope.fetchRunningNotes();
+		
 	});
+	
+	/**
+	 * Update on change of backlog item.
+	 */
+	$scope.updateNewSelectedItem = function(){
+		
+		actionHelper.invokeAction("pokerGame.onChangeBacklogItemPokerGame", null, 
+				{"projectId" : $scope.getActiveProjectId(), "backlogId" : $scope.selectedBacklogItem.id, "selectedItemIsBug" : $scope.selectedBacklogItem.isBug},
+				function(updateResponse, respConfig)
+				{
+					
+			
+				}, {"hideInProgress" : true});
+	};
+	
+	// Running notes
+	$scope.onTypeNotes = function(e) {
+		
+		e = e || window.event;
+		var key = e.keyCode ? e.keyCode : e.which;
+		
+		if(key == 13)
+		{
+			if($scope.newRunningNote.trim().length == 0)
+			{
+				return;
+			}
+			
+			$scope.saveNewRunningNote($scope.newRunningNote);
+			$scope.newRunningNote = "";
+		}
+		
+	};
+	
+	/**
+	 * Save new running notes calls the controller and saves the new note.
+	 */
+	$scope.saveNewRunningNote = function(runningNote){
+		
+		var model = {"runningNote" : runningNote};
+		
+		if($scope.selectedBacklogItem.isBug)
+		{
+			model.bugId = $scope.selectedBacklogItem.id;
+		}else
+		{
+			model.storyId = $scope.selectedBacklogItem.id;
+		}
+		
+		
+		actionHelper.invokeAction("runningNotes.save", model, null,
+				function(saveResponse, respConfig)
+				{
+					if(saveResponse.code == 0)
+					{
+						$scope.runningNotes.push({"runningNote" : runningNote});
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}else
+					{
+						$scope.newRunningNote = runningNote;
+					}
+				}, {"hideInprogress" : true});
+		
+	};
+	
+	/**
+	 * Fetchs the running notes calls the controller.
+	 */
+	$scope.fetchRunningNotes = function(){
+		
+		actionHelper.invokeAction("runningNotes.fetchRunningNotes", null, {"mappingId" : $scope.selectedBacklogItem.id, "isBug" : $scope.selectedBacklogItem.isBug},
+				function(readResponse, respConfig){
+				
+				if(readResponse.code == 0)
+				{
+					$scope.runningNotes = readResponse.model;
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+				}
+		}, {"hideInProgress" : true});
+	};
+	
+	/**
+	 * Filter note.
+	 */
+	$scope.filterNote = function(){
+		
+		var retFunc = function(item){
+			
+			if(!$scope.searchNote)
+			{
+				return true;
+			}
+			 
+			var searchString = $scope.searchNote.toLowerCase();
+			
+			return item.runningNote.toLowerCase().includes(searchString);
+		};
+		
+		if($scope.oldSearchNote == $scope.searchNote)
+		{
+			return retFunc;
+		}
+		
+		$scope.oldSearchNote = $scope.searchNote;
+
+		return retFunc;
+	};
+	
 	
 	
 }]);

@@ -80,11 +80,17 @@ $.application.controller('storyHierarchyController', ["$scope", "actionHelper", 
 		 //enter key   
 		 if (key == 13) 
 		 {
+			 // if there is no title
+			 if($scope.newBacklogTitle.trim().length == 0)
+			 {
+				 return;
+			 }
+			 
 			 if( $scope.newBacklogTitle.trim().length <= 3 )
-				{
-				 	utils.alert("Title must be at least 4 characters");
-					return;
-				}
+			 {
+				utils.alert("Title must be at least 4 characters");
+				return;
+			 }
 			
 			var backlogModel = {"title" : $scope.newBacklogTitle.trim(), "projectId" : $scope.getActiveProjectId(),
 								"isManagementStory" : false};
