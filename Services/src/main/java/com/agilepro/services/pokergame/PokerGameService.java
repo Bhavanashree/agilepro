@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.agilepro.commons.models.pokergame.PokerGameUserModel;
+import com.agilepro.persistence.entity.bug.BugEntity;
 import com.agilepro.persistence.entity.pokergame.PokerGameEntity;
+import com.agilepro.persistence.entity.project.StoryEntity;
 import com.agilepro.persistence.repository.pokergame.IPokerGameRepository;
 import com.agilepro.services.admin.ProjectMemberService;
 import com.yukthi.persistence.ITransaction;
@@ -119,12 +121,12 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 		{
 			if(selectedItemIsBug)
 			{
-				repository.updateBugId(projectId, backlogId);
+				repository.updateBugId(projectId, new BugEntity(backlogId));
 				repository.updateStoryId(projectId, null);
 			}
 			else
 			{
-				repository.updateStoryId(projectId, backlogId);
+				repository.updateStoryId(projectId, new StoryEntity(backlogId));
 				repository.updateBugId(projectId, null);
 			}
 

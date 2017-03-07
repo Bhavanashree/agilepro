@@ -98,12 +98,31 @@ public class BugEntity extends WebutilsExtendableEntity
 	 **/
 	@Column(name = "STORY_POINTS")
 	private Integer storyPoints;
-	
+
 	/**
 	 * The priority.
 	 */
 	@Column(name = "PRIORITY", nullable = false)
 	private Integer priority;
+
+	/**
+	 * Instantiate bug.
+	 */
+	public BugEntity()
+	{
+		super();
+	}
+
+	/**
+	 * Instantiate bug with provided id.
+	 * 
+	 * @param id
+	 *            provided id.
+	 */
+	public BugEntity(Long id)
+	{
+		super(id);
+	}
 
 	/**
 	 * Gets the title.
@@ -303,7 +322,7 @@ public class BugEntity extends WebutilsExtendableEntity
 	{
 		this.storyPoints = storyPoints;
 	}
-	
+
 	/**
 	 * Gets the priority.
 	 * 

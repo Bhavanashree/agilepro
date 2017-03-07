@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.agilepro.commons.models.pokergame.PokerGameUserModel;
 import com.agilepro.commons.models.pokergame.RunningNotesModel;
+import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.entity.bug.BugEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
 import com.yukthi.persistence.annotations.DataType;
@@ -37,6 +40,14 @@ public class RunningNotesEntity extends WebutilsEntity
 	@ManyToOne
 	@PropertyMapping(type = RunningNotesModel.class, from = "storyId", subproperty = "id")
 	private StoryEntity story;
+
+	/**
+	 * The members.
+	 **/
+	@OneToOne
+	@Column(name = "PROJECT_MEMBER_ID", nullable = false)
+	@PropertyMapping(type = PokerGameUserModel.class, from = "projectMemberId", subproperty = "id")
+	private ProjectMemberEntity projectMember;
 
 	/**
 	 * Running note.
@@ -133,5 +144,26 @@ public class RunningNotesEntity extends WebutilsEntity
 	public void setDate(Date date)
 	{
 		this.date = date;
+	}
+
+	/**
+	 * Gets the project member.
+	 * 
+	 * @return the project members.
+	 */
+	public ProjectMemberEntity getProjectMember()
+	{
+		return projectMember;
+	}
+
+	/**
+	 * Sets the project member for mapping with project member id.
+	 * 
+	 * @param projectMember
+	 *            the new project member.
+	 */
+	public void setProjectMember(ProjectMemberEntity projectMember)
+	{
+		this.projectMember = projectMember;
 	}
 }

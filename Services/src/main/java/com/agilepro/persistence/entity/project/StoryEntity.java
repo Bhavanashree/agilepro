@@ -146,6 +146,11 @@ public class StoryEntity extends WebutilsExtendableEntity
 	public StoryEntity()
 	{}
 
+	public StoryEntity(long id)
+	{
+		super(id);
+	}
+
 	/**
 	 * Instantiates a new back log entity.
 	 *
