@@ -7,6 +7,8 @@ import javax.persistence.Table;
 
 import com.agilepro.commons.models.pokergame.PokerGameUserModel;
 import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
+import com.yukthi.persistence.annotations.UniqueConstraint;
+import com.yukthi.persistence.annotations.UniqueConstraints;
 import com.yukthi.utils.annotations.PropertyMapping;
 import com.yukthi.webutils.annotations.ExtendableEntity;
 import com.yukthi.webutils.repository.WebutilsExtendableEntity;
@@ -16,6 +18,7 @@ import com.yukthi.webutils.repository.WebutilsExtendableEntity;
  */
 @ExtendableEntity(name = "PokerGameUser")
 @Table(name = "POKER_GAME_USER")
+@UniqueConstraints({ @UniqueConstraint(name = "SPACE_GAME_MEMBER", fields = { "spaceIdentity", "projectMember", "pokerGame" })})
 public class PokerGameUserEntity extends WebutilsExtendableEntity
 {
 	/**

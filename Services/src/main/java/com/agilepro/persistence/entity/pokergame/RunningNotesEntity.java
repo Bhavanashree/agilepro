@@ -42,11 +42,11 @@ public class RunningNotesEntity extends WebutilsEntity
 	private StoryEntity story;
 
 	/**
-	 * The members.
+	 * Project member, the member who typed the running notes.
 	 **/
 	@OneToOne
 	@Column(name = "PROJECT_MEMBER_ID", nullable = false)
-	@PropertyMapping(type = PokerGameUserModel.class, from = "projectMemberId", subproperty = "id")
+	@PropertyMapping(type = RunningNotesModel.class, from = "projectMemberId", subproperty = "id")
 	private ProjectMemberEntity projectMember;
 
 	/**

@@ -57,6 +57,11 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	 * Card value to display in UI.
 	 */
 	private String cardValueDisplay;
+	
+	/**
+	 * Project member name.
+	 */
+	private String projectMemberName;
 
 	/**
 	 * Poker Game User no argument constructor.
@@ -250,5 +255,26 @@ public class PokerGameUserModel extends AbstractExtendableModel
 	public void setCardValueDisplay(String cardValueDisplay)
 	{
 		this.cardValueDisplay = cardValueDisplay;
+	}
+	
+	/**
+	 * Gets the project member name.
+	 * 
+	 * @return the project member name.
+	 */
+	public String getProjectMemberName()
+	{
+		return projectMemberName;
+	}
+
+	/**
+	 * Sets the project member name.
+	 * 
+	 * @param projectMemberName
+	 *            the new project member name.
+	 */
+	public void setProjectMemberName(String projectMemberName)
+	{
+		this.projectMemberName = projectMemberName;
 	}
 }

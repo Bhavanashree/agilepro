@@ -1,11 +1,17 @@
 package com.agilepro.services.pokergame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.agilepro.commons.models.pokergame.PokerGameUserModel;
+import com.agilepro.persistence.entity.admin.EmployeeEntity;
+import com.agilepro.persistence.entity.admin.ProjectMemberEntity;
 import com.agilepro.persistence.entity.pokergame.PokerGameUserEntity;
 import com.agilepro.persistence.repository.pokergame.IPokerGameUserRepository;
+import com.agilepro.services.admin.EmployeeService;
 import com.agilepro.services.admin.ProjectMemberService;
 import com.yukthi.persistence.ITransaction;
 import com.yukthi.utils.exceptions.InvalidStateException;
@@ -28,8 +34,14 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 	 * The ProjectMembers service.
 	 **/
 	@Autowired
-	private ProjectMemberService projectMembers;
-
+	private ProjectMemberService projectMemberService;
+	
+	/**
+	 * Employee service.
+	 */
+	@Autowired
+	private EmployeeService employeeService;
+	
 	/**
 	 * Instantiates a new ProjectService.
 	 */
@@ -50,7 +62,7 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Long employeeId = userService.fetch(pokerGameUserModel.getUserId()).getBaseEntityId();
-			Long projectMemberId = projectMembers.getProjectMemberId(pokerGameUserModel.getProjectId(), employeeId);
+			Long projectMemberId = projectMemberService.getProjectMemberId(pokerGameUserModel.getProjectId(), employeeId);
 
 			pokerGameUserModel.setProjectMemberId(projectMemberId);
 			PokerGameUserEntity userGameEntity = super.save(pokerGameUserModel);
@@ -78,7 +90,7 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 	public PokerGameUserModel fetchPokerUser(Long userId, Long pokerGameId, Long projectId)
 	{
 		Long employeeId = userService.fetch(userId).getBaseEntityId();
-		Long projectMemberId = projectMembers.getProjectMemberId(projectId, employeeId);
+		Long projectMemberId = projectMemberService.getProjectMemberId(projectId, employeeId);
 		
 		return super.toModel(repository.fetchPokerUser(projectMemberId, pokerGameId), PokerGameUserModel.class);
 	}
@@ -86,14 +98,14 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 	/**
 	 * Update the newly selected card value.
 	 * 
-	 * @param id id for which card value is to be updated.
+	 * @param pokerGameUserId the poker Game User id.
 	 * @param cardValueDisplay new selected value.
 	 */
-	public void onChangeOfCard(Long id, String cardValueDisplay)
+	public void onChangeOfCard(Long pokerGameUserId, String cardValueDisplay)
 	{
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
-			//repository.updateNewCardValue(id, cardValue);
+			repository.updateNewCardValue(pokerGameUserId, Float.valueOf(cardValueDisplay));
 			
 			transaction.commit();
 		} catch(RuntimeException ex)
@@ -103,5 +115,31 @@ public class PokerGameUserService extends BaseCrudService<PokerGameUserEntity, I
 		{
 			throw new InvalidStateException(ex, "An error occurred while updating card value in poker game user");
 		}
+	}
+	
+	/**
+	 * Fetch poker game details.
+	 * 
+	 * @param pokerGameId provided poker game id.
+	 * @return matching records.
+	 */
+	public List<PokerGameUserModel> fetchPokerGameDetails(Long pokerGameId)
+	{
+		List<PokerGameUserEntity> pokerGameUserEntities = repository.fetchPokerGameDetails(pokerGameId);
+		List<PokerGameUserModel> pokerGameUserModels = new ArrayList<PokerGameUserModel>();
+		
+		for(PokerGameUserEntity pokerGameUser : pokerGameUserEntities)
+		{
+			PokerGameUserModel pokerGameUserModel = super.toModel(pokerGameUser, PokerGameUserModel.class);
+			
+			ProjectMemberEntity projectMemberEntity = projectMemberService.fetch(pokerGameUserModel.getProjectMemberId());
+			EmployeeEntity employee = employeeService.fetch(projectMemberEntity.getEmployee().getId());
+			
+			pokerGameUserModel.setProjectMemberName(employee.getName());
+			
+			pokerGameUserModels.add(pokerGameUserModel);
+		}
+		
+		return pokerGameUserModels;
 	}
 }

@@ -31,7 +31,7 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 	 * The ProjectMembers service.
 	 **/
 	@Autowired
-	private ProjectMemberService projectMembers;
+	private ProjectMemberService projectMemberService;
 
 	/**
 	 * The poker game user service.
@@ -59,7 +59,7 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 		try(ITransaction transaction = repository.newOrExistingTransaction())
 		{
 			Long employeeId = userService.fetch(pokerGameModel.getUserId()).getBaseEntityId();
-			Long projectMemberId = projectMembers.getProjectMemberId(pokerGameModel.getProjectId(), employeeId);
+			Long projectMemberId = projectMemberService.getProjectMemberId(pokerGameModel.getProjectId(), employeeId);
 
 			pokerGameModel.setMemberId(projectMemberId);
 			PokerGameEntity gameEntity = super.save(pokerGameModel);

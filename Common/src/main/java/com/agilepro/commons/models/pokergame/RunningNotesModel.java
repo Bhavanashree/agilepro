@@ -30,10 +30,41 @@ public class RunningNotesModel
 	private String runningNote;
 
 	/**
+	 * Project member id.
+	 */
+	private Long projectMemberId;
+
+	/**
+	 * Project member name.
+	 */
+	private String projectMemberName;
+
+	/**
+	 * Active user id.
+	 */
+	@Required
+	private Long activeUserId;
+
+	/**
+	 * Project id.
+	 */
+	private Long projectId;
+
+	/**
 	 * The time.
 	 * 
 	 */
 	private Date date;
+
+	/**
+	 * Display date in ui.
+	 */
+	private String displayDate;
+
+	/**
+	 * Time.
+	 */
+	private String time;
 
 	/**
 	 * Gets the bug id.
@@ -97,7 +128,7 @@ public class RunningNotesModel
 	{
 		this.date = date;
 	}
-	
+
 	/**
 	 * Gets the running note.
 	 * 
@@ -117,5 +148,131 @@ public class RunningNotesModel
 	public void setRunningNote(String runningNote)
 	{
 		this.runningNote = runningNote;
+	}
+
+	/**
+	 * Gets the project member id.
+	 * 
+	 * @return the project member id.
+	 */
+	public Long getProjectMemberId()
+	{
+		return projectMemberId;
+	}
+
+	/**
+	 * Set the project member id.
+	 * 
+	 * @param projectMemberId
+	 *            the new project member id.
+	 */
+	public void setProjectMemberId(Long projectMemberId)
+	{
+		this.projectMemberId = projectMemberId;
+	}
+
+	/**
+	 * Gets the active user id.
+	 * 
+	 * @return the active user id.
+	 */
+	public Long getActiveUserId()
+	{
+		return activeUserId;
+	}
+
+	/**
+	 * Set the active user id.
+	 * 
+	 * @param activeUserId
+	 *            the active user id.
+	 */
+	public void setActiveUserId(Long activeUserId)
+	{
+		this.activeUserId = activeUserId;
+	}
+
+	/**
+	 * Gets the project id.
+	 * 
+	 * @return the project id.
+	 */
+	public Long getProjectId()
+	{
+		return projectId;
+	}
+
+	/**
+	 * Set the project id.
+	 * 
+	 * @param projectId
+	 *            the project id.
+	 */
+	public void setProjectId(Long projectId)
+	{
+		this.projectId = projectId;
+	}
+
+	/**
+	 * Gets the display date.
+	 * 
+	 * @return the display date.
+	 */
+	public String getDisplayDate()
+	{
+		return displayDate;
+	}
+
+	/**
+	 * Set the display date.
+	 * 
+	 * @param displayDate
+	 *            the new display date.
+	 */
+	public void setDisplayDate(String displayDate)
+	{
+		this.displayDate = displayDate;
+	}
+
+	/**
+	 * Gets the time.
+	 * 
+	 * @return the time.
+	 */
+	public String getTime()
+	{
+		return time;
+	}
+
+	/**
+	 * Sets the time.
+	 * 
+	 * @param time
+	 *            the new time.
+	 */
+	public void setTime(String time)
+	{
+		this.time = time;
+	}
+
+	/**
+	 * Gets the project member name.
+	 * 
+	 * @return the project member name.
+	 */
+	public String getProjectMemberName()
+	{
+		return projectMemberName;
+	}
+
+	/**
+	 * Sets the project member name.
+	 * 
+	 * @param projectMemberName
+	 *            the new project member name.
+	 */
+	public void setProjectMemberName(String projectMemberName)
+	{
+		this.projectMemberName = projectMemberName;
 	}
 }

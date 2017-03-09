@@ -170,18 +170,23 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 			pokerGame =  $scope.getPokerGame();
 		}
 			
+		if(!backlogArr)
+		{
+			return;
+		}
+		
 		for(var i = 0 ; i < backlogArr.length ; i++)
 		{
 			var obj = backlogArr[i];
 			
 			if(pokerGame)
 			{
-				if(pokerGame.activeItemIsBug && obj.id == pokerGame.bugId)
+				if(pokerGame.activeItemIsBug && obj.isBug && obj.id == pokerGame.bugId)
 				{
 					obj.check = true;
 					$scope.selectedBacklogItem = obj;
 					break;
-				}else if(!pokerGame.activeItemIsBug && obj.id == pokerGame.storyId)
+				}else if(!pokerGame.activeItemIsBug && !obj.isBug && obj.id == pokerGame.storyId)
 				{
 					obj.check = true;
 					$scope.selectedBacklogItem = obj;
@@ -257,7 +262,16 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 	 */
 	$scope.onChangeCard = function(value){
 		
-		$scope.selectedCardValues = [value];
+		actionHelper.invokeAction("pokerGameUser.onChangeCard", null, 
+				{"pokerGameId" :  $scope.getPokerGame().id, "pokerGameUserId" :$scope.getPokerGame().pokerGameUserModel.id, "cardValueDisplay" : value},
+					function(saveResponse, respConfig)
+					{
+						if(saveResponse.code == 0)
+						{
+							$scope.selectedCards.push(value);
+						}
+						
+					}, {"hideInProgress" : true});
 	};
 	
 	
@@ -296,11 +310,22 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		$scope.displayPokerGame();
 	});
 	
+	// Listener for broadcast
+	$scope.$on("selectDefaultBacklogItem", function(event, args) {
+
+		$scope.pokerGameUsers = [];
+		$scope.selectDefaultBacklogItem($scope.backlogs);
+		$scope.fetchPokerDatas();
+	});
+	
 	// Listener for emit
 	$scope.$on("backlogsForPokerGame", function(event, args) {
 		
-		$scope.selectDefaultBacklogItem(args.backlogs);
+		$scope.backlogs = args.backlogs;
+
+		$scope.isGameStarted();
 	});
+	
 	
 	// Listener for emit
 	$scope.$on("backlogIsSelectedForPokerGame", function(event, args) {
@@ -351,7 +376,7 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 	 */
 	$scope.saveNewRunningNote = function(runningNote){
 		
-		var model = {"runningNote" : runningNote};
+		var model = {"runningNote" : runningNote, "activeUserId" : $scope.activeUser.userId, "projectId" :  $scope.getActiveProjectId()};
 		
 		if($scope.selectedBacklogItem.isBug)
 		{
@@ -430,6 +455,35 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		return retFunc;
 	};
 	
-	
+	/**
+	 * Fetch poker datas.
+	 */
+	$scope.fetchPokerDatas = function(){
+		
+		if(false)
+		{
+			clearInterval($scope.intervalValue);
+		}
+		
+		
+		actionHelper.invokeAction("pokerGameUser.readPokerGameInterval", null, 
+				{"pokerGameId" :  $scope.getPokerGame().id},
+				function(readResponse, respConfig)
+				{
+					if(readResponse.code == 0)
+					{
+						$scope.pokerGameUsers = readResponse.model;
+					}
+					
+					try
+					{
+						$scope.$apply();
+					}catch(ex)
+					{}
+							
+				}, {"hideInProgress" : true});
+		
+		$scope.intervalValue = setInterval($scope.fetchPokerDatas, ($.appConfiguration.conversationRefreshInterval));
+	};
 	
 }]);

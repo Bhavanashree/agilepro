@@ -20,23 +20,29 @@
 		<div id="pokerGameSelectedCardBoxId" class="flexHorizontal" style="border-bottom: 3px solid grey; height: 62%;
 			flex-wrap: wrap;">
 			
-			<div ng-repeat="value in selectedCardValues track by $index" ng-click="onChangeCard(value)"
-					style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
-					border-radius: 10px; height: 7.5em; min-width: 4.5em; max-width: 4.5em;">
+			<div ng-repeat="gameUser in pokerGameUsers track by $index">
+					
+					{{gameUser.projectMemberName}}
 						
-					<table style="height: 100%; width: 100%;">
-						<tr>
-							<td style="width: 95%;">{{value}}</td>
-							<td style="width: 5%;">{{value}}</td>
-						</tr>
-						<tr>
-							<td style="text-align: center; font-size: 1.5em;"colspan="2">{{value}}</td>
-						</tr>
-						<tr>
-							<td style="width: 95%;">{{value}}</td>
-							<td style="width: 5%;">{{value}}</td>
-						</tr>
-					</table>
+					<div ng-click="onChangeCard(value)"
+						style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
+						border-radius: 10px; height: 7.5em; min-width: 4.5em; max-width: 4.5em;">
+					
+						<table style="height: 100%; width: 100%;">
+							<tr>
+								<td style="width: 95%;">{{gameUser.cardValue}}</td>
+								<td style="width: 5%;">{{gameUser.cardValue}}</td>
+							</tr>
+							<tr>
+								<td style="text-align: center; font-size: 1.5em;"colspan="2">{{gameUser.cardValue}}</td>
+							</tr>
+							<tr>
+								<td style="width: 95%;">{{gameUser.cardValue}}</td>
+								<td style="width: 5%;">{{gameUser.cardValue}}</td>
+							</tr>
+						</table>
+						
+					</div>
 			</div>
 			
 		</div>	
@@ -102,9 +108,15 @@
 		</div>
 	
 		<div style="height: 79%; overflow-y: scroll;">
-			<div ng-repeat="notes in runningNotes | filter:filterNote()"  
+			<div ng-repeat="note in runningNotes | filter:filterNote()"  
 				style="background-color: lightblue; border-radius: 5px;
-				margin: 0.5em; padding: 0.5em;" ng-bind-html="notes.runningNote | unsafe">
+				margin: 0.5em; padding: 0.5em;">
+				
+				<div style="text-align: left; font-size: 0.8em; color: brown;">{{note.projectMemberName}}</div>
+				
+				<div ng-bind-html="note.runningNote | unsafe"></div>
+				
+				<div style="text-align: right; font-size: 0.8em;">{{note.displayDate}},  {{note.time}}</div>
 			</div>
 		</div>
 		

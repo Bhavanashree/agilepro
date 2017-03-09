@@ -23,7 +23,7 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 	/**
 	 * Initialize the poker game page.
 	 */
-	$scope.initPokerGame = function(){
+	$scope.isGameStarted = function(){
 		
 		$scope.gameStarted = false;
 		$scope.gameNotStarted = false;
@@ -58,6 +58,8 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 							$scope.gameNotStarted = true;
 						}
 						
+						$scope.$broadcast("selectDefaultBacklogItem");
+						
 						if($scope.gameStarted)
 						{
 							$scope.nonScrumMasterJoined = $scope.pokerGame.pokerGameUserModel ? true : false;
@@ -81,7 +83,7 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 	// Listener for broadcast
 	$scope.$on("activeProjectSelectionChanged", function(event, args) {
 
-		$scope.initPokerGame();
+		$scope.isGameStarted();
 	});
 
 	/**
