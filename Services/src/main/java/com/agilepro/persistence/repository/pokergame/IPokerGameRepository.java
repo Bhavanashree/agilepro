@@ -1,5 +1,6 @@
 package com.agilepro.persistence.repository.pokergame;
 
+import com.agilepro.commons.PokerGameStatus;
 import com.agilepro.persistence.entity.bug.BugEntity;
 import com.agilepro.persistence.entity.pokergame.PokerGameEntity;
 import com.agilepro.persistence.entity.project.StoryEntity;
@@ -29,4 +30,7 @@ public interface IPokerGameRepository extends IWebutilsRepository<PokerGameEntit
 	
 	@RestrictBySpace
 	public int updateBugId(@Condition(value = "project.id") Long projectId, @Field(value = "bug") BugEntity bug);
+	
+	@RestrictBySpace
+	public int updateGameStatus(@Condition(value = "id") Long id, @Field(value = "pokerGameStatus") PokerGameStatus pokerGameStatus);
 }

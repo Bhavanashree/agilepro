@@ -20,29 +20,40 @@
 		<div id="pokerGameSelectedCardBoxId" class="flexHorizontal" style="border-bottom: 3px solid grey; height: 62%;
 			flex-wrap: wrap;">
 			
+			
 			<div ng-repeat="gameUser in pokerGameUsers track by $index">
-					
-					{{gameUser.projectMemberName}}
+				<div id="{{gameUser.id}}_selectedCard" style="margin: 0.5em;"> 
+				  
+				  	<div style="color: brown; font-size: 0.8em;">
+						{{gameUser.projectMemberName}}
+				    </div>
+				    
+					<div class="front"> 
+				   		<img src="ui/images/cardBack.jpg" style="height: 7.5em; min-width: 4.5em; max-width: 4.5em;"/>
+				  	</div>
+				   
+				  	<div class="back">
+						<div style="background-color: lightblue;  padding: 0.5em; 
+							border-radius: 10px; height: 7.5em; min-width: 4.5em; max-width: 4.5em;">
 						
-					<div ng-click="onChangeCard(value)"
-						style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
-						border-radius: 10px; height: 7.5em; min-width: 4.5em; max-width: 4.5em;">
-					
-						<table style="height: 100%; width: 100%;">
-							<tr>
-								<td style="width: 95%;">{{gameUser.cardValue}}</td>
-								<td style="width: 5%;">{{gameUser.cardValue}}</td>
-							</tr>
-							<tr>
-								<td style="text-align: center; font-size: 1.5em;"colspan="2">{{gameUser.cardValue}}</td>
-							</tr>
-							<tr>
-								<td style="width: 95%;">{{gameUser.cardValue}}</td>
-								<td style="width: 5%;">{{gameUser.cardValue}}</td>
-							</tr>
-						</table>
-						
-					</div>
+							<table style="height: 100%; width: 100%;">
+								<tr>
+									<td style="width: 95%;">{{gameUser.cardValue}}</td>
+									<td style="width: 5%;">{{gameUser.cardValue}}</td>
+								</tr>
+								<tr>
+									<td style="text-align: center; font-size: 1.5em;"colspan="2">{{gameUser.cardValue}}</td>
+								</tr>
+								<tr>
+									<td style="width: 95%;">{{gameUser.cardValue}}</td>
+									<td style="width: 5%;">{{gameUser.cardValue}}</td>
+								</tr>
+							</table>
+							
+						</div>
+				  </div>
+				  
+				</div>
 			</div>
 			
 		</div>	
@@ -53,7 +64,7 @@
 			<table>
 				<tr>
 					<td style="padding: 0.2em;">
-						<button class="btn btn-success btn-sm">Flip</button>
+						<button class="btn btn-success btn-sm" ng-click="flipCards()">Flip</button>
 					</td>
 					
 					<td style="padding: 0.2em; width: 80%;">

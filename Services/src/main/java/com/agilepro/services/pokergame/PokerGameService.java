@@ -3,6 +3,7 @@ package com.agilepro.services.pokergame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agilepro.commons.PokerGameStatus;
 import com.agilepro.commons.models.pokergame.PokerGameModel;
 import com.agilepro.commons.models.pokergame.PokerGameUserModel;
 import com.agilepro.persistence.entity.bug.BugEntity;
@@ -130,6 +131,27 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 				repository.updateBugId(projectId, null);
 			}
 
+			transaction.commit();
+		} catch(RuntimeException ex)
+		{
+			throw ex;
+		} catch(Exception ex)
+		{
+			throw new InvalidStateException(ex, "An error occurred while updating poker game");
+		}
+	}
+	
+	/**
+	 * Update poker game status to be flipped.
+	 * 
+	 * @param id provided game id to be updated.
+	 */
+	public void updateGameStatus(Long id)
+	{
+		try(ITransaction transaction = repository.newOrExistingTransaction())
+		{
+			repository.updateGameStatus(id, PokerGameStatus.CARDS_FLIPPED);
+			
 			transaction.commit();
 		} catch(RuntimeException ex)
 		{

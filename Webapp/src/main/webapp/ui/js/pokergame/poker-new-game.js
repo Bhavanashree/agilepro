@@ -1,6 +1,8 @@
 $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "utils", 
                                              function($scope, actionHelper, utils){
 	
+	$scope.firstRequest = true;
+	
 	/**
 	 * Initialize new poker game.
 	 */
@@ -263,12 +265,12 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 	$scope.onChangeCard = function(value){
 		
 		actionHelper.invokeAction("pokerGameUser.onChangeCard", null, 
-				{"pokerGameId" :  $scope.getPokerGame().id, "pokerGameUserId" :$scope.getPokerGame().pokerGameUserModel.id, "cardValueDisplay" : value},
+				{"pokerGameId" :  $scope.getPokerGame().id, "pokerGameUserId" : $scope.getPokerGame().pokerGameUserModel.id, "cardValueDisplay" : value},
 					function(saveResponse, respConfig)
 					{
 						if(saveResponse.code == 0)
 						{
-							$scope.selectedCards.push(value);
+							$scope.getPokerGame().pokerGameUserModel.cardValue = value;
 						}
 						
 					}, {"hideInProgress" : true});
@@ -295,6 +297,11 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 				{
 					$scope.addPokerUserAfterSave();
 					
+					$scope.fetchPokerDatas();
+					
+					pokerGameUser.id = saveResposne.id;
+					$scope.getPokerGame().pokerGameUserModel = pokerGameUser;
+					
 				}, {"hideInProgress" : true});
 	});
 	
@@ -316,6 +323,7 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		$scope.pokerGameUsers = [];
 		$scope.selectDefaultBacklogItem($scope.backlogs);
 		$scope.fetchPokerDatas();
+		
 	});
 	
 	// Listener for emit
@@ -335,7 +343,6 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		$scope.updateNewSelectedItem();
 		
 		$scope.fetchRunningNotes();
-		
 	});
 	
 	/**
@@ -480,10 +487,41 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 						$scope.$apply();
 					}catch(ex)
 					{}
+					
+					for(var i = 0 ; i < $scope.pokerGameUsers.length ; i++)
+					{
+						$("#" + $scope.pokerGameUsers[i].id + "_selectedCard").flip({
+							  trigger: 'manual'
+						});
+					}
 							
 				}, {"hideInProgress" : true});
 		
-		$scope.intervalValue = setInterval($scope.fetchPokerDatas, ($.appConfiguration.conversationRefreshInterval));
+		if($scope.firstRequest)
+		{
+			$scope.intervalValue = setInterval($scope.fetchPokerDatas, ($.appConfiguration.conversationRefreshInterval));
+			
+			$scope.firstRequest = false;
+		}
+		
+	};
+	
+	/**
+	 * Flip cards.
+	 */
+	$scope.flipCards = function(){
+		
+		for(var i = 0 ; i < $scope.pokerGameUsers.length ; i++)
+		{
+			var obj = $scope.pokerGameUsers[i];
+			
+			if(obj.cardValue)
+			{
+				$("#" + obj.id + "_selectedCard").flip(true);
+			}
+		}
+		
+		clearInterval($scope.intervalValue);
 	};
 	
 }]);

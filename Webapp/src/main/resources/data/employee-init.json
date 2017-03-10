@@ -13,7 +13,7 @@
     
       "entities": [
       	   {
-         "name": "Employee1",
+         "name": "Employee1 Yukthi",
          "mailId":"employee1@gmail.com",
          "phoneNumber":"9000000000",
          "address":"  kr puram bangalore",
@@ -24,7 +24,7 @@
         },
       
         {
-         "name": "kranti",
+         "name": "kranti CEO Yukthi",
          "mailId":"akranthi@yukthi-tech.co.in",
          "phoneNumber":"9000099000",
          "address":"  kr puram bangalore",
@@ -35,8 +35,8 @@
         },
         
         {
-         "name": "Pritam",
-         "mailId":"employee2@gmail.com",
+         "name": "Pritam Employee at Yukthi",
+         "mailId":"employee3@gmail.com",
          "phoneNumber":"90011111000",
          "address":" marathalli bangalore",
          "password":"password",
@@ -46,7 +46,7 @@
         },
         
        {
-         "name": "Employee2",
+         "name": "Employee2 Yukthi",
          "mailId":"employee2@gmail.com",
          "phoneNumber":"90222211000",
          "address":"shanthi layout bangalore",

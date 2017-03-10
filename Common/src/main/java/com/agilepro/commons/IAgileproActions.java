@@ -627,6 +627,11 @@ public interface IAgileproActions extends IWebUtilsActionConstants
 	public String ACTION_TYPE_ON_CHANGE_BACKLOG_ITEM_POKER_GAME = "onChangeBacklogItemPokerGame";
 	
 	/**
+	 * Action for updating the poker game status.
+	 */
+	public String ACTION_TYPE_UPDATE_POKER_GAME_STATUS = "updatePokerGameStatus";
+	
+	/**
 	 * Action for reading the poker game details interval.
 	 */
 	public String ACTION_TYPE_READ_POKER_GAME_INTERVAL = "readPokerGameInterval";
