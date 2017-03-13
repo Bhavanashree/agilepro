@@ -499,7 +499,7 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 		
 		if($scope.firstRequest)
 		{
-			$scope.intervalValue = setInterval($scope.fetchPokerDatas, ($.appConfiguration.conversationRefreshInterval));
+			$scope.intervalValue = setInterval($scope.fetchPokerDatas, (60));
 			
 			$scope.firstRequest = false;
 		}
