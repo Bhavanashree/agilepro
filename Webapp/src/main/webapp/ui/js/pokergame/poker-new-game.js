@@ -42,9 +42,12 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 				{
 			 		if(saveResponse.code == 0)
 			 		{
-			 			$scope.setGameStarted();
+			 			model.id = saveResponse.id;
 			 			
+			 			$scope.setPokerGame(model);
+			 			$scope.setGameStarted();
 			 			$scope.displayPokerGame();
+			 			$scope.fetchPokerDatas();
 			 		}
 			 		
 			 		try
@@ -297,10 +300,10 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 				{
 					$scope.addPokerUserAfterSave();
 					
-					$scope.fetchPokerDatas();
-					
 					pokerGameUser.id = saveResposne.id;
 					$scope.getPokerGame().pokerGameUserModel = pokerGameUser;
+					
+					$scope.fetchPokerDatas();
 					
 				}, {"hideInProgress" : true});
 	});
@@ -315,6 +318,8 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 	$scope.$on("displayPokerGame", function(event, args) {
 
 		$scope.displayPokerGame();
+		
+		$scope.fetchPokerDatas();
 	});
 	
 	// Listener for broadcast
@@ -322,8 +327,6 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 
 		$scope.pokerGameUsers = [];
 		$scope.selectDefaultBacklogItem($scope.backlogs);
-		$scope.fetchPokerDatas();
-		
 	});
 	
 	// Listener for emit
@@ -472,6 +475,7 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 			clearInterval($scope.intervalValue);
 		}
 		
+		console.log("pokerGameUser.readPokerGameInterval");
 		
 		actionHelper.invokeAction("pokerGameUser.readPokerGameInterval", null, 
 				{"pokerGameId" :  $scope.getPokerGame().id},
@@ -490,16 +494,16 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 					
 					for(var i = 0 ; i < $scope.pokerGameUsers.length ; i++)
 					{
-						$("#" + $scope.pokerGameUsers[i].id + "_selectedCard").flip({
+						/*$("#" + $scope.pokerGameUsers[i].id + "_selectedCard").flip({
 							  trigger: 'manual'
-						});
+						});*/
 					}
 							
 				}, {"hideInProgress" : true});
 		
 		if($scope.firstRequest)
 		{
-			$scope.intervalValue = setInterval($scope.fetchPokerDatas, (60));
+			$scope.intervalValue = setInterval($scope.fetchPokerDatas, (5000));
 			
 			$scope.firstRequest = false;
 		}

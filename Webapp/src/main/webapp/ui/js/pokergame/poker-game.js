@@ -241,7 +241,17 @@ $.application.controller('pokerGameController', ["$scope", "actionHelper",
 		 return $scope.gameStarted;
 	 };
 	 
+	 /**
+	  * Set poker game.
+	  */
+	 $scope.setPokerGame = function(pokerGame){
+		 
+		 $scope.pokerGame = pokerGame;
+	 };
 	 
+	 /**
+	  * Get poker game.
+	  */
 	 $scope.getPokerGame = function(){
 		 
 		 return $scope.pokerGame;

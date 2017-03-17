@@ -195,8 +195,6 @@ public class TFConversationTitleHelper extends TFBase implements ITestConstants
 		istoryController = clientControllerFactory.getController(IStoryController.class);
 
 		StoryModel storyModel = new StoryModel("Story1", null, null, null, null);
-
-		storyId = istoryController.save(storyModel).getId();
 	}
 
 	@Test
