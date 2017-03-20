@@ -158,7 +158,7 @@ public class PokerGameService extends BaseCrudService<PokerGameEntity, IPokerGam
 			throw ex;
 		} catch(Exception ex)
 		{
-			throw new InvalidStateException(ex, "An error occurred while updating poker game");
+			throw new InvalidStateException(ex, "An error occurred while updating poker game status");
 		}
 	}
 }

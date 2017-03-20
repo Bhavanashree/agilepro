@@ -2,6 +2,7 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
                                              function($scope, actionHelper, utils){
 	
 	$scope.firstRequest = true;
+	$scope.cardsFlipped = false;
 	
 	/**
 	 * Initialize new poker game.
@@ -267,6 +268,11 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 	 */
 	$scope.onChangeCard = function(value){
 		
+		if($scope.cardsFlipped)
+		{
+			return;
+		}
+		
 		actionHelper.invokeAction("pokerGameUser.onChangeCard", null, 
 				{"pokerGameId" :  $scope.getPokerGame().id, "pokerGameUserId" : $scope.getPokerGame().pokerGameUserModel.id, "cardValueDisplay" : value},
 					function(saveResponse, respConfig)
@@ -475,8 +481,6 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 			clearInterval($scope.intervalValue);
 		}
 		
-		console.log("pokerGameUser.readPokerGameInterval");
-		
 		actionHelper.invokeAction("pokerGameUser.readPokerGameInterval", null, 
 				{"pokerGameId" :  $scope.getPokerGame().id},
 				function(readResponse, respConfig)
@@ -494,9 +498,9 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 					
 					for(var i = 0 ; i < $scope.pokerGameUsers.length ; i++)
 					{
-						/*$("#" + $scope.pokerGameUsers[i].id + "_selectedCard").flip({
+						$("#" + $scope.pokerGameUsers[i].id + "_selectedCard").flip({
 							  trigger: 'manual'
-						});*/
+						});
 					}
 							
 				}, {"hideInProgress" : true});
@@ -515,17 +519,58 @@ $.application.controller("pokerNewGameController", ["$scope", "actionHelper", "u
 	 */
 	$scope.flipCards = function(){
 		
-		for(var i = 0 ; i < $scope.pokerGameUsers.length ; i++)
+		if($scope.cardsFlipped)
 		{
-			var obj = $scope.pokerGameUsers[i];
-			
-			if(obj.cardValue)
-			{
-				$("#" + obj.id + "_selectedCard").flip(true);
-			}
+			return;
 		}
 		
-		clearInterval($scope.intervalValue);
+		$scope.avgStoryPoints = 0;
+		
+		actionHelper.invokeAction("pokerGame.updatePokerGameStatus", null, {"id" : $scope.getPokerGame().id},
+				function(updateResponse, respConfig)
+				{
+					if(updateResponse.code == 0)
+					{
+						var counter = 0;
+						var sum = 0;
+						
+						for(var i = 0 ; i < $scope.pokerGameUsers.length ; i++)
+						{
+							var obj = $scope.pokerGameUsers[i];
+							
+							if(obj.cardValue)
+							{
+								sum = sum + obj.cardValue;
+								counter++;
+							}
+							else
+							{
+								obj.cardValue = '?';
+							}
+							
+							$("#" + obj.id + "_selectedCard").flip(true);
+						}
+						
+						if(counter > 0)
+						{
+							$scope.avgStoryPoints = (sum / counter);  
+						}
+						
+						clearInterval($scope.intervalValue);
+						$scope.cardsFlipped = true;
+						
+						for(var i = 0 ; i < $scope.cardValues.length ; i++)
+						{
+							$("#displayedCard_" + i).css("cursor", "not-allowed");
+						}
+						
+						try
+						{
+							$scope.$apply();
+						}catch(ex)
+						{}
+					}
+				}, {"hideInProgress" : true});
 	};
 	
 }]);

@@ -92,6 +92,8 @@ public class PokerGameController extends BaseController
 	@ResponseBody
 	public BaseResponse updateGameStatus(@RequestParam(value = "id") Long id)
 	{
+		pokerService.updateGameStatus(id);
+		
 		return new BaseResponse();
 	}
 }

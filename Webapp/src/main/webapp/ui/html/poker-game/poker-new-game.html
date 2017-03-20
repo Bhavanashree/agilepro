@@ -25,10 +25,6 @@
 				
 				<div id="{{gameUser.id}}_selectedCard" style="margin: 0.5em;"> 
 				  
-				  	<div style="color: brown; font-size: 0.8em;">
-						{{gameUser.projectMemberName}}
-				    </div>
-				    
 					<div class="front"> 
 				   		<img src="ui/images/cardBack.jpg" style="height: 7.5em; min-width: 4.5em; max-width: 4.5em;"/>
 				  	</div>
@@ -54,9 +50,15 @@
 						</div>
 				  </div>
 				  
+				  <div style="color: brown; font-size: 0.8em; width: 5em; padding-left: 0.6em;">
+						{{gameUser.projectMemberName}}
+				  </div>
+				  
 				</div>
 			</div>
 			
+			
+			avgStoryPoints {{avgStoryPoints}}
 		</div>	
 		
 		<div class="flexHorizontal" ng-show="isUserScrumMaster" 
@@ -85,7 +87,7 @@
 		
 		<div id="pokerGameCardBox" class="flexHorizontal"  style="height: 26%; overflow-y: auto; flex-wrap: wrap;">
 		
-			<div ng-repeat="value in cardValues track by $index" ng-click="onChangeCard(value)"
+			<div id="displayedCard_{{$index}}" ng-repeat="value in cardValues track by $index" ng-click="onChangeCard(value)"
 					style="background-color: lightblue;  padding: 0.5em; margin: 0.5em; 
 					border-radius: 10px; height: 7.5em; min-width: 4.5em; max-width: 4.5em;
 					cursor: pointer;">
